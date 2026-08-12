@@ -1,26 +1,101 @@
 id: doordash-code-review
 company: DoorDash
-agent_name: "AI Code Review Agent"
+agent_name: AI Code Review Agent
+relationships:
+- type: component-of
+  approach_id: doordash-flux
+approach_type: background-agent
+deployment_stage: scaled
 year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: doordash-code-review-source-1
+last_reviewed_at: '2026-08-12'
 status: internal
-domains: [code-review]
+domains:
+- code-review
 autonomy: drafts-reviewed
-summary: "A specialized agent that automatically reviews 10,000+ PRs a week across 56 repositories, emphasizing grounded high-confidence findings over noisy comments."
-headline_metric: "10,000+ PRs reviewed per week across 56 repositories; 60.2% action rate on high/critical findings"
+rubric:
+  invocation:
+  - background
+  - event-driven
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: A specialized agent that automatically reviews 10,000+ PRs a week across 56 repositories, emphasizing grounded
+  high-confidence findings over noisy comments.
+headline_metric: 10,000+ pull requests reviewed per week across 56 repositories
 architecture:
-  sandbox: ""
-  harness: "Three architecture versions; emphasis on attention and grounded, high-confidence findings rather than commenting everywhere"
-  model: "Not specified"
-  interfaces: [github]
-  tool_access: "Reviews Go, iOS, Android, web, infrastructure, and data code"
-  knowledge: "Grounded findings tied to evidence"
+  harness: Three architecture versions; emphasis on attention and grounded, high-confidence findings rather than
+    commenting everywhere
+  model: Not specified
+  interfaces:
+  - github
+  tool_access: Reviews Go, iOS, Android, web, infrastructure, and data code
+  knowledge: Grounded findings tied to evidence
 primitives:
-  - { name: Grounded findings, desc: "High-confidence, evidence-backed comments rather than blanket commentary" }
+- name: Grounded findings
+  desc: High-confidence, evidence-backed comments rather than blanket commentary
 key_metrics:
-  - "10,000+ PRs reviewed in a typical week across 56 repositories"
-  - "60.2% action rate on settled high/critical findings (measured sample)"
+- 10,000+ PRs reviewed in a typical week across 56 repositories
+- 60.2% action rate on settled high/critical findings (measured sample)
 lessons_learned:
-  - "Optimize for attention — minimize noisy comments; comment only with grounded, high-confidence findings"
-  - "Measure whether engineers actually act on findings (action rate), not comment volume"
+- Optimize for attention; minimize noisy comments; comment only with grounded, high-confidence findings
+- Measure whether engineers actually act on findings (action rate), not comment volume
 sources:
-  - { title: "How DoorDash built an AI code reviewer engineers actually listen to", url: "https://careersatdoordash.com/blog/doordash-built-an-ai-code-reviewer-engineers-actually-listen-to/", type: "blog" }
+- id: doordash-code-review-source-1
+  title: How DoorDash built an AI code reviewer engineers actually listen to
+  url: https://careersatdoordash.com/blog/doordash-built-an-ai-code-reviewer-engineers-actually-listen-to/
+  canonical_url: https://careersatdoordash.com/blog/doordash-built-an-ai-code-reviewer-engineers-actually-listen-to/
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: doordash-code-review-source-1
+    relation: supports
+  headline_metric:
+  - source_id: doordash-code-review-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: doordash-code-review-source-1
+    relation: supports
+  architecture.model:
+  - source_id: doordash-code-review-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: doordash-code-review-source-1
+    relation: supports
+  architecture.knowledge:
+  - source_id: doordash-code-review-source-1
+    relation: supports
+  primitives.0:
+  - source_id: doordash-code-review-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: doordash-code-review-source-1
+    relation: supports
+  key_metrics.1:
+  - source_id: doordash-code-review-source-1
+    relation: supports
+  lessons_learned.0:
+  - source_id: doordash-code-review-source-1
+    relation: supports
+  lessons_learned.1:
+  - source_id: doordash-code-review-source-1
+    relation: supports
+  architecture.interfaces:
+  - source_id: doordash-code-review-source-1
+    relation: supports
+claim_metadata:
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

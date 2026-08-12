@@ -1,26 +1,107 @@
 id: replit-manager-agent
 company: Replit
-agent_name: "Manager agent (agent-of-agents)"
+agent_name: Manager agent (agent-of-agents)
+approach_type: orchestration-system
+deployment_stage: scaled
 year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: replit-manager-agent-source-1
+last_reviewed_at: '2026-08-12'
 status: internal
-domains: [coding, code-review, support, research, data]
+domains:
+- coding
+- code-review
+- support
+- research
+- data
 autonomy: drafts-reviewed
-summary: "An internal agent-of-agents stack where every employee gets a manager agent that spawns multiple agents for verifiable work and escalates judgment to humans."
-headline_metric: "~3x engineering code output over six months without degradation in review/revert/incident metrics"
+rubric:
+  invocation:
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: An internal agent-of-agents stack where every employee gets a manager agent that spawns multiple agents
+  for verifiable work and escalates judgment to humans.
+headline_metric: ~3x engineering code output over six months without degradation in review/revert/incident metrics
 architecture:
-  sandbox: "Not specified publicly"
-  harness: "Fleet/loop orchestration: a manager agent launches parallel agents for verifiable work and escalates judgment"
-  model: "Not specified"
-  interfaces: [slack]
-  tool_access: "Investigates incidents, reviews PRs, answers questions, analyzes company data, triages support, researches sales accounts, improves Replit Agent itself"
-  context_mgmt: "Manager agent coordinates parallel sub-agents and routes results"
+  sandbox: Not specified publicly
+  harness: 'Fleet/loop orchestration: a manager agent launches parallel agents for verifiable work and escalates
+    judgment'
+  model: Not specified
+  interfaces:
+  - slack
+  tool_access: Investigates incidents, reviews PRs, answers questions, analyzes company data, triages support, researches
+    sales accounts, improves Replit Agent itself
+  context_mgmt: Manager agent coordinates parallel sub-agents and routes results
 primitives:
-  - { name: Manager agent, desc: "One human gives an objective; the manager spawns parallel agents for verifiable work and escalates judgment" }
+- name: Manager agent
+  desc: One human gives an objective; the manager spawns parallel agents for verifiable work and escalates judgment
 key_metrics:
-  - "~3x engineering code output over six months"
-  - "No corresponding deterioration in review/reversion/incident metrics"
+- ~3x engineering code output over six months
+- No corresponding deterioration in review/reversion/incident metrics
 lessons_learned:
-  - "Give every employee a manager agent that spawns sub-agents — verifiable work parallelizes, judgment escalates to humans"
-  - "Track outcome metrics (reverts, incidents), not activity — output can scale without quality regressions"
+- Give every employee a manager agent that spawns sub-agents; verifiable work parallelizes, judgment escalates to
+  humans
+- Track outcome metrics (reverts, incidents), not activity; output can scale without quality regressions
 sources:
-  - { title: "The Self-Driving Company", url: "https://ld.replit.com/blog/self-driving-company", type: "blog" }
+- id: replit-manager-agent-source-1
+  title: The Self-Driving Company
+  url: https://ld.replit.com/blog/self-driving-company
+  canonical_url: https://ld.replit.com/blog/self-driving-company
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: replit-manager-agent-source-1
+    relation: supports
+  headline_metric:
+  - source_id: replit-manager-agent-source-1
+    relation: supports
+  architecture.sandbox:
+  - source_id: replit-manager-agent-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: replit-manager-agent-source-1
+    relation: supports
+  architecture.model:
+  - source_id: replit-manager-agent-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: replit-manager-agent-source-1
+    relation: supports
+  architecture.context_mgmt:
+  - source_id: replit-manager-agent-source-1
+    relation: supports
+  primitives.0:
+  - source_id: replit-manager-agent-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: replit-manager-agent-source-1
+    relation: supports
+  key_metrics.1:
+  - source_id: replit-manager-agent-source-1
+    relation: supports
+  lessons_learned.0:
+  - source_id: replit-manager-agent-source-1
+    relation: supports
+  lessons_learned.1:
+  - source_id: replit-manager-agent-source-1
+    relation: supports
+  architecture.interfaces:
+  - source_id: replit-manager-agent-source-1
+    relation: supports
+claim_metadata:
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

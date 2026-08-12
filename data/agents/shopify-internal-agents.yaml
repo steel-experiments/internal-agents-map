@@ -1,33 +1,149 @@
 id: shopify-internal-agents
 company: Shopify
-agent_name: "Aquifer / River"
+agent_name: Aquifer / River
+approach_type: platform
+deployment_stage: scaled
 year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: shopify-internal-agents-source-1
+last_reviewed_at: '2026-08-12'
 status: internal
-domains: [coding, code-review, research, security]
+domains:
+- coding
+- code-review
+- research
+- security
 autonomy: drafts-reviewed
-summary: "The Aquifer agent platform (session/harness/sandbox split) powers River, a Slack-native coding agent, plus research, migration, and app-security agents."
-headline_metric: "1 in 8 merged PRs company-wide coauthored by River"
+rubric:
+  invocation:
+  - event-driven
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: The Aquifer agent platform (session/harness/sandbox split) powers River, a Slack-native coding agent, plus
+  research, migration, and app-security agents.
+headline_metric: 1 in 8 merged PRs company-wide coauthored by River
 architecture:
-  sandbox: "An execution environment (filesystem, shell, repo, build/test), separated from the harness — 'decouple brain from hands'"
-  harness: "Session (durable; Postgres append-only event log) + Harness (cheap agent loop) + Cell (ephemeral Go runtime); cells die, sessions persist"
-  model: "Swappable — the runtime is commoditizing; the value is in the harness + integrations"
-  interfaces: [slack, github]
-  tool_access: "Repo + tests + data warehouse + production traces + PR creation; a gateway credentials proxy"
-  knowledge: "Monorepo 'World' (code + skills + conventions + intent docs + runbooks + AGENTS.md); Nix reproducible envs; Slack-transcript corpus mining"
-  credentials: "Gateway credentials proxy; per-profile sandbox policies; Shopify SSO"
-  context_mgmt: "Skills loaded on-demand as files, updatable per session; session survival across cell/sandbox/machine death"
+  sandbox: An execution environment (filesystem, shell, repo, build/test) separated from the harness; Shopify credits
+    the brain-and-hands framing to Anthropic
+  harness: Session (durable; Postgres append-only event log) + Harness (cheap agent loop) + Cell (ephemeral Go runtime);
+    cells die, sessions persist
+  model: The design lets Shopify change the model without changing the sandbox
+  interfaces:
+  - slack
+  - github
+  tool_access: Repo + tests + data warehouse + production traces + PR creation; a gateway credentials proxy
+  knowledge: Monorepo 'World' (code + skills + conventions + intent docs + runbooks + AGENTS.md); Nix reproducible
+    envs; Slack-transcript corpus mining
+  credentials: Gateway credentials proxy; per-profile sandbox policies; Shopify SSO
+  context_mgmt: Skills loaded on-demand as files, updatable per session; session survival across cell/sandbox/machine
+    death
 primitives:
-  - { name: Session/Harness/Sandbox split, desc: "Durable identity, disposable loop, isolated execution — swap any layer independently" }
-  - { name: River (public-by-default), desc: "Slack-native coding agent in public channels only — visibility drives adoption" }
-  - { name: Skills as files, desc: "Written-down knowledge mined from successful patterns and public transcripts" }
+- name: Session/Harness/Sandbox split
+  desc: Durable identity, disposable loop, isolated execution; swap any layer independently
+- name: River (public-by-default)
+  desc: Slack-native coding agent in public channels only; visibility drives adoption
+- name: Skills as files
+  desc: Written-down knowledge mined from successful patterns and public transcripts
 key_metrics:
-  - "River: 59,918 sessions / 30 days across 5,170 Slack channels"
-  - "3,536 River-coauthored PRs merged; 1 in 8 merged PRs company-wide"
-  - "Median session 19 min; median 50 tool calls/session"
+- 'River: 59,918 sessions / 30 days across 5,170 Slack channels'
+- 3,536 River-coauthored PRs merged; 1 in 8 merged PRs company-wide
+- Median session 19 min; median 50 tool calls/session
 lessons_learned:
-  - "Agent-friendly is human-friendly — monorepo, reproducible envs, written skills, and fast CI help both"
-  - "Local agents have a ceiling — private windows mean only the person at the keyboard learns anything"
-  - "Session survival is critical — cells die, sandboxes die, machines die; the conversation doesn't"
-  - "Treat agents as profiles, not platforms — a new agent is a new bundle on the same substrate"
+- Agent-friendly is human-friendly; monorepo, reproducible envs, written skills, and fast CI help both
+- Local agents have a ceiling; private windows mean only the person at the keyboard learns anything
+- Session survival is critical; cells die, sandboxes die, machines die; the conversation doesn't
+- Treat agents as profiles, not platforms; a new agent is a new bundle on the same substrate
 sources:
-  - { title: "Under the River", url: "https://shopify.engineering/under-the-river", type: "blog" }
+- id: shopify-internal-agents-source-1
+  title: Under the River
+  url: https://shopify.engineering/under-the-river
+  canonical_url: https://shopify.engineering/under-the-river
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  headline_metric:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  architecture.sandbox:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  architecture.model:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  architecture.knowledge:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  architecture.credentials:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  architecture.context_mgmt:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  primitives.0:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  primitives.1:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  primitives.2:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  key_metrics.1:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  key_metrics.2:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  lessons_learned.0:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  lessons_learned.1:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  lessons_learned.2:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  lessons_learned.3:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+  architecture.interfaces:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
+claim_metadata:
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.2:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.3:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

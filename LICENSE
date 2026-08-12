@@ -24,7 +24,10 @@ SOFTWARE.
 
 Note on licensing by layer:
 
-- Code (scripts/, build tooling) is licensed under the MIT license above.
-- Documentation and data (README, docs/, data/, templates/) are licensed under
+- Code and project tooling (`scripts/`, `tests/`, and `.github/workflows/`) are
+  licensed under the MIT license above.
+- Documentation, policy, templates, and data (`README.md`, `CONTRIBUTING.md`,
+  `CODE_OF_CONDUCT.md`, `.github/pull_request_template.md`, `docs/`, `data/`,
+  and `templates/`) are licensed under
   Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0):
   https://creativecommons.org/licenses/by-sa/4.0/

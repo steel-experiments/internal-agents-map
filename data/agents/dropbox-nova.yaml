@@ -1,32 +1,160 @@
 id: dropbox-nova
 company: Dropbox
 agent_name: Nova
+approach_type: platform
+deployment_stage: scaled
 year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: dropbox-nova-source-1
+last_reviewed_at: '2026-08-12'
 status: internal
-domains: [coding, ci-triage, on-call, maintenance]
+domains:
+- coding
+- ci-triage
+- on-call
+- maintenance
 autonomy: human-in-loop
-summary: "An internal platform for coding agents: engineers launch parallel sessions and internal systems invoke agents inside automated SDLC workflows."
-headline_metric: "Dozens of agents in parallel from one runbook; migrations across thousands of entries"
+rubric:
+  invocation:
+  - event-driven
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: 'An internal platform for coding agents: engineers launch parallel sessions and internal systems invoke
+  agents inside automated SDLC workflows.'
+headline_metric: Dozens of agents can run in parallel from one runbook
 architecture:
-  sandbox: "Isolated env with a codebase snapshot at a specific commit; full Dropbox monorepo via Bazel; hermetic remote execution + caching"
-  harness: "Validation loop (propose → validate → feed back) with continue_on_validation_failure and max_iterations (~5); branch management kept outside the agent"
-  model: "Platform-agnostic — multiple coding agents behind one interface; swap models without rebuilding infra; prompt-eval tooling"
-  interfaces: [web-ui, cli, api, slack]
-  tool_access: "Skills/plugins to gather evidence, read logs, inspect failures; MCP integrations; Bazel-aware selectivity tools"
-  knowledge: "Localized AGENTS.md per service; Dash (Dropbox context engineering); passing + failing test logs"
-  credentials: "Operates within Dropbox's existing infra and validation paths; same auth/authz as engineers"
-  context_mgmt: "Session history (notes/logs) carried across retry attempts"
+  sandbox: Isolated env with a codebase snapshot at a specific commit; full Dropbox monorepo via Bazel; hermetic
+    remote execution + caching
+  harness: Validation loop (propose → validate → feed back) with continue_on_validation_failure and max_iterations
+    (~5); branch management kept outside the agent
+  model: Platform-agnostic; multiple coding agents behind one interface; swap models without rebuilding infra; prompt-eval
+    tooling
+  interfaces:
+  - web
+  - cli
+  - api
+  - slack
+  tool_access: Skills/plugins to gather evidence, read logs, inspect failures; MCP integrations; Bazel-aware selectivity
+    tools
+  knowledge: Localized AGENTS.md per service; Dash (Dropbox context engineering); passing + failing test logs
+  credentials: Operates within Dropbox's existing infra and validation paths; same auth/authz as engineers
+  context_mgmt: Session history (notes/logs) carried across retry attempts
 primitives:
-  - { name: Validation loop, desc: "Bounded iteration with feedback on failure; deterministic systems control test execution" }
-  - { name: Dash, desc: "Dropbox context-engineering system feeding agents across the SDLC" }
+- name: Validation loop
+  desc: Bounded iteration with feedback on failure; deterministic systems control test execution
+- name: Dash
+  desc: Dropbox context-engineering system feeding agents across the SDLC
 key_metrics:
-  - "Flaky-test remediation (Deflaker): 100+ validation runs"
-  - "Migrations applied across thousands of entries in parallel"
-  - "Dozens of agents launchable from one runbook"
+- 'Flaky-test remediation (Deflaker): 100+ validation runs'
+- Migrations applied across thousands of entries in parallel
+- Dozens of agents launchable from one runbook
 lessons_learned:
-  - "Platform value exceeds code generation — validation, guardrails, and context matter as much"
-  - "Context, validation, and guardrails reinforce each other to make background work trustworthy"
-  - "Not every step belongs in the agent loop — deterministic systems should control test execution and timing"
-  - "Integrate with existing engineering infrastructure rather than building separate AI-specific workflows"
+- Platform value exceeds code generation; validation, guardrails, and context matter as much
+- Context, validation, and guardrails reinforce each other to make background work trustworthy
+- Not every step belongs in the agent loop; deterministic systems should control test execution and timing
+- Integrate with existing engineering infrastructure rather than building separate AI-specific workflows
 sources:
-  - { title: "Introducing Nova, our internal platform for coding agents", url: "https://dropbox.tech/machine-learning/introducing-nova-our-internal-platform-for-coding-agents", type: "blog" }
+- id: dropbox-nova-source-1
+  title: Introducing Nova, our internal platform for coding agents
+  url: https://dropbox.tech/machine-learning/introducing-nova-our-internal-platform-for-coding-agents
+  canonical_url: https://dropbox.tech/machine-learning/introducing-nova-our-internal-platform-for-coding-agents
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: dropbox-nova-source-2
+  title: Hacker News discussion of Nova
+  url: https://news.ycombinator.com/item?id=48235065
+  canonical_url: https://news.ycombinator.com/item?id=48235065
+  kind: hn-thread
+  provenance_class: community
+  role: commentary
+  authors:
+  - el_duderino
+  published_at: '2026-05-22'
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  - source_id: dropbox-nova-source-2
+    relation: contextualizes
+  headline_metric:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  architecture.sandbox:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  architecture.model:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  architecture.knowledge:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  architecture.credentials:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  architecture.context_mgmt:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  primitives.0:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  primitives.1:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  key_metrics.1:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  key_metrics.2:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  lessons_learned.0:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  lessons_learned.1:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  lessons_learned.2:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  lessons_learned.3:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+  architecture.interfaces:
+  - source_id: dropbox-nova-source-1
+    relation: supports
+claim_metadata:
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.2:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.3:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

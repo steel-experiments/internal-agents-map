@@ -1,35 +1,178 @@
 id: sierra-pinecone
 company: Sierra
 agent_name: Pinecone
+approach_type: task-agent
+deployment_stage: scaled
 year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: sierra-pinecone-source-1
+last_reviewed_at: '2026-08-12'
 status: internal
-domains: [coding, code-review, support, research, data]
+domains:
+- coding
+- code-review
+- support
+- research
+- data
 autonomy: drafts-reviewed
-summary: "One company-wide agent that collapsed separate support, analytics, engineering, and sales agents into a single runtime with an MCP Gateway to 37 systems."
-headline_metric: "75,000+ sessions for 600+ people; opened 70% of company PRs"
+rubric:
+  invocation:
+  - event-driven
+  - interactive
+  state: durable-session
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: One company-wide agent that collapsed separate support, analytics, engineering, and sales agents into a
+  single runtime with an MCP Gateway to 37 systems.
+headline_metric: 75,000+ sessions for 600+ people
 architecture:
-  sandbox: "Agency layer reconciles recoverable Kubernetes runners; conversation/events/checkpoints stay durable separately"
-  harness: "App server + Agency + runners; intent-based model/environment routing (Claude Code + Codex)"
-  model: "Claude Code + Codex; routes by intent (planning, coding, prose)"
-  interfaces: [slack, web, linear, mobile]
-  tool_access: "MCP Gateway connected to 37 systems; a network proxy decides whether privileged requests proceed and injects credentials after approval"
-  knowledge: "Durable sessions over disposable environments; Redis Streams"
-  credentials: "Gateway enforces the invoking employee's access at tool-call time and isolates customer data; the harness never holds the real secret"
-  context_mgmt: "Durable session state separated from ephemeral compute"
+  sandbox: Agency layer reconciles recoverable Kubernetes runners; conversation/events/checkpoints stay durable
+    separately
+  harness: App server + Agency + runners; intent-based model/environment routing (Claude Code + Codex)
+  model: Claude Code + Codex; routes by intent (planning, coding, prose)
+  interfaces:
+  - slack
+  - web
+  - linear
+  - mobile
+  tool_access: MCP Gateway connected to 37 systems; a network proxy decides whether privileged requests proceed
+    and injects credentials after approval
+  knowledge: Durable sessions over disposable environments; Redis Streams
+  credentials: Gateway enforces the invoking employee's access at tool-call time and isolates customer data; the
+    harness never holds the real secret
+  context_mgmt: Durable session state separated from ephemeral compute
 primitives:
-  - { name: MCP Gateway (37 systems), desc: "One gateway spanning 37 systems, enforcing employee permissions at call time" }
-  - { name: Agency sandbox layer, desc: "Recoverable K8s runners with a network proxy for credential injection" }
-  - { name: Intent-based routing, desc: "Routes model and environment by request intent, independent of the tool layer" }
+- name: MCP Gateway (37 systems)
+  desc: One gateway spanning 37 systems, enforcing employee permissions at call time
+- name: Agency sandbox layer
+  desc: Recoverable K8s runners with a network proxy for credential injection
+- name: Intent-based routing
+  desc: Routes model and environment by request intent, independent of the tool layer
 key_metrics:
-  - "75,000+ sessions for 600+ people (July 2026)"
-  - "Opened 70% of company PRs"
-  - "Hundreds of automations"
+- 75,000+ sessions for 600+ people (July 2026)
+- Opened 70% of company PRs
+- Hundreds of automations
 lessons_learned:
-  - "Collapse departmental bots into one agent — cross-functional jobs don't respect org-chart boundaries"
-  - "Own the routing/context/workflow layer; let models be interchangeable (different models win at planning, coding, prose)"
-  - "Enforce permissions at the tool-call layer via a gateway, not via prompt instructions"
-  - "Session counts and tool calls are usage, not value — track business outcomes instead"
+- Collapse departmental bots into one agent; cross-functional jobs don't respect org-chart boundaries
+- Own the routing/context/workflow layer; let models be interchangeable (different models win at planning, coding,
+  prose)
+- Enforce permissions at the tool-call layer via a gateway, not via prompt instructions
+- Session counts and tool calls are usage, not value; track business outcomes instead
 sources:
-  - { title: "Pinecone: harnessing the wisdom of the workforce", url: "https://sierra.ai/jp/blog/pinecone-harnessing-the-wisdom-of-the-workforce", type: "blog" }
-  - { title: "Building Sierra's MCP Gateway", url: "https://sierra.ai/blog/building-sierras-mcp-gateway-an-engineering-iceberg", type: "blog" }
-  - { title: "Agency: secure, scalable sandboxes for agents", url: "https://sierra.ai/es/blog/agency-secure-scalable-sandboxes-for-agents", type: "blog" }
+- id: sierra-pinecone-source-1
+  title: 'Pinecone: harnessing the wisdom of the workforce'
+  url: https://sierra.ai/jp/blog/pinecone-harnessing-the-wisdom-of-the-workforce
+  canonical_url: https://sierra.ai/jp/blog/pinecone-harnessing-the-wisdom-of-the-workforce
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: sierra-pinecone-source-2
+  title: Building Sierra's MCP Gateway
+  url: https://sierra.ai/blog/building-sierras-mcp-gateway-an-engineering-iceberg
+  canonical_url: https://sierra.ai/blog/building-sierras-mcp-gateway-an-engineering-iceberg
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: sierra-pinecone-source-3
+  title: 'Agency: secure, scalable sandboxes for agents'
+  url: https://sierra.ai/es/blog/agency-secure-scalable-sandboxes-for-agents
+  canonical_url: https://sierra.ai/es/blog/agency-secure-scalable-sandboxes-for-agents
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: sierra-pinecone-source-1
+    relation: supports
+  headline_metric:
+  - source_id: sierra-pinecone-source-1
+    relation: supports
+  architecture.sandbox:
+  - source_id: sierra-pinecone-source-3
+    relation: supports
+  architecture.harness:
+  - source_id: sierra-pinecone-source-1
+    relation: supports
+  - source_id: sierra-pinecone-source-3
+    relation: supports
+  architecture.model:
+  - source_id: sierra-pinecone-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: sierra-pinecone-source-2
+    relation: supports
+  architecture.knowledge:
+  - source_id: sierra-pinecone-source-1
+    relation: supports
+  - source_id: sierra-pinecone-source-3
+    relation: supports
+  architecture.credentials:
+  - source_id: sierra-pinecone-source-2
+    relation: supports
+  - source_id: sierra-pinecone-source-3
+    relation: supports
+  architecture.context_mgmt:
+  - source_id: sierra-pinecone-source-3
+    relation: supports
+  primitives.0:
+  - source_id: sierra-pinecone-source-2
+    relation: supports
+  primitives.1:
+  - source_id: sierra-pinecone-source-3
+    relation: supports
+  primitives.2:
+  - source_id: sierra-pinecone-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: sierra-pinecone-source-1
+    relation: supports
+  key_metrics.1:
+  - source_id: sierra-pinecone-source-1
+    relation: supports
+  key_metrics.2:
+  - source_id: sierra-pinecone-source-1
+    relation: supports
+  lessons_learned.0:
+  - source_id: sierra-pinecone-source-1
+    relation: supports
+  lessons_learned.1:
+  - source_id: sierra-pinecone-source-1
+    relation: supports
+  - source_id: sierra-pinecone-source-3
+    relation: supports
+  lessons_learned.2:
+  - source_id: sierra-pinecone-source-2
+    relation: supports
+  - source_id: sierra-pinecone-source-3
+    relation: supports
+  lessons_learned.3:
+  - source_id: sierra-pinecone-source-1
+    relation: supports
+  architecture.interfaces:
+  - source_id: sierra-pinecone-source-1
+    relation: supports
+claim_metadata:
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.2:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.3:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

@@ -1,36 +1,167 @@
 id: monday-sphera-atlas-morphex
 company: monday.com
-agent_name: "Sphera / Atlas / Morphex"
+agent_name: Sphera / Atlas / Morphex
+approach_type: agent-system
+deployment_stage: scaled
 year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: monday-sphera-atlas-morphex-source-1
+last_reviewed_at: '2026-08-12'
 status: internal
-domains: [coding, code-review]
+domains:
+- coding
+- code-review
 autonomy: autonomous
-summary: "An internal agent system on Amazon Bedrock where agents have identities, managers, scopes, and performance scores; Atlas ships features, Morphex ships PRs autonomously."
-headline_metric: "Morphex: 19 of 20 PRs merge without human review"
+rubric:
+  invocation:
+  - event-driven
+  - interactive
+  state: unknown
+  identity: dedicated-agent
+  evidence_strength: secondary-only
+summary: An internal agent system on Amazon Bedrock where agents have identities, managers, scopes, and performance
+  scores; Atlas ships features, Morphex ships PRs autonomously.
+headline_metric: 'Morphex: 19 of 20 PRs merge without human review'
 architecture:
-  sandbox: "Amazon EKS, one pod per active session; a remote sandbox tests each PR before review; EFS workspace mount"
-  harness: "Claude Agent SDK behind a thin monday-agent-sdk wrapper (provider neutrality, cold-start optimization, custom harness opinions)"
-  model: "Amazon Bedrock; Application Inference Profiles for routing; cross-region failover; PrivateLink (traffic stays in VPC)"
-  interfaces: [slack, monday, github]
-  tool_access: "Triggers via Slack @mention, monday item assignment, or GitHub PR review → SNS → per-team SQS → consumers; monday MCP servers underpin the Guardrails"
-  knowledge: "File-based memory: MEMORY.md (cross-session) + diary/YYYY-MM-DD.md; sessions/repos/secrets on EFS; durable records on S3"
-  credentials: "Per-session secrets in AWS Secrets Manager; same RBAC as humans; real Slack/GitHub/monday accounts"
-  context_mgmt: "Live state in ElastiCache (sub-ms); monday boards (Builders CoWORK) as shared state for tasks, status, handoffs"
+  sandbox: Amazon EKS, one pod per active session; a remote sandbox tests each PR before review; EFS workspace mount
+  harness: Claude Agent SDK behind a thin monday-agent-sdk wrapper (provider neutrality, cold-start optimization,
+    custom harness opinions)
+  model: Amazon Bedrock; Application Inference Profiles for routing; cross-region failover; PrivateLink (traffic
+    stays in VPC)
+  interfaces:
+  - slack
+  - monday
+  - github
+  tool_access: Triggers via Slack @mention, monday item assignment, or GitHub PR review → SNS → per-team SQS → consumers;
+    monday MCP servers underpin the Guardrails
+  knowledge: 'File-based memory: MEMORY.md (cross-session) + diary/YYYY-MM-DD.md; sessions/repos/secrets on EFS;
+    durable records on S3'
+  credentials: Per-session secrets in AWS Secrets Manager; same RBAC as humans; real Slack/GitHub/monday accounts
+  context_mgmt: Live state in ElastiCache (sub-ms); monday boards (Builders CoWORK) as shared state for tasks, status,
+    handoffs
 primitives:
-  - { name: Agent profiles, desc: "Stable identity + assigned human manager + scope + performance score" }
-  - { name: PR Guardrails, desc: "Automated review against monday standards (metrics, feature flags, security)" }
-  - { name: Memory as files, desc: "MEMORY.md + daily diary instead of vector retrieval" }
-  - { name: Builders CoWORK, desc: "monday boards as the shared-state layer for human/agent collaboration" }
+- name: Agent profiles
+  desc: Stable identity + assigned human manager + scope + performance score
+- name: PR Guardrails
+  desc: Automated review against monday standards (metrics, feature flags, security)
+- name: Memory as files
+  desc: MEMORY.md + daily diary instead of vector retrieval
+- name: Builders CoWORK
+  desc: monday boards as the shared-state layer for human/agent collaboration
 key_metrics:
-  - "Morphex: 19 of 20 PRs merge automatically without human review"
-  - "90% of engineers use AI coding tools monthly (up from ~50% YoY)"
-  - "Per-engineer PR throughput +50%"
-  - "Guardrails catches ~25% of agent PRs before human review; low single-digit revert rate"
+- 'Morphex: 19 of 20 PRs merge automatically without human review'
+- 90% of engineers use AI coding tools monthly (up from ~50% YoY)
+- Per-engineer PR throughput +50%
+- Guardrails catches ~25% of agent PRs before human review; low single-digit revert rate
 lessons_learned:
-  - "Evals from day one — should have been day one, not month nine"
-  - "Skip the vector store — file-based memory (MEMORY.md) was the right answer"
-  - "Remote-sandbox every PR before human review, with production-traffic replay"
-  - "The existing auth/identity/deploy pipeline applies to agents — reuse it"
-  - "AI engineering is building the feedback loops that let imperfect agents be trusted safely"
+- Evals from day one; should have been day one, not month nine
+- Skip the vector store; file-based memory (MEMORY.md) was the right answer
+- Remote-sandbox every PR before human review, with production-traffic replay
+- The existing auth/identity/deploy pipeline applies to agents; reuse it
+- AI engineering is building the feedback loops that let imperfect agents be trusted safely
 sources:
-  - { title: "AI Teammates: how monday.com runs production AI agents on Amazon Bedrock", url: "https://aws.amazon.com/blogs/machine-learning/ai-teammates-how-monday-com-runs-production-ai-agents-on-amazon-bedrock/", type: "case-study" }
+- id: monday-sphera-atlas-morphex-source-1
+  title: 'AI Teammates: how monday.com runs production AI agents on Amazon Bedrock'
+  url: https://aws.amazon.com/blogs/machine-learning/ai-teammates-how-monday-com-runs-production-ai-agents-on-amazon-bedrock/
+  canonical_url: https://aws.amazon.com/blogs/machine-learning/ai-teammates-how-monday-com-runs-production-ai-agents-on-amazon-bedrock/
+  kind: case-study
+  provenance_class: independent-secondary
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  headline_metric:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  architecture.sandbox:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  architecture.model:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  architecture.knowledge:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  architecture.credentials:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  architecture.context_mgmt:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  primitives.0:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  primitives.1:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  primitives.2:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  primitives.3:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  key_metrics.1:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  key_metrics.2:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  key_metrics.3:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  lessons_learned.0:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  lessons_learned.1:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  lessons_learned.2:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  lessons_learned.3:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  lessons_learned.4:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+  architecture.interfaces:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
+claim_metadata:
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.2:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.3:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.4:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

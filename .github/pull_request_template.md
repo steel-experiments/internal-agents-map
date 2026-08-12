@@ -1,18 +1,32 @@
-# Thanks for contributing an agent or pattern!
+# Change summary
 
-## What kind of change is this?
+Describe the approach, source, correction, analysis, or tooling change.
 
-- [ ] Adding / updating an agent (`data/agents/*.yaml`)
-- [ ] Adding / updating a pattern or lesson (`docs/`)
-- [ ] Fixing the build / tooling (`scripts/`, schema)
+## Change type
 
-## If adding an agent
+- [ ] Approach or claim data
+- [ ] Source or commentary
+- [ ] Analysis or documentation
+- [ ] Build or validation code
 
-- [ ] I copied `templates/agent.yaml` to `data/agents/<id>.yaml` and the `id` matches the filename.
-- [ ] Every claim traces to a `sources:` link — nothing is fabricated or guessed.
-- [ ] I ran `python scripts/build.py` and committed the regenerated `README.md`, `docs/landscape.md`, and `data/agents.json`.
-- [ ] I did **not** hand-edit anything between `<!-- BEGIN LANDSCAPE -->` and `<!-- END LANDSCAPE -->`.
+## Evidence review
 
-## Source(s)
+- [ ] Each claim links to one or more source IDs.
+- [ ] Each evidence link uses the correct relation.
+- [ ] Direct quotations match the source text.
+- [ ] Company metrics are identified as self-reported.
+- [ ] Unknown details remain unknown.
+- [ ] I have the right to submit this content under the repository licenses.
+- [ ] The change contains no private or confidential information.
 
-- <paste the primary source URL(s) here>
+## Verification
+
+- [ ] `python3 scripts/build.py`
+- [ ] `python3 scripts/build.py --check`
+- [ ] `python3 -m unittest discover -s tests`
+- [ ] `python3 scripts/check_links.py --local`
+- [ ] `git diff --check`
+
+## Sources
+
+List the main source URLs and explain any conflicting evidence.

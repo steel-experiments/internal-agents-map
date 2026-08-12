@@ -1,32 +1,196 @@
 id: linear-agent
 company: Linear
 agent_name: Linear Agent
+approach_type: task-agent
+deployment_stage: scaled
 year: 2026
-status: internal
-domains: [support, customer-success, coding]
+first_public_evidence:
+  date: '2026'
+  source_id: linear-agent-source-1
+last_reviewed_at: '2026-08-12'
+status: commercialized
+domains:
+- support
+- customer-success
+- coding
 autonomy: drafts-reviewed
-summary: "A native agent that synthesizes workspace context, triages, creates follow-up work, runs coding sessions, and executes scheduled/event-driven 'Loops' — used by Linear's own CX, Product, and Engineering teams."
-headline_metric: "Customer request -> scoped issue -> working PR, end to end"
+rubric:
+  invocation:
+  - event-driven
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: A native agent that synthesizes workspace context, triages, creates follow-up work, runs coding sessions,
+  and executes scheduled/event-driven 'Loops'; used by Linear's own CX, Product, and Engineering teams.
 architecture:
-  sandbox: "Not detailed publicly"
-  harness: "Separate planning agent (triage/issue creation) and coding agent (code generation); Code Intelligence for codebase knowledge; scheduled/event-driven 'Loops'"
-  model: "GPT-5 + Gemini 2.5 Pro in Triage Intelligence; Claude Code or Codex for coding sessions"
-  interfaces: [slack, intercom, linear-app, github]
-  tool_access: "Triage Intelligence (auto-route, dedup, label); GitHub; testing Code Intelligence + custom MCP servers"
-  knowledge: "Semantic/vector search evolved into agentic context acquisition across the workspace; Datadog/Sentry customer context"
-  credentials: "The Agent SDK gives agents explicit identities, scoped OAuth tokens, assignable/mentionable handles, and visible human delegation — issues stay assigned to a human; 'an agent cannot be held accountable'"
+  sandbox: Not detailed publicly
+  harness: Separate planning agent (triage/issue creation) and coding agent (code generation); Code Intelligence
+    for codebase knowledge; scheduled/event-driven 'Loops'
+  model: GPT-5 + Gemini 2.5 Pro in Triage Intelligence; Claude Code or Codex for coding sessions
+  interfaces:
+  - slack
+  - intercom
+  - linear
+  - github
+  tool_access: Triage Intelligence (auto-route, dedup, label); GitHub; testing Code Intelligence + custom MCP servers
+  knowledge: Semantic/vector search evolved into agentic context acquisition across the workspace; Datadog/Sentry
+    customer context
+  credentials: The Agent SDK gives agents explicit identities, scoped OAuth tokens, assignable/mentionable handles,
+    and visible human delegation; issues stay assigned to a human; 'an agent cannot be held accountable'
 primitives:
-  - { name: Triage Intelligence, desc: "Auto-routes issues, flags duplicates, suggests labels" }
-  - { name: Agent SDK identities, desc: "Agents get identities, scoped team access, and visible delegation alongside humans" }
-  - { name: Loops, desc: "Scheduled or event-driven agent runs that execute recurring work" }
-key_metrics: []
+- name: Triage Intelligence
+  desc: Auto-routes issues, flags duplicates, suggests labels
+- name: Agent SDK identities
+  desc: Agents get identities, scoped team access, and visible delegation alongside humans
+- name: Loops
+  desc: Scheduled or event-driven agent runs that execute recurring work
 lessons_learned:
-  - "Keep the agent close to the source of work (Intercom, Slack, Linear) — the best workflows live where work already happens"
-  - "Gradual autonomy — start by asking for suggestions, observe, add guidance, only automate once proven reliable"
-  - "Break work into small steps to keep coding agents focused and successful"
-  - "AI mistakes are useful — they surface failure modes to engineers"
-  - "Close the loop — auto-notify the customer when their request ships"
+- Keep the agent close to the source of work (Intercom, Slack, Linear); the best workflows live where work already
+  happens
+- Gradual autonomy; start by asking for suggestions, observe, add guidance, only automate once proven reliable
+- Break work into small steps to keep coding agents focused and successful
+- One Linear engineer reports that agent mistakes reveal possible failure modes during review
+- Close the loop; auto-notify the customer when their request ships
 sources:
-  - { title: "How we built Linear Agent", url: "https://linear.app/now/how-we-built-linear-agent", type: "blog" }
-  - { title: "How we use Linear Agent at Linear", url: "https://linear.app/now/how-we-use-linear-agent-at-linear", type: "blog" }
-  - { title: "Our approach to building the Agent Interaction SDK", url: "https://linear.app/now/our-approach-to-building-the-agent-interaction-sdk", type: "blog" }
+- id: linear-agent-source-1
+  title: How we built Linear Agent
+  url: https://linear.app/now/how-we-built-linear-agent
+  canonical_url: https://linear.app/now/how-we-built-linear-agent
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: linear-agent-source-2
+  title: How we use Linear Agent at Linear
+  url: https://linear.app/now/how-we-use-linear-agent-at-linear
+  canonical_url: https://linear.app/now/how-we-use-linear-agent-at-linear
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: linear-agent-source-3
+  title: Our approach to building the Agent Interaction SDK
+  url: https://linear.app/now/our-approach-to-building-the-agent-interaction-sdk
+  canonical_url: https://linear.app/now/our-approach-to-building-the-agent-interaction-sdk
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: linear-agent-source-4
+  title: Hacker News discussion of how Linear built its agent
+  url: https://news.ycombinator.com/item?id=49252304
+  canonical_url: https://news.ycombinator.com/item?id=49252304
+  kind: hn-thread
+  provenance_class: community
+  role: commentary
+  authors:
+  - cristinacordova
+  published_at: '2026-08-11'
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: linear-agent-source-5
+  title: Hacker News discussion of the Linear Agent public beta
+  url: https://news.ycombinator.com/item?id=48503334
+  canonical_url: https://news.ycombinator.com/item?id=48503334
+  kind: hn-thread
+  provenance_class: community
+  role: commentary
+  authors:
+  - samber
+  published_at: '2026-06-12'
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: linear-agent-source-6
+  title: Introducing Linear Agent
+  url: https://linear.app/changelog/2026-03-24-introducing-linear-agent
+  canonical_url: https://linear.app/changelog/2026-03-24-introducing-linear-agent
+  kind: release
+  provenance_class: first-party
+  role: evidence
+  published_at: '2026-03-24'
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: linear-agent-source-1
+    relation: supports
+  - source_id: linear-agent-source-2
+    relation: supports
+  - source_id: linear-agent-source-6
+    relation: supports
+  - source_id: linear-agent-source-4
+    relation: contextualizes
+  - source_id: linear-agent-source-5
+    relation: contextualizes
+  architecture.sandbox:
+  - source_id: linear-agent-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: linear-agent-source-1
+    relation: supports
+  architecture.model:
+  - source_id: linear-agent-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: linear-agent-source-1
+    relation: supports
+  architecture.knowledge:
+  - source_id: linear-agent-source-1
+    relation: supports
+  architecture.credentials:
+  - source_id: linear-agent-source-3
+    relation: supports
+  primitives.0:
+  - source_id: linear-agent-source-1
+    relation: supports
+  primitives.1:
+  - source_id: linear-agent-source-3
+    relation: supports
+  primitives.2:
+  - source_id: linear-agent-source-1
+    relation: supports
+  lessons_learned.0:
+  - source_id: linear-agent-source-2
+    relation: supports
+  lessons_learned.1:
+  - source_id: linear-agent-source-2
+    relation: supports
+  lessons_learned.2:
+  - source_id: linear-agent-source-2
+    relation: supports
+  lessons_learned.3:
+  - source_id: linear-agent-source-2
+    relation: supports
+  lessons_learned.4:
+  - source_id: linear-agent-source-2
+    relation: supports
+  architecture.interfaces:
+  - source_id: linear-agent-source-1
+    relation: supports
+claim_metadata:
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.2:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.3:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.4:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

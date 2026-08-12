@@ -1,101 +1,81 @@
 # Contributing to Internal Agents Map
 
-Thanks for helping map how companies build internal agents. There are two ways to contribute,
-and both are welcome.
+Contributions can add an approach, add a source, correct a claim, or improve the analysis.
 
-> **The one rule: don't invent.** Every claim in an entry should trace to a source. A thin,
-> sourced entry is better than a rich, guessed one. If a field isn't documented anywhere, omit
-> it (the build hides empty fields automatically) or flag it with a `# NOTE:` comment.
+The catalog favors broad collection and explicit provenance. Do not invent missing details. Record unknown values as `unknown`. Keep commentary and conflicting evidence, but label them.
 
----
+## Set up the project
 
-## Add or update an agent (~15 min)
+1. Create and activate a Python 3 virtual environment.
+2. Run `python3 -m pip install -r requirements-dev.txt`.
+3. Run `python3 scripts/build.py --check`.
+4. Run `python3 -m unittest discover -s tests`.
 
-1. **Copy the template** — `cp templates/agent.yaml data/agents/<id>.yaml`.
-   - `<id>` is kebab-case (e.g. `acme-copilot`) and **must match the filename**.
-2. **Fill it in** using the [schema reference](data/schema.md). Required fields: `id`,
-   `company`, `agent_name`, `year`, `status`, `domains`, `autonomy`, `summary`. Add
-   `architecture`, `primitives`, `key_metrics`, `lessons_learned`, and `sources` where you
-   have evidence.
-3. **Run the build** — `python scripts/build.py`. This regenerates the README landscape table,
-   `docs/landscape.md`, and `data/agents.json` from your YAML.
-4. **Commit all three generated files together with your YAML.**
-5. **Open a PR** — the [PR template](.github/pull_request_template.md) has a checklist.
+## Add an approach
 
-### Setup
+1. Copy `templates/agent.yaml` to `data/agents/<id>.yaml`.
+2. Give the record a kebab-case ID that matches its file name.
+3. Add the shared rubric fields. Use `unknown` when the sources do not document a value.
+4. Add structured source records before you summarize them.
+5. Link every claim path to evidence. Add a locator when the source has a stable section, timestamp, comment ID, commit, or line.
+6. Run `python3 scripts/build.py`.
+7. Run all verification commands in the pull request template.
 
-You need Python 3 and PyYAML:
+The approach must describe a system that a named organization built or materially adapted for its own teams. It can be a task agent, background agent, agent system, platform, orchestration system, or implemented supporting pattern.
 
-```bash
-pip install pyyaml
-python scripts/build.py
-```
+Do not add a generic vendor product without a documented internal adaptation. Do not add an unattributed rumor as an approach.
 
-If PyYAML is missing the build prints a clear install hint.
+## Add a source or commentary
 
-### Field quick reference
+Sources can include:
 
-| Field | Required | Example |
-| --- | --- | --- |
-| `id` | ★ | `doordash-flux` (matches filename) |
-| `company` / `agent_name` | ★ | `DoorDash` / `Flux` |
-| `year` | ★ | `2026` (first public evidence) |
-| `status` | ★ | `internal` \| `open-sourced` \| `commercialized` |
-| `domains` | ★ | `[coding, code-review, ci-triage]` |
-| `autonomy` | ★ | `assistive` \| `human-in-loop` \| `drafts-reviewed` \| `autonomous` |
-| `summary` | ★ | one sentence |
-| `architecture.*` | optional | `sandbox`, `harness`, `model`, `tool_access`, `interfaces`, `knowledge`, `credentials`, `context_mgmt` |
+- Company articles and documentation
+- Source code, repositories, releases, and commits
+- Talks, transcripts, podcasts, and papers
+- News reports and case studies
+- Social posts
+- Hacker News threads and material comments
+- Other forum discussions
 
-Allowed values and full descriptions are in [`data/schema.md`](data/schema.md).
+Set `kind` to the source format. Set `provenance_class` to the publisher relationship. These fields do not state whether a claim is true.
 
-### Scope check before you add
+Use `first-party` for organization publications. Use `direct-participant` for a statement from a person who worked on the system. Use `independent-secondary` for outside reporting. Use `community` for Hacker News and forum commentary.
 
-The entry must be **one organization's internal/proprietary build** — built to run inside its
-own walls for its own people. Commercial agents (Devin, Cursor, Claude Code) and frameworks
-(Claude Agent SDK, LangGraph) are out of scope as entries; they belong only as a `harness` or
-`tool_access` note inside an entry, or in [`docs/further-reading.md`](docs/further-reading.md).
-See [further reading](docs/further-reading.md#why-these-arent-catalog-entries) for the
-boundary.
+A commentary source can contextualize or contradict a claim. It does not need to support one. Use the corresponding evidence relation.
 
-### The marker convention — don't hand-edit the table
+For Hacker News, keep the thread and each material comment as separate source records. Use the permanent item or comment URL. For source code, record a commit and file locator when possible.
 
-The README table lives between these markers and is regenerated on every build:
+## Write claims and analysis
 
-```
-<!-- BEGIN LANDSCAPE -->
-<!-- END LANDSCAPE -->
-```
+- Use quotation marks only for exact source text.
+- Mark company metrics as self-reported unless an independent source verifies them.
+- Include a metric date, scope, denominator, and method when available.
+- Mark editorial conclusions as `inferred` or `catalog-judgment`.
+- Preserve conflicting reports when they refer to different dates or methods.
+- Do not treat an undocumented field as evidence that a feature is absent.
 
-Never edit anything between them by hand — your changes will be overwritten. Edit the YAML and
-re-run the build. Everything *outside* the markers (intro, thesis, CTAs) is hand-authored and
-safe to edit directly.
+When you edit `docs/patterns.md` or `docs/adoption-lessons.md`, compare similar approach types and deployment stages. State the sample size. Include counterexamples before you call a pattern common.
 
----
+## Generated files
 
-## Add or edit a pattern or lesson
+The build updates these files:
 
-The synthesis docs are hand-curated (no build step):
+- `README.md`, between the catalog markers
+- `docs/landscape.md`
+- `data/agents.json`
 
-- [`docs/patterns.md`](docs/patterns.md) — recurring architecture primitives.
-- [`docs/adoption-lessons.md`](docs/adoption-lessons.md) — how agents get adopted.
-- [`docs/further-reading.md`](docs/further-reading.md) — adjacent refs.
+Do not edit generated content by hand. Commit these files with the source YAML change.
 
-Edit them directly and cite the companies you draw from. Open a PR.
+## Verify a change
 
----
-
-## Committing generated files
-
-Always commit the regenerated `README.md`, `docs/landscape.md`, and `data/agents.json` in the
-same PR as your data change, so the repo is always in a built state.
-
-To verify your change locally:
+Run:
 
 ```bash
-python scripts/build.py        # should run clean
-python scripts/build.py        # second run → "unchanged README.md" (idempotent)
-python -c "import json; print(len(json.load(open('data/agents.json'))), 'agents')"
+python3 scripts/build.py
+python3 scripts/build.py --check
+python3 -m unittest discover -s tests
+python3 scripts/check_links.py --local
+git diff --check
 ```
 
-Thanks for contributing — and please be excellent to one another (see
-[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)).
+The scheduled link check tests external URLs. A pull request does not depend on remote sites being available.

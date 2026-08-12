@@ -1,29 +1,122 @@
 id: domu-clementino
 company: Domu
 agent_name: Clementino
+approach_type: task-agent
+deployment_stage: deployed
 year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: domu-clementino-source-1
+last_reviewed_at: '2026-08-12'
 status: internal
-domains: [support, finance-ops, coding, recruitment, customer-success]
+domains:
+- support
+- finance-ops
+- coding
+- recruitment
+- customer-success
 autonomy: human-in-loop
-summary: "A general-purpose 'AI colleague' spanning sales, finance, client ops, engineering, and recruitment, later split into a reusable toolkit plus Slack and desktop surfaces."
-headline_metric: "~35 integrations organized into skills; customer-impacting actions behind Slack approval gates"
+rubric:
+  invocation:
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: A general-purpose 'AI colleague' spanning sales, finance, client ops, engineering, and recruitment, later
+  split into a reusable toolkit plus Slack and desktop surfaces.
+headline_metric: ~35 integrations organized into skills
 architecture:
-  sandbox: ""
-  harness: "Claude/Anthropic SDK wrapper; a reusable tool/skill/memory layer separated from the Slack and desktop interfaces"
-  model: "Claude (Anthropic SDK)"
-  interfaces: [slack, desktop]
-  tool_access: "~35 integrations organized into skills; specialist delegates per domain"
-  knowledge: "Four memory layers: conversation context, persistent facts, knowledge RAG, and live system state"
-  credentials: "Customer-impacting actions gated behind team-visible Slack approvals"
-  context_mgmt: "Four-layer memory separation; prompt size dropped substantially after splitting capabilities from the Slack layer"
+  harness: Claude/Anthropic SDK wrapper; a reusable tool/skill/memory layer separated from the Slack and desktop
+    interfaces
+  model: Claude (Anthropic SDK)
+  interfaces:
+  - slack
+  - desktop
+  tool_access: ~35 integrations organized into skills; specialist delegates per domain
+  knowledge: 'Four memory layers: conversation context, persistent facts, knowledge RAG, and live system state'
+  credentials: Customer-impacting actions gated behind team-visible Slack approvals
+  context_mgmt: Four-layer memory separation; prompt size dropped substantially after splitting capabilities from
+    the Slack layer
 primitives:
-  - { name: Four memory layers, desc: "Transient conversation, persistent facts, knowledge RAG, and live system state — kept separate" }
-  - { name: Reusable toolkit split, desc: "Capabilities separated from the interface layer so they power multiple surfaces" }
+- name: Four memory layers
+  desc: Transient conversation, persistent facts, knowledge RAG, and live system state; kept separate
+- name: Reusable toolkit split
+  desc: Capabilities separated from the interface layer so they power multiple surfaces
 key_metrics:
-  - "~35 integrations organized into skills"
+- ~35 integrations organized into skills
 lessons_learned:
-  - "Separate reusable capabilities (tools/skills/memory) from the interface layer — prompt size drops while capability is preserved"
-  - "Model memory explicitly: conversation context, persistent facts, RAG, and live state have different lifecycles"
-  - "Gate customer-impacting actions behind human approvals rather than trusting the model"
+- Separate reusable capabilities (tools/skills/memory) from the interface layer; prompt size drops while capability
+  is preserved
+- 'Model memory explicitly: conversation context, persistent facts, RAG, and live state have different lifecycles'
+- Gate customer-impacting actions behind human approvals rather than trusting the model
 sources:
-  - { title: "Why we split our internal agent in two", url: "https://domu.ai/blog/why-we-split-our-internal-agent-in-two", type: "blog" }
+- id: domu-clementino-source-1
+  title: Why we split our internal agent in two
+  url: https://domu.ai/blog/why-we-split-our-internal-agent-in-two
+  canonical_url: https://domu.ai/blog/why-we-split-our-internal-agent-in-two
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: domu-clementino-source-1
+    relation: supports
+  headline_metric:
+  - source_id: domu-clementino-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: domu-clementino-source-1
+    relation: supports
+  architecture.model:
+  - source_id: domu-clementino-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: domu-clementino-source-1
+    relation: supports
+  architecture.knowledge:
+  - source_id: domu-clementino-source-1
+    relation: supports
+  architecture.credentials:
+  - source_id: domu-clementino-source-1
+    relation: supports
+  architecture.context_mgmt:
+  - source_id: domu-clementino-source-1
+    relation: supports
+  primitives.0:
+  - source_id: domu-clementino-source-1
+    relation: supports
+  primitives.1:
+  - source_id: domu-clementino-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: domu-clementino-source-1
+    relation: supports
+  lessons_learned.0:
+  - source_id: domu-clementino-source-1
+    relation: supports
+  lessons_learned.1:
+  - source_id: domu-clementino-source-1
+    relation: supports
+  lessons_learned.2:
+  - source_id: domu-clementino-source-1
+    relation: supports
+  architecture.interfaces:
+  - source_id: domu-clementino-source-1
+    relation: supports
+claim_metadata:
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.2:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

@@ -1,30 +1,147 @@
 id: slack-context-system
 company: Slack
-agent_name: "Multi-agent context system"
+agent_name: Multi-agent context system
+approach_type: supporting-pattern
+deployment_stage: research
 year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: slack-context-system-source-1
+last_reviewed_at: '2026-08-12'
 status: internal
-domains: [research]
+domains:
+- research
 autonomy: human-in-loop
-summary: "A coordinator/dispatcher multi-agent design with structured context channels for long-running investigations spanning hundreds of steps."
-headline_metric: "Megabyte-scale investigations without overflowing the context window"
+rubric:
+  invocation:
+  - unknown
+  state: durable-session
+  identity: unknown
+  evidence_strength: mixed
+summary: A coordinator/dispatcher multi-agent design with structured context channels for long-running investigations
+  spanning hundreds of steps.
+headline_metric: Megabyte-scale investigations without overflowing the context window
 architecture:
-  sandbox: "n/a — this is a context-management pattern, not a full execution platform"
-  harness: "Coordinator/dispatcher: a central coordinator dispatches to expert agents and to critic agents"
-  model: "Not specified"
-  interfaces: []
-  tool_access: "Expert agents produce reports; critic agents evaluate them using evidence-inspection tools"
-  knowledge: ""
-  credentials: ""
-  context_mgmt: "Three channels — Director's Journal (working memory), Critic's Review (credibility-weighted findings), Critic's Timeline (deduped chronological synthesis)"
+  sandbox: n/a; this is a context-management pattern, not a full execution platform
+  harness: 'Coordinator/dispatcher: a central coordinator dispatches to expert agents and to critic agents'
+  model: Not specified
+  tool_access: Expert agents produce reports; critic agents evaluate them using evidence-inspection tools
+  context_mgmt: Three channels; Director's Journal (working memory), Critic's Review (credibility-weighted findings),
+    Critic's Timeline (deduped chronological synthesis)
 primitives:
-  - { name: Director's Journal, desc: "Structured working memory: findings, decisions, questions, hypotheses" }
-  - { name: Critic's Review, desc: "A truth filter with credibility scores over submitted findings" }
-  - { name: Critic's Timeline, desc: "A chronological, deduped, conflict-resolved synthesis retained across steps" }
+- name: Director's Journal
+  desc: 'Structured working memory: findings, decisions, questions, hypotheses'
+- name: Critic's Review
+  desc: A truth filter with credibility scores over submitted findings
+- name: Critic's Timeline
+  desc: A chronological, deduped, conflict-resolved synthesis retained across steps
 key_metrics:
-  - "Handles multi-agent runs spanning hundreds of requests and megabytes of output"
+- Handles multi-agent runs spanning hundreds of requests and megabytes of output
 lessons_learned:
-  - "Don't pass all information at every step — build structured summaries agents can reliably build on"
-  - "Separate expert agents (produce) from critic agents (evaluate); corroborated findings are prioritized"
-  - "Context management becomes its own subsystem once runs get long"
+- Don't pass all information at every step; build structured summaries agents can reliably build on
+- Separate expert agents (produce) from critic agents (evaluate); corroborated findings are prioritized
+- Context management becomes its own subsystem once runs get long
 sources:
-  - { title: "How Slack manages context in long-running multi-agent systems", url: "https://www.infoq.com/news/2026/04/slack-agent-context-management/", type: "blog" }
+- id: slack-context-system-source-1
+  title: Managing context in long-running agentic applications
+  url: https://slack.engineering/managing-context-in-long-run-agentic-applications/
+  canonical_url: https://slack.engineering/managing-context-in-long-run-agentic-applications/
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: slack-context-system-source-2
+  title: How Slack manages context in long-running multi-agent systems
+  url: https://www.infoq.com/news/2026/04/slack-agent-context-management/
+  canonical_url: https://www.infoq.com/news/2026/04/slack-agent-context-management/
+  kind: news
+  provenance_class: independent-secondary
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: slack-context-system-source-1
+    relation: supports
+  - source_id: slack-context-system-source-2
+    relation: supports
+  headline_metric:
+  - source_id: slack-context-system-source-1
+    relation: supports
+  - source_id: slack-context-system-source-2
+    relation: supports
+  architecture.sandbox:
+  - source_id: slack-context-system-source-1
+    relation: supports
+  - source_id: slack-context-system-source-2
+    relation: supports
+  architecture.harness:
+  - source_id: slack-context-system-source-1
+    relation: supports
+  - source_id: slack-context-system-source-2
+    relation: supports
+  architecture.model:
+  - source_id: slack-context-system-source-1
+    relation: supports
+  - source_id: slack-context-system-source-2
+    relation: supports
+  architecture.tool_access:
+  - source_id: slack-context-system-source-1
+    relation: supports
+  - source_id: slack-context-system-source-2
+    relation: supports
+  architecture.context_mgmt:
+  - source_id: slack-context-system-source-1
+    relation: supports
+  - source_id: slack-context-system-source-2
+    relation: supports
+  primitives.0:
+  - source_id: slack-context-system-source-1
+    relation: supports
+  - source_id: slack-context-system-source-2
+    relation: supports
+  primitives.1:
+  - source_id: slack-context-system-source-1
+    relation: supports
+  - source_id: slack-context-system-source-2
+    relation: supports
+  primitives.2:
+  - source_id: slack-context-system-source-1
+    relation: supports
+  - source_id: slack-context-system-source-2
+    relation: supports
+  key_metrics.0:
+  - source_id: slack-context-system-source-1
+    relation: supports
+  - source_id: slack-context-system-source-2
+    relation: supports
+  lessons_learned.0:
+  - source_id: slack-context-system-source-1
+    relation: supports
+  - source_id: slack-context-system-source-2
+    relation: supports
+  lessons_learned.1:
+  - source_id: slack-context-system-source-1
+    relation: supports
+  - source_id: slack-context-system-source-2
+    relation: supports
+  lessons_learned.2:
+  - source_id: slack-context-system-source-1
+    relation: supports
+  - source_id: slack-context-system-source-2
+    relation: supports
+claim_metadata:
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.2:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

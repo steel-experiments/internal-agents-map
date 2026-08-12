@@ -1,64 +1,50 @@
-# Further reading
+# Further reading and discovery sources
 
-This catalog is deliberately scoped to **companies building proprietary agents for their own
-employees and internal workflows**. Commercial agents and general frameworks are *out of
-scope as catalog entries* — but they show up constantly as the harnesses, runtimes, and
-reference ideas used *inside* these stacks. This page collects them so contributors know
-where the boundary is and where to read more.
+This page lists concepts, tools, and discovery sources that help contributors understand or expand the catalog. These items are not catalog entries unless a named organization reports an internal adaptation.
 
-## Why these aren't catalog entries
+## Agent concepts
 
-- **Commercial coding agents** (Devin, Cursor, Claude Code, etc.) are products sold to many
-  companies, not an internal build for one. They appear here only when an entry uses them as a
-  harness (e.g. Spotify Xirp runs Claude Code / Gemini CLI / Codex as interchangeable
-  harnesses; Linear uses Codex for PR review).
-- **Agent frameworks/SDKs** (Claude Agent SDK, LangGraph, OpenAI Agents SDK) are tooling, not
-  organizations running agents internally. monday.com wraps the Claude Agent SDK; Sentry and
-  others build on similar SDKs.
-- **Agent products/infrastructure** (OpenAI Symphony, Anthropic/Claude, Vercel AI SDK, Kimi,
-  etc.) are vendor offerings, not a single company's internal agent.
+- Anthropic, [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents), compares workflows and agents.
+- Anthropic, [How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system), describes an orchestrator and worker design.
 
-If you're unsure whether something belongs in the catalog, the test is: *did one organization
-build this to run inside its own walls for its own people?* If yes → catalog entry. If it's a
-product or framework many orgs adopt → it belongs here, or as a `harness`/`tool_access` note
-inside an entry.
+These articles offer useful terms. The catalog does not adopt either article as its inclusion rule.
 
-## Foundational agent concepts
+## Frameworks and runtimes
 
-- **Anthropic — [Building Effective Agents](https://www.anthropic.com/research/building-effective-agents):**
-  the canonical primer on the workflow-vs-agent distinction, tool use, and orchestration
-  patterns. Much of this catalog is concrete instantiations of the ideas here.
-- **Anthropic — multi-agent research systems** (the lead of [this work](https://www.anthropic.com/engineering)):
-  relevant to Slack's coordinator/dispatcher pattern and Block's orchestration layer.
+- [Claude Agent SDK](https://docs.claude.com/en/api/agent-sdk/overview)
+- [OpenCode](https://github.com/anomalyco/opencode)
+- [LangGraph](https://github.com/langchain-ai/langgraph)
+- [Model Context Protocol](https://modelcontextprotocol.io/)
 
-## Frameworks & runtimes used inside these stacks
+Catalog entries can name these tools in architecture fields. A framework becomes an approach only when a source describes how an organization materially adapted it for internal work.
 
-- **[Claude Agent SDK](https://docs.claude.com/en/api/agent-sdk/overview):** the runtime
-  behind monday.com's system (wrapped for provider neutrality).
-- **[OpenCode](https://github.com/sst/opencode):** the server-first harness used by Ramp,
-  Browserbase, and WorkOS.
-- **[LangGraph](https://github.com/langchain-ai/langgraph):** graph-based agent orchestration
-  — a common alternative for the coordinator/dispatcher shape.
-- **[Model Context Protocol (MCP)](https://modelcontextprotocol.io/):** the connective tissue
-  for nearly every tool-access layer in this catalog (DoorDash Agent Gateway, Cloudflare MCP
-  Server Portal, WorkOS/Block/Sentry/Brex MCP servers).
+## Commercial and historical products
 
-## Commercial coding agents (referenced as harnesses)
+- [Claude Code](https://claude.com/claude-code)
+- [Cursor](https://www.cursor.com/)
+- [Devin](https://devin.ai/)
+- [GitHub Copilot Workspace](https://githubnext.com/projects/copilot-workspace/), whose technical preview ended on May 30, 2025
 
-- **[Claude Code](https://claude.com/claude-code)**, **Cursor**, **Cognition Devin**,
-  **GitHub Copilot Workspace** — the interchangeable harness layer that several entries plug
-  in and swap between.
+These products can appear as dependencies, comparisons, or historical context. Their general product pages are not evidence for an organization's internal implementation.
 
-## Adjacent community efforts
+## Community evidence
 
-- **The cross-company "internal agents" discussion** (e.g. the r/AI_Agents JSON thread
-  surveying who is building what) — a useful discovery source for new entries.
-- **`agentic-internet` / agent-landscape repos** — broader catalogs of agent companies and
-  projects; complementary but broader in scope than this map.
+Community sources can reveal missing approaches, conflicting reports, failure cases, or implementation details. Useful source types include:
 
-## Within this repo
+- Hacker News threads and individual comments
+- Repository issues, pull requests, and commit discussions
+- Technical forum posts
+- Social posts from direct participants
+- Independent analysis and news reports
 
-- [Patterns](patterns.md) — the architecture synthesis.
-- [Adoption lessons](adoption-lessons.md) — how these systems get adopted.
-- [Full catalog](landscape.md) — generated per-agent detail.
-- [Schema](../data/schema.md) — how to add an entry.
+Record a community source even when it does not support a claim. Use `contextualizes` or `contradicts` as its evidence relation. Keep the author, permanent URL, publication date, and item or comment ID.
+
+Community evidence is not automatically less useful than a company article. It serves a different purpose. Classify its origin and explain claim confidence separately.
+
+## Repository pages
+
+- [Architecture patterns](patterns.md)
+- [Adoption observations](adoption-lessons.md)
+- [Full catalog](landscape.md)
+- [Data schema](../data/schema.md)
+- [Contribution guide](../CONTRIBUTING.md)

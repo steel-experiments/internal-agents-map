@@ -1,23 +1,87 @@
 id: flex-investigation-agent
 company: Flex
-agent_name: "AI Investigation Agent"
+agent_name: AI Investigation Agent
+approach_type: task-agent
+deployment_stage: deployed
 year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: flex-investigation-agent-source-1
+last_reviewed_at: '2026-08-12'
 status: internal
-domains: [finance-ops, on-call, coding]
+domains:
+- finance-ops
+- on-call
+- coding
 autonomy: drafts-reviewed
-summary: "A Slack agent for HSA/FSA payment operations that traces a payment end-to-end and, when it finds a software bug, prepares a PR with a proposed fix."
-headline_metric: "Used by the team every day for payment-ops investigation"
+rubric:
+  invocation:
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: A Slack agent for HSA/FSA payment operations that traces a payment end-to-end and, when it finds a software
+  bug, prepares a PR with a proposed fix.
 architecture:
-  sandbox: "Not specified publicly"
-  harness: "Investigation-to-fix loop; underlying runtime not documented"
-  model: "Not specified"
-  interfaces: [slack]
-  tool_access: "Traces a payment end-to-end across payment systems; can open a PR with a proposed fix when a bug is found"
+  sandbox: Not specified publicly
+  harness: Investigation-to-fix loop; underlying runtime not documented
+  model: Not specified
+  interfaces:
+  - slack
+  tool_access: Traces a payment end-to-end across payment systems; can open a PR with a proposed fix when a bug
+    is found
 primitives:
-  - { name: Investigation-to-fix loop, desc: "Payment trace → root-cause hypothesis → proposed code fix as a PR" }
-key_metrics: []
+- name: Investigation-to-fix loop
+  desc: Payment trace → root-cause hypothesis → proposed code fix as a PR
 lessons_learned:
-  - "Start where correctness is observable — payment investigation produces artifacts (a trace, a hypothesis, a diff) that can be checked"
-  - "An ops agent that can prepare a fix (not just a report) closes the loop from investigation to code"
+- Start where correctness is observable; payment investigation produces artifacts (a trace, a hypothesis, a diff)
+  that can be checked
+- An ops agent that can prepare a fix (not just a report) closes the loop from investigation to code
 sources:
-  - { title: "The Flex AI Investigation Agent for HSA/FSA payments", url: "https://www.withflex.com/blog/the-flex-ai-investigation-agent-for-hsa-fsa-payments", type: "blog" }
+- id: flex-investigation-agent-source-1
+  title: The Flex AI Investigation Agent for HSA/FSA payments
+  url: https://www.withflex.com/blog/the-flex-ai-investigation-agent-for-hsa-fsa-payments
+  canonical_url: https://www.withflex.com/blog/the-flex-ai-investigation-agent-for-hsa-fsa-payments
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: flex-investigation-agent-source-1
+    relation: supports
+  architecture.sandbox:
+  - source_id: flex-investigation-agent-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: flex-investigation-agent-source-1
+    relation: supports
+  architecture.model:
+  - source_id: flex-investigation-agent-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: flex-investigation-agent-source-1
+    relation: supports
+  primitives.0:
+  - source_id: flex-investigation-agent-source-1
+    relation: supports
+  lessons_learned.0:
+  - source_id: flex-investigation-agent-source-1
+    relation: supports
+  lessons_learned.1:
+  - source_id: flex-investigation-agent-source-1
+    relation: supports
+  architecture.interfaces:
+  - source_id: flex-investigation-agent-source-1
+    relation: supports
+claim_metadata:
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

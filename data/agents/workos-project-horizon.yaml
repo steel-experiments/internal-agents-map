@@ -1,34 +1,192 @@
 id: workos-project-horizon
 company: WorkOS
-agent_name: "Project Horizon"
+agent_name: Project Horizon
+approach_type: platform
+deployment_stage: deployed
 year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: workos-project-horizon-source-1
+last_reviewed_at: '2026-08-12'
 status: internal
-domains: [coding, code-review, security]
+domains:
+- coding
+- code-review
+- security
 autonomy: drafts-reviewed
-summary: "An internal autonomous 'code factory' where a continuously running swarm of agents handles the implementation loop while engineers focus on requirements and acceptance testing. Deliberately modular so the harness can evolve."
-headline_metric: "A self-improving platform — every run ships work and feeds fixes back in"
+rubric:
+  invocation:
+  - event-driven
+  - interactive
+  state: durable-session
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: An internal autonomous 'code factory' where a continuously running swarm of agents handles the implementation
+  loop while engineers focus on requirements and acceptance testing. Deliberately modular so the harness can evolve.
 architecture:
-  sandbox: "Cloudflare Containers + Sandbox SDK; disposable, tightly scoped sandboxes with explicit lifecycle APIs and egress controls; full monorepo stack in Docker dev containers"
-  harness: "Modular by design — the core article runs OpenCode in the sandbox; the Applied AI Showcase runs Claude Remote Routines. The harness is swappable as agent tech changes; separate PM, implementation, and prospective verification/security roles"
-  model: "Swappable — the harness is the constant, not the model"
-  interfaces: [linear, github, slack, web]
-  tool_access: "A custom MCP server stitches internal data sources (Datadog, Sentry, Slack, WorkOS Pipes); all outbound traffic proxied through Workers with allowlists, limits, logging, and token injection"
-  knowledge: "AGENTS.md and CLAUDE.md capture scripts, docs, conventions; MCP codifies the patterns engineers already follow; Notion + Figma for specs/mockups"
-  credentials: "WorkOS Pipes (no OAuth/token-refresh to maintain); scoped short-lived GitHub tokens per user; engineers use their own identity in the MCP; least-privilege + egress controls"
-  context_mgmt: "The orchestrator pauses/resumes sandboxes and tracks state + artifacts across a run"
+  sandbox: Cloudflare Containers + Sandbox SDK; disposable, tightly scoped sandboxes with explicit lifecycle APIs
+    and egress controls; full monorepo stack in Docker dev containers
+  harness: Modular by design; the core article runs OpenCode in the sandbox; the Applied AI Showcase runs Claude
+    Remote Routines. The harness is swappable as agent tech changes; separate PM, implementation, and prospective
+    verification/security roles
+  model: Swappable; the harness is the constant, not the model
+  interfaces:
+  - linear
+  - github
+  - slack
+  - web
+  tool_access: A custom MCP server stitches internal data sources (Datadog, Sentry, Slack, WorkOS Pipes); all outbound
+    traffic proxied through Workers with allowlists, limits, logging, and token injection
+  knowledge: AGENTS.md and CLAUDE.md capture scripts, docs, conventions; MCP codifies the patterns engineers already
+    follow; Notion + Figma for specs/mockups
+  credentials: WorkOS Pipes (no OAuth/token-refresh to maintain); scoped short-lived GitHub tokens per user; engineers
+    use their own identity in the MCP; least-privilege + egress controls
+  context_mgmt: The orchestrator pauses/resumes sandboxes and tracks state + artifacts across a run
 primitives:
-  - { name: Sandbox = execution primitive vs orchestrator = control plane, desc: "Separate what runs code from what manages the lifecycle" }
-  - { name: Purpose-built agent infra, desc: "A runtime controlled end-to-end, with lifecycle APIs and egress controls for the threat model" }
-  - { name: Self-improvement loop, desc: "Each run ships work and produces the next set of fixes, surfacing where the platform is brittle" }
-  - { name: MCP as an iterative product, desc: "Tuning tools is ongoing, not a one-time integration" }
-key_metrics: []
+- name: Sandbox = execution primitive vs orchestrator = control plane
+  desc: Separate what runs code from what manages the lifecycle
+- name: Purpose-built agent infra
+  desc: A runtime controlled end-to-end, with lifecycle APIs and egress controls for the threat model
+- name: Self-improvement loop
+  desc: Each run ships work and produces the next set of fixes, surfacing where the platform is brittle
+- name: MCP as an iterative product
+  desc: Tuning tools is ongoing, not a one-time integration
 lessons_learned:
-  - "You need purpose-built agent infrastructure — a runtime you control end-to-end with lifecycle APIs and egress controls"
-  - "Separate concerns: sandboxes are an execution primitive; the orchestrator is the control plane"
-  - "Build modularly so the harness can evolve — OpenCode today, Claude Remote Routines tomorrow, without rebuilding the platform"
-  - "Make autonomy a platform — the system gets faster and more reliable through use as fixes feed back in"
-  - "MCP tuning is an iterative product, not a one-time integration — codify the patterns engineers already follow"
+- You need purpose-built agent infrastructure; a runtime you control end-to-end with lifecycle APIs and egress controls
+- 'Separate concerns: sandboxes are an execution primitive; the orchestrator is the control plane'
+- Build modularly so the harness can evolve; OpenCode today, Claude Remote Routines tomorrow, without rebuilding
+  the platform
+- Make autonomy a platform; the system gets faster and more reliable through use as fixes feed back in
+- MCP tuning is an iterative product, not a one-time integration; codify the patterns engineers already follow
 sources:
-  - { title: "Project Horizon - an autonomous code factory at WorkOS", url: "https://workos.com/blog/project-horizon", type: "blog" }
-  - { title: "Applied AI Showcase (Horizon with Claude Remote Routines)", url: "https://workos.com/blog/applied-ai-showcase", type: "blog" }
-  - { title: "An autonomous UI-quality program", url: "https://workos.com/blog/autonomous-ui-quality-program", type: "blog" }
+- id: workos-project-horizon-source-1
+  title: Project Horizon - an autonomous code factory at WorkOS
+  url: https://workos.com/blog/project-horizon
+  canonical_url: https://workos.com/blog/project-horizon
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: workos-project-horizon-source-2
+  title: Applied AI Showcase (Horizon with Claude Remote Routines)
+  url: https://workos.com/blog/applied-ai-showcase
+  canonical_url: https://workos.com/blog/applied-ai-showcase
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: workos-project-horizon-source-3
+  title: An autonomous UI-quality program
+  url: https://workos.com/blog/autonomous-ui-quality-program
+  canonical_url: https://workos.com/blog/autonomous-ui-quality-program
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: workos-project-horizon-source-4
+  title: Hacker News discussion of Project Horizon
+  url: https://news.ycombinator.com/item?id=48039227
+  canonical_url: https://news.ycombinator.com/item?id=48039227
+  kind: hn-thread
+  provenance_class: community
+  role: commentary
+  authors:
+  - i0exception
+  published_at: '2026-05-06'
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: workos-project-horizon-source-1
+    relation: supports
+  - source_id: workos-project-horizon-source-2
+    relation: supports
+  - source_id: workos-project-horizon-source-3
+    relation: contextualizes
+  - source_id: workos-project-horizon-source-4
+    relation: contextualizes
+  architecture.sandbox:
+  - source_id: workos-project-horizon-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: workos-project-horizon-source-1
+    relation: supports
+  - source_id: workos-project-horizon-source-2
+    relation: supports
+  architecture.model:
+  - source_id: workos-project-horizon-source-1
+    relation: supports
+  - source_id: workos-project-horizon-source-2
+    relation: supports
+  architecture.tool_access:
+  - source_id: workos-project-horizon-source-1
+    relation: supports
+  - source_id: workos-project-horizon-source-2
+    relation: supports
+  architecture.knowledge:
+  - source_id: workos-project-horizon-source-1
+    relation: supports
+  architecture.credentials:
+  - source_id: workos-project-horizon-source-1
+    relation: supports
+  architecture.context_mgmt:
+  - source_id: workos-project-horizon-source-1
+    relation: supports
+  primitives.0:
+  - source_id: workos-project-horizon-source-1
+    relation: supports
+  primitives.1:
+  - source_id: workos-project-horizon-source-1
+    relation: supports
+  primitives.2:
+  - source_id: workos-project-horizon-source-1
+    relation: supports
+  primitives.3:
+  - source_id: workos-project-horizon-source-2
+    relation: supports
+  lessons_learned.0:
+  - source_id: workos-project-horizon-source-1
+    relation: supports
+  lessons_learned.1:
+  - source_id: workos-project-horizon-source-1
+    relation: supports
+  lessons_learned.2:
+  - source_id: workos-project-horizon-source-1
+    relation: supports
+  - source_id: workos-project-horizon-source-2
+    relation: supports
+  lessons_learned.3:
+  - source_id: workos-project-horizon-source-1
+    relation: supports
+  lessons_learned.4:
+  - source_id: workos-project-horizon-source-2
+    relation: supports
+  architecture.interfaces:
+  - source_id: workos-project-horizon-source-1
+    relation: supports
+claim_metadata:
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.2:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.3:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.4:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

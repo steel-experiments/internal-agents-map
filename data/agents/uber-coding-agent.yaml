@@ -1,23 +1,76 @@
 id: uber-coding-agent
 company: Uber
-agent_name: "Internal coding agent (unnamed)"
+agent_name: Internal coding agent (unnamed)
+approach_type: task-agent
+deployment_stage: deployed
 year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: uber-coding-agent-source-1
+last_reviewed_at: '2026-08-12'
 status: internal
-domains: [coding]
+domains:
+- coding
 autonomy: drafts-reviewed
-summary: "Uber's internal coding agent, reported by its CTO as producing roughly 1,800 complete code changes per week."
-headline_metric: "~1,800 complete code changes per week (~8% of changes)"
+rubric:
+  invocation:
+  - unknown
+  state: unknown
+  identity: unknown
+  evidence_strength: secondary-only
+summary: Uber's internal coding agent, reported by its CTO as producing roughly 1,800 complete code changes per
+  week.
+headline_metric: ~1,800 complete code changes per week (~8% of changes)
 architecture:
-  sandbox: "Not specified publicly"
-  harness: "Not specified publicly"
-primitives: []
+  sandbox: Not specified publicly
+  harness: Not specified publicly
 key_metrics:
-  - "~1,800 complete code changes per week (~8% of changes at the time)"
-  - "95% of engineers use AI tools monthly"
-lessons_learned: []
+- ~1,800 complete code changes per week (~8% of changes at the time)
+- 95% of engineers use AI tools monthly
 sources:
-  - { title: "Uber's CTO on AI coding agents (Business Insider)", url: "https://www.businessinsider.com/uber-cto-ai-coding-agentic-software-engineers-2026-3", type: "blog" }
-
-# NOTE: medium-confidence entry. The only public evidence is a press report quoting
-# the CTO. Name, models, sandbox, and architecture are not publicly documented.
-# Enrich when Uber publishes a first-party writeup.
+- id: uber-coding-agent-source-1
+  title: Uber's CTO on AI coding agents (Business Insider)
+  url: https://www.businessinsider.com/uber-cto-ai-coding-agentic-software-engineers-2026-3
+  canonical_url: https://www.businessinsider.com/uber-cto-ai-coding-agentic-software-engineers-2026-3
+  kind: news
+  provenance_class: independent-secondary
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: uber-coding-agent-source-1
+    relation: supports
+  headline_metric:
+  - source_id: uber-coding-agent-source-1
+    relation: supports
+  architecture.sandbox:
+  - source_id: uber-coding-agent-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: uber-coding-agent-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: uber-coding-agent-source-1
+    relation: supports
+  key_metrics.1:
+  - source_id: uber-coding-agent-source-1
+    relation: supports
+claim_metadata:
+  summary:
+    confidence: medium
+    confidence_reason: Only limited public evidence supports this claim.
+  headline_metric:
+    confidence: medium
+    confidence_reason: Only limited public evidence supports this claim.
+  architecture.sandbox:
+    confidence: medium
+    confidence_reason: Only limited public evidence supports this claim.
+  architecture.harness:
+    confidence: medium
+    confidence_reason: Only limited public evidence supports this claim.
+  key_metrics.0:
+    confidence: medium
+    confidence_reason: Only limited public evidence supports this claim.
+  key_metrics.1:
+    confidence: medium
+    confidence_reason: Only limited public evidence supports this claim.

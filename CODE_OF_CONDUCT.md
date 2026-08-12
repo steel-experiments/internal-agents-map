@@ -51,6 +51,8 @@ an individual is officially representing the community in public spaces.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the repository maintainers responsible for enforcement.
+Open a repository issue that asks for private contact if no private maintainer
+channel is available. Do not include sensitive details in the public issue.
 All complaints will be reviewed and investigated promptly and fairly.
 
 This Code of Conduct is adapted from the [Contributor Covenant][homepage],

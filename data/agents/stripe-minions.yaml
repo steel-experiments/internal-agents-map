@@ -1,27 +1,213 @@
 id: stripe-minions
 company: Stripe
 agent_name: Minions
+approach_type: background-agent
+deployment_stage: scaled
 year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: stripe-minions-source-1
+last_reviewed_at: '2026-08-12'
 status: internal
-domains: [coding, code-review]
+domains:
+- coding
+- code-review
 autonomy: drafts-reviewed
-summary: "Homegrown one-shot coding agents that read work context, locate the right repo/workspace, implement a change end-to-end, and produce a PR for human review."
-headline_metric: "1,000+ production PRs per week, reviewed and approved by humans"
+rubric:
+  invocation:
+  - background
+  - event-driven
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: Homegrown one-shot coding agents that read work context, locate the right repo/workspace, implement a change
+  end-to-end, and produce a PR for human review.
+headline_metric: 1,000+ production PRs per week, reviewed and approved by humans
 architecture:
-  sandbox: "Not specified publicly"
-  harness: "One-shot agents: read context -> search the codebase -> determine the relevant repo/workspace -> implement -> PR"
-  model: "Not specified"
-  interfaces: [slack, github]
-  tool_access: "Searches Stripe's codebase to determine the relevant repository/workspace"
-  knowledge: "Stripe's codebase as the context source"
-  credentials: "Production PRs left for humans to review and approve"
+  sandbox: Not specified publicly
+  harness: 'One-shot agents: read context -> search the codebase -> determine the relevant repo/workspace -> implement
+    -> PR'
+  model: Not specified
+  interfaces:
+  - slack
+  - github
+  tool_access: Searches Stripe's codebase to determine the relevant repository/workspace
+  knowledge: Stripe's codebase as the context source
+  credentials: Production PRs left for humans to review and approve
 primitives:
-  - { name: One-shot end-to-end agent, desc: "From work context to merge-ready PR in one shot, with human approval" }
+- name: One-shot end-to-end agent
+  desc: From work context to merge-ready PR in one shot, with human approval
 key_metrics:
-  - "1,000+ production PRs per week"
+- 1,000+ production PRs per week
 lessons_learned:
-  - "One-shot end-to-end coding agents work at scale when humans retain review/approval"
-  - "Let the agent locate the right repo/workspace itself rather than pre-scoping it"
+- One-shot end-to-end coding agents work at scale when humans retain review/approval
+- Let the agent locate the right repo/workspace itself rather than pre-scoping it
 sources:
-  - { title: "Minions: Stripe's one-shot end-to-end coding agents", url: "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents", type: "blog" }
-  - { title: "Minions - Part Two", url: "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2", type: "blog" }
+- id: stripe-minions-source-1
+  title: 'Minions: Stripe''s one-shot end-to-end coding agents'
+  url: https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents
+  canonical_url: https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: stripe-minions-source-2
+  title: Minions - Part Two
+  url: https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2
+  canonical_url: https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: stripe-minions-source-3
+  title: Hacker News discussion of Minions part two
+  url: https://news.ycombinator.com/item?id=47086557
+  canonical_url: https://news.ycombinator.com/item?id=47086557
+  kind: hn-thread
+  provenance_class: community
+  role: commentary
+  authors:
+  - ludovicianul
+  published_at: '2026-02-20'
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: stripe-minions-source-4
+  title: Hacker News comment asking for examples and review evidence
+  url: https://news.ycombinator.com/item?id=47086907
+  canonical_url: https://news.ycombinator.com/item?id=47086907
+  kind: hn-comment
+  provenance_class: community
+  role: commentary
+  authors:
+  - 3rodents
+  published_at: '2026-02-20'
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: stripe-minions-source-5
+  title: Hacker News comment questioning the level of technical detail
+  url: https://news.ycombinator.com/item?id=47086953
+  canonical_url: https://news.ycombinator.com/item?id=47086953
+  kind: hn-comment
+  provenance_class: community
+  role: commentary
+  authors:
+  - gas9S9zw3P9c
+  published_at: '2026-02-20'
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: stripe-minions-source-6
+  title: Hacker News comment asking about shipped and maintained output
+  url: https://news.ycombinator.com/item?id=47087114
+  canonical_url: https://news.ycombinator.com/item?id=47087114
+  kind: hn-comment
+  provenance_class: community
+  role: commentary
+  authors:
+  - rco8786
+  published_at: '2026-02-20'
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: stripe-minions-source-7
+  title: Hacker News comment questioning the value of pull request counts
+  url: https://news.ycombinator.com/item?id=47111453
+  canonical_url: https://news.ycombinator.com/item?id=47111453
+  kind: hn-comment
+  provenance_class: community
+  role: commentary
+  authors:
+  - iepathos
+  published_at: '2026-02-22'
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: stripe-minions-source-1
+    relation: supports
+  - source_id: stripe-minions-source-3
+    relation: contextualizes
+  - source_id: stripe-minions-source-4
+    relation: contextualizes
+  - source_id: stripe-minions-source-5
+    relation: contextualizes
+  - source_id: stripe-minions-source-6
+    relation: contextualizes
+  - source_id: stripe-minions-source-7
+    relation: contextualizes
+  headline_metric:
+  - source_id: stripe-minions-source-1
+    relation: supports
+  - &id001
+    source_id: stripe-minions-source-3
+    relation: contextualizes
+  - &id002
+    source_id: stripe-minions-source-4
+    relation: contextualizes
+  - &id003
+    source_id: stripe-minions-source-5
+    relation: contextualizes
+  - &id004
+    source_id: stripe-minions-source-6
+    relation: contextualizes
+  - &id005
+    source_id: stripe-minions-source-7
+    relation: contextualizes
+  architecture.sandbox:
+  - source_id: stripe-minions-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: stripe-minions-source-1
+    relation: supports
+  - source_id: stripe-minions-source-2
+    relation: supports
+  architecture.model:
+  - source_id: stripe-minions-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: stripe-minions-source-1
+    relation: supports
+  - source_id: stripe-minions-source-2
+    relation: supports
+  architecture.knowledge:
+  - source_id: stripe-minions-source-1
+    relation: supports
+  - source_id: stripe-minions-source-2
+    relation: supports
+  architecture.credentials:
+  - source_id: stripe-minions-source-1
+    relation: supports
+  primitives.0:
+  - source_id: stripe-minions-source-1
+    relation: supports
+  - source_id: stripe-minions-source-2
+    relation: supports
+  key_metrics.0:
+  - source_id: stripe-minions-source-1
+    relation: supports
+  - *id001
+  - *id002
+  - *id003
+  - *id004
+  - *id005
+  lessons_learned.0:
+  - source_id: stripe-minions-source-1
+    relation: supports
+  lessons_learned.1:
+  - source_id: stripe-minions-source-1
+    relation: supports
+  - source_id: stripe-minions-source-2
+    relation: supports
+  architecture.interfaces:
+  - source_id: stripe-minions-source-1
+    relation: supports
+claim_metadata:
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

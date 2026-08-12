@@ -1,25 +1,121 @@
 id: salesforce-slackbot
 company: Salesforce
 agent_name: Slackbot
-year: 2026
+approach_type: task-agent
+deployment_stage: scaled
+year: 2025
+first_public_evidence:
+  date: '2025-12-01'
+  source_id: salesforce-slackbot-source-2
+last_reviewed_at: '2026-08-12'
 status: commercialized
-domains: [support, customer-success, ops]
+domains:
+- support
+- customer-success
+- ops
 autonomy: drafts-reviewed
-summary: "Salesforce was 'customer zero' for the rebuilt Slackbot — an employee agent that finds company context, drafts work, and connects Slack context with Salesforce data; now also an external product."
-headline_metric: "Permission-aware by construction — sees only what the employee can see"
+rubric:
+  invocation:
+  - interactive
+  state: unknown
+  identity: user
+  evidence_strength: detailed-primary
+summary: Salesforce was 'customer zero' for the rebuilt Slackbot; an employee agent that finds company context,
+  drafts work, and connects Slack context with Salesforce data; now also an external product.
 architecture:
-  sandbox: ""
-  harness: "An employee agent intended as a front door to other agents"
-  model: "Not specified"
-  interfaces: [slack]
-  tool_access: "Finds company context, drafts work, manages meetings, connects Slack context with Salesforce data"
-  knowledge: "Slack context joined with Salesforce CRM data"
-  credentials: "Permission-aware by construction — sees what the employee can see, respects roles and access controls"
+  harness: An employee agent intended as a front door to other agents
+  model: Not specified
+  interfaces:
+  - slack
+  tool_access: Finds company context, drafts work, manages meetings, connects Slack context with Salesforce data
+  knowledge: Slack context joined with Salesforce CRM data
+  credentials: Permission-aware by construction; sees what the employee can see, respects roles and access controls
 primitives:
-  - { name: Permission-aware context, desc: "Agent visibility is bounded by the invoking employee's permissions" }
-key_metrics: []
+- name: Permission-aware context
+  desc: Agent visibility is bounded by the invoking employee's permissions
 lessons_learned:
-  - "Dogfood internally first ('customer zero') before shipping externally"
-  - "Make permission-awareness a construction property, not a prompt instruction — the agent sees only what the employee can see"
+- Dogfood internally first ('customer zero') before shipping externally
+- Make permission-awareness a construction property, not a prompt instruction; the agent sees only what the employee
+  can see
 sources:
-  - { title: "Salesforce announces general availability of Slackbot", url: "https://www.salesforce.com/ap/news/press-releases/2026/01/14/salesforce-announces-the-general-availability-of-slackbot-your-personal-agent-for-work-sg/", type: "blog" }
+- id: salesforce-slackbot-source-1
+  title: Salesforce announces general availability of Slackbot
+  url: https://www.salesforce.com/ap/news/press-releases/2026/01/14/salesforce-announces-the-general-availability-of-slackbot-your-personal-agent-for-work-sg/
+  canonical_url: https://www.salesforce.com/ap/news/press-releases/2026/01/14/salesforce-announces-the-general-availability-of-slackbot-your-personal-agent-for-work-sg/
+  kind: release
+  provenance_class: first-party
+  published_at: '2026-01-14'
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: salesforce-slackbot-source-2
+  title: Salesforce chief executive discusses the internal Slackbot rollout
+  url: https://www.salesforce.com/in/news/stories/salesforce-slackbot-ai-interview/
+  canonical_url: https://www.salesforce.com/in/news/stories/salesforce-slackbot-ai-interview/
+  kind: corporate-article
+  provenance_class: first-party
+  role: evidence
+  published_at: '2025-12-01'
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: salesforce-slackbot-source-3
+  title: Salesforce rolls out new Slackbot AI agent
+  url: https://venturebeat.com/technology/salesforce-rolls-out-new-slackbot-ai-agent-as-it-battles-microsoft-and
+  canonical_url: https://venturebeat.com/technology/salesforce-rolls-out-new-slackbot-ai-agent-as-it-battles-microsoft-and
+  kind: news
+  provenance_class: independent-secondary
+  role: commentary
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: salesforce-slackbot-source-4
+  title: Hacker News discussion of the Salesforce Slackbot rollout
+  url: https://news.ycombinator.com/item?id=46600760
+  canonical_url: https://news.ycombinator.com/item?id=46600760
+  kind: hn-thread
+  provenance_class: community
+  role: commentary
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: salesforce-slackbot-source-1
+    relation: supports
+  - source_id: salesforce-slackbot-source-2
+    relation: supports
+  architecture.harness:
+  - source_id: salesforce-slackbot-source-1
+    relation: supports
+  architecture.model:
+  - source_id: salesforce-slackbot-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: salesforce-slackbot-source-1
+    relation: supports
+  architecture.knowledge:
+  - source_id: salesforce-slackbot-source-1
+    relation: supports
+  architecture.credentials:
+  - source_id: salesforce-slackbot-source-1
+    relation: supports
+  primitives.0:
+  - source_id: salesforce-slackbot-source-1
+    relation: supports
+  lessons_learned.0:
+  - source_id: salesforce-slackbot-source-1
+    relation: supports
+  lessons_learned.1:
+  - source_id: salesforce-slackbot-source-1
+    relation: supports
+  architecture.interfaces:
+  - source_id: salesforce-slackbot-source-1
+    relation: supports
+claim_metadata:
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

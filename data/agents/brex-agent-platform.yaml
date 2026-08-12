@@ -1,33 +1,168 @@
 id: brex-agent-platform
 company: Brex
-agent_name: "Internal Agent Platform"
-year: 2026
+agent_name: Internal Agent Platform
+approach_type: platform
+deployment_stage: scaled
+year: 2025
+first_public_evidence:
+  date: '2025-09-25'
+  source_id: brex-agent-platform-source-1
+last_reviewed_at: '2026-08-12'
 status: internal
-domains: [finance-ops, support, customer-success]
+domains:
+- finance-ops
+- support
+- customer-success
 autonomy: human-in-loop
-summary: "Retool-based internal platform where employees build, test, and deploy agents for KYC, disputes, QA, collections, and operations."
-headline_metric: "50%+ of support cases resolved by AI as first touch; disputes cut from 3h to 3s"
+rubric:
+  invocation:
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: secondary-only
+summary: Retool-based internal platform where employees build, test, and deploy agents for KYC, disputes, QA, collections,
+  and operations.
+headline_metric: Dispute processing time fell from three hours to three seconds
 architecture:
-  sandbox: "Retool-hosted runtime (no bespoke execution env described)"
-  harness: "Retool-based builder with prompt management and multi-model testing/evaluation; built by a ~25-person systems-engineering team"
-  model: "Multi-model"
-  interfaces: [slack, internal-retool-ui]
-  tool_access: "An MCP server exposes external product features to the internal platform; new product tools become internally available immediately; invoked via Slack /c1"
-  knowledge: "SOPs uploaded as a knowledge base (e.g. 100+ page dispute guides); customer account data"
-  credentials: "SSO via internal Retool proxies (no per-user accounts); ConductorOne access management; Okta auth; data classified by risk; ≤30-day retention, no training on inputs"
+  sandbox: Retool-hosted runtime (no bespoke execution env described)
+  harness: Retool-based builder with prompt management and multi-model testing/evaluation; built by a ~25-person
+    systems-engineering team
+  model: Multi-model
+  interfaces:
+  - slack
+  - internal-ui
+  tool_access: An MCP server exposes external product features to the internal platform; new product tools become
+    internally available immediately; invoked via Slack /c1
+  knowledge: Standard operating procedures uploaded as a knowledge base, such as 100-page dispute guides; customer
+    account data
+  credentials: SSO via internal Retool proxies (no per-user accounts); ConductorOne access management; Okta auth;
+    data classified by risk; ≤30-day retention, no training on inputs
 primitives:
-  - { name: Prompt + eval studio, desc: "Non-technical ops staff design prompts, test across models, deploy with QA oversight" }
-  - { name: MCP tool bridge, desc: "Product features exposed to internal agents through one MCP server" }
+- name: Prompt + eval studio
+  desc: Non-technical ops staff design prompts, test across models, deploy with QA oversight
+- name: MCP tool bridge
+  desc: Product features exposed to internal agents through one MCP server
 key_metrics:
-  - "50%+ of customer-support cases resolved by chatbot as first touch"
-  - "Dispute processing: 3 hours → 3 seconds"
-  - "QA coverage 100% (previously sample-based); 1 person replaces ~5 QA specialists"
-  - "KYC adverse-media accuracy 85% → 88%"
+- 50%+ of customer-support cases resolved by chatbot as first touch
+- 'Dispute processing: 3 hours → 3 seconds'
+- QA coverage 100% (previously sample-based); 1 person replaces ~5 QA specialists
+- KYC adverse-media accuracy 85% → 88%
 lessons_learned:
-  - "Target 40% automation, not 100% — the last mile drives investments that often yield zero value"
-  - "Treat internal ops with external rigor — build internal platforms to product quality"
-  - "Don't skip the human in the middle — end-to-end automation fails on accuracy"
-  - "Map workflows to the discrete steps a human would take, then translate each to LLM instructions"
-  - "Architecture beats vendor — legal/data approvals should follow data-handling characteristics, not the tool name"
+- Target 40% automation, not 100%; the last mile drives investments that often yield zero value
+- Brex reports that it manages the internal platform with practices used for an external product
+- Don't skip the human in the middle; end-to-end automation fails on accuracy
+- Map workflows to the discrete steps a human would take, then translate each to LLM instructions
+- Architecture beats vendor; legal/data approvals should follow data-handling characteristics, not the tool name
 sources:
-  - { title: "Agent, Human, Ops: How Brex Is Changing Roles and Workflows", url: "https://www.firstround.com/reviews/agent-human-ops-how-brex-is-changing-roles-and-workflows", type: "case-study" }
+- id: brex-agent-platform-source-1
+  title: 'Agent, Human, Ops: How Brex Is Changing Roles and Workflows'
+  url: https://www.firstround.com/ai/brex
+  canonical_url: https://www.firstround.com/ai/brex
+  kind: case-study
+  provenance_class: independent-secondary
+  published_at: '2025-09-25'
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  headline_metric:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  architecture.sandbox:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  architecture.model:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  architecture.knowledge:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  architecture.credentials:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  primitives.0:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  primitives.1:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  key_metrics.1:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  key_metrics.2:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  key_metrics.3:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  lessons_learned.0:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  lessons_learned.1:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  lessons_learned.2:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  lessons_learned.3:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  lessons_learned.4:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+  architecture.interfaces:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
+claim_metadata:
+  headline_metric:
+    valid_at: '2025'
+    metric_scope: Brex dispute processing workflow
+    denominator: Reported processing time before and after the internal workflow change
+  key_metrics.0:
+    valid_at: '2025'
+    metric_scope: Customer support cases handled first by the Brex chatbot
+  key_metrics.1:
+    valid_at: '2025'
+    metric_scope: Brex dispute processing workflow
+  key_metrics.2:
+    valid_at: '2025'
+    metric_scope: Brex quality assurance workflow
+  key_metrics.3:
+    valid_at: '2025'
+    metric_scope: Know Your Customer adverse-media classification
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.2:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.3:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.4:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

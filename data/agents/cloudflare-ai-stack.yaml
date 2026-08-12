@@ -1,35 +1,189 @@
 id: cloudflare-ai-stack
 company: Cloudflare
-agent_name: "Internal AI engineering stack"
+agent_name: Internal AI engineering stack
+approach_type: platform
+deployment_stage: scaled
 year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: cloudflare-ai-stack-source-1
+last_reviewed_at: '2026-08-12'
 status: internal
-domains: [coding, code-review]
+domains:
+- coding
+- code-review
 autonomy: drafts-reviewed
-summary: "An internal platform of MCP servers, an access layer, and AI tooling (incl. an AI code reviewer) that makes agents useful inside Cloudflare."
-headline_metric: "3,683 internal users (60% of company); 47.95M AI requests / month"
+rubric:
+  invocation:
+  - event-driven
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: An internal platform of MCP servers, an access layer, and AI tooling (incl. an AI code reviewer) that makes
+  agents useful inside Cloudflare.
+headline_metric: 47.95 million AI requests in 30 days across the internal AI engineering system
 architecture:
-  sandbox: "Dynamic Workers for sandboxed code execution; Sandbox SDK to clone/build/test"
-  harness: "OpenCode + Windsurf clients; Agents SDK (McpAgent + Durable Objects) for stateful sessions"
-  model: "Workers AI (open-weight, on-platform) + frontier models (Opus, GPT), routed by task"
-  interfaces: [cli, ci, web]
-  tool_access: "MCP Server Portal — one OAuth point aggregating 182+ tools from 13 servers; AI Gateway for routing, cost, BYOK, ZDR"
-  knowledge: "Backstage catalog (2,055 services) + AGENTS.md generated across ~3,900 repos"
-  credentials: "Zero API keys on client machines — a Worker injects keys server-side; Cloudflare Access (Zero Trust) auth"
-  context_mgmt: "Code Mode collapses upstream tool schemas into search + execute, holding token overhead constant at scale"
+  sandbox: Dynamic Workers for sandboxed code execution; Sandbox SDK to clone/build/test
+  harness: OpenCode + Windsurf clients; Agents SDK (McpAgent + Durable Objects) for stateful sessions
+  model: Workers AI (open-weight, on-platform) + frontier models (Opus, GPT), routed by task
+  interfaces:
+  - cli
+  - ci
+  - web
+  tool_access: MCP Server Portal; one OAuth point aggregating 182+ tools from 13 servers; AI Gateway for routing,
+    cost, BYOK, ZDR
+  knowledge: Backstage catalog (2,055 services) + AGENTS.md generated across ~3,900 repos
+  credentials: Zero API keys on client machines; a Worker injects keys server-side; Cloudflare Access (Zero Trust)
+    auth
+  context_mgmt: Code Mode collapses upstream tool schemas into search + execute, holding token overhead constant
+    at scale
 primitives:
-  - { name: MCP Server Portal, desc: "One OAuth aggregation point for all MCP tools" }
-  - { name: Code Mode, desc: "Collapse N tool schemas into 2 calls to hold token overhead constant at scale" }
-  - { name: AGENTS.md, desc: "Structured, generated repo context (runtime, nav, conventions, boundaries, deps)" }
-  - { name: AI Code Reviewer, desc: "Multi-agent CI review: risk tiering, specialist agents, Codex-rule citations" }
+- name: MCP Server Portal
+  desc: One OAuth aggregation point for all MCP tools
+- name: Code Mode
+  desc: Collapse N tool schemas into 2 calls to hold token overhead constant at scale
+- name: AGENTS.md
+  desc: Structured, generated repo context (runtime, nav, conventions, boundaries, deps)
+- name: AI Code Reviewer
+  desc: 'Multi-agent CI review: risk tiering, specialist agents, Codex-rule citations'
 key_metrics:
-  - "3,683 internal users (60% of company, 93% of R&D)"
-  - "47.95M AI requests / month; 241.37B tokens via AI Gateway"
-  - "Merge-request rate ~doubled to 10,952 / week"
-  - "295 teams using agentic AI tools"
+- 3,683 internal users (60% of company, 93% of R&D)
+- 47.95M AI requests / month; 241.37B tokens via AI Gateway
+- Merge-request rate ~doubled to 10,952 / week
+- 295 teams using agentic AI tools
 lessons_learned:
-  - "Centralize through a proxy early — direct-to-gateway looks simpler but blocks per-user attribution, model cataloging, and policy later"
-  - "Without structured data, agents are working blind — they read code but can't see the system around it (Backstage / AGENTS.md)"
-  - "Tool schemas eat context (34 GitLab tools ≈ 7.5% of a 200K window) — collapse them at the portal"
-  - "Frontier + open-source hybrid: route a growing share of workloads to cheaper self-hosted models"
+- Centralize through a proxy early; direct-to-gateway looks simpler but blocks per-user attribution, model cataloging,
+  and policy later
+- Without structured data, agents are working blind; they read code but can't see the system around it (Backstage
+  / AGENTS.md)
+- Tool schemas eat context (34 GitLab tools ≈ 7.5% of a 200K window); collapse them at the portal
+- 'Frontier + open-source hybrid: route a growing share of workloads to cheaper self-hosted models'
 sources:
-  - { title: "The AI engineering stack we built internally", url: "https://blog.cloudflare.com/internal-ai-engineering-stack/", type: "blog" }
+- id: cloudflare-ai-stack-source-1
+  title: The AI engineering stack we built internally
+  url: https://blog.cloudflare.com/internal-ai-engineering-stack/
+  canonical_url: https://blog.cloudflare.com/internal-ai-engineering-stack/
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: cloudflare-ai-stack-source-2
+  title: Hacker News discussion of Cloudflare's internal AI engineering stack
+  url: https://news.ycombinator.com/item?id=47837240
+  canonical_url: https://news.ycombinator.com/item?id=47837240
+  kind: hn-thread
+  provenance_class: community
+  role: commentary
+  authors:
+  - mavelikara
+  published_at: '2026-04-20'
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  - source_id: cloudflare-ai-stack-source-2
+    relation: contextualizes
+  headline_metric:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  architecture.sandbox:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  architecture.model:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  architecture.knowledge:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  architecture.credentials:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  architecture.context_mgmt:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  primitives.0:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  primitives.1:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  primitives.2:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  primitives.3:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  key_metrics.1:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  key_metrics.2:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  key_metrics.3:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  lessons_learned.0:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  lessons_learned.1:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  lessons_learned.2:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  lessons_learned.3:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+  architecture.interfaces:
+  - source_id: cloudflare-ai-stack-source-1
+    relation: supports
+claim_metadata:
+  headline_metric:
+    valid_at: '2026'
+    metric_scope: Requests across Cloudflare's internal AI engineering system
+    measurement_method: Company-reported AI Gateway count for the preceding 30 days
+  key_metrics.0:
+    valid_at: '2026'
+    metric_scope: Users of Cloudflare's internal AI engineering system
+    denominator: Cloudflare employees and research and development employees
+  key_metrics.1:
+    valid_at: '2026'
+    metric_scope: Requests and tokens across Cloudflare's internal AI engineering system
+  key_metrics.2:
+    valid_at: '2026'
+    metric_scope: Company merge requests; not limited to agent-authored changes
+  key_metrics.3:
+    valid_at: '2026'
+    metric_scope: Teams that use agentic AI tools
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.2:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.3:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

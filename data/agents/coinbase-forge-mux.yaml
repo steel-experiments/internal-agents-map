@@ -1,28 +1,129 @@
 id: coinbase-forge-mux
 company: Coinbase
-agent_name: "Forge / Mux"
+agent_name: Forge / Mux
+approach_type: agent-system
+deployment_stage: scaled
 year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: coinbase-forge-mux-source-1
+last_reviewed_at: '2026-08-12'
 status: internal
-domains: [coding, code-review]
+domains:
+- coding
+- code-review
 autonomy: drafts-reviewed
-summary: "Forge turns a Slack/GitHub/Linear discussion into a Linear issue, fix, PR, and one-off build; Mux lets employees run many coding agents concurrently."
-headline_metric: "Mux: 600+ users across Coinbase organizations (April 2026)"
+rubric:
+  invocation:
+  - event-driven
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: Forge turns a Slack/GitHub/Linear discussion into a Linear issue, fix, PR, and one-off build; Mux lets
+  employees run many coding agents concurrently.
+headline_metric: 'Mux: 600+ users across Coinbase organizations (April 2026)'
 architecture:
-  sandbox: "Mux gives each concurrent agent its own git worktree, branch, and terminal"
-  harness: "Portfolio approach — Claude Code, OpenCode, Cursor, and Copilot rather than one harness; Forge is a custom harness invokable from Slack, GitHub, and Linear"
-  model: "Portfolio across multiple providers"
-  interfaces: [slack, github, linear]
-  tool_access: "Linear treated as the structured product context / source of truth"
-  knowledge: "Linear as the durable structured-context layer for product work"
+  sandbox: Mux gives each concurrent agent its own git worktree, branch, and terminal
+  harness: Portfolio approach; Claude Code, OpenCode, Cursor, and Copilot rather than one harness; Forge is a custom
+    harness invokable from Slack, GitHub, and Linear
+  model: Portfolio across multiple providers
+  interfaces:
+  - slack
+  - github
+  - linear
+  tool_access: Linear treated as the structured product context / source of truth
+  knowledge: Linear as the durable structured-context layer for product work
 primitives:
-  - { name: Forge, desc: "Custom harness: Slack bug discussion → Linear issue → fix → PR → one-off build" }
-  - { name: Mux, desc: "Concurrency layer — one human coordinates many isolated coding agents, each in its own worktree/branch/terminal" }
+- name: Forge
+  desc: 'Custom harness: Slack bug discussion → Linear issue → fix → PR → one-off build'
+- name: Mux
+  desc: Concurrency layer; one human coordinates many isolated coding agents, each in its own worktree/branch/terminal
 key_metrics:
-  - "Mux: 600+ users across Coinbase organizations (April 2026)"
+- 'Mux: 600+ users across Coinbase organizations (April 2026)'
 lessons_learned:
-  - "Support a portfolio of harnesses (Claude Code, OpenCode, Cursor, Copilot) rather than standardizing on one"
-  - "Keep the system of record (Linear) as the agent's structured context — conversation can be the input, Linear stays durable"
-  - "Simple per-agent worktree/branch/terminal isolation is a pragmatic alternative to full sandboxing for concurrent coding"
+- Support a portfolio of harnesses (Claude Code, OpenCode, Cursor, Copilot) rather than standardizing on one
+- Keep the system of record (Linear) as the agent's structured context; conversation can be the input, Linear stays
+  durable
+- Simple per-agent worktree/branch/terminal isolation is a pragmatic alternative to full sandboxing for concurrent
+  coding
 sources:
-  - { title: "Coding had a concurrency problem: how Mux helped solve it", url: "https://www.coinbase.com/de/blog/coding-had-a-concurrency-problem-how-mux-helped-solve-it", type: "blog" }
-  - { title: "Coinbase × Linear (Forge workflow)", url: "https://linear.app/customers/coinbase", type: "case-study" }
+- id: coinbase-forge-mux-source-1
+  title: 'Coding had a concurrency problem: how Mux helped solve it'
+  url: https://www.coinbase.com/de/blog/coding-had-a-concurrency-problem-how-mux-helped-solve-it
+  canonical_url: https://www.coinbase.com/de/blog/coding-had-a-concurrency-problem-how-mux-helped-solve-it
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: coinbase-forge-mux-source-2
+  title: Coinbase × Linear (Forge workflow)
+  url: https://linear.app/customers/coinbase
+  canonical_url: https://linear.app/customers/coinbase
+  kind: case-study
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: coinbase-forge-mux-source-1
+    relation: supports
+  - source_id: coinbase-forge-mux-source-2
+    relation: supports
+  headline_metric:
+  - source_id: coinbase-forge-mux-source-1
+    relation: supports
+  architecture.sandbox:
+  - source_id: coinbase-forge-mux-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: coinbase-forge-mux-source-1
+    relation: supports
+  - source_id: coinbase-forge-mux-source-2
+    relation: supports
+  architecture.model:
+  - source_id: coinbase-forge-mux-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: coinbase-forge-mux-source-2
+    relation: supports
+  architecture.knowledge:
+  - source_id: coinbase-forge-mux-source-2
+    relation: supports
+  primitives.0:
+  - source_id: coinbase-forge-mux-source-2
+    relation: supports
+  primitives.1:
+  - source_id: coinbase-forge-mux-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: coinbase-forge-mux-source-1
+    relation: supports
+  lessons_learned.0:
+  - source_id: coinbase-forge-mux-source-1
+    relation: supports
+  lessons_learned.1:
+  - source_id: coinbase-forge-mux-source-2
+    relation: supports
+  lessons_learned.2:
+  - source_id: coinbase-forge-mux-source-1
+    relation: supports
+  architecture.interfaces:
+  - source_id: coinbase-forge-mux-source-1
+    relation: supports
+claim_metadata:
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.2:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

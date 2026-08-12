@@ -1,30 +1,187 @@
 id: block-builderbot
 company: Block
 agent_name: Builderbot
+approach_type: orchestration-system
+deployment_stage: scaled
 year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: block-builderbot-source-1
+last_reviewed_at: '2026-08-12'
 status: internal
-domains: [coding, code-review]
+domains:
+- coding
+- code-review
 autonomy: drafts-reviewed
-summary: "A multi-agent orchestration layer built on goose + MCP that coordinates agents across Block's entire codebase, invoked in Slack to take a ticket end-to-end to a reviewed PR."
-headline_metric: "~1,500 PRs merged per week (~15% of all production code changes at Block)"
+rubric:
+  invocation:
+  - event-driven
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: A multi-agent orchestration layer built on goose + MCP that coordinates agents across Block's entire codebase,
+  invoked in Slack to take a ticket end-to-end to a reviewed PR.
+headline_metric: ~1,500 PRs merged per week (~15% of all production code changes at Block)
 architecture:
-  sandbox: "Not detailed publicly"
-  harness: "Multi-agent orchestration built on goose (open-source agent framework) + MCP; multi-player, real-time, operating inside Slack threads"
-  model: "goose framework; model not specified"
-  interfaces: [slack, linear, jira, github]
-  tool_access: "MCP connects agents to internal tools and data; picks up Linear/Jira tickets, creates the branch, writes code, opens the PR, watches CI"
-  knowledge: "Company-wide code context across hundreds of millions of lines and hundreds of services; Block also frames Builderbot as an 'agentic protector' around its software world model"
+  sandbox: Not detailed publicly
+  harness: Multi-agent orchestration built on goose (open-source agent framework) + MCP; multi-player, real-time,
+    operating inside Slack threads
+  model: goose framework; model not specified
+  interfaces:
+  - slack
+  - linear
+  - jira
+  - github
+  tool_access: MCP connects agents to internal tools and data; picks up Linear/Jira tickets, creates the branch,
+    writes code, opens the PR, watches CI
+  knowledge: Company-wide code context across hundreds of millions of lines and hundreds of services; Block also
+    frames Builderbot as an 'agentic protector' around its software world model
 primitives:
-  - { name: Orchestration layer, desc: "Coordinates multiple agents over one codebase instead of running a single loop" }
-  - { name: Ticket-driven flow, desc: "Linear/Jira ticket -> branch -> code -> PR -> CI watch, end to end" }
+- name: Orchestration layer
+  desc: Coordinates multiple agents over one codebase instead of running a single loop
+- name: Ticket-driven flow
+  desc: Linear/Jira ticket -> branch -> code -> PR -> CI watch, end to end
 key_metrics:
-  - "200,000+ operations per day"
-  - "~1,500 pull requests merged per week (~15% of all production code changes at Block)"
-  - '"What used to take months now takes days"'
+- 200,000+ operations per day
+- ~1,500 pull requests merged per week (~15% of all production code changes at Block)
+- '"What used to take months now takes days"'
 lessons_learned:
-  - "Concentrate investment on orchestration, context, and the environment — let engineers focus on the problems worth solving"
-  - "Meet people in Slack: tag @builderbot with a short description and it works in the thread"
-  - "Multi-player real-time collaboration lets humans steer research, planning, and implementation rather than only reviewing after the fact"
+- Concentrate investment on orchestration, context, and the environment; let engineers focus on the problems worth
+  solving
+- 'Meet people in Slack: tag @builderbot with a short description and it works in the thread'
+- Multi-player real-time collaboration lets humans steer research, planning, and implementation rather than only
+  reviewing after the fact
 sources:
-  - { title: "Block rolls out Builderbot, a new suite of AI-native tools that changes the way we ship", url: "https://block.xyz/inside/block-rolls-out-builderbot-a-new-suite-of-ai-native-tools-that-changes-the-way-we-ship", type: "blog" }
-  - { title: "Protecting our systems with intelligence (Builderbot architecture)", url: "https://engineering.block.xyz/blog/protecting-our-systems-with-intelligence", type: "blog" }
+- id: block-builderbot-source-1
+  title: Block rolls out Builderbot, a new suite of AI-native tools that changes the way we ship
+  url: https://block.xyz/inside/block-rolls-out-builderbot-a-new-suite-of-ai-native-tools-that-changes-the-way-we-ship
+  canonical_url: https://block.xyz/inside/block-rolls-out-builderbot-a-new-suite-of-ai-native-tools-that-changes-the-way-we-ship
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: block-builderbot-source-2
+  title: Protecting our systems with intelligence (Builderbot architecture)
+  url: https://engineering.block.xyz/blog/protecting-our-systems-with-intelligence
+  canonical_url: https://engineering.block.xyz/blog/protecting-our-systems-with-intelligence
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: block-builderbot-source-3
+  title: block/builderbot source repository
+  url: https://github.com/block/builderbot
+  canonical_url: https://github.com/block/builderbot
+  kind: repository
+  provenance_class: first-party
+  role: evidence
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: block-builderbot-source-4
+  title: Hacker News discussion of the Builderbot announcement
+  url: https://news.ycombinator.com/item?id=48618973
+  canonical_url: https://news.ycombinator.com/item?id=48618973
+  kind: hn-thread
+  provenance_class: community
+  role: commentary
+  authors:
+  - msolujic
+  published_at: '2026-06-21'
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: block-builderbot-source-5
+  title: Hacker News comment that points to the Builderbot repository
+  url: https://news.ycombinator.com/item?id=48619052
+  canonical_url: https://news.ycombinator.com/item?id=48619052
+  kind: hn-comment
+  provenance_class: community
+  role: discovery
+  authors:
+  - kha1n3vol3
+  published_at: '2026-06-21'
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: block-builderbot-source-1
+    relation: supports
+  - source_id: block-builderbot-source-2
+    relation: supports
+  - source_id: block-builderbot-source-3
+    relation: supports
+  - source_id: block-builderbot-source-3
+    relation: contextualizes
+  - source_id: block-builderbot-source-4
+    relation: contextualizes
+  headline_metric:
+  - source_id: block-builderbot-source-1
+    relation: supports
+  architecture.sandbox:
+  - source_id: block-builderbot-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: block-builderbot-source-1
+    relation: supports
+  - source_id: block-builderbot-source-3
+    relation: supports
+  architecture.model:
+  - source_id: block-builderbot-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: block-builderbot-source-1
+    relation: supports
+  - source_id: block-builderbot-source-3
+    relation: supports
+  architecture.knowledge:
+  - source_id: block-builderbot-source-1
+    relation: supports
+  - source_id: block-builderbot-source-2
+    relation: supports
+  - source_id: block-builderbot-source-3
+    relation: supports
+  primitives.0:
+  - source_id: block-builderbot-source-1
+    relation: supports
+  - source_id: block-builderbot-source-3
+    relation: supports
+  primitives.1:
+  - source_id: block-builderbot-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: block-builderbot-source-1
+    relation: supports
+  key_metrics.1:
+  - source_id: block-builderbot-source-1
+    relation: supports
+  key_metrics.2:
+  - source_id: block-builderbot-source-1
+    relation: supports
+  lessons_learned.0:
+  - source_id: block-builderbot-source-1
+    relation: supports
+  lessons_learned.1:
+  - source_id: block-builderbot-source-1
+    relation: supports
+  lessons_learned.2:
+  - source_id: block-builderbot-source-1
+    relation: supports
+  architecture.interfaces:
+  - source_id: block-builderbot-source-1
+    relation: supports
+claim_metadata:
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.2:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

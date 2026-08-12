@@ -1,35 +1,191 @@
 id: sentry-junior
 company: Sentry
 agent_name: Junior
-year: 2025
+approach_type: task-agent
+deployment_stage: deployed
+year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: sentry-junior-source-2
+last_reviewed_at: '2026-08-12'
 status: open-sourced
-domains: [coding, code-review, support, on-call]
+domains:
+- coding
+- code-review
+- support
+- on-call
 autonomy: human-in-loop
-summary: "An open-source Slack agent built at Sentry that acts like an intern — takes tasks, retrieves context across many company systems, and is steered and reviewed by humans. Its CEO argues one general-purpose agent beat several vendor-specific bots."
-headline_metric: "Open-source (Apache-2.0) Slack agent (~100k lines of TS) used internally at Sentry"
+rubric:
+  invocation:
+  - event-driven
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: An open-source Slack agent built at Sentry that acts like an intern; takes tasks, retrieves context across
+  many company systems, and is steered and reviewed by humans. Its CEO argues one general-purpose agent beat several
+  vendor-specific bots.
+headline_metric: Open-source (Apache-2.0) Slack agent (~100k lines of TS) used internally at Sentry
 architecture:
-  sandbox: "Vercel serverless functions; Vercel agent-browser sandbox with a MITM proxy for traffic interception; ephemeral containers"
-  harness: "Custom harness on Pi's SDK; a task broker over Vercel Queues with an inbox -> worker-claim -> interrupt/resume pattern to survive serverless timeouts; 'skills-as-runbooks'"
-  model: "Claude Sonnet (faster); swappable (Opus as a more expensive option)"
-  interfaces: [slack, web-dashboard, github]
-  tool_access: "Progressive discovery via MCP — by default Junior connects to no provider until the agent requests a tool lookup; plugins connect Sentry, GitHub, Linear, Notion"
-  knowledge: "Conversation transcripts persisted in Redis; repo search to trace code paths; skill docs (TELEMETRY.md, SOUL.md)"
-  credentials: "MITM-proxy injection — the model never sees the token because it's never in the sandbox; plugins declare OAuth flows and credential domains; GitHub distinguishes read vs. write"
-  context_mgmt: "Incremental transcript updates in Redis; resource subscriptions to GitHub PR events for follow-ups"
+  sandbox: Vercel serverless functions; Vercel agent-browser sandbox with an on-path proxy for traffic interception;
+    ephemeral containers
+  harness: Custom harness on Pi's SDK; a task broker over Vercel Queues with an inbox -> worker-claim -> interrupt/resume
+    pattern to survive serverless timeouts; 'skills-as-runbooks'
+  model: Claude Sonnet (faster); swappable (Opus as a more expensive option)
+  interfaces:
+  - slack
+  - web
+  - github
+  tool_access: Progressive discovery via MCP; by default Junior connects to no provider until the agent requests
+    a tool lookup; plugins connect Sentry, GitHub, Linear, Notion
+  knowledge: Conversation transcripts persisted in Redis; repo search to trace code paths; skill docs (TELEMETRY.md,
+    SOUL.md)
+  credentials: On-path proxy injection; the model never sees the token because it is not in the sandbox; plugins
+    declare OAuth flows and credential domains; GitHub distinguishes read vs. write
+  context_mgmt: Incremental transcript updates in Redis; resource subscriptions to GitHub PR events for follow-ups
 primitives:
-  - { name: Progressive tool discovery, desc: "searchMcpTools loads tools on demand instead of dumping every schema into the prompt" }
-  - { name: MITM credential proxy, desc: "Credentials injected host-side; the sandbox/model never touches a secret" }
-  - { name: Interrupt/resume broker, desc: "Survives serverless timeouts via a queue + claim model" }
+- name: Progressive tool discovery
+  desc: searchMcpTools loads tools on demand instead of dumping every schema into the prompt
+- name: On-path credential proxy
+  desc: Credentials injected host-side; the sandbox/model never touches a secret
+- name: Interrupt/resume broker
+  desc: Survives serverless timeouts via a queue + claim model
 key_metrics:
-  - "~100,000 lines of TypeScript (excluding tests)"
-  - "4 months from start to writeup"
+- ~100,000 lines of TypeScript (excluding tests)
+- 4 months from start to writeup
 lessons_learned:
-  - "One general-purpose agent connected to many company systems beats several vendor-specific bots"
-  - "Skills-as-runbooks encode operational knowledge the agent can follow"
-  - "Stateless compute fights you — serverless functions time out and disappear; model the agent around interrupt/resume"
-  - "Unit tests are the wrong yardstick for agents — invest in evals and integration tests instead"
-  - "Writes need per-user authorization, not blanket trust"
+- One general-purpose agent connected to many company systems beats several vendor-specific bots
+- Skills-as-runbooks encode operational knowledge the agent can follow
+- Stateless compute fights you; serverless functions time out and disappear; model the agent around interrupt/resume
+- Unit tests are the wrong yardstick for agents; invest in evals and integration tests instead
+- Writes need per-user authorization, not blanket trust
 sources:
-  - { title: "Building an Intern (Junior at Sentry)", url: "https://cra.mr/building-an-intern/", type: "blog" }
-  - { title: "getsentry/junior (open-source, Apache-2.0)", url: "https://github.com/getsentry/junior", type: "docs" }
-  - { title: "Sentry Labs", url: "https://labs.sentry.dev/", type: "docs" }
+- id: sentry-junior-source-1
+  title: Building an Intern (Junior at Sentry)
+  url: https://cra.mr/building-an-intern/
+  canonical_url: https://cra.mr/building-an-intern/
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: sentry-junior-source-2
+  title: getsentry/junior (open-source, Apache-2.0)
+  url: https://github.com/getsentry/junior
+  canonical_url: https://github.com/getsentry/junior
+  kind: repository
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: sentry-junior-source-3
+  title: Sentry Labs
+  url: https://labs.sentry.dev/
+  canonical_url: https://labs.sentry.dev/
+  kind: documentation
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  - source_id: sentry-junior-source-2
+    relation: supports
+  - source_id: sentry-junior-source-3
+    relation: contextualizes
+  headline_metric:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  - source_id: sentry-junior-source-2
+    relation: supports
+  architecture.sandbox:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  - source_id: sentry-junior-source-2
+    relation: supports
+  architecture.harness:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  - source_id: sentry-junior-source-2
+    relation: supports
+  architecture.model:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  - source_id: sentry-junior-source-2
+    relation: supports
+  architecture.knowledge:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  - source_id: sentry-junior-source-2
+    relation: supports
+  architecture.credentials:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  - source_id: sentry-junior-source-2
+    relation: supports
+  architecture.context_mgmt:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  - source_id: sentry-junior-source-2
+    relation: supports
+  primitives.0:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  primitives.1:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  primitives.2:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: sentry-junior-source-2
+    relation: supports
+  key_metrics.1:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  lessons_learned.0:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  lessons_learned.1:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  lessons_learned.2:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  lessons_learned.3:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  lessons_learned.4:
+  - source_id: sentry-junior-source-1
+    relation: supports
+  architecture.interfaces:
+  - source_id: sentry-junior-source-1
+    relation: supports
+claim_metadata:
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.2:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.3:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.4:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

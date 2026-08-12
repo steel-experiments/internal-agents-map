@@ -1,147 +1,65 @@
-# Adoption lessons: how internal agents actually get used
+# Adoption observations
 
-Architecture is half the story; the other half is how these systems get adopted by real
-engineering and operations organizations. These are the non-technical (or
-not-only-technical) lessons that repeat across the catalog. Each is grounded in a specific
-company's experience. Follow the links to [the catalog](landscape.md).
+This page summarizes reported operating practices in the catalog. Most sources are company reports. They do not establish cause and effect.
 
----
+The observations use the 26 approaches reviewed on August 12, 2026. The evidence is uneven. Read each source before you apply a practice to another organization.
 
-## 1. Start narrow, measurable, and easy to evaluate
+## Start with work that people can check
 
-Don't launch a general-purpose autonomous agent on day one. Pick one frequent, measurable,
-low-stakes workflow, prove it, and expand.
+DoorDash reports early use in code review and structured data work. Spotify reports migration work. Flex reports payment investigation. These tasks produce an artifact or result that a person can inspect.
 
-- **DoorDash** began with automated code review (10,000+ PRs/week across 56 repos) and
-  deterministic reporting/SQL before pursuing deep agents.
-- **Spotify** began with migrations; **Stripe** and **Ramp** with code; **Flex** with payment
-  investigation.
-- **Linear** starts by asking for suggestions, observes, and automates only once proven.
+This suggests a practical starting question: can the team decide whether the work is correct? A narrow task with a clear check can make early evaluation easier. The catalog does not prove that every team must start narrow.
 
-> Start where correctness is observable: coding, migrations, investigation, review, and
-> reporting produce artifacts you can *check* (tests pass, a diff exists, SQL validates, a
-> hypothesis matches telemetry).
+## Put the system near existing work
 
-## 2. Make the work visible: public beats private
+Twenty entries list Slack as an interface. Other entries use GitHub, Linear, web interfaces, command-line tools, scheduled jobs, or event handlers.
 
-Adoption is a social phenomenon. Work in public channels spreads; work in private DMs doesn't.
+An existing interface can reduce the effort needed to try a system. It can also inherit the access, privacy, and retention problems of that interface. Public channels can spread examples, but teams must not expose private work to gain visibility.
 
-- **Shopify (River)** is public-by-default, public channels only, so every session is
-  observable and good patterns propagate.
-- **Ramp** and **DoorDash** report public Slack threads drove adoption; private per-run
-  channels didn't.
-- **Sentry** mirrors this: public-channel conversations are fully captured; private ones
-  redacted. Visibility is a feature.
+## Fund enablement work
 
-> If only the person at the keyboard can see the agent work, you've capped how much the org
-> learns.
+Several organizations report work beyond the agent runtime. DoorDash describes workshops and playbooks. Brex describes tools that operations staff use to test prompts and models. monday.com describes managers, scopes, and performance measures for agents.
 
-## 3. Enablement beats infrastructure
+These reports show that deployment includes training, support, evaluation, and ownership. The public sources do not isolate how much each activity affected adoption.
 
-Shipping the platform isn't enough; you have to teach people to use it.
+## Use existing systems of record
 
-- **DoorDash** runs workshops and hackathons to turn operational work into reusable playbooks.
-- **Brex** built a prompt + eval studio so non-technical ops staff design and deploy agents.
-- **monday.com** gave agents identities, managers, scopes, and performance scores, treating
-  adoption as an org-design problem.
+Several approaches read from or write to GitHub, Linear, Jira, Salesforce, and internal service catalogs. This can preserve familiar review and audit paths.
 
-## 4. Meet people where they already are
+The catalog also contains limits. Existing permissions can be too broad for an automated process. Teams still need task scope, approval rules, and an audit record for tool calls.
 
-Don't ask anyone to open a new tool. The agent goes to Slack, GitHub, Linear, Jira.
+## Centralize shared controls when the system grows
 
-- **Block, Browserbase, Sentry, Shopify, monday.com, Brex, WorkOS, Coinbase, Sierra, Stripe,
-  Flex, Replit** all center on Slack.
-- **Coinbase** is explicit: normal behavior stays "ask a question in Slack"; the change is
-  that an agent, not an interrupted colleague, answers or converts it to work.
-- **Linear** closes the loop by auto-notifying the customer when a request ships.
+Cloudflare reports a central gateway and MCP portal. Browserbase, Sentry, WorkOS, and Sierra report proxies or gateways for authorization, logging, or credential injection.
 
-## 5. Own the primitives that carry your value: rent the rest
+Shared controls can reduce repeated integration work. They can also become a shared failure point. Compare this choice with the deployment stage and number of connected systems.
 
-Several teams argue building your own harness/sandbox pays off because it only has to work on
-*your* code.
+## Measure accepted outcomes
 
-- **Ramp:** "it only has to work on your code, which lets you build something more powerful
-  than off-the-shelf."
-- **WorkOS:** "you need purpose-built agent infrastructure — a runtime you could control
-  end-to-end."
-- **Y Combinator** built its harnesses from the ground up rather than bolting onto a hosted
-  agent.
+The catalog contains activity metrics, adoption metrics, and outcome metrics. They answer different questions.
 
-The flip side is **modularity**: own the layer that differentiates you, keep the rest
-replaceable (Shopify, Sierra, WorkOS, Coinbase all optimize for this).
+- Sessions and tool calls show use.
+- Created pull requests show output.
+- Accepted changes and action rates show that a person used the output.
+- Cycle time and incident results can show an operational effect.
+- Review time and escaped defects can show hidden cost.
 
-## 6. Make the system self-improving
+Sierra distinguishes use from value in its report. DoorDash reports action rates for review findings. Replit reports output with review, revert, and incident measures. These examples support a broader metric set. They do not make the reported measurements independent.
 
-The best platforms get better simply by being used.
+## Expect work to move
 
-- **WorkOS (Horizon):** every run ships work and produces the next set of fixes, surfacing the
-  platform's own brittleness (a flaky test, an unclear convention).
-- **monday.com's** PR Guardrails tighten the standard with every review.
-- **Linear:** "AI mistakes are useful — they surface failure modes to engineers."
+Spotify reports that increased coding output added review pressure. Harvey reports more emphasis on review, prioritization, and coordination as implementation becomes faster.
 
-## 7. Don't mandate; let the product do the talking
+When one step speeds up, inspect the next step. Track waiting time, review effort, rework, and operational failures. A higher output count alone does not show a better process.
 
-- **Ramp** avoids mandates and relies on virality loops in public spaces.
-- **Shopify** lets River spread channel by channel (5,170 channels, 7,000+ people in 30 days).
+## Expand autonomy with evidence
 
-> Forcing adoption produces compliance, not enthusiasm.
+The sample contains 18 `drafts-reviewed` approaches, seven `human-in-loop` approaches, and one `autonomous` approach. This distribution reflects public reports in the catalog. It is not a recommendation.
 
-## 8. Centralize the control plane early
+Before a team removes a review step, it should define the failure limit, verification method, rollback path, and responsible owner. The relevant threshold depends on the task. A code migration and a customer payment action do not have the same impact.
 
-Direct-to-model-provider looks simpler but becomes a trap.
+## Keep dissent and failed results
 
-- **Cloudflare** centralizes through an AI Gateway + MCP Server Portal from the start.
-- **Browserbase, Sentry, WorkOS, Sierra** all put a proxy/gateway between the agent and the
-  world: one place to enforce scope, log, and inject credentials.
+Company launch articles tend to report successful outcomes. Community discussion, source code issues, later retrospectives, and independent reporting can supply missing context.
 
-## 9. Reuse the org's existing machinery
-
-Agents don't need a parallel universe of auth, identity, CI, and deploy.
-
-- **monday.com:** existing auth/identity/deploy pipeline applies to agents; real accounts,
-  same RBAC as humans.
-- **Dropbox (Nova):** integrate existing infra; agents run inside existing Bazel/remote-exec.
-- **Brex:** approvals follow data-handling characteristics, not the tool name.
-- **Salesforce:** the agent inherits the employee's existing permissions by construction.
-
-## 10. Treat internal tooling with external rigor
-
-- **Brex:** "treat internal ops with external rigor — build internal platforms to product
-  quality."
-- **monday.com** and **Shopify** invest in evals, guardrails, and reliability as if the agent
-  were a shipped product.
-
-## 11. Track outcomes, not activity
-
-The most repeated measurement warning in the catalog.
-
-- **Sierra** is explicit: session counts and tool calls are evidence of *usage*, not *value*.
-- **DoorDash** measures whether engineers actually act on a review finding (60.2% action rate
-  on high/critical findings), not comment volume.
-- **Ramp** and **Stripe** measure production-PR contribution; **Spotify** tracked migration
-  time savings; **Replit** tracked that ~3× code output came *without* degradation in
-  review/revert/incident metrics.
-
-> Useful KPIs: cycle time, accepted output, human review time, escaped defects, incident
-> resolution, time-to-first-response, cost per successfully completed task, percentage of runs
-> that finish without human rescue, *not* total prompts.
-
-## 12. The bottleneck moves: plan for it
-
-Agents don't simply "replace coding time"; they increase the premium on judgment.
-
-- **Spotify** reports increased coding velocity created more review pressure.
-- **Harvey** says implementation speed is shifting bottlenecks toward review, prioritization,
-  and coordination.
-
-> As implementation cheapens, invest in **requirements, taste, evaluation, review,
-> authorization design, and prioritization**, the work the agent can't do for you.
-
----
-
-### The short version
-
-Start narrow. Work in public. Teach people to use it. Meet them in Slack. Own what
-differentiates you, rent the rest. Let usage improve the platform. Don't mandate. Centralize
-the control plane early. Reuse your existing org machinery. Build it like a product. Track
-outcomes, not activity. Plan for the bottleneck to move.
+Add those sources to the catalog. Link them as supporting, contradicting, or contextual evidence. Do not remove an older claim when a later source disagrees. Record the date and let readers see the change.

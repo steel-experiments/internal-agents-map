@@ -1,28 +1,119 @@
 id: harvey-spectre
 company: Harvey
 agent_name: Spectre
+approach_type: platform
+deployment_stage: deployed
 year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: harvey-spectre-source-1
+last_reviewed_at: '2026-08-12'
 status: internal
-domains: [coding, code-review, on-call, security]
+domains:
+- coding
+- code-review
+- on-call
+- security
 autonomy: drafts-reviewed
-summary: "Harvey's internal collaborative cloud agent platform — reacts to incidents, bug reports, and Slack messages and produces reviewable diffs, branches, and PRs."
-headline_metric: "Extends to an always-on agentic security operations center"
+rubric:
+  invocation:
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: Harvey's internal collaborative cloud agent platform; reacts to incidents, bug reports, and Slack messages
+  and produces reviewable diffs, branches, and PRs.
 architecture:
-  sandbox: "Isolated ephemeral execution environments; durable runs"
-  harness: "Collaborative cloud agent platform with explicit boundaries around GitHub, Datadog, Linear, etc."
-  model: "Not specified"
-  interfaces: [slack, web, automations]
-  tool_access: "Explicit tool boundaries; reacts to incidents, bug reports, customer feedback, and Slack messages"
-  credentials: "Explicit tool boundaries; outputs are reviewable"
-  context_mgmt: "Durable runs over disposable execution environments"
+  sandbox: Isolated ephemeral execution environments; durable runs
+  harness: Collaborative cloud agent platform with explicit boundaries around GitHub, Datadog, Linear, and other
+    connected systems
+  model: Not specified
+  interfaces:
+  - slack
+  - web
+  - automation
+  tool_access: Explicit tool boundaries; reacts to incidents, bug reports, customer feedback, and Slack messages
+  credentials: Explicit tool boundaries; outputs are reviewable
+  context_mgmt: Durable runs over disposable execution environments
 primitives:
-  - { name: Durable runs / ephemeral execution, desc: "Long-lived run state over throwaway compute" }
-  - { name: Reviewable artifacts, desc: "Outputs are summaries, diffs, branches, PRs — not silent actions" }
-key_metrics: []
+- name: Durable runs / ephemeral execution
+  desc: Long-lived run state over throwaway compute
+- name: Reviewable artifacts
+  desc: Outputs are summaries, diffs, branches, PRs; not silent actions
 lessons_learned:
-  - "Make outputs reviewable (diffs, branches, PRs) rather than letting the agent act silently"
-  - "Implementation speed shifts the bottleneck toward review, prioritization, and coordination"
-  - "The same agent substrate extends beyond engineering (e.g. an agentic SOC)"
+- Make outputs reviewable (diffs, branches, PRs) rather than letting the agent act silently
+- Implementation speed shifts the bottleneck toward review, prioritization, and coordination
+- Harvey reports that the same agent platform also supports a security operations center
 sources:
-  - { title: "Building Spectre — internal collaborative cloud agent platform", url: "https://www.harvey.ai/blog/building-spectre-internal-collaborative-cloud-agent-platform", type: "blog" }
-  - { title: "Building an agentic security operations center", url: "https://www.harvey.ai/blog/building-an-agentic-security-operations-center", type: "blog" }
+- id: harvey-spectre-source-1
+  title: Building Spectre; internal collaborative cloud agent platform
+  url: https://www.harvey.ai/blog/building-spectre-internal-collaborative-cloud-agent-platform
+  canonical_url: https://www.harvey.ai/blog/building-spectre-internal-collaborative-cloud-agent-platform
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+- id: harvey-spectre-source-2
+  title: Building an agentic security operations center
+  url: https://www.harvey.ai/blog/building-an-agentic-security-operations-center
+  canonical_url: https://www.harvey.ai/blog/building-an-agentic-security-operations-center
+  kind: engineering-blog
+  provenance_class: first-party
+  accessed_at: '2026-08-12'
+  last_verified_at: '2026-08-12'
+evidence:
+  summary:
+  - source_id: harvey-spectre-source-1
+    relation: supports
+  architecture.sandbox:
+  - source_id: harvey-spectre-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: harvey-spectre-source-1
+    relation: supports
+  architecture.model:
+  - source_id: harvey-spectre-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: harvey-spectre-source-1
+    relation: supports
+  architecture.credentials:
+  - source_id: harvey-spectre-source-1
+    relation: supports
+  architecture.context_mgmt:
+  - source_id: harvey-spectre-source-1
+    relation: supports
+  primitives.0:
+  - source_id: harvey-spectre-source-1
+    relation: supports
+  primitives.1:
+  - source_id: harvey-spectre-source-1
+    relation: supports
+  lessons_learned.0:
+  - source_id: harvey-spectre-source-1
+    relation: supports
+  lessons_learned.1:
+  - source_id: harvey-spectre-source-1
+    relation: supports
+  lessons_learned.2:
+  - source_id: harvey-spectre-source-2
+    relation: supports
+  architecture.interfaces:
+  - source_id: harvey-spectre-source-1
+    relation: supports
+claim_metadata:
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.2:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The catalog derives this observation from the linked sources.

@@ -1,38 +1,75 @@
-# Copy this file to data/agents/<id>.yaml and fill it in.
-# Full field reference: data/schema.md  ·  Required fields are marked ★.
-# After editing run:  python scripts/build.py
+# Copy this file to data/agents/<id>.yaml.
+# Read data/schema.md before you edit the record.
 
-id: company-agent               # ★ kebab-case; MUST match the filename
-company: Company                 # ★
-agent_name: Agent                # ★
-year: 2026                       # ★ year of first public evidence
-status: internal                 # ★ internal | open-sourced | commercialized
-domains: [coding]                # ★ see schema.md for suggested tags
-autonomy: drafts-reviewed        # ★ assistive | human-in-loop | drafts-reviewed | autonomous
-summary: "One sentence: what this agent is."   # ★
-headline_metric: "the single most impressive number, with unit"
+id: company-agent
+company: Company
+agent_name: Agent
+# aliases: [Former name]
+# relationships:
+#   - type: component-of
+#     approach_id: company-platform
+approach_type: task-agent
+deployment_stage: prototype
+year: 2026
+first_public_evidence:
+  date: "2026-08"
+  source_id: company-agent-source-1
+last_reviewed_at: "2026-08-12"
+status: internal
+domains: [coding]
+autonomy: unknown
+rubric:
+  invocation: [unknown]
+  state: unknown
+  identity: unknown
+  evidence_strength: limited-primary
+summary: "A factual description of the reported approach."
+headline_metric: "A self-reported metric with its date and scope."
 
 architecture:
-  sandbox: ""                    # execution env + isolation
-  harness: ""                    # the agent loop / runtime
-  model: ""                      # model(s); note if interchangeable
-  tool_access: ""                # how it reaches internal systems (MCP gateway, proxy)
-  interfaces: []                 # slack | github | cli | web | cron | chrome | api
-  knowledge: ""                  # org/context layer (Backstage, AGENTS.md, ...)
-  credentials: ""                # secrets & permissions handling
-  context_mgmt: ""               # long-running context strategy; omit if n/a
+  sandbox: ""
+  harness: ""
+  model: ""
+  interfaces: []
+  tool_access: ""
+  knowledge: ""
+  credentials: ""
+  context_mgmt: ""
 
-primitives:                      # reusable building blocks the platform exposes
-  - name: ""
-    desc: ""
+primitives: []
+key_metrics: []
+lessons_learned: []
 
-key_metrics:
-  - "number with unit and timeframe (source-linked)"
+sources:
+  - id: company-agent-source-1
+    title: "Source title"
+    url: "https://example.com/source"
+    canonical_url: "https://example.com/source"
+    kind: engineering-blog
+    provenance_class: first-party
+    role: evidence
+    published_at: "2026-08"
+    accessed_at: "2026-08-12"
+    last_verified_at: "2026-08-12"
 
-lessons_learned:
-  - "a transferable insight another team could act on"
+evidence:
+  summary:
+    - source_id: company-agent-source-1
+      relation: supports
+      locator: "Section heading"
+  headline_metric:
+    - source_id: company-agent-source-1
+      relation: supports
+      locator: "Metrics, paragraph 2"
 
-sources:                         # ★ in spirit — every claim should trace to one
-  - title: "Title of the writeup"
-    url: "https://..."
-    type: blog                   # blog | talk | post | case-study | podcast | docs
+claim_metadata:
+  headline_metric:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: "The organization reported this metric without an independent review."
+    valid_at: "2026-08"
+    reported_by: Company
+    metric_scope: "The work measured by this metric"
+    denominator: "The relevant total, when available"
+    measurement_method: "The reported collection method, when available"
