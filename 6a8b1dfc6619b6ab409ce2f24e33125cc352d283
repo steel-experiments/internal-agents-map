@@ -1,0 +1,13 @@
+# Design: Evidence-centered catalog
+
+## Problem
+The catalog mixed several kinds of internal agent systems and attached one shared source list to many claims. This made comparison and attribution difficult.
+
+## Approach
+Keep broad inclusion. Classify each approach with a shared rubric. Normalize generated data into linked approaches, claims, and sources. Preserve company evidence, independent reports, community commentary, and discovery sources with explicit roles.
+
+## Key trade-offs
+- Keep YAML files as the authoring unit while generating normalized collections.
+- Treat durable identity as one comparison field, not an entry requirement.
+- Require evidence for authored claims while allowing commentary that only adds context.
+- Validate and stage all generated output before replacing files.
