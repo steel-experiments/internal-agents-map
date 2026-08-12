@@ -1,0 +1,25 @@
+id: zup-codegen
+company: Zup
+agent_name: CodeGen
+year: 2026
+status: internal
+domains: [coding]
+autonomy: human-in-loop
+summary: "A research-documented internal coding agent where constrained editing tools and layered safety controls mattered more than prompt tweaks."
+headline_metric: "Targeted tool design and layered safety > prompt engineering"
+architecture:
+  sandbox: ""
+  harness: "Constrained editing tools; state-management concerns; progressive levels of human oversight"
+  model: "Not specified (see paper)"
+  interfaces: []
+  tool_access: "Constrained editing tools rather than free-form code generation"
+  credentials: "Layered safety controls"
+primitives:
+  - { name: Constrained editing tools, desc: "Tools that limit what the agent can change, vs. unconstrained generation" }
+  - { name: Progressive oversight, desc: "Levels of human review that increase trust over time" }
+key_metrics: []
+lessons_learned:
+  - "Targeted tool design and layered safety controls matter more than prompt tweaks"
+  - "Progressive levels of human oversight help build trust before granting autonomy"
+sources:
+  - { title: "Building an Internal Coding Agent at Zup", url: "https://arxiv.org/abs/2604.09805", type: "blog" }

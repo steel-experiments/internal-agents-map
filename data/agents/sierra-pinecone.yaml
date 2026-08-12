@@ -1,0 +1,35 @@
+id: sierra-pinecone
+company: Sierra
+agent_name: Pinecone
+year: 2026
+status: internal
+domains: [coding, code-review, support, research, data]
+autonomy: drafts-reviewed
+summary: "One company-wide agent that collapsed separate support, analytics, engineering, and sales agents into a single runtime with an MCP Gateway to 37 systems."
+headline_metric: "75,000+ sessions for 600+ people; opened 70% of company PRs"
+architecture:
+  sandbox: "Agency layer reconciles recoverable Kubernetes runners; conversation/events/checkpoints stay durable separately"
+  harness: "App server + Agency + runners; intent-based model/environment routing (Claude Code + Codex)"
+  model: "Claude Code + Codex; routes by intent (planning, coding, prose)"
+  interfaces: [slack, web, linear, mobile]
+  tool_access: "MCP Gateway connected to 37 systems; a network proxy decides whether privileged requests proceed and injects credentials after approval"
+  knowledge: "Durable sessions over disposable environments; Redis Streams"
+  credentials: "Gateway enforces the invoking employee's access at tool-call time and isolates customer data; the harness never holds the real secret"
+  context_mgmt: "Durable session state separated from ephemeral compute"
+primitives:
+  - { name: MCP Gateway (37 systems), desc: "One gateway spanning 37 systems, enforcing employee permissions at call time" }
+  - { name: Agency sandbox layer, desc: "Recoverable K8s runners with a network proxy for credential injection" }
+  - { name: Intent-based routing, desc: "Routes model and environment by request intent, independent of the tool layer" }
+key_metrics:
+  - "75,000+ sessions for 600+ people (July 2026)"
+  - "Opened 70% of company PRs"
+  - "Hundreds of automations"
+lessons_learned:
+  - "Collapse departmental bots into one agent — cross-functional jobs don't respect org-chart boundaries"
+  - "Own the routing/context/workflow layer; let models be interchangeable (different models win at planning, coding, prose)"
+  - "Enforce permissions at the tool-call layer via a gateway, not via prompt instructions"
+  - "Session counts and tool calls are usage, not value — track business outcomes instead"
+sources:
+  - { title: "Pinecone: harnessing the wisdom of the workforce", url: "https://sierra.ai/jp/blog/pinecone-harnessing-the-wisdom-of-the-workforce", type: "blog" }
+  - { title: "Building Sierra's MCP Gateway", url: "https://sierra.ai/blog/building-sierras-mcp-gateway-an-engineering-iceberg", type: "blog" }
+  - { title: "Agency: secure, scalable sandboxes for agents", url: "https://sierra.ai/es/blog/agency-secure-scalable-sandboxes-for-agents", type: "blog" }

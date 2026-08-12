@@ -1,0 +1,27 @@
+id: stripe-minions
+company: Stripe
+agent_name: Minions
+year: 2026
+status: internal
+domains: [coding, code-review]
+autonomy: drafts-reviewed
+summary: "Homegrown one-shot coding agents that read work context, locate the right repo/workspace, implement a change end-to-end, and produce a PR for human review."
+headline_metric: "1,000+ production PRs per week, reviewed and approved by humans"
+architecture:
+  sandbox: "Not specified publicly"
+  harness: "One-shot agents: read context -> search the codebase -> determine the relevant repo/workspace -> implement -> PR"
+  model: "Not specified"
+  interfaces: [slack, github]
+  tool_access: "Searches Stripe's codebase to determine the relevant repository/workspace"
+  knowledge: "Stripe's codebase as the context source"
+  credentials: "Production PRs left for humans to review and approve"
+primitives:
+  - { name: One-shot end-to-end agent, desc: "From work context to merge-ready PR in one shot, with human approval" }
+key_metrics:
+  - "1,000+ production PRs per week"
+lessons_learned:
+  - "One-shot end-to-end coding agents work at scale when humans retain review/approval"
+  - "Let the agent locate the right repo/workspace itself rather than pre-scoping it"
+sources:
+  - { title: "Minions: Stripe's one-shot end-to-end coding agents", url: "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents", type: "blog" }
+  - { title: "Minions - Part Two", url: "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2", type: "blog" }

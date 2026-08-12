@@ -1,0 +1,28 @@
+id: harvey-spectre
+company: Harvey
+agent_name: Spectre
+year: 2026
+status: internal
+domains: [coding, code-review, on-call, security]
+autonomy: drafts-reviewed
+summary: "Harvey's internal collaborative cloud agent platform — reacts to incidents, bug reports, and Slack messages and produces reviewable diffs, branches, and PRs."
+headline_metric: "Extends to an always-on agentic security operations center"
+architecture:
+  sandbox: "Isolated ephemeral execution environments; durable runs"
+  harness: "Collaborative cloud agent platform with explicit boundaries around GitHub, Datadog, Linear, etc."
+  model: "Not specified"
+  interfaces: [slack, web, automations]
+  tool_access: "Explicit tool boundaries; reacts to incidents, bug reports, customer feedback, and Slack messages"
+  credentials: "Explicit tool boundaries; outputs are reviewable"
+  context_mgmt: "Durable runs over disposable execution environments"
+primitives:
+  - { name: Durable runs / ephemeral execution, desc: "Long-lived run state over throwaway compute" }
+  - { name: Reviewable artifacts, desc: "Outputs are summaries, diffs, branches, PRs — not silent actions" }
+key_metrics: []
+lessons_learned:
+  - "Make outputs reviewable (diffs, branches, PRs) rather than letting the agent act silently"
+  - "Implementation speed shifts the bottleneck toward review, prioritization, and coordination"
+  - "The same agent substrate extends beyond engineering (e.g. an agentic SOC)"
+sources:
+  - { title: "Building Spectre — internal collaborative cloud agent platform", url: "https://www.harvey.ai/blog/building-spectre-internal-collaborative-cloud-agent-platform", type: "blog" }
+  - { title: "Building an agentic security operations center", url: "https://www.harvey.ai/blog/building-an-agentic-security-operations-center", type: "blog" }

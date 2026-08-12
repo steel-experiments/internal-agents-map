@@ -1,0 +1,26 @@
+id: replit-manager-agent
+company: Replit
+agent_name: "Manager agent (agent-of-agents)"
+year: 2026
+status: internal
+domains: [coding, code-review, support, research, data]
+autonomy: drafts-reviewed
+summary: "An internal agent-of-agents stack where every employee gets a manager agent that spawns multiple agents for verifiable work and escalates judgment to humans."
+headline_metric: "~3x engineering code output over six months without degradation in review/revert/incident metrics"
+architecture:
+  sandbox: "Not specified publicly"
+  harness: "Fleet/loop orchestration: a manager agent launches parallel agents for verifiable work and escalates judgment"
+  model: "Not specified"
+  interfaces: [slack]
+  tool_access: "Investigates incidents, reviews PRs, answers questions, analyzes company data, triages support, researches sales accounts, improves Replit Agent itself"
+  context_mgmt: "Manager agent coordinates parallel sub-agents and routes results"
+primitives:
+  - { name: Manager agent, desc: "One human gives an objective; the manager spawns parallel agents for verifiable work and escalates judgment" }
+key_metrics:
+  - "~3x engineering code output over six months"
+  - "No corresponding deterioration in review/reversion/incident metrics"
+lessons_learned:
+  - "Give every employee a manager agent that spawns sub-agents — verifiable work parallelizes, judgment escalates to humans"
+  - "Track outcome metrics (reverts, incidents), not activity — output can scale without quality regressions"
+sources:
+  - { title: "The Self-Driving Company", url: "https://ld.replit.com/blog/self-driving-company", type: "blog" }

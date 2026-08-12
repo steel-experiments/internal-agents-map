@@ -1,0 +1,23 @@
+id: uber-coding-agent
+company: Uber
+agent_name: "Internal coding agent (unnamed)"
+year: 2026
+status: internal
+domains: [coding]
+autonomy: drafts-reviewed
+summary: "Uber's internal coding agent, reported by its CTO as producing roughly 1,800 complete code changes per week."
+headline_metric: "~1,800 complete code changes per week (~8% of changes)"
+architecture:
+  sandbox: "Not specified publicly"
+  harness: "Not specified publicly"
+primitives: []
+key_metrics:
+  - "~1,800 complete code changes per week (~8% of changes at the time)"
+  - "95% of engineers use AI tools monthly"
+lessons_learned: []
+sources:
+  - { title: "Uber's CTO on AI coding agents (Business Insider)", url: "https://www.businessinsider.com/uber-cto-ai-coding-agentic-software-engineers-2026-3", type: "blog" }
+
+# NOTE: medium-confidence entry. The only public evidence is a press report quoting
+# the CTO. Name, models, sandbox, and architecture are not publicly documented.
+# Enrich when Uber publishes a first-party writeup.

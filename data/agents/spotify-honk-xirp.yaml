@@ -5,31 +5,32 @@ year: 2025
 status: commercialized
 domains: [coding, migrations, code-review]
 autonomy: drafts-reviewed
-summary: "A background coding agent for large-scale changes (Honk) running on a vendor-neutral, model-agnostic session environment (Xirp) backed by org context (Portal/Backstage)."
+summary: "Honk is Spotify's background coding agent (high confidence); Xirp is the workspace/context/session layer around it (medium confidence). Honk runs on a Claude-Agent-SDK harness in Kubernetes with deterministic CI verifiers and an LLM judge that can veto a run."
 headline_metric: "1,500+ merged AI-generated PRs; ~50% of Spotify PRs automated"
 architecture:
-  sandbox: "Containerized runtime that runs transformations as jobs inside Fleet Management"
-  harness: "An internal CLI delegating to pluggable agents; Xirp coordinates 50+ parallel sessions, each in its own worktree, with the model swappable mid-task"
-  model: "Multiple and interchangeable (Claude Code, Gemini CLI, Codex, open-weight self-hosted)"
+  sandbox: "Honk runs in a constrained Kubernetes container (it does not inherit arbitrary engineer credentials); jobs execute inside Fleet Management / Fleetshift"
+  harness: "Honk: Claude Agent SDK + Spotify's own harness + Kubernetes pods; Honk v2 adds shared sessions, projects, and Chirp orchestration"
+  model: "Claude via the Agent SDK (Claude-centric); the surrounding platform is multi-model"
   interfaces: [slack, github, cli]
-  tool_access: "Local MCP for formatting/linting; an LLM-as-judge for diff evaluation; traces in MLflow"
-  knowledge: "Fleet Management for repo targeting + PR workflow; Portal/Backstage software catalog for ownership, deps, architecture"
-  credentials: "Inherits Fleet Management auth/authz for repo access and PR operations"
-  context_mgmt: "Xirp pairs with Portal: every session initializes with org context; transcripts/metadata flow back to Portal"
+  tool_access: "Limited, deliberate tool surface; deterministic CI verifiers run before a PR proceeds, then an independent LLM judge that can veto a run; MCP and CLI for org context"
+  knowledge: "Backstage/catalog ownership and developer-standardization primitives built over years, exposed via MCP/CLI"
+  credentials: "Runs in a constrained container rather than inheriting engineer credentials"
+  context_mgmt: "Fleet Management coordinates repo targeting, builds/tests, and PR workflow at scale; Xirp pairs sessions with Portal org context"
 primitives:
-  - { name: Pluggable harness, desc: "Swap agents and LLMs without rebuilding the surrounding infra" }
+  - { name: Deterministic-then-judge verification, desc: "Build/test verifiers gate the PR; an LLM judge can veto the run afterward" }
   - { name: Fleet management, desc: "Target thousands of repos, run builds/tests, open and merge PRs at fleet scale" }
-  - { name: Org context (Portal/Backstage), desc: "Component architecture, dependency graphs, and ownership as a shared baseline" }
+  - { name: Xirp (workspace/context layer), desc: "The session/context surface around the agent rather than an autonomous worker itself" }
 key_metrics:
   - "1,500+ merged AI-generated PRs (Honk)"
-  - "60–90% time savings on migrations vs manual"
+  - "60-90% time savings on migrations vs manual"
   - "~50% of Spotify PRs automated"
   - "36,000+ Xirp sessions; thousands of engineers"
 lessons_learned:
-  - "Flexibility is critical — a pluggable architecture enabled multiple LLM/agent swaps in a fast-moving landscape"
-  - "Migration and ad-hoc agent workflows share config improvements (symbiosis)"
-  - "AI lowers the barrier for changes that previously required AST/regex expertise"
-  - "Autonomy without structure fragments into per-engineer configs (CLAUDE.md, MCP setups) — shared org context is the multiplier"
+  - "Run deterministic verification before probabilistic judgment — CI verifiers first, LLM judge second"
+  - "Constrain the agent's environment and tools rather than handing it engineer credentials"
+  - "Invest in org context (Backstage/catalog) before agentic dev accelerates"
+  - "Autonomy without structure fragments into per-engineer configs — shared org context is the multiplier"
 sources:
   - { title: "Spotify's Journey with Our Background Coding Agent (Honk)", url: "https://engineering.atspotify.com/2025/11/spotifys-journey-with-our-background-coding-agent", type: "blog" }
-  - { title: "Xirp — Powered by Spotify Portal", url: "https://xirp.spotify.com/", type: "docs" }
+  - { title: "Code with Claude: coding is no longer the constraint (Honk v2)", url: "https://engineering.atspotify.com/2026/6/code-with-claude-coding-is-no-longer-the-constraint", type: "blog" }
+  - { title: "Xirp - Powered by Spotify Portal", url: "https://xirp.spotify.com/", type: "docs" }

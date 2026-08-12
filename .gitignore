@@ -11,3 +11,6 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Local research / working notes — mined for data, not part of the published artifact
+research.md

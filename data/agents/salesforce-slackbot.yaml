@@ -1,0 +1,25 @@
+id: salesforce-slackbot
+company: Salesforce
+agent_name: Slackbot
+year: 2026
+status: commercialized
+domains: [support, customer-success, ops]
+autonomy: drafts-reviewed
+summary: "Salesforce was 'customer zero' for the rebuilt Slackbot — an employee agent that finds company context, drafts work, and connects Slack context with Salesforce data; now also an external product."
+headline_metric: "Permission-aware by construction — sees only what the employee can see"
+architecture:
+  sandbox: ""
+  harness: "An employee agent intended as a front door to other agents"
+  model: "Not specified"
+  interfaces: [slack]
+  tool_access: "Finds company context, drafts work, manages meetings, connects Slack context with Salesforce data"
+  knowledge: "Slack context joined with Salesforce CRM data"
+  credentials: "Permission-aware by construction — sees what the employee can see, respects roles and access controls"
+primitives:
+  - { name: Permission-aware context, desc: "Agent visibility is bounded by the invoking employee's permissions" }
+key_metrics: []
+lessons_learned:
+  - "Dogfood internally first ('customer zero') before shipping externally"
+  - "Make permission-awareness a construction property, not a prompt instruction — the agent sees only what the employee can see"
+sources:
+  - { title: "Salesforce announces general availability of Slackbot", url: "https://www.salesforce.com/ap/news/press-releases/2026/01/14/salesforce-announces-the-general-availability-of-slackbot-your-personal-agent-for-work-sg/", type: "blog" }

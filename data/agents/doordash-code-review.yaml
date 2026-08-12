@@ -1,0 +1,26 @@
+id: doordash-code-review
+company: DoorDash
+agent_name: "AI Code Review Agent"
+year: 2026
+status: internal
+domains: [code-review]
+autonomy: drafts-reviewed
+summary: "A specialized agent that automatically reviews 10,000+ PRs a week across 56 repositories, emphasizing grounded high-confidence findings over noisy comments."
+headline_metric: "10,000+ PRs reviewed per week across 56 repositories; 60.2% action rate on high/critical findings"
+architecture:
+  sandbox: ""
+  harness: "Three architecture versions; emphasis on attention and grounded, high-confidence findings rather than commenting everywhere"
+  model: "Not specified"
+  interfaces: [github]
+  tool_access: "Reviews Go, iOS, Android, web, infrastructure, and data code"
+  knowledge: "Grounded findings tied to evidence"
+primitives:
+  - { name: Grounded findings, desc: "High-confidence, evidence-backed comments rather than blanket commentary" }
+key_metrics:
+  - "10,000+ PRs reviewed in a typical week across 56 repositories"
+  - "60.2% action rate on settled high/critical findings (measured sample)"
+lessons_learned:
+  - "Optimize for attention — minimize noisy comments; comment only with grounded, high-confidence findings"
+  - "Measure whether engineers actually act on findings (action rate), not comment volume"
+sources:
+  - { title: "How DoorDash built an AI code reviewer engineers actually listen to", url: "https://careersatdoordash.com/blog/doordash-built-an-ai-code-reviewer-engineers-actually-listen-to/", type: "blog" }

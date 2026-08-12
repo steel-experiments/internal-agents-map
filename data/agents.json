@@ -10,12 +10,12 @@
       "code-review"
     ],
     "autonomy": "drafts-reviewed",
-    "summary": "An orchestration layer that coordinates multiple AI agents across Block's entire codebase, invoked in Slack to take a ticket end-to-end to a reviewed PR.",
+    "summary": "A multi-agent orchestration layer built on goose + MCP that coordinates agents across Block's entire codebase, invoked in Slack to take a ticket end-to-end to a reviewed PR.",
     "headline_metric": "~1,500 PRs merged per week (~15% of all production code changes at Block)",
     "architecture": {
       "sandbox": "Not detailed publicly",
-      "harness": "Agent orchestration layer coordinating multiple specialized agents; multi-player, real-time, operating inside Slack threads",
-      "model": "Not specified",
+      "harness": "Multi-agent orchestration built on goose (open-source agent framework) + MCP; multi-player, real-time, operating inside Slack threads",
+      "model": "goose framework; model not specified",
       "interfaces": [
         "slack",
         "linear",
@@ -23,8 +23,7 @@
         "github"
       ],
       "tool_access": "MCP connects agents to internal tools and data; picks up Linear/Jira tickets, creates the branch, writes code, opens the PR, watches CI",
-      "knowledge": "Full-context index of Block's codebase — every service, API, and convention across hundreds of millions of lines and hundreds of services",
-      "credentials": "Not detailed publicly"
+      "knowledge": "Company-wide code context across hundreds of millions of lines and hundreds of services; Block also frames Builderbot as an 'agentic protector' around its software world model"
     },
     "primitives": [
       {
@@ -33,7 +32,7 @@
       },
       {
         "name": "Ticket-driven flow",
-        "desc": "Linear/Jira ticket → branch → code → PR → CI watch, end to end"
+        "desc": "Linear/Jira ticket -> branch -> code -> PR -> CI watch, end to end"
       }
     ],
     "key_metrics": [
@@ -50,6 +49,11 @@
       {
         "title": "Block rolls out Builderbot, a new suite of AI-native tools that changes the way we ship",
         "url": "https://block.xyz/inside/block-rolls-out-builderbot-a-new-suite-of-ai-native-tools-that-changes-the-way-we-ship",
+        "type": "blog"
+      },
+      {
+        "title": "Protecting our systems with intelligence (Builderbot architecture)",
+        "url": "https://engineering.block.xyz/blog/protecting-our-systems-with-intelligence",
         "type": "blog"
       }
     ]
@@ -239,9 +243,164 @@
     ]
   },
   {
+    "id": "coinbase-forge-mux",
+    "company": "Coinbase",
+    "agent_name": "Forge / Mux",
+    "year": 2026,
+    "status": "internal",
+    "domains": [
+      "coding",
+      "code-review"
+    ],
+    "autonomy": "drafts-reviewed",
+    "summary": "Forge turns a Slack/GitHub/Linear discussion into a Linear issue, fix, PR, and one-off build; Mux lets employees run many coding agents concurrently.",
+    "headline_metric": "Mux: 600+ users across Coinbase organizations (April 2026)",
+    "architecture": {
+      "sandbox": "Mux gives each concurrent agent its own git worktree, branch, and terminal",
+      "harness": "Portfolio approach — Claude Code, OpenCode, Cursor, and Copilot rather than one harness; Forge is a custom harness invokable from Slack, GitHub, and Linear",
+      "model": "Portfolio across multiple providers",
+      "interfaces": [
+        "slack",
+        "github",
+        "linear"
+      ],
+      "tool_access": "Linear treated as the structured product context / source of truth",
+      "knowledge": "Linear as the durable structured-context layer for product work"
+    },
+    "primitives": [
+      {
+        "name": "Forge",
+        "desc": "Custom harness: Slack bug discussion → Linear issue → fix → PR → one-off build"
+      },
+      {
+        "name": "Mux",
+        "desc": "Concurrency layer — one human coordinates many isolated coding agents, each in its own worktree/branch/terminal"
+      }
+    ],
+    "key_metrics": [
+      "Mux: 600+ users across Coinbase organizations (April 2026)"
+    ],
+    "lessons_learned": [
+      "Support a portfolio of harnesses (Claude Code, OpenCode, Cursor, Copilot) rather than standardizing on one",
+      "Keep the system of record (Linear) as the agent's structured context — conversation can be the input, Linear stays durable",
+      "Simple per-agent worktree/branch/terminal isolation is a pragmatic alternative to full sandboxing for concurrent coding"
+    ],
+    "sources": [
+      {
+        "title": "Coding had a concurrency problem: how Mux helped solve it",
+        "url": "https://www.coinbase.com/de/blog/coding-had-a-concurrency-problem-how-mux-helped-solve-it",
+        "type": "blog"
+      },
+      {
+        "title": "Coinbase × Linear (Forge workflow)",
+        "url": "https://linear.app/customers/coinbase",
+        "type": "case-study"
+      }
+    ]
+  },
+  {
+    "id": "domu-clementino",
+    "company": "Domu",
+    "agent_name": "Clementino",
+    "year": 2026,
+    "status": "internal",
+    "domains": [
+      "support",
+      "finance-ops",
+      "coding",
+      "recruitment",
+      "customer-success"
+    ],
+    "autonomy": "human-in-loop",
+    "summary": "A general-purpose 'AI colleague' spanning sales, finance, client ops, engineering, and recruitment, later split into a reusable toolkit plus Slack and desktop surfaces.",
+    "headline_metric": "~35 integrations organized into skills; customer-impacting actions behind Slack approval gates",
+    "architecture": {
+      "sandbox": "",
+      "harness": "Claude/Anthropic SDK wrapper; a reusable tool/skill/memory layer separated from the Slack and desktop interfaces",
+      "model": "Claude (Anthropic SDK)",
+      "interfaces": [
+        "slack",
+        "desktop"
+      ],
+      "tool_access": "~35 integrations organized into skills; specialist delegates per domain",
+      "knowledge": "Four memory layers: conversation context, persistent facts, knowledge RAG, and live system state",
+      "credentials": "Customer-impacting actions gated behind team-visible Slack approvals",
+      "context_mgmt": "Four-layer memory separation; prompt size dropped substantially after splitting capabilities from the Slack layer"
+    },
+    "primitives": [
+      {
+        "name": "Four memory layers",
+        "desc": "Transient conversation, persistent facts, knowledge RAG, and live system state — kept separate"
+      },
+      {
+        "name": "Reusable toolkit split",
+        "desc": "Capabilities separated from the interface layer so they power multiple surfaces"
+      }
+    ],
+    "key_metrics": [
+      "~35 integrations organized into skills"
+    ],
+    "lessons_learned": [
+      "Separate reusable capabilities (tools/skills/memory) from the interface layer — prompt size drops while capability is preserved",
+      "Model memory explicitly: conversation context, persistent facts, RAG, and live state have different lifecycles",
+      "Gate customer-impacting actions behind human approvals rather than trusting the model"
+    ],
+    "sources": [
+      {
+        "title": "Why we split our internal agent in two",
+        "url": "https://domu.ai/blog/why-we-split-our-internal-agent-in-two",
+        "type": "blog"
+      }
+    ]
+  },
+  {
+    "id": "doordash-code-review",
+    "company": "DoorDash",
+    "agent_name": "AI Code Review Agent",
+    "year": 2026,
+    "status": "internal",
+    "domains": [
+      "code-review"
+    ],
+    "autonomy": "drafts-reviewed",
+    "summary": "A specialized agent that automatically reviews 10,000+ PRs a week across 56 repositories, emphasizing grounded high-confidence findings over noisy comments.",
+    "headline_metric": "10,000+ PRs reviewed per week across 56 repositories; 60.2% action rate on high/critical findings",
+    "architecture": {
+      "sandbox": "",
+      "harness": "Three architecture versions; emphasis on attention and grounded, high-confidence findings rather than commenting everywhere",
+      "model": "Not specified",
+      "interfaces": [
+        "github"
+      ],
+      "tool_access": "Reviews Go, iOS, Android, web, infrastructure, and data code",
+      "knowledge": "Grounded findings tied to evidence"
+    },
+    "primitives": [
+      {
+        "name": "Grounded findings",
+        "desc": "High-confidence, evidence-backed comments rather than blanket commentary"
+      }
+    ],
+    "key_metrics": [
+      "10,000+ PRs reviewed in a typical week across 56 repositories",
+      "60.2% action rate on settled high/critical findings (measured sample)"
+    ],
+    "lessons_learned": [
+      "Optimize for attention — minimize noisy comments; comment only with grounded, high-confidence findings",
+      "Measure whether engineers actually act on findings (action rate), not comment volume"
+    ],
+    "sources": [
+      {
+        "title": "How DoorDash built an AI code reviewer engineers actually listen to",
+        "url": "https://careersatdoordash.com/blog/doordash-built-an-ai-code-reviewer-engineers-actually-listen-to/",
+        "type": "blog"
+      }
+    ]
+  },
+  {
     "id": "doordash-flux",
     "company": "DoorDash",
-    "agent_name": "Flux",
+    "agent_name": "Flux / Agentic AI Platform",
     "year": 2026,
     "status": "internal",
     "domains": [
@@ -249,30 +408,33 @@
       "coding",
       "ci-triage",
       "on-call",
-      "maintenance"
+      "maintenance",
+      "data"
     ],
     "autonomy": "drafts-reviewed",
-    "summary": "A cloud-based agents platform for engineers that delegates unattended engineering tasks to secure autonomous agents.",
-    "headline_metric": "130,000 engineering tasks automated in one month",
+    "summary": "DoorDash's internal agentic AI platform — a unified cognitive layer over company data and operations, with an AI Marketplace of specialized agents and the Flux cloud-agent runtime for engineering tasks.",
+    "headline_metric": "130,000 engineering tasks automated in one month; 10,000+ PRs reviewed per week",
     "architecture": {
       "sandbox": "Firecracker microVMs; <5s p95 end-to-end setup (boot, clone repos, install tools, configure harness)",
-      "harness": "Supports multiple coding-agent harnesses behind a common interface",
+      "harness": "Maturity model: deterministic workflows -> ReAct agents -> hierarchical deep agents -> experimental swarms",
       "model": "Multiple frontier models",
       "interfaces": [
         "slack",
         "github",
         "cron",
         "cli",
-        "conversational-skill"
+        "conversational-skill",
+        "cursor"
       ],
-      "tool_access": "In-house MCP gateway ('Agent Gateway'); tools declared per playbook, permissions scoped per task, every action logged",
-      "knowledge": "DoorDash-specific context packaged into playbooks",
-      "credentials": "Scoped per playbook; brokered through the gateway, never on the laptop"
+      "tool_access": "In-house MCP gateway ('Agent Gateway'); LangGraph orchestration; prospective A2A; tools declared per playbook with scoped, logged permissions",
+      "knowledge": "AI Marketplace of specialized agents; DataExplorer for grounded analytics; DoorDash-specific context in playbooks",
+      "credentials": "Scoped per playbook; brokered through the gateway, never on the laptop; provenance on every action",
+      "context_mgmt": "Hybrid retrieval: BM25 + dense semantic + reciprocal-rank fusion -> RAG; schema-aware SQL with EXPLAIN validation"
     },
     "primitives": [
       {
         "name": "Sandbox",
-        "desc": "Isolated Firecracker microVM with repos, tools, secrets, and runtime deps"
+        "desc": "Isolated Firecracker microVM with repos, tools, secrets, runtime deps"
       },
       {
         "name": "MCP Gateway",
@@ -283,8 +445,12 @@
         "desc": "YAML unit of agentic work: task, inputs, skills, tools, permissions, validation, outputs"
       },
       {
-        "name": "Invocation Surface",
-        "desc": "Trigger the same playbook from Slack, GitHub, cron, CLI, or a skill"
+        "name": "DataExplorer",
+        "desc": "Identifies schemas, generates grounded SQL, validates via EXPLAIN before execution"
+      },
+      {
+        "name": "Maturity model",
+        "desc": "Workflows -> agents -> deep-agent hierarchies -> swarms; governance hardens as control decentralizes"
       }
     ],
     "key_metrics": [
@@ -293,15 +459,23 @@
       "300+ playbooks; 10,000+ invocations per week"
     ],
     "lessons_learned": [
-      "Start narrow to earn trust — began with automated code review (frequent, measurable, easy to evaluate) before CI triage, on-call, maintenance, ticket-driven dev",
+      "Start narrow to earn trust — began with automated code review before CI triage, on-call, maintenance, ticket-driven dev",
       "Make the work visible — public Slack threads drove adoption; private per-run channels did not build team habits",
-      "Playbooks need enablement — workshops and hackathons turn repeated operational work into reusable playbooks"
+      "Playbooks need enablement — workshops and hackathons turn repeated operational work into reusable playbooks",
+      "Earn complexity by exhausting simpler primitives first — keep swarms at the research frontier until governance catches up",
+      "Deterministic verification before probabilistic judgment — SQL linting and EXPLAIN before deeper validation; LLM-as-judge + DeepEval",
+      "Log provenance so any answer traces back to source queries, documents, and inter-agent activity"
     ],
     "sources": [
       {
         "title": "Delegating Engineering Work To Cloud-Based Agents (Flux)",
         "url": "https://x.com/AIatDoorDash/status/2087285008906240193",
         "type": "post"
+      },
+      {
+        "title": "Beyond single agents: DoorDash's collaborative AI ecosystem",
+        "url": "https://careersatdoordash.com/blog/beyond-single-agents-doordash-building-collaborative-ai-ecosystem/",
+        "type": "blog"
       }
     ]
   },
@@ -365,6 +539,105 @@
     ]
   },
   {
+    "id": "flex-investigation-agent",
+    "company": "Flex",
+    "agent_name": "AI Investigation Agent",
+    "year": 2026,
+    "status": "internal",
+    "domains": [
+      "finance-ops",
+      "on-call",
+      "coding"
+    ],
+    "autonomy": "drafts-reviewed",
+    "summary": "A Slack agent for HSA/FSA payment operations that traces a payment end-to-end and, when it finds a software bug, prepares a PR with a proposed fix.",
+    "headline_metric": "Used by the team every day for payment-ops investigation",
+    "architecture": {
+      "sandbox": "Not specified publicly",
+      "harness": "Investigation-to-fix loop; underlying runtime not documented",
+      "model": "Not specified",
+      "interfaces": [
+        "slack"
+      ],
+      "tool_access": "Traces a payment end-to-end across payment systems; can open a PR with a proposed fix when a bug is found"
+    },
+    "primitives": [
+      {
+        "name": "Investigation-to-fix loop",
+        "desc": "Payment trace → root-cause hypothesis → proposed code fix as a PR"
+      }
+    ],
+    "key_metrics": [],
+    "lessons_learned": [
+      "Start where correctness is observable — payment investigation produces artifacts (a trace, a hypothesis, a diff) that can be checked",
+      "An ops agent that can prepare a fix (not just a report) closes the loop from investigation to code"
+    ],
+    "sources": [
+      {
+        "title": "The Flex AI Investigation Agent for HSA/FSA payments",
+        "url": "https://www.withflex.com/blog/the-flex-ai-investigation-agent-for-hsa-fsa-payments",
+        "type": "blog"
+      }
+    ]
+  },
+  {
+    "id": "harvey-spectre",
+    "company": "Harvey",
+    "agent_name": "Spectre",
+    "year": 2026,
+    "status": "internal",
+    "domains": [
+      "coding",
+      "code-review",
+      "on-call",
+      "security"
+    ],
+    "autonomy": "drafts-reviewed",
+    "summary": "Harvey's internal collaborative cloud agent platform — reacts to incidents, bug reports, and Slack messages and produces reviewable diffs, branches, and PRs.",
+    "headline_metric": "Extends to an always-on agentic security operations center",
+    "architecture": {
+      "sandbox": "Isolated ephemeral execution environments; durable runs",
+      "harness": "Collaborative cloud agent platform with explicit boundaries around GitHub, Datadog, Linear, etc.",
+      "model": "Not specified",
+      "interfaces": [
+        "slack",
+        "web",
+        "automations"
+      ],
+      "tool_access": "Explicit tool boundaries; reacts to incidents, bug reports, customer feedback, and Slack messages",
+      "credentials": "Explicit tool boundaries; outputs are reviewable",
+      "context_mgmt": "Durable runs over disposable execution environments"
+    },
+    "primitives": [
+      {
+        "name": "Durable runs / ephemeral execution",
+        "desc": "Long-lived run state over throwaway compute"
+      },
+      {
+        "name": "Reviewable artifacts",
+        "desc": "Outputs are summaries, diffs, branches, PRs — not silent actions"
+      }
+    ],
+    "key_metrics": [],
+    "lessons_learned": [
+      "Make outputs reviewable (diffs, branches, PRs) rather than letting the agent act silently",
+      "Implementation speed shifts the bottleneck toward review, prioritization, and coordination",
+      "The same agent substrate extends beyond engineering (e.g. an agentic SOC)"
+    ],
+    "sources": [
+      {
+        "title": "Building Spectre — internal collaborative cloud agent platform",
+        "url": "https://www.harvey.ai/blog/building-spectre-internal-collaborative-cloud-agent-platform",
+        "type": "blog"
+      },
+      {
+        "title": "Building an agentic security operations center",
+        "url": "https://www.harvey.ai/blog/building-an-agentic-security-operations-center",
+        "type": "blog"
+      }
+    ]
+  },
+  {
     "id": "linear-agent",
     "company": "Linear",
     "agent_name": "Linear Agent",
@@ -376,21 +649,21 @@
       "coding"
     ],
     "autonomy": "drafts-reviewed",
-    "summary": "Turns customer emails and Slack into scoped Linear issues, investigates context, and hands scoped work to coding agents that open PRs.",
-    "headline_metric": "Customer request → scoped issue → working PR, end to end",
+    "summary": "A native agent that synthesizes workspace context, triages, creates follow-up work, runs coding sessions, and executes scheduled/event-driven 'Loops' — used by Linear's own CX, Product, and Engineering teams.",
+    "headline_metric": "Customer request -> scoped issue -> working PR, end to end",
     "architecture": {
       "sandbox": "Not detailed publicly",
-      "harness": "Separate planning agent (issue creation) and coding agent (code generation); Code Intelligence for codebase knowledge",
-      "model": "Codex used for PR review",
+      "harness": "Separate planning agent (triage/issue creation) and coding agent (code generation); Code Intelligence for codebase knowledge; scheduled/event-driven 'Loops'",
+      "model": "GPT-5 + Gemini 2.5 Pro in Triage Intelligence; Claude Code or Codex for coding sessions",
       "interfaces": [
         "slack",
         "intercom",
         "linear-app",
         "github"
       ],
-      "tool_access": "Triage Intelligence (auto-route, dedup, label); GitHub integration; testing Code Intelligence + custom MCP servers",
-      "knowledge": "Full email/conversation context with metadata + attachments; Code Intelligence for decision history; Datadog/Sentry customer context",
-      "credentials": "Issues stay assigned to a human even when delegated — 'an agent cannot be held accountable'; humans make the final PR approval"
+      "tool_access": "Triage Intelligence (auto-route, dedup, label); GitHub; testing Code Intelligence + custom MCP servers",
+      "knowledge": "Semantic/vector search evolved into agentic context acquisition across the workspace; Datadog/Sentry customer context",
+      "credentials": "The Agent SDK gives agents explicit identities, scoped OAuth tokens, assignable/mentionable handles, and visible human delegation — issues stay assigned to a human; 'an agent cannot be held accountable'"
     },
     "primitives": [
       {
@@ -398,8 +671,12 @@
         "desc": "Auto-routes issues, flags duplicates, suggests labels"
       },
       {
-        "name": "Skills",
-        "desc": "Repeatable workflows that can be saved and reused"
+        "name": "Agent SDK identities",
+        "desc": "Agents get identities, scoped team access, and visible delegation alongside humans"
+      },
+      {
+        "name": "Loops",
+        "desc": "Scheduled or event-driven agent runs that execute recurring work"
       }
     ],
     "key_metrics": [],
@@ -419,6 +696,11 @@
       {
         "title": "How we use Linear Agent at Linear",
         "url": "https://linear.app/now/how-we-use-linear-agent-at-linear",
+        "type": "blog"
+      },
+      {
+        "title": "Our approach to building the Agent Interaction SDK",
+        "url": "https://linear.app/now/our-approach-to-building-the-agent-interaction-sdk",
         "type": "blog"
       }
     ]
@@ -497,14 +779,15 @@
     "status": "internal",
     "domains": [
       "coding",
-      "code-review"
+      "code-review",
+      "on-call"
     ],
     "autonomy": "drafts-reviewed",
-    "summary": "A background coding agent that closes the loop on verifying its own work — runs tests, reviews telemetry, queries feature flags, visually verifies the frontend.",
-    "headline_metric": "~30% of merged PRs across frontend and backend written by Inspect",
+    "summary": "A background coding agent that closes the loop on verifying its own work — runs tests, reviews telemetry, queries feature flags, visually verifies the frontend — now also monitoring production and proposing fixes.",
+    "headline_metric": "60%+ of Ramp's merged PRs authored by Inspect (April 2026)",
     "architecture": {
       "sandbox": "Modal sandboxes; per-repo images rebuilt every 30 min from snapshots; warm-on-keystroke; a pool of warm sandboxes",
-      "harness": "OpenCode (server-first) as the agent runtime; a plugin blocks writes until sync completes",
+      "harness": "OpenCode (server-first) as the agent runtime; a plugin blocks writes until sync completes; expanded into production monitoring and self-maintenance",
       "model": "All frontier models, MCPs, custom tools, skills",
       "interfaces": [
         "slack",
@@ -512,9 +795,9 @@
         "chrome-extension",
         "pull-request"
       ],
-      "tool_access": "Wired into Sentry, Datadog, LaunchDarkly, Braintrust, GitHub, Slack, Buildkite",
+      "tool_access": "Wired into Sentry, Datadog, LaunchDarkly, Braintrust, GitHub, Slack, Buildkite; monitors production, triages issues, proposes fixes",
       "knowledge": "Skills that encode how Ramp ships; repo images with the full dev env (Vite, Postgres, Temporal)",
-      "credentials": "GitHub auth per user; the sandbox pushes the branch, an API opens the PR with the user's token (no self-approval)"
+      "credentials": "GitHub auth per user; the sandbox pushes the branch, an API opens the PR with the user's token (no self-approval); production merges retain human review"
     },
     "primitives": [
       {
@@ -531,7 +814,8 @@
       }
     ],
     "key_metrics": [
-      "~30% of merged PRs (frontend + backend) written by Inspect",
+      "60%+ of merged PRs authored by Inspect (April 2026)",
+      "~30% of merged PRs (frontend + backend) at launch",
       "Session speed limited only by model-provider time-to-first-token"
     ],
     "lessons_learned": [
@@ -543,7 +827,104 @@
     "sources": [
       {
         "title": "Why We Built Our Own Background Agent (Inspect)",
-        "url": "https://builders.ramp.com/post/why-we-built-our-background-agent",
+        "url": "https://engineering.ramp.com/post/why-we-built-our-background-agent",
+        "type": "blog"
+      },
+      {
+        "title": "Ramp x Linear (60%+ of merged PRs via Inspect)",
+        "url": "https://linear.app/customers/ramp",
+        "type": "case-study"
+      }
+    ]
+  },
+  {
+    "id": "replit-manager-agent",
+    "company": "Replit",
+    "agent_name": "Manager agent (agent-of-agents)",
+    "year": 2026,
+    "status": "internal",
+    "domains": [
+      "coding",
+      "code-review",
+      "support",
+      "research",
+      "data"
+    ],
+    "autonomy": "drafts-reviewed",
+    "summary": "An internal agent-of-agents stack where every employee gets a manager agent that spawns multiple agents for verifiable work and escalates judgment to humans.",
+    "headline_metric": "~3x engineering code output over six months without degradation in review/revert/incident metrics",
+    "architecture": {
+      "sandbox": "Not specified publicly",
+      "harness": "Fleet/loop orchestration: a manager agent launches parallel agents for verifiable work and escalates judgment",
+      "model": "Not specified",
+      "interfaces": [
+        "slack"
+      ],
+      "tool_access": "Investigates incidents, reviews PRs, answers questions, analyzes company data, triages support, researches sales accounts, improves Replit Agent itself",
+      "context_mgmt": "Manager agent coordinates parallel sub-agents and routes results"
+    },
+    "primitives": [
+      {
+        "name": "Manager agent",
+        "desc": "One human gives an objective; the manager spawns parallel agents for verifiable work and escalates judgment"
+      }
+    ],
+    "key_metrics": [
+      "~3x engineering code output over six months",
+      "No corresponding deterioration in review/reversion/incident metrics"
+    ],
+    "lessons_learned": [
+      "Give every employee a manager agent that spawns sub-agents — verifiable work parallelizes, judgment escalates to humans",
+      "Track outcome metrics (reverts, incidents), not activity — output can scale without quality regressions"
+    ],
+    "sources": [
+      {
+        "title": "The Self-Driving Company",
+        "url": "https://ld.replit.com/blog/self-driving-company",
+        "type": "blog"
+      }
+    ]
+  },
+  {
+    "id": "salesforce-slackbot",
+    "company": "Salesforce",
+    "agent_name": "Slackbot",
+    "year": 2026,
+    "status": "commercialized",
+    "domains": [
+      "support",
+      "customer-success",
+      "ops"
+    ],
+    "autonomy": "drafts-reviewed",
+    "summary": "Salesforce was 'customer zero' for the rebuilt Slackbot — an employee agent that finds company context, drafts work, and connects Slack context with Salesforce data; now also an external product.",
+    "headline_metric": "Permission-aware by construction — sees only what the employee can see",
+    "architecture": {
+      "sandbox": "",
+      "harness": "An employee agent intended as a front door to other agents",
+      "model": "Not specified",
+      "interfaces": [
+        "slack"
+      ],
+      "tool_access": "Finds company context, drafts work, manages meetings, connects Slack context with Salesforce data",
+      "knowledge": "Slack context joined with Salesforce CRM data",
+      "credentials": "Permission-aware by construction — sees what the employee can see, respects roles and access controls"
+    },
+    "primitives": [
+      {
+        "name": "Permission-aware context",
+        "desc": "Agent visibility is bounded by the invoking employee's permissions"
+      }
+    ],
+    "key_metrics": [],
+    "lessons_learned": [
+      "Dogfood internally first ('customer zero') before shipping externally",
+      "Make permission-awareness a construction property, not a prompt instruction — the agent sees only what the employee can see"
+    ],
+    "sources": [
+      {
+        "title": "Salesforce announces general availability of Slackbot",
+        "url": "https://www.salesforce.com/ap/news/press-releases/2026/01/14/salesforce-announces-the-general-availability-of-slackbot-your-personal-agent-for-work-sg/",
         "type": "blog"
       }
     ]
@@ -557,21 +938,22 @@
     "domains": [
       "coding",
       "code-review",
-      "support"
+      "support",
+      "on-call"
     ],
     "autonomy": "human-in-loop",
-    "summary": "An open-source Slack agent built at Sentry that acts like an intern — takes tasks, retrieves context, and is steered and reviewed by humans.",
-    "headline_metric": "Open-source Slack agent (~100k lines of TS) used internally at Sentry",
+    "summary": "An open-source Slack agent built at Sentry that acts like an intern — takes tasks, retrieves context across many company systems, and is steered and reviewed by humans. Its CEO argues one general-purpose agent beat several vendor-specific bots.",
+    "headline_metric": "Open-source (Apache-2.0) Slack agent (~100k lines of TS) used internally at Sentry",
     "architecture": {
       "sandbox": "Vercel serverless functions; Vercel agent-browser sandbox with a MITM proxy for traffic interception; ephemeral containers",
-      "harness": "Custom harness on Pi's SDK; a task broker over Vercel Queues with an inbox → worker-claim → interrupt/resume pattern to survive serverless timeouts",
+      "harness": "Custom harness on Pi's SDK; a task broker over Vercel Queues with an inbox -> worker-claim -> interrupt/resume pattern to survive serverless timeouts; 'skills-as-runbooks'",
       "model": "Claude Sonnet (faster); swappable (Opus as a more expensive option)",
       "interfaces": [
         "slack",
         "web-dashboard",
         "github"
       ],
-      "tool_access": "Progressive discovery via MCP — by default Junior connects to no provider until the agent requests a tool lookup; a GitHub plugin with typed tools; Sentry CLI/API",
+      "tool_access": "Progressive discovery via MCP — by default Junior connects to no provider until the agent requests a tool lookup; plugins connect Sentry, GitHub, Linear, Notion",
       "knowledge": "Conversation transcripts persisted in Redis; repo search to trace code paths; skill docs (TELEMETRY.md, SOUL.md)",
       "credentials": "MITM-proxy injection — the model never sees the token because it's never in the sandbox; plugins declare OAuth flows and credential domains; GitHub distinguishes read vs. write",
       "context_mgmt": "Incremental transcript updates in Redis; resource subscriptions to GitHub PR events for follow-ups"
@@ -595,10 +977,10 @@
       "4 months from start to writeup"
     ],
     "lessons_learned": [
+      "One general-purpose agent connected to many company systems beats several vendor-specific bots",
+      "Skills-as-runbooks encode operational knowledge the agent can follow",
       "Stateless compute fights you — serverless functions time out and disappear; model the agent around interrupt/resume",
       "Unit tests are the wrong yardstick for agents — invest in evals and integration tests instead",
-      "Don't dump every tool schema into the prompt — progressive discovery keeps the context window lean",
-      "Credential plumbing is real work — a MITM proxy keeps secrets out of the sandbox but adds significant surface",
       "Writes need per-user authorization, not blanket trust"
     ],
     "sources": [
@@ -608,8 +990,13 @@
         "type": "blog"
       },
       {
-        "title": "getsentry/junior (open-source repo)",
+        "title": "getsentry/junior (open-source, Apache-2.0)",
         "url": "https://github.com/getsentry/junior",
+        "type": "docs"
+      },
+      {
+        "title": "Sentry Labs",
+        "url": "https://labs.sentry.dev/",
         "type": "docs"
       }
     ]
@@ -671,6 +1058,80 @@
       {
         "title": "Under the River",
         "url": "https://shopify.engineering/under-the-river",
+        "type": "blog"
+      }
+    ]
+  },
+  {
+    "id": "sierra-pinecone",
+    "company": "Sierra",
+    "agent_name": "Pinecone",
+    "year": 2026,
+    "status": "internal",
+    "domains": [
+      "coding",
+      "code-review",
+      "support",
+      "research",
+      "data"
+    ],
+    "autonomy": "drafts-reviewed",
+    "summary": "One company-wide agent that collapsed separate support, analytics, engineering, and sales agents into a single runtime with an MCP Gateway to 37 systems.",
+    "headline_metric": "75,000+ sessions for 600+ people; opened 70% of company PRs",
+    "architecture": {
+      "sandbox": "Agency layer reconciles recoverable Kubernetes runners; conversation/events/checkpoints stay durable separately",
+      "harness": "App server + Agency + runners; intent-based model/environment routing (Claude Code + Codex)",
+      "model": "Claude Code + Codex; routes by intent (planning, coding, prose)",
+      "interfaces": [
+        "slack",
+        "web",
+        "linear",
+        "mobile"
+      ],
+      "tool_access": "MCP Gateway connected to 37 systems; a network proxy decides whether privileged requests proceed and injects credentials after approval",
+      "knowledge": "Durable sessions over disposable environments; Redis Streams",
+      "credentials": "Gateway enforces the invoking employee's access at tool-call time and isolates customer data; the harness never holds the real secret",
+      "context_mgmt": "Durable session state separated from ephemeral compute"
+    },
+    "primitives": [
+      {
+        "name": "MCP Gateway (37 systems)",
+        "desc": "One gateway spanning 37 systems, enforcing employee permissions at call time"
+      },
+      {
+        "name": "Agency sandbox layer",
+        "desc": "Recoverable K8s runners with a network proxy for credential injection"
+      },
+      {
+        "name": "Intent-based routing",
+        "desc": "Routes model and environment by request intent, independent of the tool layer"
+      }
+    ],
+    "key_metrics": [
+      "75,000+ sessions for 600+ people (July 2026)",
+      "Opened 70% of company PRs",
+      "Hundreds of automations"
+    ],
+    "lessons_learned": [
+      "Collapse departmental bots into one agent — cross-functional jobs don't respect org-chart boundaries",
+      "Own the routing/context/workflow layer; let models be interchangeable (different models win at planning, coding, prose)",
+      "Enforce permissions at the tool-call layer via a gateway, not via prompt instructions",
+      "Session counts and tool calls are usage, not value — track business outcomes instead"
+    ],
+    "sources": [
+      {
+        "title": "Pinecone: harnessing the wisdom of the workforce",
+        "url": "https://sierra.ai/jp/blog/pinecone-harnessing-the-wisdom-of-the-workforce",
+        "type": "blog"
+      },
+      {
+        "title": "Building Sierra's MCP Gateway",
+        "url": "https://sierra.ai/blog/building-sierras-mcp-gateway-an-engineering-iceberg",
+        "type": "blog"
+      },
+      {
+        "title": "Agency: secure, scalable sandboxes for agents",
+        "url": "https://sierra.ai/es/blog/agency-secure-scalable-sandboxes-for-agents",
         "type": "blog"
       }
     ]
@@ -739,47 +1200,47 @@
       "code-review"
     ],
     "autonomy": "drafts-reviewed",
-    "summary": "A background coding agent for large-scale changes (Honk) running on a vendor-neutral, model-agnostic session environment (Xirp) backed by org context (Portal/Backstage).",
+    "summary": "Honk is Spotify's background coding agent (high confidence); Xirp is the workspace/context/session layer around it (medium confidence). Honk runs on a Claude-Agent-SDK harness in Kubernetes with deterministic CI verifiers and an LLM judge that can veto a run.",
     "headline_metric": "1,500+ merged AI-generated PRs; ~50% of Spotify PRs automated",
     "architecture": {
-      "sandbox": "Containerized runtime that runs transformations as jobs inside Fleet Management",
-      "harness": "An internal CLI delegating to pluggable agents; Xirp coordinates 50+ parallel sessions, each in its own worktree, with the model swappable mid-task",
-      "model": "Multiple and interchangeable (Claude Code, Gemini CLI, Codex, open-weight self-hosted)",
+      "sandbox": "Honk runs in a constrained Kubernetes container (it does not inherit arbitrary engineer credentials); jobs execute inside Fleet Management / Fleetshift",
+      "harness": "Honk: Claude Agent SDK + Spotify's own harness + Kubernetes pods; Honk v2 adds shared sessions, projects, and Chirp orchestration",
+      "model": "Claude via the Agent SDK (Claude-centric); the surrounding platform is multi-model",
       "interfaces": [
         "slack",
         "github",
         "cli"
       ],
-      "tool_access": "Local MCP for formatting/linting; an LLM-as-judge for diff evaluation; traces in MLflow",
-      "knowledge": "Fleet Management for repo targeting + PR workflow; Portal/Backstage software catalog for ownership, deps, architecture",
-      "credentials": "Inherits Fleet Management auth/authz for repo access and PR operations",
-      "context_mgmt": "Xirp pairs with Portal: every session initializes with org context; transcripts/metadata flow back to Portal"
+      "tool_access": "Limited, deliberate tool surface; deterministic CI verifiers run before a PR proceeds, then an independent LLM judge that can veto a run; MCP and CLI for org context",
+      "knowledge": "Backstage/catalog ownership and developer-standardization primitives built over years, exposed via MCP/CLI",
+      "credentials": "Runs in a constrained container rather than inheriting engineer credentials",
+      "context_mgmt": "Fleet Management coordinates repo targeting, builds/tests, and PR workflow at scale; Xirp pairs sessions with Portal org context"
     },
     "primitives": [
       {
-        "name": "Pluggable harness",
-        "desc": "Swap agents and LLMs without rebuilding the surrounding infra"
+        "name": "Deterministic-then-judge verification",
+        "desc": "Build/test verifiers gate the PR; an LLM judge can veto the run afterward"
       },
       {
         "name": "Fleet management",
         "desc": "Target thousands of repos, run builds/tests, open and merge PRs at fleet scale"
       },
       {
-        "name": "Org context (Portal/Backstage)",
-        "desc": "Component architecture, dependency graphs, and ownership as a shared baseline"
+        "name": "Xirp (workspace/context layer)",
+        "desc": "The session/context surface around the agent rather than an autonomous worker itself"
       }
     ],
     "key_metrics": [
       "1,500+ merged AI-generated PRs (Honk)",
-      "60–90% time savings on migrations vs manual",
+      "60-90% time savings on migrations vs manual",
       "~50% of Spotify PRs automated",
       "36,000+ Xirp sessions; thousands of engineers"
     ],
     "lessons_learned": [
-      "Flexibility is critical — a pluggable architecture enabled multiple LLM/agent swaps in a fast-moving landscape",
-      "Migration and ad-hoc agent workflows share config improvements (symbiosis)",
-      "AI lowers the barrier for changes that previously required AST/regex expertise",
-      "Autonomy without structure fragments into per-engineer configs (CLAUDE.md, MCP setups) — shared org context is the multiplier"
+      "Run deterministic verification before probabilistic judgment — CI verifiers first, LLM judge second",
+      "Constrain the agent's environment and tools rather than handing it engineer credentials",
+      "Invest in org context (Backstage/catalog) before agentic dev accelerates",
+      "Autonomy without structure fragments into per-engineer configs — shared org context is the multiplier"
     ],
     "sources": [
       {
@@ -788,9 +1249,95 @@
         "type": "blog"
       },
       {
-        "title": "Xirp — Powered by Spotify Portal",
+        "title": "Code with Claude: coding is no longer the constraint (Honk v2)",
+        "url": "https://engineering.atspotify.com/2026/6/code-with-claude-coding-is-no-longer-the-constraint",
+        "type": "blog"
+      },
+      {
+        "title": "Xirp - Powered by Spotify Portal",
         "url": "https://xirp.spotify.com/",
         "type": "docs"
+      }
+    ]
+  },
+  {
+    "id": "stripe-minions",
+    "company": "Stripe",
+    "agent_name": "Minions",
+    "year": 2026,
+    "status": "internal",
+    "domains": [
+      "coding",
+      "code-review"
+    ],
+    "autonomy": "drafts-reviewed",
+    "summary": "Homegrown one-shot coding agents that read work context, locate the right repo/workspace, implement a change end-to-end, and produce a PR for human review.",
+    "headline_metric": "1,000+ production PRs per week, reviewed and approved by humans",
+    "architecture": {
+      "sandbox": "Not specified publicly",
+      "harness": "One-shot agents: read context -> search the codebase -> determine the relevant repo/workspace -> implement -> PR",
+      "model": "Not specified",
+      "interfaces": [
+        "slack",
+        "github"
+      ],
+      "tool_access": "Searches Stripe's codebase to determine the relevant repository/workspace",
+      "knowledge": "Stripe's codebase as the context source",
+      "credentials": "Production PRs left for humans to review and approve"
+    },
+    "primitives": [
+      {
+        "name": "One-shot end-to-end agent",
+        "desc": "From work context to merge-ready PR in one shot, with human approval"
+      }
+    ],
+    "key_metrics": [
+      "1,000+ production PRs per week"
+    ],
+    "lessons_learned": [
+      "One-shot end-to-end coding agents work at scale when humans retain review/approval",
+      "Let the agent locate the right repo/workspace itself rather than pre-scoping it"
+    ],
+    "sources": [
+      {
+        "title": "Minions: Stripe's one-shot end-to-end coding agents",
+        "url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents",
+        "type": "blog"
+      },
+      {
+        "title": "Minions - Part Two",
+        "url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2",
+        "type": "blog"
+      }
+    ]
+  },
+  {
+    "id": "uber-coding-agent",
+    "company": "Uber",
+    "agent_name": "Internal coding agent (unnamed)",
+    "year": 2026,
+    "status": "internal",
+    "domains": [
+      "coding"
+    ],
+    "autonomy": "drafts-reviewed",
+    "summary": "Uber's internal coding agent, reported by its CTO as producing roughly 1,800 complete code changes per week.",
+    "headline_metric": "~1,800 complete code changes per week (~8% of changes)",
+    "architecture": {
+      "sandbox": "Not specified publicly",
+      "harness": "Not specified publicly"
+    },
+    "primitives": [],
+    "key_metrics": [
+      "~1,800 complete code changes per week (~8% of changes at the time)",
+      "95% of engineers use AI tools monthly"
+    ],
+    "lessons_learned": [],
+    "sources": [
+      {
+        "title": "Uber's CTO on AI coding agents (Business Insider)",
+        "url": "https://www.businessinsider.com/uber-cto-ai-coding-agentic-software-engineers-2026-3",
+        "type": "blog"
       }
     ]
   },
@@ -802,15 +1349,16 @@
     "status": "internal",
     "domains": [
       "coding",
-      "code-review"
+      "code-review",
+      "security"
     ],
     "autonomy": "drafts-reviewed",
-    "summary": "An internal autonomous 'code factory' where a continuously running swarm of agents handles the implementation loop while engineers focus on requirements and acceptance testing.",
+    "summary": "An internal autonomous 'code factory' where a continuously running swarm of agents handles the implementation loop while engineers focus on requirements and acceptance testing. Deliberately modular so the harness can evolve.",
     "headline_metric": "A self-improving platform — every run ships work and feeds fixes back in",
     "architecture": {
       "sandbox": "Cloudflare Containers + Sandbox SDK; disposable, tightly scoped sandboxes with explicit lifecycle APIs and egress controls; full monorepo stack in Docker dev containers",
-      "harness": "OpenCode preconfigured in the dev container; a worker processes webhooks; an agent orchestrator manages the sandbox lifecycle (create/pause/resume/destroy) and tracks state + artifacts",
-      "model": "Not specified",
+      "harness": "Modular by design — the core article runs OpenCode in the sandbox; the Applied AI Showcase runs Claude Remote Routines. The harness is swappable as agent tech changes; separate PM, implementation, and prospective verification/security roles",
+      "model": "Swappable — the harness is the constant, not the model",
       "interfaces": [
         "linear",
         "github",
@@ -844,14 +1392,24 @@
     "lessons_learned": [
       "You need purpose-built agent infrastructure — a runtime you control end-to-end with lifecycle APIs and egress controls",
       "Separate concerns: sandboxes are an execution primitive; the orchestrator is the control plane",
+      "Build modularly so the harness can evolve — OpenCode today, Claude Remote Routines tomorrow, without rebuilding the platform",
       "Make autonomy a platform — the system gets faster and more reliable through use as fixes feed back in",
-      "MCP tuning is an iterative product, not a one-time integration — codify the patterns engineers already follow",
-      "Build modularly so components can be swapped as tooling evolves"
+      "MCP tuning is an iterative product, not a one-time integration — codify the patterns engineers already follow"
     ],
     "sources": [
       {
-        "title": "Project Horizon — an autonomous code factory at WorkOS",
+        "title": "Project Horizon - an autonomous code factory at WorkOS",
         "url": "https://workos.com/blog/project-horizon",
+        "type": "blog"
+      },
+      {
+        "title": "Applied AI Showcase (Horizon with Claude Remote Routines)",
+        "url": "https://workos.com/blog/applied-ai-showcase",
+        "type": "blog"
+      },
+      {
+        "title": "An autonomous UI-quality program",
+        "url": "https://workos.com/blog/autonomous-ui-quality-program",
         "type": "blog"
       }
     ]
@@ -884,6 +1442,49 @@
         "title": "Inside YC's AI Playbook (Lightcone podcast, with Pete Koomen)",
         "url": "https://www.ycombinator.com/library/Qh-inside-yc-s-ai-playbook",
         "type": "podcast"
+      }
+    ]
+  },
+  {
+    "id": "zup-codegen",
+    "company": "Zup",
+    "agent_name": "CodeGen",
+    "year": 2026,
+    "status": "internal",
+    "domains": [
+      "coding"
+    ],
+    "autonomy": "human-in-loop",
+    "summary": "A research-documented internal coding agent where constrained editing tools and layered safety controls mattered more than prompt tweaks.",
+    "headline_metric": "Targeted tool design and layered safety > prompt engineering",
+    "architecture": {
+      "sandbox": "",
+      "harness": "Constrained editing tools; state-management concerns; progressive levels of human oversight",
+      "model": "Not specified (see paper)",
+      "interfaces": [],
+      "tool_access": "Constrained editing tools rather than free-form code generation",
+      "credentials": "Layered safety controls"
+    },
+    "primitives": [
+      {
+        "name": "Constrained editing tools",
+        "desc": "Tools that limit what the agent can change, vs. unconstrained generation"
+      },
+      {
+        "name": "Progressive oversight",
+        "desc": "Levels of human review that increase trust over time"
+      }
+    ],
+    "key_metrics": [],
+    "lessons_learned": [
+      "Targeted tool design and layered safety controls matter more than prompt tweaks",
+      "Progressive levels of human oversight help build trust before granting autonomy"
+    ],
+    "sources": [
+      {
+        "title": "Building an Internal Coding Agent at Zup",
+        "url": "https://arxiv.org/abs/2604.09805",
+        "type": "blog"
       }
     ]
   }

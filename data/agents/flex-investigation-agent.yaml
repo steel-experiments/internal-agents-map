@@ -1,0 +1,23 @@
+id: flex-investigation-agent
+company: Flex
+agent_name: "AI Investigation Agent"
+year: 2026
+status: internal
+domains: [finance-ops, on-call, coding]
+autonomy: drafts-reviewed
+summary: "A Slack agent for HSA/FSA payment operations that traces a payment end-to-end and, when it finds a software bug, prepares a PR with a proposed fix."
+headline_metric: "Used by the team every day for payment-ops investigation"
+architecture:
+  sandbox: "Not specified publicly"
+  harness: "Investigation-to-fix loop; underlying runtime not documented"
+  model: "Not specified"
+  interfaces: [slack]
+  tool_access: "Traces a payment end-to-end across payment systems; can open a PR with a proposed fix when a bug is found"
+primitives:
+  - { name: Investigation-to-fix loop, desc: "Payment trace → root-cause hypothesis → proposed code fix as a PR" }
+key_metrics: []
+lessons_learned:
+  - "Start where correctness is observable — payment investigation produces artifacts (a trace, a hypothesis, a diff) that can be checked"
+  - "An ops agent that can prepare a fix (not just a report) closes the loop from investigation to code"
+sources:
+  - { title: "The Flex AI Investigation Agent for HSA/FSA payments", url: "https://www.withflex.com/blog/the-flex-ai-investigation-agent-for-hsa-fsa-payments", type: "blog" }

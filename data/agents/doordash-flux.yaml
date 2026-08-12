@@ -1,32 +1,38 @@
 id: doordash-flux
 company: DoorDash
-agent_name: Flux
+agent_name: "Flux / Agentic AI Platform"
 year: 2026
 status: internal
-domains: [code-review, coding, ci-triage, on-call, maintenance]
+domains: [code-review, coding, ci-triage, on-call, maintenance, data]
 autonomy: drafts-reviewed
-summary: "A cloud-based agents platform for engineers that delegates unattended engineering tasks to secure autonomous agents."
-headline_metric: "130,000 engineering tasks automated in one month"
+summary: "DoorDash's internal agentic AI platform — a unified cognitive layer over company data and operations, with an AI Marketplace of specialized agents and the Flux cloud-agent runtime for engineering tasks."
+headline_metric: "130,000 engineering tasks automated in one month; 10,000+ PRs reviewed per week"
 architecture:
   sandbox: "Firecracker microVMs; <5s p95 end-to-end setup (boot, clone repos, install tools, configure harness)"
-  harness: "Supports multiple coding-agent harnesses behind a common interface"
+  harness: "Maturity model: deterministic workflows -> ReAct agents -> hierarchical deep agents -> experimental swarms"
   model: "Multiple frontier models"
-  interfaces: [slack, github, cron, cli, conversational-skill]
-  tool_access: "In-house MCP gateway ('Agent Gateway'); tools declared per playbook, permissions scoped per task, every action logged"
-  knowledge: "DoorDash-specific context packaged into playbooks"
-  credentials: "Scoped per playbook; brokered through the gateway, never on the laptop"
+  interfaces: [slack, github, cron, cli, conversational-skill, cursor]
+  tool_access: "In-house MCP gateway ('Agent Gateway'); LangGraph orchestration; prospective A2A; tools declared per playbook with scoped, logged permissions"
+  knowledge: "AI Marketplace of specialized agents; DataExplorer for grounded analytics; DoorDash-specific context in playbooks"
+  credentials: "Scoped per playbook; brokered through the gateway, never on the laptop; provenance on every action"
+  context_mgmt: "Hybrid retrieval: BM25 + dense semantic + reciprocal-rank fusion -> RAG; schema-aware SQL with EXPLAIN validation"
 primitives:
-  - { name: Sandbox, desc: "Isolated Firecracker microVM with repos, tools, secrets, and runtime deps" }
+  - { name: Sandbox, desc: "Isolated Firecracker microVM with repos, tools, secrets, runtime deps" }
   - { name: MCP Gateway, desc: "Governed, audited access to CI, observability, issue trackers, deploy, code search" }
   - { name: Playbook, desc: "YAML unit of agentic work: task, inputs, skills, tools, permissions, validation, outputs" }
-  - { name: Invocation Surface, desc: "Trigger the same playbook from Slack, GitHub, cron, CLI, or a skill" }
+  - { name: DataExplorer, desc: "Identifies schemas, generates grounded SQL, validates via EXPLAIN before execution" }
+  - { name: Maturity model, desc: "Workflows -> agents -> deep-agent hierarchies -> swarms; governance hardens as control decentralizes" }
 key_metrics:
   - "130,000 engineering tasks automated in one month"
   - "25,000+ automated code reviews per week"
   - "300+ playbooks; 10,000+ invocations per week"
 lessons_learned:
-  - "Start narrow to earn trust — began with automated code review (frequent, measurable, easy to evaluate) before CI triage, on-call, maintenance, ticket-driven dev"
+  - "Start narrow to earn trust — began with automated code review before CI triage, on-call, maintenance, ticket-driven dev"
   - "Make the work visible — public Slack threads drove adoption; private per-run channels did not build team habits"
   - "Playbooks need enablement — workshops and hackathons turn repeated operational work into reusable playbooks"
+  - "Earn complexity by exhausting simpler primitives first — keep swarms at the research frontier until governance catches up"
+  - "Deterministic verification before probabilistic judgment — SQL linting and EXPLAIN before deeper validation; LLM-as-judge + DeepEval"
+  - "Log provenance so any answer traces back to source queries, documents, and inter-agent activity"
 sources:
   - { title: "Delegating Engineering Work To Cloud-Based Agents (Flux)", url: "https://x.com/AIatDoorDash/status/2087285008906240193", type: "post" }
+  - { title: "Beyond single agents: DoorDash's collaborative AI ecosystem", url: "https://careersatdoordash.com/blog/beyond-single-agents-doordash-building-collaborative-ai-ecosystem/", type: "blog" }

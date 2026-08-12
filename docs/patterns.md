@@ -18,28 +18,64 @@ It is hand-curated — edit it directly (no build step) and cite the companies y
 
 Every advanced build in this catalog treats the model as a swappable layer:
 
-- **Spotify (Xirp)** coordinates 50+ parallel sessions, each in its own worktree, with the
-  model swappable mid-task across Claude Code, Gemini CLI, Codex, and self-hosted open
-  weights.
-- **monday.com** wraps the Claude Agent SDK in a thin `monday-agent-sdk` layer specifically
-  to keep the provider swappable, and routes across Bedrock inference profiles with
-  cross-region failover.
-- **Shopify** states it directly: "the runtime is commoditizing; the value is in the
-  harness + integrations."
-- **Dropbox (Nova)** runs multiple coding agents behind one interface so models can be
-  swapped without rebuilding the platform.
-- **Cloudflare** routes a growing share of workloads to cheaper self-hosted open-weight
-  models (Workers AI) alongside frontier models.
+- **Sierra (Pinecone)** routes between Claude Code and Codex by *intent* (planning, coding,
+  prose) and explicitly owns the routing/context layer instead of one model.
+- **Linear** spans families: GPT-5 / Gemini 2.5 Pro for triage, Claude Code or Codex for
+  coding sessions.
+- **Spotify (Xirp/Honk)** runs 50+ parallel sessions with the model swappable mid-task.
+- **monday.com** wraps the Claude Agent SDK in a thin layer to keep the provider portable.
+- **Block** builds Builderbot on **goose** (a framework), not on one model.
+- **Coinbase** deliberately runs a *portfolio* — Claude Code, OpenCode, Cursor, Copilot.
+- **Shopify** states it directly: "the runtime is commoditizing; the value is in the harness
+  + integrations."
 
 The consequence: **don't build your moat in the model.** Build it in the layers below.
+
+---
+
+## Reference architecture
+
+Lay the entries side by side and a single shape emerges. Work arrives from where employees
+already are, flows down through context → harness → sandbox → scoped tools → verification,
+lands in an existing system of record, and hands consequential decisions to a human — with
+feedback feeding back into the platform.
+
+```text
+Slack / Linear / Jira / GitHub / alert / cron
+        ↓
+control + orchestration plane  (identity, policy, task state)
+        ↓
+company context layer           (code, catalog, docs, telemetry, data, tickets)
+        ↓
+harness / model router          (swappable models + runtimes)
+        ↓
+ephemeral execution sandbox     (zero standing credentials)
+        ↓
+scoped tools                    (MCP gateway, narrowly authorized APIs)
+        ↓
+deterministic verification      (tests, CI, lint, EXPLAIN, schema checks)
+        ↓
+LLM review / judge              (where useful)
+        ↓
+human approval                  (consequential writes)
+        ↓
+system of record                (GitHub / Linear / Salesforce)
+        ↓
+evaluation + failure data ──► back into skills & platform
+```
+
+The single most important property of this shape: **each layer is independently swappable.**
+You should be able to change Claude to Codex, OpenCode to another harness, or one sandbox
+provider to another without rebuilding identity, integrations, context, or workflow state.
+(Horizon, Pinecone, and `bb` all demonstrate why — see [WorkOS](../data/agents/workos-project-horizon.yaml),
+[Sierra](../data/agents/sierra-pinecone.yaml), [Browserbase](../data/agents/browserbase-bb.yaml).)
 
 ---
 
 ## 1. Execution / sandbox
 
 A place where agent-written code runs, isolated from production and from the developer's
-laptop. This is table stakes — every serious build has one — and the choices are
-surprisingly consistent.
+laptop. Every serious build has one.
 
 | Company | Sandbox |
 | --- | --- |
@@ -48,83 +84,85 @@ surprisingly consistent.
 | Browserbase (bb) | Ephemeral Linux VM; pre-warmed snapshot; idles out after 30 min |
 | Cloudflare | Dynamic Workers + Sandbox SDK |
 | WorkOS (Horizon) | Cloudflare Containers + Sandbox SDK; disposable, scoped, with egress controls |
+| Sierra (Pinecone) | Agency layer — recoverable Kubernetes runners; durable state kept separately |
+| Spotify (Honk) | Constrained Kubernetes container; does not inherit engineer credentials |
 | monday.com | Amazon EKS, one pod per session; remote sandbox tests each PR before review |
 | Shopify | Execution env (fs/shell/repo/build) separated from the harness |
 | Sentry (Junior) | Vercel serverless + agent-browser sandbox + MITM proxy |
+| Coinbase (Mux) | Pragmatic isolation — each concurrent agent gets its own worktree, branch, terminal |
 | Dropbox (Nova) | Isolated env with a codebase snapshot at a specific commit |
 
-Two lessons repeat: **pre-warm and snapshot** (Ramp, Browserbase, DoorDash all push setup
-into an image-build step so the user never waits), and **keep the sandbox disposable** so a
-bad run costs nothing. Shopify's framing is the cleanest: *"decouple brain from hands."*
+Two lessons repeat: **pre-warm and snapshot** (Ramp, Browserbase, DoorDash push setup into an
+image-build step so the user never waits), and **keep the sandbox disposable**. Shopify's
+framing is the cleanest: *"decouple brain from hands."* The deeper implication
+(Sierra, WorkOS): **durable session state and ephemeral compute are separate primitives** —
+you can kill a compromised or failed worker without losing the work object.
 
 ---
 
 ## 2. Harness / runtime
 
-The agent loop itself — what calls the model, parses tool calls, manages the conversation.
-Three stances appear:
+The agent loop — what calls the model, parses tool calls, manages the conversation. Three
+stances appear:
 
 - **Wrap a vendor SDK and stay portable.** monday.com (Claude Agent SDK + thin wrapper),
-  Ramp (OpenCode, server-first), Browserbase (OpenCode core loop), WorkOS (OpenCode
-  preconfigured). Portable, but you inherit the SDK's opinions.
-- **Orchestrate multiple agents.** Block (Builderbot) is explicitly "an orchestration layer
-  that coordinates multiple AI agents"; Slack runs a coordinator/dispatcher with separate
-  expert and critic agents.
-- **Build the runtime yourself.** Sentry (Junior) built a custom harness on Pi's SDK with a
-  task broker, explicitly to control the interrupt/resume semantics that serverless demands.
+  Ramp (OpenCode, server-first), Browserbase (OpenCode core loop), WorkOS (OpenCode, later
+  Claude Remote Routines — same platform, swappable harness).
+- **Orchestrate multiple agents.** Block (Builderbot, on goose + MCP), Replit (a manager
+  agent that spawns sub-agents), Slack (coordinator/dispatcher with expert + critic agents),
+  Sierra (app server + Agency + runners).
+- **Build the runtime yourself.** Sentry (Junior) built a custom harness with a task broker
+  to control interrupt/resume semantics that serverless demands.
 
-The harness is also where the **model catalog and routing** live (Cloudflare's AI Gateway,
-monday's inference profiles) and where **verification hooks** attach (Ramp's plugin that
-blocks writes until sync completes; Dropbox's validation loop with `max_iterations`).
+The harness is also where **model routing** lives (Sierra's intent router, Cloudflare's AI
+Gateway, monday's inference profiles) and where **verification hooks** attach (Ramp's
+write-blocking plugin; Dropbox's validation loop with `max_iterations`; Spotify's verifiers).
 
 ---
 
 ## 3. Session / harness / sandbox — keep them separate
 
 Shopify's three-way split is worth calling out on its own, because several others converge
-on the same shape without naming it:
+on the same shape:
 
 - **Session** — durable identity and the append-only event log (Postgres). Survives everything.
 - **Harness** — the cheap, disposable agent loop. Dies freely.
 - **Sandbox / Cell** — the ephemeral execution runtime. Dies freely.
 
-The payoff: you can swap any one layer without touching the others, and a dead cell or
-sandbox never kills the conversation. monday.com separates durable state (S3), live state
-(ElastiCache), and the per-session pod (EKS) along the same lines; WorkOS separates the
-sandbox (execution primitive) from the orchestrator (control plane).
-
-> **Lesson:** *session survival is non-negotiable.* Cells die, sandboxes die, machines die.
-> The conversation can't.
+monday.com separates durable state (S3), live state (ElastiCache), and the per-session pod
+(EKS) along the same lines; WorkOS separates the sandbox (execution primitive) from the
+orchestrator (control plane); Sierra keeps conversation/checkpoints durable while runners are
+ephemeral. **Session survival is non-negotiable** — cells die, sandboxes die, machines die;
+the conversation can't.
 
 ---
 
 ## 4. The tool & access layer
 
 How the agent reaches your internal systems — and how you stop it from reaching the wrong
-ones. This is where most of the real engineering lives.
+ones. Most of the real engineering lives here.
 
-**MCP as the connective tissue.** DoorDash's "Agent Gateway," Cloudflare's MCP Server
-Portal (one OAuth point aggregating 182+ tools from 13 servers), WorkOS's custom MCP
-server, Block's MCP, and Sentry's progressive-discovery MCP all converge on MCP as the way
-to expose internal capabilities. Brex even uses MCP to expose *product* features to internal
-agents, so new product tools become internally available immediately.
+**MCP as the connective tissue.** DoorDash's Agent Gateway, Cloudflare's MCP Server Portal
+(182+ tools, 13 servers, one OAuth point), **Sierra's MCP Gateway spanning 37 systems**,
+WorkOS's custom MCP, Block's MCP, Sentry's progressive-discovery MCP, and Brex's MCP all
+converge on MCP as the way to expose internal capabilities.
 
-**Credential brokering, not credential sharing.** The strongest pattern in the whole
-catalog: *the agent never holds a secret.*
+**Credential brokering, not credential sharing.** The strongest pattern in the catalog: *the
+agent never holds a secret.*
 
-- Browserbase: the sandbox boots with references + rotating session tokens only; the proxy
-  holds the real credentials.
+- Browserbase: sandbox boots with references + rotating tokens only; the proxy holds the real
+  credentials; access scoped *by operation* (e.g. select-only warehouse).
 - Sentry: a MITM proxy injects tokens host-side — "the model never has access to the token,
   because it's never in the sandbox."
-- WorkOS: all outbound traffic is proxied through Workers; tokens are injected without
-  exposure; engineers use their own identity, scoped and short-lived.
+- WorkOS: all outbound traffic proxied through Workers; tokens injected without exposure.
+- Sierra: a network proxy decides whether privileged requests may proceed and injects
+  credentials *after* approval — the harness never possesses the real secret.
 - Cloudflare: zero API keys on client machines — a Worker injects them server-side.
 
 **Collapse the tool surface.** Tool schemas eat context. Cloudflare measured 34 GitLab tools
-≈ 7.5% of a 200K-token window, and built **Code Mode** to collapse N tool schemas into a
-search + execute pair, holding token overhead constant. Sentry reaches the same conclusion
-differently with **progressive discovery** — Junior connects to no MCP provider by default
-until the agent explicitly requests a tool lookup.
+≈ 7.5% of a 200K-token window and built **Code Mode** to collapse N schemas into search +
+execute. Sentry reaches the same conclusion via **progressive discovery** — Junior connects
+to no MCP provider by default until the agent requests a tool lookup.
 
 ---
 
@@ -133,123 +171,155 @@ until the agent explicitly requests a tool lookup.
 Encoded, reusable knowledge — the difference between an agent that flails and one that ships
 like your best engineer. Two styles:
 
-- **Declarative playbooks.** DoorDash packages work as YAML units (task, inputs, skills,
-  tools, permissions, validation, outputs). Shopify and Sentry write skills as markdown files
-  loaded on demand. monday.com encodes engineering standards as automated **PR Guardrails.**
-- **Progressive disclosure.** Browserbase and Sentry both keep the general-purpose agent
-  small and load domain knowledge lazily, rather than front-loading every capability.
+- **Declarative playbooks.** DoorDash (YAML units), Shopify and Sentry (markdown skills
+  loaded on demand), monday.com (automated PR Guardrails), Sentry ("skills-as-runbooks").
+- **Progressive disclosure.** Browserbase and Sentry keep the general-purpose agent small and
+  load domain knowledge lazily.
 
 > **Lesson:** *skills are where company-specific value compounds.* The model is a commodity;
   the playbook that knows your release process is not.
 
 ---
 
-## 6. The context / knowledge layer — "the system around the code"
+## 6. One agent, many skills — not one bot per department
+
+A pattern the newer entries make unmistakable: **collapse departmental bots into one
+general-purpose runtime with composable skills.** Cross-functional jobs don't respect
+org-chart boundaries.
+
+- **Sierra** began with separate PINE (support), Pinewood (analytics), Pinecone (engineering),
+  and Reggie Jr (sales) agents — then intentionally collapsed them into one Pinecone.
+- **Browserbase** chose one `bb` loop with dynamically loaded skills over one bot per use case.
+- **Sentry** CEO David Cramer argues one general-purpose agent connected to many systems beat
+  several vendor-specific bots.
+- **Domu** split Clementino into a reusable tool/skill/memory layer powering multiple surfaces.
+
+The exception proves the rule: keep specialized agents only where the *safety policy or
+environment* genuinely differs (WorkOS's independent verification/security agents). Creating
+a "Sales Agent," "Finance Agent," and "Engineer Agent" just because the org chart has those
+departments is increasingly hard to justify.
+
+---
+
+## 7. The context / knowledge layer — "the system around the code"
 
 Agents that can read code but can't see the system around it are working blind (Cloudflare's
-words). The org-context layer is what turns a coding agent into *your* coding agent.
+words).
 
-- **Service catalogs.** Spotify's Portal/Backstage gives every session ownership, dependency
-  graphs, and architecture on init. Cloudflare generates AGENTS.md across ~3,900 repos and
-  indexes 2,055 services in Backstage.
+- **Service catalogs.** Spotify's Backstage/Portal; Cloudflare's Backstage (2,055 services)
+  + AGENTS.md across ~3,900 repos.
 - **Repo-context files.** AGENTS.md / CLAUDE.md (Cloudflare, WorkOS, Shopify's "World"
-  monorepo, Dropbox's per-service AGENTS.md) — structured, often *generated*, repo context.
-- **Memory as files, not vectors.** monday.com explicitly skipped the vector store: memory
-  is MEMORY.md (cross-session) plus a daily diary. Sentry persists transcripts in Redis and
-  traces code paths by searching the repo.
+  monorepo, Dropbox's per-service files).
+- **Memory as files, not vectors.** monday.com (MEMORY.md + daily diary); Sentry (Redis
+  transcripts + repo search). **Domu** models memory as four explicit layers: conversation,
+  persistent facts, knowledge RAG, and live system state.
+- **Hybrid retrieval.** DoorDash runs the most explicit traditional stack: BM25 + dense
+  semantic + reciprocal-rank fusion → RAG; schema-aware SQL with `EXPLAIN` validation.
+- **Structured workspace as context.** Linear evolved from vector search into agentic context
+  acquisition; Coinbase treats Linear as the agent's structured product context.
 
 ---
 
-## 7. Invocation surfaces — meet work where it already is
+## 8. Invocation surfaces — meet work where it already is
 
-Define an agent once; invoke it from Slack, GitHub, cron, CLI, web, or Chrome. DoorDash and
-Browserbase are explicit about this ("trigger the same playbook from Slack, GitHub, cron,
-CLI, or a skill"). But the dominant surface, overwhelmingly, is **Slack** — because that's
-where the work already is:
+Define an agent once; invoke it from Slack, GitHub, cron, CLI, web, or Chrome. But the
+dominant surface, overwhelmingly, is **Slack** — because that's where work already lives:
+Block, Browserbase, Ramp, Sentry, Shopify (River), monday.com, Brex, WorkOS, Coinbase,
+Sierra, Stripe, Flex, Replit all center on Slack.
 
-- Block (`@builderbot`), Browserbase (`bb`), Ramp, Sentry (Junior), Shopify (River),
-  monday.com (@mention), Brex (`/c1`), WorkOS all live primarily in Slack.
-- **Shopify's River is public-by-default** — it operates only in public Slack channels, never
-  DMs, so every session is visible and learning spreads. Ramp and DoorDash reach the same
-  conclusion: *public threads drive adoption; private ones don't.*
+**Public beats private.** Shopify's River operates only in public channels, never DMs, so
+every session is visible and learning spreads; Ramp and DoorDash reach the same conclusion.
 
----
-
-## 8. Context management for long runs
-
-Once an agent run spans hundreds of steps and megabytes of output, naive "pass everything
-every turn" overflows the window. The advanced builds treat context management as its own
-subsystem:
-
-- **Slack** keeps three structured channels: a Director's Journal (working memory), a
-  Critic's Review (credibility-weighted findings), and a Critic's Timeline (deduped
-  chronological synthesis).
-- **monday.com** uses file-based memory plus monday boards (Builders CoWORK) as shared state.
-- **Sentry** persists transcripts incrementally and subscribes to GitHub events for
-  asynchronous follow-ups.
+**Systems of record stay systems of record.** Linear, Jira, and GitHub are *not* chat
+destinations — they hold durable state. WorkOS listens to Linear/GitHub webhooks and writes
+back; Coinbase keeps Linear as structured context; Sierra argues GitHub should own the PR,
+Salesforce the account, Linear the issue, while Pinecone spans them.
 
 ---
 
-## 9. Governance & permissions — make misbehavior structurally impossible
+## 9. Context management for long runs
 
-The shared posture across the catalog: **don't trust the model; remove its ability to do
-wrong.**
+Once a run spans hundreds of steps and megabytes, "pass everything every turn" overflows the
+window. The advanced builds treat context management as its own subsystem:
 
-- Scope tools and services per invocation source (Browserbase — RBAC + ABAC per session).
-- Same identity/RBAC as humans, with real accounts (monday.com).
-- Per-user authorization for writes (Sentry: "for writes require per-user authorization";
-  Linear: "an agent cannot be held accountable" — humans own the final approval).
-- Data-handling rules that follow the data, not the tool (Brex: classification, ≤30-day
-  retention, no training on inputs; Cloudflare Zero Trust).
-
-monday.com frames the whole discipline succinctly: *AI engineering is building the feedback
-loops that let imperfect agents be trusted safely.*
+- **Slack** — three structured channels: Director's Journal (working memory), Critic's Review
+  (credibility-weighted findings), Critic's Timeline (deduped chronological synthesis).
+- **monday.com** — file-based memory + monday boards (Builders CoWORK) as shared state.
+- **Sentry** — incremental transcript updates in Redis + GitHub-event subscriptions.
+- **Domu** — four-layer memory with distinct lifecycles.
 
 ---
 
-## 10. The autonomy spectrum
+## 10. Governance & permissions — make misbehavior structurally impossible
 
-Where you sit on this axis is the single most consequential design choice, and the catalog
-spans all four levels:
+The shared posture: **don't trust the model; remove its ability to do wrong.**
+
+- Scope tools/services per invocation source (Browserbase — RBAC + ABAC per session; Sierra —
+  employee permissions enforced at the tool-call layer via the Gateway).
+- Same identity/RBAC as humans, with real accounts (monday.com; Salesforce — "sees only what
+  the employee can see").
+- Per-user authorization for writes (Sentry; Linear — "an agent cannot be held accountable").
+- Data-handling rules that follow the data (Brex; Cloudflare Zero Trust).
+- Bounded autonomy: step/time budgets and circuit breakers (DoorDash); approval gates on
+  customer-impacting actions (Domu); hard service/function limits on webhook jobs (Browserbase).
+
+The rule that captures all of it, from DoorDash and Sierra's practice:
+
+> **The probabilistic agent should decide *what to attempt*; deterministic infrastructure
+> should decide *what it is permitted to do*.**
+
+monday.com frames the discipline: *AI engineering is building the feedback loops that let
+imperfect agents be trusted safely.*
+
+---
+
+## 11. The autonomy spectrum
+
+Where you sit on this axis is the most consequential design choice, and the catalog spans all
+four levels:
 
 | Level | Example |
 | --- | --- |
-| **Assistive** — human drives, agent helps | (common in IDE copilots; less represented here) |
-| **Human-in-loop** — acts, human involved each cycle / approves writes | Brex, Dropbox (Nova), Sentry (Junior), Slack, Y Combinator |
-| **Drafts-reviewed** — autonomously drafts work product a human reviews before ship | DoorDash, Spotify, Ramp, Browserbase, Cloudflare, Linear, Shopify, WorkOS, Block |
+| **Assistive** — human drives | (IDE copilots; less represented here) |
+| **Human-in-loop** — human in each cycle / approves writes | Brex, Dropbox, Sentry, Slack, Domu, Zup, Y Combinator |
+| **Drafts-reviewed** — drafts work product a human reviews | DoorDash, Spotify, Ramp, Browserbase, Cloudflare, Linear, Shopify, WorkOS, Block, Coinbase, Sierra, Stripe, Harvey, Replit, Flex, Salesforce, Uber |
 | **Autonomous** — ships without human review | monday.com **Morphex** (19 of 20 PRs merge with no human review) |
 
-Two patterns worth stealing: **gradual autonomy** (Linear: start with suggestions, observe,
-add guidance, automate only once proven) and **tiered systems within one platform**
-(monday.com's Atlas = drafts-reviewed, Morphex = autonomous; Brex's L1/L2/L3). And the
-canonical caution from Brex: *target 40% automation, not 100%* — the last mile is where
-investments go to die.
+Three patterns worth stealing: **gradual autonomy** (Linear: suggestions → observe →
+automate once proven); **tiered systems within one platform** (monday Atlas = drafts-reviewed,
+Morphex = autonomous; Brex L1/L2/L3); and **earn complexity by exhausting simpler primitives
+first**. DoorDash's maturity model keeps deterministic workflows for repeatable jobs, single
+agents for exploration, deep-agent hierarchies for long-horizon work, and swarms only at the
+research frontier — and warns that governance hardens as control decentralizes. Coinbase's Mux
+is the simpler-than-swarm alternative: one human coordinating many isolated coding agents.
+
+And the canonical caution from Brex: *target 40% automation, not 100%* — the last mile is
+where investments go to die.
 
 ---
 
-## 11. Background vs interactive; evals & model routing
+## 12. Background vs interactive; evals & model routing
 
-- **Background agents are winning where speed is solved.** Ramp's argument: a background
-  agent that's fast is *strictly better* than local — same intelligence, more power, unlimited
-  concurrency. DoorDash, Spotify, Shopify, Block, WorkOS all run agents that work while you
-  do something else.
-- **Evals from day one.** monday.com's most-cited regret: evals should have been day one, not
-  month nine. Cloudflare's AI Gateway, Spotify's LLM-as-judge + MLflow traces, and Brex's
-  prompt/eval studio all put measurement ahead of capability.
-- **Route by task.** Cloudflare and monday.com both route between frontier and cheaper
-  self-hosted models per workload — the model layer is a portfolio, not a single choice.
+- **Background agents win where speed is solved.** Ramp: a fast background agent is *strictly
+  better* than local — same intelligence, more power, unlimited concurrency. DoorDash,
+  Spotify, Shopify, Block, WorkOS, Stripe all run agents that work while you do something else.
+- **Evals from day one.** monday.com's most-cited regret: day one, not month nine.
+  Cloudflare's AI Gateway, Spotify's LLM-as-judge + MLflow, Brex's prompt/eval studio,
+  DoorDash's DeepEval + LLM-as-judge all put measurement ahead of capability.
+- **Route by task.** Sierra and Cloudflare route between frontier and cheaper models per
+  workload; the model layer is a portfolio.
 
 ---
 
 ### Patterns at a glance
 
 - The model is a swappable layer; build value in harness, context, tools, perms, evals, sandbox.
+- Keep control plane, context, harness, and execution as separately swappable layers.
 - Pre-warm and snapshot the sandbox; keep it disposable; decouple brain from hands.
-- Keep session, harness, and sandbox as separate layers.
 - Broker credentials — the agent never holds a secret.
 - Collapse the tool surface (Code Mode / progressive discovery).
+- One agent, many skills — don't build a bot per department.
 - Encode company knowledge in skills/playbooks and AGENTS.md; use a service catalog.
-- Default to Slack; default to public.
-- Treat context management as its own subsystem for long runs.
-- Don't trust the model — make misbehavior structurally impossible.
-- Move up the autonomy spectrum gradually; evals from day one.
+- Default to Slack; default to public; keep systems of record as systems of record.
+- The probabilistic agent decides what to attempt; deterministic infrastructure decides what's permitted.
+- Climb the autonomy spectrum gradually; earn complexity; evals from day one.

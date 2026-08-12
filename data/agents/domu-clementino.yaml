@@ -1,0 +1,29 @@
+id: domu-clementino
+company: Domu
+agent_name: Clementino
+year: 2026
+status: internal
+domains: [support, finance-ops, coding, recruitment, customer-success]
+autonomy: human-in-loop
+summary: "A general-purpose 'AI colleague' spanning sales, finance, client ops, engineering, and recruitment, later split into a reusable toolkit plus Slack and desktop surfaces."
+headline_metric: "~35 integrations organized into skills; customer-impacting actions behind Slack approval gates"
+architecture:
+  sandbox: ""
+  harness: "Claude/Anthropic SDK wrapper; a reusable tool/skill/memory layer separated from the Slack and desktop interfaces"
+  model: "Claude (Anthropic SDK)"
+  interfaces: [slack, desktop]
+  tool_access: "~35 integrations organized into skills; specialist delegates per domain"
+  knowledge: "Four memory layers: conversation context, persistent facts, knowledge RAG, and live system state"
+  credentials: "Customer-impacting actions gated behind team-visible Slack approvals"
+  context_mgmt: "Four-layer memory separation; prompt size dropped substantially after splitting capabilities from the Slack layer"
+primitives:
+  - { name: Four memory layers, desc: "Transient conversation, persistent facts, knowledge RAG, and live system state — kept separate" }
+  - { name: Reusable toolkit split, desc: "Capabilities separated from the interface layer so they power multiple surfaces" }
+key_metrics:
+  - "~35 integrations organized into skills"
+lessons_learned:
+  - "Separate reusable capabilities (tools/skills/memory) from the interface layer — prompt size drops while capability is preserved"
+  - "Model memory explicitly: conversation context, persistent facts, RAG, and live state have different lifecycles"
+  - "Gate customer-impacting actions behind human approvals rather than trusting the model"
+sources:
+  - { title: "Why we split our internal agent in two", url: "https://domu.ai/blog/why-we-split-our-internal-agent-in-two", type: "blog" }

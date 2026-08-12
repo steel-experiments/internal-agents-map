@@ -3,14 +3,14 @@ company: WorkOS
 agent_name: "Project Horizon"
 year: 2026
 status: internal
-domains: [coding, code-review]
+domains: [coding, code-review, security]
 autonomy: drafts-reviewed
-summary: "An internal autonomous 'code factory' where a continuously running swarm of agents handles the implementation loop while engineers focus on requirements and acceptance testing."
+summary: "An internal autonomous 'code factory' where a continuously running swarm of agents handles the implementation loop while engineers focus on requirements and acceptance testing. Deliberately modular so the harness can evolve."
 headline_metric: "A self-improving platform — every run ships work and feeds fixes back in"
 architecture:
   sandbox: "Cloudflare Containers + Sandbox SDK; disposable, tightly scoped sandboxes with explicit lifecycle APIs and egress controls; full monorepo stack in Docker dev containers"
-  harness: "OpenCode preconfigured in the dev container; a worker processes webhooks; an agent orchestrator manages the sandbox lifecycle (create/pause/resume/destroy) and tracks state + artifacts"
-  model: "Not specified"
+  harness: "Modular by design — the core article runs OpenCode in the sandbox; the Applied AI Showcase runs Claude Remote Routines. The harness is swappable as agent tech changes; separate PM, implementation, and prospective verification/security roles"
+  model: "Swappable — the harness is the constant, not the model"
   interfaces: [linear, github, slack, web]
   tool_access: "A custom MCP server stitches internal data sources (Datadog, Sentry, Slack, WorkOS Pipes); all outbound traffic proxied through Workers with allowlists, limits, logging, and token injection"
   knowledge: "AGENTS.md and CLAUDE.md capture scripts, docs, conventions; MCP codifies the patterns engineers already follow; Notion + Figma for specs/mockups"
@@ -25,8 +25,10 @@ key_metrics: []
 lessons_learned:
   - "You need purpose-built agent infrastructure — a runtime you control end-to-end with lifecycle APIs and egress controls"
   - "Separate concerns: sandboxes are an execution primitive; the orchestrator is the control plane"
+  - "Build modularly so the harness can evolve — OpenCode today, Claude Remote Routines tomorrow, without rebuilding the platform"
   - "Make autonomy a platform — the system gets faster and more reliable through use as fixes feed back in"
   - "MCP tuning is an iterative product, not a one-time integration — codify the patterns engineers already follow"
-  - "Build modularly so components can be swapped as tooling evolves"
 sources:
-  - { title: "Project Horizon — an autonomous code factory at WorkOS", url: "https://workos.com/blog/project-horizon", type: "blog" }
+  - { title: "Project Horizon - an autonomous code factory at WorkOS", url: "https://workos.com/blog/project-horizon", type: "blog" }
+  - { title: "Applied AI Showcase (Horizon with Claude Remote Routines)", url: "https://workos.com/blog/applied-ai-showcase", type: "blog" }
+  - { title: "An autonomous UI-quality program", url: "https://workos.com/blog/autonomous-ui-quality-program", type: "blog" }

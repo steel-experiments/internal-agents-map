@@ -5,19 +5,20 @@ year: 2026
 status: internal
 domains: [support, customer-success, coding]
 autonomy: drafts-reviewed
-summary: "Turns customer emails and Slack into scoped Linear issues, investigates context, and hands scoped work to coding agents that open PRs."
-headline_metric: "Customer request → scoped issue → working PR, end to end"
+summary: "A native agent that synthesizes workspace context, triages, creates follow-up work, runs coding sessions, and executes scheduled/event-driven 'Loops' — used by Linear's own CX, Product, and Engineering teams."
+headline_metric: "Customer request -> scoped issue -> working PR, end to end"
 architecture:
   sandbox: "Not detailed publicly"
-  harness: "Separate planning agent (issue creation) and coding agent (code generation); Code Intelligence for codebase knowledge"
-  model: "Codex used for PR review"
+  harness: "Separate planning agent (triage/issue creation) and coding agent (code generation); Code Intelligence for codebase knowledge; scheduled/event-driven 'Loops'"
+  model: "GPT-5 + Gemini 2.5 Pro in Triage Intelligence; Claude Code or Codex for coding sessions"
   interfaces: [slack, intercom, linear-app, github]
-  tool_access: "Triage Intelligence (auto-route, dedup, label); GitHub integration; testing Code Intelligence + custom MCP servers"
-  knowledge: "Full email/conversation context with metadata + attachments; Code Intelligence for decision history; Datadog/Sentry customer context"
-  credentials: "Issues stay assigned to a human even when delegated — 'an agent cannot be held accountable'; humans make the final PR approval"
+  tool_access: "Triage Intelligence (auto-route, dedup, label); GitHub; testing Code Intelligence + custom MCP servers"
+  knowledge: "Semantic/vector search evolved into agentic context acquisition across the workspace; Datadog/Sentry customer context"
+  credentials: "The Agent SDK gives agents explicit identities, scoped OAuth tokens, assignable/mentionable handles, and visible human delegation — issues stay assigned to a human; 'an agent cannot be held accountable'"
 primitives:
   - { name: Triage Intelligence, desc: "Auto-routes issues, flags duplicates, suggests labels" }
-  - { name: Skills, desc: "Repeatable workflows that can be saved and reused" }
+  - { name: Agent SDK identities, desc: "Agents get identities, scoped team access, and visible delegation alongside humans" }
+  - { name: Loops, desc: "Scheduled or event-driven agent runs that execute recurring work" }
 key_metrics: []
 lessons_learned:
   - "Keep the agent close to the source of work (Intercom, Slack, Linear) — the best workflows live where work already happens"
@@ -28,3 +29,4 @@ lessons_learned:
 sources:
   - { title: "How we built Linear Agent", url: "https://linear.app/now/how-we-built-linear-agent", type: "blog" }
   - { title: "How we use Linear Agent at Linear", url: "https://linear.app/now/how-we-use-linear-agent-at-linear", type: "blog" }
+  - { title: "Our approach to building the Agent Interaction SDK", url: "https://linear.app/now/our-approach-to-building-the-agent-interaction-sdk", type: "blog" }
