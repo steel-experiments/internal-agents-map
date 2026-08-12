@@ -14,19 +14,24 @@ adoption lessons that repeat across them. Anyone can add an agent or a lesson vi
 
 ## What is an "internal agent"?
 
-Not a chatbot. Not a vendor product. An internal agent is the proprietary stack a company
-builds so that AI does real work — writing and reviewing code, triaging CI, handling support
-and finance ops, running migrations — *as a member of its own workforce*.
+Not a chatbot, and not a vendor product. An internal agent is a system a company builds so
+that AI does real work: writing and reviewing code, triaging CI, handling support and
+finance ops, running migrations. It does that work as a member of the company's own
+workforce.
 
-The clearest signal across this catalog: **an internal agent is not a model with a prompt.**
-It's a stack —
+What turns a model call into an **agent** is **durable identity**. It persists across
+temporary runs, restarts, and even swapping out the model underneath, while keeping its
+own state and authority. It remembers and acts; a stateless prompt does neither.
+
+Behind that identity is a stack:
 
 > **agent harness + company context + tools + identity/permissions + evals + execution
-> environment**, with the *model plugged in underneath and increasingly interchangeable*.
+> environment**, with the model plugged in underneath and increasingly interchangeable.
 
-The proprietary value lives in the harness and the integrations, not the model. Spotify Xirp
-swaps the model mid-task; monday.com keeps its provider portable behind a thin wrapper;
-Shopify says the runtime is commoditizing. Read the full synthesis in
+The proprietary value is in the harness and the integrations, not the model, which is why
+the model is the part teams swap most often. Spotify Xirp swaps it mid-task; monday.com
+keeps its provider portable behind a thin wrapper; Sierra routes between Claude Code and
+Codex by intent; Shopify calls the runtime a commodity. The full synthesis is in
 [Patterns](docs/patterns.md).
 
 ### Scope
