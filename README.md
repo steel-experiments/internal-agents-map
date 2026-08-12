@@ -2,8 +2,8 @@
 
 `A map and learning exchange for companies building proprietary AI agents for their own teams.`
 
-A curated, open catalog of **internal agents** — the agent platforms companies build *inside
-their own walls* for their own engineers and operators — plus the cross-cutting patterns and
+A curated, open catalog of **internal agents**: the agent platforms companies build inside
+their own walls for their own engineers and operators, plus the cross-cutting patterns and
 adoption lessons that repeat across them. Anyone can add an agent or a lesson via pull request.
 
 [![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
@@ -37,18 +37,19 @@ Codex by intent; Shopify calls the runtime a commodity. The full synthesis is in
 ### Scope
 
 **Internal / proprietary builds only.** A company must have built this to run inside its own
-organization for its own people (whether or not parts later ship externally — e.g. Spotify
-Xirp's beta, Sentry's open-sourced Junior). Commercial agents (Devin, Cursor, Claude Code)
-and frameworks (Claude Agent SDK, LangGraph) appear only as the *harnesses and dependencies
-used inside* these stacks, listed in [Further reading](docs/further-reading.md) — not as
-catalog entries.
+organization for its own people, whether or not parts later ship externally (for example,
+Spotify Xirp's beta, or Sentry's open-sourced Junior). Commercial agents (Devin, Cursor,
+Claude Code) and frameworks (Claude Agent SDK, LangGraph) appear only as the harnesses and
+dependencies used inside these stacks, listed in [Further reading](docs/further-reading.md),
+not as catalog entries.
 
 ---
 
 ## The landscape
 
-Sorted by company. Each row links to its [data file](data/agents/) — see the
-[full catalog](docs/landscape.md) for architecture, primitives, metrics, lessons, and sources.
+Sorted by company. Each row links to its [data file](data/agents/). The
+[full catalog](docs/landscape.md) has the architecture, primitives, metrics, lessons, and
+sources for each agent.
 
 <!-- BEGIN LANDSCAPE -->
 
@@ -87,28 +88,28 @@ Sorted by company. Each row links to its [data file](data/agents/) — see the
 
 ## Patterns at a glance
 
-Distilled from the catalog — each links to the full treatment in [Patterns](docs/patterns.md).
+Distilled from the catalog. Each links to the full treatment in [Patterns](docs/patterns.md).
 
-- **The model is a swappable layer** — build value in the harness, context, tools, permissions, evals, and sandbox.
-- **Sandbox first** — isolated, pre-warmed, disposable (Firecracker, Modal, Containers, EKS pods).
-- **Broker credentials** — the agent never holds a secret (Browserbase, Sentry, WorkOS, Cloudflare).
-- **Skills/playbooks encode company knowledge** — DoorDash YAML, Shopify/Sentry markdown, monday.com guardrails.
-- **Context is "the system around the code"** — Backstage/Portal catalogs, AGENTS.md, file-based memory.
-- **Default to Slack; default to public** — visibility drives adoption (Shopify River, Ramp, DoorDash).
-- **Don't trust the model** — make misbehavior structurally impossible with scoped, per-session permissions.
-- **Climb the autonomy spectrum gradually** — from assistive to autonomous (monday.com Morphex ships without review); evals from day one.
+- **The model is a swappable layer:** build value in the harness, context, tools, permissions, evals, and sandbox.
+- **Sandbox first:** isolated, pre-warmed, disposable (Firecracker, Modal, Containers, EKS pods).
+- **Broker credentials:** the agent never holds a secret (Browserbase, Sentry, WorkOS, Cloudflare).
+- **Skills/playbooks encode company knowledge:** DoorDash YAML, Shopify/Sentry markdown, monday.com guardrails.
+- **Context is "the system around the code":** Backstage/Portal catalogs, AGENTS.md, file-based memory.
+- **Default to Slack; default to public:** visibility drives adoption (Shopify River, Ramp, DoorDash).
+- **Don't trust the model:** make misbehavior structurally impossible with scoped, per-session permissions.
+- **Climb the autonomy spectrum gradually:** from assistive to autonomous (monday.com Morphex ships without review); evals from day one.
 
-See also [Adoption lessons](docs/adoption-lessons.md) — how these systems actually get used.
+See also [Adoption lessons](docs/adoption-lessons.md) for how these systems get used in practice.
 
 ---
 
 ## Who is this for?
 
-- **Platform/infra engineers** building or scaling an internal agent — start from a shared
+- **Platform/infra engineers** building or scaling an internal agent: start from a shared
   baseline instead of zero.
 - **Engineering leaders** evaluating what an internal agent program looks like in practice.
 - **Anyone curious** about how DoorDash, Spotify, Shopify, Cloudflare, Block, and others
-  actually run AI inside their walls.
+  run AI inside their walls.
 
 ---
 
@@ -116,7 +117,7 @@ See also [Adoption lessons](docs/adoption-lessons.md) — how these systems actu
 
 Adding an agent takes ~15 minutes: copy [`templates/agent.yaml`](templates/agent.yaml) →
 fill it in → run `python scripts/build.py` → open a PR. See
-[**CONTRIBUTING.md**](CONTRIBUTING.md) and the [schema reference](data/schema.md).
+[CONTRIBUTING.md](CONTRIBUTING.md) and the [schema reference](data/schema.md).
 
 **The one rule: don't invent.** Every claim should trace to a source link. Thin but sourced
 beats rich but guessed.
