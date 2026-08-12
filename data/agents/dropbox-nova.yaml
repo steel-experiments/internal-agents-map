@@ -1,0 +1,32 @@
+id: dropbox-nova
+company: Dropbox
+agent_name: Nova
+year: 2026
+status: internal
+domains: [coding, ci-triage, on-call, maintenance]
+autonomy: human-in-loop
+summary: "An internal platform for coding agents: engineers launch parallel sessions and internal systems invoke agents inside automated SDLC workflows."
+headline_metric: "Dozens of agents in parallel from one runbook; migrations across thousands of entries"
+architecture:
+  sandbox: "Isolated env with a codebase snapshot at a specific commit; full Dropbox monorepo via Bazel; hermetic remote execution + caching"
+  harness: "Validation loop (propose → validate → feed back) with continue_on_validation_failure and max_iterations (~5); branch management kept outside the agent"
+  model: "Platform-agnostic — multiple coding agents behind one interface; swap models without rebuilding infra; prompt-eval tooling"
+  interfaces: [web-ui, cli, api, slack]
+  tool_access: "Skills/plugins to gather evidence, read logs, inspect failures; MCP integrations; Bazel-aware selectivity tools"
+  knowledge: "Localized AGENTS.md per service; Dash (Dropbox context engineering); passing + failing test logs"
+  credentials: "Operates within Dropbox's existing infra and validation paths; same auth/authz as engineers"
+  context_mgmt: "Session history (notes/logs) carried across retry attempts"
+primitives:
+  - { name: Validation loop, desc: "Bounded iteration with feedback on failure; deterministic systems control test execution" }
+  - { name: Dash, desc: "Dropbox context-engineering system feeding agents across the SDLC" }
+key_metrics:
+  - "Flaky-test remediation (Deflaker): 100+ validation runs"
+  - "Migrations applied across thousands of entries in parallel"
+  - "Dozens of agents launchable from one runbook"
+lessons_learned:
+  - "Platform value exceeds code generation — validation, guardrails, and context matter as much"
+  - "Context, validation, and guardrails reinforce each other to make background work trustworthy"
+  - "Not every step belongs in the agent loop — deterministic systems should control test execution and timing"
+  - "Integrate with existing engineering infrastructure rather than building separate AI-specific workflows"
+sources:
+  - { title: "Introducing Nova, our internal platform for coding agents", url: "https://dropbox.tech/machine-learning/introducing-nova-our-internal-platform-for-coding-agents", type: "blog" }

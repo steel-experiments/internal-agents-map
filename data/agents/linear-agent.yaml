@@ -1,0 +1,30 @@
+id: linear-agent
+company: Linear
+agent_name: Linear Agent
+year: 2026
+status: internal
+domains: [support, customer-success, coding]
+autonomy: drafts-reviewed
+summary: "Turns customer emails and Slack into scoped Linear issues, investigates context, and hands scoped work to coding agents that open PRs."
+headline_metric: "Customer request → scoped issue → working PR, end to end"
+architecture:
+  sandbox: "Not detailed publicly"
+  harness: "Separate planning agent (issue creation) and coding agent (code generation); Code Intelligence for codebase knowledge"
+  model: "Codex used for PR review"
+  interfaces: [slack, intercom, linear-app, github]
+  tool_access: "Triage Intelligence (auto-route, dedup, label); GitHub integration; testing Code Intelligence + custom MCP servers"
+  knowledge: "Full email/conversation context with metadata + attachments; Code Intelligence for decision history; Datadog/Sentry customer context"
+  credentials: "Issues stay assigned to a human even when delegated — 'an agent cannot be held accountable'; humans make the final PR approval"
+primitives:
+  - { name: Triage Intelligence, desc: "Auto-routes issues, flags duplicates, suggests labels" }
+  - { name: Skills, desc: "Repeatable workflows that can be saved and reused" }
+key_metrics: []
+lessons_learned:
+  - "Keep the agent close to the source of work (Intercom, Slack, Linear) — the best workflows live where work already happens"
+  - "Gradual autonomy — start by asking for suggestions, observe, add guidance, only automate once proven reliable"
+  - "Break work into small steps to keep coding agents focused and successful"
+  - "AI mistakes are useful — they surface failure modes to engineers"
+  - "Close the loop — auto-notify the customer when their request ships"
+sources:
+  - { title: "How we built Linear Agent", url: "https://linear.app/now/how-we-built-linear-agent", type: "blog" }
+  - { title: "How we use Linear Agent at Linear", url: "https://linear.app/now/how-we-use-linear-agent-at-linear", type: "blog" }

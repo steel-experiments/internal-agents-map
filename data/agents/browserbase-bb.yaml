@@ -1,0 +1,32 @@
+id: browserbase-bb
+company: Browserbase
+agent_name: bb
+year: 2026
+status: internal
+domains: [coding, code-review, support, customer-success, research]
+autonomy: drafts-reviewed
+summary: "One generalized agent in Slack that writes PRs, investigates sessions, queries the warehouse, logs feature requests, and runs browser agents across engineering, ops, sales, and support."
+headline_metric: "Feature-request pipeline at 100% coverage with zero human effort"
+architecture:
+  sandbox: "Ephemeral Linux VM; pre-warmed snapshot rebuilt every 30 min; idles out after 30 min"
+  harness: "OpenCode core loop with 6 tools (read/write/edit/exec/safebash/skill)"
+  model: "Frontier models"
+  interfaces: [slack, web-ui, webhook]
+  tool_access: "exec routes through a serverless integration proxy (Snowflake, HubSpot, Pylon, Grafana); the sandbox never sees real secrets"
+  knowledge: "Key repos cloned into /knowledge/; skills (markdown) loaded on demand"
+  credentials: "Credential brokering — the sandbox boots with references + rotating session tokens only; the proxy holds real creds; egress injection for a few hosts"
+primitives:
+  - { name: Skills (progressive disclosure), desc: "Markdown playbooks lazy-loaded per task so the general agent stays small" }
+  - { name: Integration proxy + RBAC/ABAC, desc: "Scoped permissions per session make misbehavior structurally impossible" }
+  - { name: Credential brokering, desc: "The sandbox runs arbitrary code yet never touches a secret" }
+key_metrics:
+  - "Feature-request pipeline at 100% coverage, zero human effort"
+  - "99% of first-response times < 24 hrs"
+  - "Session investigation: 30–60 min of log-diving → one Slack message"
+lessons_learned:
+  - "One agent with good abstractions beats a fleet of narrow bots"
+  - "Separate capabilities from the core loop — domain logic lives in skills + service packages"
+  - "Don't trust the model, remove its ability to do wrong: scope tools and services per invocation source"
+  - "Meet people where they are — Slack is the highest-leverage surface because that's where work already happens"
+sources:
+  - { title: "How we build internal agents at Browserbase", url: "https://browserbase.com/blog/internal-agents", type: "blog" }

@@ -1,0 +1,38 @@
+# Copy this file to data/agents/<id>.yaml and fill it in.
+# Full field reference: data/schema.md  ·  Required fields are marked ★.
+# After editing run:  python scripts/build.py
+
+id: company-agent               # ★ kebab-case; MUST match the filename
+company: Company                 # ★
+agent_name: Agent                # ★
+year: 2026                       # ★ year of first public evidence
+status: internal                 # ★ internal | open-sourced | commercialized
+domains: [coding]                # ★ see schema.md for suggested tags
+autonomy: drafts-reviewed        # ★ assistive | human-in-loop | drafts-reviewed | autonomous
+summary: "One sentence: what this agent is."   # ★
+headline_metric: "the single most impressive number, with unit"
+
+architecture:
+  sandbox: ""                    # execution env + isolation
+  harness: ""                    # the agent loop / runtime
+  model: ""                      # model(s); note if interchangeable
+  tool_access: ""                # how it reaches internal systems (MCP gateway, proxy)
+  interfaces: []                 # slack | github | cli | web | cron | chrome | api
+  knowledge: ""                  # org/context layer (Backstage, AGENTS.md, ...)
+  credentials: ""                # secrets & permissions handling
+  context_mgmt: ""               # long-running context strategy; omit if n/a
+
+primitives:                      # reusable building blocks the platform exposes
+  - name: ""
+    desc: ""
+
+key_metrics:
+  - "number with unit and timeframe (source-linked)"
+
+lessons_learned:
+  - "a transferable insight another team could act on"
+
+sources:                         # ★ in spirit — every claim should trace to one
+  - title: "Title of the writeup"
+    url: "https://..."
+    type: blog                   # blog | talk | post | case-study | podcast | docs

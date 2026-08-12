@@ -1,0 +1,32 @@
+id: doordash-flux
+company: DoorDash
+agent_name: Flux
+year: 2026
+status: internal
+domains: [code-review, coding, ci-triage, on-call, maintenance]
+autonomy: drafts-reviewed
+summary: "A cloud-based agents platform for engineers that delegates unattended engineering tasks to secure autonomous agents."
+headline_metric: "130,000 engineering tasks automated in one month"
+architecture:
+  sandbox: "Firecracker microVMs; <5s p95 end-to-end setup (boot, clone repos, install tools, configure harness)"
+  harness: "Supports multiple coding-agent harnesses behind a common interface"
+  model: "Multiple frontier models"
+  interfaces: [slack, github, cron, cli, conversational-skill]
+  tool_access: "In-house MCP gateway ('Agent Gateway'); tools declared per playbook, permissions scoped per task, every action logged"
+  knowledge: "DoorDash-specific context packaged into playbooks"
+  credentials: "Scoped per playbook; brokered through the gateway, never on the laptop"
+primitives:
+  - { name: Sandbox, desc: "Isolated Firecracker microVM with repos, tools, secrets, and runtime deps" }
+  - { name: MCP Gateway, desc: "Governed, audited access to CI, observability, issue trackers, deploy, code search" }
+  - { name: Playbook, desc: "YAML unit of agentic work: task, inputs, skills, tools, permissions, validation, outputs" }
+  - { name: Invocation Surface, desc: "Trigger the same playbook from Slack, GitHub, cron, CLI, or a skill" }
+key_metrics:
+  - "130,000 engineering tasks automated in one month"
+  - "25,000+ automated code reviews per week"
+  - "300+ playbooks; 10,000+ invocations per week"
+lessons_learned:
+  - "Start narrow to earn trust — began with automated code review (frequent, measurable, easy to evaluate) before CI triage, on-call, maintenance, ticket-driven dev"
+  - "Make the work visible — public Slack threads drove adoption; private per-run channels did not build team habits"
+  - "Playbooks need enablement — workshops and hackathons turn repeated operational work into reusable playbooks"
+sources:
+  - { title: "Delegating Engineering Work To Cloud-Based Agents (Flux)", url: "https://x.com/AIatDoorDash/status/2087285008906240193", type: "post" }

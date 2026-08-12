@@ -1,0 +1,23 @@
+id: ycombinator-agent-infra
+company: "Y Combinator"
+agent_name: "Internal agent infrastructure"
+year: 2026
+status: internal
+domains: [coding, ops]
+autonomy: human-in-loop
+summary: "Internal agent infrastructure and own harnesses built from the ground up, framed as making AI the operating system the whole organization runs on."
+headline_metric: "Internal agent infra built end-to-end in-house (own harnesses)"
+architecture:
+  sandbox: "Not detailed publicly (primary source is a podcast)"
+  harness: "Own harnesses built from the ground up for internal AI use"
+primitives: []
+key_metrics: []
+lessons_learned:
+  - "Don't add AI as a feature — make it the operating system the whole organization runs on"
+  - "Build the harness and surrounding infra in-house rather than bolting onto a hosted agent"
+sources:
+  - { title: "Inside YC's AI Playbook (Lightcone podcast, with Pete Koomen)", url: "https://www.ycombinator.com/library/Qh-inside-yc-s-ai-playbook", type: "podcast" }
+
+# NOTE: thin entry — the source is a podcast landing page with no article text.
+# Architecture/quantitative details were not publicly available at catalog time.
+# Enrich when a written writeup or transcript is published.

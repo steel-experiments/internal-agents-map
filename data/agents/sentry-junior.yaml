@@ -1,0 +1,34 @@
+id: sentry-junior
+company: Sentry
+agent_name: Junior
+year: 2025
+status: open-sourced
+domains: [coding, code-review, support]
+autonomy: human-in-loop
+summary: "An open-source Slack agent built at Sentry that acts like an intern — takes tasks, retrieves context, and is steered and reviewed by humans."
+headline_metric: "Open-source Slack agent (~100k lines of TS) used internally at Sentry"
+architecture:
+  sandbox: "Vercel serverless functions; Vercel agent-browser sandbox with a MITM proxy for traffic interception; ephemeral containers"
+  harness: "Custom harness on Pi's SDK; a task broker over Vercel Queues with an inbox → worker-claim → interrupt/resume pattern to survive serverless timeouts"
+  model: "Claude Sonnet (faster); swappable (Opus as a more expensive option)"
+  interfaces: [slack, web-dashboard, github]
+  tool_access: "Progressive discovery via MCP — by default Junior connects to no provider until the agent requests a tool lookup; a GitHub plugin with typed tools; Sentry CLI/API"
+  knowledge: "Conversation transcripts persisted in Redis; repo search to trace code paths; skill docs (TELEMETRY.md, SOUL.md)"
+  credentials: "MITM-proxy injection — the model never sees the token because it's never in the sandbox; plugins declare OAuth flows and credential domains; GitHub distinguishes read vs. write"
+  context_mgmt: "Incremental transcript updates in Redis; resource subscriptions to GitHub PR events for follow-ups"
+primitives:
+  - { name: Progressive tool discovery, desc: "searchMcpTools loads tools on demand instead of dumping every schema into the prompt" }
+  - { name: MITM credential proxy, desc: "Credentials injected host-side; the sandbox/model never touches a secret" }
+  - { name: Interrupt/resume broker, desc: "Survives serverless timeouts via a queue + claim model" }
+key_metrics:
+  - "~100,000 lines of TypeScript (excluding tests)"
+  - "4 months from start to writeup"
+lessons_learned:
+  - "Stateless compute fights you — serverless functions time out and disappear; model the agent around interrupt/resume"
+  - "Unit tests are the wrong yardstick for agents — invest in evals and integration tests instead"
+  - "Don't dump every tool schema into the prompt — progressive discovery keeps the context window lean"
+  - "Credential plumbing is real work — a MITM proxy keeps secrets out of the sandbox but adds significant surface"
+  - "Writes need per-user authorization, not blanket trust"
+sources:
+  - { title: "Building an Intern (Junior at Sentry)", url: "https://cra.mr/building-an-intern/", type: "blog" }
+  - { title: "getsentry/junior (open-source repo)", url: "https://github.com/getsentry/junior", type: "docs" }

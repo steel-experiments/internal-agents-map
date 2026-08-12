@@ -1,0 +1,30 @@
+id: block-builderbot
+company: Block
+agent_name: Builderbot
+year: 2026
+status: internal
+domains: [coding, code-review]
+autonomy: drafts-reviewed
+summary: "An orchestration layer that coordinates multiple AI agents across Block's entire codebase, invoked in Slack to take a ticket end-to-end to a reviewed PR."
+headline_metric: "~1,500 PRs merged per week (~15% of all production code changes at Block)"
+architecture:
+  sandbox: "Not detailed publicly"
+  harness: "Agent orchestration layer coordinating multiple specialized agents; multi-player, real-time, operating inside Slack threads"
+  model: "Not specified"
+  interfaces: [slack, linear, jira, github]
+  tool_access: "MCP connects agents to internal tools and data; picks up Linear/Jira tickets, creates the branch, writes code, opens the PR, watches CI"
+  knowledge: "Full-context index of Block's codebase — every service, API, and convention across hundreds of millions of lines and hundreds of services"
+  credentials: "Not detailed publicly"
+primitives:
+  - { name: Orchestration layer, desc: "Coordinates multiple agents over one codebase instead of running a single loop" }
+  - { name: Ticket-driven flow, desc: "Linear/Jira ticket → branch → code → PR → CI watch, end to end" }
+key_metrics:
+  - "200,000+ operations per day"
+  - "~1,500 pull requests merged per week (~15% of all production code changes at Block)"
+  - '"What used to take months now takes days"'
+lessons_learned:
+  - "Concentrate investment on orchestration, context, and the environment — let engineers focus on the problems worth solving"
+  - "Meet people in Slack: tag @builderbot with a short description and it works in the thread"
+  - "Multi-player real-time collaboration lets humans steer research, planning, and implementation rather than only reviewing after the fact"
+sources:
+  - { title: "Block rolls out Builderbot, a new suite of AI-native tools that changes the way we ship", url: "https://block.xyz/inside/block-rolls-out-builderbot-a-new-suite-of-ai-native-tools-that-changes-the-way-we-ship", type: "blog" }

@@ -1,0 +1,31 @@
+id: ramp-inspect
+company: Ramp
+agent_name: Inspect
+year: 2026
+status: internal
+domains: [coding, code-review]
+autonomy: drafts-reviewed
+summary: "A background coding agent that closes the loop on verifying its own work — runs tests, reviews telemetry, queries feature flags, visually verifies the frontend."
+headline_metric: "~30% of merged PRs across frontend and backend written by Inspect"
+architecture:
+  sandbox: "Modal sandboxes; per-repo images rebuilt every 30 min from snapshots; warm-on-keystroke; a pool of warm sandboxes"
+  harness: "OpenCode (server-first) as the agent runtime; a plugin blocks writes until sync completes"
+  model: "All frontier models, MCPs, custom tools, skills"
+  interfaces: [slack, web, chrome-extension, pull-request]
+  tool_access: "Wired into Sentry, Datadog, LaunchDarkly, Braintrust, GitHub, Slack, Buildkite"
+  knowledge: "Skills that encode how Ramp ships; repo images with the full dev env (Vite, Postgres, Temporal)"
+  credentials: "GitHub auth per user; the sandbox pushes the branch, an API opens the PR with the user's token (no self-approval)"
+primitives:
+  - { name: Modal sandbox + snapshots, desc: "Pre-warmed full dev envs; fast cold start; effectively free to run" }
+  - { name: OpenCode runtime, desc: "Server-first agent with a typed SDK + plugin system; code is its own source of truth" }
+  - { name: Multiplayer sessions, desc: "Any number of people in one session; each change attributed to its author" }
+key_metrics:
+  - "~30% of merged PRs (frontend + backend) written by Inspect"
+  - "Session speed limited only by model-provider time-to-first-token"
+lessons_learned:
+  - "Own the tooling — it only has to work on your code, which lets you build something more powerful than off-the-shelf"
+  - "Work in public spaces to create virality loops; let the product do the talking, don't mandate"
+  - "Background agents that are fast are strictly better than local: same intelligence, more power, unlimited concurrency"
+  - "Move as much as possible into the image-build step so users never wait on setup"
+sources:
+  - { title: "Why We Built Our Own Background Agent (Inspect)", url: "https://builders.ramp.com/post/why-we-built-our-background-agent", type: "blog" }

@@ -1,0 +1,33 @@
+id: brex-agent-platform
+company: Brex
+agent_name: "Internal Agent Platform"
+year: 2026
+status: internal
+domains: [finance-ops, support, customer-success]
+autonomy: human-in-loop
+summary: "Retool-based internal platform where employees build, test, and deploy agents for KYC, disputes, QA, collections, and operations."
+headline_metric: "50%+ of support cases resolved by AI as first touch; disputes cut from 3h to 3s"
+architecture:
+  sandbox: "Retool-hosted runtime (no bespoke execution env described)"
+  harness: "Retool-based builder with prompt management and multi-model testing/evaluation; built by a ~25-person systems-engineering team"
+  model: "Multi-model"
+  interfaces: [slack, internal-retool-ui]
+  tool_access: "An MCP server exposes external product features to the internal platform; new product tools become internally available immediately; invoked via Slack /c1"
+  knowledge: "SOPs uploaded as a knowledge base (e.g. 100+ page dispute guides); customer account data"
+  credentials: "SSO via internal Retool proxies (no per-user accounts); ConductorOne access management; Okta auth; data classified by risk; ≤30-day retention, no training on inputs"
+primitives:
+  - { name: Prompt + eval studio, desc: "Non-technical ops staff design prompts, test across models, deploy with QA oversight" }
+  - { name: MCP tool bridge, desc: "Product features exposed to internal agents through one MCP server" }
+key_metrics:
+  - "50%+ of customer-support cases resolved by chatbot as first touch"
+  - "Dispute processing: 3 hours → 3 seconds"
+  - "QA coverage 100% (previously sample-based); 1 person replaces ~5 QA specialists"
+  - "KYC adverse-media accuracy 85% → 88%"
+lessons_learned:
+  - "Target 40% automation, not 100% — the last mile drives investments that often yield zero value"
+  - "Treat internal ops with external rigor — build internal platforms to product quality"
+  - "Don't skip the human in the middle — end-to-end automation fails on accuracy"
+  - "Map workflows to the discrete steps a human would take, then translate each to LLM instructions"
+  - "Architecture beats vendor — legal/data approvals should follow data-handling characteristics, not the tool name"
+sources:
+  - { title: "Agent, Human, Ops: How Brex Is Changing Roles and Workflows", url: "https://www.firstround.com/reviews/agent-human-ops-how-brex-is-changing-roles-and-workflows", type: "case-study" }

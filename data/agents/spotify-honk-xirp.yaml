@@ -1,0 +1,35 @@
+id: spotify-honk-xirp
+company: Spotify
+agent_name: "Honk / Xirp"
+year: 2025
+status: commercialized
+domains: [coding, migrations, code-review]
+autonomy: drafts-reviewed
+summary: "A background coding agent for large-scale changes (Honk) running on a vendor-neutral, model-agnostic session environment (Xirp) backed by org context (Portal/Backstage)."
+headline_metric: "1,500+ merged AI-generated PRs; ~50% of Spotify PRs automated"
+architecture:
+  sandbox: "Containerized runtime that runs transformations as jobs inside Fleet Management"
+  harness: "An internal CLI delegating to pluggable agents; Xirp coordinates 50+ parallel sessions, each in its own worktree, with the model swappable mid-task"
+  model: "Multiple and interchangeable (Claude Code, Gemini CLI, Codex, open-weight self-hosted)"
+  interfaces: [slack, github, cli]
+  tool_access: "Local MCP for formatting/linting; an LLM-as-judge for diff evaluation; traces in MLflow"
+  knowledge: "Fleet Management for repo targeting + PR workflow; Portal/Backstage software catalog for ownership, deps, architecture"
+  credentials: "Inherits Fleet Management auth/authz for repo access and PR operations"
+  context_mgmt: "Xirp pairs with Portal: every session initializes with org context; transcripts/metadata flow back to Portal"
+primitives:
+  - { name: Pluggable harness, desc: "Swap agents and LLMs without rebuilding the surrounding infra" }
+  - { name: Fleet management, desc: "Target thousands of repos, run builds/tests, open and merge PRs at fleet scale" }
+  - { name: Org context (Portal/Backstage), desc: "Component architecture, dependency graphs, and ownership as a shared baseline" }
+key_metrics:
+  - "1,500+ merged AI-generated PRs (Honk)"
+  - "60–90% time savings on migrations vs manual"
+  - "~50% of Spotify PRs automated"
+  - "36,000+ Xirp sessions; thousands of engineers"
+lessons_learned:
+  - "Flexibility is critical — a pluggable architecture enabled multiple LLM/agent swaps in a fast-moving landscape"
+  - "Migration and ad-hoc agent workflows share config improvements (symbiosis)"
+  - "AI lowers the barrier for changes that previously required AST/regex expertise"
+  - "Autonomy without structure fragments into per-engineer configs (CLAUDE.md, MCP setups) — shared org context is the multiplier"
+sources:
+  - { title: "Spotify's Journey with Our Background Coding Agent (Honk)", url: "https://engineering.atspotify.com/2025/11/spotifys-journey-with-our-background-coding-agent", type: "blog" }
+  - { title: "Xirp — Powered by Spotify Portal", url: "https://xirp.spotify.com/", type: "docs" }

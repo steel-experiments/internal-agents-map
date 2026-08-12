@@ -1,0 +1,32 @@
+id: workos-project-horizon
+company: WorkOS
+agent_name: "Project Horizon"
+year: 2026
+status: internal
+domains: [coding, code-review]
+autonomy: drafts-reviewed
+summary: "An internal autonomous 'code factory' where a continuously running swarm of agents handles the implementation loop while engineers focus on requirements and acceptance testing."
+headline_metric: "A self-improving platform — every run ships work and feeds fixes back in"
+architecture:
+  sandbox: "Cloudflare Containers + Sandbox SDK; disposable, tightly scoped sandboxes with explicit lifecycle APIs and egress controls; full monorepo stack in Docker dev containers"
+  harness: "OpenCode preconfigured in the dev container; a worker processes webhooks; an agent orchestrator manages the sandbox lifecycle (create/pause/resume/destroy) and tracks state + artifacts"
+  model: "Not specified"
+  interfaces: [linear, github, slack, web]
+  tool_access: "A custom MCP server stitches internal data sources (Datadog, Sentry, Slack, WorkOS Pipes); all outbound traffic proxied through Workers with allowlists, limits, logging, and token injection"
+  knowledge: "AGENTS.md and CLAUDE.md capture scripts, docs, conventions; MCP codifies the patterns engineers already follow; Notion + Figma for specs/mockups"
+  credentials: "WorkOS Pipes (no OAuth/token-refresh to maintain); scoped short-lived GitHub tokens per user; engineers use their own identity in the MCP; least-privilege + egress controls"
+  context_mgmt: "The orchestrator pauses/resumes sandboxes and tracks state + artifacts across a run"
+primitives:
+  - { name: Sandbox = execution primitive vs orchestrator = control plane, desc: "Separate what runs code from what manages the lifecycle" }
+  - { name: Purpose-built agent infra, desc: "A runtime controlled end-to-end, with lifecycle APIs and egress controls for the threat model" }
+  - { name: Self-improvement loop, desc: "Each run ships work and produces the next set of fixes, surfacing where the platform is brittle" }
+  - { name: MCP as an iterative product, desc: "Tuning tools is ongoing, not a one-time integration" }
+key_metrics: []
+lessons_learned:
+  - "You need purpose-built agent infrastructure — a runtime you control end-to-end with lifecycle APIs and egress controls"
+  - "Separate concerns: sandboxes are an execution primitive; the orchestrator is the control plane"
+  - "Make autonomy a platform — the system gets faster and more reliable through use as fixes feed back in"
+  - "MCP tuning is an iterative product, not a one-time integration — codify the patterns engineers already follow"
+  - "Build modularly so components can be swapped as tooling evolves"
+sources:
+  - { title: "Project Horizon — an autonomous code factory at WorkOS", url: "https://workos.com/blog/project-horizon", type: "blog" }

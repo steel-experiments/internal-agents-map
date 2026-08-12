@@ -1,0 +1,30 @@
+id: slack-context-system
+company: Slack
+agent_name: "Multi-agent context system"
+year: 2026
+status: internal
+domains: [research]
+autonomy: human-in-loop
+summary: "A coordinator/dispatcher multi-agent design with structured context channels for long-running investigations spanning hundreds of steps."
+headline_metric: "Megabyte-scale investigations without overflowing the context window"
+architecture:
+  sandbox: "n/a — this is a context-management pattern, not a full execution platform"
+  harness: "Coordinator/dispatcher: a central coordinator dispatches to expert agents and to critic agents"
+  model: "Not specified"
+  interfaces: []
+  tool_access: "Expert agents produce reports; critic agents evaluate them using evidence-inspection tools"
+  knowledge: ""
+  credentials: ""
+  context_mgmt: "Three channels — Director's Journal (working memory), Critic's Review (credibility-weighted findings), Critic's Timeline (deduped chronological synthesis)"
+primitives:
+  - { name: Director's Journal, desc: "Structured working memory: findings, decisions, questions, hypotheses" }
+  - { name: Critic's Review, desc: "A truth filter with credibility scores over submitted findings" }
+  - { name: Critic's Timeline, desc: "A chronological, deduped, conflict-resolved synthesis retained across steps" }
+key_metrics:
+  - "Handles multi-agent runs spanning hundreds of requests and megabytes of output"
+lessons_learned:
+  - "Don't pass all information at every step — build structured summaries agents can reliably build on"
+  - "Separate expert agents (produce) from critic agents (evaluate); corroborated findings are prioritized"
+  - "Context management becomes its own subsystem once runs get long"
+sources:
+  - { title: "How Slack manages context in long-running multi-agent systems", url: "https://www.infoq.com/news/2026/04/slack-agent-context-management/", type: "blog" }

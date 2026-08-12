@@ -1,0 +1,35 @@
+id: cloudflare-ai-stack
+company: Cloudflare
+agent_name: "Internal AI engineering stack"
+year: 2026
+status: internal
+domains: [coding, code-review]
+autonomy: drafts-reviewed
+summary: "An internal platform of MCP servers, an access layer, and AI tooling (incl. an AI code reviewer) that makes agents useful inside Cloudflare."
+headline_metric: "3,683 internal users (60% of company); 47.95M AI requests / month"
+architecture:
+  sandbox: "Dynamic Workers for sandboxed code execution; Sandbox SDK to clone/build/test"
+  harness: "OpenCode + Windsurf clients; Agents SDK (McpAgent + Durable Objects) for stateful sessions"
+  model: "Workers AI (open-weight, on-platform) + frontier models (Opus, GPT), routed by task"
+  interfaces: [cli, ci, web]
+  tool_access: "MCP Server Portal — one OAuth point aggregating 182+ tools from 13 servers; AI Gateway for routing, cost, BYOK, ZDR"
+  knowledge: "Backstage catalog (2,055 services) + AGENTS.md generated across ~3,900 repos"
+  credentials: "Zero API keys on client machines — a Worker injects keys server-side; Cloudflare Access (Zero Trust) auth"
+  context_mgmt: "Code Mode collapses upstream tool schemas into search + execute, holding token overhead constant at scale"
+primitives:
+  - { name: MCP Server Portal, desc: "One OAuth aggregation point for all MCP tools" }
+  - { name: Code Mode, desc: "Collapse N tool schemas into 2 calls to hold token overhead constant at scale" }
+  - { name: AGENTS.md, desc: "Structured, generated repo context (runtime, nav, conventions, boundaries, deps)" }
+  - { name: AI Code Reviewer, desc: "Multi-agent CI review: risk tiering, specialist agents, Codex-rule citations" }
+key_metrics:
+  - "3,683 internal users (60% of company, 93% of R&D)"
+  - "47.95M AI requests / month; 241.37B tokens via AI Gateway"
+  - "Merge-request rate ~doubled to 10,952 / week"
+  - "295 teams using agentic AI tools"
+lessons_learned:
+  - "Centralize through a proxy early — direct-to-gateway looks simpler but blocks per-user attribution, model cataloging, and policy later"
+  - "Without structured data, agents are working blind — they read code but can't see the system around it (Backstage / AGENTS.md)"
+  - "Tool schemas eat context (34 GitLab tools ≈ 7.5% of a 200K window) — collapse them at the portal"
+  - "Frontier + open-source hybrid: route a growing share of workloads to cheaper self-hosted models"
+sources:
+  - { title: "The AI engineering stack we built internally", url: "https://blog.cloudflare.com/internal-ai-engineering-stack/", type: "blog" }
