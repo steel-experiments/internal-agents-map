@@ -3,7 +3,7 @@
 Architecture is half the story; the other half is how these systems get adopted by real
 engineering and operations organizations. These are the non-technical (or
 not-only-technical) lessons that repeat across the catalog. Each is grounded in a specific
-company's experience — follow the links to [the catalog](landscape.md).
+company's experience. Follow the links to [the catalog](landscape.md).
 
 ---
 
@@ -18,20 +18,20 @@ low-stakes workflow, prove it, and expand.
   investigation.
 - **Linear** starts by asking for suggestions, observes, and automates only once proven.
 
-> Start where correctness is observable — coding, migrations, investigation, review, and
+> Start where correctness is observable: coding, migrations, investigation, review, and
 > reporting produce artifacts you can *check* (tests pass, a diff exists, SQL validates, a
 > hypothesis matches telemetry).
 
-## 2. Make the work visible — public beats private
+## 2. Make the work visible: public beats private
 
 Adoption is a social phenomenon. Work in public channels spreads; work in private DMs doesn't.
 
-- **Shopify (River)** is public-by-default — public channels only, so every session is
+- **Shopify (River)** is public-by-default, public channels only, so every session is
   observable and good patterns propagate.
 - **Ramp** and **DoorDash** report public Slack threads drove adoption; private per-run
   channels didn't.
 - **Sentry** mirrors this: public-channel conversations are fully captured; private ones
-  redacted — visibility is a feature.
+  redacted. Visibility is a feature.
 
 > If only the person at the keyboard can see the agent work, you've capped how much the org
 > learns.
@@ -42,7 +42,7 @@ Shipping the platform isn't enough; you have to teach people to use it.
 
 - **DoorDash** runs workshops and hackathons to turn operational work into reusable playbooks.
 - **Brex** built a prompt + eval studio so non-technical ops staff design and deploy agents.
-- **monday.com** gave agents identities, managers, scopes, and performance scores — treating
+- **monday.com** gave agents identities, managers, scopes, and performance scores, treating
   adoption as an org-design problem.
 
 ## 4. Meet people where they already are
@@ -55,7 +55,7 @@ Don't ask anyone to open a new tool. The agent goes to Slack, GitHub, Linear, Ji
   that an agent, not an interrupted colleague, answers or converts it to work.
 - **Linear** closes the loop by auto-notifying the customer when a request ships.
 
-## 5. Own the primitives that carry your value — rent the rest
+## 5. Own the primitives that carry your value: rent the rest
 
 Several teams argue building your own harness/sandbox pays off because it only has to work on
 *your* code.
@@ -92,7 +92,7 @@ Direct-to-model-provider looks simpler but becomes a trap.
 
 - **Cloudflare** centralizes through an AI Gateway + MCP Server Portal from the start.
 - **Browserbase, Sentry, WorkOS, Sierra** all put a proxy/gateway between the agent and the
-  world — one place to enforce scope, log, and inject credentials.
+  world: one place to enforce scope, log, and inject credentials.
 
 ## 9. Reuse the org's existing machinery
 
@@ -117,16 +117,16 @@ The most repeated measurement warning in the catalog.
 
 - **Sierra** is explicit: session counts and tool calls are evidence of *usage*, not *value*.
 - **DoorDash** measures whether engineers actually act on a review finding (60.2% action rate
-  on high/critical findings) — not comment volume.
+  on high/critical findings), not comment volume.
 - **Ramp** and **Stripe** measure production-PR contribution; **Spotify** tracked migration
   time savings; **Replit** tracked that ~3× code output came *without* degradation in
   review/revert/incident metrics.
 
 > Useful KPIs: cycle time, accepted output, human review time, escaped defects, incident
 > resolution, time-to-first-response, cost per successfully completed task, percentage of runs
-> that finish without human rescue — *not* total prompts.
+> that finish without human rescue, *not* total prompts.
 
-## 12. The bottleneck moves — plan for it
+## 12. The bottleneck moves: plan for it
 
 Agents don't simply "replace coding time"; they increase the premium on judgment.
 
@@ -135,7 +135,7 @@ Agents don't simply "replace coding time"; they increase the premium on judgment
   and coordination.
 
 > As implementation cheapens, invest in **requirements, taste, evaluation, review,
-> authorization design, and prioritization** — the work the agent can't do for you.
+> authorization design, and prioritization**, the work the agent can't do for you.
 
 ---
 
