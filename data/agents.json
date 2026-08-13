@@ -480,6 +480,55 @@
       ]
     },
     {
+      "id": "databricks-costar",
+      "company": "Databricks",
+      "agent_name": "coSTAR and internal engineering agents",
+      "approach_type": "agent-system",
+      "deployment_stage": "scaled",
+      "year": 2025,
+      "first_public_evidence": {
+        "date": "2025",
+        "source_id": "databricks-costar-source-1"
+      },
+      "last_reviewed_at": "2026-08-13",
+      "status": "internal",
+      "domains": [
+        "coding",
+        "code-review",
+        "on-call"
+      ],
+      "autonomy": "unknown",
+      "operating_models": [
+        {
+          "scope": "internal engineering workflows → agent-produced changes",
+          "attention_boundary": "unknown",
+          "level": null
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive",
+          "background"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "databricks-costar--summary",
+        "databricks-costar--architecture-harness",
+        "databricks-costar--architecture-knowledge",
+        "databricks-costar--key-metrics-0",
+        "databricks-costar--key-metrics-1",
+        "databricks-costar--operating-models-0"
+      ],
+      "source_ids": [
+        "databricks-costar-source-1",
+        "databricks-costar-source-2"
+      ],
+      "interfaces": []
+    },
+    {
       "id": "domu-clementino",
       "company": "Domu",
       "agent_name": "Clementino",
@@ -911,6 +960,59 @@
       ]
     },
     {
+      "id": "hubspot-sidekick",
+      "company": "HubSpot",
+      "agent_name": "Sidekick",
+      "approach_type": "task-agent",
+      "deployment_stage": "scaled",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026-03",
+        "source_id": "hubspot-sidekick-source-1"
+      },
+      "last_reviewed_at": "2026-08-13",
+      "status": "internal",
+      "domains": [
+        "code-review"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "pull request → AI review comments",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "event-driven"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "hubspot-sidekick--summary",
+        "hubspot-sidekick--headline-metric",
+        "hubspot-sidekick--architecture-harness",
+        "hubspot-sidekick--architecture-sandbox",
+        "hubspot-sidekick--architecture-tool-access",
+        "hubspot-sidekick--architecture-interfaces",
+        "hubspot-sidekick--key-metrics-0",
+        "hubspot-sidekick--key-metrics-1",
+        "hubspot-sidekick--key-metrics-2",
+        "hubspot-sidekick--key-metrics-3",
+        "hubspot-sidekick--operating-models-0"
+      ],
+      "source_ids": [
+        "hubspot-sidekick-source-1",
+        "hubspot-sidekick-source-2"
+      ],
+      "interfaces": [
+        "github"
+      ]
+    },
+    {
       "id": "linear-agent",
       "company": "Linear",
       "agent_name": "Linear Agent",
@@ -1142,6 +1244,144 @@
       "source_ids": [
         "notion-custom-agents-source-1",
         "notion-custom-agents-source-2"
+      ],
+      "interfaces": []
+    },
+    {
+      "id": "plaid-ai-annotator",
+      "company": "Plaid",
+      "agent_name": "AI Annotator",
+      "approach_type": "task-agent",
+      "deployment_stage": "scaled",
+      "year": 2025,
+      "first_public_evidence": {
+        "date": "2025-06",
+        "source_id": "plaid-ai-annotator-source-1"
+      },
+      "last_reviewed_at": "2026-08-13",
+      "status": "internal",
+      "domains": [
+        "data"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "raw transactions → labeled training data",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "background"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "plaid-ai-annotator--summary",
+        "plaid-ai-annotator--headline-metric",
+        "plaid-ai-annotator--architecture-knowledge",
+        "plaid-ai-annotator--key-metrics-0",
+        "plaid-ai-annotator--key-metrics-1",
+        "plaid-ai-annotator--operating-models-0"
+      ],
+      "source_ids": [
+        "plaid-ai-annotator-source-1"
+      ],
+      "interfaces": []
+    },
+    {
+      "id": "plaid-fix-my-connection",
+      "company": "Plaid",
+      "agent_name": "Fix My Connection",
+      "approach_type": "task-agent",
+      "deployment_stage": "scaled",
+      "year": 2025,
+      "first_public_evidence": {
+        "date": "2025-06",
+        "source_id": "plaid-fix-my-connection-source-1"
+      },
+      "last_reviewed_at": "2026-08-13",
+      "status": "internal",
+      "domains": [
+        "ops",
+        "maintenance"
+      ],
+      "autonomy": "autonomous",
+      "operating_models": [
+        {
+          "scope": "integration degradation → repaired connection",
+          "attention_boundary": "outcome-review",
+          "level": 4
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "background"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "plaid-fix-my-connection--summary",
+        "plaid-fix-my-connection--headline-metric",
+        "plaid-fix-my-connection--architecture-tool-access",
+        "plaid-fix-my-connection--key-metrics-0",
+        "plaid-fix-my-connection--key-metrics-1",
+        "plaid-fix-my-connection--operating-models-0"
+      ],
+      "source_ids": [
+        "plaid-fix-my-connection-source-1"
+      ],
+      "interfaces": []
+    },
+    {
+      "id": "plaid-internal-mcp-server",
+      "company": "Plaid",
+      "agent_name": "Internal MCP server",
+      "approach_type": "supporting-pattern",
+      "deployment_stage": "scaled",
+      "year": 2025,
+      "first_public_evidence": {
+        "date": "2025",
+        "source_id": "plaid-internal-mcp-server-source-1"
+      },
+      "last_reviewed_at": "2026-08-13",
+      "status": "internal",
+      "domains": [
+        "coding"
+      ],
+      "autonomy": "unknown",
+      "operating_models": [
+        {
+          "scope": "engineer request → internal tool access",
+          "attention_boundary": "unknown",
+          "level": null
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "plaid-internal-mcp-server--summary",
+        "plaid-internal-mcp-server--headline-metric",
+        "plaid-internal-mcp-server--architecture-harness",
+        "plaid-internal-mcp-server--architecture-tool-access",
+        "plaid-internal-mcp-server--architecture-credentials",
+        "plaid-internal-mcp-server--key-metrics-0",
+        "plaid-internal-mcp-server--key-metrics-1",
+        "plaid-internal-mcp-server--operating-models-0"
+      ],
+      "source_ids": [
+        "plaid-internal-mcp-server-source-1"
       ],
       "interfaces": []
     },
@@ -4159,6 +4399,112 @@
       ]
     },
     {
+      "id": "databricks-costar--summary",
+      "approach_id": "databricks-costar",
+      "field": "summary",
+      "text": "Databricks' internal engineering agents and the coSTAR framework that ships and tests them. Databricks uses internal agents as daily coding drivers on its own codebase, including code-review and on-call support work. coSTAR tests agents on a private benchmark built from Databricks' multi-million line codebase before they ship. Omnigent is a separate shipping open-source product and is excluded from this record.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "databricks-costar-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "databricks-costar-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "databricks-costar--architecture-harness",
+      "approach_id": "databricks-costar",
+      "field": "architecture.harness",
+      "text": "coSTAR framework for shipping and testing internal agents",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "databricks-costar-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "databricks-costar--architecture-knowledge",
+      "approach_id": "databricks-costar",
+      "field": "architecture.knowledge",
+      "text": "Private benchmark built from the Databricks multi-million line codebase",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "databricks-costar-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "databricks-costar--key-metrics-0",
+      "approach_id": "databricks-costar",
+      "field": "key_metrics.0",
+      "text": "Internal agents serve as daily coding drivers on the Databricks codebase",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Databricks described internal use in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "databricks-costar-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "databricks-costar--key-metrics-1",
+      "approach_id": "databricks-costar",
+      "field": "key_metrics.1",
+      "text": "Private benchmark built from a multi-million line codebase",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Databricks described the benchmark in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "databricks-costar-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "databricks-costar--operating-models-0",
+      "approach_id": "databricks-costar",
+      "field": "operating_models.0",
+      "text": "Unclassified for internal engineering workflows → agent-produced changes; human attention boundary: unknown.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "unverified",
+      "confidence_reason": "The record covers several internal engineering agents with different workflows, so no single human-attention boundary applies.",
+      "valid_at": "2025",
+      "evidence": [
+        {
+          "source_id": "databricks-costar-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
       "id": "domu-clementino--summary",
       "approach_id": "domu-clementino",
       "field": "summary",
@@ -5968,6 +6314,206 @@
       ]
     },
     {
+      "id": "hubspot-sidekick--summary",
+      "approach_id": "hubspot-sidekick",
+      "field": "summary",
+      "text": "HubSpot's internal AI code-review agent. Sidekick reviews every pull request. A multi-model Judge Agent checks each comment for accuracy and action before it posts. Sidekick runs on Aviator, a Java agent framework HubSpot built for precise tool control, which runs on Crucible, a self-hosted platform that runs agents in isolated containers that mirror a real developer environment.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "hubspot-sidekick-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "hubspot-sidekick-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "hubspot-sidekick--headline-metric",
+      "approach_id": "hubspot-sidekick",
+      "field": "headline_metric",
+      "text": "Reviews every pull request and cut engineer feedback time by 90%",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "HubSpot reported the figures in its own engineering blog without independent verification.",
+      "valid_at": "2026-03",
+      "evidence": [
+        {
+          "source_id": "hubspot-sidekick-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "HubSpot"
+    },
+    {
+      "id": "hubspot-sidekick--architecture-harness",
+      "approach_id": "hubspot-sidekick",
+      "field": "architecture.harness",
+      "text": "Sidekick agent on the Aviator Java framework, running on the Crucible platform",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "hubspot-sidekick-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "hubspot-sidekick-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "hubspot-sidekick--architecture-sandbox",
+      "approach_id": "hubspot-sidekick",
+      "field": "architecture.sandbox",
+      "text": "Isolated containers on Crucible that mirror a real developer environment",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "hubspot-sidekick-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "hubspot-sidekick--architecture-tool-access",
+      "approach_id": "hubspot-sidekick",
+      "field": "architecture.tool_access",
+      "text": "Aviator framework for precise tool control",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "hubspot-sidekick-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "hubspot-sidekick--architecture-interfaces",
+      "approach_id": "hubspot-sidekick",
+      "field": "architecture.interfaces",
+      "text": "github",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "hubspot-sidekick-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "hubspot-sidekick--key-metrics-0",
+      "approach_id": "hubspot-sidekick",
+      "field": "key_metrics.0",
+      "text": "Reviews every pull request",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "HubSpot reported the figures in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "hubspot-sidekick-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "HubSpot"
+    },
+    {
+      "id": "hubspot-sidekick--key-metrics-1",
+      "approach_id": "hubspot-sidekick",
+      "field": "key_metrics.1",
+      "text": "Engineer feedback time cut by 90%",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "HubSpot reported the figures in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "hubspot-sidekick-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "HubSpot"
+    },
+    {
+      "id": "hubspot-sidekick--key-metrics-2",
+      "approach_id": "hubspot-sidekick",
+      "field": "key_metrics.2",
+      "text": "More than 80% positive developer reaction over six months",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "HubSpot reported the figures in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "hubspot-sidekick-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "HubSpot"
+    },
+    {
+      "id": "hubspot-sidekick--key-metrics-3",
+      "approach_id": "hubspot-sidekick",
+      "field": "key_metrics.3",
+      "text": "About 3,000 EC2 instances run the agent fleet",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "HubSpot reported the figure in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "hubspot-sidekick-source-2",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "HubSpot"
+    },
+    {
+      "id": "hubspot-sidekick--operating-models-0",
+      "approach_id": "hubspot-sidekick",
+      "field": "operating_models.0",
+      "text": "Level 3 for pull request → AI review comments; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The engineering blog describes engineers acting on Sidekick review comments, which locates human attention at work-product review.",
+      "valid_at": "2026-03",
+      "evidence": [
+        {
+          "source_id": "hubspot-sidekick-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
       "id": "linear-agent--summary",
       "approach_id": "linear-agent",
       "field": "summary",
@@ -6914,6 +7460,355 @@
       "evidence": [
         {
           "source_id": "notion-custom-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "plaid-ai-annotator--summary",
+      "approach_id": "plaid-ai-annotator",
+      "field": "summary",
+      "text": "Plaid's internal labeling agent for its own model training. AI Annotator automates large-scale labeling of anonymized transaction data, with human oversight on the labeled output. Plaid reports greater than 95% human alignment at a lower cost and time than manual labeling.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-ai-annotator-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "plaid-ai-annotator--headline-metric",
+      "approach_id": "plaid-ai-annotator",
+      "field": "headline_metric",
+      "text": "Greater than 95% human alignment at lower cost and time than manual labeling",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Plaid reported the figure in its own blog without independent verification.",
+      "valid_at": "2025-06",
+      "evidence": [
+        {
+          "source_id": "plaid-ai-annotator-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Plaid"
+    },
+    {
+      "id": "plaid-ai-annotator--architecture-knowledge",
+      "approach_id": "plaid-ai-annotator",
+      "field": "architecture.knowledge",
+      "text": "Anonymized Plaid transaction data",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-ai-annotator-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "plaid-ai-annotator--key-metrics-0",
+      "approach_id": "plaid-ai-annotator",
+      "field": "key_metrics.0",
+      "text": "Greater than 95% human alignment with labeled data",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Plaid reported the figure in its own blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-ai-annotator-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Plaid"
+    },
+    {
+      "id": "plaid-ai-annotator--key-metrics-1",
+      "approach_id": "plaid-ai-annotator",
+      "field": "key_metrics.1",
+      "text": "Lower cost and time than manual labeling",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Plaid reported the figure in its own blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-ai-annotator-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Plaid"
+    },
+    {
+      "id": "plaid-ai-annotator--operating-models-0",
+      "approach_id": "plaid-ai-annotator",
+      "field": "operating_models.0",
+      "text": "Level 3 for raw transactions → labeled training data; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The reported greater than 95% human alignment implies that people review the labeled output.",
+      "valid_at": "2025-06",
+      "evidence": [
+        {
+          "source_id": "plaid-ai-annotator-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "plaid-fix-my-connection--summary",
+      "approach_id": "plaid-fix-my-connection",
+      "field": "summary",
+      "text": "Plaid's internal agent for bank-integration reliability. Fix My Connection proactively detects bank-integration failures and generates repair scripts automatically. Plaid reports more than 2 million successful user-permissioned logins and a 90% reduction in the average time to fix a degradation.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-fix-my-connection-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "plaid-fix-my-connection--headline-metric",
+      "approach_id": "plaid-fix-my-connection",
+      "field": "headline_metric",
+      "text": "More than 2 million successful logins and 90% faster average repair",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Plaid reported the figures in its own blog without independent verification.",
+      "valid_at": "2025-06",
+      "evidence": [
+        {
+          "source_id": "plaid-fix-my-connection-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Plaid"
+    },
+    {
+      "id": "plaid-fix-my-connection--architecture-tool-access",
+      "approach_id": "plaid-fix-my-connection",
+      "field": "architecture.tool_access",
+      "text": "Plaid bank-integration infrastructure",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-fix-my-connection-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "plaid-fix-my-connection--key-metrics-0",
+      "approach_id": "plaid-fix-my-connection",
+      "field": "key_metrics.0",
+      "text": "More than 2 million successful user-permissioned logins",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Plaid reported the figure in its own blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-fix-my-connection-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Plaid"
+    },
+    {
+      "id": "plaid-fix-my-connection--key-metrics-1",
+      "approach_id": "plaid-fix-my-connection",
+      "field": "key_metrics.1",
+      "text": "Average time to fix a degradation reduced by 90%",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Plaid reported the figure in its own blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-fix-my-connection-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Plaid"
+    },
+    {
+      "id": "plaid-fix-my-connection--operating-models-0",
+      "approach_id": "plaid-fix-my-connection",
+      "field": "operating_models.0",
+      "text": "Level 4 for integration degradation → repaired connection; human attention boundary: outcome-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "Plaid measures success by outcomes such as successful logins rather than per-repair inspection.",
+      "valid_at": "2025-06",
+      "evidence": [
+        {
+          "source_id": "plaid-fix-my-connection-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "plaid-internal-mcp-server--summary",
+      "approach_id": "plaid-internal-mcp-server",
+      "field": "summary",
+      "text": "Plaid's central internal Model Context Protocol server. Plaid built it because third-party MCP servers could not reach its internal data. The server integrates more than 20 tools and several internal services such as Jira, application logs, and data schemas, behind Plaid's identity-aware proxy and centralized authorization. Plaid reports that more than 80% of its engineers use AI clients connected to it, with thousands of tool calls and dozens of agents built on it.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-internal-mcp-server-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "plaid-internal-mcp-server--headline-metric",
+      "approach_id": "plaid-internal-mcp-server",
+      "field": "headline_metric",
+      "text": "More than 80% of engineers use it, with dozens of agents built on it",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Plaid reported the figures in its own engineering blog without independent verification.",
+      "valid_at": "2025",
+      "evidence": [
+        {
+          "source_id": "plaid-internal-mcp-server-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Plaid"
+    },
+    {
+      "id": "plaid-internal-mcp-server--architecture-harness",
+      "approach_id": "plaid-internal-mcp-server",
+      "field": "architecture.harness",
+      "text": "Central internal MCP server that fronts vendor AI clients",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-internal-mcp-server-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "plaid-internal-mcp-server--architecture-tool-access",
+      "approach_id": "plaid-internal-mcp-server",
+      "field": "architecture.tool_access",
+      "text": "More than 20 tools and several internal services (Jira, logs, schemas)",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-internal-mcp-server-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "plaid-internal-mcp-server--architecture-credentials",
+      "approach_id": "plaid-internal-mcp-server",
+      "field": "architecture.credentials",
+      "text": "Behind Plaid's identity-aware proxy and centralized authorization",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-internal-mcp-server-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "plaid-internal-mcp-server--key-metrics-0",
+      "approach_id": "plaid-internal-mcp-server",
+      "field": "key_metrics.0",
+      "text": "More than 80% of Plaid engineers use AI clients connected to it",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Plaid reported the figures in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-internal-mcp-server-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Plaid"
+    },
+    {
+      "id": "plaid-internal-mcp-server--key-metrics-1",
+      "approach_id": "plaid-internal-mcp-server",
+      "field": "key_metrics.1",
+      "text": "Thousands of tool calls and dozens of agents built on it",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Plaid reported the figures in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-internal-mcp-server-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Plaid"
+    },
+    {
+      "id": "plaid-internal-mcp-server--operating-models-0",
+      "approach_id": "plaid-internal-mcp-server",
+      "field": "operating_models.0",
+      "text": "Unclassified for engineer request → internal tool access; human attention boundary: unknown.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "unverified",
+      "confidence_reason": "The MCP server is a tool-access layer, not a workflow with a single human-attention boundary.",
+      "valid_at": "2025",
+      "evidence": [
+        {
+          "source_id": "plaid-internal-mcp-server-source-1",
           "relation": "supports"
         }
       ]
@@ -11697,6 +12592,30 @@
       "approach_id": "coinbase-forge-mux"
     },
     {
+      "id": "databricks-costar-source-1",
+      "title": "coSTAR: how we ship AI agents at Databricks fast",
+      "url": "https://www.databricks.com/blog/costar-how-we-ship-ai-agents-databricks-fast-without-breaking-things",
+      "canonical_url": "https://www.databricks.com/blog/costar-how-we-ship-ai-agents-databricks-fast-without-breaking-things",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "databricks-costar"
+    },
+    {
+      "id": "databricks-costar-source-2",
+      "title": "Benchmarking coding agents on a multi-million line codebase",
+      "url": "https://www.databricks.com/blog/benchmarking-coding-agents-databricks-multi-million-line-codebase",
+      "canonical_url": "https://www.databricks.com/blog/benchmarking-coding-agents-databricks-multi-million-line-codebase",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "databricks-costar"
+    },
+    {
       "id": "domu-clementino-source-1",
       "title": "Why we split our internal agent in two",
       "url": "https://domu.ai/blog/why-we-split-our-internal-agent-in-two",
@@ -11821,6 +12740,31 @@
       "last_verified_at": "2026-08-12",
       "role": "evidence",
       "approach_id": "harvey-spectre"
+    },
+    {
+      "id": "hubspot-sidekick-source-1",
+      "title": "Automated code review, the 6-month evolution",
+      "url": "https://product.hubspot.com/blog/automated-code-review-the-6-month-evolution",
+      "canonical_url": "https://product.hubspot.com/blog/automated-code-review-the-6-month-evolution",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "published_at": "2026-03",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "hubspot-sidekick"
+    },
+    {
+      "id": "hubspot-sidekick-source-2",
+      "title": "Cloud coding agents at HubSpot",
+      "url": "https://product.hubspot.com/blog/cloud-coding-agents-at-hubspot",
+      "canonical_url": "https://product.hubspot.com/blog/cloud-coding-agents-at-hubspot",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "hubspot-sidekick"
     },
     {
       "id": "linear-agent-source-1",
@@ -11952,6 +12896,44 @@
       "accessed_at": "2026-08-13",
       "last_verified_at": "2026-08-13",
       "approach_id": "notion-custom-agents"
+    },
+    {
+      "id": "plaid-ai-annotator-source-1",
+      "title": "AI agents at Plaid (June 2025)",
+      "url": "https://plaid.com/blog/ai-agents-june-2025/",
+      "canonical_url": "https://plaid.com/blog/ai-agents-june-2025/",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "published_at": "2025-06",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "plaid-ai-annotator"
+    },
+    {
+      "id": "plaid-fix-my-connection-source-1",
+      "title": "AI agents at Plaid (June 2025)",
+      "url": "https://plaid.com/blog/ai-agents-june-2025/",
+      "canonical_url": "https://plaid.com/blog/ai-agents-june-2025/",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "published_at": "2025-06",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "plaid-fix-my-connection"
+    },
+    {
+      "id": "plaid-internal-mcp-server-source-1",
+      "title": "The Plaid internal MCP server",
+      "url": "https://engineering.plaid.com/the-plaid-internal-mcp-server-8eff08bb6bdb",
+      "canonical_url": "https://engineering.plaid.com/the-plaid-internal-mcp-server-8eff08bb6bdb",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "plaid-internal-mcp-server"
     },
     {
       "id": "posthog-stamphog-source-1",

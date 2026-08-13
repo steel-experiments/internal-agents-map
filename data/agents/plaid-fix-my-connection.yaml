@@ -1,0 +1,89 @@
+id: plaid-fix-my-connection
+company: Plaid
+agent_name: Fix My Connection
+approach_type: task-agent
+deployment_stage: scaled
+year: 2025
+first_public_evidence:
+  date: '2025-06'
+  source_id: plaid-fix-my-connection-source-1
+last_reviewed_at: '2026-08-13'
+status: internal
+domains:
+- ops
+- maintenance
+autonomy: autonomous
+operating_models:
+- scope: 'integration degradation → repaired connection'
+  attention_boundary: outcome-review
+rubric:
+  invocation:
+  - background
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: Plaid's internal agent for bank-integration reliability. Fix My Connection proactively detects
+  bank-integration failures and generates repair scripts automatically. Plaid reports more than 2 million
+  successful user-permissioned logins and a 90% reduction in the average time to fix a degradation.
+headline_metric: More than 2 million successful logins and 90% faster average repair
+architecture:
+  tool_access: Plaid bank-integration infrastructure
+  interfaces: []
+key_metrics:
+- More than 2 million successful user-permissioned logins
+- Average time to fix a degradation reduced by 90%
+sources:
+- id: plaid-fix-my-connection-source-1
+  title: AI agents at Plaid (June 2025)
+  url: https://plaid.com/blog/ai-agents-june-2025/
+  canonical_url: https://plaid.com/blog/ai-agents-june-2025/
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  published_at: '2025-06'
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+evidence:
+  operating_models.0:
+  - source_id: plaid-fix-my-connection-source-1
+    relation: supports
+  summary:
+  - source_id: plaid-fix-my-connection-source-1
+    relation: supports
+  headline_metric:
+  - source_id: plaid-fix-my-connection-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: plaid-fix-my-connection-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: plaid-fix-my-connection-source-1
+    relation: supports
+  key_metrics.1:
+  - source_id: plaid-fix-my-connection-source-1
+    relation: supports
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: Plaid measures success by outcomes such as successful logins rather than per-repair
+      inspection.
+    valid_at: '2025-06'
+  headline_metric:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Plaid reported the figures in its own blog without independent verification.
+    valid_at: '2025-06'
+    reported_by: Plaid
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Plaid reported the figure in its own blog.
+  key_metrics.1:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Plaid reported the figure in its own blog.

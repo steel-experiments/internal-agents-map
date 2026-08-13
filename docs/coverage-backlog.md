@@ -16,7 +16,7 @@ them.
 
 ## Promoted to the catalog
 
-On 2026-08-13, seven Tier 1 entries moved off this backlog and into the
+On 2026-08-13, twelve records moved off this backlog and into the
 [landscape](landscape.md). Their detail blocks stay on this page as source collections.
 
 - GitHub — Qubot → [landscape](landscape.md#github-qubot)
@@ -26,6 +26,11 @@ On 2026-08-13, seven Tier 1 entries moved off this backlog and into the
 - Notion — Custom Agents → [landscape](landscape.md#notion-custom-agents)
 - Microsoft — PRAssistant → [landscape](landscape.md#microsoft-prassistant)
 - Airbnb — Airchat → [landscape](landscape.md#airbnb-airchat)
+- Plaid — AI Annotator → [landscape](landscape.md#plaid-ai-annotator)
+- Plaid — Fix My Connection → [landscape](landscape.md#plaid-fix-my-connection)
+- Plaid — Internal MCP server → [landscape](landscape.md#plaid-internal-mcp-server)
+- HubSpot — Sidekick → [landscape](landscape.md#hubspot-sidekick)
+- Databricks — coSTAR (Omnigent excluded) → [landscape](landscape.md#databricks-costar)
 
 ## Editorial rule
 
@@ -168,7 +173,7 @@ or repos that describe an agent they built for their own teams.
 
 ### Plaid — AI Annotator, Fix My Connection, internal MCP server
 
-- **Status**: Verified, ready (3-vote, 2026-08-13).
+- **Status**: Promoted to the catalog on 2026-08-13.
 - **Confidence**: high.
 - **Verification note**: all three voters confirmed a genuine internal build and a real deployment.
   Caveat: all sources are first-party Plaid blogs, so the metrics are self-reported. The
@@ -190,7 +195,7 @@ or repos that describe an agent they built for their own teams.
 
 ### Databricks — internal engineering agents and the coSTAR framework
 
-- **Status**: Verified, ready (3-vote, 2026-08-13), scoped.
+- **Status**: Promoted to the catalog on 2026-08-13 (scoped: Omnigent excluded).
 - **Confidence**: high.
 - **Verification note**: the claim survived 0 to 3. Two of three voters called the internal build
   genuine, and one called it partial. All three confirmed a real deployment. Scope caveat: Omnigent
@@ -215,7 +220,7 @@ or repos that describe an agent they built for their own teams.
 
 ### HubSpot — Sidekick, Crucible, Aviator
 
-- **Status**: Verified, ready (3-vote, 2026-08-13).
+- **Status**: Promoted to the catalog on 2026-08-13.
 - **Confidence**: high.
 - **Verification note**: all three voters confirmed a genuine internal build and a real deployment.
   The technical detail (Kubernetes Jobs, about 3,000 EC2 instances, a multi-model Judge Agent) goes
@@ -402,9 +407,8 @@ Most have only shipping products, vendor-tool usage, or aspirational job posting
   use and to capture the real figures.
 - Airbnb: find a first-party engineering blog or repository to firm up the "64% of PRs" figure,
   which currently comes from a third-party newsletter.
-- Plaid and HubSpot passed three-vote verification on 2026-08-13 and are ready for records.
-  Databricks passed but stays scoped: record the internal engineering agents and coSTAR, and exclude
-  Omnigent as a shipping open-source product.
+- Plaid, HubSpot, and Databricks are now recorded (2026-08-13). Databricks is scoped to the internal
+  engineering agents and coSTAR; Omnigent is excluded as a shipping open-source product.
 - Roblox: the engineering blog domain did not resolve in the audit environment. A direct check may
   surface an internal build that the sweep missed.
 

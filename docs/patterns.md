@@ -1,6 +1,6 @@
 # Architecture patterns
 
-This page compares the 35 approaches in the catalog. It describes reported designs. It does not prescribe one definition of an agent.
+This page compares the 40 approaches in the catalog. It describes reported designs. It does not prescribe one definition of an agent.
 
 Most evidence comes from organizations that describe their own systems. Architecture details are incomplete for many entries. Counts below use the catalog snapshot reviewed on August 13, 2026.
 
@@ -10,12 +10,12 @@ The catalog contains these approach types:
 
 | Type | Count |
 | --- | ---: |
-| Task agent | 13 |
+| Task agent | 16 |
 | Platform | 10 |
 | Background agent | 6 |
-| Agent system | 3 |
+| Agent system | 4 |
 | Orchestration system | 2 |
-| Supporting pattern | 1 |
+| Supporting pattern | 2 |
 
 Compare approaches of the same type and deployment stage before you draw a conclusion. A platform and a task agent have different responsibilities.
 
@@ -45,7 +45,7 @@ No catalog rule requires this exact design. Some entries implement only part of 
 
 ## Execution environments
 
-Fourteen entries document a concrete execution environment. Reported examples include Firecracker micro virtual machines at DoorDash, Modal sandboxes at Ramp, Kubernetes containers at Spotify, and isolated worktrees at Coinbase.
+Fifteen entries document a concrete execution environment. Reported examples include Firecracker micro virtual machines at DoorDash, Modal sandboxes at Ramp, Kubernetes containers at Spotify, isolated containers at HubSpot, and isolated worktrees at Coinbase.
 
 The remaining entries either omit the detail or describe no separate execution environment. This absence is an evidence gap. It is not proof that no isolation exists.
 
@@ -86,13 +86,13 @@ The implementations differ. Some use repository instruction files. Some query li
 
 ## Invocation
 
-Twenty of 35 entries list Slack as an interface. GitHub, web interfaces, command-line tools, scheduled jobs, and event handlers also appear.
+Twenty of 40 entries list Slack as an interface. GitHub, web interfaces, command-line tools, scheduled jobs, and event handlers also appear.
 
 This count shows where reported systems appear in the sample. It does not show that Slack causes adoption. Public channels can help people observe agent work, but they can also expose private or sensitive information. Teams must apply access and retention rules before they copy this practice.
 
 ## State and identity
 
-The current public evidence does not document state duration for 30 entries. Four entries describe durable session state, and one describes run-only state. This gap is why durable identity belongs in the rubric instead of the inclusion policy.
+The current public evidence does not document state duration for 35 entries. Four entries describe durable session state, and one describes run-only state. This gap is why durable identity belongs in the rubric instead of the inclusion policy.
 
 The rubric asks separate questions:
 
@@ -105,7 +105,7 @@ These choices affect audit records, authorization, recovery, and accountability.
 
 ## Verification and autonomy
 
-The catalog classifies 21 approaches as `drafts-reviewed`, eight as `human-in-loop`, two as `autonomous`, three as `assistive`, and one as `unknown`. These labels describe the reported review boundary. They do not measure output quality.
+The catalog classifies 23 approaches as `drafts-reviewed`, eight as `human-in-loop`, three as `autonomous`, three as `assistive`, and three as `unknown`. These labels describe the reported review boundary. They do not measure output quality.
 
 Reported verification methods include tests, continuous integration checks, schema checks, query planning, policy checks, model judges, and human review. Deterministic checks and model review serve different purposes. A model judge does not replace a test that can decide a property directly.
 

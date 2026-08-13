@@ -1,0 +1,133 @@
+id: hubspot-sidekick
+company: HubSpot
+agent_name: Sidekick
+approach_type: task-agent
+deployment_stage: scaled
+year: 2026
+first_public_evidence:
+  date: '2026-03'
+  source_id: hubspot-sidekick-source-1
+last_reviewed_at: '2026-08-13'
+status: internal
+domains:
+- code-review
+autonomy: drafts-reviewed
+operating_models:
+- scope: 'pull request → AI review comments'
+  attention_boundary: work-product-review
+rubric:
+  invocation:
+  - event-driven
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: HubSpot's internal AI code-review agent. Sidekick reviews every pull request. A multi-model Judge
+  Agent checks each comment for accuracy and action before it posts. Sidekick runs on Aviator, a Java agent
+  framework HubSpot built for precise tool control, which runs on Crucible, a self-hosted platform that runs
+  agents in isolated containers that mirror a real developer environment.
+headline_metric: Reviews every pull request and cut engineer feedback time by 90%
+architecture:
+  harness: Sidekick agent on the Aviator Java framework, running on the Crucible platform
+  sandbox: Isolated containers on Crucible that mirror a real developer environment
+  tool_access: Aviator framework for precise tool control
+  interfaces:
+  - github
+key_metrics:
+- Reviews every pull request
+- Engineer feedback time cut by 90%
+- More than 80% positive developer reaction over six months
+- About 3,000 EC2 instances run the agent fleet
+sources:
+- id: hubspot-sidekick-source-1
+  title: Automated code review, the 6-month evolution
+  url: https://product.hubspot.com/blog/automated-code-review-the-6-month-evolution
+  canonical_url: https://product.hubspot.com/blog/automated-code-review-the-6-month-evolution
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  published_at: '2026-03'
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+- id: hubspot-sidekick-source-2
+  title: Cloud coding agents at HubSpot
+  url: https://product.hubspot.com/blog/cloud-coding-agents-at-hubspot
+  canonical_url: https://product.hubspot.com/blog/cloud-coding-agents-at-hubspot
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+evidence:
+  operating_models.0:
+  - source_id: hubspot-sidekick-source-1
+    relation: supports
+  summary:
+  - source_id: hubspot-sidekick-source-1
+    relation: supports
+  - source_id: hubspot-sidekick-source-2
+    relation: supports
+  headline_metric:
+  - source_id: hubspot-sidekick-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: hubspot-sidekick-source-1
+    relation: supports
+  - source_id: hubspot-sidekick-source-2
+    relation: supports
+  architecture.sandbox:
+  - source_id: hubspot-sidekick-source-2
+    relation: supports
+  architecture.tool_access:
+  - source_id: hubspot-sidekick-source-1
+    relation: supports
+  architecture.interfaces:
+  - source_id: hubspot-sidekick-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: hubspot-sidekick-source-1
+    relation: supports
+  key_metrics.1:
+  - source_id: hubspot-sidekick-source-1
+    relation: supports
+  key_metrics.2:
+  - source_id: hubspot-sidekick-source-1
+    relation: supports
+  key_metrics.3:
+  - source_id: hubspot-sidekick-source-2
+    relation: supports
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The engineering blog describes engineers acting on Sidekick review comments, which
+      locates human attention at work-product review.
+    valid_at: '2026-03'
+  headline_metric:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: HubSpot reported the figures in its own engineering blog without independent
+      verification.
+    valid_at: '2026-03'
+    reported_by: HubSpot
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: HubSpot reported the figures in its own engineering blog.
+  key_metrics.1:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: HubSpot reported the figures in its own engineering blog.
+  key_metrics.2:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: HubSpot reported the figures in its own engineering blog.
+  key_metrics.3:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: HubSpot reported the figure in its own engineering blog.
