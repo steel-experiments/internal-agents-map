@@ -751,6 +751,62 @@
       ]
     },
     {
+      "id": "posthog-stamphog",
+      "company": "PostHog",
+      "agent_name": "StampHog",
+      "approach_type": "background-agent",
+      "deployment_stage": "scaled",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026-07-09",
+        "source_id": "posthog-stamphog-source-1"
+      },
+      "last_reviewed_at": "2026-08-13",
+      "status": "open-sourced",
+      "domains": [
+        "code-review"
+      ],
+      "autonomy": "autonomous",
+      "rubric": {
+        "invocation": [
+          "background",
+          "event-driven"
+        ],
+        "state": "run-only",
+        "identity": "dedicated-agent",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "posthog-stamphog--summary",
+        "posthog-stamphog--headline-metric",
+        "posthog-stamphog--architecture-harness",
+        "posthog-stamphog--architecture-model",
+        "posthog-stamphog--architecture-interfaces",
+        "posthog-stamphog--architecture-tool-access",
+        "posthog-stamphog--architecture-knowledge",
+        "posthog-stamphog--architecture-credentials",
+        "posthog-stamphog--architecture-context-mgmt",
+        "posthog-stamphog--primitives-0",
+        "posthog-stamphog--primitives-1",
+        "posthog-stamphog--primitives-2",
+        "posthog-stamphog--key-metrics-0",
+        "posthog-stamphog--key-metrics-1",
+        "posthog-stamphog--key-metrics-2",
+        "posthog-stamphog--lessons-learned-0",
+        "posthog-stamphog--lessons-learned-1",
+        "posthog-stamphog--lessons-learned-2"
+      ],
+      "source_ids": [
+        "posthog-stamphog-source-1",
+        "posthog-stamphog-source-2",
+        "posthog-stamphog-source-3"
+      ],
+      "interfaces": [
+        "github",
+        "ci"
+      ]
+    },
+    {
       "id": "ramp-inspect",
       "company": "Ramp",
       "agent_name": "Inspect",
@@ -803,7 +859,8 @@
       "source_ids": [
         "ramp-inspect-source-1",
         "ramp-inspect-source-2",
-        "ramp-inspect-source-3"
+        "ramp-inspect-source-3",
+        "ramp-inspect-source-4"
       ],
       "interfaces": [
         "slack",
@@ -1300,6 +1357,67 @@
         "uber-coding-agent-source-1"
       ],
       "interfaces": []
+    },
+    {
+      "id": "uber-ureview",
+      "company": "Uber",
+      "agent_name": "uReview",
+      "relationships": [
+        {
+          "type": "related-to",
+          "approach_id": "uber-coding-agent"
+        }
+      ],
+      "approach_type": "background-agent",
+      "deployment_stage": "scaled",
+      "year": 2025,
+      "first_public_evidence": {
+        "date": "2025-08-12",
+        "source_id": "uber-ureview-source-1"
+      },
+      "last_reviewed_at": "2026-08-13",
+      "status": "internal",
+      "domains": [
+        "code-review"
+      ],
+      "autonomy": "drafts-reviewed",
+      "rubric": {
+        "invocation": [
+          "background",
+          "event-driven"
+        ],
+        "state": "unknown",
+        "identity": "service",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "uber-ureview--summary",
+        "uber-ureview--headline-metric",
+        "uber-ureview--architecture-harness",
+        "uber-ureview--architecture-model",
+        "uber-ureview--architecture-interfaces",
+        "uber-ureview--architecture-tool-access",
+        "uber-ureview--architecture-knowledge",
+        "uber-ureview--architecture-context-mgmt",
+        "uber-ureview--primitives-0",
+        "uber-ureview--primitives-1",
+        "uber-ureview--primitives-2",
+        "uber-ureview--key-metrics-0",
+        "uber-ureview--key-metrics-1",
+        "uber-ureview--key-metrics-2",
+        "uber-ureview--key-metrics-3",
+        "uber-ureview--key-metrics-4",
+        "uber-ureview--lessons-learned-0",
+        "uber-ureview--lessons-learned-1",
+        "uber-ureview--lessons-learned-2"
+      ],
+      "source_ids": [
+        "uber-ureview-source-1"
+      ],
+      "interfaces": [
+        "internal-ui",
+        "ci"
+      ]
     },
     {
       "id": "workos-project-horizon",
@@ -5341,6 +5459,355 @@
       ]
     },
     {
+      "id": "posthog-stamphog--summary",
+      "approach_id": "posthog-stamphog",
+      "field": "summary",
+      "text": "A GitHub-label-triggered PR approval agent that applies fail-closed deterministic safety gates, asks an LLM to check for showstoppers, autonomously approves eligible changes, and refuses or escalates the rest.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-1",
+          "relation": "supports",
+          "locator": "Add a PR auto-stamper"
+        },
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, How it works"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--headline-metric",
+      "approach_id": "posthog-stamphog",
+      "field": "headline_metric",
+      "text": "Handled 1,600 PRs in the month before July 9, 2026; roughly one in three merged main-repository PRs received its final approval during the reported quarter",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "PostHog reports the production counts without independent verification.",
+      "valid_at": "2026-07",
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-1",
+          "relation": "supports",
+          "locator": "Add a PR auto-stamper, paragraphs 4 and 8"
+        }
+      ],
+      "reported_by": "PostHog",
+      "metric_scope": "StampHog approvals in PostHog's main repository",
+      "denominator": "Merged main-repository PRs for the quarterly share; absolute handled PRs for the monthly count",
+      "measurement_method": "Company-reported production usage"
+    },
+    {
+      "id": "posthog-stamphog--architecture-harness",
+      "approach_id": "posthog-stamphog",
+      "field": "architecture.harness",
+      "text": "A GitHub Action invokes a Python pipeline that fetches and classifies a PR, applies hard gates, waits for in-flight reviewer bots, runs an LLM review, and posts a verdict",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, How it works and Architecture"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--architecture-model",
+      "approach_id": "posthog-stamphog",
+      "field": "architecture.model",
+      "text": "Claude through the Claude Agent SDK, with Read, Grep, and Glob tools",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, LLM Review"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--architecture-interfaces",
+      "approach_id": "posthog-stamphog",
+      "field": "architecture.interfaces",
+      "text": "github, ci",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Usage"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--architecture-tool-access",
+      "approach_id": "posthog-stamphog",
+      "field": "architecture.tool_access",
+      "text": "Reads the diff and repository files plus trusted review-state, discussion, ownership, and reviewer signals",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, LLM Review"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--architecture-knowledge",
+      "approach_id": "posthog-stamphog",
+      "field": "architecture.knowledge",
+      "text": "Repository-specific deny categories, size and risk tiers calibrated from prior human approvals, review guidance, and ownership data",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Tiers and Empirical basis"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--architecture-credentials",
+      "approach_id": "posthog-stamphog",
+      "field": "architecture.credentials",
+      "text": "A dedicated Anthropic organization secret and a StampHog GitHub App token whose approvals satisfy branch protection",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Usage and final verdict"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--architecture-context-mgmt",
+      "approach_id": "posthog-stamphog",
+      "field": "architecture.context_mgmt",
+      "text": "Each run emits a versioned JSON evidence bundle retained as a CI artifact for 30 days; a sticky GitHub comment carries non-approval verdict history and labels preserve retry state",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Usage and Evidence bundle"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--primitives-0",
+      "approach_id": "posthog-stamphog",
+      "field": "primitives.0",
+      "text": "Draft state, conflicts, requested changes, sensitive paths, size ceilings, and risk tiers can block AI approval; the LLM may tighten but never loosen a gate",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, How it works"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--primitives-1",
+      "approach_id": "posthog-stamphog",
+      "field": "primitives.1",
+      "text": "Eligible changes can be approved while risky, ambiguous, or insufficiently assured changes are refused or escalated to a suitable human reviewer",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-1",
+          "relation": "supports",
+          "locator": "Add a PR auto-stamper"
+        },
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, LLM Review"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--primitives-2",
+      "approach_id": "posthog-stamphog",
+      "field": "primitives.2",
+      "text": "Each run records PR metadata, classification, gate results, reviewer output, and the final verdict",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Evidence bundle"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--key-metrics-0",
+      "approach_id": "posthog-stamphog",
+      "field": "key_metrics.0",
+      "text": "1,600 PRs handled autonomously in the month before July 9, 2026",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": "2026-06",
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-1",
+          "relation": "supports",
+          "locator": "Add a PR auto-stamper, paragraph 8"
+        }
+      ],
+      "reported_by": "PostHog",
+      "metric_scope": "PRs handled by StampHog in the preceding month",
+      "measurement_method": "Company-reported production usage"
+    },
+    {
+      "id": "posthog-stamphog--key-metrics-1",
+      "approach_id": "posthog-stamphog",
+      "field": "key_metrics.1",
+      "text": "Roughly one in three PRs merged into PostHog's main repository received StampHog's final approval during the reported quarter",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": "2026-07",
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-1",
+          "relation": "supports",
+          "locator": "Add a PR auto-stamper, paragraph 4"
+        }
+      ],
+      "reported_by": "PostHog",
+      "metric_scope": "PRs merged into PostHog's main repository during the reported quarter",
+      "denominator": "Merged PRs in the main repository",
+      "measurement_method": "Company-reported production usage"
+    },
+    {
+      "id": "posthog-stamphog--key-metrics-2",
+      "approach_id": "posthog-stamphog",
+      "field": "key_metrics.2",
+      "text": "20% of PRs approved by StampHog in the July 28, 2026 report, at approximately $300 per month in tokens",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": "2026-07",
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-2",
+          "relation": "supports",
+          "locator": "Humans don't need to review every PR"
+        }
+      ],
+      "reported_by": "PostHog",
+      "metric_scope": "PRs approved by StampHog and monthly model-token cost",
+      "denominator": "PostHog PRs in the report's scope",
+      "measurement_method": "Company-reported production usage and token spend"
+    },
+    {
+      "id": "posthog-stamphog--lessons-learned-0",
+      "approach_id": "posthog-stamphog",
+      "field": "lessons_learned.0",
+      "text": "Use deterministic controls for known risks and allow the LLM to make approval stricter, never more permissive",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The source code explicitly implements and documents this safety invariant.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, How it works"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--lessons-learned-1",
+      "approach_id": "posthog-stamphog",
+      "field": "lessons_learned.1",
+      "text": "Calibrate thresholds and deny categories from repository history rather than treating small diffs as inherently safe",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The source code documents calibration against historical approval outcomes.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Tiers and Empirical basis"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--lessons-learned-2",
+      "approach_id": "posthog-stamphog",
+      "field": "lessons_learned.2",
+      "text": "Fail closed and preserve retry state when dependencies, credentials, or concurrent reviewer bots are unavailable",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The source code explicitly documents fail-closed and retry behavior.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Usage"
+        }
+      ]
+    },
+    {
       "id": "ramp-inspect--summary",
       "approach_id": "ramp-inspect",
       "field": "summary",
@@ -5353,6 +5820,10 @@
       "evidence": [
         {
           "source_id": "ramp-inspect-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "ramp-inspect-source-4",
           "relation": "supports"
         }
       ]
@@ -8271,6 +8742,370 @@
       "reported_by": "Uber"
     },
     {
+      "id": "uber-ureview--summary",
+      "approach_id": "uber-ureview",
+      "field": "summary",
+      "text": "An event-driven AI code reviewer for Uber's internal review platform that generates, grades, filters, deduplicates, and posts findings while leaving engineers in control of the reviewed change.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Introduction; How It Works"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--headline-metric",
+      "approach_id": "uber-ureview",
+      "field": "headline_metric",
+      "text": "Reviews over 90% of Uber's approximately 65,000 weekly diffs, with over 75% reported usefulness and over 65% of posted comments addressed",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Uber reports production telemetry and user feedback, without independent verification.",
+      "valid_at": "2025-08",
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Introduction, paragraph 5"
+        }
+      ],
+      "reported_by": "Uber",
+      "metric_scope": "Weekly diffs analyzed and comments posted by uReview",
+      "denominator": "Approximately 65,000 weekly diffs; usefulness covers engineers who interacted with comments",
+      "measurement_method": "Production coverage, developer ratings, and automatic addressed-comment detection"
+    },
+    {
+      "id": "uber-ureview--architecture-harness",
+      "approach_id": "uber-ureview",
+      "field": "architecture.harness",
+      "text": "A prompt-chained pipeline separates comment generation, confidence grading, validation, semantic deduplication, and category filtering; three specialized assistants were in operation when published",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "How It Works; Comment Generation; Post-Processing"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--architecture-model",
+      "approach_id": "uber-ureview",
+      "field": "architecture.model",
+      "text": "Periodic benchmark evaluation; Claude 4 Sonnet as generator with o4-mini-high as grader was the highest-F1 reported pairing",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Empirical Model Evaluation"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--architecture-interfaces",
+      "approach_id": "uber-ureview",
+      "field": "architecture.interfaces",
+      "text": "internal-ui, ci",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Comment Delivery and Feedback Collection; Impact and Evaluation"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--architecture-tool-access",
+      "approach_id": "uber-ureview",
+      "field": "architecture.tool_access",
+      "text": "Reviews eligible code in Uber's six monorepos across Go, Java, Android, iOS, TypeScript, and Python; richer internal artifacts were not yet connected when published",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Impact and Evaluation; Better at Catching Bugs than Assessing System Design"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--architecture-knowledge",
+      "approach_id": "uber-ureview",
+      "field": "architecture.knowledge",
+      "text": "Surrounding source context plus a shared registry of Uber-specific coding and style rules",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Ingestion and Preprocessing; Comment Generation by Specialized Assistants"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--architecture-context-mgmt",
+      "approach_id": "uber-ureview",
+      "field": "architecture.context_mgmt",
+      "text": "Comments and metadata are streamed through Kafka to Hive for feedback analysis, experiments, and operational dashboards",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Comment Delivery and Feedback Collection"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--primitives-0",
+      "approach_id": "uber-ureview",
+      "field": "primitives.0",
+      "text": "Standard, best-practices, and AppSec reviewers generate findings for different issue classes",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Comment Generation by Specialized Assistants"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--primitives-1",
+      "approach_id": "uber-ureview",
+      "field": "primitives.1",
+      "text": "Confidence grading, semantic deduplication, and historically low-value category suppression reduce noise",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Post-Processing and Quality Filtering"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--primitives-2",
+      "approach_id": "uber-ureview",
+      "field": "primitives.2",
+      "text": "Developer ratings, addressed-comment detection, and a curated benchmark tune prompts, thresholds, and models",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Evaluation and Continuous Improvement"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--key-metrics-0",
+      "approach_id": "uber-ureview",
+      "field": "key_metrics.0",
+      "text": "Reviews over 90% of approximately 65,000 weekly diffs",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": "2025-08",
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Introduction, paragraph 5"
+        }
+      ],
+      "reported_by": "Uber",
+      "metric_scope": "Weekly diffs analyzed by uReview",
+      "denominator": "Approximately 65,000 weekly diffs"
+    },
+    {
+      "id": "uber-ureview--key-metrics-1",
+      "approach_id": "uber-ureview",
+      "field": "key_metrics.1",
+      "text": "Over 75% of comments rated useful by engineers who interact with the tool",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": "2025-08",
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "High Usefulness in Production"
+        }
+      ],
+      "reported_by": "Uber",
+      "metric_scope": "uReview comments rated by engineers",
+      "denominator": "Comments with engineer interaction",
+      "measurement_method": "Useful / Not Useful rating links"
+    },
+    {
+      "id": "uber-ureview--key-metrics-2",
+      "approach_id": "uber-ureview",
+      "field": "key_metrics.2",
+      "text": "Over 65% of posted comments addressed in the same changeset",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": "2025-08",
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "High Usefulness in Production"
+        }
+      ],
+      "reported_by": "Uber",
+      "metric_scope": "Posted uReview comments",
+      "denominator": "Posted comments",
+      "measurement_method": "Five reruns on the final commit and semantic-similarity matching"
+    },
+    {
+      "id": "uber-ureview--key-metrics-3",
+      "approach_id": "uber-ureview",
+      "field": "key_metrics.3",
+      "text": "Median review latency of 4 minutes across all six Uber monorepos",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": "2025-08",
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Impact and Evaluation, opening paragraph"
+        }
+      ],
+      "reported_by": "Uber",
+      "metric_scope": "Reviews across six monorepos",
+      "measurement_method": "Production latency telemetry"
+    },
+    {
+      "id": "uber-ureview--key-metrics-4",
+      "approach_id": "uber-ureview",
+      "field": "key_metrics.4",
+      "text": "Approximately 1,500 developer hours reportedly saved per week, based on an assumed 10-minute second review per processed commit",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "low",
+      "confidence_reason": "The estimate applies a reported 10-minute human-review assumption rather than observed time saved.",
+      "valid_at": "2025-08",
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Time Savings for Developers"
+        }
+      ],
+      "reported_by": "Uber",
+      "metric_scope": "Weekly processed commits excluding configuration files",
+      "denominator": "Over 10,000 commits per week",
+      "measurement_method": "Processed commits multiplied by an assumed 10 minutes for a second human review"
+    },
+    {
+      "id": "uber-ureview--lessons-learned-0",
+      "approach_id": "uber-ureview",
+      "field": "lessons_learned.0",
+      "text": "Prefer fewer high-confidence findings over high comment volume",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The article states this lesson directly and documents the associated mechanisms.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Precision Is More Valuable than Volume"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--lessons-learned-1",
+      "approach_id": "uber-ureview",
+      "field": "lessons_learned.1",
+      "text": "Combine prompts with deterministic filtering, deduplication, evaluation, and feedback instrumentation",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The article states this lesson directly and documents the pipeline.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Guardrails Are Just as Important as Prompts"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--lessons-learned-2",
+      "approach_id": "uber-ureview",
+      "field": "lessons_learned.2",
+      "text": "Roll out gradually by team and assistant while tracking precision, recall, usefulness, and false positives",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The article states this lesson directly and describes the rollout telemetry.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Trust Grows with Gradual Rollout"
+        }
+      ]
+    },
+    {
       "id": "workos-project-horizon--summary",
       "approach_id": "workos-project-horizon",
       "field": "summary",
@@ -9196,6 +10031,47 @@
       "approach_id": "monday-sphera-atlas-morphex"
     },
     {
+      "id": "posthog-stamphog-source-1",
+      "title": "Stop being the code review bottleneck",
+      "url": "https://posthog.com/newsletter/code-review-tips",
+      "canonical_url": "https://posthog.com/newsletter/code-review-tips",
+      "kind": "corporate-article",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "published_at": "2026-07-09",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "posthog-stamphog"
+    },
+    {
+      "id": "posthog-stamphog-source-2",
+      "title": "10,000 PRs a month is easy: How devex is evolving at PostHog",
+      "url": "https://posthog.com/blog/10k-prs-a-month",
+      "canonical_url": "https://posthog.com/blog/10k-prs-a-month",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "authors": [
+        "Paul D'Ambra"
+      ],
+      "published_at": "2026-07-28",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "posthog-stamphog"
+    },
+    {
+      "id": "posthog-stamphog-source-3",
+      "title": "StampHog PR approval agent source code and documentation",
+      "url": "https://github.com/PostHog/posthog/tree/988c9031bb93c74bafcdfb670c01497c79a4f644/tools/pr-approval-agent",
+      "canonical_url": "https://github.com/PostHog/posthog/tree/988c9031bb93c74bafcdfb670c01497c79a4f644/tools/pr-approval-agent",
+      "kind": "source-code",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "posthog-stamphog"
+    },
+    {
       "id": "ramp-inspect-source-1",
       "title": "Why We Built Our Own Background Agent (Inspect)",
       "url": "https://engineering.ramp.com/post/why-we-built-our-background-agent",
@@ -9230,6 +10106,19 @@
       "published_at": "2026-05",
       "accessed_at": "2026-08-12",
       "last_verified_at": "2026-08-12",
+      "approach_id": "ramp-inspect"
+    },
+    {
+      "id": "ramp-inspect-source-4",
+      "title": "Why We Built Our Own Background Agent (Inspect) (Ramp Builders URL)",
+      "url": "https://builders.ramp.com/post/why-we-built-our-background-agent",
+      "canonical_url": "https://builders.ramp.com/post/why-we-built-our-background-agent",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "duplicate_of": "ramp-inspect-source-1",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
       "approach_id": "ramp-inspect"
     },
     {
@@ -9553,6 +10442,19 @@
       "last_verified_at": "2026-08-12",
       "role": "evidence",
       "approach_id": "uber-coding-agent"
+    },
+    {
+      "id": "uber-ureview-source-1",
+      "title": "uReview: Scalable, Trustworthy GenAI for Code Review at Uber",
+      "url": "https://www.uber.com/us/en/blog/ureview/",
+      "canonical_url": "https://www.uber.com/us/en/blog/ureview/",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "published_at": "2025-08-12",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "uber-ureview"
     },
     {
       "id": "workos-project-horizon-source-1",

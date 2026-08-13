@@ -1,0 +1,217 @@
+id: uber-ureview
+company: Uber
+agent_name: uReview
+relationships:
+- type: related-to
+  approach_id: uber-coding-agent
+approach_type: background-agent
+deployment_stage: scaled
+year: 2025
+first_public_evidence:
+  date: '2025-08-12'
+  source_id: uber-ureview-source-1
+last_reviewed_at: '2026-08-13'
+status: internal
+domains:
+- code-review
+autonomy: drafts-reviewed
+rubric:
+  invocation:
+  - background
+  - event-driven
+  state: unknown
+  identity: service
+  evidence_strength: detailed-primary
+summary: An event-driven AI code reviewer for Uber's internal review platform that generates, grades, filters, deduplicates,
+  and posts findings while leaving engineers in control of the reviewed change.
+headline_metric: Reviews over 90% of Uber's approximately 65,000 weekly diffs, with over 75% reported usefulness and
+  over 65% of posted comments addressed
+architecture:
+  harness: A prompt-chained pipeline separates comment generation, confidence grading, validation, semantic deduplication,
+    and category filtering; three specialized assistants were in operation when published
+  model: Periodic benchmark evaluation; Claude 4 Sonnet as generator with o4-mini-high as grader was the highest-F1
+    reported pairing
+  interfaces:
+  - internal-ui
+  - ci
+  tool_access: Reviews eligible code in Uber's six monorepos across Go, Java, Android, iOS, TypeScript, and Python;
+    richer internal artifacts were not yet connected when published
+  knowledge: Surrounding source context plus a shared registry of Uber-specific coding and style rules
+  context_mgmt: Comments and metadata are streamed through Kafka to Hive for feedback analysis, experiments, and
+    operational dashboards
+primitives:
+- name: Specialized assistants
+  desc: Standard, best-practices, and AppSec reviewers generate findings for different issue classes
+- name: Multi-layer quality filtering
+  desc: Confidence grading, semantic deduplication, and historically low-value category suppression reduce noise
+- name: Production feedback loop
+  desc: Developer ratings, addressed-comment detection, and a curated benchmark tune prompts, thresholds, and models
+key_metrics:
+- Reviews over 90% of approximately 65,000 weekly diffs
+- Over 75% of comments rated useful by engineers who interact with the tool
+- Over 65% of posted comments addressed in the same changeset
+- Median review latency of 4 minutes across all six Uber monorepos
+- Approximately 1,500 developer hours reportedly saved per week, based on an assumed 10-minute second review per
+  processed commit
+lessons_learned:
+- Prefer fewer high-confidence findings over high comment volume
+- Combine prompts with deterministic filtering, deduplication, evaluation, and feedback instrumentation
+- Roll out gradually by team and assistant while tracking precision, recall, usefulness, and false positives
+sources:
+- id: uber-ureview-source-1
+  title: 'uReview: Scalable, Trustworthy GenAI for Code Review at Uber'
+  url: https://www.uber.com/us/en/blog/ureview/
+  canonical_url: https://www.uber.com/us/en/blog/ureview/
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  published_at: '2025-08-12'
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+evidence:
+  summary:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: Introduction; How It Works
+  headline_metric:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: Introduction, paragraph 5
+  architecture.harness:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: How It Works; Comment Generation; Post-Processing
+  architecture.model:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: Empirical Model Evaluation
+  architecture.interfaces:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: Comment Delivery and Feedback Collection; Impact and Evaluation
+  architecture.tool_access:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: Impact and Evaluation; Better at Catching Bugs than Assessing System Design
+  architecture.knowledge:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: Ingestion and Preprocessing; Comment Generation by Specialized Assistants
+  architecture.context_mgmt:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: Comment Delivery and Feedback Collection
+  primitives.0:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: Comment Generation by Specialized Assistants
+  primitives.1:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: Post-Processing and Quality Filtering
+  primitives.2:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: Evaluation and Continuous Improvement
+  key_metrics.0:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: Introduction, paragraph 5
+  key_metrics.1:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: High Usefulness in Production
+  key_metrics.2:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: High Usefulness in Production
+  key_metrics.3:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: Impact and Evaluation, opening paragraph
+  key_metrics.4:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: Time Savings for Developers
+  lessons_learned.0:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: Precision Is More Valuable than Volume
+  lessons_learned.1:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: Guardrails Are Just as Important as Prompts
+  lessons_learned.2:
+  - source_id: uber-ureview-source-1
+    relation: supports
+    locator: Trust Grows with Gradual Rollout
+claim_metadata:
+  headline_metric:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Uber reports production telemetry and user feedback, without independent verification.
+    valid_at: '2025-08'
+    reported_by: Uber
+    metric_scope: Weekly diffs analyzed and comments posted by uReview
+    denominator: Approximately 65,000 weekly diffs; usefulness covers engineers who interacted with comments
+    measurement_method: Production coverage, developer ratings, and automatic addressed-comment detection
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    valid_at: '2025-08'
+    reported_by: Uber
+    metric_scope: Weekly diffs analyzed by uReview
+    denominator: Approximately 65,000 weekly diffs
+  key_metrics.1:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    valid_at: '2025-08'
+    reported_by: Uber
+    metric_scope: uReview comments rated by engineers
+    denominator: Comments with engineer interaction
+    measurement_method: Useful / Not Useful rating links
+  key_metrics.2:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    valid_at: '2025-08'
+    reported_by: Uber
+    metric_scope: Posted uReview comments
+    denominator: Posted comments
+    measurement_method: Five reruns on the final commit and semantic-similarity matching
+  key_metrics.3:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    valid_at: '2025-08'
+    reported_by: Uber
+    metric_scope: Reviews across six monorepos
+    measurement_method: Production latency telemetry
+  key_metrics.4:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: The estimate applies a reported 10-minute human-review assumption rather than observed time saved.
+    valid_at: '2025-08'
+    reported_by: Uber
+    metric_scope: Weekly processed commits excluding configuration files
+    denominator: Over 10,000 commits per week
+    measurement_method: Processed commits multiplied by an assumed 10 minutes for a second human review
+  lessons_learned.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: high
+    confidence_reason: The article states this lesson directly and documents the associated mechanisms.
+  lessons_learned.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: high
+    confidence_reason: The article states this lesson directly and documents the pipeline.
+  lessons_learned.2:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: high
+    confidence_reason: The article states this lesson directly and describes the rollout telemetry.

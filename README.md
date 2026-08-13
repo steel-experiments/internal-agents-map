@@ -65,6 +65,7 @@ The table is sorted by company. Each row links to the relevant section of the
 | Harvey | [Spectre](docs/landscape.md#harvey-spectre) | platform | coding, code-review, on-call, security | drafts-reviewed | deployed | internal | 2026 |
 | Linear | [Linear Agent](docs/landscape.md#linear-agent) | task-agent | support, customer-success, coding | drafts-reviewed | scaled | commercialized | 2026 |
 | monday.com | [Sphera / Atlas / Morphex](docs/landscape.md#monday-sphera-atlas-morphex) | agent-system | coding, code-review | autonomous | scaled | internal | 2026 |
+| PostHog | [StampHog](docs/landscape.md#posthog-stamphog) | background-agent | code-review | autonomous | scaled | open-sourced | 2026 |
 | Ramp | [Inspect](docs/landscape.md#ramp-inspect) | background-agent | coding, code-review, on-call | drafts-reviewed | scaled | internal | 2026 |
 | Replit | [Manager agent (agent-of-agents)](docs/landscape.md#replit-manager-agent) | orchestration-system | coding, code-review, support, research, data | drafts-reviewed | scaled | internal | 2026 |
 | Salesforce | [Slackbot](docs/landscape.md#salesforce-slackbot) | task-agent | support, customer-success, ops | drafts-reviewed | scaled | commercialized | 2025 |
@@ -75,6 +76,7 @@ The table is sorted by company. Each row links to the relevant section of the
 | Spotify | [Honk / Xirp](docs/landscape.md#spotify-honk-xirp) | agent-system | coding, migrations, code-review | drafts-reviewed | scaled | mixed | 2025 |
 | Stripe | [Minions](docs/landscape.md#stripe-minions) | background-agent | coding, code-review | drafts-reviewed | scaled | internal | 2026 |
 | Uber | [Internal coding agent (unnamed)](docs/landscape.md#uber-coding-agent) | task-agent | coding | drafts-reviewed | deployed | internal | 2026 |
+| Uber | [uReview](docs/landscape.md#uber-ureview) | background-agent | code-review | drafts-reviewed | scaled | internal | 2025 |
 | WorkOS | [Project Horizon](docs/landscape.md#workos-project-horizon) | platform | coding, code-review, security | drafts-reviewed | deployed | internal | 2026 |
 | Y Combinator | [Internal agent infrastructure](docs/landscape.md#ycombinator-agent-infra) | platform | coding, ops | human-in-loop | deployed | internal | 2026 |
 | Zup | [CodeGen](docs/landscape.md#zup-codegen) | task-agent | coding | human-in-loop | research | internal | 2026 |

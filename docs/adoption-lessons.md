@@ -2,7 +2,7 @@
 
 This page summarizes reported operating practices in the catalog. Most sources are company reports. They do not establish cause and effect.
 
-The observations use the 26 approaches reviewed on August 12, 2026. The evidence is uneven. Read each source before you apply a practice to another organization.
+The observations use the 28 approaches reviewed on August 13, 2026. The evidence is uneven. Read each source before you apply a practice to another organization.
 
 ## Start with work that people can check
 
@@ -54,7 +54,7 @@ When one step speeds up, inspect the next step. Track waiting time, review effor
 
 ## Expand autonomy with evidence
 
-The sample contains 18 `drafts-reviewed` approaches, seven `human-in-loop` approaches, and one `autonomous` approach. This distribution reflects public reports in the catalog. It is not a recommendation.
+The sample contains 19 `drafts-reviewed` approaches, seven `human-in-loop` approaches, and two `autonomous` approaches. This distribution reflects public reports in the catalog. It is not a recommendation.
 
 Before a team removes a review step, it should define the failure limit, verification method, rollback path, and responsible owner. The relevant threshold depends on the task. A code migration and a customer payment action do not have the same impact.
 

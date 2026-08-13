@@ -1,8 +1,8 @@
 # Architecture patterns
 
-This page compares the 26 approaches in the catalog. It describes reported designs. It does not prescribe one definition of an agent.
+This page compares the 28 approaches in the catalog. It describes reported designs. It does not prescribe one definition of an agent.
 
-Most evidence comes from organizations that describe their own systems. Architecture details are incomplete for many entries. Counts below use the catalog snapshot reviewed on August 12, 2026.
+Most evidence comes from organizations that describe their own systems. Architecture details are incomplete for many entries. Counts below use the catalog snapshot reviewed on August 13, 2026.
 
 ## Sample
 
@@ -12,7 +12,7 @@ The catalog contains these approach types:
 | --- | ---: |
 | Task agent | 9 |
 | Platform | 8 |
-| Background agent | 3 |
+| Background agent | 5 |
 | Agent system | 3 |
 | Orchestration system | 2 |
 | Supporting pattern | 1 |
@@ -86,13 +86,13 @@ The implementations differ. Some use repository instruction files. Some query li
 
 ## Invocation
 
-Twenty of 26 entries list Slack as an interface. GitHub, web interfaces, command-line tools, scheduled jobs, and event handlers also appear.
+Twenty of 28 entries list Slack as an interface. GitHub, web interfaces, command-line tools, scheduled jobs, and event handlers also appear.
 
 This count shows where reported systems appear in the sample. It does not show that Slack causes adoption. Public channels can help people observe agent work, but they can also expose private or sensitive information. Teams must apply access and retention rules before they copy this practice.
 
 ## State and identity
 
-The current public evidence does not document state duration for 22 entries. Four entries describe durable session state. This gap is why durable identity belongs in the rubric instead of the inclusion policy.
+The current public evidence does not document state duration for 23 entries. Four entries describe durable session state, and one describes run-only state. This gap is why durable identity belongs in the rubric instead of the inclusion policy.
 
 The rubric asks separate questions:
 
@@ -105,7 +105,7 @@ These choices affect audit records, authorization, recovery, and accountability.
 
 ## Verification and autonomy
 
-The catalog classifies 18 approaches as `drafts-reviewed`, seven as `human-in-loop`, and one as `autonomous`. These labels describe the reported review boundary. They do not measure output quality.
+The catalog classifies 19 approaches as `drafts-reviewed`, seven as `human-in-loop`, and two as `autonomous`. These labels describe the reported review boundary. They do not measure output quality.
 
 Reported verification methods include tests, continuous integration checks, schema checks, query planning, policy checks, model judges, and human review. Deterministic checks and model review serve different purposes. A model judge does not replace a test that can decide a property directly.
 

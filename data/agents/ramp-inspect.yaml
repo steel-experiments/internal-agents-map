@@ -84,9 +84,21 @@ sources:
   published_at: 2026-05
   accessed_at: '2026-08-12'
   last_verified_at: '2026-08-12'
+- id: ramp-inspect-source-4
+  title: Why We Built Our Own Background Agent (Inspect) (Ramp Builders URL)
+  url: https://builders.ramp.com/post/why-we-built-our-background-agent
+  canonical_url: https://builders.ramp.com/post/why-we-built-our-background-agent
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  duplicate_of: ramp-inspect-source-1
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
 evidence:
   summary:
   - source_id: ramp-inspect-source-1
+    relation: supports
+  - source_id: ramp-inspect-source-4
     relation: supports
   headline_metric:
   - source_id: ramp-inspect-source-2
