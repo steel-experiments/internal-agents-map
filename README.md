@@ -53,6 +53,9 @@ The table is sorted by company. Each row links to the relevant section of the
 
 | Company | Approach | Type | Domains | Operating model | Autonomy | Stage | Status | Year |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Airbnb | [Airchat (airchat-cli)](docs/landscape.md#airbnb-airchat) | platform | coding, code-review | L3 · coding task → reviewed pull request | drafts-reviewed | scaled | internal | 2025 |
+| Atlassian | [DOT (Design Org Teammate)](docs/landscape.md#atlassian-dot) | task-agent | support | Unknown · tooling question → help-channel answer | assistive | deployed | internal | 2026 |
+| Atlassian | [Rovo Dev (RovoDev)](docs/landscape.md#atlassian-rovo-dev) | task-agent | coding, code-review | L3 · Jira issue → reviewed pull request | human-in-loop | scaled | commercialized | 2024 |
 | Block | [Builderbot](docs/landscape.md#block-builderbot) | orchestration-system | coding, code-review | L3 · ticket → reviewed pull request | drafts-reviewed | scaled | internal | 2026 |
 | Brex | [Internal Agent Platform](docs/landscape.md#brex-agent-platform) | platform | finance-ops, support, customer-success | L2 · internal operations request → completed operation | human-in-loop | scaled | internal | 2025 |
 | Browserbase | [bb](docs/landscape.md#browserbase-bb) | task-agent | coding, code-review, support, customer-success, research | L3 · coding request → reviewed pull request | drafts-reviewed | deployed | internal | 2026 |
@@ -63,12 +66,16 @@ The table is sorted by company. Each row links to the relevant section of the
 | DoorDash | [Flux / Agentic AI Platform](docs/landscape.md#doordash-flux) | platform | code-review, coding, ci-triage, on-call, maintenance, data | L3 · engineering task → reviewed agent output | drafts-reviewed | scaled | internal | 2025 |
 | Dropbox | [Nova](docs/landscape.md#dropbox-nova) | platform | coding, ci-triage, on-call, maintenance | Unknown · agent-assisted SDLC workflow → accepted change | human-in-loop | scaled | internal | 2026 |
 | Flex | [AI Investigation Agent](docs/landscape.md#flex-investigation-agent) | task-agent | finance-ops, on-call, coding | L3 · payment investigation → proposed code fix | drafts-reviewed | deployed | internal | 2026 |
+| GitHub | [Qubot](docs/landscape.md#github-qubot) | task-agent | data | Unknown · data question → warehouse answer | assistive | scaled | internal | 2026 |
 | Harvey | [Spectre](docs/landscape.md#harvey-spectre) | platform | coding, code-review, on-call, security | L3 · incident or request → reviewable diff or pull request | drafts-reviewed | deployed | internal | 2026 |
 | Linear | [Linear Agent](docs/landscape.md#linear-agent) | task-agent | support, customer-success, coding | L3 · assigned coding work → agent-created change | drafts-reviewed | scaled | commercialized | 2026 |
+| Microsoft | [PRAssistant](docs/landscape.md#microsoft-prassistant) | background-agent | code-review | L3 · pull request → AI review comments | drafts-reviewed | scaled | internal | 2025 |
 | monday.com | [Sphera / Atlas / Morphex](docs/landscape.md#monday-sphera-atlas-morphex) | agent-system | coding, code-review | L4 · Atlas or Morphex feature task → tested and merged pull request | autonomous | scaled | internal | 2026 |
+| Notion | [Custom Agents](docs/landscape.md#notion-custom-agents) | platform | support, finance-ops, recruitment, security | Unknown · cross-team internal tasks → Custom Agents output | unknown | scaled | internal | 2026 |
 | PostHog | [StampHog](docs/landscape.md#posthog-stamphog) | background-agent | code-review | L5 · eligible pull request → approval decision | autonomous | scaled | open-sourced | 2026 |
 | Ramp | [Inspect](docs/landscape.md#ramp-inspect) | background-agent | coding, code-review, on-call | L3 · Inspect coding task → reviewed production merge | drafts-reviewed | scaled | internal | 2026 |
 | Replit | [Manager agent (agent-of-agents)](docs/landscape.md#replit-manager-agent) | orchestration-system | coding, code-review, support, research, data | L3 · objective → verifiable multi-agent work product | drafts-reviewed | scaled | internal | 2026 |
+| Retool | [RetoolGPT](docs/landscape.md#retool-retoolgpt) | task-agent | support, coding | Unknown · internal question → sourced answer | assistive | deployed | internal | 2025 |
 | Salesforce | [Slackbot](docs/landscape.md#salesforce-slackbot) | task-agent | support, customer-success, ops | L3 · employee request → drafted work | drafts-reviewed | scaled | commercialized | 2025 |
 | Sentry | [Junior](docs/landscape.md#sentry-junior) | task-agent | coding, code-review, support, on-call | L2 · assigned task → human-steered and reviewed output | human-in-loop | deployed | open-sourced | 2026 |
 | Shopify | [Aquifer / River](docs/landscape.md#shopify-internal-agents) | platform | coding, code-review, research, security | L3 · River coding request → reviewed pull request | drafts-reviewed | scaled | internal | 2026 |

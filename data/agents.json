@@ -2,6 +2,154 @@
   "schema_version": 3,
   "approaches": [
     {
+      "id": "airbnb-airchat",
+      "company": "Airbnb",
+      "agent_name": "Airchat (airchat-cli)",
+      "approach_type": "platform",
+      "deployment_stage": "scaled",
+      "year": 2025,
+      "first_public_evidence": {
+        "date": "2025",
+        "source_id": "airbnb-airchat-source-1"
+      },
+      "last_reviewed_at": "2026-08-13",
+      "status": "internal",
+      "domains": [
+        "coding",
+        "code-review"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "coding task → reviewed pull request",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive",
+          "background"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "mixed"
+      },
+      "claim_ids": [
+        "airbnb-airchat--summary",
+        "airbnb-airchat--headline-metric",
+        "airbnb-airchat--architecture-harness",
+        "airbnb-airchat--architecture-model",
+        "airbnb-airchat--architecture-tool-access",
+        "airbnb-airchat--key-metrics-0",
+        "airbnb-airchat--key-metrics-1",
+        "airbnb-airchat--operating-models-0"
+      ],
+      "source_ids": [
+        "airbnb-airchat-source-1",
+        "airbnb-airchat-source-2",
+        "airbnb-airchat-source-3"
+      ],
+      "interfaces": []
+    },
+    {
+      "id": "atlassian-dot",
+      "company": "Atlassian",
+      "agent_name": "DOT (Design Org Teammate)",
+      "approach_type": "task-agent",
+      "deployment_stage": "deployed",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026",
+        "source_id": "atlassian-dot-source-1"
+      },
+      "last_reviewed_at": "2026-08-13",
+      "status": "internal",
+      "domains": [
+        "support"
+      ],
+      "autonomy": "assistive",
+      "operating_models": [
+        {
+          "scope": "tooling question → help-channel answer",
+          "attention_boundary": "unknown",
+          "level": null
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "atlassian-dot--summary",
+        "atlassian-dot--architecture-knowledge",
+        "atlassian-dot--operating-models-0"
+      ],
+      "source_ids": [
+        "atlassian-dot-source-1"
+      ],
+      "interfaces": []
+    },
+    {
+      "id": "atlassian-rovo-dev",
+      "company": "Atlassian",
+      "agent_name": "Rovo Dev (RovoDev)",
+      "aliases": [
+        "RovoDev",
+        "HULA"
+      ],
+      "approach_type": "task-agent",
+      "deployment_stage": "scaled",
+      "year": 2024,
+      "first_public_evidence": {
+        "date": "2024-11",
+        "source_id": "atlassian-rovo-dev-source-3"
+      },
+      "last_reviewed_at": "2026-08-13",
+      "status": "commercialized",
+      "domains": [
+        "coding",
+        "code-review"
+      ],
+      "autonomy": "human-in-loop",
+      "operating_models": [
+        {
+          "scope": "Jira issue → reviewed pull request",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "atlassian-rovo-dev--summary",
+        "atlassian-rovo-dev--headline-metric",
+        "atlassian-rovo-dev--architecture-harness",
+        "atlassian-rovo-dev--architecture-interfaces",
+        "atlassian-rovo-dev--key-metrics-0",
+        "atlassian-rovo-dev--key-metrics-1",
+        "atlassian-rovo-dev--operating-models-0"
+      ],
+      "source_ids": [
+        "atlassian-rovo-dev-source-1",
+        "atlassian-rovo-dev-source-2",
+        "atlassian-rovo-dev-source-3"
+      ],
+      "interfaces": [
+        "jira"
+      ]
+    },
+    {
       "id": "block-builderbot",
       "company": "Block",
       "agent_name": "Builderbot",
@@ -656,6 +804,52 @@
       ]
     },
     {
+      "id": "github-qubot",
+      "company": "GitHub",
+      "agent_name": "Qubot",
+      "approach_type": "task-agent",
+      "deployment_stage": "scaled",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026-06",
+        "source_id": "github-qubot-source-1"
+      },
+      "last_reviewed_at": "2026-08-13",
+      "status": "internal",
+      "domains": [
+        "data"
+      ],
+      "autonomy": "assistive",
+      "operating_models": [
+        {
+          "scope": "data question → warehouse answer",
+          "attention_boundary": "unknown",
+          "level": null
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "github-qubot--summary",
+        "github-qubot--headline-metric",
+        "github-qubot--architecture-model",
+        "github-qubot--architecture-tool-access",
+        "github-qubot--key-metrics-0",
+        "github-qubot--key-metrics-1",
+        "github-qubot--operating-models-0"
+      ],
+      "source_ids": [
+        "github-qubot-source-1"
+      ],
+      "interfaces": []
+    },
+    {
       "id": "harvey-spectre",
       "company": "Harvey",
       "agent_name": "Spectre",
@@ -786,6 +980,54 @@
       ]
     },
     {
+      "id": "microsoft-prassistant",
+      "company": "Microsoft",
+      "agent_name": "PRAssistant",
+      "approach_type": "background-agent",
+      "deployment_stage": "scaled",
+      "year": 2025,
+      "first_public_evidence": {
+        "date": "2025-07",
+        "source_id": "microsoft-prassistant-source-1"
+      },
+      "last_reviewed_at": "2026-08-13",
+      "status": "internal",
+      "domains": [
+        "code-review"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "pull request → AI review comments",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "event-driven"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "microsoft-prassistant--summary",
+        "microsoft-prassistant--headline-metric",
+        "microsoft-prassistant--architecture-interfaces",
+        "microsoft-prassistant--key-metrics-0",
+        "microsoft-prassistant--key-metrics-1",
+        "microsoft-prassistant--key-metrics-2",
+        "microsoft-prassistant--operating-models-0"
+      ],
+      "source_ids": [
+        "microsoft-prassistant-source-1"
+      ],
+      "interfaces": [
+        "github"
+      ]
+    },
+    {
       "id": "monday-sphera-atlas-morphex",
       "company": "monday.com",
       "agent_name": "Sphera / Atlas / Morphex",
@@ -853,6 +1095,55 @@
         "monday",
         "github"
       ]
+    },
+    {
+      "id": "notion-custom-agents",
+      "company": "Notion",
+      "agent_name": "Custom Agents",
+      "approach_type": "platform",
+      "deployment_stage": "scaled",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026-04",
+        "source_id": "notion-custom-agents-source-1"
+      },
+      "last_reviewed_at": "2026-08-13",
+      "status": "internal",
+      "domains": [
+        "support",
+        "finance-ops",
+        "recruitment",
+        "security"
+      ],
+      "autonomy": "unknown",
+      "operating_models": [
+        {
+          "scope": "cross-team internal tasks → Custom Agents output",
+          "attention_boundary": "unknown",
+          "level": null
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "notion-custom-agents--summary",
+        "notion-custom-agents--headline-metric",
+        "notion-custom-agents--key-metrics-0",
+        "notion-custom-agents--key-metrics-1",
+        "notion-custom-agents--key-metrics-2",
+        "notion-custom-agents--operating-models-0"
+      ],
+      "source_ids": [
+        "notion-custom-agents-source-1",
+        "notion-custom-agents-source-2"
+      ],
+      "interfaces": []
     },
     {
       "id": "posthog-stamphog",
@@ -1047,6 +1338,51 @@
       "interfaces": [
         "slack"
       ]
+    },
+    {
+      "id": "retool-retoolgpt",
+      "company": "Retool",
+      "agent_name": "RetoolGPT",
+      "approach_type": "task-agent",
+      "deployment_stage": "deployed",
+      "year": 2025,
+      "first_public_evidence": {
+        "date": "2025-08",
+        "source_id": "retool-retoolgpt-source-1"
+      },
+      "last_reviewed_at": "2026-08-13",
+      "status": "internal",
+      "domains": [
+        "support",
+        "coding"
+      ],
+      "autonomy": "assistive",
+      "operating_models": [
+        {
+          "scope": "internal question → sourced answer",
+          "attention_boundary": "unknown",
+          "level": null
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "retool-retoolgpt--summary",
+        "retool-retoolgpt--architecture-model",
+        "retool-retoolgpt--architecture-knowledge",
+        "retool-retoolgpt--operating-models-0"
+      ],
+      "source_ids": [
+        "retool-retoolgpt-source-1",
+        "retool-retoolgpt-source-2"
+      ],
+      "interfaces": []
     },
     {
       "id": "salesforce-slackbot",
@@ -1785,6 +2121,330 @@
     }
   ],
   "claims": [
+    {
+      "id": "airbnb-airchat--summary",
+      "approach_id": "airbnb-airchat",
+      "field": "summary",
+      "text": "Airbnb's internal agentic-coding harness, built by its Dev AI team. Airchat is a wrapper over Claude Code with a unified gateway for cost and metrics, an internal plugin marketplace, AirDev Workspaces for parallel sessions, and more than a dozen internal MCP servers that connect agents to internal systems. The team abandoned an earlier from-scratch orchestrator and shipped a thin shim over Airchat instead.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "The build is described by Airbnb engineers in talks and podcasts, not in a first-party engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "airbnb-airchat-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "airbnb-airchat-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "airbnb-airchat--headline-metric",
+      "approach_id": "airbnb-airchat",
+      "field": "headline_metric",
+      "text": "About 64% of pull requests materialized through agentic coding",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "low",
+      "confidence_reason": "The 64% figure comes from a third-party newsletter that quotes the engineers, not from a first-party Airbnb source.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "airbnb-airchat-source-3",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Airbnb"
+    },
+    {
+      "id": "airbnb-airchat--architecture-harness",
+      "approach_id": "airbnb-airchat",
+      "field": "architecture.harness",
+      "text": "Wrapper over Claude Code with a unified gateway, an internal plugin marketplace, and AirDev parallel workspaces",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "airbnb-airchat-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "airbnb-airchat--architecture-model",
+      "approach_id": "airbnb-airchat",
+      "field": "architecture.model",
+      "text": "Claude Code (a vendor agent), wrapped by Airbnb",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "airbnb-airchat-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "airbnb-airchat--architecture-tool-access",
+      "approach_id": "airbnb-airchat",
+      "field": "architecture.tool_access",
+      "text": "More than a dozen internal MCP servers connect agents to internal systems",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "airbnb-airchat-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "airbnb-airchat--key-metrics-0",
+      "approach_id": "airbnb-airchat",
+      "field": "key_metrics.0",
+      "text": "About 64% of pull requests materialized through agentic coding",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "low",
+      "confidence_reason": "The figure comes from a third-party newsletter, not a first-party Airbnb source.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "airbnb-airchat-source-3",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Airbnb"
+    },
+    {
+      "id": "airbnb-airchat--key-metrics-1",
+      "approach_id": "airbnb-airchat",
+      "field": "key_metrics.1",
+      "text": "About 60% of engineers onboarded within 12 months",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "low",
+      "confidence_reason": "The figure comes from a third-party newsletter, not a first-party Airbnb source.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "airbnb-airchat-source-3",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Airbnb"
+    },
+    {
+      "id": "airbnb-airchat--operating-models-0",
+      "approach_id": "airbnb-airchat",
+      "field": "operating_models.0",
+      "text": "Level 3 for coding task → reviewed pull request; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "Airbnb engineers describe agents producing pull requests that engineers review, which locates human attention at work-product review.",
+      "valid_at": "2025",
+      "evidence": [
+        {
+          "source_id": "airbnb-airchat-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "atlassian-dot--summary",
+      "approach_id": "atlassian-dot",
+      "field": "summary",
+      "text": "Atlassian's internal agent for its Design Operations team. DOT answers common tooling questions in the team help channel using knowledge the team stored in Confluence. The Design Ops team built it in Rovo Studio, Atlassian's no-code agent builder.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "atlassian-dot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "atlassian-dot--architecture-knowledge",
+      "approach_id": "atlassian-dot",
+      "field": "architecture.knowledge",
+      "text": "Team knowledge stored in Confluence",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "atlassian-dot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "atlassian-dot--operating-models-0",
+      "approach_id": "atlassian-dot",
+      "field": "operating_models.0",
+      "text": "Unclassified for tooling question → help-channel answer; human attention boundary: unknown.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "unverified",
+      "confidence_reason": "The public evidence does not document where human attention returns in the question-and-answer flow.",
+      "valid_at": "2026",
+      "evidence": [
+        {
+          "source_id": "atlassian-dot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "atlassian-rovo-dev--summary",
+      "approach_id": "atlassian-rovo-dev",
+      "field": "summary",
+      "text": "Atlassian's internal coding agent, built on the HULA (Human-in-the-loop software development agents) framework. Rovo Dev works inside Jira and runs a four-step cycle (set context, generate a plan, generate code, and raise a pull request). Atlassian dogfooded it across all Jira sites for more than a year across 1,900+ repositories. It reached general availability in October 2025.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "atlassian-rovo-dev-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "atlassian-rovo-dev-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "atlassian-rovo-dev--headline-metric",
+      "approach_id": "atlassian-rovo-dev",
+      "field": "headline_metric",
+      "text": "Dogfooded across 1,900+ repositories with a 50,000+ comment internal dataset",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Atlassian reported the dogfooding scale in its own engineering blog without independent verification.",
+      "valid_at": "2026",
+      "evidence": [
+        {
+          "source_id": "atlassian-rovo-dev-source-2",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Atlassian"
+    },
+    {
+      "id": "atlassian-rovo-dev--architecture-harness",
+      "approach_id": "atlassian-rovo-dev",
+      "field": "architecture.harness",
+      "text": "Built on the HULA framework, which runs set context, generate plan, generate code, and raise PR",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "atlassian-rovo-dev-source-3",
+          "relation": "supports"
+        },
+        {
+          "source_id": "atlassian-rovo-dev-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "atlassian-rovo-dev--architecture-interfaces",
+      "approach_id": "atlassian-rovo-dev",
+      "field": "architecture.interfaces",
+      "text": "jira",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "atlassian-rovo-dev-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "atlassian-rovo-dev--key-metrics-0",
+      "approach_id": "atlassian-rovo-dev",
+      "field": "key_metrics.0",
+      "text": "Dogfooded across 1,900+ repositories over more than a year",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Atlassian reported the dogfooding scale in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "atlassian-rovo-dev-source-2",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Atlassian"
+    },
+    {
+      "id": "atlassian-rovo-dev--key-metrics-1",
+      "approach_id": "atlassian-rovo-dev",
+      "field": "key_metrics.1",
+      "text": "Trained on a proprietary internal dogfooding dataset of 50,000+ Rovo Dev comments",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Atlassian reported the dataset size in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "atlassian-rovo-dev-source-2",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Atlassian"
+    },
+    {
+      "id": "atlassian-rovo-dev--operating-models-0",
+      "approach_id": "atlassian-rovo-dev",
+      "field": "operating_models.0",
+      "text": "Level 3 for Jira issue → reviewed pull request; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The HULA framework and engineering blog describe a human-in-the-loop cycle that ends in a reviewed pull request.",
+      "valid_at": "2024-11",
+      "evidence": [
+        {
+          "source_id": "atlassian-rovo-dev-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
     {
       "id": "block-builderbot--summary",
       "approach_id": "block-builderbot",
@@ -4948,6 +5608,128 @@
       ]
     },
     {
+      "id": "github-qubot--summary",
+      "approach_id": "github-qubot",
+      "field": "summary",
+      "text": "GitHub's internal data-analytics agent, powered by GitHub Copilot. Any GitHub employee can ask a question about the company data warehouse in plain language and get an answer within seconds.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "github-qubot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "github-qubot--headline-metric",
+      "approach_id": "github-qubot",
+      "field": "headline_metric",
+      "text": "Hundreds of users run thousands of queries; data questions in internal Slack channels dropped",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "GitHub reported the adoption figures in its own engineering blog without independent verification.",
+      "valid_at": "2026-06",
+      "evidence": [
+        {
+          "source_id": "github-qubot-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "GitHub"
+    },
+    {
+      "id": "github-qubot--architecture-model",
+      "approach_id": "github-qubot",
+      "field": "architecture.model",
+      "text": "Powered by GitHub Copilot",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "github-qubot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "github-qubot--architecture-tool-access",
+      "approach_id": "github-qubot",
+      "field": "architecture.tool_access",
+      "text": "Queries GitHub's data warehouse",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "github-qubot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "github-qubot--key-metrics-0",
+      "approach_id": "github-qubot",
+      "field": "key_metrics.0",
+      "text": "Hundreds of users run thousands of queries",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "GitHub reported the adoption figures in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "github-qubot-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "GitHub"
+    },
+    {
+      "id": "github-qubot--key-metrics-1",
+      "approach_id": "github-qubot",
+      "field": "key_metrics.1",
+      "text": "Volume of data questions in internal data and analytics Slack channels dropped",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "GitHub reported the adoption figures in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "github-qubot-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "GitHub"
+    },
+    {
+      "id": "github-qubot--operating-models-0",
+      "approach_id": "github-qubot",
+      "field": "operating_models.0",
+      "text": "Unclassified for data question → warehouse answer; human attention boundary: unknown.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "unverified",
+      "confidence_reason": "The public evidence does not document where human attention returns in the question-and-answer flow.",
+      "valid_at": "2026-06",
+      "evidence": [
+        {
+          "source_id": "github-qubot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
       "id": "harvey-spectre--summary",
       "approach_id": "harvey-spectre",
       "field": "summary",
@@ -5491,6 +6273,129 @@
       ]
     },
     {
+      "id": "microsoft-prassistant--summary",
+      "approach_id": "microsoft-prassistant",
+      "field": "summary",
+      "text": "Microsoft's internal AI code-review agent, built by the Developer Division Data and AI team. When an engineer creates a pull request, PRAssistant joins as a reviewer and leaves comments like a human reviewer. It is a distinct internal build that predates and later informed GitHub Copilot Pull Request Reviews.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "microsoft-prassistant-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "microsoft-prassistant--headline-metric",
+      "approach_id": "microsoft-prassistant",
+      "field": "headline_metric",
+      "text": "Reviews more than 90% of pull requests, over 600,000 reviews per month",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Microsoft reported the figures in its own engineering blog without independent verification.",
+      "valid_at": "2025-07",
+      "evidence": [
+        {
+          "source_id": "microsoft-prassistant-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Microsoft"
+    },
+    {
+      "id": "microsoft-prassistant--architecture-interfaces",
+      "approach_id": "microsoft-prassistant",
+      "field": "architecture.interfaces",
+      "text": "github",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "microsoft-prassistant-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "microsoft-prassistant--key-metrics-0",
+      "approach_id": "microsoft-prassistant",
+      "field": "key_metrics.0",
+      "text": "More than 90% of pull requests across the company",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Microsoft reported the figures in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "microsoft-prassistant-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Microsoft"
+    },
+    {
+      "id": "microsoft-prassistant--key-metrics-1",
+      "approach_id": "microsoft-prassistant",
+      "field": "key_metrics.1",
+      "text": "More than 600,000 reviews per month",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Microsoft reported the figures in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "microsoft-prassistant-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Microsoft"
+    },
+    {
+      "id": "microsoft-prassistant--key-metrics-2",
+      "approach_id": "microsoft-prassistant",
+      "field": "key_metrics.2",
+      "text": "About 5,000 repositories in early onboarding",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Microsoft reported the figures in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "microsoft-prassistant-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Microsoft"
+    },
+    {
+      "id": "microsoft-prassistant--operating-models-0",
+      "approach_id": "microsoft-prassistant",
+      "field": "operating_models.0",
+      "text": "Level 3 for pull request → AI review comments; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The engineering blog describes engineers acting on PRAssistant review comments, which locates human attention at work-product review.",
+      "valid_at": "2025-07",
+      "evidence": [
+        {
+          "source_id": "microsoft-prassistant-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
       "id": "monday-sphera-atlas-morphex--summary",
       "approach_id": "monday-sphera-atlas-morphex",
       "field": "summary",
@@ -5899,6 +6804,116 @@
       "evidence": [
         {
           "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "notion-custom-agents--summary",
+      "approach_id": "notion-custom-agents",
+      "field": "summary",
+      "text": "Notion's Custom Agents platform, dogfooded internally across non-engineering teams such as IT ticketing, supply chain, procurement, and recruiting. By the end of alpha testing, Notion had more than 3,000 internal Custom Agents. Notion's own security team is one of the most active internal users. Notion rebuilt the agent harness three to five times as frontier models improved.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "notion-custom-agents-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "notion-custom-agents-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "notion-custom-agents--headline-metric",
+      "approach_id": "notion-custom-agents",
+      "field": "headline_metric",
+      "text": "More than 3,000 internal Custom Agents by end of alpha testing",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Notion reported the agent count in its own engineering blog without independent verification.",
+      "valid_at": "2026-04",
+      "evidence": [
+        {
+          "source_id": "notion-custom-agents-source-2",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Notion"
+    },
+    {
+      "id": "notion-custom-agents--key-metrics-0",
+      "approach_id": "notion-custom-agents",
+      "field": "key_metrics.0",
+      "text": "More than 3,000 internal Custom Agents by end of alpha testing",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Notion reported the agent count in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "notion-custom-agents-source-2",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Notion"
+    },
+    {
+      "id": "notion-custom-agents--key-metrics-1",
+      "approach_id": "notion-custom-agents",
+      "field": "key_metrics.1",
+      "text": "Notion's security team is one of the most active internal users",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "notion-custom-agents-source-2",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Notion"
+    },
+    {
+      "id": "notion-custom-agents--key-metrics-2",
+      "approach_id": "notion-custom-agents",
+      "field": "key_metrics.2",
+      "text": "Agent harness rebuilt three to five times as models improved",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "notion-custom-agents-source-1",
+          "relation": "supports"
+        }
+      ],
+      "reported_by": "Notion"
+    },
+    {
+      "id": "notion-custom-agents--operating-models-0",
+      "approach_id": "notion-custom-agents",
+      "field": "operating_models.0",
+      "text": "Unclassified for cross-team internal tasks → Custom Agents output; human attention boundary: unknown.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "unverified",
+      "confidence_reason": "Custom Agents spans many teams and workflows, so no single human-attention boundary applies.",
+      "valid_at": "2026-04",
+      "evidence": [
+        {
+          "source_id": "notion-custom-agents-source-1",
           "relation": "supports"
         }
       ]
@@ -6854,6 +7869,78 @@
       "evidence": [
         {
           "source_id": "replit-manager-agent-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "retool-retoolgpt--summary",
+      "approach_id": "retool-retoolgpt",
+      "field": "summary",
+      "text": "Retool's internal assistant, built as a version of ChatGPT with access to Retool's internal Confluence documents, Retool documentation, and Linear tickets. The team deployed it organization-wide in a read-only environment so the whole team could use it.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "retool-retoolgpt-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "retool-retoolgpt-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "retool-retoolgpt--architecture-model",
+      "approach_id": "retool-retoolgpt",
+      "field": "architecture.model",
+      "text": "Built on ChatGPT",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "retool-retoolgpt-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "retool-retoolgpt--architecture-knowledge",
+      "approach_id": "retool-retoolgpt",
+      "field": "architecture.knowledge",
+      "text": "Retool Confluence documents, Retool documentation, and Linear tickets",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "retool-retoolgpt-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "retool-retoolgpt--operating-models-0",
+      "approach_id": "retool-retoolgpt",
+      "field": "operating_models.0",
+      "text": "Unclassified for internal question → sourced answer; human attention boundary: unknown.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "unverified",
+      "confidence_reason": "The public evidence does not document where human attention returns in the question-and-answer flow.",
+      "valid_at": "2025-08",
+      "evidence": [
+        {
+          "source_id": "retool-retoolgpt-source-1",
           "relation": "supports"
         }
       ]
@@ -10380,6 +11467,91 @@
   ],
   "sources": [
     {
+      "id": "airbnb-airchat-source-1",
+      "title": "Agentic coding at Airbnb (DPE.org)",
+      "url": "https://dpe.org/sessions/szczepan-faber-mike-nakhimovich/agentic-coding-at-airbnb/",
+      "canonical_url": "https://dpe.org/sessions/szczepan-faber-mike-nakhimovich/agentic-coding-at-airbnb/",
+      "kind": "talk",
+      "provenance_class": "direct-participant",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "airbnb-airchat"
+    },
+    {
+      "id": "airbnb-airchat-source-2",
+      "title": "Beyond the CLI (DX podcast)",
+      "url": "https://getdx.com/podcast/beyond-the-cli-agentic-ai-for-async-workloads-and-non-developers/",
+      "canonical_url": "https://getdx.com/podcast/beyond-the-cli-agentic-ai-for-async-workloads-and-non-developers/",
+      "kind": "podcast",
+      "provenance_class": "direct-participant",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "airbnb-airchat"
+    },
+    {
+      "id": "airbnb-airchat-source-3",
+      "title": "How to get your team past the AI (The AI Thinker)",
+      "url": "https://www.theaithinker.com/p/how-to-get-your-team-past-the-ai",
+      "canonical_url": "https://www.theaithinker.com/p/how-to-get-your-team-past-the-ai",
+      "kind": "news",
+      "provenance_class": "independent-secondary",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "airbnb-airchat"
+    },
+    {
+      "id": "atlassian-dot-source-1",
+      "title": "How Design Ops built an AI teammate with no engineering lift",
+      "url": "https://www.atlassian.com/blog/ai-at-work/how-design-ops-built-an-ai-teammate-with-no-engineering-lift",
+      "canonical_url": "https://www.atlassian.com/blog/ai-at-work/how-design-ops-built-an-ai-teammate-with-no-engineering-lift",
+      "kind": "corporate-article",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "atlassian-dot"
+    },
+    {
+      "id": "atlassian-rovo-dev-source-1",
+      "title": "Improving the coding agent experience",
+      "url": "https://www.atlassian.com/blog/atlassian-engineering/improving-coding-agent-experience",
+      "canonical_url": "https://www.atlassian.com/blog/atlassian-engineering/improving-coding-agent-experience",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "atlassian-rovo-dev"
+    },
+    {
+      "id": "atlassian-rovo-dev-source-2",
+      "title": "Developer productivity improved with Rovo Dev",
+      "url": "https://www.atlassian.com/blog/atlassian-engineering/developer-productivity-improved-with-rovo-dev",
+      "canonical_url": "https://www.atlassian.com/blog/atlassian-engineering/developer-productivity-improved-with-rovo-dev",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "atlassian-rovo-dev"
+    },
+    {
+      "id": "atlassian-rovo-dev-source-3",
+      "title": "HULA: Human-in-the-loop software development agents (arXiv 2411.12924)",
+      "url": "https://arxiv.org/abs/2411.12924",
+      "canonical_url": "https://arxiv.org/abs/2411.12924",
+      "kind": "paper",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "published_at": "2024-11",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "atlassian-rovo-dev"
+    },
+    {
       "id": "block-builderbot-source-1",
       "title": "Block rolls out Builderbot, a new suite of AI-native tools that changes the way we ship",
       "url": "https://block.xyz/inside/block-rolls-out-builderbot-a-new-suite-of-ai-native-tools-that-changes-the-way-we-ship",
@@ -10614,6 +11786,19 @@
       "approach_id": "flex-investigation-agent"
     },
     {
+      "id": "github-qubot-source-1",
+      "title": "How we built an internal data analytics agent",
+      "url": "https://github.blog/ai-and-ml/github-copilot/how-we-built-an-internal-data-analytics-agent/",
+      "canonical_url": "https://github.blog/ai-and-ml/github-copilot/how-we-built-an-internal-data-analytics-agent/",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "published_at": "2026-06-19",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "github-qubot"
+    },
+    {
       "id": "harvey-spectre-source-1",
       "title": "Building Spectre; internal collaborative cloud agent platform",
       "url": "https://www.harvey.ai/blog/building-spectre-internal-collaborative-cloud-agent-platform",
@@ -10719,6 +11904,19 @@
       "approach_id": "linear-agent"
     },
     {
+      "id": "microsoft-prassistant-source-1",
+      "title": "Enhancing code quality at scale with AI-powered code reviews",
+      "url": "https://devblogs.microsoft.com/engineering-at-microsoft/enhancing-code-quality-at-scale-with-ai-powered-code-reviews/",
+      "canonical_url": "https://devblogs.microsoft.com/engineering-at-microsoft/enhancing-code-quality-at-scale-with-ai-powered-code-reviews/",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "published_at": "2025-07-14",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "microsoft-prassistant"
+    },
+    {
       "id": "monday-sphera-atlas-morphex-source-1",
       "title": "AI Teammates: how monday.com runs production AI agents on Amazon Bedrock",
       "url": "https://aws.amazon.com/blogs/machine-learning/ai-teammates-how-monday-com-runs-production-ai-agents-on-amazon-bedrock/",
@@ -10729,6 +11927,31 @@
       "last_verified_at": "2026-08-12",
       "role": "evidence",
       "approach_id": "monday-sphera-atlas-morphex"
+    },
+    {
+      "id": "notion-custom-agents-source-1",
+      "title": "Notion's Token Town: 5 Rebuilds, 100+ Tools (Latent Space)",
+      "url": "https://latent.space/p/notion",
+      "canonical_url": "https://latent.space/p/notion",
+      "kind": "podcast",
+      "provenance_class": "direct-participant",
+      "role": "evidence",
+      "published_at": "2026-04-14",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "notion-custom-agents"
+    },
+    {
+      "id": "notion-custom-agents-source-2",
+      "title": "How we built security into Custom Agents",
+      "url": "https://www.notion.com/en-gb/blog/how-we-built-security-into-custom-agents",
+      "canonical_url": "https://www.notion.com/en-gb/blog/how-we-built-security-into-custom-agents",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "notion-custom-agents"
     },
     {
       "id": "posthog-stamphog-source-1",
@@ -10832,6 +12055,31 @@
       "last_verified_at": "2026-08-12",
       "role": "evidence",
       "approach_id": "replit-manager-agent"
+    },
+    {
+      "id": "retool-retoolgpt-source-1",
+      "title": "How we built RetoolGPT",
+      "url": "https://retool.com/blog/how-we-built-retoolgpt",
+      "canonical_url": "https://retool.com/blog/how-we-built-retoolgpt",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "published_at": "2025-08-05",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "retool-retoolgpt"
+    },
+    {
+      "id": "retool-retoolgpt-source-2",
+      "title": "AI Build Week, Day 3: How we made RetoolGPT",
+      "url": "https://www.youtube.com/watch?v=8VTdYUBAZsY",
+      "canonical_url": "https://www.youtube.com/watch?v=8VTdYUBAZsY",
+      "kind": "talk",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-13",
+      "approach_id": "retool-retoolgpt"
     },
     {
       "id": "salesforce-slackbot-source-1",

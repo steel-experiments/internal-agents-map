@@ -1,0 +1,120 @@
+id: atlassian-rovo-dev
+company: Atlassian
+agent_name: Rovo Dev (RovoDev)
+aliases:
+- RovoDev
+- HULA
+approach_type: task-agent
+deployment_stage: scaled
+year: 2024
+first_public_evidence:
+  date: '2024-11'
+  source_id: atlassian-rovo-dev-source-3
+last_reviewed_at: '2026-08-13'
+status: commercialized
+domains:
+- coding
+- code-review
+autonomy: human-in-loop
+operating_models:
+- scope: 'Jira issue → reviewed pull request'
+  attention_boundary: work-product-review
+rubric:
+  invocation:
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: Atlassian's internal coding agent, built on the HULA (Human-in-the-loop software development agents)
+  framework. Rovo Dev works inside Jira and runs a four-step cycle (set context, generate a plan, generate
+  code, and raise a pull request). Atlassian dogfooded it across all Jira sites for more than a year across 1,900+
+  repositories. It reached general availability in October 2025.
+headline_metric: Dogfooded across 1,900+ repositories with a 50,000+ comment internal dataset
+architecture:
+  harness: Built on the HULA framework, which runs set context, generate plan, generate code, and raise PR
+  interfaces:
+  - jira
+key_metrics:
+- Dogfooded across 1,900+ repositories over more than a year
+- Trained on a proprietary internal dogfooding dataset of 50,000+ Rovo Dev comments
+sources:
+- id: atlassian-rovo-dev-source-1
+  title: Improving the coding agent experience
+  url: https://www.atlassian.com/blog/atlassian-engineering/improving-coding-agent-experience
+  canonical_url: https://www.atlassian.com/blog/atlassian-engineering/improving-coding-agent-experience
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+- id: atlassian-rovo-dev-source-2
+  title: Developer productivity improved with Rovo Dev
+  url: https://www.atlassian.com/blog/atlassian-engineering/developer-productivity-improved-with-rovo-dev
+  canonical_url: https://www.atlassian.com/blog/atlassian-engineering/developer-productivity-improved-with-rovo-dev
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+- id: atlassian-rovo-dev-source-3
+  title: 'HULA: Human-in-the-loop software development agents (arXiv 2411.12924)'
+  url: https://arxiv.org/abs/2411.12924
+  canonical_url: https://arxiv.org/abs/2411.12924
+  kind: paper
+  provenance_class: first-party
+  role: evidence
+  published_at: '2024-11'
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+evidence:
+  operating_models.0:
+  - source_id: atlassian-rovo-dev-source-1
+    relation: supports
+  summary:
+  - source_id: atlassian-rovo-dev-source-1
+    relation: supports
+  - source_id: atlassian-rovo-dev-source-3
+    relation: supports
+  headline_metric:
+  - source_id: atlassian-rovo-dev-source-2
+    relation: supports
+  architecture.harness:
+  - source_id: atlassian-rovo-dev-source-3
+    relation: supports
+  - source_id: atlassian-rovo-dev-source-1
+    relation: supports
+  architecture.interfaces:
+  - source_id: atlassian-rovo-dev-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: atlassian-rovo-dev-source-2
+    relation: supports
+  key_metrics.1:
+  - source_id: atlassian-rovo-dev-source-2
+    relation: supports
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The HULA framework and engineering blog describe a human-in-the-loop cycle that ends in
+      a reviewed pull request.
+    valid_at: '2024-11'
+  headline_metric:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Atlassian reported the dogfooding scale in its own engineering blog without independent
+      verification.
+    valid_at: '2026'
+    reported_by: Atlassian
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Atlassian reported the dogfooding scale in its own engineering blog.
+  key_metrics.1:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Atlassian reported the dataset size in its own engineering blog.

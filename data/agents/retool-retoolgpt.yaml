@@ -1,0 +1,74 @@
+id: retool-retoolgpt
+company: Retool
+agent_name: RetoolGPT
+approach_type: task-agent
+deployment_stage: deployed
+year: 2025
+first_public_evidence:
+  date: '2025-08'
+  source_id: retool-retoolgpt-source-1
+last_reviewed_at: '2026-08-13'
+status: internal
+domains:
+- support
+- coding
+autonomy: assistive
+operating_models:
+- scope: 'internal question → sourced answer'
+  attention_boundary: unknown
+rubric:
+  invocation:
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: Retool's internal assistant, built as a version of ChatGPT with access to Retool's internal Confluence
+  documents, Retool documentation, and Linear tickets. The team deployed it organization-wide in a read-only
+  environment so the whole team could use it.
+architecture:
+  model: Built on ChatGPT
+  knowledge: Retool Confluence documents, Retool documentation, and Linear tickets
+  interfaces: []
+sources:
+- id: retool-retoolgpt-source-1
+  title: How we built RetoolGPT
+  url: https://retool.com/blog/how-we-built-retoolgpt
+  canonical_url: https://retool.com/blog/how-we-built-retoolgpt
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  published_at: '2025-08-05'
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+- id: retool-retoolgpt-source-2
+  title: 'AI Build Week, Day 3: How we made RetoolGPT'
+  url: https://www.youtube.com/watch?v=8VTdYUBAZsY
+  canonical_url: https://www.youtube.com/watch?v=8VTdYUBAZsY
+  kind: talk
+  provenance_class: first-party
+  role: evidence
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+evidence:
+  operating_models.0:
+  - source_id: retool-retoolgpt-source-1
+    relation: supports
+  summary:
+  - source_id: retool-retoolgpt-source-1
+    relation: supports
+  - source_id: retool-retoolgpt-source-2
+    relation: supports
+  architecture.model:
+  - source_id: retool-retoolgpt-source-1
+    relation: supports
+  architecture.knowledge:
+  - source_id: retool-retoolgpt-source-1
+    relation: supports
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: unverified
+    confidence_reason: The public evidence does not document where human attention returns in the
+      question-and-answer flow.
+    valid_at: '2025-08'

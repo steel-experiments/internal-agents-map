@@ -1,0 +1,92 @@
+id: github-qubot
+company: GitHub
+agent_name: Qubot
+approach_type: task-agent
+deployment_stage: scaled
+year: 2026
+first_public_evidence:
+  date: '2026-06'
+  source_id: github-qubot-source-1
+last_reviewed_at: '2026-08-13'
+status: internal
+domains:
+- data
+autonomy: assistive
+operating_models:
+- scope: 'data question → warehouse answer'
+  attention_boundary: unknown
+rubric:
+  invocation:
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: GitHub's internal data-analytics agent, powered by GitHub Copilot. Any GitHub employee can ask a
+  question about the company data warehouse in plain language and get an answer within seconds.
+headline_metric: Hundreds of users run thousands of queries; data questions in internal Slack channels dropped
+architecture:
+  model: Powered by GitHub Copilot
+  tool_access: Queries GitHub's data warehouse
+  interfaces: []
+key_metrics:
+- Hundreds of users run thousands of queries
+- Volume of data questions in internal data and analytics Slack channels dropped
+sources:
+- id: github-qubot-source-1
+  title: How we built an internal data analytics agent
+  url: https://github.blog/ai-and-ml/github-copilot/how-we-built-an-internal-data-analytics-agent/
+  canonical_url: https://github.blog/ai-and-ml/github-copilot/how-we-built-an-internal-data-analytics-agent/
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  published_at: '2026-06-19'
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+evidence:
+  operating_models.0:
+  - source_id: github-qubot-source-1
+    relation: supports
+  summary:
+  - source_id: github-qubot-source-1
+    relation: supports
+  headline_metric:
+  - source_id: github-qubot-source-1
+    relation: supports
+  architecture.model:
+  - source_id: github-qubot-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: github-qubot-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: github-qubot-source-1
+    relation: supports
+  key_metrics.1:
+  - source_id: github-qubot-source-1
+    relation: supports
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: unverified
+    confidence_reason: The public evidence does not document where human attention returns in the
+      question-and-answer flow.
+    valid_at: '2026-06'
+  headline_metric:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: GitHub reported the adoption figures in its own engineering blog without independent
+      verification.
+    valid_at: '2026-06'
+    reported_by: GitHub
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: GitHub reported the adoption figures in its own engineering blog.
+  key_metrics.1:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: GitHub reported the adoption figures in its own engineering blog.

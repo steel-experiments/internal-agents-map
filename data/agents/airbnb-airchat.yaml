@@ -1,0 +1,123 @@
+id: airbnb-airchat
+company: Airbnb
+agent_name: Airchat (airchat-cli)
+approach_type: platform
+deployment_stage: scaled
+year: 2025
+first_public_evidence:
+  date: '2025'
+  source_id: airbnb-airchat-source-1
+last_reviewed_at: '2026-08-13'
+status: internal
+domains:
+- coding
+- code-review
+autonomy: drafts-reviewed
+operating_models:
+- scope: 'coding task → reviewed pull request'
+  attention_boundary: work-product-review
+rubric:
+  invocation:
+  - interactive
+  - background
+  state: unknown
+  identity: unknown
+  evidence_strength: mixed
+summary: Airbnb's internal agentic-coding harness, built by its Dev AI team. Airchat is a wrapper over Claude
+  Code with a unified gateway for cost and metrics, an internal plugin marketplace, AirDev Workspaces for
+  parallel sessions, and more than a dozen internal MCP servers that connect agents to internal systems. The
+  team abandoned an earlier from-scratch orchestrator and shipped a thin shim over Airchat instead.
+headline_metric: About 64% of pull requests materialized through agentic coding
+architecture:
+  harness: Wrapper over Claude Code with a unified gateway, an internal plugin marketplace, and AirDev parallel
+    workspaces
+  model: Claude Code (a vendor agent), wrapped by Airbnb
+  tool_access: More than a dozen internal MCP servers connect agents to internal systems
+  interfaces: []
+key_metrics:
+- About 64% of pull requests materialized through agentic coding
+- About 60% of engineers onboarded within 12 months
+sources:
+- id: airbnb-airchat-source-1
+  title: Agentic coding at Airbnb (DPE.org)
+  url: https://dpe.org/sessions/szczepan-faber-mike-nakhimovich/agentic-coding-at-airbnb/
+  canonical_url: https://dpe.org/sessions/szczepan-faber-mike-nakhimovich/agentic-coding-at-airbnb/
+  kind: talk
+  provenance_class: direct-participant
+  role: evidence
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+- id: airbnb-airchat-source-2
+  title: Beyond the CLI (DX podcast)
+  url: https://getdx.com/podcast/beyond-the-cli-agentic-ai-for-async-workloads-and-non-developers/
+  canonical_url: https://getdx.com/podcast/beyond-the-cli-agentic-ai-for-async-workloads-and-non-developers/
+  kind: podcast
+  provenance_class: direct-participant
+  role: evidence
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+- id: airbnb-airchat-source-3
+  title: How to get your team past the AI (The AI Thinker)
+  url: https://www.theaithinker.com/p/how-to-get-your-team-past-the-ai
+  canonical_url: https://www.theaithinker.com/p/how-to-get-your-team-past-the-ai
+  kind: news
+  provenance_class: independent-secondary
+  role: evidence
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+evidence:
+  operating_models.0:
+  - source_id: airbnb-airchat-source-1
+    relation: supports
+  summary:
+  - source_id: airbnb-airchat-source-1
+    relation: supports
+  - source_id: airbnb-airchat-source-2
+    relation: supports
+  headline_metric:
+  - source_id: airbnb-airchat-source-3
+    relation: supports
+  architecture.harness:
+  - source_id: airbnb-airchat-source-2
+    relation: supports
+  architecture.model:
+  - source_id: airbnb-airchat-source-2
+    relation: supports
+  architecture.tool_access:
+  - source_id: airbnb-airchat-source-2
+    relation: supports
+  key_metrics.0:
+  - source_id: airbnb-airchat-source-3
+    relation: supports
+  key_metrics.1:
+  - source_id: airbnb-airchat-source-3
+    relation: supports
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: Airbnb engineers describe agents producing pull requests that engineers review, which
+      locates human attention at work-product review.
+    valid_at: '2025'
+  summary:
+    confidence: medium
+    confidence_reason: The build is described by Airbnb engineers in talks and podcasts, not in a first-party
+      engineering blog.
+  headline_metric:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: The 64% figure comes from a third-party newsletter that quotes the engineers, not from a
+      first-party Airbnb source.
+    reported_by: Airbnb
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: The figure comes from a third-party newsletter, not a first-party Airbnb source.
+  key_metrics.1:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: The figure comes from a third-party newsletter, not a first-party Airbnb source.
