@@ -14,6 +14,9 @@ domains:
 - on-call
 - coding
 autonomy: drafts-reviewed
+operating_models:
+- scope: 'payment investigation → proposed code fix'
+  attention_boundary: work-product-review
 rubric:
   invocation:
   - interactive
@@ -47,6 +50,9 @@ sources:
   accessed_at: '2026-08-12'
   last_verified_at: '2026-08-12'
 evidence:
+  operating_models.0:
+  - source_id: flex-investigation-agent-source-1
+    relation: supports
   summary:
   - source_id: flex-investigation-agent-source-1
     relation: supports
@@ -75,6 +81,12 @@ evidence:
   - source_id: flex-investigation-agent-source-1
     relation: supports
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: high
+    confidence_reason: 'The source describes a trace, diagnosis, and proposed pull request returned for review.'
+    valid_at: '2026'
   lessons_learned.0:
     kind: inference
     provenance: catalog-judgment

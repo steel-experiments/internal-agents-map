@@ -18,6 +18,9 @@ last_reviewed_at: "2026-08-12"
 status: internal
 domains: [coding]
 autonomy: unknown
+operating_models:
+  - scope: "task input → reviewed output"
+    attention_boundary: unknown
 rubric:
   invocation: [unknown]
   state: unknown
@@ -53,6 +56,10 @@ sources:
     last_verified_at: "2026-08-12"
 
 evidence:
+  operating_models.0:
+    - source_id: company-agent-source-1
+      relation: supports
+      locator: "Human review boundary"
   summary:
     - source_id: company-agent-source-1
       relation: supports
@@ -63,6 +70,12 @@ evidence:
       locator: "Metrics, paragraph 2"
 
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: unverified
+    confidence_reason: "The public evidence does not document where human attention returns."
+    valid_at: "2026-08"
   headline_metric:
     kind: metric
     provenance: reported

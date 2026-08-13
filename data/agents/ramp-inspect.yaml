@@ -14,6 +14,9 @@ domains:
 - code-review
 - on-call
 autonomy: drafts-reviewed
+operating_models:
+- scope: 'Inspect coding task → reviewed production merge'
+  attention_boundary: work-product-review
 rubric:
   invocation:
   - background
@@ -95,6 +98,9 @@ sources:
   accessed_at: '2026-08-13'
   last_verified_at: '2026-08-13'
 evidence:
+  operating_models.0:
+  - source_id: ramp-inspect-source-1
+    relation: supports
   summary:
   - source_id: ramp-inspect-source-1
     relation: supports
@@ -155,6 +161,12 @@ evidence:
   - source_id: ramp-inspect-source-1
     relation: supports
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: high
+    confidence_reason: 'The source explicitly states that Inspect cannot self-approve and production merges retain human review.'
+    valid_at: '2026-05'
   lessons_learned.0:
     kind: inference
     provenance: catalog-judgment

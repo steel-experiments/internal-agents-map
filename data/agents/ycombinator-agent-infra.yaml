@@ -13,6 +13,9 @@ domains:
 - coding
 - ops
 autonomy: human-in-loop
+operating_models:
+- scope: 'internal request → agent-assisted organizational work'
+  attention_boundary: unknown
 rubric:
   invocation:
   - unknown
@@ -37,6 +40,9 @@ sources:
   accessed_at: '2026-08-12'
   last_verified_at: '2026-08-12'
 evidence:
+  operating_models.0:
+  - source_id: ycombinator-agent-infra-source-1
+    relation: supports
   summary:
   - source_id: ycombinator-agent-infra-source-1
     relation: supports
@@ -53,6 +59,12 @@ evidence:
   - source_id: ycombinator-agent-infra-source-1
     relation: supports
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: unverified
+    confidence_reason: 'The source describes internal agent infrastructure but not a sufficiently specific human attention boundary.'
+    valid_at: '2026'
   lessons_learned.0:
     kind: inference
     provenance: catalog-judgment

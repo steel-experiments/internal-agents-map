@@ -15,6 +15,9 @@ status: internal
 domains:
 - code-review
 autonomy: drafts-reviewed
+operating_models:
+- scope: 'pull request → filtered AI review findings'
+  attention_boundary: work-product-review
 rubric:
   invocation:
   - background
@@ -69,6 +72,9 @@ sources:
   accessed_at: '2026-08-13'
   last_verified_at: '2026-08-13'
 evidence:
+  operating_models.0:
+  - source_id: uber-ureview-source-1
+    relation: supports
   summary:
   - source_id: uber-ureview-source-1
     relation: supports
@@ -146,6 +152,12 @@ evidence:
     relation: supports
     locator: Trust Grows with Gradual Rollout
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: high
+    confidence_reason: 'The source describes AI-generated review findings while engineers remain in control of the change.'
+    valid_at: '2025-08-12'
   headline_metric:
     kind: metric
     provenance: reported

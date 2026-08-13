@@ -15,6 +15,9 @@ status: internal
 domains:
 - code-review
 autonomy: drafts-reviewed
+operating_models:
+- scope: 'pull request → AI review comments'
+  attention_boundary: work-product-review
 rubric:
   invocation:
   - background
@@ -52,6 +55,9 @@ sources:
   accessed_at: '2026-08-12'
   last_verified_at: '2026-08-12'
 evidence:
+  operating_models.0:
+  - source_id: doordash-code-review-source-1
+    relation: supports
   summary:
   - source_id: doordash-code-review-source-1
     relation: supports
@@ -89,6 +95,12 @@ evidence:
   - source_id: doordash-code-review-source-1
     relation: supports
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: high
+    confidence_reason: 'The source describes automated findings that engineers evaluate within the pull-request workflow.'
+    valid_at: '2026'
   lessons_learned.0:
     kind: inference
     provenance: catalog-judgment

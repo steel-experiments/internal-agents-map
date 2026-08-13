@@ -14,6 +14,9 @@ domains:
 - support
 - customer-success
 autonomy: human-in-loop
+operating_models:
+- scope: 'internal operations request → completed operation'
+  attention_boundary: continuous-steering
 rubric:
   invocation:
   - interactive
@@ -64,6 +67,9 @@ sources:
   accessed_at: '2026-08-12'
   last_verified_at: '2026-08-12'
 evidence:
+  operating_models.0:
+  - source_id: brex-agent-platform-source-1
+    relation: supports
   summary:
   - source_id: brex-agent-platform-source-1
     relation: supports
@@ -125,6 +131,12 @@ evidence:
   - source_id: brex-agent-platform-source-1
     relation: supports
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: 'The secondary report describes a human remaining in the middle of the workflow, but does not fully specify each review surface.'
+    valid_at: '2025-09-25'
   headline_metric:
     valid_at: '2025'
     metric_scope: Brex dispute processing workflow

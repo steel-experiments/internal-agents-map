@@ -12,6 +12,9 @@ status: internal
 domains:
 - coding
 autonomy: human-in-loop
+operating_models:
+- scope: 'constrained coding task → human-supervised edit'
+  attention_boundary: continuous-steering
 rubric:
   invocation:
   - unknown
@@ -43,6 +46,9 @@ sources:
   accessed_at: '2026-08-12'
   last_verified_at: '2026-08-12'
 evidence:
+  operating_models.0:
+  - source_id: zup-codegen-source-1
+    relation: supports
   summary:
   - source_id: zup-codegen-source-1
     relation: supports
@@ -71,6 +77,12 @@ evidence:
   - source_id: zup-codegen-source-1
     relation: supports
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: 'The research source describes progressive human oversight but does not establish background delegation.'
+    valid_at: '2026'
   lessons_learned.0:
     kind: inference
     provenance: catalog-judgment

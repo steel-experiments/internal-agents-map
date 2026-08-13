@@ -43,6 +43,7 @@ Access terms include attribute-based access control (ABAC), role-based access co
 Domain terms include know your customer (KYC), quality assurance (QA), security operations center (SOC), and structured query language (SQL).
 
 The [schema reference](../data/schema.md) defines each comparison field. Unknown means that the collected sources do not document the value.
+Operating levels are generated from scoped, evidence-backed human-attention boundaries; they are catalog judgments, not company-wide maturity scores.
 
 <a id="block-builderbot"></a>
 
@@ -57,12 +58,17 @@ The [schema reference](../data/schema.md) defines each comparison field. Unknown
 | Deployment stage | scaled |
 | Availability | internal |
 | Domains | coding, code-review |
+| Operating model | L3 · ticket → reviewed pull request |
 | Autonomy | drafts-reviewed |
 | Invocation | event-driven, interactive |
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
 | Headline metric | ~1,500 PRs merged per week (~15% of all production code changes at Block) <small>Sources: [block-builderbot-source-1](#block-builderbot-source-1).</small> |
+
+### Operating model
+
+- **Level 3 · work-product-review** — ticket → reviewed pull request (high confidence; 2026-06-21) <small>Sources: [block-builderbot-source-1](#block-builderbot-source-1).</small>
 
 ### Architecture
 
@@ -115,12 +121,17 @@ Last reviewed: 2026-08-12.
 | Deployment stage | scaled |
 | Availability | internal |
 | Domains | finance-ops, support, customer-success |
+| Operating model | L2 · internal operations request → completed operation |
 | Autonomy | human-in-loop |
 | Invocation | interactive |
 | State | unknown |
 | Identity | unknown |
 | Evidence | secondary-only |
 | Headline metric | Dispute processing time fell from three hours to three seconds <small>Sources: [brex-agent-platform-source-1](#brex-agent-platform-source-1).</small> |
+
+### Operating model
+
+- **Level 2 · continuous-steering** — internal operations request → completed operation (medium confidence; 2025-09-25) <small>Sources: [brex-agent-platform-source-1](#brex-agent-platform-source-1).</small>
 
 ### Architecture
 
@@ -173,12 +184,17 @@ Last reviewed: 2026-08-12.
 | Deployment stage | deployed |
 | Availability | internal |
 | Domains | coding, code-review, support, customer-success, research |
+| Operating model | L3 · coding request → reviewed pull request |
 | Autonomy | drafts-reviewed |
 | Invocation | event-driven, interactive |
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
 | Headline metric | Feature-request pipeline at 100% coverage with zero human effort <small>Sources: [browserbase-bb-source-1](#browserbase-bb-source-1).</small> |
+
+### Operating model
+
+- **Level 3 · work-product-review** — coding request → reviewed pull request (high confidence; 2026) <small>Sources: [browserbase-bb-source-1](#browserbase-bb-source-1).</small>
 
 ### Architecture
 
@@ -230,12 +246,17 @@ Last reviewed: 2026-08-12.
 | Deployment stage | scaled |
 | Availability | internal |
 | Domains | coding, code-review |
+| Operating model | L3 · pull request → AI review findings |
 | Autonomy | drafts-reviewed |
 | Invocation | event-driven, interactive |
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
 | Headline metric | 47.95 million AI requests in 30 days across the internal AI engineering system <small>Sources: [cloudflare-ai-stack-source-1](#cloudflare-ai-stack-source-1).</small> |
+
+### Operating model
+
+- **Level 3 · work-product-review** — pull request → AI review findings (medium confidence; 2026-04-20) <small>Sources: [cloudflare-ai-stack-source-1](#cloudflare-ai-stack-source-1).</small>
 
 ### Architecture
 
@@ -291,12 +312,17 @@ Last reviewed: 2026-08-12.
 | Deployment stage | scaled |
 | Availability | internal |
 | Domains | coding, code-review |
+| Operating model | L3 · Slack, GitHub, or Linear request → reviewed pull request and build |
 | Autonomy | drafts-reviewed |
 | Invocation | event-driven, interactive |
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
 | Headline metric | Mux: 600+ users across Coinbase organizations (April 2026) <small>Sources: [coinbase-forge-mux-source-1](#coinbase-forge-mux-source-1).</small> |
+
+### Operating model
+
+- **Level 3 · work-product-review** — Slack, GitHub, or Linear request → reviewed pull request and build (high confidence; 2026) <small>Sources: [coinbase-forge-mux-source-1](#coinbase-forge-mux-source-1).</small>
 
 ### Architecture
 
@@ -344,12 +370,17 @@ Last reviewed: 2026-08-12.
 | Deployment stage | deployed |
 | Availability | internal |
 | Domains | support, finance-ops, coding, recruitment, customer-success |
+| Operating model | L3 · employee request → approved customer-impacting action |
 | Autonomy | human-in-loop |
 | Invocation | interactive |
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
 | Headline metric | ~35 integrations organized into skills <small>Sources: [domu-clementino-source-1](#domu-clementino-source-1).</small> |
+
+### Operating model
+
+- **Level 3 · work-product-review** — employee request → approved customer-impacting action (high confidence; 2026) <small>Sources: [domu-clementino-source-1](#domu-clementino-source-1).</small>
 
 ### Architecture
 
@@ -397,6 +428,7 @@ Last reviewed: 2026-08-12.
 | Deployment stage | scaled |
 | Availability | internal |
 | Domains | code-review |
+| Operating model | L3 · pull request → AI review comments |
 | Autonomy | drafts-reviewed |
 | Invocation | background, event-driven |
 | State | unknown |
@@ -404,6 +436,10 @@ Last reviewed: 2026-08-12.
 | Evidence | detailed-primary |
 | Headline metric | 10,000+ pull requests reviewed per week across 56 repositories <small>Sources: [doordash-code-review-source-1](#doordash-code-review-source-1).</small> |
 | Relationships | component-of: [doordash-flux](#doordash-flux) |
+
+### Operating model
+
+- **Level 3 · work-product-review** — pull request → AI review comments (high confidence; 2026) <small>Sources: [doordash-code-review-source-1](#doordash-code-review-source-1).</small>
 
 ### Architecture
 
@@ -448,12 +484,17 @@ Last reviewed: 2026-08-12.
 | Deployment stage | scaled |
 | Availability | internal |
 | Domains | code-review, coding, ci-triage, on-call, maintenance, data |
+| Operating model | L3 · engineering task → reviewed agent output |
 | Autonomy | drafts-reviewed |
 | Invocation | event-driven, interactive, scheduled |
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
 | Headline metric | 130,000 engineering tasks automated in one month <small>Sources: [doordash-flux-source-1](#doordash-flux-source-1).</small> |
+
+### Operating model
+
+- **Level 3 · work-product-review** — engineering task → reviewed agent output (medium confidence; 2025-11-11) <small>Sources: [doordash-flux-source-1](#doordash-flux-source-1).</small>
 
 ### Architecture
 
@@ -511,12 +552,17 @@ Last reviewed: 2026-08-12.
 | Deployment stage | scaled |
 | Availability | internal |
 | Domains | coding, ci-triage, on-call, maintenance |
+| Operating model | Unknown · agent-assisted SDLC workflow → accepted change |
 | Autonomy | human-in-loop |
 | Invocation | event-driven, interactive |
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
 | Headline metric | Dozens of agents can run in parallel from one runbook <small>Sources: [dropbox-nova-source-1](#dropbox-nova-source-1).</small> |
+
+### Operating model
+
+- **Unclassified · unknown** — agent-assisted SDLC workflow → accepted change (unverified confidence; 2026-05-22) <small>Sources: [dropbox-nova-source-1](#dropbox-nova-source-1).</small>
 
 ### Architecture
 
@@ -569,11 +615,16 @@ Last reviewed: 2026-08-12.
 | Deployment stage | deployed |
 | Availability | internal |
 | Domains | finance-ops, on-call, coding |
+| Operating model | L3 · payment investigation → proposed code fix |
 | Autonomy | drafts-reviewed |
 | Invocation | interactive |
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
+
+### Operating model
+
+- **Level 3 · work-product-review** — payment investigation → proposed code fix (high confidence; 2026) <small>Sources: [flex-investigation-agent-source-1](#flex-investigation-agent-source-1).</small>
 
 ### Architecture
 
@@ -613,11 +664,16 @@ Last reviewed: 2026-08-12.
 | Deployment stage | deployed |
 | Availability | internal |
 | Domains | coding, code-review, on-call, security |
+| Operating model | L3 · incident or request → reviewable diff or pull request |
 | Autonomy | drafts-reviewed |
 | Invocation | interactive |
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
+
+### Operating model
+
+- **Level 3 · work-product-review** — incident or request → reviewable diff or pull request (high confidence; 2026) <small>Sources: [harvey-spectre-source-1](#harvey-spectre-source-1).</small>
 
 ### Architecture
 
@@ -662,11 +718,16 @@ Last reviewed: 2026-08-12.
 | Deployment stage | scaled |
 | Availability | commercialized |
 | Domains | support, customer-success, coding |
+| Operating model | L3 · assigned coding work → agent-created change |
 | Autonomy | drafts-reviewed |
 | Invocation | event-driven, interactive |
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
+
+### Operating model
+
+- **Level 3 · work-product-review** — assigned coding work → agent-created change (medium confidence; 2026-08-11) <small>Sources: [linear-agent-source-1](#linear-agent-source-1).</small>
 
 ### Architecture
 
@@ -718,12 +779,17 @@ Last reviewed: 2026-08-12.
 | Deployment stage | scaled |
 | Availability | internal |
 | Domains | coding, code-review |
+| Operating model | L4 · Atlas or Morphex feature task → tested and merged pull request |
 | Autonomy | autonomous |
 | Invocation | event-driven, interactive |
 | State | unknown |
 | Identity | dedicated-agent |
 | Evidence | secondary-only |
 | Headline metric | Morphex: 19 of 20 PRs merge without human review <small>Sources: [monday-sphera-atlas-morphex-source-1](#monday-sphera-atlas-morphex-source-1).</small> |
+
+### Operating model
+
+- **Level 4 · outcome-review** — Atlas or Morphex feature task → tested and merged pull request (medium confidence; 2026) <small>Sources: [monday-sphera-atlas-morphex-source-1](#monday-sphera-atlas-morphex-source-1).</small>
 
 ### Architecture
 
@@ -779,12 +845,17 @@ Last reviewed: 2026-08-12.
 | Deployment stage | scaled |
 | Availability | open-sourced |
 | Domains | code-review |
+| Operating model | L5 · eligible pull request → approval decision |
 | Autonomy | autonomous |
 | Invocation | background, event-driven |
 | State | run-only |
 | Identity | dedicated-agent |
 | Evidence | detailed-primary |
 | Headline metric | Handled 1,600 PRs in the month before July 9, 2026; roughly one in three merged main-repository PRs received its final approval during the reported quarter <small>Sources: [posthog-stamphog-source-1](#posthog-stamphog-source-1).</small> |
+
+### Operating model
+
+- **Level 5 · exception-only** — eligible pull request → approval decision (high confidence; 2026-07-09) <small>Sources: [posthog-stamphog-source-1](#posthog-stamphog-source-1).</small>
 
 ### Architecture
 
@@ -837,12 +908,17 @@ Last reviewed: 2026-08-13.
 | Deployment stage | scaled |
 | Availability | internal |
 | Domains | coding, code-review, on-call |
+| Operating model | L3 · Inspect coding task → reviewed production merge |
 | Autonomy | drafts-reviewed |
 | Invocation | background, event-driven, interactive |
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
 | Headline metric | 60%+ of Ramp's merged PRs authored by Inspect (April 2026) <small>Sources: [ramp-inspect-source-2](#ramp-inspect-source-2).</small> |
+
+### Operating model
+
+- **Level 3 · work-product-review** — Inspect coding task → reviewed production merge (high confidence; 2026-05) <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
 
 ### Architecture
 
@@ -897,12 +973,17 @@ Last reviewed: 2026-08-12.
 | Deployment stage | scaled |
 | Availability | internal |
 | Domains | coding, code-review, support, research, data |
+| Operating model | L3 · objective → verifiable multi-agent work product |
 | Autonomy | drafts-reviewed |
 | Invocation | interactive |
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
 | Headline metric | ~3x engineering code output over six months without degradation in review/revert/incident metrics <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small> |
+
+### Operating model
+
+- **Level 3 · work-product-review** — objective → verifiable multi-agent work product (high confidence; 2026) <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
 
 ### Architecture
 
@@ -948,11 +1029,16 @@ Last reviewed: 2026-08-12.
 | Deployment stage | scaled |
 | Availability | commercialized |
 | Domains | support, customer-success, ops |
+| Operating model | L3 · employee request → drafted work |
 | Autonomy | drafts-reviewed |
 | Invocation | interactive |
 | State | unknown |
 | Identity | user |
 | Evidence | detailed-primary |
+
+### Operating model
+
+- **Level 3 · work-product-review** — employee request → drafted work (medium confidence; 2026-01-14) <small>Sources: [salesforce-slackbot-source-1](#salesforce-slackbot-source-1).</small>
 
 ### Architecture
 
@@ -996,12 +1082,17 @@ Last reviewed: 2026-08-12.
 | Deployment stage | deployed |
 | Availability | open-sourced |
 | Domains | coding, code-review, support, on-call |
+| Operating model | L2 · assigned task → human-steered and reviewed output |
 | Autonomy | human-in-loop |
 | Invocation | event-driven, interactive |
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
 | Headline metric | Open-source (Apache-2.0) Slack agent (~100k lines of TS) used internally at Sentry <small>Sources: [sentry-junior-source-1](#sentry-junior-source-1), [sentry-junior-source-2](#sentry-junior-source-2).</small> |
+
+### Operating model
+
+- **Level 2 · continuous-steering** — assigned task → human-steered and reviewed output (high confidence; 2026) <small>Sources: [sentry-junior-source-1](#sentry-junior-source-1).</small>
 
 ### Architecture
 
@@ -1056,12 +1147,17 @@ Last reviewed: 2026-08-12.
 | Deployment stage | scaled |
 | Availability | internal |
 | Domains | coding, code-review, research, security |
+| Operating model | L3 · River coding request → reviewed pull request |
 | Autonomy | drafts-reviewed |
 | Invocation | event-driven, interactive |
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
 | Headline metric | 1 in 8 merged PRs company-wide coauthored by River <small>Sources: [shopify-internal-agents-source-1](#shopify-internal-agents-source-1).</small> |
+
+### Operating model
+
+- **Level 3 · work-product-review** — River coding request → reviewed pull request (medium confidence; 2026) <small>Sources: [shopify-internal-agents-source-1](#shopify-internal-agents-source-1).</small>
 
 ### Architecture
 
@@ -1114,12 +1210,17 @@ Last reviewed: 2026-08-12.
 | Deployment stage | scaled |
 | Availability | internal |
 | Domains | coding, code-review, support, research, data |
+| Operating model | L3 · employee request → reviewed agent output |
 | Autonomy | drafts-reviewed |
 | Invocation | event-driven, interactive |
 | State | durable-session |
 | Identity | unknown |
 | Evidence | detailed-primary |
 | Headline metric | 75,000+ sessions for 600+ people <small>Sources: [sierra-pinecone-source-1](#sierra-pinecone-source-1).</small> |
+
+### Operating model
+
+- **Level 3 · work-product-review** — employee request → reviewed agent output (medium confidence; 2026) <small>Sources: [sierra-pinecone-source-1](#sierra-pinecone-source-1).</small>
 
 ### Architecture
 
@@ -1174,12 +1275,17 @@ Last reviewed: 2026-08-12.
 | Deployment stage | research |
 | Availability | internal |
 | Domains | research |
+| Operating model | Unknown · long-running investigation → synthesized report |
 | Autonomy | human-in-loop |
 | Invocation | unknown |
 | State | durable-session |
 | Identity | unknown |
 | Evidence | mixed |
 | Headline metric | Megabyte-scale investigations without overflowing the context window <small>Sources: [slack-context-system-source-1](#slack-context-system-source-1), [slack-context-system-source-2](#slack-context-system-source-2).</small> |
+
+### Operating model
+
+- **Unclassified · unknown** — long-running investigation → synthesized report (unverified confidence; 2026) <small>Sources: [slack-context-system-source-1](#slack-context-system-source-1).</small>
 
 ### Architecture
 
@@ -1227,12 +1333,17 @@ Last reviewed: 2026-08-12.
 | Deployment stage | scaled |
 | Availability | mixed |
 | Domains | coding, migrations, code-review |
+| Operating model | L3 · Honk coding task → verified pull request |
 | Autonomy | drafts-reviewed |
 | Invocation | event-driven, interactive |
 | State | durable-session |
 | Identity | unknown |
 | Evidence | detailed-primary |
 | Headline metric | 1,500+ merged pull requests generated by Honk <small>Sources: [spotify-honk-xirp-source-1](#spotify-honk-xirp-source-1).</small> |
+
+### Operating model
+
+- **Level 3 · work-product-review** — Honk coding task → verified pull request (high confidence; 2025) <small>Sources: [spotify-honk-xirp-source-1](#spotify-honk-xirp-source-1).</small>
 
 ### Architecture
 
@@ -1288,12 +1399,17 @@ Last reviewed: 2026-08-12.
 | Deployment stage | scaled |
 | Availability | internal |
 | Domains | coding, code-review |
+| Operating model | L3 · work context → merge-ready pull request |
 | Autonomy | drafts-reviewed |
 | Invocation | background, event-driven, interactive |
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
 | Headline metric | 1,000+ production PRs per week, reviewed and approved by humans <small>Sources: [stripe-minions-source-1](#stripe-minions-source-1); Context: [stripe-minions-source-3](#stripe-minions-source-3), [stripe-minions-source-4](#stripe-minions-source-4), [stripe-minions-source-5](#stripe-minions-source-5), [stripe-minions-source-6](#stripe-minions-source-6), [stripe-minions-source-7](#stripe-minions-source-7).</small> |
+
+### Operating model
+
+- **Level 3 · work-product-review** — work context → merge-ready pull request (high confidence; 2026-02-20) <small>Sources: [stripe-minions-source-1](#stripe-minions-source-1).</small>
 
 ### Architecture
 
@@ -1345,12 +1461,17 @@ Last reviewed: 2026-08-12.
 | Deployment stage | deployed |
 | Availability | internal |
 | Domains | coding |
+| Operating model | Unknown · coding request → complete code change |
 | Autonomy | drafts-reviewed |
 | Invocation | unknown |
 | State | unknown |
 | Identity | unknown |
 | Evidence | secondary-only |
 | Headline metric | ~1,800 complete code changes per week (~8% of changes) <small>Sources: [uber-coding-agent-source-1](#uber-coding-agent-source-1).</small> |
+
+### Operating model
+
+- **Unclassified · unknown** — coding request → complete code change (unverified confidence; 2026) <small>Sources: [uber-coding-agent-source-1](#uber-coding-agent-source-1).</small>
 
 ### Architecture
 
@@ -1383,6 +1504,7 @@ Last reviewed: 2026-08-12.
 | Deployment stage | scaled |
 | Availability | internal |
 | Domains | code-review |
+| Operating model | L3 · pull request → filtered AI review findings |
 | Autonomy | drafts-reviewed |
 | Invocation | background, event-driven |
 | State | unknown |
@@ -1390,6 +1512,10 @@ Last reviewed: 2026-08-12.
 | Evidence | detailed-primary |
 | Headline metric | Reviews over 90% of Uber's approximately 65,000 weekly diffs, with over 75% reported usefulness and over 65% of posted comments addressed <small>Sources: [uber-ureview-source-1](#uber-ureview-source-1).</small> |
 | Relationships | related-to: [uber-coding-agent](#uber-coding-agent) |
+
+### Operating model
+
+- **Level 3 · work-product-review** — pull request → filtered AI review findings (high confidence; 2025-08-12) <small>Sources: [uber-ureview-source-1](#uber-ureview-source-1).</small>
 
 ### Architecture
 
@@ -1441,11 +1567,16 @@ Last reviewed: 2026-08-13.
 | Deployment stage | deployed |
 | Availability | internal |
 | Domains | coding, code-review, security |
+| Operating model | L4 · requirements and acceptance criteria → tested implementation |
 | Autonomy | drafts-reviewed |
 | Invocation | event-driven, interactive |
 | State | durable-session |
 | Identity | unknown |
 | Evidence | detailed-primary |
+
+### Operating model
+
+- **Level 4 · outcome-review** — requirements and acceptance criteria → tested implementation (high confidence; 2026-05-06) <small>Sources: [workos-project-horizon-source-1](#workos-project-horizon-source-1).</small>
 
 ### Architecture
 
@@ -1497,11 +1628,16 @@ Last reviewed: 2026-08-12.
 | Deployment stage | deployed |
 | Availability | internal |
 | Domains | coding, ops |
+| Operating model | Unknown · internal request → agent-assisted organizational work |
 | Autonomy | human-in-loop |
 | Invocation | unknown |
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
+
+### Operating model
+
+- **Unclassified · unknown** — internal request → agent-assisted organizational work (unverified confidence; 2026) <small>Sources: [ycombinator-agent-infra-source-1](#ycombinator-agent-infra-source-1).</small>
 
 ### Architecture
 
@@ -1534,11 +1670,16 @@ Last reviewed: 2026-08-12.
 | Deployment stage | research |
 | Availability | internal |
 | Domains | coding |
+| Operating model | L2 · constrained coding task → human-supervised edit |
 | Autonomy | human-in-loop |
 | Invocation | unknown |
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
+
+### Operating model
+
+- **Level 2 · continuous-steering** — constrained coding task → human-supervised edit (medium confidence; 2026) <small>Sources: [zup-codegen-source-1](#zup-codegen-source-1).</small>
 
 ### Architecture
 

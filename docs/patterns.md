@@ -109,6 +109,16 @@ The catalog classifies 19 approaches as `drafts-reviewed`, seven as `human-in-lo
 
 Reported verification methods include tests, continuous integration checks, schema checks, query planning, policy checks, model judges, and human review. Deterministic checks and model review serve different purposes. A model judge does not replace a test that can decide a property directly.
 
+## Human attention and operating levels
+
+Autonomy records whether agent work can take effect without required human review. The operating model asks a different question: where does human attention normally return during a successful run?
+
+The catalog uses Dan Shapiro's progression as a framing for this boundary. For cataloged agent workflows, it derives Level 2 from continuous steering, Level 3 from review of the produced draft or implementation, Level 4 from review of tests, behavior, or outcomes, and Level 5 from exception-only supervision. These are scoped catalog judgments, not company maturity scores. Shapiro's Levels 0 and 1 describe manual work and discrete assistance rather than the internal agent workflows collected here.
+
+The workflow is always the unit of assessment. For example, an autonomous pull-request approval step can use exception-only supervision without making the organization's complete software process a dark factory. Broad platforms remain unclassified when their sources do not identify one consistent attention boundary.
+
+The current sample is strongly Level 3-shaped: most documented workflows return work products, diffs, or pull requests to people for review. WorkOS Project Horizon and monday.com's Atlas/Morphex workflow are the clearest Level 4 candidates in the current evidence. PostHog StampHog reaches an exception-only boundary only within its narrowly scoped eligible-pull-request approval workflow.
+
 ## Metrics
 
 The reported metrics are not directly comparable. Some measure agent output. Others measure broad AI tool use, automated workflows, sessions, or user adoption.

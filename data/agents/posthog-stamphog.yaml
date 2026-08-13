@@ -12,6 +12,9 @@ status: open-sourced
 domains:
 - code-review
 autonomy: autonomous
+operating_models:
+- scope: 'eligible pull request → approval decision'
+  attention_boundary: exception-only
 rubric:
   invocation:
   - background
@@ -88,6 +91,9 @@ sources:
   accessed_at: '2026-08-13'
   last_verified_at: '2026-08-13'
 evidence:
+  operating_models.0:
+  - source_id: posthog-stamphog-source-1
+    relation: supports
   summary:
   - source_id: posthog-stamphog-source-1
     relation: supports
@@ -167,6 +173,12 @@ evidence:
     relation: supports
     locator: commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Usage
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: high
+    confidence_reason: 'Eligible pull requests are approved automatically; risky or ambiguous cases are refused or routed to a human.'
+    valid_at: '2026-07-09'
   headline_metric:
     kind: metric
     provenance: reported

@@ -14,6 +14,9 @@ domains:
 - code-review
 - security
 autonomy: drafts-reviewed
+operating_models:
+- scope: 'requirements and acceptance criteria → tested implementation'
+  attention_boundary: outcome-review
 rubric:
   invocation:
   - event-driven
@@ -96,6 +99,9 @@ sources:
   accessed_at: '2026-08-12'
   last_verified_at: '2026-08-12'
 evidence:
+  operating_models.0:
+  - source_id: workos-project-horizon-source-1
+    relation: supports
   summary:
   - source_id: workos-project-horizon-source-1
     relation: supports
@@ -165,6 +171,12 @@ evidence:
   - source_id: workos-project-horizon-source-1
     relation: supports
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: high
+    confidence_reason: 'The source describes engineers focusing on requirements and acceptance testing while agents run the implementation loop.'
+    valid_at: '2026-05-06'
   lessons_learned.0:
     kind: inference
     provenance: catalog-judgment

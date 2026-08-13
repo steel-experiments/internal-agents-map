@@ -15,6 +15,9 @@ domains:
 - on-call
 - security
 autonomy: drafts-reviewed
+operating_models:
+- scope: 'incident or request → reviewable diff or pull request'
+  attention_boundary: work-product-review
 rubric:
   invocation:
   - interactive
@@ -62,6 +65,9 @@ sources:
   accessed_at: '2026-08-12'
   last_verified_at: '2026-08-12'
 evidence:
+  operating_models.0:
+  - source_id: harvey-spectre-source-1
+    relation: supports
   summary:
   - source_id: harvey-spectre-source-1
     relation: supports
@@ -102,6 +108,12 @@ evidence:
   - source_id: harvey-spectre-source-1
     relation: supports
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: high
+    confidence_reason: 'The source explicitly frames diffs, branches, and pull requests as reviewable outputs.'
+    valid_at: '2026'
   lessons_learned.0:
     kind: inference
     provenance: catalog-judgment

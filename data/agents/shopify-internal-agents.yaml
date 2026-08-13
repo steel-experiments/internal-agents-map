@@ -15,6 +15,9 @@ domains:
 - research
 - security
 autonomy: drafts-reviewed
+operating_models:
+- scope: 'River coding request → reviewed pull request'
+  attention_boundary: work-product-review
 rubric:
   invocation:
   - event-driven
@@ -66,6 +69,9 @@ sources:
   accessed_at: '2026-08-12'
   last_verified_at: '2026-08-12'
 evidence:
+  operating_models.0:
+  - source_id: shopify-internal-agents-source-1
+    relation: supports
   summary:
   - source_id: shopify-internal-agents-source-1
     relation: supports
@@ -127,6 +133,12 @@ evidence:
   - source_id: shopify-internal-agents-source-1
     relation: supports
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: 'The source documents pull-request creation but does not establish outcome-only supervision.'
+    valid_at: '2026'
   lessons_learned.0:
     kind: inference
     provenance: catalog-judgment

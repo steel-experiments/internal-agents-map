@@ -13,6 +13,9 @@ domains:
 - coding
 - code-review
 autonomy: autonomous
+operating_models:
+- scope: 'Atlas or Morphex feature task → tested and merged pull request'
+  attention_boundary: outcome-review
 rubric:
   invocation:
   - event-driven
@@ -70,6 +73,9 @@ sources:
   accessed_at: '2026-08-12'
   last_verified_at: '2026-08-12'
 evidence:
+  operating_models.0:
+  - source_id: monday-sphera-atlas-morphex-source-1
+    relation: supports
   summary:
   - source_id: monday-sphera-atlas-morphex-source-1
     relation: supports
@@ -140,6 +146,12 @@ evidence:
   - source_id: monday-sphera-atlas-morphex-source-1
     relation: supports
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: 'The secondary source reports predominantly automatic merges and automated guardrails, while humans manage tasks and outcomes.'
+    valid_at: '2026'
   lessons_learned.0:
     kind: inference
     provenance: catalog-judgment

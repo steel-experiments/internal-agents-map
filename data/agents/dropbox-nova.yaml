@@ -15,6 +15,9 @@ domains:
 - on-call
 - maintenance
 autonomy: human-in-loop
+operating_models:
+- scope: 'agent-assisted SDLC workflow → accepted change'
+  attention_boundary: unknown
 rubric:
   invocation:
   - event-driven
@@ -78,6 +81,9 @@ sources:
   accessed_at: '2026-08-12'
   last_verified_at: '2026-08-12'
 evidence:
+  operating_models.0:
+  - source_id: dropbox-nova-source-1
+    relation: supports
   summary:
   - source_id: dropbox-nova-source-1
     relation: supports
@@ -138,6 +144,12 @@ evidence:
   - source_id: dropbox-nova-source-1
     relation: supports
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: unverified
+    confidence_reason: 'The source documents human participation but does not locate one consistent attention boundary across Nova workflows.'
+    valid_at: '2026-05-22'
   lessons_learned.0:
     kind: inference
     provenance: catalog-judgment

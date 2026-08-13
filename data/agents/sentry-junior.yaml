@@ -15,6 +15,9 @@ domains:
 - support
 - on-call
 autonomy: human-in-loop
+operating_models:
+- scope: 'assigned task → human-steered and reviewed output'
+  attention_boundary: continuous-steering
 rubric:
   invocation:
   - event-driven
@@ -85,6 +88,9 @@ sources:
   accessed_at: '2026-08-12'
   last_verified_at: '2026-08-12'
 evidence:
+  operating_models.0:
+  - source_id: sentry-junior-source-1
+    relation: supports
   summary:
   - source_id: sentry-junior-source-1
     relation: supports
@@ -164,6 +170,12 @@ evidence:
   - source_id: sentry-junior-source-1
     relation: supports
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: high
+    confidence_reason: 'The source explicitly describes humans steering and reviewing the agent throughout its work.'
+    valid_at: '2026'
   lessons_learned.0:
     kind: inference
     provenance: catalog-judgment

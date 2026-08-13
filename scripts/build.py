@@ -40,6 +40,7 @@ REQUIRED = {
     "status",
     "domains",
     "autonomy",
+    "operating_models",
     "summary",
     "rubric",
     "sources",
@@ -114,6 +115,20 @@ SOURCE_ROLES = {"evidence", "commentary", "discovery"}
 CLAIM_KINDS = {"fact", "metric", "inference", "opinion"}
 CLAIM_PROVENANCE = {"reported", "observed", "inferred", "catalog-judgment"}
 CONFIDENCE = {"high", "medium", "low", "unverified"}
+ATTENTION_BOUNDARIES = {
+    "continuous-steering",
+    "work-product-review",
+    "outcome-review",
+    "exception-only",
+    "unknown",
+}
+BOUNDARY_LEVELS = {
+    "continuous-steering": 2,
+    "work-product-review": 3,
+    "outcome-review": 4,
+    "exception-only": 5,
+    "unknown": None,
+}
 EVIDENCE_RELATIONS = {"supports", "contradicts", "contextualizes"}
 RELATION_TYPES = {"component-of", "built-on", "successor-of", "related-to"}
 DOMAIN_VALUES = {
@@ -130,8 +145,8 @@ ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 DATE_RE = re.compile(r"^\d{4}(?:-(?:0[1-9]|1[0-2])(?:-(?:0[1-9]|[12]\d|3[01]))?)?$")
 
 TABLE_HEADER = (
-    "| Company | Approach | Type | Domains | Autonomy | Stage | Status | Year |\n"
-    "| --- | --- | --- | --- | --- | --- | --- | --- |"
+    "| Company | Approach | Type | Domains | Operating model | Autonomy | Stage | Status | Year |\n"
+    "| --- | --- | --- | --- | --- | --- | --- | --- | --- |"
 )
 
 
@@ -201,6 +216,12 @@ def claim_fields(record: dict) -> dict[str, tuple[str, str, str]]:
         claims[f"key_metrics.{index}"] = (text, "metric", "reported")
     for index, text in enumerate(record.get("lessons_learned") or []):
         claims[f"lessons_learned.{index}"] = (text, "inference", "catalog-judgment")
+    for index, item in enumerate(record["operating_models"]):
+        boundary = item["attention_boundary"]
+        level = BOUNDARY_LEVELS[boundary]
+        label = f"Level {level}" if level is not None else "Unclassified"
+        text = f"{label} for {item['scope']}; human attention boundary: {boundary}."
+        claims[f"operating_models.{index}"] = (text, "inference", "catalog-judgment")
     return claims
 
 
@@ -317,6 +338,18 @@ def validate_record(record: dict, path: Path, global_sources: set[str]) -> None:
     for field, allowed in (("state", STATE), ("identity", IDENTITY), ("evidence_strength", EVIDENCE_STRENGTH)):
         if rubric.get(field) not in allowed:
             die(f"{filename}: 'rubric.{field}' is invalid.")
+    operating_models = record["operating_models"]
+    if not isinstance(operating_models, list) or not operating_models:
+        die(f"{filename}: 'operating_models' must be a non-empty list.")
+    for index, item in enumerate(operating_models):
+        if not isinstance(item, dict) or set(item) != {"scope", "attention_boundary"}:
+            die(
+                f"{filename}: operating_models.{index} needs only 'scope' and "
+                "'attention_boundary'."
+            )
+        require_string(item, "scope", filename)
+        if item["attention_boundary"] not in ATTENTION_BOUNDARIES:
+            die(f"{filename}: operating_models.{index}.attention_boundary is invalid.")
     first = record.get("first_public_evidence")
     if not isinstance(first, dict):
         die(f"{filename}: 'first_public_evidence' must be a mapping.")
@@ -377,6 +410,17 @@ def validate_record(record: dict, path: Path, global_sources: set[str]) -> None:
     if first_source.get("role", "evidence") != "evidence":
         die(f"{filename}: first public evidence must use a source with the evidence role.")
     validate_evidence(record, filename, local_sources)
+    metadata = record.get("claim_metadata") or {}
+    for index, _ in enumerate(operating_models):
+        claim_path = f"operating_models.{index}"
+        values = metadata.get(claim_path) or {}
+        for field in ("confidence", "confidence_reason", "valid_at"):
+            if not values.get(field):
+                die(f"{filename}: claim metadata for {claim_path!r} requires '{field}'.")
+        if values.get("kind", "inference") != "inference":
+            die(f"{filename}: {claim_path!r} must be an inference.")
+        if values.get("provenance", "catalog-judgment") != "catalog-judgment":
+            die(f"{filename}: {claim_path!r} must be a catalog judgment.")
     referenced_sources = {
         link["source_id"]
         for links in record["evidence"].values()
@@ -429,6 +473,16 @@ def anchor(record: dict) -> str:
     return record["id"]
 
 
+def operating_model_summary(record: dict) -> str:
+    """Render each derived level together with its required workflow scope."""
+    summaries = []
+    for item in record["operating_models"]:
+        level = BOUNDARY_LEVELS[item["attention_boundary"]]
+        label = f"L{level}" if level is not None else "Unknown"
+        summaries.append(f"{label} · {item['scope']}")
+    return "<br>".join(summaries)
+
+
 def evidence_refs(record: dict, path: str) -> str:
     """Render compact claim-to-source links for the catalog."""
     links = record["evidence"].get(path, [])
@@ -453,11 +507,12 @@ def render_table(records: list[dict]) -> str:
     for record in records:
         link = f"[{markdown(record['agent_name'])}](docs/landscape.md#{anchor(record)})"
         lines.append(
-            "| {company} | {approach} | {kind} | {domains} | {autonomy} | {stage} | {status} | {year} |".format(
+            "| {company} | {approach} | {kind} | {domains} | {level} | {autonomy} | {stage} | {status} | {year} |".format(
                 company=markdown(record["company"]),
                 approach=link,
                 kind=markdown(record["approach_type"]),
                 domains=markdown(record["domains"]),
+                level=markdown(operating_model_summary(record)),
                 autonomy=markdown(record["autonomy"]),
                 stage=markdown(record["deployment_stage"]),
                 status=markdown(record["status"]),
@@ -490,6 +545,7 @@ def render_landscape(records: list[dict]) -> str:
         "Domain terms include know your customer (KYC), quality assurance (QA), security operations center (SOC), and structured query language (SQL).",
         "",
         "The [schema reference](../data/schema.md) defines each comparison field. Unknown means that the collected sources do not document the value.",
+        "Operating levels are generated from scoped, evidence-backed human-attention boundaries; they are catalog judgments, not company-wide maturity scores.",
         "",
     ])
     for record in records:
@@ -508,6 +564,7 @@ def render_landscape(records: list[dict]) -> str:
             f"| Deployment stage | {markdown(record['deployment_stage'])} |",
             f"| Availability | {markdown(record['status'])} |",
             f"| Domains | {markdown(record['domains'])} |",
+            f"| Operating model | {markdown(operating_model_summary(record))} |",
             f"| Autonomy | {markdown(record['autonomy'])} |",
             f"| Invocation | {markdown(rubric['invocation'])} |",
             f"| State | {markdown(rubric['state'])} |",
@@ -525,6 +582,18 @@ def render_landscape(records: list[dict]) -> str:
                 for relation in record["relationships"]
             )
             out.append(f"| Relationships | {related} |")
+        out.append("")
+        out.extend(["### Operating model", ""])
+        for index, item in enumerate(record["operating_models"]):
+            path = f"operating_models.{index}"
+            level = BOUNDARY_LEVELS[item["attention_boundary"]]
+            label = f"Level {level}" if level is not None else "Unclassified"
+            meta = (record.get("claim_metadata") or {}).get(path, {})
+            out.append(
+                f"- **{label} · {item['attention_boundary']}** — {item['scope']} "
+                f"({meta['confidence']} confidence; {meta['valid_at']})"
+                f"{evidence_refs(record, path)}"
+            )
         out.append("")
         architecture = record.get("architecture") or {}
         if architecture:
@@ -570,6 +639,10 @@ def normalize(records: list[dict]) -> dict:
             for key, value in record.items()
             if key not in {"sources", "evidence", "claim_metadata"} | claim_value_fields
         }
+        approach["operating_models"] = [
+            {**item, "level": BOUNDARY_LEVELS[item["attention_boundary"]]}
+            for item in record["operating_models"]
+        ]
         approach["claim_ids"] = []
         approach["source_ids"] = [source["id"] for source in record["sources"]]
         approach["interfaces"] = (record.get("architecture") or {}).get("interfaces", [])
@@ -614,7 +687,7 @@ def normalize(records: list[dict]) -> dict:
         approaches.append(approach)
         for source in record["sources"]:
             sources.append({**source, "role": source.get("role", "evidence"), "approach_id": record["id"]})
-    return {"schema_version": 2, "approaches": approaches, "claims": claims, "sources": sources}
+    return {"schema_version": 3, "approaches": approaches, "claims": claims, "sources": sources}
 
 
 def replace_between_markers(text: str, block: str) -> str:

@@ -6,8 +6,11 @@ This page lists concepts, tools, and discovery sources that help contributors un
 
 - Anthropic, [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents), compares workflows and agents.
 - Anthropic, [How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system), describes an orchestrator and worker design.
+- Dan Shapiro, [The Five Levels: from Spicy Autocomplete to the Dark Factory](https://www.danshapiro.com/blog/2026/01/the-five-levels-from-spicy-autocomplete-to-the-software-factory/), frames coding automation by where people steer or inspect the work.
 
-These articles offer useful terms. The catalog does not adopt either article as its inclusion rule.
+These articles offer useful terms. The catalog does not adopt them as inclusion rules or as evidence
+that a particular organization operates at a particular level. Shapiro levels in the catalog are
+scoped, dated catalog judgments derived from source-backed human-attention boundaries.
 
 ## Frameworks and runtimes
 

@@ -16,6 +16,9 @@ domains:
 - recruitment
 - customer-success
 autonomy: human-in-loop
+operating_models:
+- scope: 'employee request → approved customer-impacting action'
+  attention_boundary: work-product-review
 rubric:
   invocation:
   - interactive
@@ -59,6 +62,9 @@ sources:
   accessed_at: '2026-08-12'
   last_verified_at: '2026-08-12'
 evidence:
+  operating_models.0:
+  - source_id: domu-clementino-source-1
+    relation: supports
   summary:
   - source_id: domu-clementino-source-1
     relation: supports
@@ -105,6 +111,12 @@ evidence:
   - source_id: domu-clementino-source-1
     relation: supports
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: high
+    confidence_reason: 'The source documents explicit human approval for customer-impacting actions.'
+    valid_at: '2026'
   lessons_learned.0:
     kind: inference
     provenance: catalog-judgment

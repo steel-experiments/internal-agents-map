@@ -14,6 +14,9 @@ domains:
 - customer-success
 - ops
 autonomy: drafts-reviewed
+operating_models:
+- scope: 'employee request → drafted work'
+  attention_boundary: work-product-review
 rubric:
   invocation:
   - interactive
@@ -76,6 +79,9 @@ sources:
   accessed_at: '2026-08-12'
   last_verified_at: '2026-08-12'
 evidence:
+  operating_models.0:
+  - source_id: salesforce-slackbot-source-1
+    relation: supports
   summary:
   - source_id: salesforce-slackbot-source-1
     relation: supports
@@ -109,6 +115,12 @@ evidence:
   - source_id: salesforce-slackbot-source-1
     relation: supports
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: 'The source describes an employee agent that prepares drafts and contextual work for human use.'
+    valid_at: '2026-01-14'
   lessons_learned.0:
     kind: inference
     provenance: catalog-judgment

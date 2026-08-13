@@ -17,6 +17,9 @@ domains:
 - maintenance
 - data
 autonomy: drafts-reviewed
+operating_models:
+- scope: 'engineering task → reviewed agent output'
+  attention_boundary: work-product-review
 rubric:
   invocation:
   - event-driven
@@ -91,6 +94,9 @@ sources:
   accessed_at: '2026-08-12'
   last_verified_at: '2026-08-12'
 evidence:
+  operating_models.0:
+  - source_id: doordash-flux-source-1
+    relation: supports
   summary:
   - source_id: doordash-flux-source-1
     relation: supports
@@ -166,6 +172,12 @@ evidence:
   - source_id: doordash-flux-source-1
     relation: supports
 claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: 'The platform spans several workflows; the cited engineering examples retain human review of agent output.'
+    valid_at: '2025-11-11'
   lessons_learned.0:
     kind: inference
     provenance: catalog-judgment

@@ -16,10 +16,11 @@ The catalog favors broad collection and explicit provenance. Do not invent missi
 1. Copy `templates/agent.yaml` to `data/agents/<id>.yaml`.
 2. Give the record a kebab-case ID that matches its file name.
 3. Add the shared rubric fields. Use `unknown` when the sources do not document a value.
-4. Add structured source records before you summarize them.
-5. Link every claim path to evidence. Add a locator when the source has a stable section, timestamp, comment ID, commit, or line.
-6. Run `python3 scripts/build.py`.
-7. Run all verification commands in the pull request template.
+4. Add a scoped `operating_models` assessment. Record where human attention normally returns, not a company-wide maturity estimate.
+5. Add structured source records before you summarize them.
+6. Link every claim path to evidence. Add a locator when the source has a stable section, timestamp, comment ID, commit, or line.
+7. Run `python3 scripts/build.py`.
+8. Run all verification commands in the pull request template.
 
 The approach must describe a system that a named organization built or materially adapted for its own teams. It can be a task agent, background agent, agent system, platform, orchestration system, or implemented supporting pattern.
 
@@ -53,6 +54,7 @@ For Hacker News, keep the thread and each material comment as separate source re
 - Mark editorial conclusions as `inferred` or `catalog-judgment`.
 - Preserve conflicting reports when they refer to different dates or methods.
 - Do not treat an undocumented field as evidence that a feature is absent.
+- Never assign an operating level without naming the workflow scope. Treat it as a dated catalog judgment, not a reported company fact.
 
 When you edit `docs/patterns.md` or `docs/adoption-lessons.md`, compare similar approach types and deployment stages. State the sample size. Include counterexamples before you call a pattern common.
 

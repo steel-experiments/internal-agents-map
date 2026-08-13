@@ -25,6 +25,7 @@ Copy `templates/agent.yaml` when you add an approach. Omit optional fields when 
 | `status` | enum | `internal`, `open-sourced`, `commercialized`, or `mixed` for a combined record. |
 | `domains` | list | Work domains, such as `coding`, `support`, or `security`. |
 | `autonomy` | enum | The autonomy level. See the values below. |
+| `operating_models` | list | Scoped catalog assessments of where human attention returns in a normal successful run. |
 | `rubric` | map | Shared comparison fields. |
 | `summary` | string | A short, factual description. |
 | `sources` | list | Structured public sources. |
@@ -48,6 +49,29 @@ Optional identity fields include `aliases` and `family_id`. Use `relationships` 
 - `drafts-reviewed`: The system prepares work that a person reviews before use.
 - `autonomous`: The work takes effect without required human review.
 - `unknown`: The sources do not document the review boundary.
+
+### Operating models and derived levels
+
+`operating_models` applies Dan Shapiro's software-automation framing to a documented workflow, not to an organization as a whole. Each item contains only:
+
+| Field | Description |
+| --- | --- |
+| `scope` | A short description of the workflow being assessed, preferably from input to output. |
+| `attention_boundary` | Where human attention normally returns during a successful run. |
+
+The build derives the level from the attention boundary:
+
+| Attention boundary | Derived level | Meaning |
+| --- | ---: | --- |
+| `continuous-steering` | 2 | A person pairs with the agent throughout execution. |
+| `work-product-review` | 3 | The agent produces a draft or implementation that a person reviews. |
+| `outcome-review` | 4 | A person delegates from a specification and evaluates tests, behavior, or outcomes rather than routinely inspecting implementation. |
+| `exception-only` | 5 | A person is normally involved only when the system raises an exception. |
+| `unknown` | — | The collected evidence does not locate the human attention boundary. |
+
+Never render or interpret a level without its scope. Compound systems can have multiple scoped assessments. Use `unknown` rather than averaging different workflows or guessing from `autonomy`, invocation mode, output volume, or company identity.
+
+Each `operating_models.N` item is an evidence-linked inference with `catalog-judgment` provenance. Its claim metadata must include `confidence`, `confidence_reason`, and `valid_at`. The level itself is generated and is never authored as a reported company fact.
 
 ## Comparison rubric
 

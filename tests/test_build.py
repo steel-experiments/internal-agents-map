@@ -32,17 +32,25 @@ class BuildTests(unittest.TestCase):
 
     def test_normalized_export_has_linked_collections(self) -> None:
         export = build.normalize(self.records)
-        self.assertEqual(export["schema_version"], 2)
+        self.assertEqual(export["schema_version"], 3)
         claim_ids = {claim["id"] for claim in export["claims"]}
         source_ids = {source["id"] for source in export["sources"]}
         self.assertTrue(all(source["role"] in build.SOURCE_ROLES for source in export["sources"]))
         for approach in export["approaches"]:
             self.assertTrue(set(approach["claim_ids"]).issubset(claim_ids))
             self.assertTrue(set(approach["source_ids"]).issubset(source_ids))
+            self.assertTrue(approach["operating_models"])
+            for item in approach["operating_models"]:
+                expected = build.BOUNDARY_LEVELS[item["attention_boundary"]]
+                self.assertEqual(item["level"], expected)
         for claim in export["claims"]:
             self.assertTrue(claim["evidence"])
             self.assertIn(claim["confidence"], build.CONFIDENCE)
             self.assertTrue({item["source_id"] for item in claim["evidence"]}.issubset(source_ids))
+            if claim["field"].startswith("operating_models."):
+                self.assertEqual(claim["kind"], "inference")
+                self.assertEqual(claim["provenance"], "catalog-judgment")
+                self.assertTrue(claim["valid_at"])
 
     def test_generated_files_are_current(self) -> None:
         outputs = build.rendered_outputs(self.records)
@@ -66,6 +74,15 @@ class BuildTests(unittest.TestCase):
     def test_invalid_nested_value_fails_before_render(self) -> None:
         record = copy.deepcopy(self.records[0])
         record["architecture"]["sandbox"] = ["not", "a", "string"]
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / f"{record['id']}.yaml"
+            with contextlib.redirect_stderr(io.StringIO()):
+                with self.assertRaises(SystemExit):
+                    build.validate_record(record, path, set())
+
+    def test_invalid_attention_boundary_fails_before_render(self) -> None:
+        record = copy.deepcopy(self.records[0])
+        record["operating_models"][0]["attention_boundary"] = "sometimes"
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / f"{record['id']}.yaml"
             with contextlib.redirect_stderr(io.StringIO()):
