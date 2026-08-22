@@ -1,0 +1,23 @@
+{
+  "skill_name": "add-agent-from-url",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Check this out — OpenAI wrote up the internal data agent they built for their own teams: https://openai.com/index/inside-our-in-house-data-agent/ — does this make sense to add to the map?",
+      "expected_output": "The URL passes the rubric (first-party source, distinct internal build, internal-only system). A data/agents/openai-*.yaml record is written with operating_models, evidence links, and claim metadata; the build and tests pass; a local commit is created. The report shows the five rubric scores.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "hey saw this plaid post about how they rolled out AI coding tools to their engineers — https://plaid.com/blog/ai-coding-adoption-plaid/ — can we add it to the catalog?",
+      "expected_output": "The URL fails the internal-ownership gate: it documents vendor tool adoption (Cursor), not an internal build. No YAML record is added. An exclusion entry appears in docs/coverage-backlog.md under Refuted or excluded with the reason. A local commit is created for the backlog edit.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "should this go in the catalog? snowflake's internal coding agent rollout: https://stackoverflow.blog/2026/07/02/ai-coding-chaos-into-a-repeatable-playbook/",
+      "expected_output": "The URL lands as a border case: Cortex Code is a shipping Snowflake product, but the story documents a large internal adaptation layer (about 7,000 skills, on-call integration). No YAML record is added. A Border case entry with an open question is logged in docs/coverage-backlog.md. A local commit is created.",
+      "files": []
+    }
+  ]
+}

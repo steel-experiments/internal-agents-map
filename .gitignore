@@ -14,3 +14,6 @@ Thumbs.db
 
 # Local research / working notes — mined for data, not part of the published artifact
 research.md
+
+# Skill eval iterations (scratch output, kept locally)
+.skill-workspace/
