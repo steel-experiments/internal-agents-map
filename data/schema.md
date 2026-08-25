@@ -52,7 +52,7 @@ Optional identity fields include `aliases` and `family_id`. Use `relationships` 
 
 ### Operating models and derived levels
 
-`operating_models` applies Dan Shapiro's software-automation framing to a documented workflow, not to an organization as a whole. Each item contains only:
+`operating_models` adapts [Dan Shapiro's five levels of AI-assisted software development](https://www.danshapiro.com/blog/2026/01/the-five-levels-from-spicy-autocomplete-to-the-software-factory/) to a documented internal-agent workflow, not to an organization as a whole. Shapiro's original framework is coding-oriented; this catalog generalizes it by asking where human attention normally returns. Each item contains only:
 
 | Field | Description |
 | --- | --- |

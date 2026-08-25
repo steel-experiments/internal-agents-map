@@ -74,6 +74,12 @@ undocumented details stay unknown.
 
 <!-- END OVERVIEW -->
 
+**Reading the levels:** Adapted from [Dan Shapiro's
+framework](https://www.danshapiro.com/blog/2026/01/the-five-levels-from-spicy-autocomplete-to-the-software-factory/),
+**L2** means continuous steering, **L3** work-product review, **L4** outcome review, and **L5**
+exception-only supervision. Levels describe a specific workflow, not company maturity. [Methodology
+→](data/schema.md#operating-models-and-derived-levels)
+
 ## What the current map shows
 
 Human review is still the norm. 23 of the 40 approaches produce a draft or implementation for

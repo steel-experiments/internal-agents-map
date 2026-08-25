@@ -731,6 +731,8 @@ def render_landscape(records: list[dict]) -> str:
         "",
         f"The catalog contains {len(records)} approaches. Company names determine the sort order.",
         "",
+        "The L2-L5 labels adapt [Dan Shapiro's five levels of AI-assisted software development](https://www.danshapiro.com/blog/2026/01/the-five-levels-from-spicy-autocomplete-to-the-software-factory/) into scoped human-attention boundaries: **L2** continuous steering, **L3** work-product review, **L4** outcome review, and **L5** exception-only supervision. Each label applies only to the workflow shown; it is a catalog judgment, not a company maturity score.",
+        "",
         "## Comparison",
         "",
         render_comparison_table(records),
