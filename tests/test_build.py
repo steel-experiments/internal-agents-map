@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-import copy
 import contextlib
-import io
+import copy
 import importlib.util
+import io
 import json
 import tempfile
 import unittest
@@ -88,9 +88,7 @@ class BuildTests(unittest.TestCase):
     def test_readme_findings_counts_are_current(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         autonomy_counts = Counter(record["autonomy"] for record in self.records)
-        unknown_state_count = sum(
-            record["rubric"]["state"] == "unknown" for record in self.records
-        )
+        unknown_state_count = sum(record["rubric"]["state"] == "unknown" for record in self.records)
         self.assertIn(
             f"{autonomy_counts['drafts-reviewed']} of the {len(self.records)} approaches",
             readme,
@@ -108,6 +106,17 @@ class BuildTests(unittest.TestCase):
             readme,
         )
 
+    def test_analysis_snapshots_match_catalog(self) -> None:
+        patterns = build.render_patterns_snapshot(self.records)
+        adoption = build.render_adoption_snapshot(self.records)
+        autonomy_counts = Counter(record["autonomy"] for record in self.records)
+        self.assertIn(f"contains {len(self.records)} approaches", patterns)
+        self.assertIn(f"draw on {len(self.records)} cataloged approaches", adoption)
+        self.assertIn(
+            f"{autonomy_counts['drafts-reviewed']} `drafts-reviewed`",
+            adoption,
+        )
+
     def test_markdown_escapes_table_values(self) -> None:
         self.assertEqual(build.markdown("Acme | Corp\nTeam"), "Acme \\| Corp Team")
         self.assertEqual(build.markdown(["slack", "web"]), "slack, web")
@@ -119,20 +128,28 @@ class BuildTests(unittest.TestCase):
     def test_invalid_nested_value_fails_before_render(self) -> None:
         record = copy.deepcopy(self.records[0])
         record["architecture"]["sandbox"] = ["not", "a", "string"]
-        with tempfile.TemporaryDirectory() as directory:
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            contextlib.redirect_stderr(io.StringIO()),
+            self.assertRaises(SystemExit),
+        ):
             path = Path(directory) / f"{record['id']}.yaml"
-            with contextlib.redirect_stderr(io.StringIO()):
-                with self.assertRaises(SystemExit):
-                    build.validate_record(record, path, set())
+            build.validate_record(record, path, set())
 
     def test_invalid_attention_boundary_fails_before_render(self) -> None:
         record = copy.deepcopy(self.records[0])
         record["operating_models"][0]["attention_boundary"] = "sometimes"
-        with tempfile.TemporaryDirectory() as directory:
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            contextlib.redirect_stderr(io.StringIO()),
+            self.assertRaises(SystemExit),
+        ):
             path = Path(directory) / f"{record['id']}.yaml"
-            with contextlib.redirect_stderr(io.StringIO()):
-                with self.assertRaises(SystemExit):
-                    build.validate_record(record, path, set())
+            build.validate_record(record, path, set())
+
+    def test_impossible_calendar_date_fails(self) -> None:
+        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+            build.validate_date("2026-02-31", "last_reviewed_at", "example.yaml")
 
     def test_json_is_serializable(self) -> None:
         json.dumps(build.normalize(self.records))

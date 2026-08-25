@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Build and validate the Internal Agents Map."""
 
 from __future__ import annotations
@@ -9,24 +8,29 @@ import os
 import re
 import sys
 import tempfile
+from collections import Counter
+from datetime import date
 from pathlib import Path
 from typing import Any, NoReturn
 
 try:
     import yaml
 except ImportError:
-    sys.exit(
-        "PyYAML is required. Install dependencies with "
-        "'python3 -m pip install -r requirements.txt'."
-    )
+    sys.exit("PyYAML is required. Install project dependencies with 'uv sync'.")
 
 ROOT = Path(__file__).resolve().parent.parent
 AGENTS_DIR = ROOT / "data" / "agents"
 README = ROOT / "README.md"
 LANDSCAPE = ROOT / "docs" / "landscape.md"
+PATTERNS = ROOT / "docs" / "patterns.md"
+ADOPTION_LESSONS = ROOT / "docs" / "adoption-lessons.md"
 DATA_JSON = ROOT / "data" / "agents.json"
 OVERVIEW_BEGIN = "<!-- BEGIN OVERVIEW -->"
 OVERVIEW_END = "<!-- END OVERVIEW -->"
+PATTERNS_SNAPSHOT_BEGIN = "<!-- BEGIN PATTERNS SNAPSHOT -->"
+PATTERNS_SNAPSHOT_END = "<!-- END PATTERNS SNAPSHOT -->"
+ADOPTION_SNAPSHOT_BEGIN = "<!-- BEGIN ADOPTION SNAPSHOT -->"
+ADOPTION_SNAPSHOT_END = "<!-- END ADOPTION SNAPSHOT -->"
 
 REQUIRED = {
     "id",
@@ -58,17 +62,44 @@ ALLOWED_TOP_LEVEL = REQUIRED | {
     "relationships",
 }
 ARCHITECTURE_FIELDS = {
-    "sandbox", "harness", "model", "tool_access", "interfaces", "knowledge",
-    "credentials", "context_mgmt",
+    "sandbox",
+    "harness",
+    "model",
+    "tool_access",
+    "interfaces",
+    "knowledge",
+    "credentials",
+    "context_mgmt",
 }
 SOURCE_FIELDS = {
-    "id", "title", "url", "canonical_url", "kind", "provenance_class", "role",
-    "publisher", "authors", "published_at", "accessed_at", "last_verified_at",
-    "archived_url", "content_fingerprint", "duplicate_of",
+    "id",
+    "title",
+    "url",
+    "canonical_url",
+    "kind",
+    "provenance_class",
+    "role",
+    "publisher",
+    "authors",
+    "published_at",
+    "accessed_at",
+    "last_verified_at",
+    "archived_url",
+    "content_fingerprint",
+    "duplicate_of",
 }
 CLAIM_METADATA_FIELDS = {
-    "kind", "provenance", "confidence", "confidence_reason", "valid_at", "value",
-    "unit", "reported_by", "metric_scope", "denominator", "measurement_method",
+    "kind",
+    "provenance",
+    "confidence",
+    "confidence_reason",
+    "valid_at",
+    "value",
+    "unit",
+    "reported_by",
+    "metric_scope",
+    "denominator",
+    "measurement_method",
 }
 AUTONOMY = {"assistive", "human-in-loop", "drafts-reviewed", "autonomous", "unknown"}
 STATUS = {"internal", "open-sourced", "commercialized", "mixed"}
@@ -132,14 +163,41 @@ BOUNDARY_LEVELS = {
 EVIDENCE_RELATIONS = {"supports", "contradicts", "contextualizes"}
 RELATION_TYPES = {"component-of", "built-on", "successor-of", "related-to"}
 DOMAIN_VALUES = {
-    "coding", "code-review", "support", "on-call", "research", "customer-success",
-    "security", "finance-ops", "data", "ci-triage", "maintenance", "ops",
-    "recruitment", "migrations",
+    "coding",
+    "code-review",
+    "support",
+    "on-call",
+    "research",
+    "customer-success",
+    "security",
+    "finance-ops",
+    "data",
+    "ci-triage",
+    "maintenance",
+    "ops",
+    "recruitment",
+    "migrations",
 }
 INTERFACE_VALUES = {
-    "slack", "github", "web", "cli", "linear", "chrome-extension", "webhook",
-    "desktop", "scheduled", "skill", "cursor", "api", "automation", "ci",
-    "intercom", "jira", "internal-ui", "mobile", "monday",
+    "slack",
+    "github",
+    "web",
+    "cli",
+    "linear",
+    "chrome-extension",
+    "webhook",
+    "desktop",
+    "scheduled",
+    "skill",
+    "cursor",
+    "api",
+    "automation",
+    "ci",
+    "intercom",
+    "jira",
+    "internal-ui",
+    "mobile",
+    "monday",
 }
 ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 DATE_RE = re.compile(r"^\d{4}(?:-(?:0[1-9]|1[0-2])(?:-(?:0[1-9]|[12]\d|3[01]))?)?$")
@@ -148,10 +206,7 @@ TABLE_HEADER = (
     "| Company | Approach | Type | Domains | Operating model | Autonomy | Stage | Status | Year |\n"
     "| --- | --- | --- | --- | --- | --- | --- | --- | --- |"
 )
-OVERVIEW_TABLE_HEADER = (
-    "| Organization | Approach | Type | Work |\n"
-    "| --- | --- | --- | --- |"
-)
+OVERVIEW_TABLE_HEADER = "| Organization | Approach | Type | Work |\n| --- | --- | --- | --- |"
 
 
 class UniqueKeyLoader(yaml.SafeLoader):
@@ -173,9 +228,7 @@ def _construct_mapping(loader: UniqueKeyLoader, node: yaml.MappingNode, deep: bo
     return mapping
 
 
-UniqueKeyLoader.add_constructor(
-    yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _construct_mapping
-)
+UniqueKeyLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _construct_mapping)
 
 
 def die(message: str) -> NoReturn:
@@ -199,13 +252,16 @@ def require_string_list(value: Any, field: str, filename: str, *, nonempty: bool
 def validate_date(value: Any, field: str, filename: str) -> None:
     if not isinstance(value, str) or not DATE_RE.fullmatch(value):
         die(f"{filename}: '{field}' must use YYYY, YYYY-MM, or YYYY-MM-DD.")
+    if len(value) == 10:
+        try:
+            date.fromisoformat(value)
+        except ValueError:
+            die(f"{filename}: '{field}' must be a valid calendar date.")
 
 
 def claim_fields(record: dict) -> dict[str, tuple[str, str, str]]:
     """Return claim path -> (text, kind, provenance) for authored claim fields."""
-    claims: dict[str, tuple[str, str, str]] = {
-        "summary": (record["summary"], "fact", "reported")
-    }
+    claims: dict[str, tuple[str, str, str]] = {"summary": (record["summary"], "fact", "reported")}
     headline = record.get("headline_metric")
     if headline:
         claims["headline_metric"] = (headline, "metric", "reported")
@@ -235,7 +291,16 @@ def validate_source(source: Any, filename: str, seen: set[str]) -> None:
     unexpected = sorted(set(source) - SOURCE_FIELDS)
     if unexpected:
         die(f"{filename}: source contains unexpected field(s): {', '.join(unexpected)}")
-    for field in ("id", "title", "url", "canonical_url", "kind", "provenance_class", "accessed_at", "last_verified_at"):
+    for field in (
+        "id",
+        "title",
+        "url",
+        "canonical_url",
+        "kind",
+        "provenance_class",
+        "accessed_at",
+        "last_verified_at",
+    ):
         require_string(source, field, filename)
     source_id = source["id"]
     if not ID_RE.fullmatch(source_id):
@@ -290,7 +355,9 @@ def validate_evidence(record: dict, filename: str, source_ids: set[str]) -> None
             die(f"{filename}: invalid claim metadata path {path!r}.")
         unexpected = sorted(set(values) - CLAIM_METADATA_FIELDS)
         if unexpected:
-            die(f"{filename}: claim metadata for {path!r} contains unexpected field(s): {', '.join(unexpected)}")
+            die(
+                f"{filename}: claim metadata for {path!r} contains unexpected field(s): {', '.join(unexpected)}"
+            )
         if values.get("kind") and values["kind"] not in CLAIM_KINDS:
             die(f"{filename}: invalid claim kind for {path!r}.")
         if values.get("provenance") and values["provenance"] not in CLAIM_PROVENANCE:
@@ -339,7 +406,11 @@ def validate_record(record: dict, path: Path, global_sources: set[str]) -> None:
     require_string_list(rubric.get("invocation"), "rubric.invocation", filename)
     if set(rubric["invocation"]) - INVOCATION:
         die(f"{filename}: 'rubric.invocation' contains an invalid value.")
-    for field, allowed in (("state", STATE), ("identity", IDENTITY), ("evidence_strength", EVIDENCE_STRENGTH)):
+    for field, allowed in (
+        ("state", STATE),
+        ("identity", IDENTITY),
+        ("evidence_strength", EVIDENCE_STRENGTH),
+    ):
         if rubric.get(field) not in allowed:
             die(f"{filename}: 'rubric.{field}' is invalid.")
     operating_models = record["operating_models"]
@@ -348,8 +419,7 @@ def validate_record(record: dict, path: Path, global_sources: set[str]) -> None:
     for index, item in enumerate(operating_models):
         if not isinstance(item, dict) or set(item) != {"scope", "attention_boundary"}:
             die(
-                f"{filename}: operating_models.{index} needs only 'scope' and "
-                "'attention_boundary'."
+                f"{filename}: operating_models.{index} needs only 'scope' and 'attention_boundary'."
             )
         require_string(item, "scope", filename)
         if item["attention_boundary"] not in ATTENTION_BOUNDARIES:
@@ -396,7 +466,11 @@ def validate_record(record: dict, path: Path, global_sources: set[str]) -> None:
         if not isinstance(record["primitives"], list):
             die(f"{filename}: 'primitives' must be a list.")
         for item in record["primitives"]:
-            if not isinstance(item, dict) or not isinstance(item.get("name"), str) or not item["name"]:
+            if (
+                not isinstance(item, dict)
+                or not isinstance(item.get("name"), str)
+                or not item["name"]
+            ):
                 die(f"{filename}: every primitive needs a non-empty name.")
             if item.get("desc") is not None and not isinstance(item["desc"], str):
                 die(f"{filename}: primitive descriptions must be strings.")
@@ -410,7 +484,9 @@ def validate_record(record: dict, path: Path, global_sources: set[str]) -> None:
         global_sources.add(source["id"])
     if first["source_id"] not in local_sources:
         die(f"{filename}: first public evidence must refer to a source in this record.")
-    first_source = next(source for source in record["sources"] if source["id"] == first["source_id"])
+    first_source = next(
+        source for source in record["sources"] if source["id"] == first["source_id"]
+    )
     if first_source.get("role", "evidence") != "evidence":
         die(f"{filename}: first public evidence must use a source with the evidence role.")
     validate_evidence(record, filename, local_sources)
@@ -426,9 +502,7 @@ def validate_record(record: dict, path: Path, global_sources: set[str]) -> None:
         if values.get("provenance", "catalog-judgment") != "catalog-judgment":
             die(f"{filename}: {claim_path!r} must be a catalog judgment.")
     referenced_sources = {
-        link["source_id"]
-        for links in record["evidence"].values()
-        for link in links
+        link["source_id"] for links in record["evidence"].values() for link in links
     }
     unused_evidence = sorted(
         source["id"]
@@ -436,7 +510,9 @@ def validate_record(record: dict, path: Path, global_sources: set[str]) -> None:
         if source.get("role", "evidence") == "evidence" and source["id"] not in referenced_sources
     )
     if unused_evidence:
-        die(f"{filename}: evidence source(s) are not linked to a claim: {', '.join(unused_evidence)}")
+        die(
+            f"{filename}: evidence source(s) are not linked to a claim: {', '.join(unused_evidence)}"
+        )
 
 
 def load_agents() -> list[dict]:
@@ -459,7 +535,9 @@ def load_agents() -> list[dict]:
     for record in records:
         for relation in record.get("relationships") or []:
             if relation["approach_id"] not in approach_ids:
-                die(f"{record['id']}.yaml: relationship uses unknown approach {relation['approach_id']!r}.")
+                die(
+                    f"{record['id']}.yaml: relationship uses unknown approach {relation['approach_id']!r}."
+                )
             if relation["approach_id"] == record["id"]:
                 die(f"{record['id']}.yaml: an approach cannot relate to itself.")
     return records
@@ -549,17 +627,100 @@ def render_overview(records: list[dict]) -> str:
         f"backed by {len(export['sources'])} sources and "
         f"{len(export['claims'])} evidence-linked claims.**"
     )
-    return "\n".join([
-        OVERVIEW_BEGIN,
-        "",
-        summary,
-        "",
-        "## Overview",
-        "",
-        render_overview_table(records),
-        "",
-        OVERVIEW_END,
-    ])
+    return "\n".join(
+        [
+            OVERVIEW_BEGIN,
+            "",
+            summary,
+            "",
+            "## Overview",
+            "",
+            render_overview_table(records),
+            "",
+            OVERVIEW_END,
+        ]
+    )
+
+
+def count_table(counts: Counter[str], labels: dict[str, str]) -> str:
+    lines = ["| Type | Count |", "| --- | ---: |"]
+    lines.extend(f"| {label} | {counts[value]} |" for value, label in labels.items())
+    return "\n".join(lines)
+
+
+def render_patterns_snapshot(records: list[dict]) -> str:
+    approach_labels = {
+        "task-agent": "Task agent",
+        "platform": "Platform",
+        "background-agent": "Background agent",
+        "agent-system": "Agent system",
+        "orchestration-system": "Orchestration system",
+        "supporting-pattern": "Supporting pattern",
+    }
+    approach_counts = Counter(record["approach_type"] for record in records)
+    autonomy_counts = Counter(record["autonomy"] for record in records)
+    state_counts = Counter(record["rubric"]["state"] for record in records)
+    slack_count = sum(
+        "slack" in ((record.get("architecture") or {}).get("interfaces") or [])
+        for record in records
+    )
+    sandbox_count = sum(
+        (record.get("architecture") or {}).get("sandbox") not in (None, "", "unknown")
+        for record in records
+    )
+    return "\n".join(
+        [
+            PATTERNS_SNAPSHOT_BEGIN,
+            "",
+            "## Catalog snapshot",
+            "",
+            f"The catalog currently contains {len(records)} approaches:",
+            "",
+            count_table(approach_counts, approach_labels),
+            "",
+            f"- {sandbox_count} approaches document a concrete execution environment.",
+            f"- {slack_count} approaches list Slack as an interface.",
+            "- State duration is "
+            f"unknown for {state_counts['unknown']}, durable-session for "
+            f"{state_counts['durable-session']}, cross-session-memory for "
+            f"{state_counts['cross-session-memory']}, mixed for {state_counts['mixed']}, "
+            f"and run-only for {state_counts['run-only']} approaches.",
+            "- Autonomy is classified as "
+            f"drafts-reviewed for {autonomy_counts['drafts-reviewed']}, human-in-loop for "
+            f"{autonomy_counts['human-in-loop']}, autonomous for "
+            f"{autonomy_counts['autonomous']}, assistive for {autonomy_counts['assistive']}, "
+            f"and unknown for {autonomy_counts['unknown']} approaches.",
+            "",
+            PATTERNS_SNAPSHOT_END,
+        ]
+    )
+
+
+def render_adoption_snapshot(records: list[dict]) -> str:
+    autonomy_counts = Counter(record["autonomy"] for record in records)
+    slack_count = sum(
+        "slack" in ((record.get("architecture") or {}).get("interfaces") or [])
+        for record in records
+    )
+    return "\n".join(
+        [
+            ADOPTION_SNAPSHOT_BEGIN,
+            "",
+            "## Catalog snapshot",
+            "",
+            f"These observations draw on {len(records)} cataloged approaches. "
+            "The evidence is uneven, and most sources are company reports.",
+            "",
+            f"{slack_count} approaches list Slack as an interface. The autonomy distribution is "
+            f"{autonomy_counts['drafts-reviewed']} `drafts-reviewed`, "
+            f"{autonomy_counts['human-in-loop']} `human-in-loop`, "
+            f"{autonomy_counts['autonomous']} `autonomous`, "
+            f"{autonomy_counts['assistive']} `assistive`, and "
+            f"{autonomy_counts['unknown']} `unknown`.",
+            "",
+            ADOPTION_SNAPSHOT_END,
+        ]
+    )
 
 
 def render_landscape(records: list[dict]) -> str:
@@ -575,41 +736,45 @@ def render_landscape(records: list[dict]) -> str:
         render_comparison_table(records),
         "",
     ]
-    out.extend([
-        "## Terms and rubric",
-        "",
-        "Common terms include artificial intelligence (AI), application programming interface (API), continuous integration (CI), and command-line interface (CLI).",
-        "Other terms include large language model (LLM), Model Context Protocol (MCP), pull request (PR), and software development kit (SDK).",
-        "Access terms include attribute-based access control (ABAC), role-based access control (RBAC), and single sign-on (SSO).",
-        "Domain terms include know your customer (KYC), quality assurance (QA), security operations center (SOC), and structured query language (SQL).",
-        "",
-        "The [schema reference](../data/schema.md) defines each comparison field. Unknown means that the collected sources do not document the value.",
-        "Operating levels are generated from scoped, evidence-backed human-attention boundaries; they are catalog judgments, not company-wide maturity scores.",
-        "",
-    ])
+    out.extend(
+        [
+            "## Terms and rubric",
+            "",
+            "Common terms include artificial intelligence (AI), application programming interface (API), continuous integration (CI), and command-line interface (CLI).",
+            "Other terms include large language model (LLM), Model Context Protocol (MCP), pull request (PR), and software development kit (SDK).",
+            "Access terms include attribute-based access control (ABAC), role-based access control (RBAC), and single sign-on (SSO).",
+            "Domain terms include know your customer (KYC), quality assurance (QA), security operations center (SOC), and structured query language (SQL).",
+            "",
+            "The [schema reference](../data/schema.md) defines each comparison field. Unknown means that the collected sources do not document the value.",
+            "Operating levels are generated from scoped, evidence-backed human-attention boundaries; they are catalog judgments, not company-wide maturity scores.",
+            "",
+        ]
+    )
     for record in records:
         rubric = record["rubric"]
-        out.extend([
-            f"<a id=\"{anchor(record)}\"></a>",
-            "",
-            f"## {record['company']}: {record['agent_name']}",
-            "",
-            f"> {record['summary']}{evidence_refs(record, 'summary')}",
-            "",
-            "| Field | Value |",
-            "| --- | --- |",
-            f"| Approach type | {markdown(record['approach_type'])} |",
-            f"| First public evidence | {markdown(record['first_public_evidence']['date'])} |",
-            f"| Deployment stage | {markdown(record['deployment_stage'])} |",
-            f"| Availability | {markdown(record['status'])} |",
-            f"| Domains | {markdown(record['domains'])} |",
-            f"| Operating model | {markdown(operating_model_summary(record))} |",
-            f"| Autonomy | {markdown(record['autonomy'])} |",
-            f"| Invocation | {markdown(rubric['invocation'])} |",
-            f"| State | {markdown(rubric['state'])} |",
-            f"| Identity | {markdown(rubric['identity'])} |",
-            f"| Evidence | {markdown(rubric['evidence_strength'])} |",
-        ])
+        out.extend(
+            [
+                f'<a id="{anchor(record)}"></a>',
+                "",
+                f"## {record['company']}: {record['agent_name']}",
+                "",
+                f"> {record['summary']}{evidence_refs(record, 'summary')}",
+                "",
+                "| Field | Value |",
+                "| --- | --- |",
+                f"| Approach type | {markdown(record['approach_type'])} |",
+                f"| First public evidence | {markdown(record['first_public_evidence']['date'])} |",
+                f"| Deployment stage | {markdown(record['deployment_stage'])} |",
+                f"| Availability | {markdown(record['status'])} |",
+                f"| Domains | {markdown(record['domains'])} |",
+                f"| Operating model | {markdown(operating_model_summary(record))} |",
+                f"| Autonomy | {markdown(record['autonomy'])} |",
+                f"| Invocation | {markdown(rubric['invocation'])} |",
+                f"| State | {markdown(rubric['state'])} |",
+                f"| Identity | {markdown(rubric['identity'])} |",
+                f"| Evidence | {markdown(rubric['evidence_strength'])} |",
+            ]
+        )
         if record.get("headline_metric"):
             out.append(
                 f"| Headline metric | {markdown(record['headline_metric'])}"
@@ -644,7 +809,11 @@ def render_landscape(records: list[dict]) -> str:
                         f"{evidence_refs(record, f'architecture.{key}')}"
                     )
             out.append("")
-        for field, heading in (("primitives", "Primitives"), ("key_metrics", "Reported metrics"), ("lessons_learned", "Catalog observations")):
+        for field, heading in (
+            ("primitives", "Primitives"),
+            ("key_metrics", "Reported metrics"),
+            ("lessons_learned", "Catalog observations"),
+        ):
             values = record.get(field) or []
             if not values:
                 continue
@@ -658,8 +827,12 @@ def render_landscape(records: list[dict]) -> str:
             out.append("")
         out.extend(["### Sources", ""])
         for source in record["sources"]:
-            detail = f"{source['kind']}; {source['provenance_class']}; {source.get('role', 'evidence')}"
-            out.append(f"- <a id=\"{source['id']}\"></a>[{source['title']}]({source['url']}) ({detail})")
+            detail = (
+                f"{source['kind']}; {source['provenance_class']}; {source.get('role', 'evidence')}"
+            )
+            out.append(
+                f'- <a id="{source["id"]}"></a>[{source["title"]}]({source["url"]}) ({detail})'
+            )
         out.extend(["", f"Last reviewed: {record['last_reviewed_at']}.", "", "---", ""])
     return "\n".join(out)
 
@@ -670,7 +843,11 @@ def normalize(records: list[dict]) -> dict:
     sources = []
     for record in records:
         claim_value_fields = {
-            "summary", "headline_metric", "architecture", "primitives", "key_metrics",
+            "summary",
+            "headline_metric",
+            "architecture",
+            "primitives",
+            "key_metrics",
             "lessons_learned",
         }
         approach = {
@@ -696,8 +873,12 @@ def normalize(records: list[dict]) -> dict:
                 if link.get("relation", "supports") == "supports"
             ]
             classes = {source["provenance_class"] for source in supporting_sources}
-            default_confidence = "high" if "first-party" in classes else (
-                "medium" if classes & {"direct-participant", "independent-secondary"} else "low"
+            default_confidence = (
+                "high"
+                if "first-party" in classes
+                else (
+                    "medium" if classes & {"direct-participant", "independent-secondary"} else "low"
+                )
             )
             default_reason = {
                 "high": "A linked first-party source states the claim.",
@@ -725,25 +906,44 @@ def normalize(records: list[dict]) -> dict:
             approach["claim_ids"].append(claim_id)
         approaches.append(approach)
         for source in record["sources"]:
-            sources.append({**source, "role": source.get("role", "evidence"), "approach_id": record["id"]})
+            sources.append(
+                {**source, "role": source.get("role", "evidence"), "approach_id": record["id"]}
+            )
     return {"schema_version": 3, "approaches": approaches, "claims": claims, "sources": sources}
 
 
-def replace_between_markers(text: str, block: str) -> str:
-    start = text.find(OVERVIEW_BEGIN)
-    end = text.find(OVERVIEW_END)
-    if start == -1 or end == -1 or end < start:
-        die(
-            "README.md must contain one ordered "
-            f"{OVERVIEW_BEGIN} and {OVERVIEW_END} marker pair."
-        )
-    return text[:start] + block + text[end + len(OVERVIEW_END):]
+def replace_between_markers(
+    text: str, begin: str, end_marker: str, block: str, filename: str
+) -> str:
+    start = text.find(begin)
+    end = text.find(end_marker)
+    if text.count(begin) != 1 or text.count(end_marker) != 1 or end < start:
+        die(f"{filename} must contain exactly one ordered {begin} and {end_marker} marker pair.")
+    return text[:start] + block + text[end + len(end_marker) :]
 
 
 def rendered_outputs(records: list[dict]) -> dict[Path, str]:
     readme = README.read_text(encoding="utf-8")
+    patterns = PATTERNS.read_text(encoding="utf-8")
+    adoption_lessons = ADOPTION_LESSONS.read_text(encoding="utf-8")
     return {
-        README: replace_between_markers(readme, render_overview(records)),
+        README: replace_between_markers(
+            readme, OVERVIEW_BEGIN, OVERVIEW_END, render_overview(records), "README.md"
+        ),
+        PATTERNS: replace_between_markers(
+            patterns,
+            PATTERNS_SNAPSHOT_BEGIN,
+            PATTERNS_SNAPSHOT_END,
+            render_patterns_snapshot(records),
+            "docs/patterns.md",
+        ),
+        ADOPTION_LESSONS: replace_between_markers(
+            adoption_lessons,
+            ADOPTION_SNAPSHOT_BEGIN,
+            ADOPTION_SNAPSHOT_END,
+            render_adoption_snapshot(records),
+            "docs/adoption-lessons.md",
+        ),
         LANDSCAPE: render_landscape(records),
         DATA_JSON: json.dumps(normalize(records), indent=2, ensure_ascii=False) + "\n",
     }
@@ -775,10 +975,17 @@ def main() -> None:
     args = parser.parse_args()
     records = load_agents()
     outputs = rendered_outputs(records)
-    stale = [path for path, content in outputs.items() if not path.exists() or path.read_text(encoding="utf-8") != content]
+    stale = [
+        path
+        for path, content in outputs.items()
+        if not path.exists() or path.read_text(encoding="utf-8") != content
+    ]
     if args.check:
         if stale:
-            die("Generated files are stale: " + ", ".join(str(path.relative_to(ROOT)) for path in stale))
+            die(
+                "Generated files are stale: "
+                + ", ".join(str(path.relative_to(ROOT)) for path in stale)
+            )
         print(f"Validated {len(records)} approaches. Generated files are current.")
         return
     write_outputs(outputs)

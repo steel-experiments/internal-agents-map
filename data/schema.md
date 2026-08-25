@@ -178,4 +178,5 @@ Metric metadata can also include `value`, `unit`, `reported_by`, `metric_scope`,
 
 Normalize URLs and remove tracking parameters. Link mirrors and translations with `duplicate_of`. Do not merge two approaches only because one company built both. Use relationship metadata in a future record revision when systems share a platform or change names.
 
-Run `python3 scripts/build.py` after each data change. Run `python3 scripts/build.py --check` to verify committed output.
+Run `uv run python scripts/build.py` after each data change. Run
+`uv run python scripts/build.py --check` to verify committed output.

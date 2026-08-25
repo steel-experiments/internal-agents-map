@@ -6,10 +6,13 @@ The catalog favors broad collection and explicit provenance. Do not invent missi
 
 ## Set up the project
 
-1. Create and activate a Python 3 virtual environment.
-2. Run `python3 -m pip install -r requirements-dev.txt`.
-3. Run `python3 scripts/build.py --check`.
-4. Run `python3 -m unittest discover -s tests`.
+1. [Install uv](https://docs.astral.sh/uv/getting-started/installation/).
+2. Run `uv sync --locked`.
+3. Run `uv run python scripts/build.py --check`.
+4. Run `uv run python -m unittest discover -s tests`.
+
+uv installs the required Python version and manages the project environment. You do not need to
+create or activate a virtual environment yourself.
 
 ## Add an approach
 
@@ -19,7 +22,7 @@ The catalog favors broad collection and explicit provenance. Do not invent missi
 4. Add a scoped `operating_models` assessment. Record where human attention normally returns, not a company-wide maturity estimate.
 5. Add structured source records before you summarize them.
 6. Link every claim path to evidence. Add a locator when the source has a stable section, timestamp, comment ID, commit, or line.
-7. Run `python3 scripts/build.py`.
+7. Run `uv run python scripts/build.py`.
 8. Run all verification commands in the pull request template.
 
 The approach must describe a system that a named organization built or materially adapted for its own teams. It can be a task agent, background agent, agent system, platform, orchestration system, or implemented supporting pattern.
@@ -63,6 +66,8 @@ When you edit `docs/patterns.md` or `docs/adoption-lessons.md`, compare similar 
 The build updates these files:
 
 - `README.md`, between the overview markers
+- `docs/patterns.md`, between the catalog snapshot markers
+- `docs/adoption-lessons.md`, between the catalog snapshot markers
 - `docs/landscape.md`
 - `data/agents.json`
 
@@ -73,11 +78,15 @@ Do not edit generated content by hand. Commit these files with the source YAML c
 Run:
 
 ```bash
-python3 scripts/build.py
-python3 scripts/build.py --check
-python3 -m unittest discover -s tests
-python3 scripts/check_links.py --local
+uv run python scripts/build.py
+uv run python scripts/build.py --check
+uv run ruff check .
+uv run ruff format --check .
+uv run python -m unittest discover -s tests
+uv run python scripts/check_links.py --local
 git diff --check
 ```
 
-The scheduled link check tests external URLs. A pull request does not depend on remote sites being available.
+The scheduled link check tests external URLs. Confirmed 404 responses fail the check; blocked and
+temporarily unreachable URLs are reported separately as warnings. A pull request does not depend
+on remote sites being available.

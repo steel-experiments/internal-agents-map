@@ -1,12 +1,14 @@
 # Architecture patterns
 
-This page compares the 40 approaches in the catalog. It describes reported designs. It does not prescribe one definition of an agent.
+This page compares approaches in the catalog. It describes reported designs. It does not prescribe one definition of an agent.
 
-Most evidence comes from organizations that describe their own systems. Architecture details are incomplete for many entries. Counts below use the catalog snapshot reviewed on August 13, 2026.
+Most evidence comes from organizations that describe their own systems. Architecture details are incomplete for many entries.
 
-## Sample
+<!-- BEGIN PATTERNS SNAPSHOT -->
 
-The catalog contains these approach types:
+## Catalog snapshot
+
+The catalog currently contains 40 approaches:
 
 | Type | Count |
 | --- | ---: |
@@ -16,6 +18,13 @@ The catalog contains these approach types:
 | Agent system | 4 |
 | Orchestration system | 2 |
 | Supporting pattern | 2 |
+
+- 23 approaches document a concrete execution environment.
+- 20 approaches list Slack as an interface.
+- State duration is unknown for 35, durable-session for 4, cross-session-memory for 0, mixed for 0, and run-only for 1 approaches.
+- Autonomy is classified as drafts-reviewed for 23, human-in-loop for 8, autonomous for 3, assistive for 3, and unknown for 3 approaches.
+
+<!-- END PATTERNS SNAPSHOT -->
 
 Compare approaches of the same type and deployment stage before you draw a conclusion. A platform and a task agent have different responsibilities.
 
@@ -45,7 +54,7 @@ No catalog rule requires this exact design. Some entries implement only part of 
 
 ## Execution environments
 
-Fifteen entries document a concrete execution environment. Reported examples include Firecracker micro virtual machines at DoorDash, Modal sandboxes at Ramp, Kubernetes containers at Spotify, isolated containers at HubSpot, and isolated worktrees at Coinbase.
+Some entries document a concrete execution environment. Reported examples include Firecracker micro virtual machines at DoorDash, Modal sandboxes at Ramp, Kubernetes containers at Spotify, isolated containers at HubSpot, and isolated worktrees at Coinbase.
 
 The remaining entries either omit the detail or describe no separate execution environment. This absence is an evidence gap. It is not proof that no isolation exists.
 
@@ -86,13 +95,13 @@ The implementations differ. Some use repository instruction files. Some query li
 
 ## Invocation
 
-Twenty of 40 entries list Slack as an interface. GitHub, web interfaces, command-line tools, scheduled jobs, and event handlers also appear.
+Slack is the most commonly reported interface. GitHub, web interfaces, command-line tools, scheduled jobs, and event handlers also appear.
 
 This count shows where reported systems appear in the sample. It does not show that Slack causes adoption. Public channels can help people observe agent work, but they can also expose private or sensitive information. Teams must apply access and retention rules before they copy this practice.
 
 ## State and identity
 
-The current public evidence does not document state duration for 35 entries. Four entries describe durable session state, and one describes run-only state. This gap is why durable identity belongs in the rubric instead of the inclusion policy.
+The current public evidence does not document state duration for most entries. This gap is why durable identity belongs in the rubric instead of the inclusion policy.
 
 The rubric asks separate questions:
 
@@ -105,7 +114,7 @@ These choices affect audit records, authorization, recovery, and accountability.
 
 ## Verification and autonomy
 
-The catalog classifies 23 approaches as `drafts-reviewed`, eight as `human-in-loop`, three as `autonomous`, three as `assistive`, and three as `unknown`. These labels describe the reported review boundary. They do not measure output quality.
+Review-required categories dominate the current catalog. These labels describe the reported review boundary. They do not measure output quality.
 
 Reported verification methods include tests, continuous integration checks, schema checks, query planning, policy checks, model judges, and human review. Deterministic checks and model review serve different purposes. A model judge does not replace a test that can decide a property directly.
 

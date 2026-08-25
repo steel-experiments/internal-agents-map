@@ -1,8 +1,18 @@
 # Adoption observations
 
-This page summarizes reported operating practices in the catalog. Most sources are company reports. They do not establish cause and effect.
+This page summarizes reported operating practices in the catalog. These reports do not establish cause and effect.
 
-The observations use the 28 approaches reviewed on August 13, 2026. The evidence is uneven. Read each source before you apply a practice to another organization.
+<!-- BEGIN ADOPTION SNAPSHOT -->
+
+## Catalog snapshot
+
+These observations draw on 40 cataloged approaches. The evidence is uneven, and most sources are company reports.
+
+20 approaches list Slack as an interface. The autonomy distribution is 23 `drafts-reviewed`, 8 `human-in-loop`, 3 `autonomous`, 3 `assistive`, and 3 `unknown`.
+
+<!-- END ADOPTION SNAPSHOT -->
+
+Read each source before you apply a practice to another organization.
 
 ## Start with work that people can check
 
@@ -12,7 +22,7 @@ This suggests a practical starting question: can the team decide whether the wor
 
 ## Put the system near existing work
 
-Twenty entries list Slack as an interface. Other entries use GitHub, Linear, web interfaces, command-line tools, scheduled jobs, or event handlers.
+Slack is a common interface. Other entries use GitHub, Linear, web interfaces, command-line tools, scheduled jobs, or event handlers.
 
 An existing interface can reduce the effort needed to try a system. It can also inherit the access, privacy, and retention problems of that interface. Public channels can spread examples, but teams must not expose private work to gain visibility.
 
@@ -54,7 +64,7 @@ When one step speeds up, inspect the next step. Track waiting time, review effor
 
 ## Expand autonomy with evidence
 
-The sample contains 19 `drafts-reviewed` approaches, seven `human-in-loop` approaches, and two `autonomous` approaches. This distribution reflects public reports in the catalog. It is not a recommendation.
+The distribution in the generated snapshot reflects public reports in the catalog. It is not a recommendation.
 
 Before a team removes a review step, it should define the failure limit, verification method, rollback path, and responsible owner. The relevant threshold depends on the task. A code migration and a customer payment action do not have the same impact.
 

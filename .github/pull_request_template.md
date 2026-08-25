@@ -21,10 +21,12 @@ Describe the approach, source, correction, analysis, or tooling change.
 
 ## Verification
 
-- [ ] `python3 scripts/build.py`
-- [ ] `python3 scripts/build.py --check`
-- [ ] `python3 -m unittest discover -s tests`
-- [ ] `python3 scripts/check_links.py --local`
+- [ ] `uv run python scripts/build.py`
+- [ ] `uv run python scripts/build.py --check`
+- [ ] `uv run ruff check .`
+- [ ] `uv run ruff format --check .`
+- [ ] `uv run python -m unittest discover -s tests`
+- [ ] `uv run python scripts/check_links.py --local`
 - [ ] `git diff --check`
 
 ## Sources

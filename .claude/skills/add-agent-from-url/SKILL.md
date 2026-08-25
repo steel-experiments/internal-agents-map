@@ -98,27 +98,26 @@ able to audit the call without rereading the source.
    name.
 2. Fill the record from the extracted facts. Follow the schema rules below; they exist because
    each one closed a real defect.
-3. Run the bundled counts script:
+3. Regenerate all catalog-derived files and analysis snapshots:
 
    ```bash
-   python3 .claude/skills/add-agent-from-url/scripts/update_pattern_counts.py
+   uv run python scripts/build.py
    ```
 
-   It rewrites the approach-type table in `docs/patterns.md` and prints the other distribution
-   counts. Update the prose counts in `docs/patterns.md` (total approaches, autonomy tally,
-   state tally, Slack count, execution-environment count) to match the printed values. A test
-   enforces the table; stale prose misleads readers.
+   The build owns the generated sections in the README, `docs/patterns.md`, and
+   `docs/adoption-lessons.md`. Do not update their counts by hand.
 4. Run the full verification block:
 
    ```bash
-   python3 scripts/build.py
-   python3 scripts/build.py --check
-   python3 -m unittest discover -s tests
-   python3 scripts/check_links.py --local
+   uv run python scripts/build.py --check
+   uv run ruff check .
+   uv run ruff format --check .
+   uv run python -m unittest discover -s tests
+   uv run python scripts/check_links.py --local
    git diff --check
    ```
 
-5. If anything fails, fix the record or the counts. Do not weaken a check to pass it.
+5. If anything fails, fix the record or source content. Do not weaken a check to pass it.
 6. Commit everything in one commit (YAML, regenerated README, landscape, agents.json, patterns.md,
    backlog edits) and push to main. The user chose full automation for the pass path. Follow the
    repo commit style: imperative subject line within 50 characters, body wrapped at 72

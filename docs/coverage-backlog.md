@@ -3,7 +3,7 @@
 This page tracks companies and reported internal-agent approaches that are **not yet** in the
 catalog. Each candidate links to the primary sources found so far. A position on this page is not
 a catalog entry. An entry is added only after a contributor writes the YAML record, links every
-claim to a source, and runs `python3 scripts/build.py`.
+claim to a source, and runs `uv run python scripts/build.py`.
 
 The list comes from a coverage audit. The first pass ran on 2026-08-12. A follow-up pass ran on
 2026-08-13. Both passes searched for gaps: companies that built or adapted an agent for their own

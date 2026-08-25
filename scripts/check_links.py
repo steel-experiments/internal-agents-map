@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Check local Markdown links and catalog source URLs."""
 
 from __future__ import annotations
@@ -11,7 +10,9 @@ import sys
 import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Literal
 from urllib.parse import unquote, urlsplit
 
 import yaml
@@ -19,6 +20,13 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 MARKDOWN_LINK = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
 BLOCKED_STATUS = {401, 403, 405, 406, 429}
+
+
+@dataclass(frozen=True)
+class LinkResult:
+    url: str
+    status: Literal["healthy", "missing", "blocked", "unreachable"]
+    detail: str
 
 
 def tracked_markdown() -> list[Path]:
@@ -82,19 +90,19 @@ def source_urls() -> list[str]:
     return sorted(urls | markdown_urls())
 
 
-def check_url(url: str) -> str | None:
+def check_url(url: str) -> LinkResult:
     headers = {"User-Agent": "internal-agents-map-link-check/1.0"}
     request = urllib.request.Request(url, headers=headers, method="HEAD")
     try:
         with urllib.request.urlopen(request, timeout=20) as response:
             if response.status < 400:
-                return None
-            return f"{url}: HTTP {response.status}"
+                return LinkResult(url, "healthy", f"HTTP {response.status}")
+            return LinkResult(url, "unreachable", f"HTTP {response.status}")
     except urllib.error.HTTPError as error:
         if error.code in BLOCKED_STATUS:
-            return None
+            return LinkResult(url, "blocked", f"HTTP {error.code}")
         if error.code != 404:
-            return None
+            return LinkResult(url, "unreachable", f"HTTP {error.code}")
         # Some sites do not implement HEAD correctly. Confirm a missing page with GET.
         try:
             get_request = urllib.request.Request(
@@ -102,14 +110,18 @@ def check_url(url: str) -> str | None:
                 headers={**headers, "Range": "bytes=0-1023"},
                 method="GET",
             )
-            with urllib.request.urlopen(get_request, timeout=20):
-                return None
+            with urllib.request.urlopen(get_request, timeout=20) as response:
+                return LinkResult(url, "healthy", f"GET HTTP {response.status}")
         except urllib.error.HTTPError as get_error:
-            return f"{url}: HTTP 404" if get_error.code == 404 else None
-        except (urllib.error.URLError, TimeoutError, http.client.HTTPException, OSError):
-            return None
-    except (urllib.error.URLError, TimeoutError, http.client.HTTPException, OSError):
-        return None
+            if get_error.code == 404:
+                return LinkResult(url, "missing", "HTTP 404 confirmed by GET")
+            if get_error.code in BLOCKED_STATUS:
+                return LinkResult(url, "blocked", f"GET HTTP {get_error.code}")
+            return LinkResult(url, "unreachable", f"GET HTTP {get_error.code}")
+        except (urllib.error.URLError, TimeoutError, http.client.HTTPException, OSError) as error:
+            return LinkResult(url, "unreachable", f"GET {type(error).__name__}: {error}")
+    except (urllib.error.URLError, TimeoutError, http.client.HTTPException, OSError) as error:
+        return LinkResult(url, "unreachable", f"{type(error).__name__}: {error}")
 
 
 def main() -> int:
@@ -118,12 +130,27 @@ def main() -> int:
     args = parser.parse_args()
     errors = local_links()
     if not args.local:
+        results: list[LinkResult] = []
         with ThreadPoolExecutor(max_workers=8) as executor:
             checks = {executor.submit(check_url, url): url for url in source_urls()}
             for future in as_completed(checks):
-                result = future.result()
-                if result:
-                    errors.append(result)
+                results.append(future.result())
+        for result in sorted(results, key=lambda item: item.url):
+            if result.status == "missing":
+                errors.append(f"{result.url}: {result.detail}")
+            elif result.status != "healthy":
+                print(
+                    f"warning: {result.status}: {result.url}: {result.detail}",
+                    file=sys.stderr,
+                )
+        counts = {status: 0 for status in ("healthy", "missing", "blocked", "unreachable")}
+        for result in results:
+            counts[result.status] += 1
+        print(
+            "External links: "
+            + ", ".join(f"{count} {status}" for status, count in counts.items())
+            + "."
+        )
     if errors:
         print("\n".join(sorted(errors)), file=sys.stderr)
         return 1
