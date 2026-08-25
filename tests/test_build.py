@@ -63,6 +63,51 @@ class BuildTests(unittest.TestCase):
             for source in record["sources"]:
                 self.assertIn(f'<a id="{source["id"]}"></a>', catalog)
 
+    def test_catalog_contains_comparison_links(self) -> None:
+        catalog = build.render_landscape(self.records)
+        for record in self.records:
+            self.assertIn(f"[{record['agent_name']}](#{record['id']})", catalog)
+
+    def test_overview_counts_match_export(self) -> None:
+        export = build.normalize(self.records)
+        company_count = len({record["company"] for record in self.records})
+        overview = build.render_overview(self.records)
+        self.assertIn(f"{len(self.records)} approaches", overview)
+        self.assertIn(f"{company_count} organizations", overview)
+        self.assertIn(f"{len(export['sources'])} sources", overview)
+        self.assertIn(f"{len(export['claims'])} evidence-linked claims", overview)
+
+    def test_readme_overview_contains_every_approach(self) -> None:
+        overview = build.render_overview_table(self.records)
+        for record in self.records:
+            self.assertIn(
+                f"[{record['agent_name']}](docs/landscape.md#{record['id']})",
+                overview,
+            )
+
+    def test_readme_findings_counts_are_current(self) -> None:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        autonomy_counts = Counter(record["autonomy"] for record in self.records)
+        unknown_state_count = sum(
+            record["rubric"]["state"] == "unknown" for record in self.records
+        )
+        self.assertIn(
+            f"{autonomy_counts['drafts-reviewed']} of the {len(self.records)} approaches",
+            readme,
+        )
+        self.assertIn(
+            f"{autonomy_counts['human-in-loop']} keep a person involved",
+            readme,
+        )
+        self.assertIn(
+            f"{autonomy_counts['autonomous']} report autonomous action",
+            readme,
+        )
+        self.assertIn(
+            f"State duration is undocumented for {unknown_state_count} approaches",
+            readme,
+        )
+
     def test_markdown_escapes_table_values(self) -> None:
         self.assertEqual(build.markdown("Acme | Corp\nTeam"), "Acme \\| Corp Team")
         self.assertEqual(build.markdown(["slack", "web"]), "slack, web")

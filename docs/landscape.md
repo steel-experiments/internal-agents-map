@@ -4,36 +4,38 @@
 
 The catalog contains 28 approaches. Company names determine the sort order.
 
-## Contents
+## Comparison
 
-- [Block: Builderbot](#block-builderbot)
-- [Brex: Internal Agent Platform](#brex-agent-platform)
-- [Browserbase: bb](#browserbase-bb)
-- [Cloudflare: Internal AI engineering stack](#cloudflare-ai-stack)
-- [Coinbase: Forge / Mux](#coinbase-forge-mux)
-- [Domu: Clementino](#domu-clementino)
-- [DoorDash: AI Code Review Agent](#doordash-code-review)
-- [DoorDash: Flux / Agentic AI Platform](#doordash-flux)
-- [Dropbox: Nova](#dropbox-nova)
-- [Flex: AI Investigation Agent](#flex-investigation-agent)
-- [Harvey: Spectre](#harvey-spectre)
-- [Linear: Linear Agent](#linear-agent)
-- [monday.com: Sphera / Atlas / Morphex](#monday-sphera-atlas-morphex)
-- [PostHog: StampHog](#posthog-stamphog)
-- [Ramp: Inspect](#ramp-inspect)
-- [Replit: Manager agent (agent-of-agents)](#replit-manager-agent)
-- [Salesforce: Slackbot](#salesforce-slackbot)
-- [Sentry: Junior](#sentry-junior)
-- [Shopify: Aquifer / River](#shopify-internal-agents)
-- [Sierra: Pinecone](#sierra-pinecone)
-- [Slack: Multi-agent context system](#slack-context-system)
-- [Spotify: Honk / Xirp](#spotify-honk-xirp)
-- [Stripe: Minions](#stripe-minions)
-- [Uber: Internal coding agent (unnamed)](#uber-coding-agent)
-- [Uber: uReview](#uber-ureview)
-- [WorkOS: Project Horizon](#workos-project-horizon)
-- [Y Combinator: Internal agent infrastructure](#ycombinator-agent-infra)
-- [Zup: CodeGen](#zup-codegen)
+| Company | Approach | Type | Domains | Operating model | Autonomy | Stage | Status | Year |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Block | [Builderbot](#block-builderbot) | orchestration-system | coding, code-review | L3 · ticket → reviewed pull request | drafts-reviewed | scaled | internal | 2026 |
+| Brex | [Internal Agent Platform](#brex-agent-platform) | platform | finance-ops, support, customer-success | L2 · internal operations request → completed operation | human-in-loop | scaled | internal | 2025 |
+| Browserbase | [bb](#browserbase-bb) | task-agent | coding, code-review, support, customer-success, research | L3 · coding request → reviewed pull request | drafts-reviewed | deployed | internal | 2026 |
+| Cloudflare | [Internal AI engineering stack](#cloudflare-ai-stack) | platform | coding, code-review | L3 · pull request → AI review findings | drafts-reviewed | scaled | internal | 2026 |
+| Coinbase | [Forge / Mux](#coinbase-forge-mux) | agent-system | coding, code-review | L3 · Slack, GitHub, or Linear request → reviewed pull request and build | drafts-reviewed | scaled | internal | 2026 |
+| Domu | [Clementino](#domu-clementino) | task-agent | support, finance-ops, coding, recruitment, customer-success | L3 · employee request → approved customer-impacting action | human-in-loop | deployed | internal | 2026 |
+| DoorDash | [AI Code Review Agent](#doordash-code-review) | background-agent | code-review | L3 · pull request → AI review comments | drafts-reviewed | scaled | internal | 2026 |
+| DoorDash | [Flux / Agentic AI Platform](#doordash-flux) | platform | code-review, coding, ci-triage, on-call, maintenance, data | L3 · engineering task → reviewed agent output | drafts-reviewed | scaled | internal | 2025 |
+| Dropbox | [Nova](#dropbox-nova) | platform | coding, ci-triage, on-call, maintenance | Unknown · agent-assisted SDLC workflow → accepted change | human-in-loop | scaled | internal | 2026 |
+| Flex | [AI Investigation Agent](#flex-investigation-agent) | task-agent | finance-ops, on-call, coding | L3 · payment investigation → proposed code fix | drafts-reviewed | deployed | internal | 2026 |
+| Harvey | [Spectre](#harvey-spectre) | platform | coding, code-review, on-call, security | L3 · incident or request → reviewable diff or pull request | drafts-reviewed | deployed | internal | 2026 |
+| Linear | [Linear Agent](#linear-agent) | task-agent | support, customer-success, coding | L3 · assigned coding work → agent-created change | drafts-reviewed | scaled | commercialized | 2026 |
+| monday.com | [Sphera / Atlas / Morphex](#monday-sphera-atlas-morphex) | agent-system | coding, code-review | L4 · Atlas or Morphex feature task → tested and merged pull request | autonomous | scaled | internal | 2026 |
+| PostHog | [StampHog](#posthog-stamphog) | background-agent | code-review | L5 · eligible pull request → approval decision | autonomous | scaled | open-sourced | 2026 |
+| Ramp | [Inspect](#ramp-inspect) | background-agent | coding, code-review, on-call | L3 · Inspect coding task → reviewed production merge | drafts-reviewed | scaled | internal | 2026 |
+| Replit | [Manager agent (agent-of-agents)](#replit-manager-agent) | orchestration-system | coding, code-review, support, research, data | L3 · objective → verifiable multi-agent work product | drafts-reviewed | scaled | internal | 2026 |
+| Salesforce | [Slackbot](#salesforce-slackbot) | task-agent | support, customer-success, ops | L3 · employee request → drafted work | drafts-reviewed | scaled | commercialized | 2025 |
+| Sentry | [Junior](#sentry-junior) | task-agent | coding, code-review, support, on-call | L2 · assigned task → human-steered and reviewed output | human-in-loop | deployed | open-sourced | 2026 |
+| Shopify | [Aquifer / River](#shopify-internal-agents) | platform | coding, code-review, research, security | L3 · River coding request → reviewed pull request | drafts-reviewed | scaled | internal | 2026 |
+| Sierra | [Pinecone](#sierra-pinecone) | task-agent | coding, code-review, support, research, data | L3 · employee request → reviewed agent output | drafts-reviewed | scaled | internal | 2026 |
+| Slack | [Multi-agent context system](#slack-context-system) | supporting-pattern | research | Unknown · long-running investigation → synthesized report | human-in-loop | research | internal | 2026 |
+| Spotify | [Honk / Xirp](#spotify-honk-xirp) | agent-system | coding, migrations, code-review | L3 · Honk coding task → verified pull request | drafts-reviewed | scaled | mixed | 2025 |
+| Stripe | [Minions](#stripe-minions) | background-agent | coding, code-review | L3 · work context → merge-ready pull request | drafts-reviewed | scaled | internal | 2026 |
+| Uber | [Internal coding agent (unnamed)](#uber-coding-agent) | task-agent | coding | Unknown · coding request → complete code change | drafts-reviewed | deployed | internal | 2026 |
+| Uber | [uReview](#uber-ureview) | background-agent | code-review | L3 · pull request → filtered AI review findings | drafts-reviewed | scaled | internal | 2025 |
+| WorkOS | [Project Horizon](#workos-project-horizon) | platform | coding, code-review, security | L4 · requirements and acceptance criteria → tested implementation | drafts-reviewed | deployed | internal | 2026 |
+| Y Combinator | [Internal agent infrastructure](#ycombinator-agent-infra) | platform | coding, ops | Unknown · internal request → agent-assisted organizational work | human-in-loop | deployed | internal | 2026 |
+| Zup | [CodeGen](#zup-codegen) | task-agent | coding | L2 · constrained coding task → human-supervised edit | human-in-loop | research | internal | 2026 |
 
 ## Terms and rubric
 

@@ -62,7 +62,7 @@ When you edit `docs/patterns.md` or `docs/adoption-lessons.md`, compare similar 
 
 The build updates these files:
 
-- `README.md`, between the catalog markers
+- `README.md`, between the overview markers
 - `docs/landscape.md`
 - `data/agents.json`
 

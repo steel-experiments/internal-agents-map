@@ -1,123 +1,108 @@
 # Internal Agents Map
 
-Internal Agents Map is a source-backed catalog of how organizations build and use artificial
-intelligence (AI) agents for internal work. It covers task agents, background agents, shared
-platforms, orchestration systems, and implemented supporting patterns.
+## Definition
 
-The catalog collects company articles, source code, documentation, talks, social posts, news,
-and community commentary. A common rubric makes different approaches easier to compare. The
-goal is to learn from their designs, tradeoffs, results, and failures.
+**Internal agents are AI systems organizations build or adapt to do work for their own teams.**
 
-[![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
-[![Content: CC BY-SA 4.0](https://img.shields.io/badge/content-CC%20BY--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
-[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+They operate through the organization's knowledge, tools, workflows, and controls. Some work
+alongside a person. Others start from an event and run in the background. Human supervision
+varies by workflow.
 
----
+Organizations publish these systems under many names. Internal Agents Map groups their
+implementations under one definition so their designs and operating boundaries can be compared.
 
-## What the catalog includes
+The map also covers platforms, orchestration systems, and implemented supporting patterns.
+These support internal agents but are not agents themselves.
 
-Organizations use the word "agent" in different ways. The catalog preserves those differences.
-It does not require one architecture or level of autonomy.
+Claims link to public sources. Company reports stay separate from catalog interpretation, and
+undocumented details stay unknown.
 
-An approach qualifies when a named organization built or materially adapted it for its own
-teams, and a public source describes the implementation or its use. The approach can be an
-agent, workflow, platform, runtime, orchestration system, or supporting pattern. Prototypes,
-pilots, deployed systems, and later product releases all qualify.
+[Browse the catalog](docs/landscape.md) ·
+[Architecture patterns](docs/patterns.md) ·
+[Adoption observations](docs/adoption-lessons.md) ·
+[Use the data](data/agents.json) ·
+[Contribute](CONTRIBUTING.md)
 
-Durable identity is one design choice. It is not an inclusion requirement. The comparison
-rubric records identity, state, invocation, autonomy, deployment stage, controls, and available
-evidence. Scoped operating-model assessments also show where human attention returns and derive
-a Shapiro level for that workflow. An unknown value means the collected sources do not document it.
+<!-- BEGIN OVERVIEW -->
 
-### Scope
+**Current map: 28 approaches across 26 organizations, backed by 66 sources and 475 evidence-linked claims.**
 
-The catalog includes approaches first built or materially adapted for internal work. An entry
-can remain internal, become open source, or become a commercial product.
+## Overview
 
-Generic vendor products do not qualify without a documented internal adaptation. General
-opinion articles and unattributed rumors do not qualify as approaches. They can still appear as
-commentary when they discuss a cataloged approach.
+| Organization | Approach | Type | Work |
+| --- | --- | --- | --- |
+| Block | [Builderbot](docs/landscape.md#block-builderbot) | orchestration-system | coding, code-review |
+| Brex | [Internal Agent Platform](docs/landscape.md#brex-agent-platform) | platform | finance-ops, support, customer-success |
+| Browserbase | [bb](docs/landscape.md#browserbase-bb) | task-agent | coding, code-review, support, customer-success, research |
+| Cloudflare | [Internal AI engineering stack](docs/landscape.md#cloudflare-ai-stack) | platform | coding, code-review |
+| Coinbase | [Forge / Mux](docs/landscape.md#coinbase-forge-mux) | agent-system | coding, code-review |
+| Domu | [Clementino](docs/landscape.md#domu-clementino) | task-agent | support, finance-ops, coding, recruitment, customer-success |
+| DoorDash | [AI Code Review Agent](docs/landscape.md#doordash-code-review) | background-agent | code-review |
+| DoorDash | [Flux / Agentic AI Platform](docs/landscape.md#doordash-flux) | platform | code-review, coding, ci-triage, on-call, maintenance, data |
+| Dropbox | [Nova](docs/landscape.md#dropbox-nova) | platform | coding, ci-triage, on-call, maintenance |
+| Flex | [AI Investigation Agent](docs/landscape.md#flex-investigation-agent) | task-agent | finance-ops, on-call, coding |
+| Harvey | [Spectre](docs/landscape.md#harvey-spectre) | platform | coding, code-review, on-call, security |
+| Linear | [Linear Agent](docs/landscape.md#linear-agent) | task-agent | support, customer-success, coding |
+| monday.com | [Sphera / Atlas / Morphex](docs/landscape.md#monday-sphera-atlas-morphex) | agent-system | coding, code-review |
+| PostHog | [StampHog](docs/landscape.md#posthog-stamphog) | background-agent | code-review |
+| Ramp | [Inspect](docs/landscape.md#ramp-inspect) | background-agent | coding, code-review, on-call |
+| Replit | [Manager agent (agent-of-agents)](docs/landscape.md#replit-manager-agent) | orchestration-system | coding, code-review, support, research, data |
+| Salesforce | [Slackbot](docs/landscape.md#salesforce-slackbot) | task-agent | support, customer-success, ops |
+| Sentry | [Junior](docs/landscape.md#sentry-junior) | task-agent | coding, code-review, support, on-call |
+| Shopify | [Aquifer / River](docs/landscape.md#shopify-internal-agents) | platform | coding, code-review, research, security |
+| Sierra | [Pinecone](docs/landscape.md#sierra-pinecone) | task-agent | coding, code-review, support, research, data |
+| Slack | [Multi-agent context system](docs/landscape.md#slack-context-system) | supporting-pattern | research |
+| Spotify | [Honk / Xirp](docs/landscape.md#spotify-honk-xirp) | agent-system | coding, migrations, code-review |
+| Stripe | [Minions](docs/landscape.md#stripe-minions) | background-agent | coding, code-review |
+| Uber | [Internal coding agent (unnamed)](docs/landscape.md#uber-coding-agent) | task-agent | coding |
+| Uber | [uReview](docs/landscape.md#uber-ureview) | background-agent | code-review |
+| WorkOS | [Project Horizon](docs/landscape.md#workos-project-horizon) | platform | coding, code-review, security |
+| Y Combinator | [Internal agent infrastructure](docs/landscape.md#ycombinator-agent-infra) | platform | coding, ops |
+| Zup | [CodeGen](docs/landscape.md#zup-codegen) | task-agent | coding |
 
-The catalog treats company metrics as self-reported unless an independent source verifies them.
-It keeps source claims separate from catalog interpretation. See the [data schema](data/schema.md)
-for source and confidence rules.
+<!-- END OVERVIEW -->
 
----
+## What the current map shows
 
-## The landscape
+Human review is still the norm. 19 of the 28 approaches produce a draft or implementation for
+review. 7 keep a person involved throughout the work. 2 report autonomous action within a
+scoped workflow.
 
-The table is sorted by company. Each row links to the relevant section of the
-[full catalog](docs/landscape.md). The YAML records are in [data/agents](data/agents/).
+Different systems keep solving similar infrastructure problems: company context, scoped tools,
+execution environments, verification, and integration with systems of record.
 
-<!-- BEGIN LANDSCAPE -->
+Some internal agents are durable: their identity or state persists across runs and restarts.
+Others start fresh. Durability is a design choice, not an inclusion requirement.
+State duration is undocumented for 23 approaches. Review cost, failure rates, and retired
+systems are rarely reported.
 
-| Company | Approach | Type | Domains | Operating model | Autonomy | Stage | Status | Year |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Block | [Builderbot](docs/landscape.md#block-builderbot) | orchestration-system | coding, code-review | L3 · ticket → reviewed pull request | drafts-reviewed | scaled | internal | 2026 |
-| Brex | [Internal Agent Platform](docs/landscape.md#brex-agent-platform) | platform | finance-ops, support, customer-success | L2 · internal operations request → completed operation | human-in-loop | scaled | internal | 2025 |
-| Browserbase | [bb](docs/landscape.md#browserbase-bb) | task-agent | coding, code-review, support, customer-success, research | L3 · coding request → reviewed pull request | drafts-reviewed | deployed | internal | 2026 |
-| Cloudflare | [Internal AI engineering stack](docs/landscape.md#cloudflare-ai-stack) | platform | coding, code-review | L3 · pull request → AI review findings | drafts-reviewed | scaled | internal | 2026 |
-| Coinbase | [Forge / Mux](docs/landscape.md#coinbase-forge-mux) | agent-system | coding, code-review | L3 · Slack, GitHub, or Linear request → reviewed pull request and build | drafts-reviewed | scaled | internal | 2026 |
-| Domu | [Clementino](docs/landscape.md#domu-clementino) | task-agent | support, finance-ops, coding, recruitment, customer-success | L3 · employee request → approved customer-impacting action | human-in-loop | deployed | internal | 2026 |
-| DoorDash | [AI Code Review Agent](docs/landscape.md#doordash-code-review) | background-agent | code-review | L3 · pull request → AI review comments | drafts-reviewed | scaled | internal | 2026 |
-| DoorDash | [Flux / Agentic AI Platform](docs/landscape.md#doordash-flux) | platform | code-review, coding, ci-triage, on-call, maintenance, data | L3 · engineering task → reviewed agent output | drafts-reviewed | scaled | internal | 2025 |
-| Dropbox | [Nova](docs/landscape.md#dropbox-nova) | platform | coding, ci-triage, on-call, maintenance | Unknown · agent-assisted SDLC workflow → accepted change | human-in-loop | scaled | internal | 2026 |
-| Flex | [AI Investigation Agent](docs/landscape.md#flex-investigation-agent) | task-agent | finance-ops, on-call, coding | L3 · payment investigation → proposed code fix | drafts-reviewed | deployed | internal | 2026 |
-| Harvey | [Spectre](docs/landscape.md#harvey-spectre) | platform | coding, code-review, on-call, security | L3 · incident or request → reviewable diff or pull request | drafts-reviewed | deployed | internal | 2026 |
-| Linear | [Linear Agent](docs/landscape.md#linear-agent) | task-agent | support, customer-success, coding | L3 · assigned coding work → agent-created change | drafts-reviewed | scaled | commercialized | 2026 |
-| monday.com | [Sphera / Atlas / Morphex](docs/landscape.md#monday-sphera-atlas-morphex) | agent-system | coding, code-review | L4 · Atlas or Morphex feature task → tested and merged pull request | autonomous | scaled | internal | 2026 |
-| PostHog | [StampHog](docs/landscape.md#posthog-stamphog) | background-agent | code-review | L5 · eligible pull request → approval decision | autonomous | scaled | open-sourced | 2026 |
-| Ramp | [Inspect](docs/landscape.md#ramp-inspect) | background-agent | coding, code-review, on-call | L3 · Inspect coding task → reviewed production merge | drafts-reviewed | scaled | internal | 2026 |
-| Replit | [Manager agent (agent-of-agents)](docs/landscape.md#replit-manager-agent) | orchestration-system | coding, code-review, support, research, data | L3 · objective → verifiable multi-agent work product | drafts-reviewed | scaled | internal | 2026 |
-| Salesforce | [Slackbot](docs/landscape.md#salesforce-slackbot) | task-agent | support, customer-success, ops | L3 · employee request → drafted work | drafts-reviewed | scaled | commercialized | 2025 |
-| Sentry | [Junior](docs/landscape.md#sentry-junior) | task-agent | coding, code-review, support, on-call | L2 · assigned task → human-steered and reviewed output | human-in-loop | deployed | open-sourced | 2026 |
-| Shopify | [Aquifer / River](docs/landscape.md#shopify-internal-agents) | platform | coding, code-review, research, security | L3 · River coding request → reviewed pull request | drafts-reviewed | scaled | internal | 2026 |
-| Sierra | [Pinecone](docs/landscape.md#sierra-pinecone) | task-agent | coding, code-review, support, research, data | L3 · employee request → reviewed agent output | drafts-reviewed | scaled | internal | 2026 |
-| Slack | [Multi-agent context system](docs/landscape.md#slack-context-system) | supporting-pattern | research | Unknown · long-running investigation → synthesized report | human-in-loop | research | internal | 2026 |
-| Spotify | [Honk / Xirp](docs/landscape.md#spotify-honk-xirp) | agent-system | coding, migrations, code-review | L3 · Honk coding task → verified pull request | drafts-reviewed | scaled | mixed | 2025 |
-| Stripe | [Minions](docs/landscape.md#stripe-minions) | background-agent | coding, code-review | L3 · work context → merge-ready pull request | drafts-reviewed | scaled | internal | 2026 |
-| Uber | [Internal coding agent (unnamed)](docs/landscape.md#uber-coding-agent) | task-agent | coding | Unknown · coding request → complete code change | drafts-reviewed | deployed | internal | 2026 |
-| Uber | [uReview](docs/landscape.md#uber-ureview) | background-agent | code-review | L3 · pull request → filtered AI review findings | drafts-reviewed | scaled | internal | 2025 |
-| WorkOS | [Project Horizon](docs/landscape.md#workos-project-horizon) | platform | coding, code-review, security | L4 · requirements and acceptance criteria → tested implementation | drafts-reviewed | deployed | internal | 2026 |
-| Y Combinator | [Internal agent infrastructure](docs/landscape.md#ycombinator-agent-infra) | platform | coding, ops | Unknown · internal request → agent-assisted organizational work | human-in-loop | deployed | internal | 2026 |
-| Zup | [CodeGen](docs/landscape.md#zup-codegen) | task-agent | coding | L2 · constrained coding task → human-supervised edit | human-in-loop | research | internal | 2026 |
+## What belongs in the map
 
-<!-- END LANDSCAPE -->
+An entry needs a named organization, an agent or enabling approach built or materially adapted
+for that organization's own work, and public evidence describing its implementation or use.
 
----
+The map includes agents, agent systems, platforms, orchestration systems, and implemented
+supporting patterns. These are separate approach types. Prototypes and systems that later became
+open source or commercial products can qualify.
 
-## Analysis
+Generic vendor products without a documented internal adaptation are not entries. General
+opinion pieces and unattributed claims may appear as context, not as catalog approaches.
 
-[Architecture patterns](docs/patterns.md) compares the published technical designs.
-[Adoption lessons](docs/adoption-lessons.md) collects reported operating practices. Both pages
-state evidence limits and distinguish company reports from catalog interpretation.
+## Evidence standard
 
----
+Every authored claim points to one or more structured sources. Each source records its
+relationship to the organization. Reported statements stay separate from catalog judgments, and
+company metrics remain self-reported unless independently verified.
 
-## Who is this for?
-
-- Engineers who build internal agent systems
-- Leaders who compare implementation choices
-- Researchers who track reported agent designs and results
-- Contributors who find missing sources or conflicting evidence
-
----
+`unknown` means undocumented, not absent. Conflicting evidence remains visible. See the
+[data schema](data/schema.md) for the complete methodology.
 
 ## Contributing
 
-Copy [templates/agent.yaml](templates/agent.yaml), add the evidence, and run
-`python3 scripts/build.py`. See [CONTRIBUTING.md](CONTRIBUTING.md) for the full procedure.
-
-Do not invent missing details. Link each claim to a source. Label commentary, inference, and
-conflicting evidence instead of discarding them.
-
----
+Found a missing approach or better evidence for one already here? Start with the
+[record template](templates/agent.yaml) and follow the [contribution guide](CONTRIBUTING.md).
 
 ## License
 
-- **Code and tooling** (`scripts/`, `tests/`, and workflow files): [MIT](LICENSE).
-- **Documentation, policy, templates, and data**:
-  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
-
-By contributing you agree your contributions are licensed accordingly. See
-[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+Code and tooling are licensed under [MIT](LICENSE). Content and data are licensed under
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).

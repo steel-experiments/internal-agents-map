@@ -25,8 +25,8 @@ AGENTS_DIR = ROOT / "data" / "agents"
 README = ROOT / "README.md"
 LANDSCAPE = ROOT / "docs" / "landscape.md"
 DATA_JSON = ROOT / "data" / "agents.json"
-BEGIN = "<!-- BEGIN LANDSCAPE -->"
-END = "<!-- END LANDSCAPE -->"
+OVERVIEW_BEGIN = "<!-- BEGIN OVERVIEW -->"
+OVERVIEW_END = "<!-- END OVERVIEW -->"
 
 REQUIRED = {
     "id",
@@ -147,6 +147,10 @@ DATE_RE = re.compile(r"^\d{4}(?:-(?:0[1-9]|1[0-2])(?:-(?:0[1-9]|[12]\d|3[01]))?)
 TABLE_HEADER = (
     "| Company | Approach | Type | Domains | Operating model | Autonomy | Stage | Status | Year |\n"
     "| --- | --- | --- | --- | --- | --- | --- | --- | --- |"
+)
+OVERVIEW_TABLE_HEADER = (
+    "| Organization | Approach | Type | Work |\n"
+    "| --- | --- | --- | --- |"
 )
 
 
@@ -502,10 +506,10 @@ def evidence_refs(record: dict, path: str) -> str:
     return " <small>" + "; ".join(parts) + ".</small>"
 
 
-def render_table(records: list[dict]) -> str:
-    lines = [BEGIN, "", TABLE_HEADER]
+def render_comparison_table(records: list[dict]) -> str:
+    lines = [TABLE_HEADER]
     for record in records:
-        link = f"[{markdown(record['agent_name'])}](docs/landscape.md#{anchor(record)})"
+        link = f"[{markdown(record['agent_name'])}](#{anchor(record)})"
         lines.append(
             "| {company} | {approach} | {kind} | {domains} | {level} | {autonomy} | {stage} | {status} | {year} |".format(
                 company=markdown(record["company"]),
@@ -519,7 +523,43 @@ def render_table(records: list[dict]) -> str:
                 year=record["year"],
             )
         )
-    return "\n".join([*lines, "", END])
+    return "\n".join(lines)
+
+
+def render_overview_table(records: list[dict]) -> str:
+    lines = [OVERVIEW_TABLE_HEADER]
+    for record in records:
+        link = f"[{markdown(record['agent_name'])}](docs/landscape.md#{anchor(record)})"
+        lines.append(
+            "| {organization} | {approach} | {kind} | {work} |".format(
+                organization=markdown(record["company"]),
+                approach=link,
+                kind=markdown(record["approach_type"]),
+                work=markdown(record["domains"]),
+            )
+        )
+    return "\n".join(lines)
+
+
+def render_overview(records: list[dict]) -> str:
+    export = normalize(records)
+    company_count = len({record["company"] for record in records})
+    summary = (
+        f"**Current map: {len(records)} approaches across {company_count} organizations, "
+        f"backed by {len(export['sources'])} sources and "
+        f"{len(export['claims'])} evidence-linked claims.**"
+    )
+    return "\n".join([
+        OVERVIEW_BEGIN,
+        "",
+        summary,
+        "",
+        "## Overview",
+        "",
+        render_overview_table(records),
+        "",
+        OVERVIEW_END,
+    ])
 
 
 def render_landscape(records: list[dict]) -> str:
@@ -530,13 +570,12 @@ def render_landscape(records: list[dict]) -> str:
         "",
         f"The catalog contains {len(records)} approaches. Company names determine the sort order.",
         "",
-        "## Contents",
+        "## Comparison",
+        "",
+        render_comparison_table(records),
         "",
     ]
-    for record in records:
-        out.append(f"- [{record['company']}: {record['agent_name']}](#{anchor(record)})")
     out.extend([
-        "",
         "## Terms and rubric",
         "",
         "Common terms include artificial intelligence (AI), application programming interface (API), continuous integration (CI), and command-line interface (CLI).",
@@ -691,17 +730,20 @@ def normalize(records: list[dict]) -> dict:
 
 
 def replace_between_markers(text: str, block: str) -> str:
-    start = text.find(BEGIN)
-    end = text.find(END)
+    start = text.find(OVERVIEW_BEGIN)
+    end = text.find(OVERVIEW_END)
     if start == -1 or end == -1 or end < start:
-        die(f"README.md must contain one ordered {BEGIN} and {END} marker pair.")
-    return text[:start] + block + text[end + len(END):]
+        die(
+            "README.md must contain one ordered "
+            f"{OVERVIEW_BEGIN} and {OVERVIEW_END} marker pair."
+        )
+    return text[:start] + block + text[end + len(OVERVIEW_END):]
 
 
 def rendered_outputs(records: list[dict]) -> dict[Path, str]:
     readme = README.read_text(encoding="utf-8")
     return {
-        README: replace_between_markers(readme, render_table(records)),
+        README: replace_between_markers(readme, render_overview(records)),
         LANDSCAPE: render_landscape(records),
         DATA_JSON: json.dumps(normalize(records), indent=2, ensure_ascii=False) + "\n",
     }
