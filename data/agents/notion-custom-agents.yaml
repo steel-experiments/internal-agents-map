@@ -1,0 +1,97 @@
+id: notion-custom-agents
+company: Notion
+agent_name: Custom Agents
+approach_type: platform
+deployment_stage: scaled
+year: 2026
+first_public_evidence:
+  date: '2026-04'
+  source_id: notion-custom-agents-source-1
+last_reviewed_at: '2026-08-13'
+status: internal
+domains:
+- support
+- finance-ops
+- recruitment
+- security
+autonomy: unknown
+operating_models:
+- scope: 'cross-team internal tasks → Custom Agents output'
+  attention_boundary: unknown
+rubric:
+  invocation:
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: Notion's Custom Agents platform, dogfooded internally across non-engineering teams such as IT ticketing,
+  supply chain, procurement, and recruiting. By the end of alpha testing, Notion had more than 3,000 internal
+  Custom Agents. Notion's own security team is one of the most active internal users. Notion rebuilt the agent
+  harness three to five times as frontier models improved.
+headline_metric: More than 3,000 internal Custom Agents by end of alpha testing
+key_metrics:
+- More than 3,000 internal Custom Agents by end of alpha testing
+- Notion's security team is one of the most active internal users
+- Agent harness rebuilt three to five times as models improved
+sources:
+- id: notion-custom-agents-source-1
+  title: 'Notion''s Token Town: 5 Rebuilds, 100+ Tools (Latent Space)'
+  url: https://latent.space/p/notion
+  canonical_url: https://latent.space/p/notion
+  kind: podcast
+  provenance_class: direct-participant
+  role: evidence
+  published_at: '2026-04-14'
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+- id: notion-custom-agents-source-2
+  title: How we built security into Custom Agents
+  url: https://www.notion.com/en-gb/blog/how-we-built-security-into-custom-agents
+  canonical_url: https://www.notion.com/en-gb/blog/how-we-built-security-into-custom-agents
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+evidence:
+  operating_models.0:
+  - source_id: notion-custom-agents-source-1
+    relation: supports
+  summary:
+  - source_id: notion-custom-agents-source-1
+    relation: supports
+  - source_id: notion-custom-agents-source-2
+    relation: supports
+  headline_metric:
+  - source_id: notion-custom-agents-source-2
+    relation: supports
+  key_metrics.0:
+  - source_id: notion-custom-agents-source-2
+    relation: supports
+  key_metrics.1:
+  - source_id: notion-custom-agents-source-2
+    relation: supports
+  key_metrics.2:
+  - source_id: notion-custom-agents-source-1
+    relation: supports
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: unverified
+    confidence_reason: Custom Agents spans many teams and workflows, so no single human-attention boundary
+      applies.
+    valid_at: '2026-04'
+  headline_metric:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Notion reported the agent count in its own engineering blog without independent
+      verification.
+    valid_at: '2026-04'
+    reported_by: Notion
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Notion reported the agent count in its own engineering blog.

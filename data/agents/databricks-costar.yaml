@@ -1,0 +1,96 @@
+id: databricks-costar
+company: Databricks
+agent_name: coSTAR and internal engineering agents
+approach_type: agent-system
+deployment_stage: scaled
+year: 2025
+first_public_evidence:
+  date: '2025'
+  source_id: databricks-costar-source-1
+last_reviewed_at: '2026-08-13'
+status: internal
+domains:
+- coding
+- code-review
+- on-call
+autonomy: unknown
+operating_models:
+- scope: 'internal engineering workflows → agent-produced changes'
+  attention_boundary: unknown
+rubric:
+  invocation:
+  - interactive
+  - background
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: Databricks' internal engineering agents and the coSTAR framework that ships and tests them.
+  Databricks uses internal agents as daily coding drivers on its own codebase, including code-review and
+  on-call support work. coSTAR tests agents on a private benchmark built from Databricks' multi-million line
+  codebase before they ship. Omnigent is a separate shipping open-source product and is excluded from this
+  record.
+architecture:
+  harness: coSTAR framework for shipping and testing internal agents
+  knowledge: Private benchmark built from the Databricks multi-million line codebase
+  interfaces: []
+key_metrics:
+- Internal agents serve as daily coding drivers on the Databricks codebase
+- Private benchmark built from a multi-million line codebase
+sources:
+- id: databricks-costar-source-1
+  title: 'coSTAR: how we ship AI agents at Databricks fast'
+  url: https://www.databricks.com/blog/costar-how-we-ship-ai-agents-databricks-fast-without-breaking-things
+  canonical_url: https://www.databricks.com/blog/costar-how-we-ship-ai-agents-databricks-fast-without-breaking-things
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+- id: databricks-costar-source-2
+  title: Benchmarking coding agents on a multi-million line codebase
+  url: https://www.databricks.com/blog/benchmarking-coding-agents-databricks-multi-million-line-codebase
+  canonical_url: https://www.databricks.com/blog/benchmarking-coding-agents-databricks-multi-million-line-codebase
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+evidence:
+  operating_models.0:
+  - source_id: databricks-costar-source-1
+    relation: supports
+  summary:
+  - source_id: databricks-costar-source-1
+    relation: supports
+  - source_id: databricks-costar-source-2
+    relation: supports
+  architecture.harness:
+  - source_id: databricks-costar-source-1
+    relation: supports
+  architecture.knowledge:
+  - source_id: databricks-costar-source-2
+    relation: supports
+  key_metrics.0:
+  - source_id: databricks-costar-source-1
+    relation: supports
+  key_metrics.1:
+  - source_id: databricks-costar-source-2
+    relation: supports
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: unverified
+    confidence_reason: The record covers several internal engineering agents with different workflows, so no
+      single human-attention boundary applies.
+    valid_at: '2025'
+  key_metrics.0:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: Databricks described internal use in its own engineering blog.
+  key_metrics.1:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: Databricks described the benchmark in its own engineering blog.

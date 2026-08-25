@@ -1,0 +1,57 @@
+id: atlassian-dot
+company: Atlassian
+agent_name: DOT (Design Org Teammate)
+approach_type: task-agent
+deployment_stage: deployed
+year: 2026
+first_public_evidence:
+  date: '2026'
+  source_id: atlassian-dot-source-1
+last_reviewed_at: '2026-08-13'
+status: internal
+domains:
+- support
+autonomy: assistive
+operating_models:
+- scope: 'tooling question → help-channel answer'
+  attention_boundary: unknown
+rubric:
+  invocation:
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: Atlassian's internal agent for its Design Operations team. DOT answers common tooling questions in the
+  team help channel using knowledge the team stored in Confluence. The Design Ops team built it in Rovo Studio,
+  Atlassian's no-code agent builder.
+architecture:
+  knowledge: Team knowledge stored in Confluence
+  interfaces: []
+sources:
+- id: atlassian-dot-source-1
+  title: How Design Ops built an AI teammate with no engineering lift
+  url: https://www.atlassian.com/blog/ai-at-work/how-design-ops-built-an-ai-teammate-with-no-engineering-lift
+  canonical_url: https://www.atlassian.com/blog/ai-at-work/how-design-ops-built-an-ai-teammate-with-no-engineering-lift
+  kind: corporate-article
+  provenance_class: first-party
+  role: evidence
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+evidence:
+  operating_models.0:
+  - source_id: atlassian-dot-source-1
+    relation: supports
+  summary:
+  - source_id: atlassian-dot-source-1
+    relation: supports
+  architecture.knowledge:
+  - source_id: atlassian-dot-source-1
+    relation: supports
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: unverified
+    confidence_reason: The public evidence does not document where human attention returns in the
+      question-and-answer flow.
+    valid_at: '2026'

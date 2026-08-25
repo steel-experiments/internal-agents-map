@@ -1,0 +1,88 @@
+id: plaid-ai-annotator
+company: Plaid
+agent_name: AI Annotator
+approach_type: task-agent
+deployment_stage: scaled
+year: 2025
+first_public_evidence:
+  date: '2025-06'
+  source_id: plaid-ai-annotator-source-1
+last_reviewed_at: '2026-08-13'
+status: internal
+domains:
+- data
+autonomy: drafts-reviewed
+operating_models:
+- scope: 'raw transactions → labeled training data'
+  attention_boundary: work-product-review
+rubric:
+  invocation:
+  - background
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: Plaid's internal labeling agent for its own model training. AI Annotator automates large-scale
+  labeling of anonymized transaction data, with human oversight on the labeled output. Plaid reports greater
+  than 95% human alignment at a lower cost and time than manual labeling.
+headline_metric: Greater than 95% human alignment at lower cost and time than manual labeling
+architecture:
+  knowledge: Anonymized Plaid transaction data
+  interfaces: []
+key_metrics:
+- Greater than 95% human alignment with labeled data
+- Lower cost and time than manual labeling
+sources:
+- id: plaid-ai-annotator-source-1
+  title: AI agents at Plaid (June 2025)
+  url: https://plaid.com/blog/ai-agents-june-2025/
+  canonical_url: https://plaid.com/blog/ai-agents-june-2025/
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  published_at: '2025-06'
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+evidence:
+  operating_models.0:
+  - source_id: plaid-ai-annotator-source-1
+    relation: supports
+  summary:
+  - source_id: plaid-ai-annotator-source-1
+    relation: supports
+  headline_metric:
+  - source_id: plaid-ai-annotator-source-1
+    relation: supports
+  architecture.knowledge:
+  - source_id: plaid-ai-annotator-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: plaid-ai-annotator-source-1
+    relation: supports
+  key_metrics.1:
+  - source_id: plaid-ai-annotator-source-1
+    relation: supports
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The reported greater than 95% human alignment implies that people review the labeled
+      output.
+    valid_at: '2025-06'
+  headline_metric:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Plaid reported the figure in its own blog without independent verification.
+    valid_at: '2025-06'
+    reported_by: Plaid
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Plaid reported the figure in its own blog.
+  key_metrics.1:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Plaid reported the figure in its own blog.

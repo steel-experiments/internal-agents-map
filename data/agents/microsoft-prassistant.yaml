@@ -1,0 +1,98 @@
+id: microsoft-prassistant
+company: Microsoft
+agent_name: PRAssistant
+approach_type: background-agent
+deployment_stage: scaled
+year: 2025
+first_public_evidence:
+  date: '2025-07'
+  source_id: microsoft-prassistant-source-1
+last_reviewed_at: '2026-08-13'
+status: internal
+domains:
+- code-review
+autonomy: drafts-reviewed
+operating_models:
+- scope: 'pull request → AI review comments'
+  attention_boundary: work-product-review
+rubric:
+  invocation:
+  - event-driven
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: Microsoft's internal AI code-review agent, built by the Developer Division Data and AI team. When an
+  engineer creates a pull request, PRAssistant joins as a reviewer and leaves comments like a human reviewer.
+  It is a distinct internal build that predates and later informed GitHub Copilot Pull Request Reviews.
+headline_metric: Reviews more than 90% of pull requests, over 600,000 reviews per month
+architecture:
+  interfaces:
+  - github
+key_metrics:
+- More than 90% of pull requests across the company
+- More than 600,000 reviews per month
+- About 5,000 repositories in early onboarding
+sources:
+- id: microsoft-prassistant-source-1
+  title: Enhancing code quality at scale with AI-powered code reviews
+  url: https://devblogs.microsoft.com/engineering-at-microsoft/enhancing-code-quality-at-scale-with-ai-powered-code-reviews/
+  canonical_url: https://devblogs.microsoft.com/engineering-at-microsoft/enhancing-code-quality-at-scale-with-ai-powered-code-reviews/
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  published_at: '2025-07-14'
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+evidence:
+  operating_models.0:
+  - source_id: microsoft-prassistant-source-1
+    relation: supports
+  summary:
+  - source_id: microsoft-prassistant-source-1
+    relation: supports
+  headline_metric:
+  - source_id: microsoft-prassistant-source-1
+    relation: supports
+  architecture.interfaces:
+  - source_id: microsoft-prassistant-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: microsoft-prassistant-source-1
+    relation: supports
+  key_metrics.1:
+  - source_id: microsoft-prassistant-source-1
+    relation: supports
+  key_metrics.2:
+  - source_id: microsoft-prassistant-source-1
+    relation: supports
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The engineering blog describes engineers acting on PRAssistant review comments, which
+      locates human attention at work-product review.
+    valid_at: '2025-07'
+  headline_metric:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Microsoft reported the figures in its own engineering blog without independent
+      verification.
+    valid_at: '2025-07'
+    reported_by: Microsoft
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Microsoft reported the figures in its own engineering blog.
+  key_metrics.1:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Microsoft reported the figures in its own engineering blog.
+  key_metrics.2:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Microsoft reported the figures in its own engineering blog.

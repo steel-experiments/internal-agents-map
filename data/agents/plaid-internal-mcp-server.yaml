@@ -1,0 +1,97 @@
+id: plaid-internal-mcp-server
+company: Plaid
+agent_name: Internal MCP server
+approach_type: supporting-pattern
+deployment_stage: scaled
+year: 2025
+first_public_evidence:
+  date: '2025'
+  source_id: plaid-internal-mcp-server-source-1
+last_reviewed_at: '2026-08-13'
+status: internal
+domains:
+- coding
+autonomy: unknown
+operating_models:
+- scope: 'engineer request → internal tool access'
+  attention_boundary: unknown
+rubric:
+  invocation:
+  - interactive
+  state: unknown
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: Plaid's central internal Model Context Protocol server. Plaid built it because third-party MCP
+  servers could not reach its internal data. The server integrates more than 20 tools and several internal
+  services such as Jira, application logs, and data schemas, behind Plaid's identity-aware proxy and
+  centralized authorization. Plaid reports that more than 80% of its engineers use AI clients connected to
+  it, with thousands of tool calls and dozens of agents built on it.
+headline_metric: More than 80% of engineers use it, with dozens of agents built on it
+architecture:
+  harness: Central internal MCP server that fronts vendor AI clients
+  tool_access: More than 20 tools and several internal services (Jira, logs, schemas)
+  credentials: Behind Plaid's identity-aware proxy and centralized authorization
+  interfaces: []
+key_metrics:
+- More than 80% of Plaid engineers use AI clients connected to it
+- Thousands of tool calls and dozens of agents built on it
+sources:
+- id: plaid-internal-mcp-server-source-1
+  title: The Plaid internal MCP server
+  url: https://engineering.plaid.com/the-plaid-internal-mcp-server-8eff08bb6bdb
+  canonical_url: https://engineering.plaid.com/the-plaid-internal-mcp-server-8eff08bb6bdb
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  accessed_at: '2026-08-13'
+  last_verified_at: '2026-08-13'
+evidence:
+  operating_models.0:
+  - source_id: plaid-internal-mcp-server-source-1
+    relation: supports
+  summary:
+  - source_id: plaid-internal-mcp-server-source-1
+    relation: supports
+  headline_metric:
+  - source_id: plaid-internal-mcp-server-source-1
+    relation: supports
+  architecture.harness:
+  - source_id: plaid-internal-mcp-server-source-1
+    relation: supports
+  architecture.tool_access:
+  - source_id: plaid-internal-mcp-server-source-1
+    relation: supports
+  architecture.credentials:
+  - source_id: plaid-internal-mcp-server-source-1
+    relation: supports
+  key_metrics.0:
+  - source_id: plaid-internal-mcp-server-source-1
+    relation: supports
+  key_metrics.1:
+  - source_id: plaid-internal-mcp-server-source-1
+    relation: supports
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: unverified
+    confidence_reason: The MCP server is a tool-access layer, not a workflow with a single human-attention
+      boundary.
+    valid_at: '2025'
+  headline_metric:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Plaid reported the figures in its own engineering blog without independent verification.
+    valid_at: '2025'
+    reported_by: Plaid
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Plaid reported the figures in its own engineering blog.
+  key_metrics.1:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Plaid reported the figures in its own engineering blog.
