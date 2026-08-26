@@ -1387,7 +1387,7 @@ Last reviewed: 2026-08-13.
 
 ## Ramp: Inspect
 
-> A background coding agent that closes the loop on verifying its own work; runs tests, reviews telemetry, queries feature flags, visually verifies the frontend; now also monitoring production and proposing fixes. <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1), [ramp-inspect-source-4](#ramp-inspect-source-4).</small>
+> A background coding agent that closes the loop on verifying its own work; runs tests, reviews telemetry, queries feature flags, visually verifies the frontend; now also monitoring production and proposing fixes; also a platform that hosts 200+ internal agents. <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1), [ramp-inspect-source-4](#ramp-inspect-source-4), [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
 
 | Field | Value |
 | --- | --- |
@@ -1401,8 +1401,8 @@ Last reviewed: 2026-08-13.
 | Invocation | background, event-driven, interactive |
 | State | unknown |
 | Identity | unknown |
-| Evidence | detailed-primary |
-| Headline metric | 60%+ of Ramp's merged PRs authored by Inspect (April 2026) <small>Sources: [ramp-inspect-source-2](#ramp-inspect-source-2).</small> |
+| Evidence | mixed |
+| Headline metric | 75% of Ramp's merged PRs raised by Inspect sessions (May 2026) <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small> |
 
 ### Operating model
 
@@ -1410,24 +1410,32 @@ Last reviewed: 2026-08-13.
 
 ### Architecture
 
-- Sandbox: Modal sandboxes; per-repo images rebuilt every 30 min from snapshots; warm-on-keystroke; a pool of warm sandboxes <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
-- Harness: OpenCode (server-first) as the agent runtime; a plugin blocks writes until sync completes; expanded into production monitoring and self-maintenance <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
+- Sandbox: Modal sandboxes; per-repo images rebuilt every 30 min from snapshots; warm-on-keystroke; a pool of warm sandboxes <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1), [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
+- Harness: OpenCode (server-first) as the agent runtime; a plugin blocks writes until sync completes; expanded into production monitoring and self-maintenance; Inspect itself is built with React/Vite, Cloudflare Durable Objects, SQLite, and the Cloudflare Agents SDK <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1), [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
 - Model: All frontier models, MCPs, custom tools, skills <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
 - Interfaces: slack, web, chrome-extension, github <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
-- Tool access: Wired into Sentry, Datadog, LaunchDarkly, Braintrust, GitHub, Slack, Buildkite; monitors production, triages issues, proposes fixes <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
-- Knowledge: Skills that encode how Ramp ships; repo images with the full dev env (Vite, Postgres, Temporal) <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
+- Tool access: Wired into Sentry, Datadog, LaunchDarkly, Braintrust, GitHub, Slack, Buildkite; monitors production, triages issues, proposes fixes; debugging queries a sanitized read-only production DB replica and Snowflake <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1), [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
+- Knowledge: Skills that encode how Ramp ships; repo images with the full dev env (Vite, Postgres, Redis, RabbitMQ, Temporal, Chromium, VS Code Server) <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1), [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
 - Credentials: GitHub auth per user; the sandbox pushes the branch, an API opens the PR with the user's token (no self-approval); production merges retain human review <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
 
 ### Primitives
 
 - Modal sandbox + snapshots: Pre-warmed full dev envs; fast cold start; effectively free to run <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
 - OpenCode runtime: Server-first agent with a typed SDK + plugin system; code is its own source of truth <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
-- Multiplayer sessions: Any number of people in one session; each change attributed to its author <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
+- Multiplayer sessions: Any number of people in one session; each change attributed to its author <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1), [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
 
 ### Reported metrics
 
-- 60%+ of merged PRs authored by Inspect (April 2026) <small>Sources: [ramp-inspect-source-2](#ramp-inspect-source-2).</small>
+- 60%+ of merged PRs authored by Inspect (April 2026) <small>Sources: [ramp-inspect-source-2](#ramp-inspect-source-2); Context: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
+- 75% of merged PRs raised by Inspect sessions (May 2026) <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
 - ~30% of merged PRs (frontend + backend) at launch <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
+- ~90% of PRs merged into the Inspect repo come from Inspect sessions (August 2026) <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
+- One million total Inspect sessions crossed in July 2026 <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
+- Under 5 seconds to spin up a fully provisioned remote dev environment <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
+- 200+ internal agents built on top of the Inspect platform (August 2026) <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
+- 150+ engineers have contributed to the Inspect codebase (August 2026) <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
+- 5.5-person Inspect team (four engineers, a director, and a part-time PM) <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
+- More than 80% of Inspect is written in Inspect sessions <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
 - Session speed limited only by model-provider time-to-first-token <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
 
 ### Catalog observations
@@ -1436,6 +1444,7 @@ Last reviewed: 2026-08-13.
 - Work in public spaces to create virality loops; let the product do the talking, don't mandate <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
 - Ramp argues that a fast background agent can add remote resources and concurrency to the same model <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
 - Move as much as possible into the image-build step so users never wait on setup <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
+- The v1 Chrome extension saw little adoption; the pivot to a centrally configured remote dev environment with a coding agent on top drove adoption <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
 
 ### Sources
 
@@ -1443,8 +1452,9 @@ Last reviewed: 2026-08-13.
 - <a id="ramp-inspect-source-2"></a>[Ramp x Linear (60%+ of merged PRs via Inspect)](https://linear.app/customers/ramp) (case-study; first-party; evidence)
 - <a id="ramp-inspect-source-3"></a>[Hacker News project discussion inspired by Ramp Inspect](https://news.ycombinator.com/item?id=48042123) (hn-thread; community; discovery)
 - <a id="ramp-inspect-source-4"></a>[Why We Built Our Own Background Agent (Inspect) (Ramp Builders URL)](https://builders.ramp.com/post/why-we-built-our-background-agent) (engineering-blog; first-party; evidence)
+- <a id="ramp-inspect-source-5"></a>[Why Ramp built its own in-house coding agent, Inspect](https://newsletter.pragmaticengineer.com/p/why-ramp-built-inspect) (news; independent-secondary; evidence)
 
-Last reviewed: 2026-08-12.
+Last reviewed: 2026-08-26.
 
 ---
 

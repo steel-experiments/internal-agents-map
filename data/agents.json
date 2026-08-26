@@ -1460,7 +1460,7 @@
         "date": "2026",
         "source_id": "ramp-inspect-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-26",
       "status": "internal",
       "domains": [
         "coding",
@@ -1483,7 +1483,7 @@
         ],
         "state": "unknown",
         "identity": "unknown",
-        "evidence_strength": "detailed-primary"
+        "evidence_strength": "mixed"
       },
       "claim_ids": [
         "ramp-inspect--summary",
@@ -1501,17 +1501,27 @@
         "ramp-inspect--key-metrics-0",
         "ramp-inspect--key-metrics-1",
         "ramp-inspect--key-metrics-2",
+        "ramp-inspect--key-metrics-3",
+        "ramp-inspect--key-metrics-4",
+        "ramp-inspect--key-metrics-5",
+        "ramp-inspect--key-metrics-6",
+        "ramp-inspect--key-metrics-7",
+        "ramp-inspect--key-metrics-8",
+        "ramp-inspect--key-metrics-9",
+        "ramp-inspect--key-metrics-10",
         "ramp-inspect--lessons-learned-0",
         "ramp-inspect--lessons-learned-1",
         "ramp-inspect--lessons-learned-2",
         "ramp-inspect--lessons-learned-3",
+        "ramp-inspect--lessons-learned-4",
         "ramp-inspect--operating-models-0"
       ],
       "source_ids": [
         "ramp-inspect-source-1",
         "ramp-inspect-source-2",
         "ramp-inspect-source-3",
-        "ramp-inspect-source-4"
+        "ramp-inspect-source-4",
+        "ramp-inspect-source-5"
       ],
       "interfaces": [
         "slack",
@@ -8183,7 +8193,7 @@
       "id": "ramp-inspect--summary",
       "approach_id": "ramp-inspect",
       "field": "summary",
-      "text": "A background coding agent that closes the loop on verifying its own work; runs tests, reviews telemetry, queries feature flags, visually verifies the frontend; now also monitoring production and proposing fixes.",
+      "text": "A background coding agent that closes the loop on verifying its own work; runs tests, reviews telemetry, queries feature flags, visually verifies the frontend; now also monitoring production and proposing fixes; also a platform that hosts 200+ internal agents.",
       "kind": "fact",
       "provenance": "reported",
       "confidence": "high",
@@ -8197,6 +8207,11 @@
         {
           "source_id": "ramp-inspect-source-4",
           "relation": "supports"
+        },
+        {
+          "source_id": "ramp-inspect-source-5",
+          "relation": "supports",
+          "locator": "What is Inspect? section"
         }
       ]
     },
@@ -8204,16 +8219,17 @@
       "id": "ramp-inspect--headline-metric",
       "approach_id": "ramp-inspect",
       "field": "headline_metric",
-      "text": "60%+ of Ramp's merged PRs authored by Inspect (April 2026)",
+      "text": "75% of Ramp's merged PRs raised by Inspect sessions (May 2026)",
       "kind": "metric",
       "provenance": "reported",
-      "confidence": "high",
-      "confidence_reason": "A linked first-party source states the claim.",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "ramp-inspect-source-2",
-          "relation": "supports"
+          "source_id": "ramp-inspect-source-5",
+          "relation": "supports",
+          "locator": "History of adoption numbers"
         }
       ],
       "reported_by": "Ramp"
@@ -8232,6 +8248,11 @@
         {
           "source_id": "ramp-inspect-source-1",
           "relation": "supports"
+        },
+        {
+          "source_id": "ramp-inspect-source-5",
+          "relation": "supports",
+          "locator": "Tech stack and architecture section"
         }
       ]
     },
@@ -8239,7 +8260,7 @@
       "id": "ramp-inspect--architecture-harness",
       "approach_id": "ramp-inspect",
       "field": "architecture.harness",
-      "text": "OpenCode (server-first) as the agent runtime; a plugin blocks writes until sync completes; expanded into production monitoring and self-maintenance",
+      "text": "OpenCode (server-first) as the agent runtime; a plugin blocks writes until sync completes; expanded into production monitoring and self-maintenance; Inspect itself is built with React/Vite, Cloudflare Durable Objects, SQLite, and the Cloudflare Agents SDK",
       "kind": "fact",
       "provenance": "reported",
       "confidence": "high",
@@ -8249,6 +8270,11 @@
         {
           "source_id": "ramp-inspect-source-1",
           "relation": "supports"
+        },
+        {
+          "source_id": "ramp-inspect-source-5",
+          "relation": "supports",
+          "locator": "Tech stack and architecture section"
         }
       ]
     },
@@ -8290,7 +8316,7 @@
       "id": "ramp-inspect--architecture-tool-access",
       "approach_id": "ramp-inspect",
       "field": "architecture.tool_access",
-      "text": "Wired into Sentry, Datadog, LaunchDarkly, Braintrust, GitHub, Slack, Buildkite; monitors production, triages issues, proposes fixes",
+      "text": "Wired into Sentry, Datadog, LaunchDarkly, Braintrust, GitHub, Slack, Buildkite; monitors production, triages issues, proposes fixes; debugging queries a sanitized read-only production DB replica and Snowflake",
       "kind": "fact",
       "provenance": "reported",
       "confidence": "high",
@@ -8300,6 +8326,11 @@
         {
           "source_id": "ramp-inspect-source-1",
           "relation": "supports"
+        },
+        {
+          "source_id": "ramp-inspect-source-5",
+          "relation": "supports",
+          "locator": "Debugging with Inspect section"
         }
       ]
     },
@@ -8307,7 +8338,7 @@
       "id": "ramp-inspect--architecture-knowledge",
       "approach_id": "ramp-inspect",
       "field": "architecture.knowledge",
-      "text": "Skills that encode how Ramp ships; repo images with the full dev env (Vite, Postgres, Temporal)",
+      "text": "Skills that encode how Ramp ships; repo images with the full dev env (Vite, Postgres, Redis, RabbitMQ, Temporal, Chromium, VS Code Server)",
       "kind": "fact",
       "provenance": "reported",
       "confidence": "high",
@@ -8317,6 +8348,11 @@
         {
           "source_id": "ramp-inspect-source-1",
           "relation": "supports"
+        },
+        {
+          "source_id": "ramp-inspect-source-5",
+          "relation": "supports",
+          "locator": "Inside the sandbox section"
         }
       ]
     },
@@ -8385,6 +8421,11 @@
         {
           "source_id": "ramp-inspect-source-1",
           "relation": "supports"
+        },
+        {
+          "source_id": "ramp-inspect-source-5",
+          "relation": "supports",
+          "locator": "Collaboration & feedback section"
         }
       ]
     },
@@ -8402,6 +8443,11 @@
         {
           "source_id": "ramp-inspect-source-2",
           "relation": "supports"
+        },
+        {
+          "source_id": "ramp-inspect-source-5",
+          "relation": "contextualizes",
+          "locator": "History of adoption numbers"
         }
       ],
       "reported_by": "Ramp"
@@ -8410,6 +8456,25 @@
       "id": "ramp-inspect--key-metrics-1",
       "approach_id": "ramp-inspect",
       "field": "key_metrics.1",
+      "text": "75% of merged PRs raised by Inspect sessions (May 2026)",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "ramp-inspect-source-5",
+          "relation": "supports",
+          "locator": "History of adoption numbers"
+        }
+      ],
+      "reported_by": "Ramp"
+    },
+    {
+      "id": "ramp-inspect--key-metrics-2",
+      "approach_id": "ramp-inspect",
+      "field": "key_metrics.2",
       "text": "~30% of merged PRs (frontend + backend) at launch",
       "kind": "metric",
       "provenance": "reported",
@@ -8425,9 +8490,142 @@
       "reported_by": "Ramp"
     },
     {
-      "id": "ramp-inspect--key-metrics-2",
+      "id": "ramp-inspect--key-metrics-3",
       "approach_id": "ramp-inspect",
-      "field": "key_metrics.2",
+      "field": "key_metrics.3",
+      "text": "~90% of PRs merged into the Inspect repo come from Inspect sessions (August 2026)",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "ramp-inspect-source-5",
+          "relation": "supports",
+          "locator": "Adoption numbers today"
+        }
+      ],
+      "reported_by": "Ramp"
+    },
+    {
+      "id": "ramp-inspect--key-metrics-4",
+      "approach_id": "ramp-inspect",
+      "field": "key_metrics.4",
+      "text": "One million total Inspect sessions crossed in July 2026",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "ramp-inspect-source-5",
+          "relation": "supports",
+          "locator": "One million Inspect sessions milestone"
+        }
+      ],
+      "reported_by": "Ramp"
+    },
+    {
+      "id": "ramp-inspect--key-metrics-5",
+      "approach_id": "ramp-inspect",
+      "field": "key_metrics.5",
+      "text": "Under 5 seconds to spin up a fully provisioned remote dev environment",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "ramp-inspect-source-5",
+          "relation": "supports",
+          "locator": "Adoption numbers today"
+        }
+      ],
+      "reported_by": "Ramp"
+    },
+    {
+      "id": "ramp-inspect--key-metrics-6",
+      "approach_id": "ramp-inspect",
+      "field": "key_metrics.6",
+      "text": "200+ internal agents built on top of the Inspect platform (August 2026)",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "ramp-inspect-source-5",
+          "relation": "supports",
+          "locator": "Adoption numbers today"
+        }
+      ],
+      "reported_by": "Ramp"
+    },
+    {
+      "id": "ramp-inspect--key-metrics-7",
+      "approach_id": "ramp-inspect",
+      "field": "key_metrics.7",
+      "text": "150+ engineers have contributed to the Inspect codebase (August 2026)",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "ramp-inspect-source-5",
+          "relation": "supports",
+          "locator": "Adoption numbers today"
+        }
+      ],
+      "reported_by": "Ramp"
+    },
+    {
+      "id": "ramp-inspect--key-metrics-8",
+      "approach_id": "ramp-inspect",
+      "field": "key_metrics.8",
+      "text": "5.5-person Inspect team (four engineers, a director, and a part-time PM)",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "ramp-inspect-source-5",
+          "relation": "supports",
+          "locator": "Adoption numbers today"
+        }
+      ],
+      "reported_by": "Ramp"
+    },
+    {
+      "id": "ramp-inspect--key-metrics-9",
+      "approach_id": "ramp-inspect",
+      "field": "key_metrics.9",
+      "text": "More than 80% of Inspect is written in Inspect sessions",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "ramp-inspect-source-5",
+          "relation": "supports",
+          "locator": "Using Inspect to build Inspect"
+        }
+      ],
+      "reported_by": "Ramp"
+    },
+    {
+      "id": "ramp-inspect--key-metrics-10",
+      "approach_id": "ramp-inspect",
+      "field": "key_metrics.10",
       "text": "Session speed limited only by model-provider time-to-first-token",
       "kind": "metric",
       "provenance": "reported",
@@ -8507,6 +8705,24 @@
         {
           "source_id": "ramp-inspect-source-1",
           "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "ramp-inspect--lessons-learned-4",
+      "approach_id": "ramp-inspect",
+      "field": "lessons_learned.4",
+      "text": "The v1 Chrome extension saw little adoption; the pivot to a centrally configured remote dev environment with a coding agent on top drove adoption",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The source reports that v1 saw little adoption and that the November 2025 pivot to a remote dev environment preceded rapid adoption.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "ramp-inspect-source-5",
+          "relation": "supports",
+          "locator": "Why build your own background coding agent? section"
         }
       ]
     },
@@ -13024,6 +13240,25 @@
       "duplicate_of": "ramp-inspect-source-1",
       "accessed_at": "2026-08-13",
       "last_verified_at": "2026-08-13",
+      "approach_id": "ramp-inspect"
+    },
+    {
+      "id": "ramp-inspect-source-5",
+      "title": "Why Ramp built its own in-house coding agent, Inspect",
+      "url": "https://newsletter.pragmaticengineer.com/p/why-ramp-built-inspect",
+      "canonical_url": "https://newsletter.pragmaticengineer.com/p/why-ramp-built-inspect",
+      "kind": "news",
+      "provenance_class": "independent-secondary",
+      "publisher": "The Pragmatic Engineer",
+      "authors": [
+        "Gergely Orosz",
+        "Jessica Salmon",
+        "Ivan Klaric"
+      ],
+      "published_at": "2026-08-25",
+      "accessed_at": "2026-08-26",
+      "last_verified_at": "2026-08-26",
+      "role": "evidence",
       "approach_id": "ramp-inspect"
     },
     {

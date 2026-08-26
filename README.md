@@ -25,7 +25,7 @@ undocumented details stay unknown.
 
 <!-- BEGIN OVERVIEW -->
 
-**Current map: 40 approaches across 35 organizations, backed by 86 sources and 554 evidence-linked claims.**
+**Current map: 40 approaches across 35 organizations, backed by 87 sources and 563 evidence-linked claims.**
 
 ## Overview
 

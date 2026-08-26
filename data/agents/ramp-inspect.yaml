@@ -7,7 +7,7 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: ramp-inspect-source-1
-last_reviewed_at: '2026-08-12'
+last_reviewed_at: '2026-08-26'
 status: internal
 domains:
 - coding
@@ -24,15 +24,17 @@ rubric:
   - interactive
   state: unknown
   identity: unknown
-  evidence_strength: detailed-primary
+  evidence_strength: mixed
 summary: A background coding agent that closes the loop on verifying its own work; runs tests, reviews telemetry,
-  queries feature flags, visually verifies the frontend; now also monitoring production and proposing fixes.
-headline_metric: 60%+ of Ramp's merged PRs authored by Inspect (April 2026)
+  queries feature flags, visually verifies the frontend; now also monitoring production and proposing fixes;
+  also a platform that hosts 200+ internal agents.
+headline_metric: 75% of Ramp's merged PRs raised by Inspect sessions (May 2026)
 architecture:
   sandbox: Modal sandboxes; per-repo images rebuilt every 30 min from snapshots; warm-on-keystroke; a pool of warm
     sandboxes
   harness: OpenCode (server-first) as the agent runtime; a plugin blocks writes until sync completes; expanded into
-    production monitoring and self-maintenance
+    production monitoring and self-maintenance; Inspect itself is built with React/Vite, Cloudflare Durable
+    Objects, SQLite, and the Cloudflare Agents SDK
   model: All frontier models, MCPs, custom tools, skills
   interfaces:
   - slack
@@ -40,8 +42,9 @@ architecture:
   - chrome-extension
   - github
   tool_access: Wired into Sentry, Datadog, LaunchDarkly, Braintrust, GitHub, Slack, Buildkite; monitors production,
-    triages issues, proposes fixes
-  knowledge: Skills that encode how Ramp ships; repo images with the full dev env (Vite, Postgres, Temporal)
+    triages issues, proposes fixes; debugging queries a sanitized read-only production DB replica and Snowflake
+  knowledge: Skills that encode how Ramp ships; repo images with the full dev env (Vite, Postgres, Redis,
+    RabbitMQ, Temporal, Chromium, VS Code Server)
   credentials: GitHub auth per user; the sandbox pushes the branch, an API opens the PR with the user's token (no
     self-approval); production merges retain human review
 primitives:
@@ -53,13 +56,23 @@ primitives:
   desc: Any number of people in one session; each change attributed to its author
 key_metrics:
 - 60%+ of merged PRs authored by Inspect (April 2026)
+- 75% of merged PRs raised by Inspect sessions (May 2026)
 - ~30% of merged PRs (frontend + backend) at launch
+- ~90% of PRs merged into the Inspect repo come from Inspect sessions (August 2026)
+- One million total Inspect sessions crossed in July 2026
+- Under 5 seconds to spin up a fully provisioned remote dev environment
+- 200+ internal agents built on top of the Inspect platform (August 2026)
+- 150+ engineers have contributed to the Inspect codebase (August 2026)
+- 5.5-person Inspect team (four engineers, a director, and a part-time PM)
+- More than 80% of Inspect is written in Inspect sessions
 - Session speed limited only by model-provider time-to-first-token
 lessons_learned:
 - Own the tooling; it only has to work on your code, which lets you build something more powerful than off-the-shelf
 - Work in public spaces to create virality loops; let the product do the talking, don't mandate
 - Ramp argues that a fast background agent can add remote resources and concurrency to the same model
 - Move as much as possible into the image-build step so users never wait on setup
+- The v1 Chrome extension saw little adoption; the pivot to a centrally configured remote dev environment with a
+  coding agent on top drove adoption
 sources:
 - id: ramp-inspect-source-1
   title: Why We Built Our Own Background Agent (Inspect)
@@ -97,6 +110,20 @@ sources:
   duplicate_of: ramp-inspect-source-1
   accessed_at: '2026-08-13'
   last_verified_at: '2026-08-13'
+- id: ramp-inspect-source-5
+  title: Why Ramp built its own in-house coding agent, Inspect
+  url: https://newsletter.pragmaticengineer.com/p/why-ramp-built-inspect
+  canonical_url: https://newsletter.pragmaticengineer.com/p/why-ramp-built-inspect
+  kind: news
+  provenance_class: independent-secondary
+  publisher: The Pragmatic Engineer
+  authors:
+  - Gergely Orosz
+  - Jessica Salmon
+  - Ivan Klaric
+  published_at: '2026-08-25'
+  accessed_at: '2026-08-26'
+  last_verified_at: '2026-08-26'
 evidence:
   operating_models.0:
   - source_id: ramp-inspect-source-1
@@ -106,24 +133,40 @@ evidence:
     relation: supports
   - source_id: ramp-inspect-source-4
     relation: supports
-  headline_metric:
-  - source_id: ramp-inspect-source-2
+  - source_id: ramp-inspect-source-5
     relation: supports
+    locator: "What is Inspect? section"
+  headline_metric:
+  - source_id: ramp-inspect-source-5
+    relation: supports
+    locator: "History of adoption numbers"
   architecture.sandbox:
   - source_id: ramp-inspect-source-1
     relation: supports
+  - source_id: ramp-inspect-source-5
+    relation: supports
+    locator: "Tech stack and architecture section"
   architecture.harness:
   - source_id: ramp-inspect-source-1
     relation: supports
+  - source_id: ramp-inspect-source-5
+    relation: supports
+    locator: "Tech stack and architecture section"
   architecture.model:
   - source_id: ramp-inspect-source-1
     relation: supports
   architecture.tool_access:
   - source_id: ramp-inspect-source-1
     relation: supports
+  - source_id: ramp-inspect-source-5
+    relation: supports
+    locator: "Debugging with Inspect section"
   architecture.knowledge:
   - source_id: ramp-inspect-source-1
     relation: supports
+  - source_id: ramp-inspect-source-5
+    relation: supports
+    locator: "Inside the sandbox section"
   architecture.credentials:
   - source_id: ramp-inspect-source-1
     relation: supports
@@ -136,13 +179,51 @@ evidence:
   primitives.2:
   - source_id: ramp-inspect-source-1
     relation: supports
+  - source_id: ramp-inspect-source-5
+    relation: supports
+    locator: "Collaboration & feedback section"
   key_metrics.0:
   - source_id: ramp-inspect-source-2
     relation: supports
+  - source_id: ramp-inspect-source-5
+    relation: contextualizes
+    locator: "History of adoption numbers"
   key_metrics.1:
+  - source_id: ramp-inspect-source-5
+    relation: supports
+    locator: "History of adoption numbers"
+  key_metrics.2:
   - source_id: ramp-inspect-source-1
     relation: supports
-  key_metrics.2:
+  key_metrics.3:
+  - source_id: ramp-inspect-source-5
+    relation: supports
+    locator: "Adoption numbers today"
+  key_metrics.4:
+  - source_id: ramp-inspect-source-5
+    relation: supports
+    locator: "One million Inspect sessions milestone"
+  key_metrics.5:
+  - source_id: ramp-inspect-source-5
+    relation: supports
+    locator: "Adoption numbers today"
+  key_metrics.6:
+  - source_id: ramp-inspect-source-5
+    relation: supports
+    locator: "Adoption numbers today"
+  key_metrics.7:
+  - source_id: ramp-inspect-source-5
+    relation: supports
+    locator: "Adoption numbers today"
+  key_metrics.8:
+  - source_id: ramp-inspect-source-5
+    relation: supports
+    locator: "Adoption numbers today"
+  key_metrics.9:
+  - source_id: ramp-inspect-source-5
+    relation: supports
+    locator: "Using Inspect to build Inspect"
+  key_metrics.10:
   - source_id: ramp-inspect-source-1
     relation: supports
   lessons_learned.0:
@@ -157,6 +238,10 @@ evidence:
   lessons_learned.3:
   - source_id: ramp-inspect-source-1
     relation: supports
+  lessons_learned.4:
+  - source_id: ramp-inspect-source-5
+    relation: supports
+    locator: "Why build your own background coding agent? section"
   architecture.interfaces:
   - source_id: ramp-inspect-source-1
     relation: supports
@@ -187,3 +272,9 @@ claim_metadata:
     provenance: catalog-judgment
     confidence: medium
     confidence_reason: The catalog derives this observation from the linked sources.
+  lessons_learned.4:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The source reports that v1 saw little adoption and that the November 2025 pivot to a
+      remote dev environment preceded rapid adoption.
