@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "hubspot-sidekick-source-2",
+  "original_url": "https://product.hubspot.com/blog/cloud-coding-agents-at-hubspot",
+  "final_url": "https://product.hubspot.com/blog/cloud-coding-agents-at-hubspot",
+  "captured_at": "2026-08-31T17:43:18Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/hubspot-sidekick-source-2/content.md",
+      "sha256": "sha256:33f147cb1f3574a133c48933b3f34dd167c27a61164afcf7a1d1c2bec1ed4241",
+      "bytes": 14509
+    }
+  }
+}

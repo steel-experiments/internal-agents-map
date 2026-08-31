@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "posthog-stamphog-source-2",
+  "original_url": "https://posthog.com/blog/10k-prs-a-month",
+  "final_url": "https://posthog.com/blog/10k-prs-a-month",
+  "captured_at": "2026-08-31T17:46:04Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/posthog-stamphog-source-2/content.md",
+      "sha256": "sha256:cd5dcde3b2e17a10a8d5ac8de33dbc3ef9ae92ec6cb438163dbe9c9d8fe4d79c",
+      "bytes": 14035
+    }
+  }
+}

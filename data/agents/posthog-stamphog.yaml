@@ -7,7 +7,7 @@ year: 2026
 first_public_evidence:
   date: '2026-07-09'
   source_id: posthog-stamphog-source-1
-last_reviewed_at: '2026-08-13'
+last_reviewed_at: '2026-08-31'
 status: open-sourced
 domains:
 - code-review
@@ -68,7 +68,9 @@ sources:
   role: evidence
   published_at: '2026-07-09'
   accessed_at: '2026-08-13'
-  last_verified_at: '2026-08-13'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/posthog-stamphog-source-1/metadata.json
 - id: posthog-stamphog-source-2
   title: '10,000 PRs a month is easy: How devex is evolving at PostHog'
   url: https://posthog.com/blog/10k-prs-a-month
@@ -80,7 +82,9 @@ sources:
   - Paul D'Ambra
   published_at: '2026-07-28'
   accessed_at: '2026-08-13'
-  last_verified_at: '2026-08-13'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/posthog-stamphog-source-2/metadata.json
 - id: posthog-stamphog-source-3
   title: StampHog PR approval agent source code and documentation
   url: https://github.com/PostHog/posthog/tree/988c9031bb93c74bafcdfb670c01497c79a4f644/tools/pr-approval-agent
@@ -89,7 +93,9 @@ sources:
   provenance_class: first-party
   role: evidence
   accessed_at: '2026-08-13'
-  last_verified_at: '2026-08-13'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/posthog-stamphog-source-3/metadata.json
 evidence:
   operating_models.0:
   - source_id: posthog-stamphog-source-1

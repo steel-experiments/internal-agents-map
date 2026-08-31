@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "plaid-ai-annotator-source-1",
+  "original_url": "https://plaid.com/blog/ai-agents-june-2025/",
+  "final_url": "https://plaid.com/blog/ai-agents-june-2025/",
+  "captured_at": "2026-08-31T17:45:23Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/plaid-ai-annotator-source-1/content.md",
+      "sha256": "sha256:452c6221596bb7d5dcb8392e5197623483ab51c606345a41d6fae741cb051c30",
+      "bytes": 5190
+    }
+  }
+}

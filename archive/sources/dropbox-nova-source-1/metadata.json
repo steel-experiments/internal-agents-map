@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "dropbox-nova-source-1",
+  "original_url": "https://dropbox.tech/machine-learning/introducing-nova-our-internal-platform-for-coding-agents",
+  "final_url": "https://dropbox.tech/machine-learning/introducing-nova-our-internal-platform-for-coding-agents",
+  "captured_at": "2026-08-31T17:42:18Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/dropbox-nova-source-1/content.md",
+      "sha256": "sha256:e6b443ee09b9dbe68c0c10aab951ba8f75640d0202f0be4e95fca23f9d3d3593",
+      "bytes": 13723
+    }
+  }
+}

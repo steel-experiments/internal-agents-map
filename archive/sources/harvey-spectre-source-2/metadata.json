@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "harvey-spectre-source-2",
+  "original_url": "https://www.harvey.ai/blog/building-an-agentic-security-operations-center",
+  "final_url": "https://www.harvey.ai/blog/building-an-agentic-security-operations-center",
+  "captured_at": "2026-08-31T17:43:00Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/harvey-spectre-source-2/content.md",
+      "sha256": "sha256:3b8d8ad6234571e9b71c813dce98dc5dd1b990054a16a9aa4f57e7e507b93daf",
+      "bytes": 17193
+    }
+  }
+}

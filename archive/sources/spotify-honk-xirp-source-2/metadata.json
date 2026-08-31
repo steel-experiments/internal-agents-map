@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "spotify-honk-xirp-source-2",
+  "original_url": "https://engineering.atspotify.com/2026/6/code-with-claude-coding-is-no-longer-the-constraint",
+  "final_url": "https://engineering.atspotify.com/2026/6/code-with-claude-coding-is-no-longer-the-constraint",
+  "captured_at": "2026-08-31T17:49:36Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/spotify-honk-xirp-source-2/content.md",
+      "sha256": "sha256:7f48ce4eb8800a4c556d293c56b18bd6c118610b6271e6f09b2d12ea9fbc6aa9",
+      "bytes": 11785
+    }
+  }
+}

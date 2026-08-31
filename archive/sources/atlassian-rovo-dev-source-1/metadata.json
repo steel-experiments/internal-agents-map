@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "atlassian-rovo-dev-source-1",
+  "original_url": "https://www.atlassian.com/blog/atlassian-engineering/improving-coding-agent-experience",
+  "final_url": "https://www.atlassian.com/blog/atlassian-engineering/improving-coding-agent-experience",
+  "captured_at": "2026-08-31T17:39:24Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/atlassian-rovo-dev-source-1/content.md",
+      "sha256": "sha256:a468f0d31e7772c927f2d53ba3086ecd78871bc3ec0a73ac332278804eb6b1da",
+      "bytes": 10923
+    }
+  }
+}

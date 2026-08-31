@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "stripe-minions-source-3",
+  "original_url": "https://news.ycombinator.com/item?id=47086557",
+  "final_url": "https://news.ycombinator.com/item?id=47086557",
+  "captured_at": "2026-08-31T17:50:06Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/stripe-minions-source-3/content.md",
+      "sha256": "sha256:a4fae36da63e8bc8ae62adc7337948c75bf9a3a7f6c1a891096d5601c9cf1c5f",
+      "bytes": 23956
+    }
+  }
+}

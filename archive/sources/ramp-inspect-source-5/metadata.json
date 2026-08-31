@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "ramp-inspect-source-5",
+  "original_url": "https://newsletter.pragmaticengineer.com/p/why-ramp-built-inspect",
+  "final_url": "https://newsletter.pragmaticengineer.com/p/why-ramp-built-inspect",
+  "captured_at": "2026-08-31T17:46:58Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/ramp-inspect-source-5/content.md",
+      "sha256": "sha256:9cd01f7e55bbca8a2bf939c029b5ee976dbe65f84959a141c717214109bbc83f",
+      "bytes": 15151
+    }
+  }
+}

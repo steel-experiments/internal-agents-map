@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "coinbase-forge-mux-source-1",
+  "original_url": "https://www.coinbase.com/de/blog/coding-had-a-concurrency-problem-how-mux-helped-solve-it",
+  "final_url": "https://www.coinbase.com/de/blog/coding-had-a-concurrency-problem-how-mux-helped-solve-it",
+  "captured_at": "2026-08-31T17:41:07Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/coinbase-forge-mux-source-1/content.md",
+      "sha256": "sha256:741948a748f28315d02d2fe5e5d6e2816d755179592e2cbf5c6b57be6daf8850",
+      "bytes": 6767
+    }
+  }
+}

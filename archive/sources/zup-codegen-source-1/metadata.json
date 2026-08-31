@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "zup-codegen-source-1",
+  "original_url": "https://arxiv.org/abs/2604.09805",
+  "final_url": "https://arxiv.org/abs/2604.09805",
+  "captured_at": "2026-08-31T17:52:42Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/zup-codegen-source-1/content.md",
+      "sha256": "sha256:738c9131fd4b99581f618b9dfe9f4c289f4b890db0eea36f58d200d0211f7eab",
+      "bytes": 3944
+    }
+  }
+}

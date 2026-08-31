@@ -10,7 +10,7 @@ year: 2024
 first_public_evidence:
   date: '2024-11'
   source_id: atlassian-rovo-dev-source-3
-last_reviewed_at: '2026-08-13'
+last_reviewed_at: '2026-08-31'
 status: commercialized
 domains:
 - coding
@@ -46,7 +46,9 @@ sources:
   provenance_class: first-party
   role: evidence
   accessed_at: '2026-08-13'
-  last_verified_at: '2026-08-13'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/atlassian-rovo-dev-source-1/metadata.json
 - id: atlassian-rovo-dev-source-2
   title: Developer productivity improved with Rovo Dev
   url: https://www.atlassian.com/blog/atlassian-engineering/developer-productivity-improved-with-rovo-dev
@@ -55,7 +57,9 @@ sources:
   provenance_class: first-party
   role: evidence
   accessed_at: '2026-08-13'
-  last_verified_at: '2026-08-13'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/atlassian-rovo-dev-source-2/metadata.json
 - id: atlassian-rovo-dev-source-3
   title: 'HULA: Human-in-the-loop software development agents (arXiv 2411.12924)'
   url: https://arxiv.org/abs/2411.12924
@@ -65,7 +69,9 @@ sources:
   role: evidence
   published_at: '2024-11'
   accessed_at: '2026-08-13'
-  last_verified_at: '2026-08-13'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/atlassian-rovo-dev-source-3/metadata.json
 evidence:
   operating_models.0:
   - source_id: atlassian-rovo-dev-source-1
@@ -79,8 +85,6 @@ evidence:
   - source_id: atlassian-rovo-dev-source-2
     relation: supports
   architecture.harness:
-  - source_id: atlassian-rovo-dev-source-3
-    relation: supports
   - source_id: atlassian-rovo-dev-source-1
     relation: supports
   architecture.interfaces:

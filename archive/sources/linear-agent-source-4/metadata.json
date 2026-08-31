@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "linear-agent-source-4",
+  "original_url": "https://news.ycombinator.com/item?id=49252304",
+  "final_url": "https://news.ycombinator.com/item?id=49252304",
+  "captured_at": "2026-08-31T17:43:49Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/linear-agent-source-4/content.md",
+      "sha256": "sha256:21c31402044279083ba9754cf35e8dd51bd4ba6d2b035970b622555369a81903",
+      "bytes": 393
+    }
+  }
+}

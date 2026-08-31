@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "sentry-junior-source-3",
+  "original_url": "https://labs.sentry.dev/",
+  "final_url": "https://labs.sentry.dev/",
+  "captured_at": "2026-08-31T17:48:27Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/sentry-junior-source-3/content.md",
+      "sha256": "sha256:b81bca2f99265e347a968ce4976c507cd2b7bfd747e057f5fc2204123d5198f0",
+      "bytes": 2439
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "atlassian-rovo-dev-source-3",
+  "original_url": "https://arxiv.org/abs/2411.12924",
+  "final_url": "https://arxiv.org/abs/2411.12924",
+  "captured_at": "2026-08-31T17:39:42Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/atlassian-rovo-dev-source-3/content.md",
+      "sha256": "sha256:a5daa4616710f897d08ae2b3798dc485ca57ec5171a1b7bce536bb78472489f7",
+      "bytes": 2543
+    }
+  }
+}

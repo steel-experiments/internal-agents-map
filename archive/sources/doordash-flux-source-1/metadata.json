@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "doordash-flux-source-1",
+  "original_url": "https://x.com/AIatDoorDash/status/2087285008906240193",
+  "final_url": "https://x.com/AIatDoorDash/status/2087285008906240193",
+  "captured_at": "2026-08-31T17:42:01Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/doordash-flux-source-1/content.md",
+      "sha256": "sha256:3fe095b0e92562a9dbf25d6fc3d6d816ed51168d964ff238d7acf2e455bfb01d",
+      "bytes": 1178
+    }
+  }
+}

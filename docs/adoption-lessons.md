@@ -6,9 +6,9 @@ This page summarizes reported operating practices in the catalog. These reports 
 
 ## Catalog snapshot
 
-These observations draw on 40 cataloged approaches. The evidence is uneven, and most sources are company reports.
+These observations draw on 39 cataloged approaches. The evidence is uneven, and most sources are company reports.
 
-20 approaches list Slack as an interface. The autonomy distribution is 23 `drafts-reviewed`, 8 `human-in-loop`, 3 `autonomous`, 3 `assistive`, and 3 `unknown`.
+20 approaches list Slack as an interface. The autonomy distribution is 23 `drafts-reviewed`, 8 `human-in-loop`, 3 `autonomous`, 2 `assistive`, and 3 `unknown`.
 
 <!-- END ADOPTION SNAPSHOT -->
 

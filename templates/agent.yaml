@@ -54,6 +54,9 @@ sources:
     published_at: "2026-08"
     accessed_at: "2026-08-12"
     last_verified_at: "2026-08-12"
+    # archived_url: "https://web.archive.org/web/<timestamp>/https://example.com/source"
+    # capture:
+    #   manifest_path: "archive/sources/company-agent-source-1/metadata.json"
 
 evidence:
   operating_models.0:

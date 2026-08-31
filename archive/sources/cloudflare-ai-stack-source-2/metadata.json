@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "cloudflare-ai-stack-source-2",
+  "original_url": "https://news.ycombinator.com/item?id=47837240",
+  "final_url": "https://news.ycombinator.com/item?id=47837240",
+  "captured_at": "2026-08-31T17:40:59Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/cloudflare-ai-stack-source-2/content.md",
+      "sha256": "sha256:529a706a81204c6f55ca7acf5ff98d9343c7060b986a6dcf535f579dfe4ef0dc",
+      "bytes": 742
+    }
+  }
+}

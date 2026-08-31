@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "domu-clementino-source-1",
+  "original_url": "https://domu.ai/blog/why-we-split-our-internal-agent-in-two",
+  "final_url": "https://domu.ai/blog/why-we-split-our-internal-agent-in-two",
+  "captured_at": "2026-08-31T17:41:45Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/domu-clementino-source-1/content.md",
+      "sha256": "sha256:911788d9acd6aa775fee843f162a7f28ae679631cf1c565a4b790a5bb913ebae",
+      "bytes": 8174
+    }
+  }
+}

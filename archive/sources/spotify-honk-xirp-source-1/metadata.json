@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "spotify-honk-xirp-source-1",
+  "original_url": "https://engineering.atspotify.com/2025/11/spotifys-background-coding-agent-part-1",
+  "final_url": "https://engineering.atspotify.com/2025/11/spotifys-background-coding-agent-part-1",
+  "captured_at": "2026-08-31T17:49:28Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/spotify-honk-xirp-source-1/content.md",
+      "sha256": "sha256:6c12849337e09e69062f73492c7c8a622b4aafe43f86bfe742b08d2fd2bae2e9",
+      "bytes": 11406
+    }
+  }
+}

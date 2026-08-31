@@ -7,7 +7,7 @@ year: 2025
 first_public_evidence:
   date: '2025-11-11'
   source_id: doordash-flux-source-2
-last_reviewed_at: '2026-08-12'
+last_reviewed_at: '2026-08-31'
 status: internal
 domains:
 - code-review
@@ -35,7 +35,7 @@ architecture:
   sandbox: Firecracker microVMs; <5s p95 end-to-end setup (boot, clone repos, install tools, configure harness)
   harness: 'Maturity model: deterministic workflows -> ReAct agents -> hierarchical deep agents -> experimental
     swarms'
-  model: Multiple frontier models
+  model: Model-agnostic platform primitives support third-party or in-house agent components
   interfaces:
   - slack
   - github
@@ -83,7 +83,9 @@ sources:
   kind: social-post
   provenance_class: direct-participant
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/doordash-flux-source-1/metadata.json
 - id: doordash-flux-source-2
   title: 'Beyond single agents: DoorDash''s collaborative AI ecosystem'
   url: https://careersatdoordash.com/blog/beyond-single-agents-doordash-building-collaborative-ai-ecosystem/
@@ -92,54 +94,73 @@ sources:
   provenance_class: first-party
   published_at: '2025-11-11'
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/doordash-flux-source-2/metadata.json
+- id: doordash-flux-source-3
+  title: Delegating Engineering Work To Cloud-Based Agents
+  url: https://careersatdoordash.com/blog/delegating-engineering-work-to-cloud-based-agents/
+  canonical_url: https://careersatdoordash.com/blog/delegating-engineering-work-to-cloud-based-agents/
+  kind: engineering-blog
+  provenance_class: first-party
+  published_at: '2026-08-11'
+  accessed_at: '2026-08-31'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/doordash-flux-source-3/metadata.json
 evidence:
   operating_models.0:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-3
     relation: supports
   summary:
   - source_id: doordash-flux-source-1
     relation: supports
   - source_id: doordash-flux-source-2
     relation: supports
+  - source_id: doordash-flux-source-3
+    relation: supports
   headline_metric:
   - source_id: doordash-flux-source-1
     relation: supports
   architecture.sandbox:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-3
     relation: supports
   architecture.harness:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-2
     relation: supports
   architecture.model:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-3
     relation: supports
   architecture.tool_access:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-2
+    relation: supports
+  - source_id: doordash-flux-source-3
     relation: supports
   architecture.knowledge:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-2
+    relation: supports
+  - source_id: doordash-flux-source-3
     relation: supports
   architecture.credentials:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-3
     relation: supports
   architecture.context_mgmt:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-2
     relation: supports
   primitives.0:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-3
     relation: supports
   primitives.1:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-3
     relation: supports
   primitives.2:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-3
     relation: supports
   primitives.3:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-2
     relation: supports
   primitives.4:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-2
     relation: supports
   key_metrics.0:
   - source_id: doordash-flux-source-1
@@ -148,28 +169,28 @@ evidence:
   - source_id: doordash-flux-source-1
     relation: supports
   key_metrics.2:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-3
     relation: supports
   lessons_learned.0:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-3
     relation: supports
   lessons_learned.1:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-3
     relation: supports
   lessons_learned.2:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-3
     relation: supports
   lessons_learned.3:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-2
     relation: supports
   lessons_learned.4:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-2
     relation: supports
   lessons_learned.5:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-2
     relation: supports
   architecture.interfaces:
-  - source_id: doordash-flux-source-1
+  - source_id: doordash-flux-source-3
     relation: supports
 claim_metadata:
   operating_models.0:

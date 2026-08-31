@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "dropbox-nova-source-2",
+  "original_url": "https://news.ycombinator.com/item?id=48235065",
+  "final_url": "https://news.ycombinator.com/item?id=48235065",
+  "captured_at": "2026-08-31T17:42:27Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/dropbox-nova-source-2/content.md",
+      "sha256": "sha256:b608472ab9489885d07bfaa57186859b3a7d4c54b1168ca7a2ab789f5d0f2f8f",
+      "bytes": 886
+    }
+  }
+}

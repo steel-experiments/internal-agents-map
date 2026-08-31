@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "notion-custom-agents-source-1",
+  "original_url": "https://latent.space/p/notion",
+  "final_url": "https://www.latent.space/p/notion",
+  "captured_at": "2026-08-31T17:45:03Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/notion-custom-agents-source-1/content.md",
+      "sha256": "sha256:4e42077011382b9f77410822df8528a03212a6ed34d17c92c86c4da95acb0c89",
+      "bytes": 124631
+    }
+  }
+}

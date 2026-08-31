@@ -1,0 +1,50 @@
+> Archived source snapshot  
+> Source ID: `sentry-junior-source-2`  
+> Original URL: <https://github.com/getsentry/junior>  
+> Final URL: <https://github.com/getsentry/junior>  
+> Title: GitHub - getsentry/junior · GitHub  
+> Captured at: `2026-08-31T17:48:16Z`
+
+---
+
+## junior
+
+**Junior is moving quickly. If you're interested in using it, we'd love to hear your feedback.**
+
+Junior is a Slack bot runtime powered by Hono.
+
+Use it to investigate issues, summarize context, and take action from Slack with connected tools.
+
+## Documentation
+
+Canonical docs live at **[https://junior.sentry.dev/](https://junior.sentry.dev/)**.
+
+Start here:
+
+- [Quickstart](https://junior.sentry.dev/start-here/quickstart/)
+- [Slack App Setup](https://junior.sentry.dev/start-here/slack-app-setup/)
+- [Deploy on Vercel](https://junior.sentry.dev/start-here/deploy-to-vercel/)
+- [Plugin setup](https://junior.sentry.dev/extend/)
+- [Contributing](https://junior.sentry.dev/contribute/development/)
+
+## Packages
+
+| Package | Purpose |
+| --- | --- |
+| `@sentry/junior` | Core agent, Slack, and ACP runtime |
+| `@sentry/junior-plugin-api` | Lightweight plugin API types and helpers |
+| `@sentry/junior-agent-browser` | Agent Browser plugin package for browser automation |
+| `@sentry/junior-amplitude` | Read-only Amplitude product analytics through Amplitude's hosted MCP server |
+| `@sentry/junior-cloudflare` | Cloudflare plugin package for production operations |
+| `@sentry/junior-dashboard` | Authenticated dashboard package for Junior runtime diagnostics |
+| `@sentry/junior-datadog` | Datadog plugin package for observability workflows through Datadog's Pup CLI |
+| `@sentry/junior-github` | GitHub plugin package for issue workflows |
+| `@sentry/junior-gocd` | GoCD plugin package for read-only pipeline history through host egress auth |
+| `@sentry/junior-hex` | Hex plugin package for data warehouse query workflows |
+| `@sentry/junior-linear` | Linear plugin package for issue workflows |
+| `@sentry/junior-memory` | Memory plugin package for long-term Junior memory storage |
+| `@sentry/junior-notion` | Notion plugin package for page search workflows |
+| `@sentry/junior-octolens` | Octolens plugin package for social-listening workflows |
+| `@sentry/junior-maintenance` | Maintenance plugin package for updating and improving Junior apps |
+| `@sentry/junior-sentry` | Sentry investigations and issue resource events |
+| `@sentry/junior-vercel` | Vercel plugin package for deployment monitoring and log investigations |

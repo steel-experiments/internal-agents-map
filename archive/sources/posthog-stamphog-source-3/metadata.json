@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "posthog-stamphog-source-3",
+  "original_url": "https://github.com/PostHog/posthog/tree/988c9031bb93c74bafcdfb670c01497c79a4f644/tools/pr-approval-agent",
+  "final_url": "https://github.com/PostHog/posthog/tree/988c9031bb93c74bafcdfb670c01497c79a4f644/tools/pr-approval-agent",
+  "captured_at": "2026-08-31T17:46:13Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/posthog-stamphog-source-3/content.md",
+      "sha256": "sha256:7f4e1844030a44ed0120e3de99db3e847390fb1ee7658779d5b7908608c8bc1e",
+      "bytes": 15840
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "sentry-junior-source-1",
+  "original_url": "https://cra.mr/building-an-intern/",
+  "final_url": "https://cra.mr/building-an-intern/",
+  "captured_at": "2026-08-31T17:48:07Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/sentry-junior-source-1/content.md",
+      "sha256": "sha256:51fee97548429baa049c0faf6a90d93bcc4891bdea99eac6cfa94fe0b003b9cc",
+      "bytes": 28000
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "shopify-internal-agents-source-1",
+  "original_url": "https://shopify.engineering/under-the-river",
+  "final_url": "https://shopify.engineering/under-the-river",
+  "captured_at": "2026-08-31T17:48:37Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/shopify-internal-agents-source-1/content.md",
+      "sha256": "sha256:b6959f35653333a4b1d0c121de670b362420c92d4481bfc922a6be83a0f2e848",
+      "bytes": 13739
+    }
+  }
+}

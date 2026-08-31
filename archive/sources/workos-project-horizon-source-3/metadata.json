@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "workos-project-horizon-source-3",
+  "original_url": "https://workos.com/blog/autonomous-ui-quality-program",
+  "final_url": "https://workos.com/blog/autonomous-ui-quality-program",
+  "captured_at": "2026-08-31T17:51:49Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/workos-project-horizon-source-3/content.md",
+      "sha256": "sha256:d6aa4db6f84168d77c3025f59a65f066a8d0e7df847aad2e3071bb1602987420",
+      "bytes": 6360
+    }
+  }
+}

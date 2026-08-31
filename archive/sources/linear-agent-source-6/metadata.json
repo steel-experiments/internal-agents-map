@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "linear-agent-source-6",
+  "original_url": "https://linear.app/changelog/2026-03-24-introducing-linear-agent",
+  "final_url": "https://linear.app/changelog/2026-03-24-introducing-linear-agent",
+  "captured_at": "2026-08-31T17:44:08Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/linear-agent-source-6/content.md",
+      "sha256": "sha256:d6ea99898a8e8e273a691d8e03a7cf76dcbdef9ef89361a49330dcc5127c7555",
+      "bytes": 5914
+    }
+  }
+}

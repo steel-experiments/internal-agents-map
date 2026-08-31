@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "doordash-flux-source-2",
+  "original_url": "https://careersatdoordash.com/blog/beyond-single-agents-doordash-building-collaborative-ai-ecosystem/",
+  "final_url": "https://careersatdoordash.com/blog/beyond-single-agents-doordash-building-collaborative-ai-ecosystem/",
+  "captured_at": "2026-08-31T17:55:30Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/doordash-flux-source-2/content.md",
+      "sha256": "sha256:8e9f42ae8559f6dafaa322262329fd03fc96f6cca949ec64a1497cb971d34d34",
+      "bytes": 22418
+    }
+  }
+}

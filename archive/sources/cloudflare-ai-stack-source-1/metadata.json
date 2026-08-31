@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "cloudflare-ai-stack-source-1",
+  "original_url": "https://blog.cloudflare.com/internal-ai-engineering-stack/",
+  "final_url": "https://blog.cloudflare.com/internal-ai-engineering-stack/",
+  "captured_at": "2026-08-31T17:40:51Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/cloudflare-ai-stack-source-1/content.md",
+      "sha256": "sha256:2454a2ab695ab9611aa982b541b698f3bb948358a6680c7da13e66ad7307a9d8",
+      "bytes": 29257
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "atlassian-rovo-dev-source-2",
+  "original_url": "https://www.atlassian.com/blog/atlassian-engineering/developer-productivity-improved-with-rovo-dev",
+  "final_url": "https://www.atlassian.com/blog/atlassian-engineering/developer-productivity-improved-with-rovo-dev",
+  "captured_at": "2026-08-31T17:39:33Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/atlassian-rovo-dev-source-2/content.md",
+      "sha256": "sha256:b1647b8ac1a5dbd5c6e8dee67b596d668681746db9a3374165a637b11e1607f7",
+      "bytes": 12256
+    }
+  }
+}

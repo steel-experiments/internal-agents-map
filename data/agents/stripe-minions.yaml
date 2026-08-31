@@ -7,7 +7,7 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: stripe-minions-source-1
-last_reviewed_at: '2026-08-12'
+last_reviewed_at: '2026-08-31'
 status: internal
 domains:
 - coding
@@ -54,7 +54,9 @@ sources:
   kind: engineering-blog
   provenance_class: first-party
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/stripe-minions-source-1/metadata.json
 - id: stripe-minions-source-2
   title: Minions - Part Two
   url: https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2
@@ -62,7 +64,9 @@ sources:
   kind: engineering-blog
   provenance_class: first-party
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/stripe-minions-source-2/metadata.json
 - id: stripe-minions-source-3
   title: Hacker News discussion of Minions part two
   url: https://news.ycombinator.com/item?id=47086557
@@ -74,7 +78,9 @@ sources:
   - ludovicianul
   published_at: '2026-02-20'
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/stripe-minions-source-3/metadata.json
 - id: stripe-minions-source-4
   title: Hacker News comment asking for examples and review evidence
   url: https://news.ycombinator.com/item?id=47086907
@@ -86,7 +92,9 @@ sources:
   - 3rodents
   published_at: '2026-02-20'
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/stripe-minions-source-4/metadata.json
 - id: stripe-minions-source-5
   title: Hacker News comment questioning the level of technical detail
   url: https://news.ycombinator.com/item?id=47086953
@@ -98,7 +106,9 @@ sources:
   - gas9S9zw3P9c
   published_at: '2026-02-20'
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/stripe-minions-source-5/metadata.json
 - id: stripe-minions-source-6
   title: Hacker News comment asking about shipped and maintained output
   url: https://news.ycombinator.com/item?id=47087114
@@ -110,7 +120,9 @@ sources:
   - rco8786
   published_at: '2026-02-20'
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/stripe-minions-source-6/metadata.json
 - id: stripe-minions-source-7
   title: Hacker News comment questioning the value of pull request counts
   url: https://news.ycombinator.com/item?id=47111453
@@ -122,7 +134,9 @@ sources:
   - iepathos
   published_at: '2026-02-22'
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/stripe-minions-source-7/metadata.json
 evidence:
   operating_models.0:
   - source_id: stripe-minions-source-1

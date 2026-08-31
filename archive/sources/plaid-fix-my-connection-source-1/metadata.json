@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "plaid-fix-my-connection-source-1",
+  "original_url": "https://plaid.com/blog/ai-agents-june-2025/",
+  "final_url": "https://plaid.com/blog/ai-agents-june-2025/",
+  "captured_at": "2026-08-31T17:45:33Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/plaid-fix-my-connection-source-1/content.md",
+      "sha256": "sha256:7fc4e30083766bf66d62e92ee0af10c514e09a0d0b6341422644017d14ab7857",
+      "bytes": 5195
+    }
+  }
+}

@@ -3,15 +3,17 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
 import sys
 import tempfile
 from collections import Counter
-from datetime import date
-from pathlib import Path
+from datetime import date, datetime
+from pathlib import Path, PurePosixPath
 from typing import Any, NoReturn
+from urllib.parse import urlsplit
 
 try:
     import yaml
@@ -85,7 +87,7 @@ SOURCE_FIELDS = {
     "accessed_at",
     "last_verified_at",
     "archived_url",
-    "content_fingerprint",
+    "capture",
     "duplicate_of",
 }
 CLAIM_METADATA_FIELDS = {
@@ -201,6 +203,21 @@ INTERFACE_VALUES = {
 }
 ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 DATE_RE = re.compile(r"^\d{4}(?:-(?:0[1-9]|1[0-2])(?:-(?:0[1-9]|[12]\d|3[01]))?)?$")
+RFC3339_UTC_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$")
+SHA256_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
+MAX_PDF_BYTES = 10 * 1024 * 1024
+CAPTURE_MANIFEST_FIELDS = {
+    "schema_version",
+    "source_id",
+    "original_url",
+    "final_url",
+    "captured_at",
+    "http_status",
+    "tool",
+    "artifacts",
+}
+CAPTURE_MANIFEST_OPTIONAL_FIELDS = {"external_archive_url"}
+CAPTURE_ARTIFACT_FIELDS = {"path", "sha256", "bytes"}
 
 TABLE_HEADER = (
     "| Company | Approach | Type | Domains | Operating model | Autonomy | Stage | Status | Year |\n"
@@ -259,6 +276,202 @@ def validate_date(value: Any, field: str, filename: str) -> None:
             die(f"{filename}: '{field}' must be a valid calendar date.")
 
 
+def validate_https_url(value: Any, field: str, filename: str) -> None:
+    """Require a non-empty HTTPS URL with an authority component."""
+    if not isinstance(value, str) or not value.strip() or value != value.strip():
+        die(f"{filename}: '{field}' must be a non-empty HTTPS URL.")
+    parsed = urlsplit(value)
+    if parsed.scheme != "https" or not parsed.netloc:
+        die(f"{filename}: '{field}' must be a non-empty HTTPS URL.")
+
+
+def validate_rfc3339_utc(value: Any, field: str, filename: str) -> None:
+    """Require an RFC 3339 timestamp expressed with the UTC ``Z`` suffix."""
+    if not isinstance(value, str) or not RFC3339_UTC_RE.fullmatch(value):
+        die(f"{filename}: '{field}' must be an RFC 3339 UTC timestamp ending in Z.")
+    try:
+        datetime.fromisoformat(value.removesuffix("Z") + "+00:00")
+    except ValueError:
+        die(f"{filename}: '{field}' must be a valid RFC 3339 UTC timestamp.")
+
+
+def require_exact_fields(
+    value: Any,
+    required: set[str],
+    optional: set[str],
+    field: str,
+    filename: str,
+) -> dict:
+    if not isinstance(value, dict):
+        die(f"{filename}: '{field}' must be a mapping.")
+    missing = sorted(required - set(value))
+    unexpected = sorted(set(value) - required - optional, key=str)
+    if missing:
+        die(f"{filename}: '{field}' is missing field(s): {', '.join(missing)}")
+    if unexpected:
+        names = ", ".join(str(item) for item in unexpected)
+        die(f"{filename}: '{field}' contains unexpected field(s): {names}")
+    return value
+
+
+def resolve_capture_path(
+    value: Any,
+    source_id: str,
+    expected_name: str,
+    field: str,
+    filename: str,
+    *,
+    root: Path | None = None,
+) -> Path:
+    """Resolve one deterministic capture path without allowing repository escape."""
+    if not isinstance(value, str) or not value.strip() or "\\" in value:
+        die(f"{filename}: '{field}' must be a POSIX repository-relative path.")
+    pure = PurePosixPath(value)
+    if pure.is_absolute() or ".." in pure.parts:
+        die(f"{filename}: '{field}' must not be absolute or contain '..'.")
+    expected = PurePosixPath("archive", "sources", source_id, expected_name)
+    if pure != expected or str(pure) != value:
+        die(f"{filename}: '{field}' must be {str(expected)!r}.")
+
+    repository_root = (root or ROOT).resolve()
+    archive_root = (repository_root / "archive" / "sources").resolve()
+    bundle_root = (archive_root / source_id).resolve()
+    resolved = (repository_root / Path(*pure.parts)).resolve()
+    try:
+        archive_root.relative_to(repository_root)
+        bundle_root.relative_to(archive_root)
+        resolved.relative_to(bundle_root)
+    except ValueError:
+        die(f"{filename}: '{field}' resolves outside archive/sources/{source_id}/.")
+    return resolved
+
+
+def _load_json_object(path: Path, field: str, filename: str) -> dict:
+    def reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict:
+        result: dict[str, Any] = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError(f"duplicate key {key!r}")
+            result[key] = value
+        return result
+
+    try:
+        text = path.read_text(encoding="utf-8")
+        value = json.loads(text, object_pairs_hook=reject_duplicate_keys)
+    except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as error:
+        die(f"{filename}: could not parse '{field}' as JSON: {error}")
+    if not isinstance(value, dict):
+        die(f"{filename}: '{field}' must contain a JSON object.")
+    return value
+
+
+def validate_capture_artifact(
+    artifact: Any,
+    artifact_name: str,
+    source_id: str,
+    filename: str,
+    *,
+    root: Path | None = None,
+) -> None:
+    field = f"sources.{source_id}.capture.artifacts.{artifact_name}"
+    descriptor = require_exact_fields(artifact, CAPTURE_ARTIFACT_FIELDS, set(), field, filename)
+    expected_name = "content.md" if artifact_name == "markdown" else "page.pdf"
+    path = resolve_capture_path(
+        descriptor["path"], source_id, expected_name, f"{field}.path", filename, root=root
+    )
+    if not isinstance(descriptor["sha256"], str) or not SHA256_RE.fullmatch(descriptor["sha256"]):
+        die(f"{filename}: '{field}.sha256' must be 'sha256:' plus 64 lowercase hex digits.")
+    byte_count = descriptor["bytes"]
+    if type(byte_count) is not int or byte_count < 0:
+        die(f"{filename}: '{field}.bytes' must be a non-negative integer.")
+    if not path.is_file():
+        die(f"{filename}: declared capture artifact does not exist: {descriptor['path']}")
+    try:
+        actual_size = path.stat().st_size
+    except OSError as error:
+        die(f"{filename}: could not inspect capture artifact {descriptor['path']!r}: {error}")
+    if artifact_name == "pdf" and actual_size > MAX_PDF_BYTES:
+        die(f"{filename}: PDF capture exceeds the 10 MiB limit: {descriptor['path']}")
+    try:
+        content = path.read_bytes()
+    except OSError as error:
+        die(f"{filename}: could not read capture artifact {descriptor['path']!r}: {error}")
+    if actual_size != byte_count:
+        die(f"{filename}: byte count does not match capture artifact {descriptor['path']!r}.")
+    digest = f"sha256:{hashlib.sha256(content).hexdigest()}"
+    if digest != descriptor["sha256"]:
+        die(f"{filename}: SHA-256 does not match capture artifact {descriptor['path']!r}.")
+    if artifact_name == "markdown":
+        try:
+            markdown_content = content.decode("utf-8")
+        except UnicodeDecodeError:
+            die(f"{filename}: Markdown capture must be valid UTF-8: {descriptor['path']}")
+        if not markdown_content.strip():
+            die(f"{filename}: Markdown capture must not be empty: {descriptor['path']}")
+    elif not content.startswith(b"%PDF-"):
+        die(f"{filename}: PDF capture must begin with '%PDF-': {descriptor['path']}")
+
+
+def load_capture_manifest(source: dict, filename: str, *, root: Path | None = None) -> dict | None:
+    """Load and fully validate a source's optional Steel capture manifest."""
+    if "capture" not in source:
+        return None
+    source_id = source.get("id")
+    if not isinstance(source_id, str):
+        die(f"{filename}: a captured source must have a string id.")
+    field = f"sources.{source_id}.capture"
+    capture = require_exact_fields(source["capture"], {"manifest_path"}, set(), field, filename)
+    manifest_path = resolve_capture_path(
+        capture["manifest_path"],
+        source_id,
+        "metadata.json",
+        f"{field}.manifest_path",
+        filename,
+        root=root,
+    )
+    if not manifest_path.is_file():
+        die(f"{filename}: declared capture manifest does not exist: {capture['manifest_path']}")
+    manifest = _load_json_object(manifest_path, f"{field}.manifest_path", filename)
+    manifest = require_exact_fields(
+        manifest,
+        CAPTURE_MANIFEST_FIELDS,
+        CAPTURE_MANIFEST_OPTIONAL_FIELDS,
+        f"{field} manifest",
+        filename,
+    )
+    if type(manifest["schema_version"]) is not int or manifest["schema_version"] != 1:
+        die(f"{filename}: capture manifest schema_version must be 1.")
+    if manifest["source_id"] != source_id:
+        die(f"{filename}: capture manifest source_id must match {source_id!r}.")
+    if manifest["original_url"] != source.get("url"):
+        die(f"{filename}: capture manifest original_url must match the source URL.")
+    validate_https_url(manifest["final_url"], f"{field}.final_url", filename)
+    validate_rfc3339_utc(manifest["captured_at"], f"{field}.captured_at", filename)
+    status = manifest["http_status"]
+    if type(status) is not int or not 200 <= status <= 299:
+        die(f"{filename}: capture manifest http_status must be an integer from 200 to 299.")
+    tool = require_exact_fields(
+        manifest["tool"], {"name", "version"}, set(), f"{field}.tool", filename
+    )
+    if tool["name"] != "steel":
+        die(f"{filename}: capture manifest tool name must be 'steel'.")
+    if not isinstance(tool["version"], str) or not tool["version"].strip():
+        die(f"{filename}: capture manifest tool version must be a non-empty string.")
+    artifacts = require_exact_fields(
+        manifest["artifacts"], {"markdown"}, {"pdf"}, f"{field}.artifacts", filename
+    )
+    validate_capture_artifact(artifacts["markdown"], "markdown", source_id, filename, root=root)
+    if "pdf" in artifacts:
+        validate_capture_artifact(artifacts["pdf"], "pdf", source_id, filename, root=root)
+    if "external_archive_url" in manifest and manifest["external_archive_url"] != source.get(
+        "archived_url"
+    ):
+        die(
+            f"{filename}: capture manifest external_archive_url must match the source archived_url."
+        )
+    return manifest
+
+
 def claim_fields(record: dict) -> dict[str, tuple[str, str, str]]:
     """Return claim path -> (text, kind, provenance) for authored claim fields."""
     claims: dict[str, tuple[str, str, str]] = {"summary": (record["summary"], "fact", "reported")}
@@ -312,6 +525,8 @@ def validate_source(source: Any, filename: str, seen: set[str]) -> None:
         die(f"{filename}: source {source_id!r} must use an HTTPS URL.")
     if not source["canonical_url"].startswith("https://"):
         die(f"{filename}: source {source_id!r} canonical URL must use HTTPS.")
+    if "archived_url" in source:
+        validate_https_url(source["archived_url"], f"sources.{source_id}.archived_url", filename)
     if source["kind"] not in SOURCE_KINDS:
         die(f"{filename}: source {source_id!r} has invalid kind {source['kind']!r}.")
     if source["provenance_class"] not in PROVENANCE_CLASSES:
@@ -323,6 +538,7 @@ def validate_source(source: Any, filename: str, seen: set[str]) -> None:
             validate_date(source[field], f"sources.{source_id}.{field}", filename)
     if source.get("authors") is not None:
         require_string_list(source["authors"], f"sources.{source_id}.authors", filename)
+    load_capture_manifest(source, filename)
 
 
 def validate_evidence(record: dict, filename: str, source_ids: set[str]) -> None:
@@ -584,6 +800,26 @@ def evidence_refs(record: dict, path: str) -> str:
     return " <small>" + "; ".join(parts) + ".</small>"
 
 
+def render_source_reference(source: dict) -> str:
+    """Render the original citation and any verified preserved copies together."""
+    original = f"[{source['title']}]({source['url']})"
+    fallbacks = []
+    manifest = load_capture_manifest(source, "catalog source rendering")
+    if manifest is not None:
+        snapshot_path = manifest["artifacts"]["markdown"]["path"]
+        fallbacks.append(f"[snapshot](../{snapshot_path})")
+        pdf = manifest["artifacts"].get("pdf")
+        if pdf is not None:
+            fallbacks.append(f"[PDF](../{pdf['path']})")
+    if source.get("archived_url"):
+        fallbacks.append(f"[Wayback]({source['archived_url']})")
+    if manifest is not None:
+        fallbacks.append(f"captured {manifest['captured_at'][:10]}")
+    if not fallbacks:
+        return original
+    return f"{original} ({', '.join(fallbacks)})"
+
+
 def render_comparison_table(records: list[dict]) -> str:
     lines = [TABLE_HEADER]
     for record in records:
@@ -832,9 +1068,7 @@ def render_landscape(records: list[dict]) -> str:
             detail = (
                 f"{source['kind']}; {source['provenance_class']}; {source.get('role', 'evidence')}"
             )
-            out.append(
-                f'- <a id="{source["id"]}"></a>[{source["title"]}]({source["url"]}) ({detail})'
-            )
+            out.append(f'- <a id="{source["id"]}"></a>{render_source_reference(source)} ({detail})')
         out.extend(["", f"Last reviewed: {record['last_reviewed_at']}.", "", "---", ""])
     return "\n".join(out)
 
@@ -908,10 +1142,16 @@ def normalize(records: list[dict]) -> dict:
             approach["claim_ids"].append(claim_id)
         approaches.append(approach)
         for source in record["sources"]:
-            sources.append(
-                {**source, "role": source.get("role", "evidence"), "approach_id": record["id"]}
-            )
-    return {"schema_version": 3, "approaches": approaches, "claims": claims, "sources": sources}
+            normalized_source = {
+                **source,
+                "role": source.get("role", "evidence"),
+                "approach_id": record["id"],
+            }
+            manifest = load_capture_manifest(source, f"{record['id']}.yaml")
+            if manifest is not None:
+                normalized_source["capture"] = manifest
+            sources.append(normalized_source)
+    return {"schema_version": 4, "approaches": approaches, "claims": claims, "sources": sources}
 
 
 def replace_between_markers(

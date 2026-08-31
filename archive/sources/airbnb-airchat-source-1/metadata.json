@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "airbnb-airchat-source-1",
+  "original_url": "https://dpe.org/sessions/szczepan-faber-mike-nakhimovich/agentic-coding-at-airbnb/",
+  "final_url": "https://dpe.org/sessions/szczepan-faber-mike-nakhimovich/agentic-coding-at-airbnb/",
+  "captured_at": "2026-08-31T17:38:40Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/airbnb-airchat-source-1/content.md",
+      "sha256": "sha256:4ab4a7c2fdbc723d88e0df3f7d7582d1a8c37f143a1627c17c5f602c5941d862",
+      "bytes": 1307
+    }
+  }
+}

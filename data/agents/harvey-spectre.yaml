@@ -7,7 +7,7 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: harvey-spectre-source-1
-last_reviewed_at: '2026-08-12'
+last_reviewed_at: '2026-08-31'
 status: internal
 domains:
 - coding
@@ -46,7 +46,8 @@ primitives:
 lessons_learned:
 - Make outputs reviewable (diffs, branches, PRs) rather than letting the agent act silently
 - Implementation speed shifts the bottleneck toward review, prioritization, and coordination
-- Harvey reports that the same agent platform also supports a security operations center
+- Harvey keeps its product-agent and security-agent platforms on separate substrates because they have different
+  trust boundaries
 sources:
 - id: harvey-spectre-source-1
   title: Building Spectre; internal collaborative cloud agent platform
@@ -55,7 +56,9 @@ sources:
   kind: engineering-blog
   provenance_class: first-party
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/harvey-spectre-source-1/metadata.json
 - id: harvey-spectre-source-2
   title: Building an agentic security operations center
   url: https://www.harvey.ai/blog/building-an-agentic-security-operations-center
@@ -63,7 +66,9 @@ sources:
   kind: engineering-blog
   provenance_class: first-party
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/harvey-spectre-source-2/metadata.json
 evidence:
   operating_models.0:
   - source_id: harvey-spectre-source-1

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "posthog-stamphog-source-1",
+  "original_url": "https://posthog.com/newsletter/code-review-tips",
+  "final_url": "https://posthog.com/newsletter/code-review-tips",
+  "captured_at": "2026-08-31T17:45:51Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/posthog-stamphog-source-1/content.md",
+      "sha256": "sha256:4cc3f02d4188cf9d525aa29d16f7e578553c4acdb180eb43d2db3a5382cf72ad",
+      "bytes": 15950
+    }
+  }
+}

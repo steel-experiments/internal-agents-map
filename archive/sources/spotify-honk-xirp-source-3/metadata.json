@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "spotify-honk-xirp-source-3",
+  "original_url": "https://xirp.spotify.com/",
+  "final_url": "https://xirp.spotify.com/",
+  "captured_at": "2026-08-31T17:49:43Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/spotify-honk-xirp-source-3/content.md",
+      "sha256": "sha256:293357961af6ee356d413812d6531198688d200c2499cbac7268864bda18f9ea",
+      "bytes": 3565
+    }
+  }
+}

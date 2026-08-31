@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "github-qubot-source-1",
+  "original_url": "https://github.blog/ai-and-ml/github-copilot/how-we-built-an-internal-data-analytics-agent/",
+  "final_url": "https://github.blog/ai-and-ml/github-copilot/how-we-built-an-internal-data-analytics-agent/",
+  "captured_at": "2026-08-31T17:42:43Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/github-qubot-source-1/content.md",
+      "sha256": "sha256:820488e2b11a401e35bac3141b644a3f94d5a09e4e3b074c6c5e40d5421992da",
+      "bytes": 8226
+    }
+  }
+}

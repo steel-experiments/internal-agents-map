@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "doordash-flux-source-3",
+  "original_url": "https://careersatdoordash.com/blog/delegating-engineering-work-to-cloud-based-agents/",
+  "final_url": "https://careersatdoordash.com/blog/delegating-engineering-work-to-cloud-based-agents/",
+  "captured_at": "2026-08-31T18:09:17Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/doordash-flux-source-3/content.md",
+      "sha256": "sha256:b319a0ace131d82a2c4f8b477df5511412e3a1c3127e5d74cdb5598624f75b15",
+      "bytes": 9896
+    }
+  }
+}

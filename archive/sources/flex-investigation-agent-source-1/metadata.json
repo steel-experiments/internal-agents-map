@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "flex-investigation-agent-source-1",
+  "original_url": "https://www.withflex.com/blog/the-flex-ai-investigation-agent-for-hsa-fsa-payments",
+  "final_url": "https://www.withflex.com/blog/the-flex-ai-investigation-agent-for-hsa-fsa-payments",
+  "captured_at": "2026-08-31T17:42:35Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/flex-investigation-agent-source-1/content.md",
+      "sha256": "sha256:cb676fc287fdc54f924f201b15c39e51cef37e925f76c551c471bddc5d035271",
+      "bytes": 14791
+    }
+  }
+}

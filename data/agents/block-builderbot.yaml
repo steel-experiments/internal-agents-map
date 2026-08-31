@@ -7,7 +7,7 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: block-builderbot-source-1
-last_reviewed_at: '2026-08-12'
+last_reviewed_at: '2026-08-31'
 status: internal
 domains:
 - coding
@@ -63,7 +63,9 @@ sources:
   kind: engineering-blog
   provenance_class: first-party
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/block-builderbot-source-1/metadata.json
 - id: block-builderbot-source-2
   title: Protecting our systems with intelligence (Builderbot architecture)
   url: https://engineering.block.xyz/blog/protecting-our-systems-with-intelligence
@@ -71,7 +73,9 @@ sources:
   kind: engineering-blog
   provenance_class: first-party
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/block-builderbot-source-2/metadata.json
 - id: block-builderbot-source-3
   title: block/builderbot source repository
   url: https://github.com/block/builderbot
@@ -80,7 +84,9 @@ sources:
   provenance_class: first-party
   role: evidence
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/block-builderbot-source-3/metadata.json
 - id: block-builderbot-source-4
   title: Hacker News discussion of the Builderbot announcement
   url: https://news.ycombinator.com/item?id=48618973
@@ -92,7 +98,9 @@ sources:
   - msolujic
   published_at: '2026-06-21'
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/block-builderbot-source-4/metadata.json
 - id: block-builderbot-source-5
   title: Hacker News comment that points to the Builderbot repository
   url: https://news.ycombinator.com/item?id=48619052
@@ -104,7 +112,9 @@ sources:
   - kha1n3vol3
   published_at: '2026-06-21'
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/block-builderbot-source-5/metadata.json
 evidence:
   operating_models.0:
   - source_id: block-builderbot-source-1
@@ -113,8 +123,6 @@ evidence:
   - source_id: block-builderbot-source-1
     relation: supports
   - source_id: block-builderbot-source-2
-    relation: supports
-  - source_id: block-builderbot-source-3
     relation: supports
   - source_id: block-builderbot-source-3
     relation: contextualizes
@@ -129,27 +137,19 @@ evidence:
   architecture.harness:
   - source_id: block-builderbot-source-1
     relation: supports
-  - source_id: block-builderbot-source-3
-    relation: supports
   architecture.model:
   - source_id: block-builderbot-source-1
     relation: supports
   architecture.tool_access:
   - source_id: block-builderbot-source-1
     relation: supports
-  - source_id: block-builderbot-source-3
-    relation: supports
   architecture.knowledge:
   - source_id: block-builderbot-source-1
     relation: supports
   - source_id: block-builderbot-source-2
     relation: supports
-  - source_id: block-builderbot-source-3
-    relation: supports
   primitives.0:
   - source_id: block-builderbot-source-1
-    relation: supports
-  - source_id: block-builderbot-source-3
     relation: supports
   primitives.1:
   - source_id: block-builderbot-source-1

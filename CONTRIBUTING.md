@@ -21,9 +21,12 @@ create or activate a virtual environment yourself.
 3. Add the shared rubric fields. Use `unknown` when the sources do not document a value.
 4. Add a scoped `operating_models` assessment. Record where human attention normally returns, not a company-wide maturity estimate.
 5. Add structured source records before you summarize them.
-6. Link every claim path to evidence. Add a locator when the source has a stable section, timestamp, comment ID, commit, or line.
-7. Run `uv run python scripts/build.py`.
-8. Run all verification commands in the pull request template.
+6. Preserve each accepted source while it is still live:
+   `uv run python scripts/archive_sources.py --source-id <source-id>`. Review the captured
+   Markdown, then add the emitted `capture` and `archived_url` fields to the source record.
+7. Link every claim path to evidence. Add a locator when the source has a stable section, timestamp, comment ID, commit, or line.
+8. Run `uv run python scripts/build.py`.
+9. Run all verification commands in the pull request template.
 
 The approach must describe a system that a named organization built or materially adapted for its own teams. It can be a task agent, background agent, agent system, platform, orchestration system, or implemented supporting pattern.
 
@@ -48,6 +51,24 @@ Use `first-party` for organization publications. Use `direct-participant` for a 
 A commentary source can contextualize or contradict a claim. It does not need to support one. Use the corresponding evidence relation.
 
 For Hacker News, keep the thread and each material comment as separate source records. Use the permanent item or comment URL. For source code, record a commit and file locator when possible.
+
+### Preserve a source
+
+The original `url` remains the catalog citation. The preservation command creates a reviewed,
+append-only Steel Markdown capture and reports any existing or newly created Wayback URL:
+
+```bash
+uv run python scripts/archive_sources.py --source-id <source-id>
+```
+
+Add `--pdf` only when visual layout materially supports a claim. Add `--save-wayback` when Save
+Page Now credentials are configured in the environment. Never put archive credentials in source
+records, command arguments, logs, or pull requests.
+
+The command refuses authenticated/private pages, explicit `noarchive` directives, error pages,
+and existing bundles. Review `archive/sources/<source-id>/content.md` before linking the capture
+from YAML. See the [source-preservation policy](docs/source-preservation.md) for ownership,
+retention, and takedown rules.
 
 ## Write claims and analysis
 
@@ -79,6 +100,7 @@ Run:
 
 ```bash
 uv run python scripts/build.py
+uv run python scripts/archive_sources.py --check
 uv run python scripts/build.py --check
 uv run ruff check .
 uv run ruff format --check .
@@ -87,6 +109,7 @@ uv run python scripts/check_links.py --local
 git diff --check
 ```
 
-The scheduled link check tests external URLs. Confirmed 404 responses fail the check; blocked and
-temporarily unreachable URLs are reported separately as warnings. A pull request does not depend
-on remote sites being available.
+The scheduled link check tests external URLs. A confirmed 404 or 410 passes with an `archived`
+warning when a verified fallback exists and fails otherwise. Blocked and temporarily unreachable
+URLs are reported separately as warnings. A pull request does not depend on remote sites being
+available.

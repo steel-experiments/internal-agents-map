@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "block-builderbot-source-1",
+  "original_url": "https://block.xyz/inside/block-rolls-out-builderbot-a-new-suite-of-ai-native-tools-that-changes-the-way-we-ship",
+  "final_url": "https://block.xyz/inside/block-rolls-out-builderbot-a-new-suite-of-ai-native-tools-that-changes-the-way-we-ship",
+  "captured_at": "2026-08-31T17:39:51Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/block-builderbot-source-1/content.md",
+      "sha256": "sha256:4189377fdd7349ee5fb0b8aa176460f51543348c6d53b1ae7e8a20943818643f",
+      "bytes": 4286
+    }
+  }
+}

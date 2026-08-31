@@ -1,5 +1,5 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "approaches": [
     {
       "id": "airbnb-airchat",
@@ -12,7 +12,7 @@
         "date": "2025",
         "source_id": "airbnb-airchat-source-1"
       },
-      "last_reviewed_at": "2026-08-13",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding",
@@ -53,48 +53,6 @@
       "interfaces": []
     },
     {
-      "id": "atlassian-dot",
-      "company": "Atlassian",
-      "agent_name": "DOT (Design Org Teammate)",
-      "approach_type": "task-agent",
-      "deployment_stage": "deployed",
-      "year": 2026,
-      "first_public_evidence": {
-        "date": "2026",
-        "source_id": "atlassian-dot-source-1"
-      },
-      "last_reviewed_at": "2026-08-13",
-      "status": "internal",
-      "domains": [
-        "support"
-      ],
-      "autonomy": "assistive",
-      "operating_models": [
-        {
-          "scope": "tooling question → help-channel answer",
-          "attention_boundary": "unknown",
-          "level": null
-        }
-      ],
-      "rubric": {
-        "invocation": [
-          "interactive"
-        ],
-        "state": "unknown",
-        "identity": "unknown",
-        "evidence_strength": "detailed-primary"
-      },
-      "claim_ids": [
-        "atlassian-dot--summary",
-        "atlassian-dot--architecture-knowledge",
-        "atlassian-dot--operating-models-0"
-      ],
-      "source_ids": [
-        "atlassian-dot-source-1"
-      ],
-      "interfaces": []
-    },
-    {
       "id": "atlassian-rovo-dev",
       "company": "Atlassian",
       "agent_name": "Rovo Dev (RovoDev)",
@@ -109,7 +67,7 @@
         "date": "2024-11",
         "source_id": "atlassian-rovo-dev-source-3"
       },
-      "last_reviewed_at": "2026-08-13",
+      "last_reviewed_at": "2026-08-31",
       "status": "commercialized",
       "domains": [
         "coding",
@@ -160,7 +118,7 @@
         "date": "2026",
         "source_id": "block-builderbot-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding",
@@ -227,7 +185,7 @@
         "date": "2025-09-25",
         "source_id": "brex-agent-platform-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "finance-ops",
@@ -292,7 +250,7 @@
         "date": "2026",
         "source_id": "browserbase-bb-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding",
@@ -360,7 +318,7 @@
         "date": "2026",
         "source_id": "cloudflare-ai-stack-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding",
@@ -429,7 +387,7 @@
         "date": "2026",
         "source_id": "coinbase-forge-mux-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding",
@@ -490,7 +448,7 @@
         "date": "2025",
         "source_id": "databricks-costar-source-1"
       },
-      "last_reviewed_at": "2026-08-13",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding",
@@ -539,7 +497,7 @@
         "date": "2026",
         "source_id": "domu-clementino-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "support",
@@ -607,7 +565,7 @@
         "date": "2026",
         "source_id": "doordash-code-review-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "code-review"
@@ -662,7 +620,7 @@
         "date": "2025-11-11",
         "source_id": "doordash-flux-source-2"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "code-review",
@@ -719,7 +677,8 @@
       ],
       "source_ids": [
         "doordash-flux-source-1",
-        "doordash-flux-source-2"
+        "doordash-flux-source-2",
+        "doordash-flux-source-3"
       ],
       "interfaces": [
         "slack",
@@ -741,7 +700,7 @@
         "date": "2026",
         "source_id": "dropbox-nova-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding",
@@ -810,7 +769,7 @@
         "date": "2026",
         "source_id": "flex-investigation-agent-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "finance-ops",
@@ -863,7 +822,7 @@
         "date": "2026-06",
         "source_id": "github-qubot-source-1"
       },
-      "last_reviewed_at": "2026-08-13",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "data"
@@ -909,7 +868,7 @@
         "date": "2026",
         "source_id": "harvey-spectre-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding",
@@ -970,7 +929,7 @@
         "date": "2026-03",
         "source_id": "hubspot-sidekick-source-1"
       },
-      "last_reviewed_at": "2026-08-13",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "code-review"
@@ -1001,7 +960,6 @@
         "hubspot-sidekick--key-metrics-0",
         "hubspot-sidekick--key-metrics-1",
         "hubspot-sidekick--key-metrics-2",
-        "hubspot-sidekick--key-metrics-3",
         "hubspot-sidekick--operating-models-0"
       ],
       "source_ids": [
@@ -1023,7 +981,7 @@
         "date": "2026",
         "source_id": "linear-agent-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "commercialized",
       "domains": [
         "support",
@@ -1092,7 +1050,7 @@
         "date": "2025-07",
         "source_id": "microsoft-prassistant-source-1"
       },
-      "last_reviewed_at": "2026-08-13",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "code-review"
@@ -1140,7 +1098,7 @@
         "date": "2026",
         "source_id": "monday-sphera-atlas-morphex-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding",
@@ -1209,7 +1167,7 @@
         "date": "2026-04",
         "source_id": "notion-custom-agents-source-1"
       },
-      "last_reviewed_at": "2026-08-13",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "support",
@@ -1258,7 +1216,7 @@
         "date": "2025-06",
         "source_id": "plaid-ai-annotator-source-1"
       },
-      "last_reviewed_at": "2026-08-13",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "data"
@@ -1303,7 +1261,7 @@
         "date": "2025-06",
         "source_id": "plaid-fix-my-connection-source-1"
       },
-      "last_reviewed_at": "2026-08-13",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "ops",
@@ -1349,7 +1307,7 @@
         "date": "2025",
         "source_id": "plaid-internal-mcp-server-source-1"
       },
-      "last_reviewed_at": "2026-08-13",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding"
@@ -1396,7 +1354,7 @@
         "date": "2026-07-09",
         "source_id": "posthog-stamphog-source-1"
       },
-      "last_reviewed_at": "2026-08-13",
+      "last_reviewed_at": "2026-08-31",
       "status": "open-sourced",
       "domains": [
         "code-review"
@@ -1460,7 +1418,7 @@
         "date": "2026",
         "source_id": "ramp-inspect-source-1"
       },
-      "last_reviewed_at": "2026-08-26",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding",
@@ -1541,7 +1499,7 @@
         "date": "2026",
         "source_id": "replit-manager-agent-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding",
@@ -1600,7 +1558,7 @@
         "date": "2025-08",
         "source_id": "retool-retoolgpt-source-1"
       },
-      "last_reviewed_at": "2026-08-13",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "support",
@@ -1645,7 +1603,7 @@
         "date": "2025-12-01",
         "source_id": "salesforce-slackbot-source-2"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "commercialized",
       "domains": [
         "support",
@@ -1702,7 +1660,7 @@
         "date": "2026",
         "source_id": "sentry-junior-source-2"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "open-sourced",
       "domains": [
         "coding",
@@ -1753,7 +1711,8 @@
       "source_ids": [
         "sentry-junior-source-1",
         "sentry-junior-source-2",
-        "sentry-junior-source-3"
+        "sentry-junior-source-3",
+        "sentry-junior-source-4"
       ],
       "interfaces": [
         "slack",
@@ -1772,7 +1731,7 @@
         "date": "2026",
         "source_id": "shopify-internal-agents-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding",
@@ -1839,7 +1798,7 @@
         "date": "2026",
         "source_id": "sierra-pinecone-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding",
@@ -1911,7 +1870,7 @@
         "date": "2026",
         "source_id": "slack-context-system-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "research"
@@ -1966,7 +1925,7 @@
         "date": "2025",
         "source_id": "spotify-honk-xirp-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "mixed",
       "domains": [
         "coding",
@@ -2007,7 +1966,6 @@
         "spotify-honk-xirp--key-metrics-0",
         "spotify-honk-xirp--key-metrics-1",
         "spotify-honk-xirp--key-metrics-2",
-        "spotify-honk-xirp--key-metrics-3",
         "spotify-honk-xirp--lessons-learned-0",
         "spotify-honk-xirp--lessons-learned-1",
         "spotify-honk-xirp--lessons-learned-2",
@@ -2036,7 +1994,7 @@
         "date": "2026",
         "source_id": "stripe-minions-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding",
@@ -2101,7 +2059,7 @@
         "date": "2026",
         "source_id": "uber-coding-agent-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding"
@@ -2153,7 +2111,7 @@
         "date": "2025-08-12",
         "source_id": "uber-ureview-source-1"
       },
-      "last_reviewed_at": "2026-08-13",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "code-review"
@@ -2216,7 +2174,7 @@
         "date": "2026",
         "source_id": "workos-project-horizon-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding",
@@ -2285,7 +2243,7 @@
         "date": "2026",
         "source_id": "ycombinator-agent-infra-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding",
@@ -2331,7 +2289,7 @@
         "date": "2026",
         "source_id": "zup-codegen-source-1"
       },
-      "last_reviewed_at": "2026-08-12",
+      "last_reviewed_at": "2026-08-31",
       "status": "internal",
       "domains": [
         "coding"
@@ -2384,7 +2342,7 @@
       "evidence": [
         {
           "source_id": "airbnb-airchat-source-1",
-          "relation": "supports"
+          "relation": "contextualizes"
         },
         {
           "source_id": "airbnb-airchat-source-2",
@@ -2509,58 +2467,7 @@
       "valid_at": "2025",
       "evidence": [
         {
-          "source_id": "airbnb-airchat-source-1",
-          "relation": "supports"
-        }
-      ]
-    },
-    {
-      "id": "atlassian-dot--summary",
-      "approach_id": "atlassian-dot",
-      "field": "summary",
-      "text": "Atlassian's internal agent for its Design Operations team. DOT answers common tooling questions in the team help channel using knowledge the team stored in Confluence. The Design Ops team built it in Rovo Studio, Atlassian's no-code agent builder.",
-      "kind": "fact",
-      "provenance": "reported",
-      "confidence": "high",
-      "confidence_reason": "A linked first-party source states the claim.",
-      "valid_at": null,
-      "evidence": [
-        {
-          "source_id": "atlassian-dot-source-1",
-          "relation": "supports"
-        }
-      ]
-    },
-    {
-      "id": "atlassian-dot--architecture-knowledge",
-      "approach_id": "atlassian-dot",
-      "field": "architecture.knowledge",
-      "text": "Team knowledge stored in Confluence",
-      "kind": "fact",
-      "provenance": "reported",
-      "confidence": "high",
-      "confidence_reason": "A linked first-party source states the claim.",
-      "valid_at": null,
-      "evidence": [
-        {
-          "source_id": "atlassian-dot-source-1",
-          "relation": "supports"
-        }
-      ]
-    },
-    {
-      "id": "atlassian-dot--operating-models-0",
-      "approach_id": "atlassian-dot",
-      "field": "operating_models.0",
-      "text": "Unclassified for tooling question → help-channel answer; human attention boundary: unknown.",
-      "kind": "inference",
-      "provenance": "catalog-judgment",
-      "confidence": "unverified",
-      "confidence_reason": "The public evidence does not document where human attention returns in the question-and-answer flow.",
-      "valid_at": "2026",
-      "evidence": [
-        {
-          "source_id": "atlassian-dot-source-1",
+          "source_id": "airbnb-airchat-source-2",
           "relation": "supports"
         }
       ]
@@ -2615,10 +2522,6 @@
       "confidence_reason": "A linked first-party source states the claim.",
       "valid_at": null,
       "evidence": [
-        {
-          "source_id": "atlassian-rovo-dev-source-3",
-          "relation": "supports"
-        },
         {
           "source_id": "atlassian-rovo-dev-source-1",
           "relation": "supports"
@@ -2716,10 +2619,6 @@
         },
         {
           "source_id": "block-builderbot-source-3",
-          "relation": "supports"
-        },
-        {
-          "source_id": "block-builderbot-source-3",
           "relation": "contextualizes"
         },
         {
@@ -2777,10 +2676,6 @@
         {
           "source_id": "block-builderbot-source-1",
           "relation": "supports"
-        },
-        {
-          "source_id": "block-builderbot-source-3",
-          "relation": "supports"
         }
       ]
     },
@@ -2832,10 +2727,6 @@
         {
           "source_id": "block-builderbot-source-1",
           "relation": "supports"
-        },
-        {
-          "source_id": "block-builderbot-source-3",
-          "relation": "supports"
         }
       ]
     },
@@ -2857,10 +2748,6 @@
         {
           "source_id": "block-builderbot-source-2",
           "relation": "supports"
-        },
-        {
-          "source_id": "block-builderbot-source-3",
-          "relation": "supports"
         }
       ]
     },
@@ -2877,10 +2764,6 @@
       "evidence": [
         {
           "source_id": "block-builderbot-source-1",
-          "relation": "supports"
-        },
-        {
-          "source_id": "block-builderbot-source-3",
           "relation": "supports"
         }
       ]
@@ -5030,6 +4913,10 @@
         {
           "source_id": "doordash-flux-source-2",
           "relation": "supports"
+        },
+        {
+          "source_id": "doordash-flux-source-3",
+          "relation": "supports"
         }
       ]
     },
@@ -5058,12 +4945,12 @@
       "text": "Firecracker microVMs; <5s p95 end-to-end setup (boot, clone repos, install tools, configure harness)",
       "kind": "fact",
       "provenance": "reported",
-      "confidence": "medium",
-      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-3",
           "relation": "supports"
         }
       ]
@@ -5075,12 +4962,12 @@
       "text": "Maturity model: deterministic workflows -> ReAct agents -> hierarchical deep agents -> experimental swarms",
       "kind": "fact",
       "provenance": "reported",
-      "confidence": "medium",
-      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-2",
           "relation": "supports"
         }
       ]
@@ -5089,15 +4976,15 @@
       "id": "doordash-flux--architecture-model",
       "approach_id": "doordash-flux",
       "field": "architecture.model",
-      "text": "Multiple frontier models",
+      "text": "Model-agnostic platform primitives support third-party or in-house agent components",
       "kind": "fact",
       "provenance": "reported",
-      "confidence": "medium",
-      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-3",
           "relation": "supports"
         }
       ]
@@ -5109,12 +4996,12 @@
       "text": "slack, github, scheduled, cli, skill, cursor",
       "kind": "fact",
       "provenance": "reported",
-      "confidence": "medium",
-      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-3",
           "relation": "supports"
         }
       ]
@@ -5126,12 +5013,16 @@
       "text": "In-house MCP gateway ('Agent Gateway'); LangGraph orchestration; prospective A2A; tools declared per playbook with scoped, logged permissions",
       "kind": "fact",
       "provenance": "reported",
-      "confidence": "medium",
-      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-2",
+          "relation": "supports"
+        },
+        {
+          "source_id": "doordash-flux-source-3",
           "relation": "supports"
         }
       ]
@@ -5143,12 +5034,16 @@
       "text": "AI Marketplace of specialized agents; DataExplorer for grounded analytics; DoorDash-specific context in playbooks",
       "kind": "fact",
       "provenance": "reported",
-      "confidence": "medium",
-      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-2",
+          "relation": "supports"
+        },
+        {
+          "source_id": "doordash-flux-source-3",
           "relation": "supports"
         }
       ]
@@ -5160,12 +5055,12 @@
       "text": "Scoped per playbook; brokered through the gateway, never on the laptop; provenance on every action",
       "kind": "fact",
       "provenance": "reported",
-      "confidence": "medium",
-      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-3",
           "relation": "supports"
         }
       ]
@@ -5177,12 +5072,12 @@
       "text": "Hybrid retrieval: BM25 + dense semantic + reciprocal-rank fusion -> RAG; schema-aware SQL with EXPLAIN validation",
       "kind": "fact",
       "provenance": "reported",
-      "confidence": "medium",
-      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-2",
           "relation": "supports"
         }
       ]
@@ -5194,12 +5089,12 @@
       "text": "Isolated Firecracker microVM with repos, tools, secrets, runtime deps",
       "kind": "fact",
       "provenance": "reported",
-      "confidence": "medium",
-      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-3",
           "relation": "supports"
         }
       ]
@@ -5211,12 +5106,12 @@
       "text": "Governed, audited access to CI, observability, issue trackers, deploy, code search",
       "kind": "fact",
       "provenance": "reported",
-      "confidence": "medium",
-      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-3",
           "relation": "supports"
         }
       ]
@@ -5228,12 +5123,12 @@
       "text": "YAML unit of agentic work: task, inputs, skills, tools, permissions, validation, outputs",
       "kind": "fact",
       "provenance": "reported",
-      "confidence": "medium",
-      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-3",
           "relation": "supports"
         }
       ]
@@ -5245,12 +5140,12 @@
       "text": "Identifies schemas, generates grounded SQL, validates via EXPLAIN before execution",
       "kind": "fact",
       "provenance": "reported",
-      "confidence": "medium",
-      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-2",
           "relation": "supports"
         }
       ]
@@ -5262,12 +5157,12 @@
       "text": "Workflows -> agents -> deep-agent hierarchies -> swarms; governance hardens as control decentralizes",
       "kind": "fact",
       "provenance": "reported",
-      "confidence": "medium",
-      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-2",
           "relation": "supports"
         }
       ]
@@ -5315,12 +5210,12 @@
       "text": "300+ playbooks; 10,000+ invocations per week",
       "kind": "metric",
       "provenance": "reported",
-      "confidence": "medium",
-      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-3",
           "relation": "supports"
         }
       ],
@@ -5338,7 +5233,7 @@
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-3",
           "relation": "supports"
         }
       ]
@@ -5355,7 +5250,7 @@
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-3",
           "relation": "supports"
         }
       ]
@@ -5372,7 +5267,7 @@
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-3",
           "relation": "supports"
         }
       ]
@@ -5389,7 +5284,7 @@
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-2",
           "relation": "supports"
         }
       ]
@@ -5406,7 +5301,7 @@
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-2",
           "relation": "supports"
         }
       ]
@@ -5423,7 +5318,7 @@
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-2",
           "relation": "supports"
         }
       ]
@@ -5440,7 +5335,7 @@
       "valid_at": "2025-11-11",
       "evidence": [
         {
-          "source_id": "doordash-flux-source-1",
+          "source_id": "doordash-flux-source-3",
           "relation": "supports"
         }
       ]
@@ -5459,10 +5354,6 @@
         {
           "source_id": "dropbox-nova-source-1",
           "relation": "supports"
-        },
-        {
-          "source_id": "dropbox-nova-source-2",
-          "relation": "contextualizes"
         }
       ]
     },
@@ -6293,7 +6184,7 @@
       "id": "harvey-spectre--lessons-learned-2",
       "approach_id": "harvey-spectre",
       "field": "lessons_learned.2",
-      "text": "Harvey reports that the same agent platform also supports a security operations center",
+      "text": "Harvey keeps its product-agent and security-agent platforms on separate substrates because they have different trust boundaries",
       "kind": "inference",
       "provenance": "catalog-judgment",
       "confidence": "medium",
@@ -6489,24 +6380,6 @@
       "reported_by": "HubSpot"
     },
     {
-      "id": "hubspot-sidekick--key-metrics-3",
-      "approach_id": "hubspot-sidekick",
-      "field": "key_metrics.3",
-      "text": "About 3,000 EC2 instances run the agent fleet",
-      "kind": "metric",
-      "provenance": "reported",
-      "confidence": "medium",
-      "confidence_reason": "HubSpot reported the figure in its own engineering blog.",
-      "valid_at": null,
-      "evidence": [
-        {
-          "source_id": "hubspot-sidekick-source-2",
-          "relation": "supports"
-        }
-      ],
-      "reported_by": "HubSpot"
-    },
-    {
       "id": "hubspot-sidekick--operating-models-0",
       "approach_id": "hubspot-sidekick",
       "field": "operating_models.0",
@@ -6545,14 +6418,6 @@
         {
           "source_id": "linear-agent-source-6",
           "relation": "supports"
-        },
-        {
-          "source_id": "linear-agent-source-4",
-          "relation": "contextualizes"
-        },
-        {
-          "source_id": "linear-agent-source-5",
-          "relation": "contextualizes"
         }
       ]
     },
@@ -6587,6 +6452,10 @@
         {
           "source_id": "linear-agent-source-1",
           "relation": "supports"
+        },
+        {
+          "source_id": "linear-agent-source-2",
+          "relation": "supports"
         }
       ]
     },
@@ -6594,7 +6463,7 @@
       "id": "linear-agent--architecture-model",
       "approach_id": "linear-agent",
       "field": "architecture.model",
-      "text": "GPT-5 + Gemini 2.5 Pro in Triage Intelligence; Claude Code or Codex for coding sessions",
+      "text": "Codex was used for internal pull-request review; other model choices are not detailed in the preserved sources",
       "kind": "fact",
       "provenance": "reported",
       "confidence": "high",
@@ -6602,7 +6471,7 @@
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "linear-agent-source-1",
+          "source_id": "linear-agent-source-2",
           "relation": "supports"
         }
       ]
@@ -6619,7 +6488,7 @@
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "linear-agent-source-1",
+          "source_id": "linear-agent-source-2",
           "relation": "supports"
         }
       ]
@@ -6636,7 +6505,7 @@
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "linear-agent-source-1",
+          "source_id": "linear-agent-source-2",
           "relation": "supports"
         }
       ]
@@ -6653,7 +6522,7 @@
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "linear-agent-source-1",
+          "source_id": "linear-agent-source-2",
           "relation": "supports"
         }
       ]
@@ -6687,7 +6556,7 @@
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "linear-agent-source-1",
+          "source_id": "linear-agent-source-2",
           "relation": "supports"
         }
       ]
@@ -8193,7 +8062,7 @@
       "id": "ramp-inspect--summary",
       "approach_id": "ramp-inspect",
       "field": "summary",
-      "text": "A background coding agent that closes the loop on verifying its own work; runs tests, reviews telemetry, queries feature flags, visually verifies the frontend; now also monitoring production and proposing fixes; also a platform that hosts 200+ internal agents.",
+      "text": "A background coding agent that closes the loop on verifying its own work; runs tests, reviews telemetry, queries feature flags, visually verifies the frontend; now also monitoring production and proposing fixes; also a platform that hosts many internal agents.",
       "kind": "fact",
       "provenance": "reported",
       "confidence": "high",
@@ -8248,11 +8117,6 @@
         {
           "source_id": "ramp-inspect-source-1",
           "relation": "supports"
-        },
-        {
-          "source_id": "ramp-inspect-source-5",
-          "relation": "supports",
-          "locator": "Tech stack and architecture section"
         }
       ]
     },
@@ -8270,11 +8134,6 @@
         {
           "source_id": "ramp-inspect-source-1",
           "relation": "supports"
-        },
-        {
-          "source_id": "ramp-inspect-source-5",
-          "relation": "supports",
-          "locator": "Tech stack and architecture section"
         }
       ]
     },
@@ -8326,11 +8185,6 @@
         {
           "source_id": "ramp-inspect-source-1",
           "relation": "supports"
-        },
-        {
-          "source_id": "ramp-inspect-source-5",
-          "relation": "supports",
-          "locator": "Debugging with Inspect section"
         }
       ]
     },
@@ -8348,11 +8202,6 @@
         {
           "source_id": "ramp-inspect-source-1",
           "relation": "supports"
-        },
-        {
-          "source_id": "ramp-inspect-source-5",
-          "relation": "supports",
-          "locator": "Inside the sandbox section"
         }
       ]
     },
@@ -8421,11 +8270,6 @@
         {
           "source_id": "ramp-inspect-source-1",
           "relation": "supports"
-        },
-        {
-          "source_id": "ramp-inspect-source-5",
-          "relation": "supports",
-          "locator": "Collaboration & feedback section"
         }
       ]
     },
@@ -8436,17 +8280,13 @@
       "text": "60%+ of merged PRs authored by Inspect (April 2026)",
       "kind": "metric",
       "provenance": "reported",
-      "confidence": "high",
-      "confidence_reason": "A linked first-party source states the claim.",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "ramp-inspect-source-2",
-          "relation": "supports"
-        },
-        {
           "source_id": "ramp-inspect-source-5",
-          "relation": "contextualizes",
+          "relation": "supports",
           "locator": "History of adoption numbers"
         }
       ],
@@ -8459,14 +8299,18 @@
       "text": "75% of merged PRs raised by Inspect sessions (May 2026)",
       "kind": "metric",
       "provenance": "reported",
-      "confidence": "medium",
-      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
       "valid_at": null,
       "evidence": [
         {
           "source_id": "ramp-inspect-source-5",
           "relation": "supports",
           "locator": "History of adoption numbers"
+        },
+        {
+          "source_id": "ramp-inspect-source-2",
+          "relation": "supports"
         }
       ],
       "reported_by": "Ramp"
@@ -8550,7 +8394,7 @@
       "id": "ramp-inspect--key-metrics-6",
       "approach_id": "ramp-inspect",
       "field": "key_metrics.6",
-      "text": "200+ internal agents built on top of the Inspect platform (August 2026)",
+      "text": "Inspect underpins internal agents including ReviewBuddy, Oncall Assistant, Testo, Ramp Research, Voice of the Customer, and error automations",
       "kind": "metric",
       "provenance": "reported",
       "confidence": "medium",
@@ -9288,7 +9132,7 @@
           "relation": "supports"
         },
         {
-          "source_id": "sentry-junior-source-2",
+          "source_id": "sentry-junior-source-4",
           "relation": "supports"
         }
       ],
@@ -9308,10 +9152,6 @@
         {
           "source_id": "sentry-junior-source-1",
           "relation": "supports"
-        },
-        {
-          "source_id": "sentry-junior-source-2",
-          "relation": "supports"
         }
       ]
     },
@@ -9328,10 +9168,6 @@
       "evidence": [
         {
           "source_id": "sentry-junior-source-1",
-          "relation": "supports"
-        },
-        {
-          "source_id": "sentry-junior-source-2",
           "relation": "supports"
         }
       ]
@@ -9384,10 +9220,6 @@
         {
           "source_id": "sentry-junior-source-1",
           "relation": "supports"
-        },
-        {
-          "source_id": "sentry-junior-source-2",
-          "relation": "supports"
         }
       ]
     },
@@ -9404,10 +9236,6 @@
       "evidence": [
         {
           "source_id": "sentry-junior-source-1",
-          "relation": "supports"
-        },
-        {
-          "source_id": "sentry-junior-source-2",
           "relation": "supports"
         }
       ]
@@ -9426,10 +9254,6 @@
         {
           "source_id": "sentry-junior-source-1",
           "relation": "supports"
-        },
-        {
-          "source_id": "sentry-junior-source-2",
-          "relation": "supports"
         }
       ]
     },
@@ -9446,10 +9270,6 @@
       "evidence": [
         {
           "source_id": "sentry-junior-source-1",
-          "relation": "supports"
-        },
-        {
-          "source_id": "sentry-junior-source-2",
           "relation": "supports"
         }
       ]
@@ -9517,7 +9337,7 @@
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "sentry-junior-source-2",
+          "source_id": "sentry-junior-source-1",
           "relation": "supports"
         }
       ],
@@ -10008,7 +9828,7 @@
       "id": "sierra-pinecone--summary",
       "approach_id": "sierra-pinecone",
       "field": "summary",
-      "text": "One company-wide agent that collapsed separate support, analytics, engineering, and sales agents into a single runtime with an MCP Gateway to 37 systems.",
+      "text": "One company-wide agent that collapsed separate support, analytics, engineering, and sales agents into a single runtime with an MCP Gateway to 45 systems.",
       "kind": "fact",
       "provenance": "reported",
       "confidence": "high",
@@ -10017,6 +9837,10 @@
       "evidence": [
         {
           "source_id": "sierra-pinecone-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "sierra-pinecone-source-2",
           "relation": "supports"
         }
       ]
@@ -10115,7 +9939,7 @@
       "id": "sierra-pinecone--architecture-tool-access",
       "approach_id": "sierra-pinecone",
       "field": "architecture.tool_access",
-      "text": "MCP Gateway connected to 37 systems; a network proxy decides whether privileged requests proceed and injects credentials after approval",
+      "text": "MCP Gateway connected to 45 systems; a network proxy decides whether privileged requests proceed and injects credentials after approval",
       "kind": "fact",
       "provenance": "reported",
       "confidence": "high",
@@ -10191,7 +10015,7 @@
       "id": "sierra-pinecone--primitives-0",
       "approach_id": "sierra-pinecone",
       "field": "primitives.0",
-      "text": "One gateway spanning 37 systems, enforcing employee permissions at call time",
+      "text": "One gateway spanning 45 systems, enforcing employee permissions at call time",
       "kind": "fact",
       "provenance": "reported",
       "confidence": "high",
@@ -10702,7 +10526,7 @@
       "id": "spotify-honk-xirp--summary",
       "approach_id": "spotify-honk-xirp",
       "field": "summary",
-      "text": "Honk is Spotify's background coding agent (high confidence); Xirp is the workspace/context/session layer around it (medium confidence). Honk runs on a Claude-Agent-SDK harness in Kubernetes with deterministic CI verifiers and an LLM judge that can veto a run.",
+      "text": "Honk is Spotify's background coding agent (high confidence); Xirp is the workspace/context/session layer around it (medium confidence). Honk runs on a Claude-Agent-SDK harness in Kubernetes, uses trusted CI tools, and combines formatting and linting with LLM-based diff evaluation.",
       "kind": "fact",
       "provenance": "reported",
       "confidence": "high",
@@ -10827,7 +10651,7 @@
       "id": "spotify-honk-xirp--architecture-tool-access",
       "approach_id": "spotify-honk-xirp",
       "field": "architecture.tool_access",
-      "text": "Limited, deliberate tool surface; deterministic CI verifiers run before a PR proceeds, then an independent LLM judge that can veto a run; MCP and CLI for org context",
+      "text": "Limited, deliberate tool surface; trusted CI tools verify changes, while an internal CLI runs formatting and linting through MCP and evaluates diffs with an LLM judge",
       "kind": "fact",
       "provenance": "reported",
       "confidence": "high",
@@ -10911,7 +10735,7 @@
       "id": "spotify-honk-xirp--primitives-0",
       "approach_id": "spotify-honk-xirp",
       "field": "primitives.0",
-      "text": "Build/test verifiers gate the PR; an LLM judge can veto the run afterward",
+      "text": "The harness combines build/test tools, formatting and linting, and LLM-based diff evaluation",
       "kind": "fact",
       "provenance": "reported",
       "confidence": "high",
@@ -11022,29 +10846,10 @@
       "denominator": "All Spotify pull requests"
     },
     {
-      "id": "spotify-honk-xirp--key-metrics-3",
-      "approach_id": "spotify-honk-xirp",
-      "field": "key_metrics.3",
-      "text": "36,000+ Xirp sessions; thousands of engineers",
-      "kind": "metric",
-      "provenance": "reported",
-      "confidence": "high",
-      "confidence_reason": "A linked first-party source states the claim.",
-      "valid_at": "2026",
-      "evidence": [
-        {
-          "source_id": "spotify-honk-xirp-source-3",
-          "relation": "supports"
-        }
-      ],
-      "reported_by": "Spotify",
-      "metric_scope": "Xirp sessions and users"
-    },
-    {
       "id": "spotify-honk-xirp--lessons-learned-0",
       "approach_id": "spotify-honk-xirp",
       "field": "lessons_learned.0",
-      "text": "Run deterministic verification before probabilistic judgment; CI verifiers first, LLM judge second",
+      "text": "Combine deterministic build, formatting, and lint checks with LLM-based diff evaluation",
       "kind": "inference",
       "provenance": "catalog-judgment",
       "confidence": "medium",
@@ -11974,10 +11779,6 @@
         {
           "source_id": "workos-project-horizon-source-3",
           "relation": "contextualizes"
-        },
-        {
-          "source_id": "workos-project-horizon-source-4",
-          "relation": "contextualizes"
         }
       ]
     },
@@ -12586,7 +12387,26 @@
       "provenance_class": "direct-participant",
       "role": "evidence",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "airbnb-airchat-source-1",
+        "original_url": "https://dpe.org/sessions/szczepan-faber-mike-nakhimovich/agentic-coding-at-airbnb/",
+        "final_url": "https://dpe.org/sessions/szczepan-faber-mike-nakhimovich/agentic-coding-at-airbnb/",
+        "captured_at": "2026-08-31T17:38:40Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/airbnb-airchat-source-1/content.md",
+            "sha256": "sha256:4ab4a7c2fdbc723d88e0df3f7d7582d1a8c37f143a1627c17c5f602c5941d862",
+            "bytes": 1307
+          }
+        }
+      },
       "approach_id": "airbnb-airchat"
     },
     {
@@ -12598,7 +12418,26 @@
       "provenance_class": "direct-participant",
       "role": "evidence",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "airbnb-airchat-source-2",
+        "original_url": "https://getdx.com/podcast/beyond-the-cli-agentic-ai-for-async-workloads-and-non-developers/",
+        "final_url": "https://getdx.com/podcast/beyond-the-cli-agentic-ai-for-async-workloads-and-non-developers/",
+        "captured_at": "2026-08-31T17:38:48Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/airbnb-airchat-source-2/content.md",
+            "sha256": "sha256:f5c2460670c198c7a0822d397e83c916849b91f0309eb79dcf4bb40e11e510a1",
+            "bytes": 50796
+          }
+        }
+      },
       "approach_id": "airbnb-airchat"
     },
     {
@@ -12610,20 +12449,27 @@
       "provenance_class": "independent-secondary",
       "role": "evidence",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "airbnb-airchat-source-3",
+        "original_url": "https://www.theaithinker.com/p/how-to-get-your-team-past-the-ai",
+        "final_url": "https://www.theaithinker.com/p/how-to-get-your-team-past-the-ai",
+        "captured_at": "2026-08-31T17:38:58Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/airbnb-airchat-source-3/content.md",
+            "sha256": "sha256:1d1dc23408c8f7e01428147e7091b605620e8fe66d637f61fa743b85bdf1c7c6",
+            "bytes": 34229
+          }
+        }
+      },
       "approach_id": "airbnb-airchat"
-    },
-    {
-      "id": "atlassian-dot-source-1",
-      "title": "How Design Ops built an AI teammate with no engineering lift",
-      "url": "https://www.atlassian.com/blog/ai-at-work/how-design-ops-built-an-ai-teammate-with-no-engineering-lift",
-      "canonical_url": "https://www.atlassian.com/blog/ai-at-work/how-design-ops-built-an-ai-teammate-with-no-engineering-lift",
-      "kind": "corporate-article",
-      "provenance_class": "first-party",
-      "role": "evidence",
-      "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
-      "approach_id": "atlassian-dot"
     },
     {
       "id": "atlassian-rovo-dev-source-1",
@@ -12634,7 +12480,26 @@
       "provenance_class": "first-party",
       "role": "evidence",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "atlassian-rovo-dev-source-1",
+        "original_url": "https://www.atlassian.com/blog/atlassian-engineering/improving-coding-agent-experience",
+        "final_url": "https://www.atlassian.com/blog/atlassian-engineering/improving-coding-agent-experience",
+        "captured_at": "2026-08-31T17:39:24Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/atlassian-rovo-dev-source-1/content.md",
+            "sha256": "sha256:a468f0d31e7772c927f2d53ba3086ecd78871bc3ec0a73ac332278804eb6b1da",
+            "bytes": 10923
+          }
+        }
+      },
       "approach_id": "atlassian-rovo-dev"
     },
     {
@@ -12646,7 +12511,26 @@
       "provenance_class": "first-party",
       "role": "evidence",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "atlassian-rovo-dev-source-2",
+        "original_url": "https://www.atlassian.com/blog/atlassian-engineering/developer-productivity-improved-with-rovo-dev",
+        "final_url": "https://www.atlassian.com/blog/atlassian-engineering/developer-productivity-improved-with-rovo-dev",
+        "captured_at": "2026-08-31T17:39:33Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/atlassian-rovo-dev-source-2/content.md",
+            "sha256": "sha256:b1647b8ac1a5dbd5c6e8dee67b596d668681746db9a3374165a637b11e1607f7",
+            "bytes": 12256
+          }
+        }
+      },
       "approach_id": "atlassian-rovo-dev"
     },
     {
@@ -12659,7 +12543,26 @@
       "role": "evidence",
       "published_at": "2024-11",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "atlassian-rovo-dev-source-3",
+        "original_url": "https://arxiv.org/abs/2411.12924",
+        "final_url": "https://arxiv.org/abs/2411.12924",
+        "captured_at": "2026-08-31T17:39:42Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/atlassian-rovo-dev-source-3/content.md",
+            "sha256": "sha256:a5daa4616710f897d08ae2b3798dc485ca57ec5171a1b7bce536bb78472489f7",
+            "bytes": 2543
+          }
+        }
+      },
       "approach_id": "atlassian-rovo-dev"
     },
     {
@@ -12670,7 +12573,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "block-builderbot-source-1",
+        "original_url": "https://block.xyz/inside/block-rolls-out-builderbot-a-new-suite-of-ai-native-tools-that-changes-the-way-we-ship",
+        "final_url": "https://block.xyz/inside/block-rolls-out-builderbot-a-new-suite-of-ai-native-tools-that-changes-the-way-we-ship",
+        "captured_at": "2026-08-31T17:39:51Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/block-builderbot-source-1/content.md",
+            "sha256": "sha256:4189377fdd7349ee5fb0b8aa176460f51543348c6d53b1ae7e8a20943818643f",
+            "bytes": 4286
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "block-builderbot"
     },
@@ -12682,7 +12604,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "block-builderbot-source-2",
+        "original_url": "https://engineering.block.xyz/blog/protecting-our-systems-with-intelligence",
+        "final_url": "https://engineering.block.xyz/blog/protecting-our-systems-with-intelligence",
+        "captured_at": "2026-08-31T17:39:58Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/block-builderbot-source-2/content.md",
+            "sha256": "sha256:2e7d3fb1c1682165745f9b78ef2560e0713e182eebd59887768cac12aa7dc9f7",
+            "bytes": 9784
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "block-builderbot"
     },
@@ -12695,7 +12636,26 @@
       "provenance_class": "first-party",
       "role": "evidence",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "block-builderbot-source-3",
+        "original_url": "https://github.com/block/builderbot",
+        "final_url": "https://github.com/block/builderbot",
+        "captured_at": "2026-08-31T17:40:09Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/block-builderbot-source-3/content.md",
+            "sha256": "sha256:503f6115efd4f7042b22085d685af3ca026c145e8efe57544be7e8776f0d0de6",
+            "bytes": 2503
+          }
+        }
+      },
       "approach_id": "block-builderbot"
     },
     {
@@ -12711,7 +12671,26 @@
       ],
       "published_at": "2026-06-21",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "block-builderbot-source-4",
+        "original_url": "https://news.ycombinator.com/item?id=48618973",
+        "final_url": "https://news.ycombinator.com/item?id=48618973",
+        "captured_at": "2026-08-31T17:40:18Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/block-builderbot-source-4/content.md",
+            "sha256": "sha256:23805ab1d4e83b1cfb9d18ba3cdbcdd49851b1276d05ac826a63d013334dac13",
+            "bytes": 836
+          }
+        }
+      },
       "approach_id": "block-builderbot"
     },
     {
@@ -12727,7 +12706,26 @@
       ],
       "published_at": "2026-06-21",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "block-builderbot-source-5",
+        "original_url": "https://news.ycombinator.com/item?id=48619052",
+        "final_url": "https://news.ycombinator.com/item?id=48619052",
+        "captured_at": "2026-08-31T17:40:26Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/block-builderbot-source-5/content.md",
+            "sha256": "sha256:1073d4b99c35b7feb054dc79e8a8ad71267aabbed5735d4972f5c26c62f6fe4d",
+            "bytes": 560
+          }
+        }
+      },
       "approach_id": "block-builderbot"
     },
     {
@@ -12739,7 +12737,26 @@
       "provenance_class": "independent-secondary",
       "published_at": "2025-09-25",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "brex-agent-platform-source-1",
+        "original_url": "https://www.firstround.com/ai/brex",
+        "final_url": "https://www.firstround.com/ai/brex",
+        "captured_at": "2026-08-31T17:40:35Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/brex-agent-platform-source-1/content.md",
+            "sha256": "sha256:7f93ca0f790cfee533cc68de90faaafb87555858453c686eb9a67e408c56d428",
+            "bytes": 26716
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "brex-agent-platform"
     },
@@ -12751,7 +12768,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "browserbase-bb-source-1",
+        "original_url": "https://browserbase.com/blog/internal-agents",
+        "final_url": "https://www.browserbase.com/blog/internal-agents",
+        "captured_at": "2026-08-31T17:40:42Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/browserbase-bb-source-1/content.md",
+            "sha256": "sha256:dd3ad8521c55701e44595b24ddfdda6f15ed6a3d9c47b7fef4893ae8b92858e9",
+            "bytes": 21167
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "browserbase-bb"
     },
@@ -12763,7 +12799,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "cloudflare-ai-stack-source-1",
+        "original_url": "https://blog.cloudflare.com/internal-ai-engineering-stack/",
+        "final_url": "https://blog.cloudflare.com/internal-ai-engineering-stack/",
+        "captured_at": "2026-08-31T17:40:51Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/cloudflare-ai-stack-source-1/content.md",
+            "sha256": "sha256:2454a2ab695ab9611aa982b541b698f3bb948358a6680c7da13e66ad7307a9d8",
+            "bytes": 29257
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "cloudflare-ai-stack"
     },
@@ -12780,7 +12835,26 @@
       ],
       "published_at": "2026-04-20",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "cloudflare-ai-stack-source-2",
+        "original_url": "https://news.ycombinator.com/item?id=47837240",
+        "final_url": "https://news.ycombinator.com/item?id=47837240",
+        "captured_at": "2026-08-31T17:40:59Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/cloudflare-ai-stack-source-2/content.md",
+            "sha256": "sha256:529a706a81204c6f55ca7acf5ff98d9343c7060b986a6dcf535f579dfe4ef0dc",
+            "bytes": 742
+          }
+        }
+      },
       "approach_id": "cloudflare-ai-stack"
     },
     {
@@ -12791,7 +12865,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "coinbase-forge-mux-source-1",
+        "original_url": "https://www.coinbase.com/de/blog/coding-had-a-concurrency-problem-how-mux-helped-solve-it",
+        "final_url": "https://www.coinbase.com/de/blog/coding-had-a-concurrency-problem-how-mux-helped-solve-it",
+        "captured_at": "2026-08-31T17:41:07Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/coinbase-forge-mux-source-1/content.md",
+            "sha256": "sha256:741948a748f28315d02d2fe5e5d6e2816d755179592e2cbf5c6b57be6daf8850",
+            "bytes": 6767
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "coinbase-forge-mux"
     },
@@ -12803,7 +12896,26 @@
       "kind": "case-study",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "coinbase-forge-mux-source-2",
+        "original_url": "https://linear.app/customers/coinbase",
+        "final_url": "https://linear.app/customers/coinbase",
+        "captured_at": "2026-08-31T17:41:18Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/coinbase-forge-mux-source-2/content.md",
+            "sha256": "sha256:b1b946c51a9f2ba6967b8d9a0ebd11f303714242714f4c22f8c09909f0f97f89",
+            "bytes": 4437
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "coinbase-forge-mux"
     },
@@ -12816,7 +12928,26 @@
       "provenance_class": "first-party",
       "role": "evidence",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "databricks-costar-source-1",
+        "original_url": "https://www.databricks.com/blog/costar-how-we-ship-ai-agents-databricks-fast-without-breaking-things",
+        "final_url": "https://www.databricks.com/blog/costar-how-we-ship-ai-agents-databricks-fast-without-breaking-things",
+        "captured_at": "2026-08-31T17:41:27Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/databricks-costar-source-1/content.md",
+            "sha256": "sha256:01d6e070fbb6459b6186e421c6c0c61e49e83cf316dbe42d9a801266114bce1f",
+            "bytes": 24383
+          }
+        }
+      },
       "approach_id": "databricks-costar"
     },
     {
@@ -12828,7 +12959,26 @@
       "provenance_class": "first-party",
       "role": "evidence",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "databricks-costar-source-2",
+        "original_url": "https://www.databricks.com/blog/benchmarking-coding-agents-databricks-multi-million-line-codebase",
+        "final_url": "https://www.databricks.com/blog/benchmarking-coding-agents-databricks-multi-million-line-codebase",
+        "captured_at": "2026-08-31T17:41:38Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/databricks-costar-source-2/content.md",
+            "sha256": "sha256:5b765f7c350ef567ed0c8444f52167f0171cc23bd3c48d5d7b632663b3859e78",
+            "bytes": 13678
+          }
+        }
+      },
       "approach_id": "databricks-costar"
     },
     {
@@ -12839,7 +12989,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "domu-clementino-source-1",
+        "original_url": "https://domu.ai/blog/why-we-split-our-internal-agent-in-two",
+        "final_url": "https://domu.ai/blog/why-we-split-our-internal-agent-in-two",
+        "captured_at": "2026-08-31T17:41:45Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/domu-clementino-source-1/content.md",
+            "sha256": "sha256:911788d9acd6aa775fee843f162a7f28ae679631cf1c565a4b790a5bb913ebae",
+            "bytes": 8174
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "domu-clementino"
     },
@@ -12851,7 +13020,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "doordash-code-review-source-1",
+        "original_url": "https://careersatdoordash.com/blog/doordash-built-an-ai-code-reviewer-engineers-actually-listen-to/",
+        "final_url": "https://careersatdoordash.com/blog/doordash-built-an-ai-code-reviewer-engineers-actually-listen-to/",
+        "captured_at": "2026-08-31T17:41:52Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/doordash-code-review-source-1/content.md",
+            "sha256": "sha256:0dfaa3b3595d97ec0400b6c7570c62e31288a228121cdb618ed30c84585971f4",
+            "bytes": 19641
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "doordash-code-review"
     },
@@ -12863,7 +13051,26 @@
       "kind": "social-post",
       "provenance_class": "direct-participant",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "doordash-flux-source-1",
+        "original_url": "https://x.com/AIatDoorDash/status/2087285008906240193",
+        "final_url": "https://x.com/AIatDoorDash/status/2087285008906240193",
+        "captured_at": "2026-08-31T17:42:01Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/doordash-flux-source-1/content.md",
+            "sha256": "sha256:3fe095b0e92562a9dbf25d6fc3d6d816ed51168d964ff238d7acf2e455bfb01d",
+            "bytes": 1178
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "doordash-flux"
     },
@@ -12876,7 +13083,58 @@
       "provenance_class": "first-party",
       "published_at": "2025-11-11",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "doordash-flux-source-2",
+        "original_url": "https://careersatdoordash.com/blog/beyond-single-agents-doordash-building-collaborative-ai-ecosystem/",
+        "final_url": "https://careersatdoordash.com/blog/beyond-single-agents-doordash-building-collaborative-ai-ecosystem/",
+        "captured_at": "2026-08-31T17:55:30Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/doordash-flux-source-2/content.md",
+            "sha256": "sha256:8e9f42ae8559f6dafaa322262329fd03fc96f6cca949ec64a1497cb971d34d34",
+            "bytes": 22418
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "doordash-flux"
+    },
+    {
+      "id": "doordash-flux-source-3",
+      "title": "Delegating Engineering Work To Cloud-Based Agents",
+      "url": "https://careersatdoordash.com/blog/delegating-engineering-work-to-cloud-based-agents/",
+      "canonical_url": "https://careersatdoordash.com/blog/delegating-engineering-work-to-cloud-based-agents/",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "published_at": "2026-08-11",
+      "accessed_at": "2026-08-31",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "doordash-flux-source-3",
+        "original_url": "https://careersatdoordash.com/blog/delegating-engineering-work-to-cloud-based-agents/",
+        "final_url": "https://careersatdoordash.com/blog/delegating-engineering-work-to-cloud-based-agents/",
+        "captured_at": "2026-08-31T18:09:17Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/doordash-flux-source-3/content.md",
+            "sha256": "sha256:b319a0ace131d82a2c4f8b477df5511412e3a1c3127e5d74cdb5598624f75b15",
+            "bytes": 9896
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "doordash-flux"
     },
@@ -12888,24 +13146,62 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "dropbox-nova-source-1",
+        "original_url": "https://dropbox.tech/machine-learning/introducing-nova-our-internal-platform-for-coding-agents",
+        "final_url": "https://dropbox.tech/machine-learning/introducing-nova-our-internal-platform-for-coding-agents",
+        "captured_at": "2026-08-31T17:42:18Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/dropbox-nova-source-1/content.md",
+            "sha256": "sha256:e6b443ee09b9dbe68c0c10aab951ba8f75640d0202f0be4e95fca23f9d3d3593",
+            "bytes": 13723
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "dropbox-nova"
     },
     {
       "id": "dropbox-nova-source-2",
-      "title": "Hacker News discussion of Nova",
+      "title": "Hacker News submission for Nova",
       "url": "https://news.ycombinator.com/item?id=48235065",
       "canonical_url": "https://news.ycombinator.com/item?id=48235065",
       "kind": "hn-thread",
       "provenance_class": "community",
-      "role": "commentary",
+      "role": "discovery",
       "authors": [
         "el_duderino"
       ],
       "published_at": "2026-05-22",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "dropbox-nova-source-2",
+        "original_url": "https://news.ycombinator.com/item?id=48235065",
+        "final_url": "https://news.ycombinator.com/item?id=48235065",
+        "captured_at": "2026-08-31T17:42:27Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/dropbox-nova-source-2/content.md",
+            "sha256": "sha256:b608472ab9489885d07bfaa57186859b3a7d4c54b1168ca7a2ab789f5d0f2f8f",
+            "bytes": 886
+          }
+        }
+      },
       "approach_id": "dropbox-nova"
     },
     {
@@ -12916,7 +13212,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "flex-investigation-agent-source-1",
+        "original_url": "https://www.withflex.com/blog/the-flex-ai-investigation-agent-for-hsa-fsa-payments",
+        "final_url": "https://www.withflex.com/blog/the-flex-ai-investigation-agent-for-hsa-fsa-payments",
+        "captured_at": "2026-08-31T17:42:35Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/flex-investigation-agent-source-1/content.md",
+            "sha256": "sha256:cb676fc287fdc54f924f201b15c39e51cef37e925f76c551c471bddc5d035271",
+            "bytes": 14791
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "flex-investigation-agent"
     },
@@ -12930,7 +13245,26 @@
       "role": "evidence",
       "published_at": "2026-06-19",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "github-qubot-source-1",
+        "original_url": "https://github.blog/ai-and-ml/github-copilot/how-we-built-an-internal-data-analytics-agent/",
+        "final_url": "https://github.blog/ai-and-ml/github-copilot/how-we-built-an-internal-data-analytics-agent/",
+        "captured_at": "2026-08-31T17:42:43Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/github-qubot-source-1/content.md",
+            "sha256": "sha256:820488e2b11a401e35bac3141b644a3f94d5a09e4e3b074c6c5e40d5421992da",
+            "bytes": 8226
+          }
+        }
+      },
       "approach_id": "github-qubot"
     },
     {
@@ -12941,7 +13275,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "harvey-spectre-source-1",
+        "original_url": "https://www.harvey.ai/blog/building-spectre-internal-collaborative-cloud-agent-platform",
+        "final_url": "https://www.harvey.ai/blog/building-spectre-internal-collaborative-cloud-agent-platform",
+        "captured_at": "2026-08-31T17:42:52Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/harvey-spectre-source-1/content.md",
+            "sha256": "sha256:63f96d247d6786af98fc3af6ffd0bdd7d6826986e70c3a0df9f0bb76adca258d",
+            "bytes": 17423
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "harvey-spectre"
     },
@@ -12953,7 +13306,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "harvey-spectre-source-2",
+        "original_url": "https://www.harvey.ai/blog/building-an-agentic-security-operations-center",
+        "final_url": "https://www.harvey.ai/blog/building-an-agentic-security-operations-center",
+        "captured_at": "2026-08-31T17:43:00Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/harvey-spectre-source-2/content.md",
+            "sha256": "sha256:3b8d8ad6234571e9b71c813dce98dc5dd1b990054a16a9aa4f57e7e507b93daf",
+            "bytes": 17193
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "harvey-spectre"
     },
@@ -12967,7 +13339,26 @@
       "role": "evidence",
       "published_at": "2026-03",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "hubspot-sidekick-source-1",
+        "original_url": "https://product.hubspot.com/blog/automated-code-review-the-6-month-evolution",
+        "final_url": "https://product.hubspot.com/blog/automated-code-review-the-6-month-evolution",
+        "captured_at": "2026-08-31T17:43:10Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/hubspot-sidekick-source-1/content.md",
+            "sha256": "sha256:95527b1030126f0b7b832b492bf66b59c3d1297025443f5b1c11841f42ff6326",
+            "bytes": 12018
+          }
+        }
+      },
       "approach_id": "hubspot-sidekick"
     },
     {
@@ -12979,7 +13370,26 @@
       "provenance_class": "first-party",
       "role": "evidence",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "hubspot-sidekick-source-2",
+        "original_url": "https://product.hubspot.com/blog/cloud-coding-agents-at-hubspot",
+        "final_url": "https://product.hubspot.com/blog/cloud-coding-agents-at-hubspot",
+        "captured_at": "2026-08-31T17:43:18Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/hubspot-sidekick-source-2/content.md",
+            "sha256": "sha256:33f147cb1f3574a133c48933b3f34dd167c27a61164afcf7a1d1c2bec1ed4241",
+            "bytes": 14509
+          }
+        }
+      },
       "approach_id": "hubspot-sidekick"
     },
     {
@@ -12990,7 +13400,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "linear-agent-source-1",
+        "original_url": "https://linear.app/now/how-we-built-linear-agent",
+        "final_url": "https://linear.app/now/how-we-built-linear-agent",
+        "captured_at": "2026-08-31T17:43:26Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/linear-agent-source-1/content.md",
+            "sha256": "sha256:2742071677e6b38b0bc95644570642d7ed1c92b9b433225e2353b62d29068f86",
+            "bytes": 11316
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "linear-agent"
     },
@@ -13002,7 +13431,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "linear-agent-source-2",
+        "original_url": "https://linear.app/now/how-we-use-linear-agent-at-linear",
+        "final_url": "https://linear.app/now/how-we-use-linear-agent-at-linear",
+        "captured_at": "2026-08-31T17:43:34Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/linear-agent-source-2/content.md",
+            "sha256": "sha256:174026b81583bc2125db5be844623c7b401bfea4f22aa6cd610c3096f3318e60",
+            "bytes": 13512
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "linear-agent"
     },
@@ -13014,40 +13462,97 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "linear-agent-source-3",
+        "original_url": "https://linear.app/now/our-approach-to-building-the-agent-interaction-sdk",
+        "final_url": "https://linear.app/now/our-approach-to-building-the-agent-interaction-sdk",
+        "captured_at": "2026-08-31T17:43:42Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/linear-agent-source-3/content.md",
+            "sha256": "sha256:5ac5435ddad694ca34bcfd20c99d5e21b291f56d21baaaaf538d93bb1f46ef45",
+            "bytes": 11080
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "linear-agent"
     },
     {
       "id": "linear-agent-source-4",
-      "title": "Hacker News discussion of how Linear built its agent",
+      "title": "Hacker News submission for how Linear built its agent",
       "url": "https://news.ycombinator.com/item?id=49252304",
       "canonical_url": "https://news.ycombinator.com/item?id=49252304",
       "kind": "hn-thread",
       "provenance_class": "community",
-      "role": "commentary",
+      "role": "discovery",
       "authors": [
         "cristinacordova"
       ],
       "published_at": "2026-08-11",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "linear-agent-source-4",
+        "original_url": "https://news.ycombinator.com/item?id=49252304",
+        "final_url": "https://news.ycombinator.com/item?id=49252304",
+        "captured_at": "2026-08-31T17:43:49Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/linear-agent-source-4/content.md",
+            "sha256": "sha256:21c31402044279083ba9754cf35e8dd51bd4ba6d2b035970b622555369a81903",
+            "bytes": 393
+          }
+        }
+      },
       "approach_id": "linear-agent"
     },
     {
       "id": "linear-agent-source-5",
-      "title": "Hacker News discussion of the Linear Agent public beta",
+      "title": "Hacker News submission for the Linear Agent public beta",
       "url": "https://news.ycombinator.com/item?id=48503334",
       "canonical_url": "https://news.ycombinator.com/item?id=48503334",
       "kind": "hn-thread",
       "provenance_class": "community",
-      "role": "commentary",
+      "role": "discovery",
       "authors": [
         "samber"
       ],
       "published_at": "2026-06-12",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "linear-agent-source-5",
+        "original_url": "https://news.ycombinator.com/item?id=48503334",
+        "final_url": "https://news.ycombinator.com/item?id=48503334",
+        "captured_at": "2026-08-31T17:43:58Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/linear-agent-source-5/content.md",
+            "sha256": "sha256:dde2e308c39473792c911b768fc93dd64f5d3ffefb5f36cef44907ecdfecd4ca",
+            "bytes": 412
+          }
+        }
+      },
       "approach_id": "linear-agent"
     },
     {
@@ -13060,7 +13565,26 @@
       "role": "evidence",
       "published_at": "2026-03-24",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "linear-agent-source-6",
+        "original_url": "https://linear.app/changelog/2026-03-24-introducing-linear-agent",
+        "final_url": "https://linear.app/changelog/2026-03-24-introducing-linear-agent",
+        "captured_at": "2026-08-31T17:44:08Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/linear-agent-source-6/content.md",
+            "sha256": "sha256:d6ea99898a8e8e273a691d8e03a7cf76dcbdef9ef89361a49330dcc5127c7555",
+            "bytes": 5914
+          }
+        }
+      },
       "approach_id": "linear-agent"
     },
     {
@@ -13073,7 +13597,26 @@
       "role": "evidence",
       "published_at": "2025-07-14",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "microsoft-prassistant-source-1",
+        "original_url": "https://devblogs.microsoft.com/engineering-at-microsoft/enhancing-code-quality-at-scale-with-ai-powered-code-reviews/",
+        "final_url": "https://devblogs.microsoft.com/engineering-at-microsoft/enhancing-code-quality-at-scale-with-ai-powered-code-reviews/",
+        "captured_at": "2026-08-31T17:55:39Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/microsoft-prassistant-source-1/content.md",
+            "sha256": "sha256:b1e5a99a03d2996ce76bf48f7720853b04e645e50ac7f7af53d14f4238f2d405",
+            "bytes": 11219
+          }
+        }
+      },
       "approach_id": "microsoft-prassistant"
     },
     {
@@ -13084,7 +13627,26 @@
       "kind": "case-study",
       "provenance_class": "independent-secondary",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "monday-sphera-atlas-morphex-source-1",
+        "original_url": "https://aws.amazon.com/blogs/machine-learning/ai-teammates-how-monday-com-runs-production-ai-agents-on-amazon-bedrock/",
+        "final_url": "https://aws.amazon.com/blogs/machine-learning/ai-teammates-how-monday-com-runs-production-ai-agents-on-amazon-bedrock/",
+        "captured_at": "2026-08-31T17:44:51Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/monday-sphera-atlas-morphex-source-1/content.md",
+            "sha256": "sha256:25216f6eb831f212852e1852a69cd661ce1c97e998a774dd2ed9acbaf019d9ab",
+            "bytes": 18211
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "monday-sphera-atlas-morphex"
     },
@@ -13098,7 +13660,26 @@
       "role": "evidence",
       "published_at": "2026-04-14",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "notion-custom-agents-source-1",
+        "original_url": "https://latent.space/p/notion",
+        "final_url": "https://www.latent.space/p/notion",
+        "captured_at": "2026-08-31T17:45:03Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/notion-custom-agents-source-1/content.md",
+            "sha256": "sha256:4e42077011382b9f77410822df8528a03212a6ed34d17c92c86c4da95acb0c89",
+            "bytes": 124631
+          }
+        }
+      },
       "approach_id": "notion-custom-agents"
     },
     {
@@ -13110,7 +13691,26 @@
       "provenance_class": "first-party",
       "role": "evidence",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "notion-custom-agents-source-2",
+        "original_url": "https://www.notion.com/en-gb/blog/how-we-built-security-into-custom-agents",
+        "final_url": "https://www.notion.com/en-gb/blog/how-we-built-security-into-custom-agents",
+        "captured_at": "2026-08-31T17:45:14Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/notion-custom-agents-source-2/content.md",
+            "sha256": "sha256:c442cf76acff653271f723f00e785e6ed3c069b3136efe38f35439e706742a3c",
+            "bytes": 7751
+          }
+        }
+      },
       "approach_id": "notion-custom-agents"
     },
     {
@@ -13123,7 +13723,26 @@
       "role": "evidence",
       "published_at": "2025-06",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "plaid-ai-annotator-source-1",
+        "original_url": "https://plaid.com/blog/ai-agents-june-2025/",
+        "final_url": "https://plaid.com/blog/ai-agents-june-2025/",
+        "captured_at": "2026-08-31T17:45:23Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/plaid-ai-annotator-source-1/content.md",
+            "sha256": "sha256:452c6221596bb7d5dcb8392e5197623483ab51c606345a41d6fae741cb051c30",
+            "bytes": 5190
+          }
+        }
+      },
       "approach_id": "plaid-ai-annotator"
     },
     {
@@ -13136,7 +13755,26 @@
       "role": "evidence",
       "published_at": "2025-06",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "plaid-fix-my-connection-source-1",
+        "original_url": "https://plaid.com/blog/ai-agents-june-2025/",
+        "final_url": "https://plaid.com/blog/ai-agents-june-2025/",
+        "captured_at": "2026-08-31T17:45:33Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/plaid-fix-my-connection-source-1/content.md",
+            "sha256": "sha256:7fc4e30083766bf66d62e92ee0af10c514e09a0d0b6341422644017d14ab7857",
+            "bytes": 5195
+          }
+        }
+      },
       "approach_id": "plaid-fix-my-connection"
     },
     {
@@ -13148,7 +13786,26 @@
       "provenance_class": "first-party",
       "role": "evidence",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "plaid-internal-mcp-server-source-1",
+        "original_url": "https://engineering.plaid.com/the-plaid-internal-mcp-server-8eff08bb6bdb",
+        "final_url": "https://engineering.plaid.com/the-plaid-internal-mcp-server-8eff08bb6bdb",
+        "captured_at": "2026-08-31T17:45:43Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/plaid-internal-mcp-server-source-1/content.md",
+            "sha256": "sha256:eaef686c595e813529b0393b47da2d86d96e3508ebf5e8641f548bdece56a1c1",
+            "bytes": 11749
+          }
+        }
+      },
       "approach_id": "plaid-internal-mcp-server"
     },
     {
@@ -13161,7 +13818,26 @@
       "role": "evidence",
       "published_at": "2026-07-09",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "posthog-stamphog-source-1",
+        "original_url": "https://posthog.com/newsletter/code-review-tips",
+        "final_url": "https://posthog.com/newsletter/code-review-tips",
+        "captured_at": "2026-08-31T17:45:51Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/posthog-stamphog-source-1/content.md",
+            "sha256": "sha256:4cc3f02d4188cf9d525aa29d16f7e578553c4acdb180eb43d2db3a5382cf72ad",
+            "bytes": 15950
+          }
+        }
+      },
       "approach_id": "posthog-stamphog"
     },
     {
@@ -13177,7 +13853,26 @@
       ],
       "published_at": "2026-07-28",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "posthog-stamphog-source-2",
+        "original_url": "https://posthog.com/blog/10k-prs-a-month",
+        "final_url": "https://posthog.com/blog/10k-prs-a-month",
+        "captured_at": "2026-08-31T17:46:04Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/posthog-stamphog-source-2/content.md",
+            "sha256": "sha256:cd5dcde3b2e17a10a8d5ac8de33dbc3ef9ae92ec6cb438163dbe9c9d8fe4d79c",
+            "bytes": 14035
+          }
+        }
+      },
       "approach_id": "posthog-stamphog"
     },
     {
@@ -13189,7 +13884,26 @@
       "provenance_class": "first-party",
       "role": "evidence",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "posthog-stamphog-source-3",
+        "original_url": "https://github.com/PostHog/posthog/tree/988c9031bb93c74bafcdfb670c01497c79a4f644/tools/pr-approval-agent",
+        "final_url": "https://github.com/PostHog/posthog/tree/988c9031bb93c74bafcdfb670c01497c79a4f644/tools/pr-approval-agent",
+        "captured_at": "2026-08-31T17:46:13Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/posthog-stamphog-source-3/content.md",
+            "sha256": "sha256:7f4e1844030a44ed0120e3de99db3e847390fb1ee7658779d5b7908608c8bc1e",
+            "bytes": 15840
+          }
+        }
+      },
       "approach_id": "posthog-stamphog"
     },
     {
@@ -13200,19 +13914,57 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "ramp-inspect-source-1",
+        "original_url": "https://engineering.ramp.com/post/why-we-built-our-background-agent",
+        "final_url": "https://engineering.ramp.com/post/why-we-built-our-background-agent",
+        "captured_at": "2026-08-31T17:46:23Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/ramp-inspect-source-1/content.md",
+            "sha256": "sha256:4d2a6cf3edaf91cd85f6025c726ceef2b425ade364dd09a9c141d927e696d1c1",
+            "bytes": 19819
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "ramp-inspect"
     },
     {
       "id": "ramp-inspect-source-2",
-      "title": "Ramp x Linear (60%+ of merged PRs via Inspect)",
+      "title": "Ramp x Linear (75% of merged PRs via Inspect)",
       "url": "https://linear.app/customers/ramp",
       "canonical_url": "https://linear.app/customers/ramp",
       "kind": "case-study",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "ramp-inspect-source-2",
+        "original_url": "https://linear.app/customers/ramp",
+        "final_url": "https://linear.app/customers/ramp",
+        "captured_at": "2026-08-31T17:46:31Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/ramp-inspect-source-2/content.md",
+            "sha256": "sha256:124a2991f6eb924e9598018e2302d7116d7125713ac365fd1e8ebd56cfb6f4a9",
+            "bytes": 3580
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "ramp-inspect"
     },
@@ -13226,7 +13978,26 @@
       "role": "discovery",
       "published_at": "2026-05",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "ramp-inspect-source-3",
+        "original_url": "https://news.ycombinator.com/item?id=48042123",
+        "final_url": "https://news.ycombinator.com/item?id=48042123",
+        "captured_at": "2026-08-31T17:46:39Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/ramp-inspect-source-3/content.md",
+            "sha256": "sha256:02c79b3e6035055497be19ee0ce8b9e2b2383390e3228f4cc334903913975500",
+            "bytes": 1360
+          }
+        }
+      },
       "approach_id": "ramp-inspect"
     },
     {
@@ -13239,7 +14010,26 @@
       "role": "evidence",
       "duplicate_of": "ramp-inspect-source-1",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "ramp-inspect-source-4",
+        "original_url": "https://builders.ramp.com/post/why-we-built-our-background-agent",
+        "final_url": "https://builders.ramp.com/post/why-we-built-our-background-agent",
+        "captured_at": "2026-08-31T17:46:48Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/ramp-inspect-source-4/content.md",
+            "sha256": "sha256:50c3360bce619d6fceedd30720ba6fd8f85748f3efcd4424d0875b471792d5b9",
+            "bytes": 19814
+          }
+        }
+      },
       "approach_id": "ramp-inspect"
     },
     {
@@ -13257,7 +14047,26 @@
       ],
       "published_at": "2026-08-25",
       "accessed_at": "2026-08-26",
-      "last_verified_at": "2026-08-26",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "ramp-inspect-source-5",
+        "original_url": "https://newsletter.pragmaticengineer.com/p/why-ramp-built-inspect",
+        "final_url": "https://newsletter.pragmaticengineer.com/p/why-ramp-built-inspect",
+        "captured_at": "2026-08-31T17:46:58Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/ramp-inspect-source-5/content.md",
+            "sha256": "sha256:9cd01f7e55bbca8a2bf939c029b5ee976dbe65f84959a141c717214109bbc83f",
+            "bytes": 15151
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "ramp-inspect"
     },
@@ -13269,7 +14078,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "replit-manager-agent-source-1",
+        "original_url": "https://ld.replit.com/blog/self-driving-company",
+        "final_url": "https://ld.replit.com/blog/self-driving-company",
+        "captured_at": "2026-08-31T17:55:49Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/replit-manager-agent-source-1/content.md",
+            "sha256": "sha256:5574ad7e12c3c3ffaa8b6a892da4dec151f8c7a9f48ee766f508b8d583a31eb2",
+            "bytes": 15860
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "replit-manager-agent"
     },
@@ -13283,7 +14111,26 @@
       "role": "evidence",
       "published_at": "2025-08-05",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "retool-retoolgpt-source-1",
+        "original_url": "https://retool.com/blog/how-we-built-retoolgpt",
+        "final_url": "https://retool.com/blog/how-we-built-retoolgpt",
+        "captured_at": "2026-08-31T17:47:13Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/retool-retoolgpt-source-1/content.md",
+            "sha256": "sha256:ea0306fa05f826a3864b8fb86a421c31981b363440df166c5d88004a6ec27a97",
+            "bytes": 16758
+          }
+        }
+      },
       "approach_id": "retool-retoolgpt"
     },
     {
@@ -13295,7 +14142,26 @@
       "provenance_class": "first-party",
       "role": "evidence",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "retool-retoolgpt-source-2",
+        "original_url": "https://www.youtube.com/watch?v=8VTdYUBAZsY",
+        "final_url": "https://www.youtube.com/watch?v=8VTdYUBAZsY",
+        "captured_at": "2026-08-31T17:47:24Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/retool-retoolgpt-source-2/content.md",
+            "sha256": "sha256:abb7d3c8ff3c0d99dfbf2d60f87d3951bdc8cdcc67e6679bb3e6dacc541db926",
+            "bytes": 1353
+          }
+        }
+      },
       "approach_id": "retool-retoolgpt"
     },
     {
@@ -13307,13 +14173,32 @@
       "provenance_class": "first-party",
       "published_at": "2026-01-14",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "salesforce-slackbot-source-1",
+        "original_url": "https://www.salesforce.com/ap/news/press-releases/2026/01/14/salesforce-announces-the-general-availability-of-slackbot-your-personal-agent-for-work-sg/",
+        "final_url": "https://www.salesforce.com/ap/news/press-releases/2026/01/14/salesforce-announces-the-general-availability-of-slackbot-your-personal-agent-for-work-sg/",
+        "captured_at": "2026-08-31T17:47:34Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/salesforce-slackbot-source-1/content.md",
+            "sha256": "sha256:c14fe270bc355074a54043066df3b7dbbc7217db4c3ffc52ad1c5317cbe40bc6",
+            "bytes": 13509
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "salesforce-slackbot"
     },
     {
       "id": "salesforce-slackbot-source-2",
-      "title": "Salesforce chief executive discusses the internal Slackbot rollout",
+      "title": "Interview with Slackbot about connected work context",
       "url": "https://www.salesforce.com/in/news/stories/salesforce-slackbot-ai-interview/",
       "canonical_url": "https://www.salesforce.com/in/news/stories/salesforce-slackbot-ai-interview/",
       "kind": "corporate-article",
@@ -13321,7 +14206,26 @@
       "role": "evidence",
       "published_at": "2025-12-01",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "salesforce-slackbot-source-2",
+        "original_url": "https://www.salesforce.com/in/news/stories/salesforce-slackbot-ai-interview/",
+        "final_url": "https://www.salesforce.com/in/news/stories/salesforce-slackbot-ai-interview/",
+        "captured_at": "2026-08-31T17:47:44Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/salesforce-slackbot-source-2/content.md",
+            "sha256": "sha256:66285b2f071812a5051b7c8470c0218f48bb712235ec57de9c345c101e8bef72",
+            "bytes": 9504
+          }
+        }
+      },
       "approach_id": "salesforce-slackbot"
     },
     {
@@ -13333,19 +14237,57 @@
       "provenance_class": "independent-secondary",
       "role": "commentary",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "salesforce-slackbot-source-3",
+        "original_url": "https://venturebeat.com/technology/salesforce-rolls-out-new-slackbot-ai-agent-as-it-battles-microsoft-and",
+        "final_url": "https://venturebeat.com/technology/salesforce-rolls-out-new-slackbot-ai-agent-as-it-battles-microsoft-and",
+        "captured_at": "2026-08-31T17:47:51Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/salesforce-slackbot-source-3/content.md",
+            "sha256": "sha256:e2466be395e0da687d028e1702da194650ab68f1992652e9226f9987e348f483",
+            "bytes": 17732
+          }
+        }
+      },
       "approach_id": "salesforce-slackbot"
     },
     {
       "id": "salesforce-slackbot-source-4",
-      "title": "Hacker News discussion of the Salesforce Slackbot rollout",
+      "title": "Hacker News submission for the Salesforce Slackbot rollout",
       "url": "https://news.ycombinator.com/item?id=46600760",
       "canonical_url": "https://news.ycombinator.com/item?id=46600760",
       "kind": "hn-thread",
       "provenance_class": "community",
-      "role": "commentary",
+      "role": "discovery",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "salesforce-slackbot-source-4",
+        "original_url": "https://news.ycombinator.com/item?id=46600760",
+        "final_url": "https://news.ycombinator.com/item?id=46600760",
+        "captured_at": "2026-08-31T17:47:58Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/salesforce-slackbot-source-4/content.md",
+            "sha256": "sha256:e53a0fb8b2084605b1e994de831d053b1fcdffacd4282744cd0f9545fbfce238",
+            "bytes": 566
+          }
+        }
+      },
       "approach_id": "salesforce-slackbot"
     },
     {
@@ -13356,19 +14298,57 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "sentry-junior-source-1",
+        "original_url": "https://cra.mr/building-an-intern/",
+        "final_url": "https://cra.mr/building-an-intern/",
+        "captured_at": "2026-08-31T17:48:07Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/sentry-junior-source-1/content.md",
+            "sha256": "sha256:51fee97548429baa049c0faf6a90d93bcc4891bdea99eac6cfa94fe0b003b9cc",
+            "bytes": 28000
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "sentry-junior"
     },
     {
       "id": "sentry-junior-source-2",
-      "title": "getsentry/junior (open-source, Apache-2.0)",
+      "title": "getsentry/junior source repository",
       "url": "https://github.com/getsentry/junior",
       "canonical_url": "https://github.com/getsentry/junior",
       "kind": "repository",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "sentry-junior-source-2",
+        "original_url": "https://github.com/getsentry/junior",
+        "final_url": "https://github.com/getsentry/junior",
+        "captured_at": "2026-08-31T17:48:16Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/sentry-junior-source-2/content.md",
+            "sha256": "sha256:7f3d4d7f05a8309d287a87bb2a7bf9f0018e40d83cc80b13f0d5a9adde3f9dbf",
+            "bytes": 2512
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "sentry-junior"
     },
@@ -13380,8 +14360,58 @@
       "kind": "documentation",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "sentry-junior-source-3",
+        "original_url": "https://labs.sentry.dev/",
+        "final_url": "https://labs.sentry.dev/",
+        "captured_at": "2026-08-31T17:48:27Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/sentry-junior-source-3/content.md",
+            "sha256": "sha256:b81bca2f99265e347a968ce4976c507cd2b7bfd747e057f5fc2204123d5198f0",
+            "bytes": 2439
+          }
+        }
+      },
       "role": "evidence",
+      "approach_id": "sentry-junior"
+    },
+    {
+      "id": "sentry-junior-source-4",
+      "title": "getsentry/junior Apache 2.0 license",
+      "url": "https://github.com/getsentry/junior/blob/main/LICENSE?plain=1",
+      "canonical_url": "https://github.com/getsentry/junior/blob/main/LICENSE?plain=1",
+      "kind": "source-code",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-31",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "sentry-junior-source-4",
+        "original_url": "https://github.com/getsentry/junior/blob/main/LICENSE?plain=1",
+        "final_url": "https://github.com/getsentry/junior/blob/main/LICENSE?plain=1",
+        "captured_at": "2026-08-31T18:13:51Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/sentry-junior-source-4/content.md",
+            "sha256": "sha256:dc33599d579924aae2f2d107d9585af5f2efeee4d22e22631ae510b7f4535faf",
+            "bytes": 10674
+          }
+        }
+      },
       "approach_id": "sentry-junior"
     },
     {
@@ -13392,7 +14422,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "shopify-internal-agents-source-1",
+        "original_url": "https://shopify.engineering/under-the-river",
+        "final_url": "https://shopify.engineering/under-the-river",
+        "captured_at": "2026-08-31T17:48:37Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/shopify-internal-agents-source-1/content.md",
+            "sha256": "sha256:b6959f35653333a4b1d0c121de670b362420c92d4481bfc922a6be83a0f2e848",
+            "bytes": 13739
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "shopify-internal-agents"
     },
@@ -13404,7 +14453,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "sierra-pinecone-source-1",
+        "original_url": "https://sierra.ai/jp/blog/pinecone-harnessing-the-wisdom-of-the-workforce",
+        "final_url": "https://sierra.ai/jp/blog/pinecone-harnessing-the-wisdom-of-the-workforce",
+        "captured_at": "2026-08-31T17:48:45Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/sierra-pinecone-source-1/content.md",
+            "sha256": "sha256:24399215c37e3bd845e9c7acd34429c292e571355757c7cb9d1bab7ef92b7343",
+            "bytes": 16372
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "sierra-pinecone"
     },
@@ -13416,7 +14484,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "sierra-pinecone-source-2",
+        "original_url": "https://sierra.ai/blog/building-sierras-mcp-gateway-an-engineering-iceberg",
+        "final_url": "https://sierra.ai/blog/building-sierras-mcp-gateway-an-engineering-iceberg",
+        "captured_at": "2026-08-31T17:48:54Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/sierra-pinecone-source-2/content.md",
+            "sha256": "sha256:279856d3baa539b0050f39763f27f2a01da1e2c0a82630ace0070b6940c459b2",
+            "bytes": 14727
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "sierra-pinecone"
     },
@@ -13428,7 +14515,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "sierra-pinecone-source-3",
+        "original_url": "https://sierra.ai/es/blog/agency-secure-scalable-sandboxes-for-agents",
+        "final_url": "https://sierra.ai/es/blog/agency-secure-scalable-sandboxes-for-agents",
+        "captured_at": "2026-08-31T17:49:02Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/sierra-pinecone-source-3/content.md",
+            "sha256": "sha256:6b8d53460e96c2d39444c1cda5a385e1b7b3c5a34a6e8d76030e9de1ae7e790e",
+            "bytes": 12903
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "sierra-pinecone"
     },
@@ -13440,7 +14546,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "slack-context-system-source-1",
+        "original_url": "https://slack.engineering/managing-context-in-long-run-agentic-applications/",
+        "final_url": "https://slack.engineering/managing-context-in-long-run-agentic-applications/",
+        "captured_at": "2026-08-31T17:49:11Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/slack-context-system-source-1/content.md",
+            "sha256": "sha256:7a971b0fb7f055b66353ef8efe21fb8658f63414ebad33e935c3bd1bc12e7ae9",
+            "bytes": 22513
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "slack-context-system"
     },
@@ -13452,7 +14577,26 @@
       "kind": "news",
       "provenance_class": "independent-secondary",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "slack-context-system-source-2",
+        "original_url": "https://www.infoq.com/news/2026/04/slack-agent-context-management/",
+        "final_url": "https://www.infoq.com/news/2026/04/slack-agent-context-management/",
+        "captured_at": "2026-08-31T17:49:20Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/slack-context-system-source-2/content.md",
+            "sha256": "sha256:80bd0ce26c165f3c8faf87d85c517048d8468d095ef1f3c591ab77b83994327a",
+            "bytes": 4131
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "slack-context-system"
     },
@@ -13464,7 +14608,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "spotify-honk-xirp-source-1",
+        "original_url": "https://engineering.atspotify.com/2025/11/spotifys-background-coding-agent-part-1",
+        "final_url": "https://engineering.atspotify.com/2025/11/spotifys-background-coding-agent-part-1",
+        "captured_at": "2026-08-31T17:49:28Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/spotify-honk-xirp-source-1/content.md",
+            "sha256": "sha256:6c12849337e09e69062f73492c7c8a622b4aafe43f86bfe742b08d2fd2bae2e9",
+            "bytes": 11406
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "spotify-honk-xirp"
     },
@@ -13476,7 +14639,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "spotify-honk-xirp-source-2",
+        "original_url": "https://engineering.atspotify.com/2026/6/code-with-claude-coding-is-no-longer-the-constraint",
+        "final_url": "https://engineering.atspotify.com/2026/6/code-with-claude-coding-is-no-longer-the-constraint",
+        "captured_at": "2026-08-31T17:49:36Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/spotify-honk-xirp-source-2/content.md",
+            "sha256": "sha256:7f48ce4eb8800a4c556d293c56b18bd6c118610b6271e6f09b2d12ea9fbc6aa9",
+            "bytes": 11785
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "spotify-honk-xirp"
     },
@@ -13488,7 +14670,26 @@
       "kind": "documentation",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "spotify-honk-xirp-source-3",
+        "original_url": "https://xirp.spotify.com/",
+        "final_url": "https://xirp.spotify.com/",
+        "captured_at": "2026-08-31T17:49:43Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/spotify-honk-xirp-source-3/content.md",
+            "sha256": "sha256:293357961af6ee356d413812d6531198688d200c2499cbac7268864bda18f9ea",
+            "bytes": 3565
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "spotify-honk-xirp"
     },
@@ -13500,7 +14701,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "stripe-minions-source-1",
+        "original_url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents",
+        "final_url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents",
+        "captured_at": "2026-08-31T17:49:52Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/stripe-minions-source-1/content.md",
+            "sha256": "sha256:739a95644236ad907e123e95dbf38e5cb0baca359bca73a9ce1a666ad3aa915a",
+            "bytes": 9806
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "stripe-minions"
     },
@@ -13512,7 +14732,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "stripe-minions-source-2",
+        "original_url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2",
+        "final_url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2",
+        "captured_at": "2026-08-31T17:49:59Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/stripe-minions-source-2/content.md",
+            "sha256": "sha256:bf3877ca588dd8fc63c3a3e521d93b98852de214beecea6ec6b061e74dbd24a4",
+            "bytes": 15569
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "stripe-minions"
     },
@@ -13529,7 +14768,26 @@
       ],
       "published_at": "2026-02-20",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "stripe-minions-source-3",
+        "original_url": "https://news.ycombinator.com/item?id=47086557",
+        "final_url": "https://news.ycombinator.com/item?id=47086557",
+        "captured_at": "2026-08-31T17:50:06Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/stripe-minions-source-3/content.md",
+            "sha256": "sha256:a4fae36da63e8bc8ae62adc7337948c75bf9a3a7f6c1a891096d5601c9cf1c5f",
+            "bytes": 23956
+          }
+        }
+      },
       "approach_id": "stripe-minions"
     },
     {
@@ -13545,7 +14803,26 @@
       ],
       "published_at": "2026-02-20",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "stripe-minions-source-4",
+        "original_url": "https://news.ycombinator.com/item?id=47086907",
+        "final_url": "https://news.ycombinator.com/item?id=47086907",
+        "captured_at": "2026-08-31T17:50:17Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/stripe-minions-source-4/content.md",
+            "sha256": "sha256:c1fee30ef91d8ae067c9a71ed3acccd9172a9e5a6a03d3e988300f266c5fde14",
+            "bytes": 2084
+          }
+        }
+      },
       "approach_id": "stripe-minions"
     },
     {
@@ -13561,7 +14838,26 @@
       ],
       "published_at": "2026-02-20",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "stripe-minions-source-5",
+        "original_url": "https://news.ycombinator.com/item?id=47086953",
+        "final_url": "https://news.ycombinator.com/item?id=47086953",
+        "captured_at": "2026-08-31T17:50:25Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/stripe-minions-source-5/content.md",
+            "sha256": "sha256:c1c33299734afe2662126e1bd16a127f59081742328afdbfc6017b3a24fa4d75",
+            "bytes": 992
+          }
+        }
+      },
       "approach_id": "stripe-minions"
     },
     {
@@ -13577,7 +14873,26 @@
       ],
       "published_at": "2026-02-20",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "stripe-minions-source-6",
+        "original_url": "https://news.ycombinator.com/item?id=47087114",
+        "final_url": "https://news.ycombinator.com/item?id=47087114",
+        "captured_at": "2026-08-31T17:50:32Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/stripe-minions-source-6/content.md",
+            "sha256": "sha256:1e6f8ad9a7372e11d913ce2fa5264005bd58489a1a3df8018d3580bac593fc3c",
+            "bytes": 2331
+          }
+        }
+      },
       "approach_id": "stripe-minions"
     },
     {
@@ -13593,7 +14908,26 @@
       ],
       "published_at": "2026-02-22",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "stripe-minions-source-7",
+        "original_url": "https://news.ycombinator.com/item?id=47111453",
+        "final_url": "https://news.ycombinator.com/item?id=47111453",
+        "captured_at": "2026-08-31T17:50:40Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/stripe-minions-source-7/content.md",
+            "sha256": "sha256:7cca401d3c991caab60e07628506a8515859e34266d72fbe29da405add95a79e",
+            "bytes": 1562
+          }
+        }
+      },
       "approach_id": "stripe-minions"
     },
     {
@@ -13604,7 +14938,26 @@
       "kind": "news",
       "provenance_class": "independent-secondary",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "uber-coding-agent-source-1",
+        "original_url": "https://www.businessinsider.com/uber-cto-ai-coding-agentic-software-engineers-2026-3",
+        "final_url": "https://www.businessinsider.com/uber-cto-ai-coding-agentic-software-engineers-2026-3",
+        "captured_at": "2026-08-31T17:55:56Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/uber-coding-agent-source-1/content.md",
+            "sha256": "sha256:9e2663eb9d3a19995388b0c38f0dbb067d7115f4677809cd1bf69237fb231a5f",
+            "bytes": 3503
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "uber-coding-agent"
     },
@@ -13618,7 +14971,26 @@
       "role": "evidence",
       "published_at": "2025-08-12",
       "accessed_at": "2026-08-13",
-      "last_verified_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "uber-ureview-source-1",
+        "original_url": "https://www.uber.com/us/en/blog/ureview/",
+        "final_url": "https://www.uber.com/us/en/blog/ureview/",
+        "captured_at": "2026-08-31T17:51:23Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/uber-ureview-source-1/content.md",
+            "sha256": "sha256:c59a0d07af90fbc87d6cee3dfb9d99ead426723b4e0c8d5b16a198f756dc5a6e",
+            "bytes": 22823
+          }
+        }
+      },
       "approach_id": "uber-ureview"
     },
     {
@@ -13629,7 +15001,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "workos-project-horizon-source-1",
+        "original_url": "https://workos.com/blog/project-horizon",
+        "final_url": "https://workos.com/blog/project-horizon",
+        "captured_at": "2026-08-31T17:51:33Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/workos-project-horizon-source-1/content.md",
+            "sha256": "sha256:d65c744f67e8dcebff0bd7a541dc513e650d496825b2b6d7caa5fccc415bcdbf",
+            "bytes": 22458
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "workos-project-horizon"
     },
@@ -13641,7 +15032,26 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "workos-project-horizon-source-2",
+        "original_url": "https://workos.com/blog/applied-ai-showcase",
+        "final_url": "https://workos.com/blog/applied-ai-showcase",
+        "captured_at": "2026-08-31T17:51:42Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/workos-project-horizon-source-2/content.md",
+            "sha256": "sha256:39859b8507602df7bd868c0c1ff702ab82e5b74155f18c5a5608ed06233952f0",
+            "bytes": 10305
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "workos-project-horizon"
     },
@@ -13653,24 +15063,62 @@
       "kind": "engineering-blog",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "workos-project-horizon-source-3",
+        "original_url": "https://workos.com/blog/autonomous-ui-quality-program",
+        "final_url": "https://workos.com/blog/autonomous-ui-quality-program",
+        "captured_at": "2026-08-31T17:51:49Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/workos-project-horizon-source-3/content.md",
+            "sha256": "sha256:d6aa4db6f84168d77c3025f59a65f066a8d0e7df847aad2e3071bb1602987420",
+            "bytes": 6360
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "workos-project-horizon"
     },
     {
       "id": "workos-project-horizon-source-4",
-      "title": "Hacker News discussion of Project Horizon",
+      "title": "Hacker News submission for Project Horizon",
       "url": "https://news.ycombinator.com/item?id=48039227",
       "canonical_url": "https://news.ycombinator.com/item?id=48039227",
       "kind": "hn-thread",
       "provenance_class": "community",
-      "role": "commentary",
+      "role": "discovery",
       "authors": [
         "i0exception"
       ],
       "published_at": "2026-05-06",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "workos-project-horizon-source-4",
+        "original_url": "https://news.ycombinator.com/item?id=48039227",
+        "final_url": "https://news.ycombinator.com/item?id=48039227",
+        "captured_at": "2026-08-31T17:51:59Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/workos-project-horizon-source-4/content.md",
+            "sha256": "sha256:9ce203a78d2e0e764ba23813d5c5968b9deddae29a3bc6c052cb8a8e465a96f9",
+            "bytes": 413
+          }
+        }
+      },
       "approach_id": "workos-project-horizon"
     },
     {
@@ -13681,7 +15129,26 @@
       "kind": "podcast",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "ycombinator-agent-infra-source-1",
+        "original_url": "https://www.ycombinator.com/library/Qh-inside-yc-s-ai-playbook",
+        "final_url": "https://www.ycombinator.com/library/Qh-inside-yc-s-ai-playbook",
+        "captured_at": "2026-08-31T17:56:06Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/ycombinator-agent-infra-source-1/content.md",
+            "sha256": "sha256:2432ab3ab9cfeb941654962c5b066980eb2f7e61aae848e8bd306d2f6fc30c4a",
+            "bytes": 51806
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "ycombinator-agent-infra"
     },
@@ -13693,7 +15160,26 @@
       "kind": "paper",
       "provenance_class": "first-party",
       "accessed_at": "2026-08-12",
-      "last_verified_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "zup-codegen-source-1",
+        "original_url": "https://arxiv.org/abs/2604.09805",
+        "final_url": "https://arxiv.org/abs/2604.09805",
+        "captured_at": "2026-08-31T17:52:42Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/zup-codegen-source-1/content.md",
+            "sha256": "sha256:738c9131fd4b99581f618b9dfe9f4c289f4b890db0eea36f58d200d0211f7eab",
+            "bytes": 3944
+          }
+        }
+      },
       "role": "evidence",
       "approach_id": "zup-codegen"
     }

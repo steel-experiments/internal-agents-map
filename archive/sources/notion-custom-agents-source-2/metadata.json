@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "notion-custom-agents-source-2",
+  "original_url": "https://www.notion.com/en-gb/blog/how-we-built-security-into-custom-agents",
+  "final_url": "https://www.notion.com/en-gb/blog/how-we-built-security-into-custom-agents",
+  "captured_at": "2026-08-31T17:45:14Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/notion-custom-agents-source-2/content.md",
+      "sha256": "sha256:c442cf76acff653271f723f00e785e6ed3c069b3136efe38f35439e706742a3c",
+      "bytes": 7751
+    }
+  }
+}

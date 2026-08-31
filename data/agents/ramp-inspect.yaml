@@ -7,7 +7,7 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: ramp-inspect-source-1
-last_reviewed_at: '2026-08-26'
+last_reviewed_at: '2026-08-31'
 status: internal
 domains:
 - coding
@@ -27,7 +27,7 @@ rubric:
   evidence_strength: mixed
 summary: A background coding agent that closes the loop on verifying its own work; runs tests, reviews telemetry,
   queries feature flags, visually verifies the frontend; now also monitoring production and proposing fixes;
-  also a platform that hosts 200+ internal agents.
+  also a platform that hosts many internal agents.
 headline_metric: 75% of Ramp's merged PRs raised by Inspect sessions (May 2026)
 architecture:
   sandbox: Modal sandboxes; per-repo images rebuilt every 30 min from snapshots; warm-on-keystroke; a pool of warm
@@ -61,7 +61,8 @@ key_metrics:
 - ~90% of PRs merged into the Inspect repo come from Inspect sessions (August 2026)
 - One million total Inspect sessions crossed in July 2026
 - Under 5 seconds to spin up a fully provisioned remote dev environment
-- 200+ internal agents built on top of the Inspect platform (August 2026)
+- Inspect underpins internal agents including ReviewBuddy, Oncall Assistant, Testo, Ramp Research, Voice of the
+  Customer, and error automations
 - 150+ engineers have contributed to the Inspect codebase (August 2026)
 - 5.5-person Inspect team (four engineers, a director, and a part-time PM)
 - More than 80% of Inspect is written in Inspect sessions
@@ -81,15 +82,19 @@ sources:
   kind: engineering-blog
   provenance_class: first-party
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/ramp-inspect-source-1/metadata.json
 - id: ramp-inspect-source-2
-  title: Ramp x Linear (60%+ of merged PRs via Inspect)
+  title: Ramp x Linear (75% of merged PRs via Inspect)
   url: https://linear.app/customers/ramp
   canonical_url: https://linear.app/customers/ramp
   kind: case-study
   provenance_class: first-party
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/ramp-inspect-source-2/metadata.json
 - id: ramp-inspect-source-3
   title: Hacker News project discussion inspired by Ramp Inspect
   url: https://news.ycombinator.com/item?id=48042123
@@ -99,7 +104,9 @@ sources:
   role: discovery
   published_at: 2026-05
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/ramp-inspect-source-3/metadata.json
 - id: ramp-inspect-source-4
   title: Why We Built Our Own Background Agent (Inspect) (Ramp Builders URL)
   url: https://builders.ramp.com/post/why-we-built-our-background-agent
@@ -109,7 +116,9 @@ sources:
   role: evidence
   duplicate_of: ramp-inspect-source-1
   accessed_at: '2026-08-13'
-  last_verified_at: '2026-08-13'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/ramp-inspect-source-4/metadata.json
 - id: ramp-inspect-source-5
   title: Why Ramp built its own in-house coding agent, Inspect
   url: https://newsletter.pragmaticengineer.com/p/why-ramp-built-inspect
@@ -123,7 +132,9 @@ sources:
   - Ivan Klaric
   published_at: '2026-08-25'
   accessed_at: '2026-08-26'
-  last_verified_at: '2026-08-26'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/ramp-inspect-source-5/metadata.json
 evidence:
   operating_models.0:
   - source_id: ramp-inspect-source-1
@@ -143,30 +154,18 @@ evidence:
   architecture.sandbox:
   - source_id: ramp-inspect-source-1
     relation: supports
-  - source_id: ramp-inspect-source-5
-    relation: supports
-    locator: "Tech stack and architecture section"
   architecture.harness:
   - source_id: ramp-inspect-source-1
     relation: supports
-  - source_id: ramp-inspect-source-5
-    relation: supports
-    locator: "Tech stack and architecture section"
   architecture.model:
   - source_id: ramp-inspect-source-1
     relation: supports
   architecture.tool_access:
   - source_id: ramp-inspect-source-1
     relation: supports
-  - source_id: ramp-inspect-source-5
-    relation: supports
-    locator: "Debugging with Inspect section"
   architecture.knowledge:
   - source_id: ramp-inspect-source-1
     relation: supports
-  - source_id: ramp-inspect-source-5
-    relation: supports
-    locator: "Inside the sandbox section"
   architecture.credentials:
   - source_id: ramp-inspect-source-1
     relation: supports
@@ -179,19 +178,16 @@ evidence:
   primitives.2:
   - source_id: ramp-inspect-source-1
     relation: supports
-  - source_id: ramp-inspect-source-5
-    relation: supports
-    locator: "Collaboration & feedback section"
   key_metrics.0:
-  - source_id: ramp-inspect-source-2
-    relation: supports
   - source_id: ramp-inspect-source-5
-    relation: contextualizes
+    relation: supports
     locator: "History of adoption numbers"
   key_metrics.1:
   - source_id: ramp-inspect-source-5
     relation: supports
     locator: "History of adoption numbers"
+  - source_id: ramp-inspect-source-2
+    relation: supports
   key_metrics.2:
   - source_id: ramp-inspect-source-1
     relation: supports

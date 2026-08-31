@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "brex-agent-platform-source-1",
+  "original_url": "https://www.firstround.com/ai/brex",
+  "final_url": "https://www.firstround.com/ai/brex",
+  "captured_at": "2026-08-31T17:40:35Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/brex-agent-platform-source-1/content.md",
+      "sha256": "sha256:7f93ca0f790cfee533cc68de90faaafb87555858453c686eb9a67e408c56d428",
+      "bytes": 26716
+    }
+  }
+}

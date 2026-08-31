@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "microsoft-prassistant-source-1",
+  "original_url": "https://devblogs.microsoft.com/engineering-at-microsoft/enhancing-code-quality-at-scale-with-ai-powered-code-reviews/",
+  "final_url": "https://devblogs.microsoft.com/engineering-at-microsoft/enhancing-code-quality-at-scale-with-ai-powered-code-reviews/",
+  "captured_at": "2026-08-31T17:55:39Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/microsoft-prassistant-source-1/content.md",
+      "sha256": "sha256:b1e5a99a03d2996ce76bf48f7720853b04e645e50ac7f7af53d14f4238f2d405",
+      "bytes": 11219
+    }
+  }
+}

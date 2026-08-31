@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "coinbase-forge-mux-source-2",
+  "original_url": "https://linear.app/customers/coinbase",
+  "final_url": "https://linear.app/customers/coinbase",
+  "captured_at": "2026-08-31T17:41:18Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/coinbase-forge-mux-source-2/content.md",
+      "sha256": "sha256:b1b946c51a9f2ba6967b8d9a0ebd11f303714242714f4c22f8c09909f0f97f89",
+      "bytes": 4437
+    }
+  }
+}

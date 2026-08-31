@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "slack-context-system-source-1",
+  "original_url": "https://slack.engineering/managing-context-in-long-run-agentic-applications/",
+  "final_url": "https://slack.engineering/managing-context-in-long-run-agentic-applications/",
+  "captured_at": "2026-08-31T17:49:11Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/slack-context-system-source-1/content.md",
+      "sha256": "sha256:7a971b0fb7f055b66353ef8efe21fb8658f63414ebad33e935c3bd1bc12e7ae9",
+      "bytes": 22513
+    }
+  }
+}

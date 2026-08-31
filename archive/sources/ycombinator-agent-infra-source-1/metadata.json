@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "ycombinator-agent-infra-source-1",
+  "original_url": "https://www.ycombinator.com/library/Qh-inside-yc-s-ai-playbook",
+  "final_url": "https://www.ycombinator.com/library/Qh-inside-yc-s-ai-playbook",
+  "captured_at": "2026-08-31T17:56:06Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/ycombinator-agent-infra-source-1/content.md",
+      "sha256": "sha256:2432ab3ab9cfeb941654962c5b066980eb2f7e61aae848e8bd306d2f6fc30c4a",
+      "bytes": 51806
+    }
+  }
+}

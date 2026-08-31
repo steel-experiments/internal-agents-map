@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "ramp-inspect-source-1",
+  "original_url": "https://engineering.ramp.com/post/why-we-built-our-background-agent",
+  "final_url": "https://engineering.ramp.com/post/why-we-built-our-background-agent",
+  "captured_at": "2026-08-31T17:46:23Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/ramp-inspect-source-1/content.md",
+      "sha256": "sha256:4d2a6cf3edaf91cd85f6025c726ceef2b425ade364dd09a9c141d927e696d1c1",
+      "bytes": 19819
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "ramp-inspect-source-2",
+  "original_url": "https://linear.app/customers/ramp",
+  "final_url": "https://linear.app/customers/ramp",
+  "captured_at": "2026-08-31T17:46:31Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/ramp-inspect-source-2/content.md",
+      "sha256": "sha256:124a2991f6eb924e9598018e2302d7116d7125713ac365fd1e8ebd56cfb6f4a9",
+      "bytes": 3580
+    }
+  }
+}

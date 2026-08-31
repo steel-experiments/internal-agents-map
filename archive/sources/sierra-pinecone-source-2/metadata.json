@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "sierra-pinecone-source-2",
+  "original_url": "https://sierra.ai/blog/building-sierras-mcp-gateway-an-engineering-iceberg",
+  "final_url": "https://sierra.ai/blog/building-sierras-mcp-gateway-an-engineering-iceberg",
+  "captured_at": "2026-08-31T17:48:54Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/sierra-pinecone-source-2/content.md",
+      "sha256": "sha256:279856d3baa539b0050f39763f27f2a01da1e2c0a82630ace0070b6940c459b2",
+      "bytes": 14727
+    }
+  }
+}

@@ -25,14 +25,13 @@ undocumented details stay unknown.
 
 <!-- BEGIN OVERVIEW -->
 
-**Current map: 40 approaches across 35 organizations, backed by 87 sources and 563 evidence-linked claims.**
+**Current map: 39 approaches across 35 organizations, backed by 88 sources and 558 evidence-linked claims.**
 
 ## Overview
 
 | Organization | Approach | Type | Work |
 | --- | --- | --- | --- |
 | Airbnb | [Airchat (airchat-cli)](docs/landscape.md#airbnb-airchat) | platform | coding, code-review |
-| Atlassian | [DOT (Design Org Teammate)](docs/landscape.md#atlassian-dot) | task-agent | support |
 | Atlassian | [Rovo Dev (RovoDev)](docs/landscape.md#atlassian-rovo-dev) | task-agent | coding, code-review |
 | Block | [Builderbot](docs/landscape.md#block-builderbot) | orchestration-system | coding, code-review |
 | Brex | [Internal Agent Platform](docs/landscape.md#brex-agent-platform) | platform | finance-ops, support, customer-success |
@@ -82,16 +81,16 @@ exception-only supervision. Levels describe a specific workflow, not company mat
 
 ## What the current map shows
 
-Human review is still the norm. 23 of the 40 approaches produce a draft or implementation for
+Human review is still the norm. 23 of the 39 approaches produce a draft or implementation for
 review. 8 keep a person involved throughout the work. 3 report autonomous action within a
-scoped workflow; 3 are assistive and 3 remain unknown.
+scoped workflow; 2 are assistive and 3 remain unknown.
 
 Different systems keep solving similar infrastructure problems: company context, scoped tools,
 execution environments, verification, and integration with systems of record.
 
 Some internal agents are durable: their identity or state persists across runs and restarts.
 Others start fresh. Durability is a design choice, not an inclusion requirement.
-State duration is undocumented for 35 approaches. Review cost, failure rates, and retired
+State duration is undocumented for 34 approaches. Review cost, failure rates, and retired
 systems are rarely reported.
 
 ## What belongs in the map
@@ -112,6 +111,9 @@ Every authored claim points to one or more structured sources. Each source recor
 relationship to the organization. Reported statements stay separate from catalog judgments, and
 company metrics remain self-reported unless independently verified.
 
+Accepted sources are [preserved while they are live](docs/source-preservation.md). The publisher
+URL remains the citation; verified snapshots provide an audit trail if it is later removed.
+
 `unknown` means undocumented, not absent. Conflicting evidence remains visible. See the
 [data schema](data/schema.md) for the complete methodology.
 
@@ -123,4 +125,6 @@ Found a missing approach or better evidence for one already here? Start with the
 ## License
 
 Code and tooling are licensed under [MIT](LICENSE). Content and data are licensed under
-[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). Preserved third-party source
+material under [`archive/`](archive/README.md) retains its original ownership and is not
+relicensed under those terms.

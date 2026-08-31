@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "doordash-code-review-source-1",
+  "original_url": "https://careersatdoordash.com/blog/doordash-built-an-ai-code-reviewer-engineers-actually-listen-to/",
+  "final_url": "https://careersatdoordash.com/blog/doordash-built-an-ai-code-reviewer-engineers-actually-listen-to/",
+  "captured_at": "2026-08-31T17:41:52Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/doordash-code-review-source-1/content.md",
+      "sha256": "sha256:0dfaa3b3595d97ec0400b6c7570c62e31288a228121cdb618ed30c84585971f4",
+      "bytes": 19641
+    }
+  }
+}

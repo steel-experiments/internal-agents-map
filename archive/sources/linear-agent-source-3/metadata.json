@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "linear-agent-source-3",
+  "original_url": "https://linear.app/now/our-approach-to-building-the-agent-interaction-sdk",
+  "final_url": "https://linear.app/now/our-approach-to-building-the-agent-interaction-sdk",
+  "captured_at": "2026-08-31T17:43:42Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/linear-agent-source-3/content.md",
+      "sha256": "sha256:5ac5435ddad694ca34bcfd20c99d5e21b291f56d21baaaaf538d93bb1f46ef45",
+      "bytes": 11080
+    }
+  }
+}

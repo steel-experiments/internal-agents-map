@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "retool-retoolgpt-source-2",
+  "original_url": "https://www.youtube.com/watch?v=8VTdYUBAZsY",
+  "final_url": "https://www.youtube.com/watch?v=8VTdYUBAZsY",
+  "captured_at": "2026-08-31T17:47:24Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/retool-retoolgpt-source-2/content.md",
+      "sha256": "sha256:abb7d3c8ff3c0d99dfbf2d60f87d3951bdc8cdcc67e6679bb3e6dacc541db926",
+      "bytes": 1353
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "browserbase-bb-source-1",
+  "original_url": "https://browserbase.com/blog/internal-agents",
+  "final_url": "https://www.browserbase.com/blog/internal-agents",
+  "captured_at": "2026-08-31T17:40:42Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/browserbase-bb-source-1/content.md",
+      "sha256": "sha256:dd3ad8521c55701e44595b24ddfdda6f15ed6a3d9c47b7fef4893ae8b92858e9",
+      "bytes": 21167
+    }
+  }
+}

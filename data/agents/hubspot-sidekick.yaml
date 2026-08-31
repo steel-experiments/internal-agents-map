@@ -7,7 +7,7 @@ year: 2026
 first_public_evidence:
   date: '2026-03'
   source_id: hubspot-sidekick-source-1
-last_reviewed_at: '2026-08-13'
+last_reviewed_at: '2026-08-31'
 status: internal
 domains:
 - code-review
@@ -36,7 +36,6 @@ key_metrics:
 - Reviews every pull request
 - Engineer feedback time cut by 90%
 - More than 80% positive developer reaction over six months
-- About 3,000 EC2 instances run the agent fleet
 sources:
 - id: hubspot-sidekick-source-1
   title: Automated code review, the 6-month evolution
@@ -47,7 +46,9 @@ sources:
   role: evidence
   published_at: '2026-03'
   accessed_at: '2026-08-13'
-  last_verified_at: '2026-08-13'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/hubspot-sidekick-source-1/metadata.json
 - id: hubspot-sidekick-source-2
   title: Cloud coding agents at HubSpot
   url: https://product.hubspot.com/blog/cloud-coding-agents-at-hubspot
@@ -56,7 +57,9 @@ sources:
   provenance_class: first-party
   role: evidence
   accessed_at: '2026-08-13'
-  last_verified_at: '2026-08-13'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/hubspot-sidekick-source-2/metadata.json
 evidence:
   operating_models.0:
   - source_id: hubspot-sidekick-source-1
@@ -92,9 +95,6 @@ evidence:
   key_metrics.2:
   - source_id: hubspot-sidekick-source-1
     relation: supports
-  key_metrics.3:
-  - source_id: hubspot-sidekick-source-2
-    relation: supports
 claim_metadata:
   operating_models.0:
     kind: inference
@@ -126,8 +126,3 @@ claim_metadata:
     provenance: reported
     confidence: medium
     confidence_reason: HubSpot reported the figures in its own engineering blog.
-  key_metrics.3:
-    kind: metric
-    provenance: reported
-    confidence: medium
-    confidence_reason: HubSpot reported the figure in its own engineering blog.

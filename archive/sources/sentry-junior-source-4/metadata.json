@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "sentry-junior-source-4",
+  "original_url": "https://github.com/getsentry/junior/blob/main/LICENSE?plain=1",
+  "final_url": "https://github.com/getsentry/junior/blob/main/LICENSE?plain=1",
+  "captured_at": "2026-08-31T18:13:51Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/sentry-junior-source-4/content.md",
+      "sha256": "sha256:dc33599d579924aae2f2d107d9585af5f2efeee4d22e22631ae510b7f4535faf",
+      "bytes": 10674
+    }
+  }
+}

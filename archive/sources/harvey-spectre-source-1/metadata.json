@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "harvey-spectre-source-1",
+  "original_url": "https://www.harvey.ai/blog/building-spectre-internal-collaborative-cloud-agent-platform",
+  "final_url": "https://www.harvey.ai/blog/building-spectre-internal-collaborative-cloud-agent-platform",
+  "captured_at": "2026-08-31T17:42:52Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/harvey-spectre-source-1/content.md",
+      "sha256": "sha256:63f96d247d6786af98fc3af6ffd0bdd7d6826986e70c3a0df9f0bb76adca258d",
+      "bytes": 17423
+    }
+  }
+}

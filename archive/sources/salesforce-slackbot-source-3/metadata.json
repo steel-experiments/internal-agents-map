@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "salesforce-slackbot-source-3",
+  "original_url": "https://venturebeat.com/technology/salesforce-rolls-out-new-slackbot-ai-agent-as-it-battles-microsoft-and",
+  "final_url": "https://venturebeat.com/technology/salesforce-rolls-out-new-slackbot-ai-agent-as-it-battles-microsoft-and",
+  "captured_at": "2026-08-31T17:47:51Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/salesforce-slackbot-source-3/content.md",
+      "sha256": "sha256:e2466be395e0da687d028e1702da194650ab68f1992652e9226f9987e348f483",
+      "bytes": 17732
+    }
+  }
+}

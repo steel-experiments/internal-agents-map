@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "ramp-inspect-source-3",
+  "original_url": "https://news.ycombinator.com/item?id=48042123",
+  "final_url": "https://news.ycombinator.com/item?id=48042123",
+  "captured_at": "2026-08-31T17:46:39Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/ramp-inspect-source-3/content.md",
+      "sha256": "sha256:02c79b3e6035055497be19ee0ce8b9e2b2383390e3228f4cc334903913975500",
+      "bytes": 1360
+    }
+  }
+}

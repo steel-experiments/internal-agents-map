@@ -7,7 +7,7 @@ year: 2025
 first_public_evidence:
   date: '2025-09-25'
   source_id: brex-agent-platform-source-1
-last_reviewed_at: '2026-08-12'
+last_reviewed_at: '2026-08-31'
 status: internal
 domains:
 - finance-ops
@@ -65,7 +65,9 @@ sources:
   provenance_class: independent-secondary
   published_at: '2025-09-25'
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/brex-agent-platform-source-1/metadata.json
 evidence:
   operating_models.0:
   - source_id: brex-agent-platform-source-1

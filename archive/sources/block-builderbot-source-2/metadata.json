@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "block-builderbot-source-2",
+  "original_url": "https://engineering.block.xyz/blog/protecting-our-systems-with-intelligence",
+  "final_url": "https://engineering.block.xyz/blog/protecting-our-systems-with-intelligence",
+  "captured_at": "2026-08-31T17:39:58Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/block-builderbot-source-2/content.md",
+      "sha256": "sha256:2e7d3fb1c1682165745f9b78ef2560e0713e182eebd59887768cac12aa7dc9f7",
+      "bytes": 9784
+    }
+  }
+}

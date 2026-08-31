@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "hubspot-sidekick-source-1",
+  "original_url": "https://product.hubspot.com/blog/automated-code-review-the-6-month-evolution",
+  "final_url": "https://product.hubspot.com/blog/automated-code-review-the-6-month-evolution",
+  "captured_at": "2026-08-31T17:43:10Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/hubspot-sidekick-source-1/content.md",
+      "sha256": "sha256:95527b1030126f0b7b832b492bf66b59c3d1297025443f5b1c11841f42ff6326",
+      "bytes": 12018
+    }
+  }
+}

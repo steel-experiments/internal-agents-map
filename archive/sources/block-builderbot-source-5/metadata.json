@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "block-builderbot-source-5",
+  "original_url": "https://news.ycombinator.com/item?id=48619052",
+  "final_url": "https://news.ycombinator.com/item?id=48619052",
+  "captured_at": "2026-08-31T17:40:26Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/block-builderbot-source-5/content.md",
+      "sha256": "sha256:1073d4b99c35b7feb054dc79e8a8ad71267aabbed5735d4972f5c26c62f6fe4d",
+      "bytes": 560
+    }
+  }
+}

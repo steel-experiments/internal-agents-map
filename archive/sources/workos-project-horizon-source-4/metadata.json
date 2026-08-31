@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "workos-project-horizon-source-4",
+  "original_url": "https://news.ycombinator.com/item?id=48039227",
+  "final_url": "https://news.ycombinator.com/item?id=48039227",
+  "captured_at": "2026-08-31T17:51:59Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/workos-project-horizon-source-4/content.md",
+      "sha256": "sha256:9ce203a78d2e0e764ba23813d5c5968b9deddae29a3bc6c052cb8a8e465a96f9",
+      "bytes": 413
+    }
+  }
+}

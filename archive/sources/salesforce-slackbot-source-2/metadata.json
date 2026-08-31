@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "salesforce-slackbot-source-2",
+  "original_url": "https://www.salesforce.com/in/news/stories/salesforce-slackbot-ai-interview/",
+  "final_url": "https://www.salesforce.com/in/news/stories/salesforce-slackbot-ai-interview/",
+  "captured_at": "2026-08-31T17:47:44Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/salesforce-slackbot-source-2/content.md",
+      "sha256": "sha256:66285b2f071812a5051b7c8470c0218f48bb712235ec57de9c345c101e8bef72",
+      "bytes": 9504
+    }
+  }
+}

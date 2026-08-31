@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "workos-project-horizon-source-1",
+  "original_url": "https://workos.com/blog/project-horizon",
+  "final_url": "https://workos.com/blog/project-horizon",
+  "captured_at": "2026-08-31T17:51:33Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/workos-project-horizon-source-1/content.md",
+      "sha256": "sha256:d65c744f67e8dcebff0bd7a541dc513e650d496825b2b6d7caa5fccc415bcdbf",
+      "bytes": 22458
+    }
+  }
+}

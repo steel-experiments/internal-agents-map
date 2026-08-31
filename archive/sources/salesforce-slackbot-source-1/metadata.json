@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "salesforce-slackbot-source-1",
+  "original_url": "https://www.salesforce.com/ap/news/press-releases/2026/01/14/salesforce-announces-the-general-availability-of-slackbot-your-personal-agent-for-work-sg/",
+  "final_url": "https://www.salesforce.com/ap/news/press-releases/2026/01/14/salesforce-announces-the-general-availability-of-slackbot-your-personal-agent-for-work-sg/",
+  "captured_at": "2026-08-31T17:47:34Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/salesforce-slackbot-source-1/content.md",
+      "sha256": "sha256:c14fe270bc355074a54043066df3b7dbbc7217db4c3ffc52ad1c5317cbe40bc6",
+      "bytes": 13509
+    }
+  }
+}

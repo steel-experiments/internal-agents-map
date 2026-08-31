@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "monday-sphera-atlas-morphex-source-1",
+  "original_url": "https://aws.amazon.com/blogs/machine-learning/ai-teammates-how-monday-com-runs-production-ai-agents-on-amazon-bedrock/",
+  "final_url": "https://aws.amazon.com/blogs/machine-learning/ai-teammates-how-monday-com-runs-production-ai-agents-on-amazon-bedrock/",
+  "captured_at": "2026-08-31T17:44:51Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/monday-sphera-atlas-morphex-source-1/content.md",
+      "sha256": "sha256:25216f6eb831f212852e1852a69cd661ce1c97e998a774dd2ed9acbaf019d9ab",
+      "bytes": 18211
+    }
+  }
+}

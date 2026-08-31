@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "linear-agent-source-2",
+  "original_url": "https://linear.app/now/how-we-use-linear-agent-at-linear",
+  "final_url": "https://linear.app/now/how-we-use-linear-agent-at-linear",
+  "captured_at": "2026-08-31T17:43:34Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/linear-agent-source-2/content.md",
+      "sha256": "sha256:174026b81583bc2125db5be844623c7b401bfea4f22aa6cd610c3096f3318e60",
+      "bytes": 13512
+    }
+  }
+}

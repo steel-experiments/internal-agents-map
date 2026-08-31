@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "sierra-pinecone-source-1",
+  "original_url": "https://sierra.ai/jp/blog/pinecone-harnessing-the-wisdom-of-the-workforce",
+  "final_url": "https://sierra.ai/jp/blog/pinecone-harnessing-the-wisdom-of-the-workforce",
+  "captured_at": "2026-08-31T17:48:45Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/sierra-pinecone-source-1/content.md",
+      "sha256": "sha256:24399215c37e3bd845e9c7acd34429c292e571355757c7cb9d1bab7ef92b7343",
+      "bytes": 16372
+    }
+  }
+}

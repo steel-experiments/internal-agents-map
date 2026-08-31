@@ -106,15 +106,33 @@ Every source requires these fields:
 | --- | --- |
 | `id` | A repository-wide unique kebab-case ID. |
 | `title` | The source title. |
-| `url` | The source URL. It must use HTTPS. |
-| `canonical_url` | The normalized URL after redirects and tracking removal. |
+| `url` | The immutable original publisher URL. It must use HTTPS and must never be replaced with an archive URL. |
+| `canonical_url` | The normalized publisher URL after redirects and tracking removal. |
 | `kind` | The source format. |
 | `provenance_class` | The relationship between the publisher and the approach. |
 | `accessed_at` | The collection date. |
 | `last_verified_at` | The last successful review date. |
 | `role` | `evidence`, `commentary`, or `discovery`. The default is `evidence`. |
 
-Optional fields include `publisher`, `authors`, `published_at`, `archived_url`, `content_fingerprint`, and `duplicate_of`.
+Optional fields include `publisher`, `authors`, `published_at`, `archived_url`, `capture`, and `duplicate_of`. `archived_url` is the preferred verified external archive URL and must use HTTPS. `capture` points to a repository-owned Steel capture manifest:
+
+```yaml
+archived_url: "https://web.archive.org/web/20260831123456/https://example.com/article"
+capture:
+  manifest_path: "archive/sources/company-agent-source-1/metadata.json"
+```
+
+The capture map contains exactly `manifest_path`. Capture bundles use this deterministic layout:
+
+```text
+archive/sources/<source-id>/metadata.json
+archive/sources/<source-id>/content.md
+archive/sources/<source-id>/page.pdf        # optional
+```
+
+The version 1 JSON manifest contains `schema_version`, `source_id`, `original_url`, `final_url`, `captured_at`, `http_status`, `tool`, and `artifacts`. It may also contain `external_archive_url`, which must equal `archived_url`. The `tool` map records `name: steel` and a non-empty version. `artifacts.markdown` is mandatory; `artifacts.pdf` is optional. Each artifact records its repository-relative `path`, exact `bytes`, and a lowercase `sha256:<digest>`. Markdown must be non-empty. PDFs must begin with `%PDF-` and cannot exceed 10 MiB. Paths and hashes are validated during every build.
+
+Captures are append-only evidence snapshots: never overwrite an existing bundle or use a capture to replace the original `url`. Create a new source ID when materially changed source content is needed for new claims.
 
 Source kinds are `engineering-blog`, `corporate-article`, `documentation`, `source-code`, `repository`, `release`, `social-post`, `talk`, `transcript`, `podcast`, `paper`, `case-study`, `news`, `hn-thread`, `hn-comment`, `forum`, and `other`.
 

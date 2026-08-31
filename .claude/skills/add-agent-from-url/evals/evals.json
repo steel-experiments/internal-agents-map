@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "Check this out — OpenAI wrote up the internal data agent they built for their own teams: https://openai.com/index/inside-our-in-house-data-agent/ — does this make sense to add to the map?",
-      "expected_output": "The URL passes the rubric (first-party source, distinct internal build, internal-only system). A data/agents/openai-*.yaml record is written with operating_models, evidence links, and claim metadata; the build and tests pass; a local commit is created. The report shows the five rubric scores.",
+      "expected_output": "The URL passes the rubric (first-party source, distinct internal build, internal-only system). A data/agents/openai-*.yaml record is written with operating_models, evidence links, claim metadata, and a reviewed source capture created while the URL is live; archive integrity, the build, and tests pass; a local commit is created. The report shows the five rubric scores.",
       "files": []
     },
     {

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "sentry-junior-source-2",
+  "original_url": "https://github.com/getsentry/junior",
+  "final_url": "https://github.com/getsentry/junior",
+  "captured_at": "2026-08-31T17:48:16Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/sentry-junior-source-2/content.md",
+      "sha256": "sha256:7f3d4d7f05a8309d287a87bb2a7bf9f0018e40d83cc80b13f0d5a9adde3f9dbf",
+      "bytes": 2512
+    }
+  }
+}

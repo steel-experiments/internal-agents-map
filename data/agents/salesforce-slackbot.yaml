@@ -7,7 +7,7 @@ year: 2025
 first_public_evidence:
   date: '2025-12-01'
   source_id: salesforce-slackbot-source-2
-last_reviewed_at: '2026-08-12'
+last_reviewed_at: '2026-08-31'
 status: commercialized
 domains:
 - support
@@ -49,9 +49,11 @@ sources:
   provenance_class: first-party
   published_at: '2026-01-14'
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/salesforce-slackbot-source-1/metadata.json
 - id: salesforce-slackbot-source-2
-  title: Salesforce chief executive discusses the internal Slackbot rollout
+  title: Interview with Slackbot about connected work context
   url: https://www.salesforce.com/in/news/stories/salesforce-slackbot-ai-interview/
   canonical_url: https://www.salesforce.com/in/news/stories/salesforce-slackbot-ai-interview/
   kind: corporate-article
@@ -59,7 +61,9 @@ sources:
   role: evidence
   published_at: '2025-12-01'
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/salesforce-slackbot-source-2/metadata.json
 - id: salesforce-slackbot-source-3
   title: Salesforce rolls out new Slackbot AI agent
   url: https://venturebeat.com/technology/salesforce-rolls-out-new-slackbot-ai-agent-as-it-battles-microsoft-and
@@ -68,16 +72,20 @@ sources:
   provenance_class: independent-secondary
   role: commentary
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/salesforce-slackbot-source-3/metadata.json
 - id: salesforce-slackbot-source-4
-  title: Hacker News discussion of the Salesforce Slackbot rollout
+  title: Hacker News submission for the Salesforce Slackbot rollout
   url: https://news.ycombinator.com/item?id=46600760
   canonical_url: https://news.ycombinator.com/item?id=46600760
   kind: hn-thread
   provenance_class: community
-  role: commentary
+  role: discovery
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/salesforce-slackbot-source-4/metadata.json
 evidence:
   operating_models.0:
   - source_id: salesforce-slackbot-source-1

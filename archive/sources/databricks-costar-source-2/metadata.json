@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "databricks-costar-source-2",
+  "original_url": "https://www.databricks.com/blog/benchmarking-coding-agents-databricks-multi-million-line-codebase",
+  "final_url": "https://www.databricks.com/blog/benchmarking-coding-agents-databricks-multi-million-line-codebase",
+  "captured_at": "2026-08-31T17:41:38Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/databricks-costar-source-2/content.md",
+      "sha256": "sha256:5b765f7c350ef567ed0c8444f52167f0171cc23bd3c48d5d7b632663b3859e78",
+      "bytes": 13678
+    }
+  }
+}

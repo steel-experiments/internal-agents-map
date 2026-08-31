@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "salesforce-slackbot-source-4",
+  "original_url": "https://news.ycombinator.com/item?id=46600760",
+  "final_url": "https://news.ycombinator.com/item?id=46600760",
+  "captured_at": "2026-08-31T17:47:58Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/salesforce-slackbot-source-4/content.md",
+      "sha256": "sha256:e53a0fb8b2084605b1e994de831d053b1fcdffacd4282744cd0f9545fbfce238",
+      "bytes": 566
+    }
+  }
+}

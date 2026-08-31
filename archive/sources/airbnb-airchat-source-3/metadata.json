@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "airbnb-airchat-source-3",
+  "original_url": "https://www.theaithinker.com/p/how-to-get-your-team-past-the-ai",
+  "final_url": "https://www.theaithinker.com/p/how-to-get-your-team-past-the-ai",
+  "captured_at": "2026-08-31T17:38:58Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/airbnb-airchat-source-3/content.md",
+      "sha256": "sha256:1d1dc23408c8f7e01428147e7091b605620e8fe66d637f61fa743b85bdf1c7c6",
+      "bytes": 34229
+    }
+  }
+}

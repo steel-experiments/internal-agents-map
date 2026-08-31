@@ -13,7 +13,7 @@ more than a missed entry, because the backlog keeps missed entries findable.
 
 ## Workflow overview
 
-1. Fetch the URL and extract the claims.
+1. Fetch the URL, preserve it while live, and extract the claims.
 2. Check the catalog for an existing record.
 3. Score the source against the rubric.
 4. Branch on the score: add, border case, or exclude.
@@ -21,7 +21,8 @@ more than a missed entry, because the backlog keeps missed entries findable.
 
 ## Step 1: Fetch and extract
 
-Fetch the URL. If the fetch fails, say so and stop; do not score from memory.
+Fetch the URL. If the fetch fails, say so and stop; do not score from memory. Never reconstruct a
+removed source from search snippets.
 
 Extract these facts from the page itself, not from your prior knowledge of the company:
 
@@ -98,7 +99,18 @@ able to audit the call without rereading the source.
    name.
 2. Fill the record from the extracted facts. Follow the schema rules below; they exist because
    each one closed a real defect.
-3. Regenerate all catalog-derived files and analysis snapshots:
+3. Preserve every evidence source while it is still live, review the captured Markdown, and add
+   the emitted `capture` and `archived_url` fields to the matching source record:
+
+   ```bash
+   uv run python scripts/archive_sources.py --source-id <source-id>
+   ```
+
+   Use `--pdf` only when visual layout supports a claim. Do not use credentials, CAPTCHA solving,
+   or proxies to capture private or access-controlled content. If capture fails or returns an
+   error/interstitial page, stop the automated Add path and report a border case; do not weaken
+   validation or save the error page as evidence.
+4. Regenerate all catalog-derived files and analysis snapshots:
 
    ```bash
    uv run python scripts/build.py
@@ -106,9 +118,10 @@ able to audit the call without rereading the source.
 
    The build owns the generated sections in the README, `docs/patterns.md`, and
    `docs/adoption-lessons.md`. Do not update their counts by hand.
-4. Run the full verification block:
+5. Run the full verification block:
 
    ```bash
+   uv run python scripts/archive_sources.py --check
    uv run python scripts/build.py --check
    uv run ruff check .
    uv run ruff format --check .
@@ -117,12 +130,12 @@ able to audit the call without rereading the source.
    git diff --check
    ```
 
-5. If anything fails, fix the record or source content. Do not weaken a check to pass it.
-6. Commit everything in one commit (YAML, regenerated README, landscape, agents.json, patterns.md,
-   backlog edits) and push to main. The user chose full automation for the pass path. Follow the
-   repo commit style: imperative subject line within 50 characters, body wrapped at 72
-   characters, and the Co-Authored-By trailer.
-7. If verification cannot pass after honest fixes, stop, leave the working tree clean
+6. If anything fails, fix the record or source content. Do not weaken a check to pass it.
+7. Commit everything in one commit (YAML, capture bundle, regenerated README, landscape,
+   agents.json, patterns.md, and backlog edits) and push to main. The user chose full automation
+   for the pass path. Follow the repo commit style: imperative subject line within 50 characters,
+   body wrapped at 72 characters, and the Co-Authored-By trailer.
+8. If verification cannot pass after honest fixes, stop, leave the working tree clean
    (`git restore` the generated files, keep the YAML), and report. A blocked add is a border
    case; log it rather than forcing it.
 
@@ -146,6 +159,9 @@ able to audit the call without rereading the source.
 - Mark company metrics as self-reported. Confidence `medium` for first-party self-reported
   figures; `low` when the figure reaches you through a third party (the Airbnb 64% precedent).
 - Record `locator` values when the source has stable anchors (section, timestamp, comment id).
+- Keep `url` as the immutable publisher citation. `archived_url` is an external archive, normally
+  Wayback; `capture.manifest_path` points to the reviewed local Steel capture. A snapshot preserves
+  evidence but does not strengthen its provenance class.
 
 ## Step 4b: Border-case and exclude paths — log the backlog
 

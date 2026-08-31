@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "sierra-pinecone-source-3",
+  "original_url": "https://sierra.ai/es/blog/agency-secure-scalable-sandboxes-for-agents",
+  "final_url": "https://sierra.ai/es/blog/agency-secure-scalable-sandboxes-for-agents",
+  "captured_at": "2026-08-31T17:49:02Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/sierra-pinecone-source-3/content.md",
+      "sha256": "sha256:6b8d53460e96c2d39444c1cda5a385e1b7b3c5a34a6e8d76030e9de1ae7e790e",
+      "bytes": 12903
+    }
+  }
+}

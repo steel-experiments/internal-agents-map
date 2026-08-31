@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "replit-manager-agent-source-1",
+  "original_url": "https://ld.replit.com/blog/self-driving-company",
+  "final_url": "https://ld.replit.com/blog/self-driving-company",
+  "captured_at": "2026-08-31T17:55:49Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/replit-manager-agent-source-1/content.md",
+      "sha256": "sha256:5574ad7e12c3c3ffaa8b6a892da4dec151f8c7a9f48ee766f508b8d583a31eb2",
+      "bytes": 15860
+    }
+  }
+}

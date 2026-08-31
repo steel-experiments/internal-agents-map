@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "workos-project-horizon-source-2",
+  "original_url": "https://workos.com/blog/applied-ai-showcase",
+  "final_url": "https://workos.com/blog/applied-ai-showcase",
+  "captured_at": "2026-08-31T17:51:42Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/workos-project-horizon-source-2/content.md",
+      "sha256": "sha256:39859b8507602df7bd868c0c1ff702ab82e5b74155f18c5a5608ed06233952f0",
+      "bytes": 10305
+    }
+  }
+}

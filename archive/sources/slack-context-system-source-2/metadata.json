@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "slack-context-system-source-2",
+  "original_url": "https://www.infoq.com/news/2026/04/slack-agent-context-management/",
+  "final_url": "https://www.infoq.com/news/2026/04/slack-agent-context-management/",
+  "captured_at": "2026-08-31T17:49:20Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/slack-context-system-source-2/content.md",
+      "sha256": "sha256:80bd0ce26c165f3c8faf87d85c517048d8468d095ef1f3c591ab77b83994327a",
+      "bytes": 4131
+    }
+  }
+}

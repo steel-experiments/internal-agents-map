@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "block-builderbot-source-3",
+  "original_url": "https://github.com/block/builderbot",
+  "final_url": "https://github.com/block/builderbot",
+  "captured_at": "2026-08-31T17:40:09Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/block-builderbot-source-3/content.md",
+      "sha256": "sha256:503f6115efd4f7042b22085d685af3ca026c145e8efe57544be7e8776f0d0de6",
+      "bytes": 2503
+    }
+  }
+}

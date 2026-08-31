@@ -7,7 +7,7 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: dropbox-nova-source-1
-last_reviewed_at: '2026-08-12'
+last_reviewed_at: '2026-08-31'
 status: internal
 domains:
 - coding
@@ -67,19 +67,23 @@ sources:
   kind: engineering-blog
   provenance_class: first-party
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/dropbox-nova-source-1/metadata.json
 - id: dropbox-nova-source-2
-  title: Hacker News discussion of Nova
+  title: Hacker News submission for Nova
   url: https://news.ycombinator.com/item?id=48235065
   canonical_url: https://news.ycombinator.com/item?id=48235065
   kind: hn-thread
   provenance_class: community
-  role: commentary
+  role: discovery
   authors:
   - el_duderino
   published_at: '2026-05-22'
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/dropbox-nova-source-2/metadata.json
 evidence:
   operating_models.0:
   - source_id: dropbox-nova-source-1
@@ -87,8 +91,6 @@ evidence:
   summary:
   - source_id: dropbox-nova-source-1
     relation: supports
-  - source_id: dropbox-nova-source-2
-    relation: contextualizes
   headline_metric:
   - source_id: dropbox-nova-source-1
     relation: supports

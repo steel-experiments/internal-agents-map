@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "databricks-costar-source-1",
+  "original_url": "https://www.databricks.com/blog/costar-how-we-ship-ai-agents-databricks-fast-without-breaking-things",
+  "final_url": "https://www.databricks.com/blog/costar-how-we-ship-ai-agents-databricks-fast-without-breaking-things",
+  "captured_at": "2026-08-31T17:41:27Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/databricks-costar-source-1/content.md",
+      "sha256": "sha256:01d6e070fbb6459b6186e421c6c0c61e49e83cf316dbe42d9a801266114bce1f",
+      "bytes": 24383
+    }
+  }
+}

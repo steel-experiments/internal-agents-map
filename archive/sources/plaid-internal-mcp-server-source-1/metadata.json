@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "plaid-internal-mcp-server-source-1",
+  "original_url": "https://engineering.plaid.com/the-plaid-internal-mcp-server-8eff08bb6bdb",
+  "final_url": "https://engineering.plaid.com/the-plaid-internal-mcp-server-8eff08bb6bdb",
+  "captured_at": "2026-08-31T17:45:43Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/plaid-internal-mcp-server-source-1/content.md",
+      "sha256": "sha256:eaef686c595e813529b0393b47da2d86d96e3508ebf5e8641f548bdece56a1c1",
+      "bytes": 11749
+    }
+  }
+}

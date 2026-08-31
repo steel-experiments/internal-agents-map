@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "uber-ureview-source-1",
+  "original_url": "https://www.uber.com/us/en/blog/ureview/",
+  "final_url": "https://www.uber.com/us/en/blog/ureview/",
+  "captured_at": "2026-08-31T17:51:23Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/uber-ureview-source-1/content.md",
+      "sha256": "sha256:c59a0d07af90fbc87d6cee3dfb9d99ead426723b4e0c8d5b16a198f756dc5a6e",
+      "bytes": 22823
+    }
+  }
+}

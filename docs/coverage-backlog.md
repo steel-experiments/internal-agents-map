@@ -18,10 +18,11 @@ them.
 
 On 2026-08-13, twelve records moved off this backlog and into the
 [landscape](landscape.md). Their detail blocks stay on this page as source collections.
+DOT returned to the backlog on 2026-08-31 after Atlassian removed its only source before a
+legitimate snapshot had been saved.
 
 - GitHub — Qubot → [landscape](landscape.md#github-qubot)
 - Retool — RetoolGPT → [landscape](landscape.md#retool-retoolgpt)
-- Atlassian — DOT → [landscape](landscape.md#atlassian-dot)
 - Atlassian — Rovo Dev → [landscape](landscape.md#atlassian-rovo-dev)
 - Notion — Custom Agents → [landscape](landscape.md#notion-custom-agents)
 - Microsoft — PRAssistant → [landscape](landscape.md#microsoft-prassistant)
@@ -86,17 +87,20 @@ or repos that describe an agent they built for their own teams.
   - [Retool Community thread](https://community.retool.com/t/ai-build-week-day-3-how-we-made-retoolgpt/59997).
   - [Retool post on X](https://x.com/retool/status/1953886454012141871).
 
-### Atlassian — DOT (Design Org Teammate)
+### Atlassian — DOT (Design Org Teammate; withdrawn)
 
-- **Status**: Verified, ready.
-- **Confidence**: high.
+- **Status**: Needs replacement evidence. The catalog record was withdrawn on 2026-08-31.
+- **Confidence**: unverified until a durable primary source is available.
 - **What it does**: DOT is an internal agent for Atlassian's Design Operations team. It answers
   common tooling questions in the team help channel. The team built it in Rovo Studio, Atlassian's
   no-code agent builder, so Atlassian materially adapted its own platform.
 - **Reported stage**: deployed and in use. Do not cite the "~70% of threads" or "zero unanswered"
   figures; see [Refuted or excluded](#refuted-or-excluded).
-- **Sources**:
-  - [How Design Ops built an AI teammate with no engineering lift](https://www.atlassian.com/blog/ai-at-work/how-design-ops-built-an-ai-teammate-with-no-engineering-lift) — Atlassian blog. First-party.
+- **Source history**: Atlassian removed *How Design Ops built an AI teammate with no engineering
+  lift* at `https://www.atlassian.com/blog/ai-at-work/how-design-ops-built-an-ai-teammate-with-no-engineering-lift`
+  before this repository captured it. The current response is a soft 404, no legitimate Wayback
+  copy was available during review, and search snippets are not accepted as evidence. Do not
+  re-promote DOT without a durable publisher/author copy or replacement primary source.
 
 ### Atlassian — Rovo Dev (RovoDev) and the HULA framework
 

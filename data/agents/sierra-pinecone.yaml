@@ -7,7 +7,7 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: sierra-pinecone-source-1
-last_reviewed_at: '2026-08-12'
+last_reviewed_at: '2026-08-31'
 status: internal
 domains:
 - coding
@@ -27,7 +27,7 @@ rubric:
   identity: unknown
   evidence_strength: detailed-primary
 summary: One company-wide agent that collapsed separate support, analytics, engineering, and sales agents into a
-  single runtime with an MCP Gateway to 37 systems.
+  single runtime with an MCP Gateway to 45 systems.
 headline_metric: 75,000+ sessions for 600+ people
 architecture:
   sandbox: Agency layer reconciles recoverable Kubernetes runners; conversation/events/checkpoints stay durable
@@ -39,15 +39,15 @@ architecture:
   - web
   - linear
   - mobile
-  tool_access: MCP Gateway connected to 37 systems; a network proxy decides whether privileged requests proceed
+  tool_access: MCP Gateway connected to 45 systems; a network proxy decides whether privileged requests proceed
     and injects credentials after approval
   knowledge: Durable sessions over disposable environments; Redis Streams
   credentials: Gateway enforces the invoking employee's access at tool-call time and isolates customer data; the
     harness never holds the real secret
   context_mgmt: Durable session state separated from ephemeral compute
 primitives:
-- name: MCP Gateway (37 systems)
-  desc: One gateway spanning 37 systems, enforcing employee permissions at call time
+- name: MCP Gateway (45 systems)
+  desc: One gateway spanning 45 systems, enforcing employee permissions at call time
 - name: Agency sandbox layer
   desc: Recoverable K8s runners with a network proxy for credential injection
 - name: Intent-based routing
@@ -70,7 +70,9 @@ sources:
   kind: engineering-blog
   provenance_class: first-party
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/sierra-pinecone-source-1/metadata.json
 - id: sierra-pinecone-source-2
   title: Building Sierra's MCP Gateway
   url: https://sierra.ai/blog/building-sierras-mcp-gateway-an-engineering-iceberg
@@ -78,7 +80,9 @@ sources:
   kind: engineering-blog
   provenance_class: first-party
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/sierra-pinecone-source-2/metadata.json
 - id: sierra-pinecone-source-3
   title: 'Agency: secure, scalable sandboxes for agents'
   url: https://sierra.ai/es/blog/agency-secure-scalable-sandboxes-for-agents
@@ -86,13 +90,17 @@ sources:
   kind: engineering-blog
   provenance_class: first-party
   accessed_at: '2026-08-12'
-  last_verified_at: '2026-08-12'
+  last_verified_at: '2026-08-31'
+  capture:
+    manifest_path: archive/sources/sierra-pinecone-source-3/metadata.json
 evidence:
   operating_models.0:
   - source_id: sierra-pinecone-source-1
     relation: supports
   summary:
   - source_id: sierra-pinecone-source-1
+    relation: supports
+  - source_id: sierra-pinecone-source-2
     relation: supports
   headline_metric:
   - source_id: sierra-pinecone-source-1

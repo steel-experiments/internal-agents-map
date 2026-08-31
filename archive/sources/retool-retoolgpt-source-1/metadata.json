@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "retool-retoolgpt-source-1",
+  "original_url": "https://retool.com/blog/how-we-built-retoolgpt",
+  "final_url": "https://retool.com/blog/how-we-built-retoolgpt",
+  "captured_at": "2026-08-31T17:47:13Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.4.4"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/retool-retoolgpt-source-1/content.md",
+      "sha256": "sha256:ea0306fa05f826a3864b8fb86a421c31981b363440df166c5d88004a6ec27a97",
+      "bytes": 16758
+    }
+  }
+}
