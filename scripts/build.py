@@ -1430,9 +1430,21 @@ def render_definitions(catalog: dict) -> str:
             "specialized",
             "Several engineering tasks within a coding workflow, connected to Stripe’s development tools and repository rules. Placed toward the middle of workflow breadth.",
         ),
+        "posthog-stamphog": (
+            "specialized",
+            "One pull-request approval workflow, grounded in repository-specific safety gates, review state, ownership, and prior human approvals.",
+        ),
         "brex-agent-platform": (
             "shared",
             "A Retool-based platform for multiple operations workflows, with company procedures, account data, and product tools. Described in a First Round case study.",
+        ),
+        "sentry-junior": (
+            "shared",
+            "A general internal agent that takes varied tasks across company systems, with persistent context and tools discovered through MCP.",
+        ),
+        "shopify-internal-agents": (
+            "shared",
+            "A shared platform that powers coding, research, migration, and application-security agents using Shopify’s monorepo context and internal tools.",
         ),
     }
     claims = {claim["id"]: claim for claim in catalog["claims"]}

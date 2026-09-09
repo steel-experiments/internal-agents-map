@@ -59,9 +59,12 @@ class SiteTests(unittest.TestCase):
 
     def test_definitions_placements_require_supported_scope_and_context(self):
         html = build.render_definitions(self.catalog)
-        self.assertEqual(html.count("data-chart-approach-id="), 3)
+        self.assertEqual(html.count("data-chart-approach-id="), 6)
         self.assertEqual(html.count("data-chart-reference="), 2)
         self.assertIn('href="index.html#brex-agent-platform"', html)
+        self.assertIn('href="index.html#posthog-stamphog"', html)
+        self.assertIn('href="index.html#sentry-junior"', html)
+        self.assertIn('href="index.html#shopify-internal-agents"', html)
         self.assertIn("Codex / Claude Code", html)
         self.assertIn("ChatGPT / Claude", html)
         self.assertNotIn("@@", html)
@@ -86,7 +89,7 @@ class SiteTests(unittest.TestCase):
             ):
                 claim["evidence"] = []
         html = build.render_definitions(changed)
-        self.assertEqual(html.count("data-chart-approach-id="), 1)
+        self.assertEqual(html.count("data-chart-approach-id="), 4)
         self.assertNotIn('data-chart-approach-id="brex-agent-platform"', html)
         self.assertNotIn('data-chart-approach-id="stripe-minions"', html)
 

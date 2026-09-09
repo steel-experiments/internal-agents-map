@@ -728,8 +728,12 @@ footer {
 .placement-notes li strong { font-weight: 550; }
 .placement-notes li p { margin: 8px 0; }
 .placement-notes .reference-placement { color: #666; }
-.quadrant-cell li[data-chart-approach-id="stripe-minions"] { left: 62%; top: 67%; max-width: 35%; }
-.quadrant-cell li[data-chart-approach-id="brex-agent-platform"] { left: 32%; top: 35%; max-width: 62%; }
+.quadrant-cell li[data-chart-approach-id="doordash-code-review"] { left: 10%; top: 30%; max-width: 56%; }
+.quadrant-cell li[data-chart-approach-id="posthog-stamphog"] { left: 15%; top: 72%; max-width: 46%; }
+.quadrant-cell li[data-chart-approach-id="stripe-minions"] { left: 58%; top: 50%; max-width: 38%; }
+.quadrant-cell li[data-chart-approach-id="brex-agent-platform"] { left: 10%; top: 30%; max-width: 58%; }
+.quadrant-cell li[data-chart-approach-id="sentry-junior"] { left: 56%; top: 50%; max-width: 38%; }
+.quadrant-cell li[data-chart-approach-id="shopify-internal-agents"] { left: 17%; top: 72%; max-width: 52%; }
 @media (max-width: 600px) {
   .workflow-node { padding: 18px 12px; }
   .workflow-node .eyebrow { font-size: 10px; }
