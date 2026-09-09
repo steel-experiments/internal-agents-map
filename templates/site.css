@@ -731,6 +731,7 @@ footer {
 .quadrant-cell li[data-chart-approach-id="doordash-code-review"] { left: 10%; top: 30%; max-width: 56%; }
 .quadrant-cell li[data-chart-approach-id="posthog-stamphog"] { left: 15%; top: 72%; max-width: 46%; }
 .quadrant-cell li[data-chart-approach-id="ramp-inspect"] { left: 60%; top: 76%; max-width: 35%; }
+.quadrant-cell li[data-chart-approach-id="retool-retoolgpt"] { left: 48%; top: 10%; max-width: 48%; }
 .quadrant-cell li[data-chart-approach-id="stripe-minions"] { left: 56%; top: 48%; max-width: 40%; }
 .quadrant-cell li[data-chart-approach-id="brex-agent-platform"] { left: 10%; top: 30%; max-width: 58%; }
 .quadrant-cell li[data-chart-approach-id="sentry-junior"] { left: 56%; top: 50%; max-width: 38%; }

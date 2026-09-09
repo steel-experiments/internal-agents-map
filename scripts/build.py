@@ -1438,6 +1438,10 @@ def render_definitions(catalog: dict) -> str:
             "specialized",
             "A background coding agent that verifies work with tests, telemetry, feature flags, and the rendered frontend; it later expanded into production monitoring and a host for other internal agents.",
         ),
+        "retool-retoolgpt": (
+            "ready",
+            "One internal question-and-answer workflow built on ChatGPT, adapted with Retool’s Confluence documents, product documentation, and Linear tickets. Placed above the default product reference because it uses company knowledge.",
+        ),
         "brex-agent-platform": (
             "shared",
             "A Retool-based platform for multiple operations workflows, with company procedures, account data, and product tools. Described in a First Round case study.",
@@ -1452,7 +1456,19 @@ def render_definitions(catalog: dict) -> str:
         ),
     }
     claims = {claim["id"]: claim for claim in catalog["claims"]}
-    cells = {"specialized": [], "shared": []}
+    cells = {"specialized": [], "shared": [], "ready": []}
+    default_requirements = (
+        ("summary", "Scope"),
+        ("architecture.knowledge", "Context"),
+        ("architecture.tool_access", "Tools"),
+    )
+    requirements_by_approach = {
+        "retool-retoolgpt": (
+            ("summary", "Scope"),
+            ("architecture.model", "Base product"),
+            ("architecture.knowledge", "Context"),
+        )
+    }
     notes = []
     for approach in catalog["approaches"]:
         if approach["id"] not in selected:
@@ -1461,7 +1477,8 @@ def render_definitions(catalog: dict) -> str:
         evidence = {
             claims[key]["field"]: claims[key] for key in approach["claim_ids"] if key in claims
         }
-        required = ("summary", "architecture.knowledge", "architecture.tool_access")
+        requirements = requirements_by_approach.get(approach["id"], default_requirements)
+        required = tuple(field for field, _label in requirements)
         if any(
             field not in evidence
             or str(evidence[field]["text"]).strip().lower() in {"unknown", "not specified", ""}
@@ -1478,7 +1495,7 @@ def render_definitions(catalog: dict) -> str:
         )
         links = " · ".join(
             f'<a href="index.html#claim-{site_text(evidence[field]["id"])}">{label}</a>'
-            for field, label in zip(required, ("Scope", "Context", "Tools"))
+            for field, label in requirements
         )
         notes.append(
             f"<li><strong>{site_text(approach['company'])} · {site_text(approach['agent_name'])}</strong>"

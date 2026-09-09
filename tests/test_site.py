@@ -57,13 +57,14 @@ class SiteTests(unittest.TestCase):
         )
         self.assertEqual(parsed.coverage["approach"], [a["id"] for a in expected_order])
 
-    def test_definitions_placements_require_supported_scope_and_context(self):
+    def test_definitions_placements_require_their_documented_basis(self):
         html = build.render_definitions(self.catalog)
-        self.assertEqual(html.count("data-chart-approach-id="), 7)
+        self.assertEqual(html.count("data-chart-approach-id="), 8)
         self.assertEqual(html.count("data-chart-reference="), 2)
         self.assertIn('href="index.html#brex-agent-platform"', html)
         self.assertIn('href="index.html#posthog-stamphog"', html)
         self.assertIn('href="index.html#ramp-inspect"', html)
+        self.assertIn('href="index.html#retool-retoolgpt"', html)
         self.assertIn('href="index.html#sentry-junior"', html)
         self.assertIn('href="index.html#shopify-internal-agents"', html)
         self.assertIn("Codex / Claude Code", html)
@@ -89,9 +90,18 @@ class SiteTests(unittest.TestCase):
                 and claim["field"] == "summary"
             ):
                 claim["evidence"] = []
+            if (
+                claim["id"]
+                in next(
+                    a["claim_ids"] for a in changed["approaches"] if a["id"] == "retool-retoolgpt"
+                )
+                and claim["field"] == "architecture.model"
+            ):
+                claim["evidence"] = []
         html = build.render_definitions(changed)
         self.assertEqual(html.count("data-chart-approach-id="), 5)
         self.assertNotIn('data-chart-approach-id="brex-agent-platform"', html)
+        self.assertNotIn('data-chart-approach-id="retool-retoolgpt"', html)
         self.assertNotIn('data-chart-approach-id="stripe-minions"', html)
 
     def fixture(self):
