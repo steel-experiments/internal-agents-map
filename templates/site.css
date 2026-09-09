@@ -679,3 +679,22 @@ footer {
   .quadrant-empty p { font-size: 9px; }
   .quadrant-x-axis, .quadrant-y-axis { font-size: 9px; }
 }
+
+/* A company workflow supplies the context around model-directed work. */
+.workflow-node { border: 1px solid #c9c9cf; padding: 22px; text-align: center; max-width: 570px; margin: auto; }
+.workflow-node strong { display: block; font-weight: 500; margin-top: 10px; }
+.workflow-context { background: #fafafa; }
+.workflow-connector { text-align: center; color: #9b9ba5; font-size: 24px; line-height: 38px; }
+.placement-notes { border-block: 1px solid #ededee; padding: 20px 0; margin-top: 24px; }
+.placement-notes summary { cursor: pointer; }
+.placement-notes ul { list-style: none; padding: 0; }
+.placement-notes li { margin-top: 24px; font-size: 13px; }
+.placement-notes li strong { font-weight: 550; }
+.placement-notes li p { margin: 8px 0; }
+.quadrant-cell li[data-chart-approach-id="stripe-minions"] { left: 62%; top: 67%; max-width: 35%; }
+.quadrant-cell li[data-chart-approach-id="brex-agent-platform"] { left: 32%; top: 35%; max-width: 62%; }
+@media (max-width: 600px) {
+  .workflow-node { padding: 18px 12px; }
+  .workflow-node .eyebrow { font-size: 10px; }
+  .workflow-node strong { font-size: 14px; }
+}

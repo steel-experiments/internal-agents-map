@@ -1420,32 +1420,53 @@ def render_site(catalog: dict) -> str:
 
 def render_definitions(catalog: dict) -> str:
     """Illustrate selected, scoped catalog assessments without ranking agents."""
+    # Editorial regions, supported by the linked scope/context claims; not scores.
     selected = {
-        "sentry-junior": ("foreground", "continuous-steering"),
-        "stripe-minions": ("background", "work-product-review"),
-        "ramp-inspect": ("background", "work-product-review"),
-        "doordash-code-review": ("background", "work-product-review"),
-        "posthog-stamphog": ("background", "exception-only"),
-        "plaid-fix-my-connection": ("background", "outcome-review"),
+        "doordash-code-review": (
+            "specialized",
+            "One code-review workflow, grounded in repository evidence and domain rules.",
+        ),
+        "stripe-minions": (
+            "specialized",
+            "Several engineering tasks within a coding workflow, connected to Stripe’s development tools and repository rules. Placed toward the middle of workflow breadth.",
+        ),
+        "brex-agent-platform": (
+            "shared",
+            "A Retool-based platform for multiple operations workflows, with company procedures, account data, and product tools. Described in a First Round case study.",
+        ),
     }
-    cells = {"foreground": [], "background": [], "outcomes": []}
+    claims = {claim["id"]: claim for claim in catalog["claims"]}
+    cells = {"specialized": [], "shared": []}
+    notes = []
     for approach in catalog["approaches"]:
         if approach["id"] not in selected:
             continue
-        mode, boundary = selected[approach["id"]]
-        models = approach.get("operating_models", [])
-        invocation = approach.get("rubric", {}).get("invocation", [])
-        trigger = "interactive" if mode == "foreground" else "background"
-        model = next((m for m in models if m["attention_boundary"] == boundary), None)
-        if model is None or trigger not in invocation:
+        cell, reason = selected[approach["id"]]
+        evidence = {
+            claims[key]["field"]: claims[key] for key in approach["claim_ids"] if key in claims
+        }
+        required = ("summary", "architecture.knowledge", "architecture.tool_access")
+        if any(
+            field not in evidence
+            or str(evidence[field]["text"]).strip().lower() in {"unknown", "not specified", ""}
+            or not any(e["relation"] == "supports" for e in evidence[field]["evidence"])
+            for field in required
+        ):
             continue
-        cell = "outcomes" if boundary in {"outcome-review", "exception-only"} else mode
         cells[cell].append(
             f'<li data-chart-approach-id="{site_text(approach["id"])}">'
             f'<a href="index.html#{site_text(approach["id"])}" '
-            f'title="{site_text(model["scope"])} · {site_text(site_label(boundary))}">'
+            f'title="{site_text(reason)}">'
             f"<strong>{site_text(approach['company'])}</strong>"
             f"<span>{site_text(approach['agent_name'])}</span></a></li>"
+        )
+        links = " · ".join(
+            f'<a href="index.html#claim-{site_text(evidence[field]["id"])}">{label}</a>'
+            for field, label in zip(required, ("Scope", "Context", "Tools"))
+        )
+        notes.append(
+            f"<li><strong>{site_text(approach['company'])} · {site_text(approach['agent_name'])}</strong>"
+            f"<p>{site_text(reason)}</p><div>{links}</div></li>"
         )
     shell = (ROOT / "templates/site.html").read_text(encoding="utf-8")
     sidebar = re.search(r"<aside.*?</aside>", shell, re.S)[0]
@@ -1456,6 +1477,7 @@ def render_definitions(catalog: dict) -> str:
     )
     values = {
         "SIDEBAR": sidebar,
+        "PLACEMENTS": "".join(notes),
         "FOOTER": re.search(r"<footer>.*?</footer>", shell, re.S)[0],
         **{
             key.upper(): "".join(items) or "<li>No selected example currently fits.</li>"

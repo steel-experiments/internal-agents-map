@@ -11,8 +11,9 @@ provenance, confidence, qualifications, evidence relations, and source locators.
 - Edit [the HTML shell](../templates/site.html), [CSS](../templates/site.css), and
   [JavaScript](../templates/site.js) for the website.
 - Edit [the Definitions page](../templates/definitions.html) for the guide. Its quadrant
-  is generated from selected catalog workflows; changed or missing interaction/review
-  metadata removes a placement. Positions are qualitative, not autonomy scores.
+  compares workflow breadth and organizational adaptation. Three editorial placements
+  link to scope, context, and tool claims; missing or unsupported claims remove a marker.
+  Review placements when those claims change. Coordinates are illustrative, not scores.
   The guide shares navigation, footer, CSS, and Geist with the catalog.
 - Run `uv run --locked python scripts/build.py` to regenerate Markdown, JSON, and `site/`.
 - Run `uv run --locked python scripts/check_site.py --root site` and the existing catalog checks.

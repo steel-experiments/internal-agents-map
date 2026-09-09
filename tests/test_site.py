@@ -57,20 +57,34 @@ class SiteTests(unittest.TestCase):
         )
         self.assertEqual(parsed.coverage["approach"], [a["id"] for a in expected_order])
 
-    def test_definitions_placements_require_matching_workflow_metadata(self):
+    def test_definitions_placements_require_supported_scope_and_context(self):
         html = build.render_definitions(self.catalog)
-        self.assertEqual(html.count("data-chart-approach-id="), 6)
-        self.assertIn('href="index.html#sentry-junior"', html)
+        self.assertEqual(html.count("data-chart-approach-id="), 3)
+        self.assertIn('href="index.html#brex-agent-platform"', html)
         self.assertNotIn("@@", html)
         changed = copy.deepcopy(self.catalog)
-        for approach in changed["approaches"]:
-            if approach["id"] == "sentry-junior":
-                approach["operating_models"] = []
-            if approach["id"] == "stripe-minions":
-                approach["rubric"]["invocation"] = ["unknown"]
+        for claim in changed["claims"]:
+            if (
+                claim["id"]
+                in next(
+                    a["claim_ids"] for a in changed["approaches"] if a["id"] == "stripe-minions"
+                )
+                and claim["field"] == "architecture.knowledge"
+            ):
+                claim["text"] = "Unknown"
+            if (
+                claim["id"]
+                in next(
+                    a["claim_ids"]
+                    for a in changed["approaches"]
+                    if a["id"] == "brex-agent-platform"
+                )
+                and claim["field"] == "summary"
+            ):
+                claim["evidence"] = []
         html = build.render_definitions(changed)
-        self.assertEqual(html.count("data-chart-approach-id="), 4)
-        self.assertNotIn('data-chart-approach-id="sentry-junior"', html)
+        self.assertEqual(html.count("data-chart-approach-id="), 1)
+        self.assertNotIn('data-chart-approach-id="brex-agent-platform"', html)
         self.assertNotIn('data-chart-approach-id="stripe-minions"', html)
 
     def fixture(self):
@@ -239,7 +253,7 @@ class ArtifactTests(unittest.TestCase):
         path.write_text(original.replace('href="#terms"', 'href="index.html#terms"'))
         self.assertTrue(any("Invalid fragment" in e for e in checker.validate(self.root)))
         path.write_text(
-            original.replace('href="index.html#sentry-junior"', 'href="#sentry-junior"')
+            original.replace('href="index.html#brex-agent-platform"', 'href="#brex-agent-platform"')
         )
         self.assertTrue(any("Invalid fragment" in e for e in checker.validate(self.root)))
         path.unlink()
