@@ -77,9 +77,11 @@ Initial setup: in repository Settings → Pages, set **Source: GitHub Actions**.
 domain is configured by this feature. The configured project URL is
 `https://steel-experiments.github.io/internal-agents-map/`.
 
-Publication status: **Pages is configured for GitHub Actions with HTTPS; the first
-deployment is pending.** A successful Actions deployment and HTTP checks are required
-before the page is described as live.
+Publication status: **Live at [Internal Agents Map](https://steel-experiments.github.io/internal-agents-map/).**
+The first publication from commit `abf9887` passed validation and deployment in
+[Actions run 34336076085](https://github.com/steel-experiments/internal-agents-map/actions/runs/34336076085)
+on 2026-09-09. Public HTML, CSS, JavaScript, JSON, Geist, and its license all returned
+HTTP 200 and matched the local artifact bytes.
 
 Rollback: revert the faulty change on `main` to restore a previously validated website
 revision, including its templates and generated outputs. The same validation and Pages
@@ -113,3 +115,7 @@ privacy, Ruff lint/format, Markdown-link, and whitespace checks. Repeated genera
 produced identical bytes. Data and archive files were unchanged relative to the
 transferred Plans 002–003 baseline; only the authored README navigation changed
 among existing generated documentation.
+
+Live publication acceptance on 2026-09-09 also passed in Chromium: all 39 entries
+were visible, Geist loaded, and search, evidence disclosures, permalinks, and reload
+worked without page errors.

@@ -14,7 +14,7 @@
 
 ## Status
 
-- **Status:** IN PROGRESS
+- **Status:** DONE
 - **Priority:** P2
 - **Effort:** M (roughly one to two days including browser checks)
 - **Risk:** MED — rendering must preserve evidence meaning and publication must follow validation.
@@ -382,9 +382,9 @@ inspection alone is not a substitute for these implementation checks.
 - [x] All final command gates pass, including explicit checks of new files.
 - [x] CI validates PRs and permits publication only from validated `main` runs.
 - [x] Documentation explains editing, regeneration, preview, initial Pages setup, and rollback.
-- [ ] Actual publication status is recorded accurately; if authorized, the deployed page and assets return HTTP 200.
+- [x] Actual publication status is recorded accurately; the deployed page and all assets return HTTP 200.
 - [x] Only in-scope changes are introduced relative to the preserved starting baseline.
-- [ ] This plan and the index reflect the result and any remaining publication prerequisite.
+- [x] This plan and the index reflect the result; no publication prerequisite remains.
 
 ## STOP conditions
 
@@ -438,5 +438,9 @@ was normalized to satisfy the repository patch check. The reviewed implementatio
 introduces no changes to catalog evidence or preserved sources.
 
 GitHub Pages is now configured for workflow publication with HTTPS at
-`https://steel-experiments.github.io/internal-agents-map/`. First deployment is
-pending the release commit and successful CI; do not yet treat the page as live.
+`https://steel-experiments.github.io/internal-agents-map/`. Publication completed successfully from commit `abf98875f107c70bd929d2030839be33c5d1b3a0`.
+Both validation and deployment jobs passed in Actions run `34336076085`.
+The public HTML, CSS, JavaScript, JSON, Geist font, and license return HTTP 200
+and exactly match the validated artifact. A live Chromium check confirmed all
+39 entries, loaded Geist, search, evidence disclosures, and permalink reload
+without console or request errors. The goal and plan are fulfilled.

@@ -11,7 +11,7 @@ verification gate, and update the status row when finished.
 | 001 | Preserve sources proactively and use verified archive fallbacks | P1 | L | — | DONE |
 | 002 | Repair catalog verification and archival failure handling | P1 | M | — | DONE |
 | 003 | Reconcile catalog evidence and record research limitations | P2 | M | 002 (final validation) | DONE |
-| [004](004-publish-generated-mini-page.md) | Generate and publish a searchable mini page | P2 | M | 002, 003 | IN PROGRESS |
+| [004](004-publish-generated-mini-page.md) | Generate and publish a searchable mini page | P2 | M | 002, 003 | DONE |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) |
 REJECTED (with one-line rationale)
@@ -49,3 +49,11 @@ tests and required checks pass, including the concurrently added email-address
 check. All 88 archived sources remain unchanged. The evidence review accounts for
 all 115 original metrics: 108 retained with supporting locators, five reclassified,
 and two unsupported metrics removed. See [the evidence review](../docs/evidence-review.md).
+
+2026-09-09: Plan 004 completed and published at
+[Internal Agents Map](https://steel-experiments.github.io/internal-agents-map/).
+Self-hosted Geist, search/filtering, shareable entries, and evidence disclosures
+are generated from the catalog. All 116 tests and required checks pass; the first
+validation/deployment workflow succeeded and all six public assets match the
+reviewed release. Desktop/mobile, keyboard, no-JavaScript, URL/history, subdirectory,
+and live-browser checks passed. See [website maintenance](../docs/site.md).
