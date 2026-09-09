@@ -70,8 +70,8 @@ class SiteTests(unittest.TestCase):
                 approach["rubric"]["invocation"] = ["unknown"]
         html = build.render_definitions(changed)
         self.assertEqual(html.count("data-chart-approach-id="), 4)
-        self.assertNotIn('href="index.html#sentry-junior"', html)
-        self.assertNotIn('href="index.html#stripe-minions"', html)
+        self.assertNotIn('data-chart-approach-id="sentry-junior"', html)
+        self.assertNotIn('data-chart-approach-id="stripe-minions"', html)
 
     def fixture(self):
         source = copy.deepcopy(self.catalog["sources"][0])
