@@ -680,7 +680,9 @@ footer {
 .quadrant-cell li > span { display: block; font-size: 11px; line-height: 1.35; margin-top: 3px; }
 .quadrant-cell .reference-marker { color: #73737d; }
 .quadrant-cell .reference-marker::before { background: #fff; border-color: #8c8c96; }
-.quadrant-cell li[data-chart-reference="ready-made-task"] { left: 18%; top: 34%; max-width: 76%; }
+.quadrant-cell li[data-chart-reference="ready-made-task"] { left: 10%; top: 32%; max-width: 76%; }
+.quadrant-cell li[data-chart-reference="deep-research"] { left: 48%; top: 48%; max-width: 48%; }
+.quadrant-cell li[data-chart-reference="devin"] { left: 20%; top: 68%; max-width: 66%; }
 .quadrant-cell li[data-chart-reference="general-assistant"] { left: 28%; top: 34%; max-width: 66%; }
 .quadrant-x-axis { grid-column: 2; display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: #666; }
 .guide-faq details { border-bottom: 1px solid #ededee; padding: 18px 0; }
@@ -706,6 +708,7 @@ footer {
   .approval-flow { gap: 8px; font-size: 12px; }
   .approval-flow small { font-size: 10px; }
   .quadrant-chart { grid-template-columns: 18px minmax(0, 1fr); gap: 7px; }
+  .quadrant-plot { aspect-ratio: .82; }
   .quadrant-cell h3 { font-size: 8px; left: 6px; right: 6px; top: 6px; }
   .quadrant-cell:nth-child(n+3) h3 { bottom: 6px; }
   .quadrant-cell li { font-size: 11px; padding-left: 12px; }
@@ -713,6 +716,10 @@ footer {
   .quadrant-cell li::before { width: 6px; height: 6px; border-width: 1px; top: 4px; }
   .quadrant-cell li:nth-child(2) { left: 22%; }
   .quadrant-cell:nth-child(4) li:nth-child(2) { left: 28%; }
+  .quadrant-cell:nth-child(3) li > span { display: none; }
+  .quadrant-cell li[data-chart-reference="ready-made-task"] { left: 10%; top: 30%; }
+  .quadrant-cell li[data-chart-reference="deep-research"] { left: 43%; top: 48%; max-width: 54%; }
+  .quadrant-cell li[data-chart-reference="devin"] { left: 18%; top: 72%; }
   .quadrant-x-axis, .quadrant-y-axis { font-size: 9px; }
 }
 
