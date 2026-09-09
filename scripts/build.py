@@ -1434,6 +1434,10 @@ def render_definitions(catalog: dict) -> str:
             "specialized",
             "One pull-request approval workflow, grounded in repository-specific safety gates, review state, ownership, and prior human approvals.",
         ),
+        "ramp-inspect": (
+            "specialized",
+            "A background coding agent that verifies work with tests, telemetry, feature flags, and the rendered frontend; it later expanded into production monitoring and a host for other internal agents.",
+        ),
         "brex-agent-platform": (
             "shared",
             "A Retool-based platform for multiple operations workflows, with company procedures, account data, and product tools. Described in a First Round case study.",
