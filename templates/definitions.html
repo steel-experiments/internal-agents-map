@@ -17,7 +17,6 @@
   <header class="guide-header">
     <p class="eyebrow">A field guide / Definitions</p>
     <h1>Internal, cloud, and background agents, explained</h1>
-    <p class="lede">Three simple questions help make sense of these labels: <strong>What work is it for? Where does it run? How do you interact with it?</strong></p>
     <p>An agent can be internal, cloud, and background at the same time. Each word tells you something different about it.</p>
     <p>This guide offers practical definitions for understanding and describing agents.</p>
     <div class="resource-links"><a href="#terms">The three terms ↓</a><a href="#quadrant">Examples on the map ↓</a><a href="#faq">Common questions ↓</a></div>
@@ -43,26 +42,26 @@
   <section id="overlap">
     <p class="eyebrow">02 / Labels can overlap</p>
     <h2>One agent can be all three</h2>
-    <p>Imagine an invoice agent for a finance team. It checks new invoices against purchase orders on a cloud computer and asks an employee to approve payments.</p>
-    <figure class="invoice-figure">
-      <div class="invoice-node">One invoice agent</div>
-      <div class="invoice-branches">
-        <div><strong>Internal</strong><span>Finance team's work</span></div>
-        <div><strong>Cloud</strong><span>Hosted execution</span></div>
-        <div><strong>Background</strong><span>Checks invoices without continuous interaction</span></div>
+    <p>A Stripe engineer asks a <a href="index.html#stripe-minions">Minion</a> to fix a flaky test. It works on a cloud development machine, changes the code, runs checks, and prepares a pull request for human review.</p>
+    <figure class="example-figure">
+      <div class="example-node">Stripe’s Minions</div>
+      <div class="example-branches">
+        <div><strong>Internal</strong><span>Stripe’s engineering work</span></div>
+        <div><strong>Cloud</strong><span>Runs on AWS EC2</span></div>
+        <div><strong>Background</strong><span>Works without continuous interaction</span></div>
       </div>
-      <figcaption>One workflow, described from three different angles.</figcaption>
+      <figcaption>One workflow, described from three different angles. Sources: <a href="https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents">Stripe’s workflow description</a> and <a href="https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2">execution environment</a>.</figcaption>
     </figure>
-    <p>If an employee opens a conversation to resolve a mismatch, the interaction moves into the foreground. The agent still serves the same team and runs in the same place.</p>
+    <p>An engineer can review the result and give the Minion further instructions. That active interaction is foreground work; the next unattended run is background work. The agent still serves the same team and runs in the same place.</p>
   </section>
   <section id="autonomy">
     <p class="eyebrow">03 / Authority is another question</p>
     <h2>What can it do without approval?</h2>
     <p><strong>Autonomy describes the decisions and actions an agent can take without human approval.</strong></p>
-    <p>The invoice agent might match records automatically but require approval before issuing a payment. It works in the background with limited authority.</p>
+    <p>A Minion can write code and run checks on its own, but production pull requests require human review. It works in the background with limited authority.</p>
     <p>Be specific when describing that authority:</p>
-    <blockquote>“It can match invoices automatically. Payments require approval.”</blockquote>
-    <div class="approval-flow" aria-label="Example payment workflow"><span>Match invoices<small>Agent can act</small></span><span class="flow-arrow" aria-hidden="true">→</span><span>Approve payment<small>Human decision</small></span><span class="flow-arrow" aria-hidden="true">→</span><span>Issue payment<small>After approval</small></span></div>
+    <blockquote>“It can write code and run checks on its own. Production pull requests require human review.”</blockquote>
+    <div class="approval-flow" aria-label="Minions code review workflow"><span>Write code<small>Agent can act</small></span><span class="flow-arrow" aria-hidden="true">→</span><span>Run checks<small>Agent can act</small></span><span class="flow-arrow" aria-hidden="true">→</span><span>Review pull request<small>Human decision</small></span></div>
     <p>Working without your attention is different from acting without your permission.</p>
   </section>
   <section id="quadrant">

@@ -616,16 +616,16 @@ footer {
 .definition-grid > div:last-child { border-right: 0; }
 .definition-grid p { font-size: 13px; }
 .diagram-number { display: block; color: #2856d8; font-size: 12px; }
-.invoice-node { border: 1px solid #c9c9cf; padding: 14px 24px; width: fit-content; margin: auto; font-weight: 550; }
-.invoice-branches { display: grid; grid-template-columns: repeat(3, 1fr); padding-top: 32px; position: relative; }
-.invoice-branches::before { content: ""; position: absolute; height: 16px; border-left: 1px solid #b8b8c0; left: 50%; top: 0; }
-.invoice-branches > div { position: relative; text-align: center; padding: 12px 16px; }
-.invoice-branches > div::before { content: ""; position: absolute; border-top: 1px solid #b8b8c0; height: 16px; top: -16px; left: 0; right: 0; }
-.invoice-branches > div:first-child::before { left: 50%; }
-.invoice-branches > div:last-child::before { right: 50%; }
-.invoice-branches > div::after { content: ""; position: absolute; height: 20px; border-left: 1px solid #b8b8c0; top: -16px; left: 50%; }
-.invoice-branches strong { display: block; font-weight: 550; }
-.invoice-branches span { display: block; font-size: 13px; color: #666; margin-top: 8px; }
+.example-node { border: 1px solid #c9c9cf; padding: 14px 24px; width: fit-content; margin: auto; font-weight: 550; }
+.example-branches { display: grid; grid-template-columns: repeat(3, 1fr); padding-top: 32px; position: relative; }
+.example-branches::before { content: ""; position: absolute; height: 16px; border-left: 1px solid #b8b8c0; left: 50%; top: 0; }
+.example-branches > div { position: relative; text-align: center; padding: 12px 16px; }
+.example-branches > div::before { content: ""; position: absolute; border-top: 1px solid #b8b8c0; height: 16px; top: -16px; left: 0; right: 0; }
+.example-branches > div:first-child::before { left: 50%; }
+.example-branches > div:last-child::before { right: 50%; }
+.example-branches > div::after { content: ""; position: absolute; height: 20px; border-left: 1px solid #b8b8c0; top: -16px; left: 50%; }
+.example-branches strong { display: block; font-weight: 550; }
+.example-branches span { display: block; font-size: 13px; color: #666; margin-top: 8px; }
 .guide blockquote { border-left: 2px solid #386bff; margin: 24px 0; padding: 8px 24px; font-size: 19px; }
 .approval-flow { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-block: 1px solid #ededee; padding: 24px 0; font-size: 14px; }
 .approval-flow small, .quadrant-columns small { display: block; color: #666; font-size: 12px; font-weight: 400; margin-top: 6px; }
@@ -654,9 +654,9 @@ footer {
   .definition-grid { grid-template-columns: 1fr; }
   .definition-grid > div, .definition-grid > div:first-child { padding: 20px 0; border-right: 0; border-bottom: 1px solid #ededee; }
   .definition-grid > div:last-child { border-bottom: 0; }
-  .invoice-branches > div { padding: 12px 4px; }
-  .invoice-branches strong { font-size: 13px; }
-  .invoice-branches span { font-size: 11px; }
+  .example-branches > div { padding: 12px 4px; }
+  .example-branches strong { font-size: 13px; }
+  .example-branches span { font-size: 11px; }
   .approval-flow { gap: 8px; font-size: 12px; }
   .approval-flow small { font-size: 10px; }
   .quadrant-cell { padding: 20px 10px; }
