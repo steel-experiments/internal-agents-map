@@ -19,6 +19,11 @@ sys.modules[SPEC.name] = check_private_data
 SPEC.loader.exec_module(check_private_data)
 
 
+def address(user: str, domain: str) -> str:
+    """Build an e-mail address so the scan does not flag this file."""
+    return "@".join([user, domain])
+
+
 def git(root: Path, *args: str) -> None:
     subprocess.run(["git", *args], cwd=root, check=True, capture_output=True)
 
@@ -44,15 +49,14 @@ class ScanTests(unittest.TestCase):
         self.tmp.cleanup()
 
     def test_reports_email_in_tracked_file(self) -> None:
-        make_repo(self.root, {"data/agents/x.yaml": "notes: ask jane.doe+ai@example.co.uk\n"})
-        self.assertEqual(
-            check_private_data.scan(self.root),
-            ["data/agents/x.yaml:1: jane.doe+ai@example.co.uk"],
-        )
+        jane = address("jane.doe+ai", "example.co.uk")
+        make_repo(self.root, {"data/agents/x.yaml": f"notes: ask {jane}\n"})
+        self.assertEqual(check_private_data.scan(self.root), [f"data/agents/x.yaml:1: {jane}"])
 
     def test_ignores_untracked_and_archive_files(self) -> None:
-        make_repo(self.root, {"archive/sources/a/page.md": "contact: press@example.com\n"})
-        (self.root / "research.md").write_text("owner@example.com\n", encoding="utf-8")
+        press = address("press", "example.com")
+        make_repo(self.root, {"archive/sources/a/page.md": f"contact: {press}\n"})
+        (self.root / "research.md").write_text(address("owner", "example.com"), encoding="utf-8")
         self.assertEqual(check_private_data.scan(self.root), [])
 
     def test_skips_binary_files_and_handles(self) -> None:
@@ -64,6 +68,9 @@ class ScanTests(unittest.TestCase):
             },
         )
         self.assertEqual(check_private_data.scan(self.root), [])
+
+    def test_this_repository_is_clean(self) -> None:
+        self.assertEqual(check_private_data.scan(ROOT), [])
 
 
 if __name__ == "__main__":
