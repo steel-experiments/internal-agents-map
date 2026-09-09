@@ -7,7 +7,7 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: browserbase-bb-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - coding
@@ -17,7 +17,7 @@ domains:
 - research
 autonomy: drafts-reviewed
 operating_models:
-- scope: 'coding request → reviewed pull request'
+- scope: coding request → reviewed pull request
   attention_boundary: work-product-review
 rubric:
   invocation:
@@ -79,6 +79,7 @@ evidence:
   headline_metric:
   - source_id: browserbase-bb-source-1
     relation: supports
+    locator: Preserved content.md, lines 26
   architecture.sandbox:
   - source_id: browserbase-bb-source-1
     relation: supports
@@ -109,12 +110,15 @@ evidence:
   key_metrics.0:
   - source_id: browserbase-bb-source-1
     relation: supports
+    locator: Preserved content.md, lines 26
   key_metrics.1:
   - source_id: browserbase-bb-source-1
     relation: supports
+    locator: Preserved content.md, lines 26
   key_metrics.2:
   - source_id: browserbase-bb-source-1
     relation: supports
+    locator: Preserved content.md, lines 26
   lessons_learned.0:
   - source_id: browserbase-bb-source-1
     relation: supports
@@ -135,7 +139,8 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: high
-    confidence_reason: 'The source documents agent-authored pull requests while the enclosing workflow retains human review.'
+    confidence_reason: The source documents agent-authored pull requests while the enclosing workflow retains human
+      review.
     valid_at: '2026'
   lessons_learned.0:
     kind: inference
@@ -157,3 +162,20 @@ claim_metadata:
     provenance: catalog-judgment
     confidence: medium
     confidence_reason: The catalog derives this observation from the linked sources.
+  headline_metric:
+    metric_scope: Automatic feature-request scanning of every closed support ticket and meeting transcript
+    denominator: Closed support tickets and meeting transcripts
+  key_metrics.0:
+    metric_scope: Automatic feature-request scanning of every closed support ticket and meeting transcript
+    denominator: Closed support tickets and meeting transcripts
+  key_metrics.1:
+    metric_scope: Reported support first-response time below 24 hours
+    denominator: Support first responses; exact sample and measurement window not provided
+    confidence: medium
+    confidence_reason: The source reports 99% below 24 hours with awkward wording; no sample, timestamps, or method
+      is provided.
+  key_metrics.2:
+    metric_scope: 'Session investigation initiation: manual log-diving versus a Slack request'
+    confidence: medium
+    confidence_reason: A Slack message replaces the manual initiation workflow; the article does not report end-to-end
+      automated investigation latency.

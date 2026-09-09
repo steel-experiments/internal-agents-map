@@ -7,7 +7,7 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: replit-manager-agent-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - coding
@@ -17,7 +17,7 @@ domains:
 - data
 autonomy: drafts-reviewed
 operating_models:
-- scope: 'objective → verifiable multi-agent work product'
+- scope: objective → verifiable multi-agent work product
   attention_boundary: work-product-review
 rubric:
   invocation:
@@ -27,9 +27,11 @@ rubric:
   evidence_strength: detailed-primary
 summary: An internal agent-of-agents stack where every employee gets a manager agent that spawns multiple agents
   for verifiable work and escalates judgment to humans.
-headline_metric: ~3x engineering code output over six months without degradation in review/revert/incident metrics
+headline_metric: 2.9x code output for a consistent author cohort; review latency, PR reversions, and incident trends
+  reported flat
 architecture:
-  sandbox: Not specified publicly
+  sandbox: microVMs and remote filesystems behind access policies, token proxies, audit logging, and a ZeroTrust
+    network
   harness: 'Fleet/loop orchestration: a manager agent launches parallel agents for verifiable work and escalates
     judgment'
   model: Not specified
@@ -42,7 +44,7 @@ primitives:
 - name: Manager agent
   desc: One human gives an objective; the manager spawns parallel agents for verifiable work and escalates judgment
 key_metrics:
-- ~3x engineering code output over six months
+- 2.9x code output for a consistent author cohort from early January to late June
 - No corresponding deterioration in review/reversion/incident metrics
 lessons_learned:
 - Give every employee a manager agent that spawns sub-agents; verifiable work parallelizes, judgment escalates to
@@ -69,9 +71,11 @@ evidence:
   headline_metric:
   - source_id: replit-manager-agent-source-1
     relation: supports
+    locator: Preserved content.md, lines 10, 38–56
   architecture.sandbox:
   - source_id: replit-manager-agent-source-1
     relation: supports
+    locator: Preserved content.md, lines 34
   architecture.harness:
   - source_id: replit-manager-agent-source-1
     relation: supports
@@ -90,9 +94,11 @@ evidence:
   key_metrics.0:
   - source_id: replit-manager-agent-source-1
     relation: supports
+    locator: Preserved content.md, lines 10, 38–56
   key_metrics.1:
   - source_id: replit-manager-agent-source-1
     relation: supports
+    locator: Preserved content.md, lines 50–56
   lessons_learned.0:
   - source_id: replit-manager-agent-source-1
     relation: supports
@@ -107,7 +113,8 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: high
-    confidence_reason: 'The source describes autonomous parallel execution followed by human judgment on the resulting work.'
+    confidence_reason: The source describes autonomous parallel execution followed by human judgment on the resulting
+      work.
     valid_at: '2026'
   lessons_learned.0:
     kind: inference
@@ -119,3 +126,18 @@ claim_metadata:
     provenance: catalog-judgment
     confidence: medium
     confidence_reason: The catalog derives this observation from the linked sources.
+  headline_metric:
+    metric_scope: Code output for a consistent author cohort across early January to late June; separate from company-wide
+      hiring effects
+    denominator: Same cohort of authors before and after
+    measurement_method: Comparison of contributed code for a consistent author cohort; raw company-wide lines of
+      code increased 5.8x
+  key_metrics.0:
+    metric_scope: Code output for a consistent author cohort across early January to late June; separate from company-wide
+      hiring effects
+    denominator: Same cohort of authors before and after
+    measurement_method: Comparison of contributed code for a consistent author cohort; raw company-wide lines of
+      code increased 5.8x
+  key_metrics.1:
+    metric_scope: Company code review latency, PR reversion rates, and incidents opened during increased code output
+    measurement_method: Company comparison of review latency, PR reversion rates, and incident trends

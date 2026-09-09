@@ -7,7 +7,7 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: shopify-internal-agents-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - coding
@@ -16,7 +16,7 @@ domains:
 - security
 autonomy: drafts-reviewed
 operating_models:
-- scope: 'River coding request → reviewed pull request'
+- scope: River coding request → reviewed pull request
   attention_boundary: work-product-review
 rubric:
   invocation:
@@ -80,6 +80,7 @@ evidence:
   headline_metric:
   - source_id: shopify-internal-agents-source-1
     relation: supports
+    locator: Preserved content.md, lines 12
   architecture.sandbox:
   - source_id: shopify-internal-agents-source-1
     relation: supports
@@ -113,12 +114,15 @@ evidence:
   key_metrics.0:
   - source_id: shopify-internal-agents-source-1
     relation: supports
+    locator: Preserved content.md, lines 83
   key_metrics.1:
   - source_id: shopify-internal-agents-source-1
     relation: supports
+    locator: Preserved content.md, lines 12, 83
   key_metrics.2:
   - source_id: shopify-internal-agents-source-1
     relation: supports
+    locator: Preserved content.md, lines 65
   lessons_learned.0:
   - source_id: shopify-internal-agents-source-1
     relation: supports
@@ -139,7 +143,7 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: medium
-    confidence_reason: 'The source documents pull-request creation but does not establish outcome-only supervision.'
+    confidence_reason: The source documents pull-request creation but does not establish outcome-only supervision.
     valid_at: '2026'
   lessons_learned.0:
     kind: inference
@@ -161,3 +165,15 @@ claim_metadata:
     provenance: catalog-judgment
     confidence: medium
     confidence_reason: The catalog derives this observation from the linked sources.
+  headline_metric:
+    metric_scope: Merged River-coauthored PRs across Shopify
+    denominator: All Shopify merged pull requests
+  key_metrics.0:
+    metric_scope: River sessions and distinct Slack channels in a recent 30-day period
+    measurement_method: river_sessions domain table, written by River every session
+  key_metrics.1:
+    metric_scope: River-coauthored merged PRs in the recent 30-day period; company-wide PR share
+    denominator: All Shopify merged pull requests for the one-in-eight share
+    measurement_method: river_sessions domain table for reported session-linked counts
+  key_metrics.2:
+    metric_scope: Median River session duration and tool calls per session

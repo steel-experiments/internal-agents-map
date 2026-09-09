@@ -5,6 +5,7 @@ import hashlib
 import importlib.util
 import io
 import json
+import shutil
 import sys
 import tempfile
 import unittest
@@ -124,6 +125,42 @@ class HttpLinkTests(unittest.TestCase):
 
 
 class DiscoveryTests(unittest.TestCase):
+    def test_unmatched_inline_ticks_do_not_cross_blocks(self) -> None:
+        for separator in ("\n\n", "\n   \n", "\n```\nexample\n```\n"):
+            text = "Unmatched ` tick" + separator + "[real](https://real.example) `tail"
+            self.assertIn("[real](https://real.example)", check_links.markdown_prose(text))
+
+    def test_code_examples_are_excluded_from_local_and_external_links(self) -> None:
+        text = """# Real heading
+[heading](#real-heading)
+`[inline](inline-missing.md)` and ``[double](https://inline.example)``
+  ````markdown
+[example](missing.md)
+```
+[example](https://publisher.example)
+  ````
+~~~
+[example](https://wayback.example)
+~~~
+[real](https://real.example)
+[broken](actual-missing.md)
+```
+[unclosed](unclosed-missing.md)
+"""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "example.md"
+            path.write_text(text)
+            with (
+                patch.object(check_links, "ROOT", root),
+                patch.object(check_links, "tracked_markdown", return_value=[path]),
+            ):
+                self.assertEqual(check_links.markdown_urls(), {"https://real.example"})
+                self.assertEqual(
+                    check_links.local_links(),
+                    ["example.md: missing local target actual-missing.md"],
+                )
+
     def test_tracked_markdown_excludes_archive_content(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -382,6 +419,53 @@ class MainTests(unittest.TestCase):
         self.assertEqual(status, 0)
         catalog_sources.assert_not_called()
         self.assertIn("Checked local links.", stdout.getvalue())
+
+
+class ArchiveContainmentTests(unittest.TestCase):
+    def test_symlink_boundaries(self) -> None:
+        for mode in (
+            "content-sibling",
+            "manifest-sibling",
+            "content-external",
+            "manifest-external",
+            "source-sibling",
+            "source-external",
+            "archive-external",
+        ):
+            with (
+                self.subTest(mode=mode),
+                tempfile.TemporaryDirectory() as directory,
+                tempfile.TemporaryDirectory() as outside,
+            ):
+                root = Path(directory)
+                bundle = root / "archive" / "sources" / "fixture"
+                bundle.mkdir(parents=True)
+                external = Path(outside)
+                sibling = bundle.parent / "sibling"
+                sibling.mkdir()
+                destination = external if "external" in mode else sibling
+                filename = "metadata.json" if mode.startswith("manifest") else "content.md"
+                (bundle / filename).write_text("{}")
+                if mode.startswith("source"):
+                    (bundle / filename).unlink()
+                    bundle.rmdir()
+                    (destination / filename).write_text("{}")
+                    bundle.symlink_to(destination, target_is_directory=True)
+                elif mode.startswith("archive"):
+                    shutil.rmtree(root / "archive")
+                    (external / "sources" / "fixture").mkdir(parents=True)
+                    (external / "sources" / "fixture" / filename).write_text("{}")
+                    (root / "archive").symlink_to(external, target_is_directory=True)
+                else:
+                    (bundle / filename).unlink()
+                    (destination / filename).write_text("{}")
+                    (bundle / filename).symlink_to(destination / filename)
+                with patch.object(check_links, "ROOT", root):
+                    resolved, error = check_links._safe_archive_path(
+                        f"archive/sources/fixture/{filename}", "fixture", filename
+                    )
+                self.assertIsNone(resolved)
+                self.assertIn("escapes", error)
 
 
 if __name__ == "__main__":

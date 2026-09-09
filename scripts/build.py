@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import html
 import json
 import os
 import re
@@ -334,8 +335,10 @@ def resolve_capture_path(
         die(f"{filename}: '{field}' must be {str(expected)!r}.")
 
     repository_root = (root or ROOT).resolve()
-    archive_root = (repository_root / "archive" / "sources").resolve()
-    bundle_root = (archive_root / source_id).resolve()
+    archive_root = repository_root / "archive" / "sources"
+    bundle_root = archive_root / source_id
+    if archive_root.resolve() != archive_root or bundle_root.resolve() != bundle_root:
+        die(f"{filename}: '{field}' resolves outside archive/sources/{source_id}/.")
     resolved = (repository_root / Path(*pure.parts)).resolve()
     try:
         archive_root.relative_to(repository_root)
@@ -884,6 +887,16 @@ def count_table(counts: Counter[str], labels: dict[str, str]) -> str:
     return "\n".join(lines)
 
 
+def documented_environment(value: Any) -> bool:
+    if not isinstance(value, str) or not value.strip():
+        return False
+    return not re.match(
+        r"^(?:unknown|n/a|not (?:specified|detailed|documented|applicable))(?:\b|$)",
+        value.strip(),
+        flags=re.IGNORECASE,
+    )
+
+
 def render_patterns_snapshot(records: list[dict]) -> str:
     approach_labels = {
         "task-agent": "Task agent",
@@ -901,7 +914,7 @@ def render_patterns_snapshot(records: list[dict]) -> str:
         for record in records
     )
     sandbox_count = sum(
-        (record.get("architecture") or {}).get("sandbox") not in (None, "", "unknown")
+        documented_environment((record.get("architecture") or {}).get("sandbox"))
         for record in records
     )
     return "\n".join(
@@ -1164,10 +1177,253 @@ def replace_between_markers(
     return text[:start] + block + text[end + len(end_marker) :]
 
 
-def rendered_outputs(records: list[dict]) -> dict[Path, str]:
+def site_text(value: Any) -> str:
+    """Escape all catalog prose; source text never becomes executable markup."""
+    return html.escape(str(value), quote=True)
+
+
+def site_label(value: str) -> str:
+    labels = {"ci-triage": "CI triage", "on-call": "On-call"}
+    if value in labels:
+        return labels[value]
+    if value.startswith("primitives."):
+        return "Supporting component"
+    if value == "architecture.context_mgmt":
+        return "Context management"
+    if value.startswith("architecture."):
+        return value.split(".", 1)[1].replace("_", " ").capitalize()
+    if value.startswith("key_metrics."):
+        return "Key observation"
+    if value == "headline_metric":
+        return "Headline claim"
+    if value.startswith("lessons_learned."):
+        return "Lesson"
+    if value.startswith("operating_models."):
+        return "Operating model assessment"
+    return value.replace("-", " ").replace("_", " ").capitalize()
+
+
+def render_site(catalog: dict) -> str:
+    """Render a complete, independently readable page from the normalized catalog."""
+    repository = "https://github.com/steel-experiments/internal-agents-map"
+    blob = repository + "/blob/main/"
+    claims = {item["id"]: item for item in catalog["claims"]}
+    sources = {item["id"]: item for item in catalog["sources"]}
+    approaches = sorted(
+        catalog["approaches"],
+        key=lambda item: (item["company"].casefold(), item["agent_name"].casefold(), item["id"]),
+    )
+
+    def link(url: str, label: str, **attrs: str) -> str:
+        # Validation normally restricts sources to HTTPS. Keep this pure renderer
+        # safe even when called directly with a fixture or future imported data.
+        if urlsplit(url).scheme not in {"http", "https", ""}:
+            return site_text(label)
+        attributes = "".join(f' {key}="{site_text(value)}"' for key, value in attrs.items())
+        return f'<a href="{site_text(url)}"{attributes}>{site_text(label)}</a>'
+
+    def source_links(source: dict) -> str:
+        parts = [link(source["url"], source["title"])]
+        capture = source.get("capture") or {}
+        path = capture.get("artifacts", {}).get("markdown", {}).get("path")
+        if path:
+            parts.append(link(blob + path, "Preserved Markdown"))
+        if source.get("archived_url"):
+            parts.append(link(source["archived_url"], "Wayback snapshot"))
+        return " · ".join(parts)
+
+    def render_claim(claim: dict) -> str:
+        details = []
+        metadata = (
+            ("confidence_reason", "Confidence reason"),
+            ("reported_by", "Reported by"),
+            ("metric_scope", "Scope"),
+            ("denominator", "Denominator"),
+            ("measurement_method", "Method"),
+            ("valid_at", "Observation date"),
+        )
+        for key, label in metadata:
+            value = claim.get(key)
+            if value is not None or claim["kind"] == "metric":
+                details.append(f"<dt>{label}</dt><dd>{site_text(value or 'Unknown')}</dd>")
+        evidence = []
+        for item in claim.get("evidence", []):
+            source = sources[item["source_id"]]
+            relation = item.get("relation", "supports")
+            locator = (
+                f'<span class="locator">{site_text(item["locator"])}</span>'
+                if item.get("locator")
+                else ""
+            )
+            evidence.append(
+                f'<li><span class="relation relation-{site_text(relation)}">'
+                f"{site_text(site_label(relation))}</span>{source_links(source)}"
+                f" <span>({site_text(source['provenance_class'])})</span>{locator}</li>"
+            )
+        return (
+            f'<article class="claim" id="claim-{site_text(claim["id"])}" '
+            f'data-claim-id="{site_text(claim["id"])}">'
+            f'<span class="claim-label">{site_text(site_label(claim["field"]))}</span>'
+            f'<p>{site_text(claim["text"])}</p><div class="claim-meta">'
+            f"<span>{site_text(site_label(claim['kind']))}</span> · "
+            f"<span>{site_text(site_label(claim['provenance']))}</span> · "
+            f"<span>{site_text(site_label(claim['confidence']))} confidence</span></div>"
+            f'<details class="claim-details"><summary>Evidence and qualifications</summary>'
+            f'<dl>{"".join(details)}</dl><ul class="evidence">{"".join(evidence)}</ul>'
+            "</details></article>"
+        )
+
+    entries = []
+    filter_values: dict[str, set[str]] = {"work": set(), "type": set(), "supervision": set()}
+    for approach in approaches:
+        attached = [claims[key] for key in approach["claim_ids"]]
+        summary = next((item["text"] for item in attached if item["field"] == "summary"), "Unknown")
+        domains = approach.get("domains") or ["unknown"]
+        models = approach.get("operating_models") or []
+        boundaries = sorted({item.get("attention_boundary") or "unknown" for item in models}) or [
+            "unknown"
+        ]
+        approach_type = approach.get("approach_type") or "unknown"
+        filter_values["work"].update(domains)
+        filter_values["type"].add(approach_type)
+        filter_values["supervision"].update(boundaries)
+        search = " ".join(
+            " ".join(
+                [
+                    approach["company"],
+                    approach["agent_name"],
+                    summary,
+                    " ".join(domains),
+                    approach_type,
+                    site_label(approach_type),
+                    " ".join(site_label(d) for d in domains),
+                ]
+            ).split()
+        ).lower()
+        attrs = {
+            "id": approach["id"],
+            "data-approach-id": approach["id"],
+            "data-search": search,
+            "data-work": " ".join(domains),
+            "data-type": approach_type,
+            "data-supervision": " ".join(boundaries),
+        }
+        attrs_html = " ".join(f'{key}="{site_text(value)}"' for key, value in attrs.items())
+        model_html = (
+            "".join(
+                f'<p class="operating-model"><strong>{site_text(item["scope"])}</strong>'
+                f"{site_text(site_label(item['attention_boundary']))} · "
+                f"{'Level ' + str(item['level']) if item.get('level') is not None else 'Level unknown'}</p>"
+                for item in models
+            )
+            or "<p>Operating model unknown.</p>"
+        )
+        supervision = (
+            "".join(
+                f"<span>{site_text(item['scope'])}: {site_text(site_label(item['attention_boundary']))}</span>"
+                for item in models
+            )
+            or "<span>Unknown</span>"
+        )
+        groups: dict[str, list[dict]] = {}
+        for claim in attached:
+            field = claim["field"]
+            group = (
+                "Reported metrics"
+                if claim["kind"] == "metric"
+                else "Summary and context"
+                if field == "summary"
+                else "Architecture and primitives"
+                if field.startswith(("architecture.", "primitives."))
+                else "Operating model evidence"
+                if field.startswith("operating_models.")
+                else "Lessons and interpretation"
+                if field.startswith("lessons_learned.")
+                else "Other reported details and interpretation"
+            )
+            groups.setdefault(group, []).append(claim)
+        group_html = "".join(
+            f"<h4>{title}</h4>{''.join(render_claim(item) for item in items)}"
+            for title, items in groups.items()
+        )
+        source_html = []
+        for source_id in approach["source_ids"]:
+            source = sources[source_id]
+            source_html.append(
+                f'<li id="source-{site_text(source_id)}" data-source-id="{site_text(source_id)}">'
+                f'<span class="source-title">{source_links(source)}</span>'
+                f"{link(source['url'], source['url'], **{'class': 'source-url'})}"
+                f'<span class="source-meta">{site_text(source["kind"])} · '
+                f"{site_text(source['provenance_class'])} · "
+                f"Last source verification: {site_text(source.get('last_verified_at', 'Unknown'))}"
+                "</span></li>"
+            )
+        tags = "".join(
+            f'<span class="tag">{site_text(site_label(item))}</span>' for item in domains
+        )
+        entries.append(
+            f'<article class="entry" {attrs_html}><div class="entry-top">'
+            f'<span class="company">{site_text(approach["company"])}</span>'
+            f'<span class="entry-type">{site_text(site_label(approach_type))}</span></div>'
+            f'<h3>{site_text(approach["agent_name"])}</h3><p class="entry-summary">{site_text(summary)}</p>'
+            f'<div class="tags">{tags}</div><div class="supervision">{supervision}</div>'
+            f'<details><summary>Operating model, claims &amp; sources</summary><div class="entry-body">'
+            f"<h4>Scoped operating models</h4>{model_html}{group_html}"
+            f'<h4>Sources</h4><ol class="sources">{"".join(source_html)}</ol></div></details>'
+            f'<div class="entry-end"><span>Entry reviewed {site_text(approach["last_reviewed_at"])}</span>'
+            f"{link('#' + approach['id'], 'Permalink ↗', **{'class': 'permalink', 'aria-label': 'Permalink to ' + approach['company'] + ' — ' + approach['agent_name']})}"
+            "</div></article>"
+        )
+    filters = []
+    for name, label in (
+        ("work", "Work"),
+        ("type", "Approach type"),
+        ("supervision", "Human supervision"),
+    ):
+        options = "".join(
+            f'<option value="{site_text(value)}">{site_text(site_label(value))}</option>'
+            for value in sorted(filter_values[name])
+        )
+        filters.append(
+            f'<label for="{name}">{label}<select id="{name}" name="{name}">'
+            f'<option value="">All</option>{options}</select></label>'
+        )
+    stats = "".join(
+        f'<div class="stat"><strong>{count}</strong><span>{label}</span></div>'
+        for count, label in (
+            (len(approaches), "approaches"),
+            (len({item["company"] for item in approaches}), "organizations"),
+            (len(sources), "sources"),
+        )
+    )
+    docs = "".join(
+        link(blob + path, label)
+        for path, label in (
+            ("data/schema.md", "Data schema"),
+            ("docs/patterns.md", "Architecture patterns"),
+            ("docs/adoption-lessons.md", "Adoption observations"),
+            ("docs/evidence-review.md", "Evidence review"),
+            ("CONTRIBUTING.md", "Contribution guide"),
+        )
+    )
+    values = {
+        "STATS": stats,
+        "REVIEW": site_text(max((a["last_reviewed_at"] for a in approaches), default="Unknown")),
+        "FILTERS": "".join(filters),
+        "COUNT": str(len(approaches)),
+        "ENTRIES": "\n".join(entries),
+        "DOCS": docs,
+    }
+    template = (ROOT / "templates/site.html").read_text(encoding="utf-8")
+    return re.sub(r"@@([A-Z]+)@@", lambda match: values[match[1]], template)
+
+
+def rendered_outputs(records: list[dict]) -> dict[Path, str | bytes]:
     readme = README.read_text(encoding="utf-8")
     patterns = PATTERNS.read_text(encoding="utf-8")
     adoption_lessons = ADOPTION_LESSONS.read_text(encoding="utf-8")
+    catalog = normalize(records)
+    catalog_json = json.dumps(catalog, indent=2, ensure_ascii=False) + "\n"
     return {
         README: replace_between_markers(
             readme, OVERVIEW_BEGIN, OVERVIEW_END, render_overview(records), "README.md"
@@ -1187,19 +1443,29 @@ def rendered_outputs(records: list[dict]) -> dict[Path, str]:
             "docs/adoption-lessons.md",
         ),
         LANDSCAPE: render_landscape(records),
-        DATA_JSON: json.dumps(normalize(records), indent=2, ensure_ascii=False) + "\n",
+        DATA_JSON: catalog_json,
+        ROOT / "site/index.html": render_site(catalog),
+        ROOT / "site/agents.json": catalog_json,
+        **{
+            ROOT / "site/assets" / name: (ROOT / "templates" / name).read_text(encoding="utf-8")
+            for name in ("site.css", "site.js")
+        },
+        **{
+            ROOT / "site/assets/fonts" / name: (ROOT / "templates/fonts" / name).read_bytes()
+            for name in ("Geist.woff2", "OFL.txt")
+        },
     }
 
 
-def write_outputs(outputs: dict[Path, str]) -> None:
+def write_outputs(outputs: dict[Path, str | bytes]) -> None:
     staged: list[tuple[Path, Path]] = []
     try:
         for path, content in outputs.items():
             path.parent.mkdir(parents=True, exist_ok=True)
             descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
             temporary_path = Path(temporary)
-            with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
-                stream.write(content)
+            with os.fdopen(descriptor, "wb") as stream:
+                stream.write(content.encode("utf-8") if isinstance(content, str) else content)
                 stream.flush()
                 os.fsync(stream.fileno())
             staged.append((temporary_path, path))
@@ -1220,7 +1486,8 @@ def main() -> None:
     stale = [
         path
         for path, content in outputs.items()
-        if not path.exists() or path.read_text(encoding="utf-8") != content
+        if not path.exists()
+        or path.read_bytes() != (content.encode("utf-8") if isinstance(content, str) else content)
     ]
     if args.check:
         if stale:

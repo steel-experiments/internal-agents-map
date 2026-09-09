@@ -7,7 +7,7 @@ year: 2025
 first_public_evidence:
   date: '2025-11-11'
   source_id: doordash-flux-source-2
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - code-review
@@ -18,7 +18,7 @@ domains:
 - data
 autonomy: drafts-reviewed
 operating_models:
-- scope: 'engineering task → reviewed agent output'
+- scope: engineering task → reviewed agent output
   attention_boundary: work-product-review
 rubric:
   invocation:
@@ -122,6 +122,7 @@ evidence:
   headline_metric:
   - source_id: doordash-flux-source-1
     relation: supports
+    locator: Preserved content.md, lines 10–12
   architecture.sandbox:
   - source_id: doordash-flux-source-3
     relation: supports
@@ -165,12 +166,15 @@ evidence:
   key_metrics.0:
   - source_id: doordash-flux-source-1
     relation: supports
+    locator: Preserved content.md, lines 10–12
   key_metrics.1:
   - source_id: doordash-flux-source-1
     relation: supports
+    locator: Preserved content.md, lines 10–12
   key_metrics.2:
   - source_id: doordash-flux-source-3
     relation: supports
+    locator: Preserved content.md, lines 10
   lessons_learned.0:
   - source_id: doordash-flux-source-3
     relation: supports
@@ -197,7 +201,8 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: medium
-    confidence_reason: 'The platform spans several workflows; the cited engineering examples retain human review of agent output.'
+    confidence_reason: The platform spans several workflows; the cited engineering examples retain human review
+      of agent output.
     valid_at: '2025-11-11'
   lessons_learned.0:
     kind: inference
@@ -229,3 +234,19 @@ claim_metadata:
     provenance: catalog-judgment
     confidence: medium
     confidence_reason: The catalog derives this observation from the linked sources.
+  headline_metric:
+    metric_scope: Engineering tasks automated in one reported month; calendar measurement month unspecified
+    valid_at: '2026-08-11'
+    confidence_reason: Dated August 11, 2026 report of a one-month count; this is the observation date, not the
+      measurement window.
+  key_metrics.0:
+    metric_scope: Engineering tasks automated in one reported month; calendar measurement month unspecified
+    valid_at: '2026-08-11'
+    confidence_reason: Dated August 11, 2026 report of a one-month count; this is the observation date, not the
+      measurement window.
+  key_metrics.1:
+    metric_scope: Weekly automated code reviews powered by Flux
+    valid_at: '2026-08-11'
+    confidence_reason: Dated August 11, 2026 report; weekly measurement boundaries are not supplied.
+  key_metrics.2:
+    metric_scope: Unique playbooks and weekly invocations on Flux

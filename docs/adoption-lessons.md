@@ -73,3 +73,15 @@ Before a team removes a review step, it should define the failure limit, verific
 Company launch articles tend to report successful outcomes. Community discussion, source code issues, later retrospectives, and independent reporting can supply missing context.
 
 Add those sources to the catalog. Link them as supporting, contradicting, or contextual evidence. Do not remove an older claim when a later source disagrees. Record the date and let readers see the change.
+
+
+## What the preserved failures show
+
+These four selected retrospectives describe concrete limitations, rather than establishing a failure rate across the catalog:
+
+- **DoorDash code review:** specialist reviewers missed architectural bugs, and the next design still lost real findings. A stuck request loop bypassed turn counting and consumed tokens until the overall timeout; the team added per-agent deadlines. [Preserved retrospective, lines 38–42 and 162–164](../archive/sources/doordash-code-review-source-1/content.md).
+- **Dropbox migrations:** the predecessor Goose-based migrator lacked an interactive recovery path when work failed. Migration workflows moved onto Nova to gain interactive sessions and shared controls. This is a predecessor limitation, not a failed Nova deployment. [Preserved report, lines 65–69](../archive/sources/dropbox-nova-source-1/content.md).
+- **HubSpot code review:** starting a Kubernetes workload for every review added latency, cost, and operational friction. HubSpot rewrote the reviewer on its Aviator framework; this does not establish that all containerized agents have the same tradeoff. [Preserved retrospective, lines 24–45](../archive/sources/hubspot-sidekick-source-1/content.md).
+- **Stripe Minions:** an unsuccessful second CI run returns the branch to a person. The explicit retry limit bounds compute and review delay, while preserving incomplete runs as useful starting points. [Part 2, lines 96–98](../archive/sources/stripe-minions-source-2/content.md), [Part 1, lines 48–50](../archive/sources/stripe-minions-source-1/content.md).
+
+Community questions about Stripe's review quality and PR value remain context: the comments ask for evidence and do not establish that the reported merged PR counts are false. The [evidence review](evidence-review.md) records those questions, additional costs and failed designs, and the unresolved weekly/monthly conflict inside Uber's own uReview article.

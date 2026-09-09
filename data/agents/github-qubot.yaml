@@ -5,15 +5,15 @@ approach_type: task-agent
 deployment_stage: scaled
 year: 2026
 first_public_evidence:
-  date: '2026-06'
+  date: 2026-06
   source_id: github-qubot-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - data
 autonomy: assistive
 operating_models:
-- scope: 'data question → warehouse answer'
+- scope: data question → warehouse answer
   attention_boundary: unknown
 rubric:
   invocation:
@@ -21,8 +21,8 @@ rubric:
   state: unknown
   identity: unknown
   evidence_strength: detailed-primary
-summary: GitHub's internal data-analytics agent, powered by GitHub Copilot. Any GitHub employee can ask a
-  question about the company data warehouse in plain language and get an answer within seconds.
+summary: GitHub's internal data-analytics agent, powered by GitHub Copilot. Any GitHub employee can ask a question
+  about the company data warehouse in plain language and get an answer within seconds.
 headline_metric: Hundreds of users run thousands of queries; data questions in internal Slack channels dropped
 architecture:
   model: Powered by GitHub Copilot
@@ -54,6 +54,7 @@ evidence:
   headline_metric:
   - source_id: github-qubot-source-1
     relation: supports
+    locator: Preserved content.md, lines 70
   architecture.model:
   - source_id: github-qubot-source-1
     relation: supports
@@ -63,32 +64,36 @@ evidence:
   key_metrics.0:
   - source_id: github-qubot-source-1
     relation: supports
+    locator: Preserved content.md, lines 70
   key_metrics.1:
   - source_id: github-qubot-source-1
     relation: supports
+    locator: Preserved content.md, lines 70
 claim_metadata:
   operating_models.0:
     kind: inference
     provenance: catalog-judgment
     confidence: unverified
-    confidence_reason: The public evidence does not document where human attention returns in the
-      question-and-answer flow.
-    valid_at: '2026-06'
+    confidence_reason: The public evidence does not document where human attention returns in the question-and-answer
+      flow.
+    valid_at: 2026-06
   headline_metric:
     kind: metric
     provenance: reported
     confidence: medium
-    confidence_reason: GitHub reported the adoption figures in its own engineering blog without independent
-      verification.
-    valid_at: '2026-06'
+    confidence_reason: GitHub reported the adoption figures in its own engineering blog without independent verification.
+    valid_at: 2026-06
     reported_by: GitHub
+    metric_scope: Internal GitHub Qubot users and queries; no exact count or measurement window
   key_metrics.0:
     kind: metric
     provenance: reported
     confidence: medium
     confidence_reason: GitHub reported the adoption figures in its own engineering blog.
+    metric_scope: Internal GitHub Qubot users and queries; no exact count or measurement window
   key_metrics.1:
-    kind: metric
+    kind: fact
     provenance: reported
     confidence: medium
-    confidence_reason: GitHub reported the adoption figures in its own engineering blog.
+    confidence_reason: Company reports a qualitative decrease without before-and-after counts.
+    metric_scope: Questions in GitHub internal data and analytics Slack channels

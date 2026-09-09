@@ -7,13 +7,13 @@ year: 2026
 first_public_evidence:
   date: '2026-07-09'
   source_id: posthog-stamphog-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: open-sourced
 domains:
 - code-review
 autonomy: autonomous
 operating_models:
-- scope: 'eligible pull request → approval decision'
+- scope: eligible pull request → approval decision
   attention_boundary: exception-only
 rubric:
   invocation:
@@ -22,24 +22,25 @@ rubric:
   state: run-only
   identity: dedicated-agent
   evidence_strength: detailed-primary
-summary: A GitHub-label-triggered PR approval agent that applies fail-closed deterministic safety gates, asks an LLM
-  to check for showstoppers, autonomously approves eligible changes, and refuses or escalates the rest.
-headline_metric: Handled 1,600 PRs in the month before July 9, 2026; roughly one in three merged main-repository PRs
-  received its final approval during the reported quarter
+summary: A GitHub-label-triggered PR approval agent that applies fail-closed deterministic safety gates, asks an
+  LLM to check for showstoppers, autonomously approves eligible changes, and refuses or escalates the rest.
+headline_metric: Handled 1,600 PRs in the previous month, as reported on July 9, 2026; roughly one in three merged
+  main-repository PRs received its final approval during the reported quarter
 architecture:
-  harness: A GitHub Action invokes a Python pipeline that fetches and classifies a PR, applies hard gates, waits for
-    in-flight reviewer bots, runs an LLM review, and posts a verdict
+  harness: A GitHub Action invokes a Python pipeline that fetches and classifies a PR, applies hard gates, waits
+    for in-flight reviewer bots, runs an LLM review, and posts a verdict
   model: Claude through the Claude Agent SDK, with Read, Grep, and Glob tools
   interfaces:
   - github
   - ci
-  tool_access: Reads the diff and repository files plus trusted review-state, discussion, ownership, and reviewer signals
+  tool_access: Reads the diff and repository files plus trusted review-state, discussion, ownership, and reviewer
+    signals
   knowledge: Repository-specific deny categories, size and risk tiers calibrated from prior human approvals, review
     guidance, and ownership data
   credentials: A dedicated Anthropic organization secret and a StampHog GitHub App token whose approvals satisfy
     branch protection
-  context_mgmt: Each run emits a versioned JSON evidence bundle retained as a CI artifact for 30 days; a sticky GitHub
-    comment carries non-approval verdict history and labels preserve retry state
+  context_mgmt: Each run emits a versioned JSON evidence bundle retained as a CI artifact for 30 days; a sticky
+    GitHub comment carries non-approval verdict history and labels preserve retry state
 primitives:
 - name: Authoritative safety gates
   desc: Draft state, conflicts, requested changes, sensitive paths, size ceilings, and risk tiers can block AI approval;
@@ -50,13 +51,14 @@ primitives:
 - name: Auditable verdict bundle
   desc: Each run records PR metadata, classification, gate results, reviewer output, and the final verdict
 key_metrics:
-- 1,600 PRs handled autonomously in the month before July 9, 2026
+- 1,600 PRs handled autonomously in the previous month, as reported on July 9, 2026
 - Roughly one in three PRs merged into PostHog's main repository received StampHog's final approval during the reported
   quarter
 - 20% of PRs approved by StampHog in the July 28, 2026 report, at approximately $300 per month in tokens
 lessons_learned:
 - Use deterministic controls for known risks and allow the LLM to make approval stricter, never more permissive
-- Calibrate thresholds and deny categories from repository history rather than treating small diffs as inherently safe
+- Calibrate thresholds and deny categories from repository history rather than treating small diffs as inherently
+  safe
 - Fail closed and preserve retry state when dependencies, credentials, or concurrent reviewer bots are unavailable
 sources:
 - id: posthog-stamphog-source-1
@@ -110,11 +112,12 @@ evidence:
   headline_metric:
   - source_id: posthog-stamphog-source-1
     relation: supports
-    locator: Add a PR auto-stamper, paragraphs 4 and 8
+    locator: Preserved content.md, lines 105, 118
   architecture.harness:
   - source_id: posthog-stamphog-source-3
     relation: supports
-    locator: commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, How it works and Architecture
+    locator: commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, How it works and
+      Architecture
   architecture.model:
   - source_id: posthog-stamphog-source-3
     relation: supports
@@ -130,15 +133,18 @@ evidence:
   architecture.knowledge:
   - source_id: posthog-stamphog-source-3
     relation: supports
-    locator: commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Tiers and Empirical basis
+    locator: commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Tiers and Empirical
+      basis
   architecture.credentials:
   - source_id: posthog-stamphog-source-3
     relation: supports
-    locator: commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Usage and final verdict
+    locator: commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Usage and final
+      verdict
   architecture.context_mgmt:
   - source_id: posthog-stamphog-source-3
     relation: supports
-    locator: commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Usage and Evidence bundle
+    locator: commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Usage and Evidence
+      bundle
   primitives.0:
   - source_id: posthog-stamphog-source-3
     relation: supports
@@ -157,15 +163,15 @@ evidence:
   key_metrics.0:
   - source_id: posthog-stamphog-source-1
     relation: supports
-    locator: Add a PR auto-stamper, paragraph 8
+    locator: Preserved content.md, lines 118
   key_metrics.1:
   - source_id: posthog-stamphog-source-1
     relation: supports
-    locator: Add a PR auto-stamper, paragraph 4
+    locator: Preserved content.md, lines 105
   key_metrics.2:
   - source_id: posthog-stamphog-source-2
     relation: supports
-    locator: Humans don't need to review every PR
+    locator: Preserved content.md, lines 131
   lessons_learned.0:
   - source_id: posthog-stamphog-source-3
     relation: supports
@@ -173,7 +179,8 @@ evidence:
   lessons_learned.1:
   - source_id: posthog-stamphog-source-3
     relation: supports
-    locator: commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Tiers and Empirical basis
+    locator: commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Tiers and Empirical
+      basis
   lessons_learned.2:
   - source_id: posthog-stamphog-source-3
     relation: supports
@@ -183,42 +190,46 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: high
-    confidence_reason: 'Eligible pull requests are approved automatically; risky or ambiguous cases are refused or routed to a human.'
+    confidence_reason: Eligible pull requests are approved automatically; risky or ambiguous cases are refused or
+      routed to a human.
     valid_at: '2026-07-09'
   headline_metric:
     kind: metric
     provenance: reported
     confidence: medium
-    confidence_reason: PostHog reports the production counts without independent verification.
-    valid_at: '2026-07'
+    confidence_reason: PostHog reports two different windows in its July 9, 2026 article; exact monthly and quarterly
+      boundaries are not supplied.
+    valid_at: 2026-07
     reported_by: PostHog
-    metric_scope: StampHog approvals in PostHog's main repository
+    metric_scope: Monthly PRs handled autonomously and quarterly final approvals in the main repository
     denominator: Merged main-repository PRs for the quarterly share; absolute handled PRs for the monthly count
     measurement_method: Company-reported production usage
   key_metrics.0:
     kind: metric
     provenance: reported
     confidence: medium
-    valid_at: '2026-06'
+    valid_at: '2026-07-09'
     reported_by: PostHog
-    metric_scope: PRs handled by StampHog in the preceding month
+    metric_scope: PRs handled autonomously in the previous month, as reported on July 9, 2026; exact boundaries
+      unspecified
     measurement_method: Company-reported production usage
+    confidence_reason: July 9 is the report date; the source says last month without exact measurement boundaries.
   key_metrics.1:
     kind: metric
     provenance: reported
     confidence: medium
-    valid_at: '2026-07'
+    valid_at: 2026-07
     reported_by: PostHog
-    metric_scope: PRs merged into PostHog's main repository during the reported quarter
+    metric_scope: Main-repository merged PRs receiving StampHog final approval during the reported quarter
     denominator: Merged PRs in the main repository
     measurement_method: Company-reported production usage
   key_metrics.2:
     kind: metric
     provenance: reported
     confidence: medium
-    valid_at: '2026-07'
+    valid_at: 2026-07
     reported_by: PostHog
-    metric_scope: PRs approved by StampHog and monthly model-token cost
+    metric_scope: PostHog PRs approved by StampHog and monthly token cost in the July 28, 2026 report
     denominator: PostHog PRs in the report's scope
     measurement_method: Company-reported production usage and token spend
   lessons_learned.0:

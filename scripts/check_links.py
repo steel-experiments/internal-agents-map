@@ -76,6 +76,50 @@ def tracked_markdown() -> list[Path]:
     return [path for path in paths if not path.is_relative_to(ARCHIVE_DIR)]
 
 
+def markdown_prose(text: str) -> str:
+    """Mask fenced blocks and matched inline code spans before extracting links."""
+    lines = []
+    fence = None
+    for line in text.splitlines(keepends=True):
+        match = re.match(r"^ {0,3}(`{3,}|~{3,})(.*)$", line.rstrip("\r\n"))
+        if fence is not None:
+            if (
+                match
+                and match[1][0] == fence[0]
+                and len(match[1]) >= len(fence)
+                and not match[2].strip()
+            ):
+                fence = None
+            lines.append("\n")
+        elif match and (match[1][0] != "`" or "`" not in match[2]):
+            fence = match[1]
+            lines.append("\n")
+        else:
+            lines.append(line)
+    return "\n\n".join(
+        _mask_inline_code(block) for block in re.split(r"\n[ \t]*\n", "".join(lines))
+    )
+
+
+def _mask_inline_code(prose: str) -> str:
+    spans = list(re.finditer(r"`+", prose))
+    output = []
+    cursor = 0
+    index = 0
+    while index < len(spans):
+        opening = spans[index]
+        closing = next((j for j in range(index + 1, len(spans)) if spans[j][0] == opening[0]), None)
+        if closing is None:
+            index += 1
+            continue
+        output.append(prose[cursor : opening.start()])
+        cursor = spans[closing].end()
+        output.append(" " * (cursor - opening.start()))
+        index = closing + 1
+    output.append(prose[cursor:])
+    return "".join(output)
+
+
 def heading_anchors(text: str) -> set[str]:
     anchors = set(re.findall(r'<a\s+id=["\']([^"\']+)["\']', text))
     for heading in re.findall(r"^#{1,6}\s+(.+)$", text, flags=re.MULTILINE):
@@ -89,7 +133,7 @@ def local_links() -> list[str]:
     errors = []
     for path in tracked_markdown():
         text = path.read_text(encoding="utf-8")
-        for target in MARKDOWN_LINK.findall(text):
+        for target in MARKDOWN_LINK.findall(markdown_prose(text)):
             raw = target.strip("<>")
             clean, _, fragment = raw.partition("#")
             if urlsplit(clean).scheme in {"http", "https", "mailto"}:
@@ -111,7 +155,7 @@ def local_links() -> list[str]:
 def markdown_urls() -> set[str]:
     urls = set()
     for path in tracked_markdown():
-        for target in MARKDOWN_LINK.findall(path.read_text(encoding="utf-8")):
+        for target in MARKDOWN_LINK.findall(markdown_prose(path.read_text(encoding="utf-8"))):
             clean = target.strip("<>")
             if urlsplit(clean).scheme in {"http", "https"}:
                 urls.add(clean)
@@ -177,8 +221,14 @@ def _safe_archive_path(relative: object, source_id: str, filename: str) -> tuple
     if pure.parent != expected_parent or pure.name != filename:
         return None, f"{filename} path must be {expected_parent / filename}"
     resolved = (ROOT / relative).resolve()
-    source_root = (ROOT / expected_parent).resolve()
-    if not resolved.is_relative_to(source_root):
+    repository_root = ROOT.resolve()
+    archive_root = repository_root / "archive" / "sources"
+    source_root = repository_root / expected_parent
+    if (
+        archive_root.resolve() != archive_root
+        or source_root.resolve() != source_root
+        or not resolved.is_relative_to(source_root)
+    ):
         return None, f"{filename} path escapes {expected_parent}"
     return resolved, ""
 

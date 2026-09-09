@@ -7,7 +7,7 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: sierra-pinecone-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - coding
@@ -17,7 +17,7 @@ domains:
 - data
 autonomy: drafts-reviewed
 operating_models:
-- scope: 'employee request → reviewed agent output'
+- scope: employee request → reviewed agent output
   attention_boundary: work-product-review
 rubric:
   invocation:
@@ -28,7 +28,7 @@ rubric:
   evidence_strength: detailed-primary
 summary: One company-wide agent that collapsed separate support, analytics, engineering, and sales agents into a
   single runtime with an MCP Gateway to 45 systems.
-headline_metric: 75,000+ sessions for 600+ people
+headline_metric: More than 75,000 sessions created by 600 people in the month preceding the report
 architecture:
   sandbox: Agency layer reconciles recoverable Kubernetes runners; conversation/events/checkpoints stay durable
     separately
@@ -53,9 +53,8 @@ primitives:
 - name: Intent-based routing
   desc: Routes model and environment by request intent, independent of the tool layer
 key_metrics:
-- 75,000+ sessions for 600+ people (July 2026)
-- Opened 70% of company PRs
-- Hundreds of automations
+- More than 75,000 sessions created by 600 people in the month preceding the report
+- 70% of company PRs opened through Pinecone in the month preceding the report
 lessons_learned:
 - Collapse departmental bots into one agent; cross-functional jobs don't respect org-chart boundaries
 - Own the routing/context/workflow layer; let models be interchangeable (different models win at planning, coding,
@@ -105,6 +104,7 @@ evidence:
   headline_metric:
   - source_id: sierra-pinecone-source-1
     relation: supports
+    locator: Preserved content.md, lines 134–139
   architecture.sandbox:
   - source_id: sierra-pinecone-source-3
     relation: supports
@@ -144,12 +144,11 @@ evidence:
   key_metrics.0:
   - source_id: sierra-pinecone-source-1
     relation: supports
+    locator: Preserved content.md, lines 134–139
   key_metrics.1:
   - source_id: sierra-pinecone-source-1
     relation: supports
-  key_metrics.2:
-  - source_id: sierra-pinecone-source-1
-    relation: supports
+    locator: Preserved content.md, lines 138
   lessons_learned.0:
   - source_id: sierra-pinecone-source-1
     relation: supports
@@ -174,7 +173,8 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: medium
-    confidence_reason: 'The source documents delegated work through a company-wide agent without establishing outcome-only supervision.'
+    confidence_reason: The source documents delegated work through a company-wide agent without establishing outcome-only
+      supervision.
     valid_at: '2026'
   lessons_learned.0:
     kind: inference
@@ -196,3 +196,10 @@ claim_metadata:
     provenance: catalog-judgment
     confidence: medium
     confidence_reason: The catalog derives this observation from the linked sources.
+  headline_metric:
+    metric_scope: Pinecone users and sessions in the month preceding the report; calendar month unspecified
+  key_metrics.0:
+    metric_scope: Pinecone users and sessions in the month preceding the report; calendar month unspecified
+  key_metrics.1:
+    metric_scope: Company PRs opened through Pinecone in the month preceding the report
+    denominator: Sierra PRs opened in that month; not merged PRs

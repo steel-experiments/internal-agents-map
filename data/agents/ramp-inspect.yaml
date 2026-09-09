@@ -7,7 +7,7 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: ramp-inspect-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - coding
@@ -15,7 +15,7 @@ domains:
 - on-call
 autonomy: drafts-reviewed
 operating_models:
-- scope: 'Inspect coding task → reviewed production merge'
+- scope: Inspect coding task → reviewed production merge
   attention_boundary: work-product-review
 rubric:
   invocation:
@@ -26,15 +26,15 @@ rubric:
   identity: unknown
   evidence_strength: mixed
 summary: A background coding agent that closes the loop on verifying its own work; runs tests, reviews telemetry,
-  queries feature flags, visually verifies the frontend; now also monitoring production and proposing fixes;
-  also a platform that hosts many internal agents.
+  queries feature flags, visually verifies the frontend; now also monitoring production and proposing fixes; also
+  a platform that hosts many internal agents.
 headline_metric: 75% of Ramp's merged PRs raised by Inspect sessions (May 2026)
 architecture:
   sandbox: Modal sandboxes; per-repo images rebuilt every 30 min from snapshots; warm-on-keystroke; a pool of warm
     sandboxes
   harness: OpenCode (server-first) as the agent runtime; a plugin blocks writes until sync completes; expanded into
-    production monitoring and self-maintenance; Inspect itself is built with React/Vite, Cloudflare Durable
-    Objects, SQLite, and the Cloudflare Agents SDK
+    production monitoring and self-maintenance; Inspect itself is built with React/Vite, Cloudflare Durable Objects,
+    SQLite, and the Cloudflare Agents SDK
   model: All frontier models, MCPs, custom tools, skills
   interfaces:
   - slack
@@ -43,8 +43,8 @@ architecture:
   - github
   tool_access: Wired into Sentry, Datadog, LaunchDarkly, Braintrust, GitHub, Slack, Buildkite; monitors production,
     triages issues, proposes fixes; debugging queries a sanitized read-only production DB replica and Snowflake
-  knowledge: Skills that encode how Ramp ships; repo images with the full dev env (Vite, Postgres, Redis,
-    RabbitMQ, Temporal, Chromium, VS Code Server)
+  knowledge: Skills that encode how Ramp ships; repo images with the full dev env (Vite, Postgres, Redis, RabbitMQ,
+    Temporal, Chromium, VS Code Server)
   credentials: GitHub auth per user; the sandbox pushes the branch, an API opens the PR with the user's token (no
     self-approval); production merges retain human review
 primitives:
@@ -55,18 +55,18 @@ primitives:
 - name: Multiplayer sessions
   desc: Any number of people in one session; each change attributed to its author
 key_metrics:
-- 60%+ of merged PRs authored by Inspect (April 2026)
+- Around 60% of Ramp PRs authored by Inspect by January 2026
 - 75% of merged PRs raised by Inspect sessions (May 2026)
-- ~30% of merged PRs (frontend + backend) at launch
-- ~90% of PRs merged into the Inspect repo come from Inspect sessions (August 2026)
+- Around 30% of merged frontend and backend PRs in the earlier first-party report, after a couple of months of adoption
+- Around 90% of PRs merged into the Inspect repository come from Inspect sessions in the later interview report
 - One million total Inspect sessions crossed in July 2026
 - Under 5 seconds to spin up a fully provisioned remote dev environment
 - Inspect underpins internal agents including ReviewBuddy, Oncall Assistant, Testo, Ramp Research, Voice of the
   Customer, and error automations
-- 150+ engineers have contributed to the Inspect codebase (August 2026)
+- 150+ engineers contributed to the Inspect codebase in the later interview report
 - 5.5-person Inspect team (four engineers, a director, and a part-time PM)
 - More than 80% of Inspect is written in Inspect sessions
-- Session speed limited only by model-provider time-to-first-token
+- 'Design goal: session speed should be limited only by model-provider time-to-first-token'
 lessons_learned:
 - Own the tooling; it only has to work on your code, which lets you build something more powerful than off-the-shelf
 - Work in public spaces to create virality loops; let the product do the talking, don't mandate
@@ -146,11 +146,11 @@ evidence:
     relation: supports
   - source_id: ramp-inspect-source-5
     relation: supports
-    locator: "What is Inspect? section"
+    locator: What is Inspect? section
   headline_metric:
   - source_id: ramp-inspect-source-5
     relation: supports
-    locator: "History of adoption numbers"
+    locator: Preserved content.md, lines 58–68
   architecture.sandbox:
   - source_id: ramp-inspect-source-1
     relation: supports
@@ -181,47 +181,50 @@ evidence:
   key_metrics.0:
   - source_id: ramp-inspect-source-5
     relation: supports
-    locator: "History of adoption numbers"
+    locator: Preserved content.md, lines 58–68
   key_metrics.1:
   - source_id: ramp-inspect-source-5
     relation: supports
-    locator: "History of adoption numbers"
+    locator: Preserved content.md, lines 58–68
   - source_id: ramp-inspect-source-2
     relation: supports
+    locator: Preserved content.md, lines 10
   key_metrics.2:
   - source_id: ramp-inspect-source-1
     relation: supports
+    locator: Preserved content.md, lines 24
   key_metrics.3:
   - source_id: ramp-inspect-source-5
     relation: supports
-    locator: "Adoption numbers today"
+    locator: Preserved content.md, lines 96–102
   key_metrics.4:
   - source_id: ramp-inspect-source-5
     relation: supports
-    locator: "One million Inspect sessions milestone"
+    locator: Preserved content.md, lines 66–72
   key_metrics.5:
   - source_id: ramp-inspect-source-5
     relation: supports
-    locator: "Adoption numbers today"
+    locator: Preserved content.md, lines 100
   key_metrics.6:
   - source_id: ramp-inspect-source-5
     relation: supports
-    locator: "Adoption numbers today"
+    locator: Preserved content.md, lines 134–141
   key_metrics.7:
   - source_id: ramp-inspect-source-5
     relation: supports
-    locator: "Adoption numbers today"
+    locator: Preserved content.md, lines 102
   key_metrics.8:
   - source_id: ramp-inspect-source-5
     relation: supports
-    locator: "Adoption numbers today"
+    locator: Preserved content.md, lines 101
   key_metrics.9:
   - source_id: ramp-inspect-source-5
     relation: supports
-    locator: "Using Inspect to build Inspect"
+    locator: Preserved content.md, lines 111
   key_metrics.10:
   - source_id: ramp-inspect-source-1
     relation: supports
+    locator: Preserved content.md, lines 22
   lessons_learned.0:
   - source_id: ramp-inspect-source-1
     relation: supports
@@ -237,7 +240,7 @@ evidence:
   lessons_learned.4:
   - source_id: ramp-inspect-source-5
     relation: supports
-    locator: "Why build your own background coding agent? section"
+    locator: Why build your own background coding agent? section
   architecture.interfaces:
   - source_id: ramp-inspect-source-1
     relation: supports
@@ -246,8 +249,9 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: high
-    confidence_reason: 'The source explicitly states that Inspect cannot self-approve and production merges retain human review.'
-    valid_at: '2026-05'
+    confidence_reason: The source explicitly states that Inspect cannot self-approve and production merges retain
+      human review.
+    valid_at: 2026-05
   lessons_learned.0:
     kind: inference
     provenance: catalog-judgment
@@ -272,5 +276,44 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: medium
-    confidence_reason: The source reports that v1 saw little adoption and that the November 2025 pivot to a
-      remote dev environment preceded rapid adoption.
+    confidence_reason: The source reports that v1 saw little adoption and that the November 2025 pivot to a remote
+      dev environment preceded rapid adoption.
+  headline_metric:
+    metric_scope: Ramp merged PRs raised by Inspect sessions by May 2026
+    valid_at: 2026-05
+    denominator: Merged Ramp pull requests
+  key_metrics.1:
+    metric_scope: Ramp merged PRs raised by Inspect sessions by May 2026
+    valid_at: 2026-05
+    denominator: Merged Ramp pull requests
+  key_metrics.0:
+    metric_scope: Ramp PRs authored by Inspect by January 2026
+    valid_at: 2026-01
+    denominator: Ramp pull requests in the source adoption history
+  key_metrics.2:
+    metric_scope: Merged PRs in Ramp frontend and backend repositories after the first couple of months of adoption
+    denominator: Merged PRs in frontend and backend repositories
+  key_metrics.3:
+    metric_scope: PRs merged into the Inspect repository
+    denominator: Merged PRs in the Inspect repository
+  key_metrics.4:
+    metric_scope: Cumulative Inspect sessions crossing the million mark in July 2026
+    valid_at: 2026-07
+  key_metrics.5:
+    metric_scope: Provisioning a fully configured remote development environment
+  key_metrics.6:
+    metric_scope: Examples of internal agents built on Inspect
+    kind: fact
+  key_metrics.7:
+    metric_scope: Engineers who contributed to the Inspect codebase in the later interview report
+  key_metrics.8:
+    metric_scope: 'Inspect team staffing: four engineers, one director, and a part-time PM'
+  key_metrics.9:
+    metric_scope: Inspect code written in Inspect sessions; distinct from merged PR share
+    denominator: Inspect code; the source does not define a code-volume counting method
+  key_metrics.10:
+    metric_scope: Target session startup speed, excluding precompleted cloning and installation
+    kind: opinion
+    confidence: medium
+    confidence_reason: The source says session speed should only be limited by model time-to-first-token; this is
+      a design goal, not a measured result.

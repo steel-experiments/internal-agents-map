@@ -7,14 +7,14 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: ycombinator-agent-infra-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - coding
 - ops
 autonomy: human-in-loop
 operating_models:
-- scope: 'internal request → agent-assisted organizational work'
+- scope: internal request → agent-assisted organizational work
   attention_boundary: unknown
 rubric:
   invocation:
@@ -25,7 +25,7 @@ rubric:
 summary: Internal agent infrastructure and own harnesses built from the ground up, framed as making AI the operating
   system the whole organization runs on.
 architecture:
-  sandbox: Not detailed publicly (primary source is a podcast)
+  sandbox: unknown
   harness: Own harnesses built from the ground up for internal AI use
 lessons_learned:
 - Don't add AI as a feature; make it the operating system the whole organization runs on
@@ -65,7 +65,8 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: unverified
-    confidence_reason: 'The source describes internal agent infrastructure but not a sufficiently specific human attention boundary.'
+    confidence_reason: The source describes internal agent infrastructure but not a sufficiently specific human
+      attention boundary.
     valid_at: '2026'
   lessons_learned.0:
     kind: inference
@@ -81,8 +82,10 @@ claim_metadata:
     confidence: low
     confidence_reason: Only limited public evidence supports this claim.
   architecture.sandbox:
-    confidence: low
-    confidence_reason: Only limited public evidence supports this claim.
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The preserved sources do not document an execution sandbox; unknown does not mean absent.
   architecture.harness:
     confidence: low
     confidence_reason: Only limited public evidence supports this claim.

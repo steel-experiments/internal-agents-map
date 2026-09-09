@@ -115,3 +115,15 @@ The scheduled link check tests external URLs. A confirmed 404 or 410 passes with
 warning when a verified fallback exists and fails otherwise. Blocked and temporarily unreachable
 URLs are reported separately as warnings. A pull request does not depend on remote sites being
 available.
+
+## Generated website
+
+The mini page is generated from the same validated catalog as the Markdown and JSON.
+Edit `data/agents/*.yaml` for evidence and `templates/site.html`, `templates/site.css`,
+or `templates/site.js` for the page. Run `uv run --locked python scripts/build.py`
+and commit the regenerated `site/` outputs with the change. Do not hand-edit generated files.
+
+Run `uv run --locked python scripts/check_site.py --root site` along with the existing
+checks. Pull requests validate only; accepted updates on `main` can publish the validated
+`site/` artifact through GitHub Pages. See [website maintenance and preview](docs/site.md)
+for local serving, browser checks, initial Pages setup, and rollback.

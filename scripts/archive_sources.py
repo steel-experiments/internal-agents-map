@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import http.client
 import json
 import os
 import re
@@ -198,6 +199,28 @@ def _read_json_file(path: Path, description: str) -> Mapping[str, Any]:
         fail(f"{description} is not valid JSON.")
 
 
+def _bundle_file(path: Path, repo_root: Path, bundle_root: Path) -> Path:
+    repository = repo_root.resolve()
+    archive_root = repository / "archive" / "sources"
+    try:
+        bundle = repository / bundle_root.relative_to(repo_root)
+    except ValueError:
+        fail("Capture bundle must be inside the repository.")
+    try:
+        resolved = path.resolve(strict=True)
+        if (
+            archive_root.resolve() != archive_root
+            or bundle.parent != archive_root
+            or bundle.resolve() != bundle
+            or not resolved.is_relative_to(bundle)
+            or not resolved.is_file()
+        ):
+            fail("Capture file escapes its source bundle or is not a file.")
+    except OSError:
+        fail("Capture file does not exist or cannot be resolved.")
+    return resolved
+
+
 def _artifact_file(
     artifact: Mapping[str, Any],
     *,
@@ -212,13 +235,10 @@ def _artifact_file(
     _safe_relative_path(artifact["path"], relative, f"Manifest {kind} artifact path")
 
     path = bundle_dir / filename if bundle_dir is not None else repo_root / relative
-    archive_root = (repo_root / "archive" / "sources").resolve()
-    try:
-        resolved = path.resolve(strict=True)
-    except OSError:
-        fail(f"Manifest {kind} artifact does not exist at {relative!r}.")
-    if not resolved.is_relative_to(archive_root) or not resolved.is_file():
-        fail(f"Manifest {kind} artifact escapes archive/sources/ or is not a file.")
+    bundle_root = (
+        bundle_dir if bundle_dir is not None else repo_root / "archive" / "sources" / source_id
+    )
+    resolved = _bundle_file(path, repo_root, bundle_root)
     try:
         data = resolved.read_bytes()
     except OSError:
@@ -257,16 +277,9 @@ def validate_bundle(
         except ValueError:
             fail("Capture manifest must be inside the repository.")
         _safe_relative_path(relative_manifest, expected_manifest, "Capture manifest path")
-        archive_root = (repo_root / "archive" / "sources").resolve()
-        try:
-            resolved_manifest = manifest_path.resolve(strict=True)
-        except OSError:
-            fail(f"Capture manifest does not exist at {expected_manifest!r}.")
-        if not resolved_manifest.is_relative_to(archive_root) or not resolved_manifest.is_file():
-            fail("Capture manifest escapes archive/sources/ or is not a file.")
-        manifest_file = resolved_manifest
+        manifest_file = _bundle_file(manifest_path, repo_root, manifest_path.parent)
     else:
-        manifest_file = bundle_dir / "metadata.json"
+        manifest_file = _bundle_file(bundle_dir / "metadata.json", repo_root, bundle_dir)
 
     manifest = _read_json_file(manifest_file, "capture manifest")
     _exact_keys(
@@ -516,7 +529,10 @@ def _read_response_bytes(response: BinaryIO, limit: int, description: str) -> by
     chunks: list[bytes] = []
     total = 0
     while True:
-        chunk = response.read(min(64 * 1024, limit + 1 - total))
+        try:
+            chunk = response.read(min(64 * 1024, limit + 1 - total))
+        except (OSError, http.client.HTTPException):
+            fail(f"{description} response could not be read.")
         if not chunk:
             break
         if not isinstance(chunk, bytes):
@@ -534,7 +550,7 @@ def _open(request: urllib.request.Request, opener: Callable[..., Any] | None, ti
     open_url = opener or urllib.request.urlopen
     try:
         return open_url(request, timeout=timeout)
-    except (urllib.error.URLError, TimeoutError, OSError):
+    except (OSError, http.client.HTTPException):
         fail("Network request failed.")
 
 

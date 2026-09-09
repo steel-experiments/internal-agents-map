@@ -6,6 +6,7 @@ import hashlib
 import importlib.util
 import io
 import json
+import shutil
 import tempfile
 import unittest
 from collections import Counter
@@ -22,6 +23,74 @@ SPEC.loader.exec_module(build)
 
 
 class BuildTests(unittest.TestCase):
+    def test_environment_count_excludes_undocumented_legacy_values(self) -> None:
+        values = [
+            None,
+            "",
+            "  ",
+            "unknown",
+            "UNKNOWN",
+            "Not specified in source",
+            "NOT DETAILED",
+            "n/a - platform",
+            "not applicable",
+            "AWS EC2 devbox",
+            "Docker container",
+        ]
+        records = [
+            {
+                "approach_type": "task-agent",
+                "autonomy": "unknown",
+                "rubric": {"state": "unknown"},
+                "architecture": {"sandbox": value},
+            }
+            for value in values
+        ]
+        self.assertIn(
+            "- 2 approaches document a concrete execution environment.",
+            build.render_patterns_snapshot(records),
+        )
+
+    def test_capture_paths_reject_symlink_boundaries(self) -> None:
+        for mode in (
+            "content-sibling",
+            "manifest-sibling",
+            "content-external",
+            "manifest-external",
+            "source-sibling",
+            "source-external",
+            "archive-external",
+        ):
+            with (
+                self.subTest(mode=mode),
+                tempfile.TemporaryDirectory() as directory,
+                tempfile.TemporaryDirectory() as outside,
+            ):
+                root = Path(directory)
+                bundle = root / "archive" / "sources" / "fixture"
+                bundle.mkdir(parents=True)
+                sibling = bundle.parent / "sibling"
+                sibling.mkdir()
+                destination = Path(outside) if "external" in mode else sibling
+                name = "metadata.json" if mode.startswith("manifest") else "content.md"
+                if mode.startswith("source"):
+                    bundle.rmdir()
+                    bundle.symlink_to(destination, target_is_directory=True)
+                elif mode.startswith("archive"):
+                    shutil.rmtree(root / "archive")
+                    (root / "archive").symlink_to(destination, target_is_directory=True)
+                else:
+                    (bundle / name).symlink_to(destination / name)
+                with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+                    build.resolve_capture_path(
+                        f"archive/sources/fixture/{name}",
+                        "fixture",
+                        name,
+                        "capture",
+                        "fixture.yaml",
+                        root=root,
+                    )
+
     @classmethod
     def setUpClass(cls) -> None:
         cls.records = build.load_agents()
@@ -351,7 +420,10 @@ class BuildTests(unittest.TestCase):
     def test_generated_files_are_current(self) -> None:
         outputs = build.rendered_outputs(self.records)
         for path, expected in outputs.items():
-            self.assertEqual(path.read_text(encoding="utf-8"), expected)
+            self.assertEqual(
+                path.read_bytes(),
+                expected.encode("utf-8") if isinstance(expected, str) else expected,
+            )
 
     def test_catalog_contains_source_anchors(self) -> None:
         catalog = build.render_landscape(self.records)

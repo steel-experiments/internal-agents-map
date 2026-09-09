@@ -7,14 +7,14 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: block-builderbot-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - coding
 - code-review
 autonomy: drafts-reviewed
 operating_models:
-- scope: 'ticket → reviewed pull request'
+- scope: ticket → reviewed pull request
   attention_boundary: work-product-review
 rubric:
   invocation:
@@ -27,7 +27,7 @@ summary: A multi-agent orchestration layer built on goose + MCP that coordinates
   invoked in Slack to take a ticket end-to-end to a reviewed PR.
 headline_metric: ~1,500 PRs merged per week (~15% of all production code changes at Block)
 architecture:
-  sandbox: Not detailed publicly
+  sandbox: unknown
   harness: Multi-agent orchestration built on goose (open-source agent framework) + MCP; multi-player, real-time,
     operating inside Slack threads
   model: goose framework; model not specified
@@ -131,6 +131,7 @@ evidence:
   headline_metric:
   - source_id: block-builderbot-source-1
     relation: supports
+    locator: Preserved content.md, lines 24
   architecture.sandbox:
   - source_id: block-builderbot-source-1
     relation: supports
@@ -157,12 +158,15 @@ evidence:
   key_metrics.0:
   - source_id: block-builderbot-source-1
     relation: supports
+    locator: Preserved content.md, lines 24
   key_metrics.1:
   - source_id: block-builderbot-source-1
     relation: supports
+    locator: Preserved content.md, lines 24
   key_metrics.2:
   - source_id: block-builderbot-source-1
     relation: supports
+    locator: Preserved content.md, lines 24–26
   lessons_learned.0:
   - source_id: block-builderbot-source-1
     relation: supports
@@ -180,7 +184,7 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: high
-    confidence_reason: 'The source explicitly describes end-to-end implementation ending in a reviewed pull request.'
+    confidence_reason: The source explicitly describes end-to-end implementation ending in a reviewed pull request.
     valid_at: '2026-06-21'
   lessons_learned.0:
     kind: inference
@@ -197,3 +201,21 @@ claim_metadata:
     provenance: catalog-judgment
     confidence: medium
     confidence_reason: The catalog derives this observation from the linked sources.
+  architecture.sandbox:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The preserved sources do not document an execution sandbox; unknown does not mean absent.
+  headline_metric:
+    metric_scope: Builderbot merged pull requests per week at Block
+    denominator: All production code changes across Block for the approximately 15% share
+  key_metrics.1:
+    metric_scope: Builderbot merged pull requests per week at Block
+    denominator: All production code changes across Block for the approximately 15% share
+  key_metrics.0:
+    metric_scope: Builderbot operations per day; the article does not define an operation
+  key_metrics.2:
+    metric_scope: Reported turnaround for Square seller features and repetitive engineering work
+    kind: opinion
+    confidence: low
+    confidence_reason: Qualitative company statement, not a measured before-and-after study.

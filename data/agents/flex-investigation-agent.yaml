@@ -7,7 +7,7 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: flex-investigation-agent-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - finance-ops
@@ -15,7 +15,7 @@ domains:
 - coding
 autonomy: drafts-reviewed
 operating_models:
-- scope: 'payment investigation → proposed code fix'
+- scope: payment investigation → proposed code fix
   attention_boundary: work-product-review
 rubric:
   invocation:
@@ -26,7 +26,7 @@ rubric:
 summary: A Slack agent for HSA/FSA payment operations that traces a payment end-to-end and, when it finds a software
   bug, prepares a PR with a proposed fix.
 architecture:
-  sandbox: Not specified publicly
+  sandbox: unknown
   harness: Investigation-to-fix loop; underlying runtime not documented
   model: Not specified
   interfaces:
@@ -87,7 +87,7 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: high
-    confidence_reason: 'The source describes a trace, diagnosis, and proposed pull request returned for review.'
+    confidence_reason: The source describes a trace, diagnosis, and proposed pull request returned for review.
     valid_at: '2026'
   lessons_learned.0:
     kind: inference
@@ -99,3 +99,8 @@ claim_metadata:
     provenance: catalog-judgment
     confidence: medium
     confidence_reason: The catalog derives this observation from the linked sources.
+  architecture.sandbox:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The preserved sources do not document an execution sandbox; unknown does not mean absent.

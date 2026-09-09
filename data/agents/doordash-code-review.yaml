@@ -10,13 +10,13 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: doordash-code-review-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - code-review
 autonomy: drafts-reviewed
 operating_models:
-- scope: 'pull request → AI review comments'
+- scope: pull request → AI review comments
   attention_boundary: work-product-review
 rubric:
   invocation:
@@ -66,6 +66,7 @@ evidence:
   headline_metric:
   - source_id: doordash-code-review-source-1
     relation: supports
+    locator: Preserved content.md, lines 23
   architecture.harness:
   - source_id: doordash-code-review-source-1
     relation: supports
@@ -84,9 +85,11 @@ evidence:
   key_metrics.0:
   - source_id: doordash-code-review-source-1
     relation: supports
+    locator: Preserved content.md, lines 23
   key_metrics.1:
   - source_id: doordash-code-review-source-1
     relation: supports
+    locator: Preserved content.md, lines 27
   lessons_learned.0:
   - source_id: doordash-code-review-source-1
     relation: supports
@@ -101,7 +104,7 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: high
-    confidence_reason: 'The source describes automated findings that engineers evaluate within the pull-request workflow.'
+    confidence_reason: The source describes automated findings that engineers evaluate within the pull-request workflow.
     valid_at: '2026'
   lessons_learned.0:
     kind: inference
@@ -113,3 +116,11 @@ claim_metadata:
     provenance: catalog-judgment
     confidence: medium
     confidence_reason: The catalog derives this observation from the linked sources.
+  headline_metric:
+    metric_scope: Typical weekly PR reviews across 56 onboarded repositories
+  key_metrics.0:
+    metric_scope: Typical weekly PR reviews across 56 onboarded repositories
+  key_metrics.1:
+    metric_scope: Settled high and critical findings that led to code changes before merge
+    denominator: 2,256 settled high and critical findings
+    measurement_method: Whether the human changed the code before merge in response to the finding

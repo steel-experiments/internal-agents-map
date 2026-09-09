@@ -7,14 +7,14 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: stripe-minions-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - coding
 - code-review
 autonomy: drafts-reviewed
 operating_models:
-- scope: 'work context → merge-ready pull request'
+- scope: work context → merge-ready pull request
   attention_boundary: work-product-review
 rubric:
   invocation:
@@ -26,23 +26,31 @@ rubric:
   evidence_strength: detailed-primary
 summary: Homegrown one-shot coding agents that read work context, locate the right repo/workspace, implement a change
   end-to-end, and produce a PR for human review.
-headline_metric: 1,000+ production PRs per week, reviewed and approved by humans
+headline_metric: Over 1,300 completely minion-produced PRs merged per week in Part 2, with human review and no human-written
+  code
 architecture:
-  sandbox: Not specified publicly
-  harness: 'One-shot agents: read context -> search the codebase -> determine the relevant repo/workspace -> implement
-    -> PR'
+  sandbox: Pre-warmed AWS EC2 devboxes in the QA environment, isolated from real user data, production services,
+    and arbitrary network egress
+  harness: Fork of Block's goose, orchestrated by code-defined blueprints that interleave agent loops with deterministic
+    lint, git, and CI steps
   model: Not specified
   interfaces:
   - slack
   - github
-  tool_access: Searches Stripe's codebase to determine the relevant repository/workspace
-  knowledge: Stripe's codebase as the context source
-  credentials: Production PRs left for humans to review and approve
+  - cli
+  - web
+  - internal-ui
+  tool_access: Curated subsets of Toolshed MCP tools for internal documentation, tickets, build status, and code
+    intelligence; security controls constrain destructive actions
+  knowledge: Repository-scoped rule files shared with human-operated coding agents, plus internal context fetched
+    through MCP
+  credentials: Full permissions inside quarantined devboxes; MCP security controls limit destructive actions, and
+    production pull requests require human review
 primitives:
 - name: One-shot end-to-end agent
   desc: From work context to merge-ready PR in one shot, with human approval
 key_metrics:
-- 1,000+ production PRs per week
+- Over 1,000 completely minion-produced PRs merged per week in Part 1, with human review and no human-written code
 lessons_learned:
 - One-shot end-to-end coding agents work at scale when humans retain review/approval
 - Let the agent locate the right repo/workspace itself rather than pre-scoping it
@@ -146,56 +154,66 @@ evidence:
     relation: supports
   - source_id: stripe-minions-source-3
     relation: contextualizes
+    locator: Preserved content.md, lines 146–158, 190–194
   - source_id: stripe-minions-source-4
     relation: contextualizes
+    locator: Preserved content.md, lines 10–14
   - source_id: stripe-minions-source-5
     relation: contextualizes
+    locator: Preserved content.md, lines 10–14
   - source_id: stripe-minions-source-6
     relation: contextualizes
+    locator: Preserved content.md, lines 10–14
   - source_id: stripe-minions-source-7
     relation: contextualizes
+    locator: Preserved content.md, lines 10–14
   headline_metric:
-  - source_id: stripe-minions-source-1
+  - source_id: stripe-minions-source-2
     relation: supports
+    locator: Preserved content.md, lines 12
   - &id001
     source_id: stripe-minions-source-3
     relation: contextualizes
+    locator: Preserved content.md, lines 146–158, 190–194
   - &id002
     source_id: stripe-minions-source-4
     relation: contextualizes
+    locator: Preserved content.md, lines 10–14
   - &id003
     source_id: stripe-minions-source-5
     relation: contextualizes
+    locator: Preserved content.md, lines 10–14
   - &id004
     source_id: stripe-minions-source-6
     relation: contextualizes
+    locator: Preserved content.md, lines 10–14
   - &id005
     source_id: stripe-minions-source-7
     relation: contextualizes
+    locator: Preserved content.md, lines 10–14
   architecture.sandbox:
-  - source_id: stripe-minions-source-1
-    relation: supports
-  architecture.harness:
-  - source_id: stripe-minions-source-1
-    relation: supports
   - source_id: stripe-minions-source-2
     relation: supports
+    locator: Preserved content.md, lines 24–30, 84
+  architecture.harness:
+  - source_id: stripe-minions-source-2
+    relation: supports
+    locator: Preserved content.md, lines 38–56
   architecture.model:
   - source_id: stripe-minions-source-1
     relation: supports
   architecture.tool_access:
-  - source_id: stripe-minions-source-1
-    relation: supports
   - source_id: stripe-minions-source-2
     relation: supports
+    locator: Preserved content.md, lines 72–84
   architecture.knowledge:
-  - source_id: stripe-minions-source-1
-    relation: supports
   - source_id: stripe-minions-source-2
     relation: supports
+    locator: Preserved content.md, lines 64–76
   architecture.credentials:
-  - source_id: stripe-minions-source-1
+  - source_id: stripe-minions-source-2
     relation: supports
+    locator: Preserved content.md, lines 40–42, 84
   primitives.0:
   - source_id: stripe-minions-source-1
     relation: supports
@@ -204,6 +222,7 @@ evidence:
   key_metrics.0:
   - source_id: stripe-minions-source-1
     relation: supports
+    locator: Preserved content.md, lines 14
   - *id001
   - *id002
   - *id003
@@ -220,12 +239,13 @@ evidence:
   architecture.interfaces:
   - source_id: stripe-minions-source-1
     relation: supports
+    locator: Preserved content.md, lines 34–48
 claim_metadata:
   operating_models.0:
     kind: inference
     provenance: catalog-judgment
     confidence: high
-    confidence_reason: 'The source explicitly states that humans review and approve production pull requests.'
+    confidence_reason: The source explicitly states that humans review and approve production pull requests.
     valid_at: '2026-02-20'
   lessons_learned.0:
     kind: inference
@@ -237,3 +257,13 @@ claim_metadata:
     provenance: catalog-judgment
     confidence: medium
     confidence_reason: The catalog derives this observation from the linked sources.
+  headline_metric:
+    metric_scope: Weekly merged PRs completely produced by Minions; Part 2 report, up from Part 1
+    confidence: medium
+    confidence_reason: Stripe reports merged PR volume without an independent count or measurement window; Part
+      2 is explicitly later than Part 1.
+  key_metrics.0:
+    metric_scope: Weekly merged PRs completely produced by Minions; earlier Part 1 report
+    confidence: medium
+    confidence_reason: Stripe reports merged PR volume without an independent count or measurement window; no calendar
+      metric date appears in the capture.

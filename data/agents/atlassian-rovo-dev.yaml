@@ -8,16 +8,16 @@ approach_type: task-agent
 deployment_stage: scaled
 year: 2024
 first_public_evidence:
-  date: '2024-11'
+  date: 2024-11
   source_id: atlassian-rovo-dev-source-3
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: commercialized
 domains:
 - coding
 - code-review
 autonomy: human-in-loop
 operating_models:
-- scope: 'Jira issue → reviewed pull request'
+- scope: Jira issue → reviewed pull request
   attention_boundary: work-product-review
 rubric:
   invocation:
@@ -25,10 +25,10 @@ rubric:
   state: unknown
   identity: unknown
   evidence_strength: detailed-primary
-summary: Atlassian's internal coding agent, built on the HULA (Human-in-the-loop software development agents)
-  framework. Rovo Dev works inside Jira and runs a four-step cycle (set context, generate a plan, generate
-  code, and raise a pull request). Atlassian dogfooded it across all Jira sites for more than a year across 1,900+
-  repositories. It reached general availability in October 2025.
+summary: Atlassian's internal coding agent, built on the HULA (Human-in-the-loop software development agents) framework.
+  Rovo Dev works inside Jira and runs a four-step cycle (set context, generate a plan, generate code, and raise
+  a pull request). Atlassian dogfooded it across all Jira sites for more than a year across 1,900+ repositories.
+  It reached general availability in October 2025.
 headline_metric: Dogfooded across 1,900+ repositories with a 50,000+ comment internal dataset
 architecture:
   harness: Built on the HULA framework, which runs set context, generate plan, generate code, and raise PR
@@ -67,7 +67,7 @@ sources:
   kind: paper
   provenance_class: first-party
   role: evidence
-  published_at: '2024-11'
+  published_at: 2024-11
   accessed_at: '2026-08-13'
   last_verified_at: '2026-08-31'
   capture:
@@ -84,6 +84,7 @@ evidence:
   headline_metric:
   - source_id: atlassian-rovo-dev-source-2
     relation: supports
+    locator: Preserved content.md, lines 66, 87
   architecture.harness:
   - source_id: atlassian-rovo-dev-source-1
     relation: supports
@@ -93,32 +94,38 @@ evidence:
   key_metrics.0:
   - source_id: atlassian-rovo-dev-source-2
     relation: supports
+    locator: Preserved content.md, lines 87
   key_metrics.1:
   - source_id: atlassian-rovo-dev-source-2
     relation: supports
+    locator: Preserved content.md, lines 66
 claim_metadata:
   operating_models.0:
     kind: inference
     provenance: catalog-judgment
     confidence: medium
-    confidence_reason: The HULA framework and engineering blog describe a human-in-the-loop cycle that ends in
-      a reviewed pull request.
-    valid_at: '2024-11'
+    confidence_reason: The HULA framework and engineering blog describe a human-in-the-loop cycle that ends in a
+      reviewed pull request.
+    valid_at: 2024-11
   headline_metric:
     kind: metric
     provenance: reported
     confidence: medium
-    confidence_reason: Atlassian reported the dogfooding scale in its own engineering blog without independent
-      verification.
+    confidence_reason: Atlassian reported the dogfooding scale in its own engineering blog without independent verification.
     valid_at: '2026'
     reported_by: Atlassian
+    metric_scope: Internal code-review dogfooding repositories and Rovo Dev-generated classifier training comments
   key_metrics.0:
     kind: metric
     provenance: reported
     confidence: medium
     confidence_reason: Atlassian reported the dogfooding scale in its own engineering blog.
+    metric_scope: Internal code-review evaluation across 1,900+ repositories spanning over a year
+    measurement_method: Year-long online evaluation across internal repositories
   key_metrics.1:
     kind: metric
     provenance: reported
     confidence: medium
     confidence_reason: Atlassian reported the dataset size in its own engineering blog.
+    metric_scope: ModernBERT classifier training dataset of internally sourced Rovo Dev-generated comments
+    measurement_method: Internal dogfooding comments labeled by whether they led to a code resolution

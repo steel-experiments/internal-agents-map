@@ -28,6 +28,9 @@ Describe the approach, source, correction, analysis, or tooling change.
 - [ ] `uv run python scripts/build.py`
 - [ ] `uv run python scripts/archive_sources.py --check`
 - [ ] `uv run python scripts/build.py --check`
+- [ ] `uv run python scripts/check_site.py --root site`
+- [ ] `uv run python scripts/check_private_data.py`
+- [ ] Website changes were checked on desktop, mobile, with keyboard input, and without JavaScript.
 - [ ] `uv run ruff check .`
 - [ ] `uv run ruff format --check .`
 - [ ] `uv run python -m unittest discover -s tests`

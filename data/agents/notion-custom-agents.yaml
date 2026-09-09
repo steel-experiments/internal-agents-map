@@ -5,9 +5,9 @@ approach_type: platform
 deployment_stage: scaled
 year: 2026
 first_public_evidence:
-  date: '2026-04'
+  date: 2026-04
   source_id: notion-custom-agents-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - support
@@ -16,7 +16,7 @@ domains:
 - security
 autonomy: unknown
 operating_models:
-- scope: 'cross-team internal tasks → Custom Agents output'
+- scope: cross-team internal tasks → Custom Agents output
   attention_boundary: unknown
 rubric:
   invocation:
@@ -25,9 +25,9 @@ rubric:
   identity: unknown
   evidence_strength: detailed-primary
 summary: Notion's Custom Agents platform, dogfooded internally across non-engineering teams such as IT ticketing,
-  supply chain, procurement, and recruiting. By the end of alpha testing, Notion had more than 3,000 internal
-  Custom Agents. Notion's own security team is one of the most active internal users. Notion rebuilt the agent
-  harness three to five times as frontier models improved.
+  supply chain, procurement, and recruiting. By the end of alpha testing, Notion had more than 3,000 internal Custom
+  Agents. Notion's own security team is one of the most active internal users. Notion rebuilt the agent harness
+  three to five times as frontier models improved.
 headline_metric: More than 3,000 internal Custom Agents by end of alpha testing
 key_metrics:
 - More than 3,000 internal Custom Agents by end of alpha testing
@@ -69,33 +69,47 @@ evidence:
   headline_metric:
   - source_id: notion-custom-agents-source-2
     relation: supports
+    locator: Preserved content.md, lines 51
   key_metrics.0:
   - source_id: notion-custom-agents-source-2
     relation: supports
+    locator: Preserved content.md, lines 51
   key_metrics.1:
   - source_id: notion-custom-agents-source-2
     relation: supports
+    locator: Preserved content.md, lines 57
   key_metrics.2:
   - source_id: notion-custom-agents-source-1
     relation: supports
+    locator: Preserved content.md, lines 115, 275–277, 819
 claim_metadata:
   operating_models.0:
     kind: inference
     provenance: catalog-judgment
     confidence: unverified
-    confidence_reason: Custom Agents spans many teams and workflows, so no single human-attention boundary
-      applies.
-    valid_at: '2026-04'
+    confidence_reason: Custom Agents spans many teams and workflows, so no single human-attention boundary applies.
+    valid_at: 2026-04
   headline_metric:
     kind: metric
     provenance: reported
     confidence: medium
-    confidence_reason: Notion reported the agent count in its own engineering blog without independent
-      verification.
-    valid_at: '2026-04'
+    confidence_reason: Notion reported the agent count in its own engineering blog without independent verification.
+    valid_at: 2026-04
     reported_by: Notion
+    metric_scope: Internal Notion Custom Agents at the end of alpha; excludes the separate customer alpha count
   key_metrics.0:
     kind: metric
     provenance: reported
     confidence: medium
     confidence_reason: Notion reported the agent count in its own engineering blog.
+    metric_scope: Internal Notion Custom Agents at the end of alpha; excludes the separate customer alpha count
+  key_metrics.1:
+    metric_scope: Notion security team internal Custom Agent use
+    kind: fact
+    confidence: medium
+    confidence_reason: Qualitative first-party description; no comparative activity count is supplied.
+  key_metrics.2:
+    metric_scope: Notion agent/framework rebuilds recalled by participants; estimates range from three to five
+    confidence: medium
+    confidence_reason: Participants give differing approximate rebuild counts for harness, framework, and feature;
+      not a precise engineering inventory.

@@ -7,13 +7,13 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: uber-coding-agent-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - coding
 autonomy: drafts-reviewed
 operating_models:
-- scope: 'coding request → complete code change'
+- scope: coding request → complete code change
   attention_boundary: unknown
 rubric:
   invocation:
@@ -25,7 +25,7 @@ summary: Uber's internal coding agent, reported by its CTO as producing roughly 
   week.
 headline_metric: ~1,800 complete code changes per week (~8% of changes)
 architecture:
-  sandbox: Not specified publicly
+  sandbox: unknown
   harness: Not specified publicly
 key_metrics:
 - ~1,800 complete code changes per week (~8% of changes at the time)
@@ -51,6 +51,7 @@ evidence:
   headline_metric:
   - source_id: uber-coding-agent-source-1
     relation: supports
+    locator: Preserved content.md, lines 24–26
   architecture.sandbox:
   - source_id: uber-coding-agent-source-1
     relation: supports
@@ -60,15 +61,17 @@ evidence:
   key_metrics.0:
   - source_id: uber-coding-agent-source-1
     relation: supports
+    locator: Preserved content.md, lines 24–26
   key_metrics.1:
   - source_id: uber-coding-agent-source-1
     relation: supports
+    locator: Preserved content.md, lines 18
 claim_metadata:
   operating_models.0:
     kind: inference
     provenance: catalog-judgment
     confidence: unverified
-    confidence_reason: 'The available source reports output volume but does not document where human attention returns.'
+    confidence_reason: The available source reports output volume but does not document where human attention returns.
     valid_at: '2026'
   summary:
     confidence: medium
@@ -76,15 +79,23 @@ claim_metadata:
   headline_metric:
     confidence: medium
     confidence_reason: Only limited public evidence supports this claim.
+    metric_scope: Code changes written entirely by the internal coding agent and human reviewed
+    denominator: All Uber code changes for the reported 8% share
   architecture.sandbox:
+    kind: inference
+    provenance: catalog-judgment
     confidence: medium
-    confidence_reason: Only limited public evidence supports this claim.
+    confidence_reason: The preserved sources do not document an execution sandbox; unknown does not mean absent.
   architecture.harness:
     confidence: medium
     confidence_reason: Only limited public evidence supports this claim.
   key_metrics.0:
     confidence: medium
     confidence_reason: Only limited public evidence supports this claim.
+    metric_scope: Code changes written entirely by the internal coding agent and human reviewed
+    denominator: All Uber code changes for the reported 8% share
   key_metrics.1:
     confidence: medium
     confidence_reason: Only limited public evidence supports this claim.
+    metric_scope: Monthly use of AI tools among Uber engineers; not internal-agent-specific adoption
+    denominator: Uber engineers

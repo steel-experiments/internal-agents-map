@@ -5,15 +5,15 @@ approach_type: task-agent
 deployment_stage: scaled
 year: 2026
 first_public_evidence:
-  date: '2026-03'
+  date: 2026-03
   source_id: hubspot-sidekick-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - code-review
 autonomy: drafts-reviewed
 operating_models:
-- scope: 'pull request → AI review comments'
+- scope: pull request → AI review comments
   attention_boundary: work-product-review
 rubric:
   invocation:
@@ -21,21 +21,22 @@ rubric:
   state: unknown
   identity: unknown
   evidence_strength: detailed-primary
-summary: HubSpot's internal AI code-review agent. Sidekick reviews every pull request. A multi-model Judge
-  Agent checks each comment for accuracy and action before it posts. Sidekick runs on Aviator, a Java agent
-  framework HubSpot built for precise tool control, which runs on Crucible, a self-hosted platform that runs
-  agents in isolated containers that mirror a real developer environment.
+summary: HubSpot's internal AI code-review agent. Sidekick reviews every pull request and uses a multi-model Judge
+  Agent to filter comments before posting. Its review implementation moved from Claude Code on Crucible Kubernetes
+  workloads to Aviator, HubSpot's internal Java agent framework; the later report does not specify Aviator's execution
+  isolation.
 headline_metric: Reviews every pull request and cut engineer feedback time by 90%
 architecture:
-  harness: Sidekick agent on the Aviator Java framework, running on the Crucible platform
-  sandbox: Isolated containers on Crucible that mirror a real developer environment
+  harness: Aviator, an internal Java agent framework; replaced the earlier Claude Code review implementation on
+    Crucible
+  sandbox: unknown
   tool_access: Aviator framework for precise tool control
   interfaces:
   - github
 key_metrics:
 - Reviews every pull request
 - Engineer feedback time cut by 90%
-- More than 80% positive developer reaction over six months
+- Over 80% thumbs-up reaction rate on review feedback during the preceding couple of months
 sources:
 - id: hubspot-sidekick-source-1
   title: Automated code review, the 6-month evolution
@@ -44,7 +45,7 @@ sources:
   kind: engineering-blog
   provenance_class: first-party
   role: evidence
-  published_at: '2026-03'
+  published_at: 2026-03
   accessed_at: '2026-08-13'
   last_verified_at: '2026-08-31'
   capture:
@@ -67,19 +68,22 @@ evidence:
   summary:
   - source_id: hubspot-sidekick-source-1
     relation: supports
+    locator: Preserved content.md, lines 14, 24–45, 75–87
   - source_id: hubspot-sidekick-source-2
-    relation: supports
+    relation: contextualizes
+    locator: Preserved content.md, lines 30–57 (earlier Crucible implementation)
   headline_metric:
   - source_id: hubspot-sidekick-source-1
     relation: supports
+    locator: Preserved content.md, lines 14–18
   architecture.harness:
   - source_id: hubspot-sidekick-source-1
     relation: supports
-  - source_id: hubspot-sidekick-source-2
-    relation: supports
+    locator: Preserved content.md, lines 24–45
   architecture.sandbox:
-  - source_id: hubspot-sidekick-source-2
+  - source_id: hubspot-sidekick-source-1
     relation: supports
+    locator: Preserved content.md, lines 39–45
   architecture.tool_access:
   - source_id: hubspot-sidekick-source-1
     relation: supports
@@ -89,40 +93,55 @@ evidence:
   key_metrics.0:
   - source_id: hubspot-sidekick-source-1
     relation: supports
+    locator: Preserved content.md, lines 14
   key_metrics.1:
   - source_id: hubspot-sidekick-source-1
     relation: supports
+    locator: Preserved content.md, lines 14–18
   key_metrics.2:
   - source_id: hubspot-sidekick-source-1
     relation: supports
+    locator: Preserved content.md, lines 99–116
 claim_metadata:
   operating_models.0:
     kind: inference
     provenance: catalog-judgment
     confidence: medium
-    confidence_reason: The engineering blog describes engineers acting on Sidekick review comments, which
-      locates human attention at work-product review.
-    valid_at: '2026-03'
+    confidence_reason: The engineering blog describes engineers acting on Sidekick review comments, which locates
+      human attention at work-product review.
+    valid_at: 2026-03
   headline_metric:
     kind: metric
     provenance: reported
     confidence: medium
-    confidence_reason: HubSpot reported the figures in its own engineering blog without independent
-      verification.
-    valid_at: '2026-03'
+    confidence_reason: HubSpot reported the figures in its own engineering blog without independent verification.
+    valid_at: 2026-03
     reported_by: HubSpot
+    metric_scope: Time for engineers to receive code feedback from Sidekick; not overall PR completion time
   key_metrics.0:
     kind: metric
     provenance: reported
     confidence: medium
     confidence_reason: HubSpot reported the figures in its own engineering blog.
+    metric_scope: Pull-request coverage after the six-month rollout
+    denominator: HubSpot pull requests
   key_metrics.1:
     kind: metric
     provenance: reported
     confidence: medium
     confidence_reason: HubSpot reported the figures in its own engineering blog.
+    metric_scope: Time for engineers to receive code feedback from Sidekick; not overall PR completion time
   key_metrics.2:
     kind: metric
     provenance: reported
     confidence: medium
     confidence_reason: HubSpot reported the figures in its own engineering blog.
+    metric_scope: Developer emoji reactions on review comments during the preceding couple of months
+    denominator: Thumbs-up and thumbs-down reactions; not all developers or all reviews
+    measurement_method: Emoji reactions and replies on review comments
+  architecture.sandbox:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: Current review runs on Aviator; its execution isolation is not specified. Crucible Kubernetes
+      workloads describe the predecessor implementation.

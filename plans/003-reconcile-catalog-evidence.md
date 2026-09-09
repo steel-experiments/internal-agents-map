@@ -97,13 +97,13 @@ Plan 002 is applied. The old local-link failure persists before Plan 002 integra
 
 ## Test plan and done criteria
 
-- [ ] Eight affected sandbox records reviewed; Stripe describes source-backed devboxes.
-- [ ] All original 115 metric claims reviewed, with outcomes/gaps documented per approach.
-- [ ] Locator coverage increases; added locators identify real supporting passages.
-- [ ] Dates/metric metadata have source support; missing information stays unknown.
-- [ ] Negative-result/counterevidence review has source-linked findings or explicit gaps.
-- [ ] All generated outputs current; all verification commands pass after Plan 002.
-- [ ] No existing archive artifact or manifest changed; reviewer marks index DONE.
+- [x] Eight affected sandbox records reviewed; Stripe describes source-backed devboxes.
+- [x] All original 115 metric claims reviewed, with outcomes/gaps documented per approach.
+- [x] Locator coverage increases; added locators identify real supporting passages.
+- [x] Dates/metric metadata have source support; missing information stays unknown.
+- [x] Negative-result/counterevidence review has source-linked findings or explicit gaps.
+- [x] All generated outputs current; all verification commands pass after Plan 002.
+- [x] No existing archive artifact or manifest changed; reviewer marks index DONE.
 
 ## STOP conditions
 
@@ -117,3 +117,18 @@ to guess. Do not rewrite stored captures or assign contradicts just to increase 
 Future intake should attach locators as claims are written. Keep metric dates separate
 from capture/review dates. Normalize undocumented optional architecture consistently.
 Re-run the traceability counts when this report is refreshed, with its review date.
+
+## Completion — 2026-09-09
+
+Applied reviewed changes to the current checkout and regenerated the catalog with
+both plans integrated. All final gates passed: 97 unittest tests, 88 declared capture
+validations, generated-file freshness, local links, Ruff lint/format, and whitespace.
+Concurrent commits through `e67e79b` added an email-address check and four tests;
+those changes were preserved, and the additional privacy gate also passed.
+
+The reviewer independently verified the new report's local links and privacy check,
+its exact ledger of all 115 baseline metric IDs, supporting locators for all 108
+remaining metrics, and unchanged archive artifacts. Final export: 555 claims,
+639 evidence links, 177 links with locators, and 16 documented environments.
+Both plans are complete; unresolved source questions remain explicitly documented
+in `docs/evidence-review.md`, rather than represented as verified facts.

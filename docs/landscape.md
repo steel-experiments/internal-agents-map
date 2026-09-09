@@ -94,7 +94,6 @@ Operating levels are generated from scoped, evidence-backed human-attention boun
 ### Reported metrics
 
 - About 64% of pull requests materialized through agentic coding <small>Sources: [airbnb-airchat-source-3](#airbnb-airchat-source-3).</small>
-- About 60% of engineers onboarded within 12 months <small>Sources: [airbnb-airchat-source-3](#airbnb-airchat-source-3).</small>
 
 ### Sources
 
@@ -102,7 +101,7 @@ Operating levels are generated from scoped, evidence-backed human-attention boun
 - <a id="airbnb-airchat-source-2"></a>[Beyond the CLI (DX podcast)](https://getdx.com/podcast/beyond-the-cli-agentic-ai-for-async-workloads-and-non-developers/) ([snapshot](../archive/sources/airbnb-airchat-source-2/content.md), captured 2026-08-31) (podcast; direct-participant; evidence)
 - <a id="airbnb-airchat-source-3"></a>[How to get your team past the AI (The AI Thinker)](https://www.theaithinker.com/p/how-to-get-your-team-past-the-ai) ([snapshot](../archive/sources/airbnb-airchat-source-3/content.md), captured 2026-08-31) (news; independent-secondary; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -147,7 +146,7 @@ Last reviewed: 2026-08-31.
 - <a id="atlassian-rovo-dev-source-2"></a>[Developer productivity improved with Rovo Dev](https://www.atlassian.com/blog/atlassian-engineering/developer-productivity-improved-with-rovo-dev) ([snapshot](../archive/sources/atlassian-rovo-dev-source-2/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 - <a id="atlassian-rovo-dev-source-3"></a>[HULA: Human-in-the-loop software development agents (arXiv 2411.12924)](https://arxiv.org/abs/2411.12924) ([snapshot](../archive/sources/atlassian-rovo-dev-source-3/content.md), captured 2026-08-31) (paper; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -178,7 +177,7 @@ Last reviewed: 2026-08-31.
 
 ### Architecture
 
-- Sandbox: Not detailed publicly <small>Sources: [block-builderbot-source-1](#block-builderbot-source-1).</small>
+- Sandbox: unknown <small>Sources: [block-builderbot-source-1](#block-builderbot-source-1).</small>
 - Harness: Multi-agent orchestration built on goose (open-source agent framework) + MCP; multi-player, real-time, operating inside Slack threads <small>Sources: [block-builderbot-source-1](#block-builderbot-source-1).</small>
 - Model: goose framework; model not specified <small>Sources: [block-builderbot-source-1](#block-builderbot-source-1).</small>
 - Interfaces: slack, linear, jira, github <small>Sources: [block-builderbot-source-1](#block-builderbot-source-1).</small>
@@ -210,7 +209,7 @@ Last reviewed: 2026-08-31.
 - <a id="block-builderbot-source-4"></a>[Hacker News discussion of the Builderbot announcement](https://news.ycombinator.com/item?id=48618973) ([snapshot](../archive/sources/block-builderbot-source-4/content.md), captured 2026-08-31) (hn-thread; community; commentary)
 - <a id="block-builderbot-source-5"></a>[Hacker News comment that points to the Builderbot repository](https://news.ycombinator.com/item?id=48619052) ([snapshot](../archive/sources/block-builderbot-source-5/content.md), captured 2026-08-31) (hn-comment; community; discovery)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -258,7 +257,7 @@ Last reviewed: 2026-08-31.
 
 - 50%+ of customer-support cases resolved by chatbot as first touch <small>Sources: [brex-agent-platform-source-1](#brex-agent-platform-source-1).</small>
 - Dispute processing: 3 hours → 3 seconds <small>Sources: [brex-agent-platform-source-1](#brex-agent-platform-source-1).</small>
-- QA coverage 100% (previously sample-based); 1 person replaces ~5 QA specialists <small>Sources: [brex-agent-platform-source-1](#brex-agent-platform-source-1).</small>
+- QA covers every support interaction; one person using AI instead of five QA specialists <small>Sources: [brex-agent-platform-source-1](#brex-agent-platform-source-1).</small>
 - KYC adverse-media accuracy 85% → 88% <small>Sources: [brex-agent-platform-source-1](#brex-agent-platform-source-1).</small>
 
 ### Catalog observations
@@ -273,7 +272,7 @@ Last reviewed: 2026-08-31.
 
 - <a id="brex-agent-platform-source-1"></a>[Agent, Human, Ops: How Brex Is Changing Roles and Workflows](https://www.firstround.com/ai/brex) ([snapshot](../archive/sources/brex-agent-platform-source-1/content.md), captured 2026-08-31) (case-study; independent-secondary; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -335,7 +334,7 @@ Last reviewed: 2026-08-31.
 
 - <a id="browserbase-bb-source-1"></a>[How we build internal agents at Browserbase](https://browserbase.com/blog/internal-agents) ([snapshot](../archive/sources/browserbase-bb-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -385,8 +384,8 @@ Last reviewed: 2026-08-31.
 ### Reported metrics
 
 - 3,683 internal users (60% of company, 93% of R&D) <small>Sources: [cloudflare-ai-stack-source-1](#cloudflare-ai-stack-source-1).</small>
-- 47.95M AI requests / month; 241.37B tokens via AI Gateway <small>Sources: [cloudflare-ai-stack-source-1](#cloudflare-ai-stack-source-1).</small>
-- Merge-request rate ~doubled to 10,952 / week <small>Sources: [cloudflare-ai-stack-source-1](#cloudflare-ai-stack-source-1).</small>
+- 47.95M AI requests and 241.37B tokens via AI Gateway in the preceding 30 days <small>Sources: [cloudflare-ai-stack-source-1](#cloudflare-ai-stack-source-1).</small>
+- 10,952 merge requests in the week of March 23, 2026, nearly double the Q4 baseline; four-week average above 8,700 <small>Sources: [cloudflare-ai-stack-source-1](#cloudflare-ai-stack-source-1).</small>
 - 295 teams using agentic AI tools <small>Sources: [cloudflare-ai-stack-source-1](#cloudflare-ai-stack-source-1).</small>
 
 ### Catalog observations
@@ -401,7 +400,7 @@ Last reviewed: 2026-08-31.
 - <a id="cloudflare-ai-stack-source-1"></a>[The AI engineering stack we built internally](https://blog.cloudflare.com/internal-ai-engineering-stack/) ([snapshot](../archive/sources/cloudflare-ai-stack-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 - <a id="cloudflare-ai-stack-source-2"></a>[Hacker News discussion of Cloudflare's internal AI engineering stack](https://news.ycombinator.com/item?id=47837240) ([snapshot](../archive/sources/cloudflare-ai-stack-source-2/content.md), captured 2026-08-31) (hn-thread; community; commentary)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -424,7 +423,7 @@ Last reviewed: 2026-08-31.
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
-| Headline metric | Mux: 600+ users across Coinbase organizations (April 2026) <small>Sources: [coinbase-forge-mux-source-1](#coinbase-forge-mux-source-1).</small> |
+| Headline metric | Mux: 600+ users including engineers, PMs, and designers (335 active, 197 power users) <small>Sources: [coinbase-forge-mux-source-1](#coinbase-forge-mux-source-1).</small> |
 
 ### Operating model
 
@@ -446,7 +445,7 @@ Last reviewed: 2026-08-31.
 
 ### Reported metrics
 
-- Mux: 600+ users across Coinbase organizations (April 2026) <small>Sources: [coinbase-forge-mux-source-1](#coinbase-forge-mux-source-1).</small>
+- Mux: 600+ users including engineers, PMs, and designers (335 active, 197 power users) <small>Sources: [coinbase-forge-mux-source-1](#coinbase-forge-mux-source-1).</small>
 
 ### Catalog observations
 
@@ -459,7 +458,7 @@ Last reviewed: 2026-08-31.
 - <a id="coinbase-forge-mux-source-1"></a>[Coding had a concurrency problem: how Mux helped solve it](https://www.coinbase.com/de/blog/coding-had-a-concurrency-problem-how-mux-helped-solve-it) ([snapshot](../archive/sources/coinbase-forge-mux-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 - <a id="coinbase-forge-mux-source-2"></a>[Coinbase × Linear (Forge workflow)](https://linear.app/customers/coinbase) ([snapshot](../archive/sources/coinbase-forge-mux-source-2/content.md), captured 2026-08-31) (case-study; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -560,7 +559,7 @@ Last reviewed: 2026-08-31.
 
 - <a id="domu-clementino-source-1"></a>[Why we split our internal agent in two](https://domu.ai/blog/why-we-split-our-internal-agent-in-two) ([snapshot](../archive/sources/domu-clementino-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -616,7 +615,7 @@ Last reviewed: 2026-08-31.
 
 - <a id="doordash-code-review-source-1"></a>[How DoorDash built an AI code reviewer engineers actually listen to](https://careersatdoordash.com/blog/doordash-built-an-ai-code-reviewer-engineers-actually-listen-to/) ([snapshot](../archive/sources/doordash-code-review-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -685,7 +684,7 @@ Last reviewed: 2026-08-31.
 - <a id="doordash-flux-source-2"></a>[Beyond single agents: DoorDash's collaborative AI ecosystem](https://careersatdoordash.com/blog/beyond-single-agents-doordash-building-collaborative-ai-ecosystem/) ([snapshot](../archive/sources/doordash-flux-source-2/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 - <a id="doordash-flux-source-3"></a>[Delegating Engineering Work To Cloud-Based Agents](https://careersatdoordash.com/blog/delegating-engineering-work-to-cloud-based-agents/) ([snapshot](../archive/sources/doordash-flux-source-3/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -733,7 +732,7 @@ Last reviewed: 2026-08-31.
 ### Reported metrics
 
 - Flaky-test remediation (Deflaker): 100+ validation runs <small>Sources: [dropbox-nova-source-1](#dropbox-nova-source-1).</small>
-- Migrations applied across thousands of entries in parallel <small>Sources: [dropbox-nova-source-1](#dropbox-nova-source-1).</small>
+- Predecessor Goose-based migrator used across thousands of migration entries before workflows moved onto Nova <small>Sources: [dropbox-nova-source-1](#dropbox-nova-source-1).</small>
 - Dozens of agents launchable from one runbook <small>Sources: [dropbox-nova-source-1](#dropbox-nova-source-1).</small>
 
 ### Catalog observations
@@ -748,7 +747,7 @@ Last reviewed: 2026-08-31.
 - <a id="dropbox-nova-source-1"></a>[Introducing Nova, our internal platform for coding agents](https://dropbox.tech/machine-learning/introducing-nova-our-internal-platform-for-coding-agents) ([snapshot](../archive/sources/dropbox-nova-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 - <a id="dropbox-nova-source-2"></a>[Hacker News submission for Nova](https://news.ycombinator.com/item?id=48235065) ([snapshot](../archive/sources/dropbox-nova-source-2/content.md), captured 2026-08-31) (hn-thread; community; discovery)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -778,7 +777,7 @@ Last reviewed: 2026-08-31.
 
 ### Architecture
 
-- Sandbox: Not specified publicly <small>Sources: [flex-investigation-agent-source-1](#flex-investigation-agent-source-1).</small>
+- Sandbox: unknown <small>Sources: [flex-investigation-agent-source-1](#flex-investigation-agent-source-1).</small>
 - Harness: Investigation-to-fix loop; underlying runtime not documented <small>Sources: [flex-investigation-agent-source-1](#flex-investigation-agent-source-1).</small>
 - Model: Not specified <small>Sources: [flex-investigation-agent-source-1](#flex-investigation-agent-source-1).</small>
 - Interfaces: slack <small>Sources: [flex-investigation-agent-source-1](#flex-investigation-agent-source-1).</small>
@@ -797,7 +796,7 @@ Last reviewed: 2026-08-31.
 
 - <a id="flex-investigation-agent-source-1"></a>[The Flex AI Investigation Agent for HSA/FSA payments](https://www.withflex.com/blog/the-flex-ai-investigation-agent-for-hsa-fsa-payments) ([snapshot](../archive/sources/flex-investigation-agent-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -840,7 +839,7 @@ Last reviewed: 2026-08-31.
 
 - <a id="github-qubot-source-1"></a>[How we built an internal data analytics agent](https://github.blog/ai-and-ml/github-copilot/how-we-built-an-internal-data-analytics-agent/) ([snapshot](../archive/sources/github-qubot-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -902,7 +901,7 @@ Last reviewed: 2026-08-31.
 
 ## HubSpot: Sidekick
 
-> HubSpot's internal AI code-review agent. Sidekick reviews every pull request. A multi-model Judge Agent checks each comment for accuracy and action before it posts. Sidekick runs on Aviator, a Java agent framework HubSpot built for precise tool control, which runs on Crucible, a self-hosted platform that runs agents in isolated containers that mirror a real developer environment. <small>Sources: [hubspot-sidekick-source-1](#hubspot-sidekick-source-1), [hubspot-sidekick-source-2](#hubspot-sidekick-source-2).</small>
+> HubSpot's internal AI code-review agent. Sidekick reviews every pull request and uses a multi-model Judge Agent to filter comments before posting. Its review implementation moved from Claude Code on Crucible Kubernetes workloads to Aviator, HubSpot's internal Java agent framework; the later report does not specify Aviator's execution isolation. <small>Sources: [hubspot-sidekick-source-1](#hubspot-sidekick-source-1); Context: [hubspot-sidekick-source-2](#hubspot-sidekick-source-2).</small>
 
 | Field | Value |
 | --- | --- |
@@ -925,8 +924,8 @@ Last reviewed: 2026-08-31.
 
 ### Architecture
 
-- Harness: Sidekick agent on the Aviator Java framework, running on the Crucible platform <small>Sources: [hubspot-sidekick-source-1](#hubspot-sidekick-source-1), [hubspot-sidekick-source-2](#hubspot-sidekick-source-2).</small>
-- Sandbox: Isolated containers on Crucible that mirror a real developer environment <small>Sources: [hubspot-sidekick-source-2](#hubspot-sidekick-source-2).</small>
+- Harness: Aviator, an internal Java agent framework; replaced the earlier Claude Code review implementation on Crucible <small>Sources: [hubspot-sidekick-source-1](#hubspot-sidekick-source-1).</small>
+- Sandbox: unknown <small>Sources: [hubspot-sidekick-source-1](#hubspot-sidekick-source-1).</small>
 - Tool access: Aviator framework for precise tool control <small>Sources: [hubspot-sidekick-source-1](#hubspot-sidekick-source-1).</small>
 - Interfaces: github <small>Sources: [hubspot-sidekick-source-1](#hubspot-sidekick-source-1).</small>
 
@@ -934,14 +933,14 @@ Last reviewed: 2026-08-31.
 
 - Reviews every pull request <small>Sources: [hubspot-sidekick-source-1](#hubspot-sidekick-source-1).</small>
 - Engineer feedback time cut by 90% <small>Sources: [hubspot-sidekick-source-1](#hubspot-sidekick-source-1).</small>
-- More than 80% positive developer reaction over six months <small>Sources: [hubspot-sidekick-source-1](#hubspot-sidekick-source-1).</small>
+- Over 80% thumbs-up reaction rate on review feedback during the preceding couple of months <small>Sources: [hubspot-sidekick-source-1](#hubspot-sidekick-source-1).</small>
 
 ### Sources
 
 - <a id="hubspot-sidekick-source-1"></a>[Automated code review, the 6-month evolution](https://product.hubspot.com/blog/automated-code-review-the-6-month-evolution) ([snapshot](../archive/sources/hubspot-sidekick-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 - <a id="hubspot-sidekick-source-2"></a>[Cloud coding agents at HubSpot](https://product.hubspot.com/blog/cloud-coding-agents-at-hubspot) ([snapshot](../archive/sources/hubspot-sidekick-source-2/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -971,7 +970,7 @@ Last reviewed: 2026-08-31.
 
 ### Architecture
 
-- Sandbox: Not detailed publicly <small>Sources: [linear-agent-source-1](#linear-agent-source-1).</small>
+- Sandbox: unknown <small>Sources: [linear-agent-source-1](#linear-agent-source-1).</small>
 - Harness: Separate planning agent (triage/issue creation) and coding agent (code generation); Code Intelligence for codebase knowledge; scheduled/event-driven 'Loops' <small>Sources: [linear-agent-source-1](#linear-agent-source-1), [linear-agent-source-2](#linear-agent-source-2).</small>
 - Model: Codex was used for internal pull-request review; other model choices are not detailed in the preserved sources <small>Sources: [linear-agent-source-2](#linear-agent-source-2).</small>
 - Interfaces: slack, intercom, linear, github <small>Sources: [linear-agent-source-2](#linear-agent-source-2).</small>
@@ -1002,7 +1001,7 @@ Last reviewed: 2026-08-31.
 - <a id="linear-agent-source-5"></a>[Hacker News submission for the Linear Agent public beta](https://news.ycombinator.com/item?id=48503334) ([snapshot](../archive/sources/linear-agent-source-5/content.md), captured 2026-08-31) (hn-thread; community; discovery)
 - <a id="linear-agent-source-6"></a>[Introducing Linear Agent](https://linear.app/changelog/2026-03-24-introducing-linear-agent) ([snapshot](../archive/sources/linear-agent-source-6/content.md), captured 2026-08-31) (release; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -1025,7 +1024,7 @@ Last reviewed: 2026-08-31.
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
-| Headline metric | Reviews more than 90% of pull requests, over 600,000 reviews per month <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small> |
+| Headline metric | Supports more than 90% of Microsoft PRs, impacting over 600,000 pull requests per month <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small> |
 
 ### Operating model
 
@@ -1038,14 +1037,14 @@ Last reviewed: 2026-08-31.
 ### Reported metrics
 
 - More than 90% of pull requests across the company <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small>
-- More than 600,000 reviews per month <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small>
+- More than 600,000 pull requests impacted per month <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small>
 - About 5,000 repositories in early onboarding <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small>
 
 ### Sources
 
 - <a id="microsoft-prassistant-source-1"></a>[Enhancing code quality at scale with AI-powered code reviews](https://devblogs.microsoft.com/engineering-at-microsoft/enhancing-code-quality-at-scale-with-ai-powered-code-reviews/) ([snapshot](../archive/sources/microsoft-prassistant-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -1095,8 +1094,8 @@ Last reviewed: 2026-08-31.
 ### Reported metrics
 
 - Morphex: 19 of 20 PRs merge automatically without human review <small>Sources: [monday-sphera-atlas-morphex-source-1](#monday-sphera-atlas-morphex-source-1).</small>
-- 90% of engineers use AI coding tools monthly (up from ~50% YoY) <small>Sources: [monday-sphera-atlas-morphex-source-1](#monday-sphera-atlas-morphex-source-1).</small>
-- Per-engineer PR throughput +50% <small>Sources: [monday-sphera-atlas-morphex-source-1](#monday-sphera-atlas-morphex-source-1).</small>
+- 90% of Builders use AI coding tools monthly; adoption nearly doubled year over year <small>Sources: [monday-sphera-atlas-morphex-source-1](#monday-sphera-atlas-morphex-source-1).</small>
+- Per-engineer PR throughput increased by more than 50% <small>Sources: [monday-sphera-atlas-morphex-source-1](#monday-sphera-atlas-morphex-source-1).</small>
 - Guardrails catches ~25% of agent PRs before human review; low single-digit revert rate <small>Sources: [monday-sphera-atlas-morphex-source-1](#monday-sphera-atlas-morphex-source-1).</small>
 
 ### Catalog observations
@@ -1111,7 +1110,7 @@ Last reviewed: 2026-08-31.
 
 - <a id="monday-sphera-atlas-morphex-source-1"></a>[AI Teammates: how monday.com runs production AI agents on Amazon Bedrock](https://aws.amazon.com/blogs/machine-learning/ai-teammates-how-monday-com-runs-production-ai-agents-on-amazon-bedrock/) ([snapshot](../archive/sources/monday-sphera-atlas-morphex-source-1/content.md), captured 2026-08-31) (case-study; independent-secondary; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -1151,7 +1150,7 @@ Last reviewed: 2026-08-31.
 - <a id="notion-custom-agents-source-1"></a>[Notion's Token Town: 5 Rebuilds, 100+ Tools (Latent Space)](https://latent.space/p/notion) ([snapshot](../archive/sources/notion-custom-agents-source-1/content.md), captured 2026-08-31) (podcast; direct-participant; evidence)
 - <a id="notion-custom-agents-source-2"></a>[How we built security into Custom Agents](https://www.notion.com/en-gb/blog/how-we-built-security-into-custom-agents) ([snapshot](../archive/sources/notion-custom-agents-source-2/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -1193,7 +1192,7 @@ Last reviewed: 2026-08-31.
 
 - <a id="plaid-ai-annotator-source-1"></a>[AI agents at Plaid (June 2025)](https://plaid.com/blog/ai-agents-june-2025/) ([snapshot](../archive/sources/plaid-ai-annotator-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -1235,7 +1234,7 @@ Last reviewed: 2026-08-31.
 
 - <a id="plaid-fix-my-connection-source-1"></a>[AI agents at Plaid (June 2025)](https://plaid.com/blog/ai-agents-june-2025/) ([snapshot](../archive/sources/plaid-fix-my-connection-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -1243,7 +1242,7 @@ Last reviewed: 2026-08-31.
 
 ## Plaid: Internal MCP server
 
-> Plaid's central internal Model Context Protocol server. Plaid built it because third-party MCP servers could not reach its internal data. The server integrates more than 20 tools and several internal services such as Jira, application logs, and data schemas, behind Plaid's identity-aware proxy and centralized authorization. Plaid reports that more than 80% of its engineers use AI clients connected to it, with thousands of tool calls and dozens of agents built on it. <small>Sources: [plaid-internal-mcp-server-source-1](#plaid-internal-mcp-server-source-1).</small>
+> Plaid's central internal Model Context Protocol server. Plaid built it because third-party MCP servers could not reach its internal data. The server integrates more than 20 tools and several internal services such as Jira, application logs, and data schemas, behind Plaid's identity-aware proxy and centralized authorization. Plaid reports thousands of tool calls and dozens of agents built on the server. Separately, Claude Code and Cursor are used by more than 80% of Plaid engineers; server adoption is not quantified. <small>Sources: [plaid-internal-mcp-server-source-1](#plaid-internal-mcp-server-source-1).</small>
 
 | Field | Value |
 | --- | --- |
@@ -1258,7 +1257,7 @@ Last reviewed: 2026-08-31.
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
-| Headline metric | More than 80% of engineers use it, with dozens of agents built on it <small>Sources: [plaid-internal-mcp-server-source-1](#plaid-internal-mcp-server-source-1).</small> |
+| Headline metric | Dozens of agents rely on the internal MCP server; Claude Code and Cursor are used by over 80% of engineers <small>Sources: [plaid-internal-mcp-server-source-1](#plaid-internal-mcp-server-source-1).</small> |
 
 ### Operating model
 
@@ -1272,14 +1271,14 @@ Last reviewed: 2026-08-31.
 
 ### Reported metrics
 
-- More than 80% of Plaid engineers use AI clients connected to it <small>Sources: [plaid-internal-mcp-server-source-1](#plaid-internal-mcp-server-source-1).</small>
+- Claude Code and Cursor are used by over 80% of Plaid engineers; the source does not report internal MCP server adoption share <small>Sources: [plaid-internal-mcp-server-source-1](#plaid-internal-mcp-server-source-1).</small>
 - Thousands of tool calls and dozens of agents built on it <small>Sources: [plaid-internal-mcp-server-source-1](#plaid-internal-mcp-server-source-1).</small>
 
 ### Sources
 
 - <a id="plaid-internal-mcp-server-source-1"></a>[The Plaid internal MCP server](https://engineering.plaid.com/the-plaid-internal-mcp-server-8eff08bb6bdb) ([snapshot](../archive/sources/plaid-internal-mcp-server-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -1302,7 +1301,7 @@ Last reviewed: 2026-08-31.
 | State | run-only |
 | Identity | dedicated-agent |
 | Evidence | detailed-primary |
-| Headline metric | Handled 1,600 PRs in the month before July 9, 2026; roughly one in three merged main-repository PRs received its final approval during the reported quarter <small>Sources: [posthog-stamphog-source-1](#posthog-stamphog-source-1).</small> |
+| Headline metric | Handled 1,600 PRs in the previous month, as reported on July 9, 2026; roughly one in three merged main-repository PRs received its final approval during the reported quarter <small>Sources: [posthog-stamphog-source-1](#posthog-stamphog-source-1).</small> |
 
 ### Operating model
 
@@ -1326,7 +1325,7 @@ Last reviewed: 2026-08-31.
 
 ### Reported metrics
 
-- 1,600 PRs handled autonomously in the month before July 9, 2026 <small>Sources: [posthog-stamphog-source-1](#posthog-stamphog-source-1).</small>
+- 1,600 PRs handled autonomously in the previous month, as reported on July 9, 2026 <small>Sources: [posthog-stamphog-source-1](#posthog-stamphog-source-1).</small>
 - Roughly one in three PRs merged into PostHog's main repository received StampHog's final approval during the reported quarter <small>Sources: [posthog-stamphog-source-1](#posthog-stamphog-source-1).</small>
 - 20% of PRs approved by StampHog in the July 28, 2026 report, at approximately $300 per month in tokens <small>Sources: [posthog-stamphog-source-2](#posthog-stamphog-source-2).</small>
 
@@ -1342,7 +1341,7 @@ Last reviewed: 2026-08-31.
 - <a id="posthog-stamphog-source-2"></a>[10,000 PRs a month is easy: How devex is evolving at PostHog](https://posthog.com/blog/10k-prs-a-month) ([snapshot](../archive/sources/posthog-stamphog-source-2/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 - <a id="posthog-stamphog-source-3"></a>[StampHog PR approval agent source code and documentation](https://github.com/PostHog/posthog/tree/988c9031bb93c74bafcdfb670c01497c79a4f644/tools/pr-approval-agent) ([snapshot](../archive/sources/posthog-stamphog-source-3/content.md), captured 2026-08-31) (source-code; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -1389,17 +1388,17 @@ Last reviewed: 2026-08-31.
 
 ### Reported metrics
 
-- 60%+ of merged PRs authored by Inspect (April 2026) <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
+- Around 60% of Ramp PRs authored by Inspect by January 2026 <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
 - 75% of merged PRs raised by Inspect sessions (May 2026) <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5), [ramp-inspect-source-2](#ramp-inspect-source-2).</small>
-- ~30% of merged PRs (frontend + backend) at launch <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
-- ~90% of PRs merged into the Inspect repo come from Inspect sessions (August 2026) <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
+- Around 30% of merged frontend and backend PRs in the earlier first-party report, after a couple of months of adoption <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
+- Around 90% of PRs merged into the Inspect repository come from Inspect sessions in the later interview report <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
 - One million total Inspect sessions crossed in July 2026 <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
 - Under 5 seconds to spin up a fully provisioned remote dev environment <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
 - Inspect underpins internal agents including ReviewBuddy, Oncall Assistant, Testo, Ramp Research, Voice of the Customer, and error automations <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
-- 150+ engineers have contributed to the Inspect codebase (August 2026) <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
+- 150+ engineers contributed to the Inspect codebase in the later interview report <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
 - 5.5-person Inspect team (four engineers, a director, and a part-time PM) <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
 - More than 80% of Inspect is written in Inspect sessions <small>Sources: [ramp-inspect-source-5](#ramp-inspect-source-5).</small>
-- Session speed limited only by model-provider time-to-first-token <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
+- Design goal: session speed should be limited only by model-provider time-to-first-token <small>Sources: [ramp-inspect-source-1](#ramp-inspect-source-1).</small>
 
 ### Catalog observations
 
@@ -1417,7 +1416,7 @@ Last reviewed: 2026-08-31.
 - <a id="ramp-inspect-source-4"></a>[Why We Built Our Own Background Agent (Inspect) (Ramp Builders URL)](https://builders.ramp.com/post/why-we-built-our-background-agent) ([snapshot](../archive/sources/ramp-inspect-source-4/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 - <a id="ramp-inspect-source-5"></a>[Why Ramp built its own in-house coding agent, Inspect](https://newsletter.pragmaticengineer.com/p/why-ramp-built-inspect) ([snapshot](../archive/sources/ramp-inspect-source-5/content.md), captured 2026-08-31) (news; independent-secondary; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -1440,7 +1439,7 @@ Last reviewed: 2026-08-31.
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
-| Headline metric | ~3x engineering code output over six months without degradation in review/revert/incident metrics <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small> |
+| Headline metric | 2.9x code output for a consistent author cohort; review latency, PR reversions, and incident trends reported flat <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small> |
 
 ### Operating model
 
@@ -1448,7 +1447,7 @@ Last reviewed: 2026-08-31.
 
 ### Architecture
 
-- Sandbox: Not specified publicly <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
+- Sandbox: microVMs and remote filesystems behind access policies, token proxies, audit logging, and a ZeroTrust network <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
 - Harness: Fleet/loop orchestration: a manager agent launches parallel agents for verifiable work and escalates judgment <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
 - Model: Not specified <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
 - Interfaces: slack <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
@@ -1461,7 +1460,7 @@ Last reviewed: 2026-08-31.
 
 ### Reported metrics
 
-- ~3x engineering code output over six months <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
+- 2.9x code output for a consistent author cohort from early January to late June <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
 - No corresponding deterioration in review/reversion/incident metrics <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
 
 ### Catalog observations
@@ -1473,7 +1472,7 @@ Last reviewed: 2026-08-31.
 
 - <a id="replit-manager-agent-source-1"></a>[The Self-Driving Company](https://ld.replit.com/blog/self-driving-company) ([snapshot](../archive/sources/replit-manager-agent-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -1612,7 +1611,7 @@ Last reviewed: 2026-08-31.
 
 ### Reported metrics
 
-- ~100,000 lines of TypeScript (excluding tests) <small>Sources: [sentry-junior-source-1](#sentry-junior-source-1).</small>
+- Around 100,000 lines of TypeScript excluding tests, evals, docs, and lockfiles <small>Sources: [sentry-junior-source-1](#sentry-junior-source-1).</small>
 - 4 months from start to writeup <small>Sources: [sentry-junior-source-1](#sentry-junior-source-1).</small>
 
 ### Catalog observations
@@ -1630,7 +1629,7 @@ Last reviewed: 2026-08-31.
 - <a id="sentry-junior-source-3"></a>[Sentry Labs](https://labs.sentry.dev/) ([snapshot](../archive/sources/sentry-junior-source-3/content.md), captured 2026-08-31) (documentation; first-party; evidence)
 - <a id="sentry-junior-source-4"></a>[getsentry/junior Apache 2.0 license](https://github.com/getsentry/junior/blob/main/LICENSE?plain=1) ([snapshot](../archive/sources/sentry-junior-source-4/content.md), captured 2026-08-31) (source-code; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -1693,7 +1692,7 @@ Last reviewed: 2026-08-31.
 
 - <a id="shopify-internal-agents-source-1"></a>[Under the River](https://shopify.engineering/under-the-river) ([snapshot](../archive/sources/shopify-internal-agents-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -1716,7 +1715,7 @@ Last reviewed: 2026-08-31.
 | State | durable-session |
 | Identity | unknown |
 | Evidence | detailed-primary |
-| Headline metric | 75,000+ sessions for 600+ people <small>Sources: [sierra-pinecone-source-1](#sierra-pinecone-source-1).</small> |
+| Headline metric | More than 75,000 sessions created by 600 people in the month preceding the report <small>Sources: [sierra-pinecone-source-1](#sierra-pinecone-source-1).</small> |
 
 ### Operating model
 
@@ -1741,9 +1740,8 @@ Last reviewed: 2026-08-31.
 
 ### Reported metrics
 
-- 75,000+ sessions for 600+ people (July 2026) <small>Sources: [sierra-pinecone-source-1](#sierra-pinecone-source-1).</small>
-- Opened 70% of company PRs <small>Sources: [sierra-pinecone-source-1](#sierra-pinecone-source-1).</small>
-- Hundreds of automations <small>Sources: [sierra-pinecone-source-1](#sierra-pinecone-source-1).</small>
+- More than 75,000 sessions created by 600 people in the month preceding the report <small>Sources: [sierra-pinecone-source-1](#sierra-pinecone-source-1).</small>
+- 70% of company PRs opened through Pinecone in the month preceding the report <small>Sources: [sierra-pinecone-source-1](#sierra-pinecone-source-1).</small>
 
 ### Catalog observations
 
@@ -1758,7 +1756,7 @@ Last reviewed: 2026-08-31.
 - <a id="sierra-pinecone-source-2"></a>[Building Sierra's MCP Gateway](https://sierra.ai/blog/building-sierras-mcp-gateway-an-engineering-iceberg) ([snapshot](../archive/sources/sierra-pinecone-source-2/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 - <a id="sierra-pinecone-source-3"></a>[Agency: secure, scalable sandboxes for agents](https://sierra.ai/es/blog/agency-secure-scalable-sandboxes-for-agents) ([snapshot](../archive/sources/sierra-pinecone-source-3/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -1781,7 +1779,7 @@ Last reviewed: 2026-08-31.
 | State | durable-session |
 | Identity | unknown |
 | Evidence | mixed |
-| Headline metric | Megabyte-scale investigations without overflowing the context window <small>Sources: [slack-context-system-source-1](#slack-context-system-source-1), [slack-context-system-source-2](#slack-context-system-source-2).</small> |
+| Headline metric | Context management for security investigations spanning hundreds of inference requests and megabytes of output <small>Sources: [slack-context-system-source-1](#slack-context-system-source-1), [slack-context-system-source-2](#slack-context-system-source-2).</small> |
 
 ### Operating model
 
@@ -1789,7 +1787,6 @@ Last reviewed: 2026-08-31.
 
 ### Architecture
 
-- Sandbox: n/a; this is a context-management pattern, not a full execution platform <small>Sources: [slack-context-system-source-1](#slack-context-system-source-1), [slack-context-system-source-2](#slack-context-system-source-2).</small>
 - Harness: Coordinator/dispatcher: a central coordinator dispatches to expert agents and to critic agents <small>Sources: [slack-context-system-source-1](#slack-context-system-source-1), [slack-context-system-source-2](#slack-context-system-source-2).</small>
 - Model: Not specified <small>Sources: [slack-context-system-source-1](#slack-context-system-source-1), [slack-context-system-source-2](#slack-context-system-source-2).</small>
 - Tool access: Expert agents produce reports; critic agents evaluate them using evidence-inspection tools <small>Sources: [slack-context-system-source-1](#slack-context-system-source-1), [slack-context-system-source-2](#slack-context-system-source-2).</small>
@@ -1816,7 +1813,7 @@ Last reviewed: 2026-08-31.
 - <a id="slack-context-system-source-1"></a>[Managing context in long-running agentic applications](https://slack.engineering/managing-context-in-long-run-agentic-applications/) ([snapshot](../archive/sources/slack-context-system-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 - <a id="slack-context-system-source-2"></a>[How Slack manages context in long-running multi-agent systems](https://www.infoq.com/news/2026/04/slack-agent-context-management/) ([snapshot](../archive/sources/slack-context-system-source-2/content.md), captured 2026-08-31) (news; independent-secondary; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -1866,7 +1863,7 @@ Last reviewed: 2026-08-31.
 
 - 1,500+ merged AI-generated PRs (Honk) <small>Sources: [spotify-honk-xirp-source-1](#spotify-honk-xirp-source-1).</small>
 - 60-90% time savings on migrations vs manual <small>Sources: [spotify-honk-xirp-source-1](#spotify-honk-xirp-source-1).</small>
-- ~50% of Spotify PRs automated <small>Sources: [spotify-honk-xirp-source-1](#spotify-honk-xirp-source-1).</small>
+- Around half of Spotify PRs automated by Fleet Management since mid-2024, including deterministic transformations <small>Sources: [spotify-honk-xirp-source-1](#spotify-honk-xirp-source-1).</small>
 
 ### Catalog observations
 
@@ -1881,7 +1878,7 @@ Last reviewed: 2026-08-31.
 - <a id="spotify-honk-xirp-source-2"></a>[Code with Claude: coding is no longer the constraint (Honk v2)](https://engineering.atspotify.com/2026/6/code-with-claude-coding-is-no-longer-the-constraint) ([snapshot](../archive/sources/spotify-honk-xirp-source-2/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 - <a id="spotify-honk-xirp-source-3"></a>[Xirp - Powered by Spotify Portal](https://xirp.spotify.com/) ([snapshot](../archive/sources/spotify-honk-xirp-source-3/content.md), captured 2026-08-31) (documentation; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -1904,7 +1901,7 @@ Last reviewed: 2026-08-31.
 | State | unknown |
 | Identity | unknown |
 | Evidence | detailed-primary |
-| Headline metric | 1,000+ production PRs per week, reviewed and approved by humans <small>Sources: [stripe-minions-source-1](#stripe-minions-source-1); Context: [stripe-minions-source-3](#stripe-minions-source-3), [stripe-minions-source-4](#stripe-minions-source-4), [stripe-minions-source-5](#stripe-minions-source-5), [stripe-minions-source-6](#stripe-minions-source-6), [stripe-minions-source-7](#stripe-minions-source-7).</small> |
+| Headline metric | Over 1,300 completely minion-produced PRs merged per week in Part 2, with human review and no human-written code <small>Sources: [stripe-minions-source-2](#stripe-minions-source-2); Context: [stripe-minions-source-3](#stripe-minions-source-3), [stripe-minions-source-4](#stripe-minions-source-4), [stripe-minions-source-5](#stripe-minions-source-5), [stripe-minions-source-6](#stripe-minions-source-6), [stripe-minions-source-7](#stripe-minions-source-7).</small> |
 
 ### Operating model
 
@@ -1912,13 +1909,13 @@ Last reviewed: 2026-08-31.
 
 ### Architecture
 
-- Sandbox: Not specified publicly <small>Sources: [stripe-minions-source-1](#stripe-minions-source-1).</small>
-- Harness: One-shot agents: read context -> search the codebase -> determine the relevant repo/workspace -> implement -> PR <small>Sources: [stripe-minions-source-1](#stripe-minions-source-1), [stripe-minions-source-2](#stripe-minions-source-2).</small>
+- Sandbox: Pre-warmed AWS EC2 devboxes in the QA environment, isolated from real user data, production services, and arbitrary network egress <small>Sources: [stripe-minions-source-2](#stripe-minions-source-2).</small>
+- Harness: Fork of Block's goose, orchestrated by code-defined blueprints that interleave agent loops with deterministic lint, git, and CI steps <small>Sources: [stripe-minions-source-2](#stripe-minions-source-2).</small>
 - Model: Not specified <small>Sources: [stripe-minions-source-1](#stripe-minions-source-1).</small>
-- Interfaces: slack, github <small>Sources: [stripe-minions-source-1](#stripe-minions-source-1).</small>
-- Tool access: Searches Stripe's codebase to determine the relevant repository/workspace <small>Sources: [stripe-minions-source-1](#stripe-minions-source-1), [stripe-minions-source-2](#stripe-minions-source-2).</small>
-- Knowledge: Stripe's codebase as the context source <small>Sources: [stripe-minions-source-1](#stripe-minions-source-1), [stripe-minions-source-2](#stripe-minions-source-2).</small>
-- Credentials: Production PRs left for humans to review and approve <small>Sources: [stripe-minions-source-1](#stripe-minions-source-1).</small>
+- Interfaces: slack, github, cli, web, internal-ui <small>Sources: [stripe-minions-source-1](#stripe-minions-source-1).</small>
+- Tool access: Curated subsets of Toolshed MCP tools for internal documentation, tickets, build status, and code intelligence; security controls constrain destructive actions <small>Sources: [stripe-minions-source-2](#stripe-minions-source-2).</small>
+- Knowledge: Repository-scoped rule files shared with human-operated coding agents, plus internal context fetched through MCP <small>Sources: [stripe-minions-source-2](#stripe-minions-source-2).</small>
+- Credentials: Full permissions inside quarantined devboxes; MCP security controls limit destructive actions, and production pull requests require human review <small>Sources: [stripe-minions-source-2](#stripe-minions-source-2).</small>
 
 ### Primitives
 
@@ -1926,7 +1923,7 @@ Last reviewed: 2026-08-31.
 
 ### Reported metrics
 
-- 1,000+ production PRs per week <small>Sources: [stripe-minions-source-1](#stripe-minions-source-1); Context: [stripe-minions-source-3](#stripe-minions-source-3), [stripe-minions-source-4](#stripe-minions-source-4), [stripe-minions-source-5](#stripe-minions-source-5), [stripe-minions-source-6](#stripe-minions-source-6), [stripe-minions-source-7](#stripe-minions-source-7).</small>
+- Over 1,000 completely minion-produced PRs merged per week in Part 1, with human review and no human-written code <small>Sources: [stripe-minions-source-1](#stripe-minions-source-1); Context: [stripe-minions-source-3](#stripe-minions-source-3), [stripe-minions-source-4](#stripe-minions-source-4), [stripe-minions-source-5](#stripe-minions-source-5), [stripe-minions-source-6](#stripe-minions-source-6), [stripe-minions-source-7](#stripe-minions-source-7).</small>
 
 ### Catalog observations
 
@@ -1943,7 +1940,7 @@ Last reviewed: 2026-08-31.
 - <a id="stripe-minions-source-6"></a>[Hacker News comment asking about shipped and maintained output](https://news.ycombinator.com/item?id=47087114) ([snapshot](../archive/sources/stripe-minions-source-6/content.md), captured 2026-08-31) (hn-comment; community; commentary)
 - <a id="stripe-minions-source-7"></a>[Hacker News comment questioning the value of pull request counts](https://news.ycombinator.com/item?id=47111453) ([snapshot](../archive/sources/stripe-minions-source-7/content.md), captured 2026-08-31) (hn-comment; community; commentary)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -1974,7 +1971,7 @@ Last reviewed: 2026-08-31.
 
 ### Architecture
 
-- Sandbox: Not specified publicly <small>Sources: [uber-coding-agent-source-1](#uber-coding-agent-source-1).</small>
+- Sandbox: unknown <small>Sources: [uber-coding-agent-source-1](#uber-coding-agent-source-1).</small>
 - Harness: Not specified publicly <small>Sources: [uber-coding-agent-source-1](#uber-coding-agent-source-1).</small>
 
 ### Reported metrics
@@ -1986,7 +1983,7 @@ Last reviewed: 2026-08-31.
 
 - <a id="uber-coding-agent-source-1"></a>[Uber's CTO on AI coding agents (Business Insider)](https://www.businessinsider.com/uber-cto-ai-coding-agentic-software-engineers-2026-3) ([snapshot](../archive/sources/uber-coding-agent-source-1/content.md), captured 2026-08-31) (news; independent-secondary; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -2009,7 +2006,7 @@ Last reviewed: 2026-08-31.
 | State | unknown |
 | Identity | service |
 | Evidence | detailed-primary |
-| Headline metric | Reviews over 90% of Uber's approximately 65,000 weekly diffs, with over 75% reported usefulness and over 65% of posted comments addressed <small>Sources: [uber-ureview-source-1](#uber-ureview-source-1).</small> |
+| Headline metric | Uber's introduction reports reviews of over 90% of approximately 65,000 weekly diffs, with over 75% usefulness and over 65% addressed comments; a later paragraph says 65,000 diffs per month <small>Sources: [uber-ureview-source-1](#uber-ureview-source-1); Conflicting: [uber-ureview-source-1](#uber-ureview-source-1).</small> |
 | Relationships | related-to: [uber-coding-agent](#uber-coding-agent) |
 
 ### Operating model
@@ -2033,7 +2030,7 @@ Last reviewed: 2026-08-31.
 
 ### Reported metrics
 
-- Reviews over 90% of approximately 65,000 weekly diffs <small>Sources: [uber-ureview-source-1](#uber-ureview-source-1).</small>
+- Introduction reports reviews of over 90% of approximately 65,000 weekly diffs; cost discussion instead says 65,000 diffs per month <small>Sources: [uber-ureview-source-1](#uber-ureview-source-1); Conflicting: [uber-ureview-source-1](#uber-ureview-source-1).</small>
 - Over 75% of comments rated useful by engineers who interact with the tool <small>Sources: [uber-ureview-source-1](#uber-ureview-source-1).</small>
 - Over 65% of posted comments addressed in the same changeset <small>Sources: [uber-ureview-source-1](#uber-ureview-source-1).</small>
 - Median review latency of 4 minutes across all six Uber monorepos <small>Sources: [uber-ureview-source-1](#uber-ureview-source-1).</small>
@@ -2049,7 +2046,7 @@ Last reviewed: 2026-08-31.
 
 - <a id="uber-ureview-source-1"></a>[uReview: Scalable, Trustworthy GenAI for Code Review at Uber](https://www.uber.com/us/en/blog/ureview/) ([snapshot](../archive/sources/uber-ureview-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 
@@ -2140,7 +2137,7 @@ Last reviewed: 2026-08-31.
 
 ### Architecture
 
-- Sandbox: Not detailed publicly (primary source is a podcast) <small>Sources: [ycombinator-agent-infra-source-1](#ycombinator-agent-infra-source-1).</small>
+- Sandbox: unknown <small>Sources: [ycombinator-agent-infra-source-1](#ycombinator-agent-infra-source-1).</small>
 - Harness: Own harnesses built from the ground up for internal AI use <small>Sources: [ycombinator-agent-infra-source-1](#ycombinator-agent-infra-source-1).</small>
 
 ### Catalog observations
@@ -2152,7 +2149,7 @@ Last reviewed: 2026-08-31.
 
 - <a id="ycombinator-agent-infra-source-1"></a>[Inside YC's AI Playbook (Lightcone podcast, with Pete Koomen)](https://www.ycombinator.com/library/Qh-inside-yc-s-ai-playbook) ([snapshot](../archive/sources/ycombinator-agent-infra-source-1/content.md), captured 2026-08-31) (podcast; first-party; evidence)
 
-Last reviewed: 2026-08-31.
+Last reviewed: 2026-09-09.
 
 ---
 

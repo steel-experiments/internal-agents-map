@@ -101,13 +101,13 @@ worktree; scripts resolve their repository root from their own locations.
 
 ## Done criteria
 
-- [ ] Fenced examples no longer fail or pollute link checking; real broken links fail.
-- [ ] Undocumented and inapplicable environments are excluded from counts.
-- [ ] Wayback body timeout/incomplete-response regressions preserve local captures.
-- [ ] Sibling/external archive symlink regressions fail in each validator.
-- [ ] All tests, archive/build checks, Ruff, local links, and git diff --check pass
+- [x] Fenced examples no longer fail or pollute link checking; real broken links fail.
+- [x] Undocumented and inapplicable environments are excluded from counts.
+- [x] Wayback body timeout/incomplete-response regressions preserve local captures.
+- [x] Sibling/external archive symlink regressions fail in each validator.
+- [x] All tests, archive/build checks, Ruff, local links, and git diff --check pass
       after combined regeneration with Plan 003.
-- [ ] Only scoped code/tests changed; reviewer updates plans/README.md.
+- [x] Only scoped code/tests changed; reviewer updates plans/README.md.
 
 ## STOP conditions
 
@@ -120,3 +120,26 @@ Do not stop merely for routine implementation choices or a fixable test failure.
 
 Keep the three containment validators consistent. Add regressions before expanding
 Markdown parsing. Evidence presence is not proof of a concrete execution environment.
+
+## Execution log
+
+2026-09-09: Implemented in an isolated worktree and reviewed. The reviewer read all
+six code/test diffs and independently ran the full verification suite: 93 tests,
+88 archive captures, generated freshness, local links, Ruff lint/format, and
+whitespace checks passed. Approved for application to the current checkout. Final
+combined generation and validation await Plan 003's editorial changes.
+
+## Completion — 2026-09-09
+
+Applied reviewed changes to the current checkout and regenerated the catalog with
+both plans integrated. All final gates passed: 97 unittest tests, 88 declared capture
+validations, generated-file freshness, local links, Ruff lint/format, and whitespace.
+Concurrent commits through `e67e79b` added an email-address check and four tests;
+those changes were preserved, and the additional privacy gate also passed.
+
+The reviewer independently verified the new report's local links and privacy check,
+its exact ledger of all 115 baseline metric IDs, supporting locators for all 108
+remaining metrics, and unchanged archive artifacts. Final export: 555 claims,
+639 evidence links, 177 links with locators, and 16 documented environments.
+Both plans are complete; unresolved source questions remain explicitly documented
+in `docs/evidence-review.md`, rather than represented as verified facts.

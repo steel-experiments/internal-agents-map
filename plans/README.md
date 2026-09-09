@@ -9,17 +9,22 @@ verification gate, and update the status row when finished.
 | Plan | Title | Priority | Effort | Depends on | Status |
 | --- | --- | --- | --- | --- | --- |
 | 001 | Preserve sources proactively and use verified archive fallbacks | P1 | L | — | DONE |
-| 002 | Repair catalog verification and archival failure handling | P1 | M | — | IN PROGRESS |
-| 003 | Reconcile catalog evidence and record research limitations | P2 | M | 002 (final validation) | IN PROGRESS |
+| 002 | Repair catalog verification and archival failure handling | P1 | M | — | DONE |
+| 003 | Reconcile catalog evidence and record research limitations | P2 | M | 002 (final validation) | DONE |
+| [004](004-publish-generated-mini-page.md) | Generate and publish a searchable mini page | P2 | M | 002, 003 | IN PROGRESS |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) |
 REJECTED (with one-line rationale)
 
 Plans 002–003 were added on 2026-09-09 after the project review and explicitly authorized for execution.
+Plan 004 was requested on 2026-09-09 as a plan, using the local Steel minimal
+starter template as visual direction. Execution was authorized afterward, with Geist replacing serif typography.
 
 ## Dependency notes
 
 - Plan 003 research can run alongside Plan 002; final generation and validation use both changes.
+- Plan 004 builds on the corrected catalog and verification from Plans 002–003.
+  Generate the static page first, then connect publication to the existing validation job.
 - Plan 001 is self-contained. Implement the capture and validation foundation before
   attempting the bulk source backfill described near the end of the plan.
 
@@ -36,3 +41,11 @@ Plans 002–003 were added on 2026-09-09 after the project review and explicitly
   opt-in artifact when layout or visual evidence matters.
 - Waiting for the scheduled checker before capturing: rejected because a confirmed 404/410
   may already be unrecoverable by then.
+
+## Latest verification
+
+2026-09-09: Plans 002 and 003 applied and reviewed in the current checkout. All 97
+tests and required checks pass, including the concurrently added email-address
+check. All 88 archived sources remain unchanged. The evidence review accounts for
+all 115 original metrics: 108 retained with supporting locators, five reclassified,
+and two unsupported metrics removed. See [the evidence review](../docs/evidence-review.md).

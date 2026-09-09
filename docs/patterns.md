@@ -19,7 +19,7 @@ The catalog currently contains 39 approaches:
 | Orchestration system | 2 |
 | Supporting pattern | 2 |
 
-- 23 approaches document a concrete execution environment.
+- 16 approaches document a concrete execution environment.
 - 20 approaches list Slack as an interface.
 - State duration is unknown for 34, durable-session for 4, cross-session-memory for 0, mixed for 0, and run-only for 1 approaches.
 - Autonomy is classified as drafts-reviewed for 23, human-in-loop for 8, autonomous for 3, assistive for 2, and unknown for 3 approaches.
@@ -54,7 +54,7 @@ No catalog rule requires this exact design. Some entries implement only part of 
 
 ## Execution environments
 
-Some entries document a concrete execution environment. Reported examples include Firecracker micro virtual machines at DoorDash, Modal sandboxes at Ramp, Kubernetes containers at Spotify, isolated containers at HubSpot, and isolated worktrees at Coinbase.
+Some entries document a concrete execution environment. Reported examples include Firecracker micro virtual machines at DoorDash, Modal sandboxes at Ramp, Kubernetes containers at Spotify, AWS EC2 devboxes at Stripe, microVMs at Replit, and isolated worktrees at Coinbase. The earlier HubSpot reviewer used Crucible Kubernetes workloads; the later Aviator reviewer does not document its execution isolation. See the [evidence review](evidence-review.md) for the preserved passages and unresolved gaps.
 
 The remaining entries either omit the detail or describe no separate execution environment. This absence is an evidence gap. It is not proof that no isolation exists.
 
@@ -133,6 +133,8 @@ The current sample is strongly Level 3-shaped: most documented workflows return 
 The reported metrics are not directly comparable. Some measure agent output. Others measure broad AI tool use, automated workflows, sessions, or user adoption.
 
 For example, Spotify reports Honk pull requests and wider Fleet Management automation in the same record. Cloudflare reports traffic for a larger AI engineering system. Keep these scopes separate when you use the data.
+
+The [September 2026 evidence review](evidence-review.md) checked every original metric claim against its preserved sources. It separates predecessor results, broad AI-client adoption, and target performance from current system outcomes. Uber's uReview article even reports the same diff volume with conflicting weekly and monthly periods; that uncertainty is preserved explicitly.
 
 Each future metric should record its date, system scope, denominator, method, and source. Treat a company metric as self-reported unless an independent source verifies it.
 

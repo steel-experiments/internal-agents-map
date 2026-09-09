@@ -1,5 +1,7 @@
 # Internal Agents Map
 
+**[Explore the map](https://steel-experiments.github.io/internal-agents-map/)**
+
 ## Definition
 
 **Internal agents are AI systems organizations build or adapt to do work for their own teams.**
@@ -18,6 +20,7 @@ Claims link to public sources. Company reports stay separate from catalog interp
 undocumented details stay unknown.
 
 [Browse the catalog](docs/landscape.md) ·
+[Website and local preview](docs/site.md) ·
 [Architecture patterns](docs/patterns.md) ·
 [Adoption observations](docs/adoption-lessons.md) ·
 [Use the data](data/agents.json) ·
@@ -25,7 +28,7 @@ undocumented details stay unknown.
 
 <!-- BEGIN OVERVIEW -->
 
-**Current map: 39 approaches across 35 organizations, backed by 88 sources and 558 evidence-linked claims.**
+**Current map: 39 approaches across 35 organizations, backed by 88 sources and 555 evidence-linked claims.**
 
 ## Overview
 

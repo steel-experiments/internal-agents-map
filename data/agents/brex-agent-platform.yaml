@@ -7,7 +7,7 @@ year: 2025
 first_public_evidence:
   date: '2025-09-25'
   source_id: brex-agent-platform-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - finance-ops
@@ -15,7 +15,7 @@ domains:
 - customer-success
 autonomy: human-in-loop
 operating_models:
-- scope: 'internal operations request → completed operation'
+- scope: internal operations request → completed operation
   attention_boundary: continuous-steering
 rubric:
   invocation:
@@ -48,7 +48,7 @@ primitives:
 key_metrics:
 - 50%+ of customer-support cases resolved by chatbot as first touch
 - 'Dispute processing: 3 hours → 3 seconds'
-- QA coverage 100% (previously sample-based); 1 person replaces ~5 QA specialists
+- QA covers every support interaction; one person using AI instead of five QA specialists
 - KYC adverse-media accuracy 85% → 88%
 lessons_learned:
 - Target 40% automation, not 100%; the last mile drives investments that often yield zero value
@@ -78,6 +78,7 @@ evidence:
   headline_metric:
   - source_id: brex-agent-platform-source-1
     relation: supports
+    locator: Preserved content.md, lines 179–189
   architecture.sandbox:
   - source_id: brex-agent-platform-source-1
     relation: supports
@@ -105,15 +106,19 @@ evidence:
   key_metrics.0:
   - source_id: brex-agent-platform-source-1
     relation: supports
+    locator: Preserved content.md, lines 76
   key_metrics.1:
   - source_id: brex-agent-platform-source-1
     relation: supports
+    locator: Preserved content.md, lines 179–189
   key_metrics.2:
   - source_id: brex-agent-platform-source-1
     relation: supports
+    locator: Preserved content.md, lines 80
   key_metrics.3:
   - source_id: brex-agent-platform-source-1
     relation: supports
+    locator: Preserved content.md, lines 163–167
   lessons_learned.0:
   - source_id: brex-agent-platform-source-1
     relation: supports
@@ -137,24 +142,28 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: medium
-    confidence_reason: 'The secondary report describes a human remaining in the middle of the workflow, but does not fully specify each review surface.'
+    confidence_reason: The secondary report describes a human remaining in the middle of the workflow, but does
+      not fully specify each review surface.
     valid_at: '2025-09-25'
   headline_metric:
     valid_at: '2025'
-    metric_scope: Brex dispute processing workflow
-    denominator: Reported processing time before and after the internal workflow change
+    metric_scope: Dispute-submission preparation using the internal agent platform; not end-to-end chargeback resolution
   key_metrics.0:
     valid_at: '2025'
-    metric_scope: Customer support cases handled first by the Brex chatbot
+    metric_scope: Customer-support cases resolved by the chatbot at first touch
+    denominator: Customer-support cases; exact sample size not provided
   key_metrics.1:
     valid_at: '2025'
-    metric_scope: Brex dispute processing workflow
+    metric_scope: Dispute-submission preparation using the internal agent platform; not end-to-end chargeback resolution
   key_metrics.2:
     valid_at: '2025'
-    metric_scope: Brex quality assurance workflow
+    metric_scope: Quality assurance of customer-support interactions
+    denominator: Every support interaction
+    measurement_method: Agent applies the quality rubric to every response; one person oversees instead of five
+      QA specialists
   key_metrics.3:
     valid_at: '2025'
-    metric_scope: Know Your Customer adverse-media classification
+    metric_scope: KYC adverse-media classification; human versus agent accuracy
   lessons_learned.0:
     kind: inference
     provenance: catalog-judgment

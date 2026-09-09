@@ -7,14 +7,14 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: coinbase-forge-mux-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - coding
 - code-review
 autonomy: drafts-reviewed
 operating_models:
-- scope: 'Slack, GitHub, or Linear request → reviewed pull request and build'
+- scope: Slack, GitHub, or Linear request → reviewed pull request and build
   attention_boundary: work-product-review
 rubric:
   invocation:
@@ -25,7 +25,7 @@ rubric:
   evidence_strength: detailed-primary
 summary: Forge turns a Slack/GitHub/Linear discussion into a Linear issue, fix, PR, and one-off build; Mux lets
   employees run many coding agents concurrently.
-headline_metric: 'Mux: 600+ users across Coinbase organizations (April 2026)'
+headline_metric: 'Mux: 600+ users including engineers, PMs, and designers (335 active, 197 power users)'
 architecture:
   sandbox: Mux gives each concurrent agent its own git worktree, branch, and terminal
   harness: Portfolio approach; Claude Code, OpenCode, Cursor, and Copilot rather than one harness; Forge is a custom
@@ -43,7 +43,7 @@ primitives:
 - name: Mux
   desc: Concurrency layer; one human coordinates many isolated coding agents, each in its own worktree/branch/terminal
 key_metrics:
-- 'Mux: 600+ users across Coinbase organizations (April 2026)'
+- 'Mux: 600+ users including engineers, PMs, and designers (335 active, 197 power users)'
 lessons_learned:
 - Support a portfolio of harnesses (Claude Code, OpenCode, Cursor, Copilot) rather than standardizing on one
 - Keep the system of record (Linear) as the agent's structured context; conversation can be the input, Linear stays
@@ -83,6 +83,7 @@ evidence:
   headline_metric:
   - source_id: coinbase-forge-mux-source-1
     relation: supports
+    locator: Preserved content.md, lines 24–34
   architecture.sandbox:
   - source_id: coinbase-forge-mux-source-1
     relation: supports
@@ -109,6 +110,7 @@ evidence:
   key_metrics.0:
   - source_id: coinbase-forge-mux-source-1
     relation: supports
+    locator: Preserved content.md, lines 24–34
   lessons_learned.0:
   - source_id: coinbase-forge-mux-source-1
     relation: supports
@@ -126,7 +128,8 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: high
-    confidence_reason: 'The source describes delegated implementation that returns a pull request and build for human review.'
+    confidence_reason: The source describes delegated implementation that returns a pull request and build for human
+      review.
     valid_at: '2026'
   lessons_learned.0:
     kind: inference
@@ -143,3 +146,7 @@ claim_metadata:
     provenance: catalog-judgment
     confidence: medium
     confidence_reason: The catalog derives this observation from the linked sources.
+  headline_metric:
+    metric_scope: Registered Mux users including engineers, PMs, and designers; 335 active and 197 power users
+  key_metrics.0:
+    metric_scope: Registered Mux users including engineers, PMs, and designers; 335 active and 197 power users

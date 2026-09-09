@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import contextlib
 import hashlib
+import http.client
 import importlib.util
 import io
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -523,6 +525,184 @@ class CliTests(unittest.TestCase):
             self.assertRaises(SystemExit),
         ):
             archive_sources.main(["--source-id", SOURCE["id"], "--continue-on-error"])
+
+
+class CaptureRegressionTests(unittest.TestCase):
+    def test_batch_continues_after_pdf_body_failure(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            failed = FakeResponse(b"")
+            failed.read = Mock(side_effect=TimeoutError("credential-secret"))
+            opener = QueueOpener(failed, FakeResponse(b"%PDF-1.7\nfixture"))
+            sources = {
+                "a-source": {"id": "a-source", "url": SOURCE["url"]},
+                "b-source": {"id": "b-source", "url": SOURCE["url"]},
+            }
+            capture = archive_sources.capture_source
+
+            def capture_locally(source, **kwargs):
+                return capture(
+                    source,
+                    **kwargs,
+                    repo_root=root,
+                    runner=scrape_runner(
+                        steel_envelope(pdf_url="https://files.steel.dev/page.pdf")
+                    ),
+                    opener=opener,
+                )
+
+            output = io.StringIO()
+            with (
+                patch.object(archive_sources, "ROOT", root),
+                patch.object(archive_sources, "load_sources", return_value=sources),
+                patch.object(archive_sources, "steel_version", return_value="0.4.4"),
+                patch.object(archive_sources, "capture_source", side_effect=capture_locally),
+                contextlib.redirect_stdout(output),
+            ):
+                code = archive_sources.main(
+                    ["--all", "--pdf", "--continue-on-error", "--delay", "0"]
+                )
+            summary = json.loads(output.getvalue())
+            self.assertEqual(code, 1)
+            self.assertEqual([row["source_id"] for row in summary["failed"]], ["a-source"])
+            self.assertEqual([row["source_id"] for row in summary["captured"]], ["b-source"])
+            self.assertTrue((root / "archive" / "sources" / "b-source" / "page.pdf").is_file())
+            self.assertNotIn("credential-secret", output.getvalue())
+
+    def test_wayback_header_transport_failures_preserve_local_capture(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            opener = QueueOpener(
+                http.client.RemoteDisconnected("credential-secret"),
+                http.client.BadStatusLine("credential-secret"),
+            )
+            warnings = io.StringIO()
+            root = Path(directory)
+            archive_sources.capture_source(
+                SOURCE,
+                repo_root=root,
+                runner=scrape_runner(steel_envelope()),
+                opener=opener,
+                save_wayback=True,
+                environ={"IA_ACCESS_KEY_ID": "access", "IA_SECRET_ACCESS_KEY": "credential-secret"},
+                warning_stream=warnings,
+                steel_version_value="0.4.4",
+            )
+            self.assertTrue((root / "archive" / "sources" / SOURCE["id"] / "content.md").is_file())
+            self.assertNotIn("credential-secret", warnings.getvalue())
+
+    def test_wayback_body_transport_failures_preserve_local_capture(self) -> None:
+        for error_type in (
+            TimeoutError,
+            OSError,
+            urllib.error.URLError,
+            http.client.HTTPException,
+            http.client.IncompleteRead,
+        ):
+            with self.subTest(error=error_type), tempfile.TemporaryDirectory() as directory:
+                responses = [FakeResponse(b""), FakeResponse(b"")]
+                for response in responses:
+                    error = (
+                        error_type(b"credential-secret")
+                        if error_type is http.client.IncompleteRead
+                        else error_type("credential-secret")
+                    )
+                    response.read = Mock(side_effect=error)
+                warnings = io.StringIO()
+                root = Path(directory)
+                opener = QueueOpener(*responses)
+                archive_sources.capture_source(
+                    SOURCE,
+                    repo_root=root,
+                    runner=scrape_runner(steel_envelope()),
+                    opener=opener,
+                    save_wayback=True,
+                    environ={
+                        "IA_ACCESS_KEY_ID": "access",
+                        "IA_SECRET_ACCESS_KEY": "credential-secret",
+                    },
+                    warning_stream=warnings,
+                    steel_version_value="0.4.4",
+                    captured_at=CAPTURED_AT,
+                )
+                bundle = root / "archive" / "sources" / SOURCE["id"]
+                manifest = archive_sources.validate_bundle(
+                    bundle / "metadata.json", SOURCE["id"], SOURCE["url"], repo_root=root
+                )
+                self.assertNotIn("external_archive_url", manifest)
+                self.assertEqual(len(opener.requests), 2)
+                self.assertIn("continuing locally", warnings.getvalue())
+                self.assertNotIn("credential-secret", warnings.getvalue())
+
+    def test_pdf_body_failure_is_fatal_and_redacted(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            response = FakeResponse(b"")
+            response.read = Mock(side_effect=TimeoutError("credential-secret"))
+            with self.assertRaises(archive_sources.ArchiveError) as caught:
+                archive_sources.capture_source(
+                    SOURCE,
+                    pdf=True,
+                    repo_root=Path(directory),
+                    runner=scrape_runner(
+                        steel_envelope(pdf_url="https://files.steel.dev/page.pdf")
+                    ),
+                    opener=QueueOpener(response),
+                    steel_version_value="0.4.4",
+                )
+            self.assertNotIn("credential-secret", str(caught.exception))
+            self.assertFalse((Path(directory) / "archive" / "sources" / SOURCE["id"]).exists())
+
+    def test_bundle_symlink_boundaries(self) -> None:
+        for mode in (
+            "content-sibling",
+            "manifest-sibling",
+            "content-external",
+            "manifest-external",
+            "source-sibling",
+            "source-external",
+            "archive-external",
+            "staging-manifest",
+            "staging-content",
+        ):
+            with (
+                self.subTest(mode=mode),
+                tempfile.TemporaryDirectory() as directory,
+                tempfile.TemporaryDirectory() as outside,
+            ):
+                root = Path(directory)
+                archive_sources.capture_source(
+                    SOURCE,
+                    repo_root=root,
+                    runner=scrape_runner(steel_envelope()),
+                    steel_version_value="0.4.4",
+                )
+                bundle = root / "archive" / "sources" / SOURCE["id"]
+                sibling = bundle.parent / "sibling"
+                destination = Path(outside) / "copy" if "external" in mode else sibling
+                shutil.copytree(bundle, destination)
+                staging = None
+                if mode.startswith("source"):
+                    shutil.rmtree(bundle)
+                    bundle.symlink_to(destination, target_is_directory=True)
+                elif mode.startswith("archive"):
+                    shutil.copytree(root / "archive", Path(outside) / "archive")
+                    shutil.rmtree(root / "archive")
+                    (root / "archive").symlink_to(
+                        Path(outside) / "archive", target_is_directory=True
+                    )
+                else:
+                    name = "metadata.json" if "manifest" in mode else "content.md"
+                    (bundle / name).unlink()
+                    (bundle / name).symlink_to(destination / name)
+                    if mode.startswith("staging"):
+                        staging = bundle
+                with self.assertRaises(archive_sources.ArchiveError):
+                    archive_sources.validate_bundle(
+                        bundle / "metadata.json",
+                        SOURCE["id"],
+                        SOURCE["url"],
+                        repo_root=root,
+                        bundle_dir=staging,
+                    )
 
 
 if __name__ == "__main__":

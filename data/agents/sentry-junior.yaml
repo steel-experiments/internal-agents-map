@@ -7,7 +7,7 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: sentry-junior-source-2
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: open-sourced
 domains:
 - coding
@@ -16,7 +16,7 @@ domains:
 - on-call
 autonomy: human-in-loop
 operating_models:
-- scope: 'assigned task → human-steered and reviewed output'
+- scope: assigned task → human-steered and reviewed output
   attention_boundary: continuous-steering
 rubric:
   invocation:
@@ -54,7 +54,7 @@ primitives:
 - name: Interrupt/resume broker
   desc: Survives serverless timeouts via a queue + claim model
 key_metrics:
-- ~100,000 lines of TypeScript (excluding tests)
+- Around 100,000 lines of TypeScript excluding tests, evals, docs, and lockfiles
 - 4 months from start to writeup
 lessons_learned:
 - One general-purpose agent connected to many company systems beats several vendor-specific bots
@@ -118,8 +118,10 @@ evidence:
   headline_metric:
   - source_id: sentry-junior-source-1
     relation: supports
+    locator: Preserved content.md, lines 10–24, 34–60
   - source_id: sentry-junior-source-4
     relation: supports
+    locator: Preserved content.md, lines 412–414
   architecture.sandbox:
   - source_id: sentry-junior-source-1
     relation: supports
@@ -153,9 +155,11 @@ evidence:
   key_metrics.0:
   - source_id: sentry-junior-source-1
     relation: supports
+    locator: Preserved content.md, lines 22
   key_metrics.1:
   - source_id: sentry-junior-source-1
     relation: supports
+    locator: Preserved content.md, lines 10–22
   lessons_learned.0:
   - source_id: sentry-junior-source-1
     relation: supports
@@ -179,7 +183,7 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: high
-    confidence_reason: 'The source explicitly describes humans steering and reviewing the agent throughout its work.'
+    confidence_reason: The source explicitly describes humans steering and reviewing the agent throughout its work.
     valid_at: '2026'
   lessons_learned.0:
     kind: inference
@@ -206,3 +210,9 @@ claim_metadata:
     provenance: catalog-judgment
     confidence: medium
     confidence_reason: The catalog derives this observation from the linked sources.
+  headline_metric:
+    metric_scope: Junior codebase size and license in the author report
+  key_metrics.0:
+    metric_scope: TypeScript lines in Junior excluding tests, evals, documentation, and lockfiles
+  key_metrics.1:
+    metric_scope: Author-reported development and iteration time before the writeup

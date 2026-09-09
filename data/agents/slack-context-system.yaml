@@ -7,13 +7,13 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: slack-context-system-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - research
 autonomy: human-in-loop
 operating_models:
-- scope: 'long-running investigation → synthesized report'
+- scope: long-running investigation → synthesized report
   attention_boundary: unknown
 rubric:
   invocation:
@@ -23,9 +23,9 @@ rubric:
   evidence_strength: mixed
 summary: A coordinator/dispatcher multi-agent design with structured context channels for long-running investigations
   spanning hundreds of steps.
-headline_metric: Megabyte-scale investigations without overflowing the context window
+headline_metric: Context management for security investigations spanning hundreds of inference requests and megabytes
+  of output
 architecture:
-  sandbox: n/a; this is a context-management pattern, not a full execution platform
   harness: 'Coordinator/dispatcher: a central coordinator dispatches to expert agents and to critic agents'
   model: Not specified
   tool_access: Expert agents produce reports; critic agents evaluate them using evidence-inspection tools
@@ -77,13 +77,10 @@ evidence:
   headline_metric:
   - source_id: slack-context-system-source-1
     relation: supports
+    locator: Preserved content.md, lines 34–38
   - source_id: slack-context-system-source-2
     relation: supports
-  architecture.sandbox:
-  - source_id: slack-context-system-source-1
-    relation: supports
-  - source_id: slack-context-system-source-2
-    relation: supports
+    locator: Preserved content.md, lines 22
   architecture.harness:
   - source_id: slack-context-system-source-1
     relation: supports
@@ -122,8 +119,10 @@ evidence:
   key_metrics.0:
   - source_id: slack-context-system-source-1
     relation: supports
+    locator: Preserved content.md, lines 34–38
   - source_id: slack-context-system-source-2
     relation: supports
+    locator: Preserved content.md, lines 22
   lessons_learned.0:
   - source_id: slack-context-system-source-1
     relation: supports
@@ -144,7 +143,8 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: unverified
-    confidence_reason: 'The research pattern documents agent coordination and criticism but not the normal human attention boundary.'
+    confidence_reason: The research pattern documents agent coordination and criticism but not the normal human
+      attention boundary.
     valid_at: '2026'
   lessons_learned.0:
     kind: inference
@@ -161,3 +161,7 @@ claim_metadata:
     provenance: catalog-judgment
     confidence: medium
     confidence_reason: The catalog derives this observation from the linked sources.
+  headline_metric:
+    metric_scope: Complex security investigations requiring tailored multi-agent context; qualitative workload scale
+  key_metrics.0:
+    metric_scope: Complex security investigations requiring tailored multi-agent context; qualitative workload scale

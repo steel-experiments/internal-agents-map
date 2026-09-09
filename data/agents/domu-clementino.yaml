@@ -7,7 +7,7 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: domu-clementino-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - support
@@ -17,7 +17,7 @@ domains:
 - customer-success
 autonomy: human-in-loop
 operating_models:
-- scope: 'employee request → approved customer-impacting action'
+- scope: employee request → approved customer-impacting action
   attention_boundary: work-product-review
 rubric:
   invocation:
@@ -73,6 +73,7 @@ evidence:
   headline_metric:
   - source_id: domu-clementino-source-1
     relation: supports
+    locator: Preserved content.md, lines 58–60
   architecture.harness:
   - source_id: domu-clementino-source-1
     relation: supports
@@ -100,6 +101,7 @@ evidence:
   key_metrics.0:
   - source_id: domu-clementino-source-1
     relation: supports
+    locator: Preserved content.md, lines 58–60
   lessons_learned.0:
   - source_id: domu-clementino-source-1
     relation: supports
@@ -117,7 +119,7 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: high
-    confidence_reason: 'The source documents explicit human approval for customer-impacting actions.'
+    confidence_reason: The source documents explicit human approval for customer-impacting actions.
     valid_at: '2026'
   lessons_learned.0:
     kind: inference
@@ -134,3 +136,7 @@ claim_metadata:
     provenance: catalog-judgment
     confidence: medium
     confidence_reason: The catalog derives this observation from the linked sources.
+  headline_metric:
+    metric_scope: Clementino toolkit integration modules organized into skills
+  key_metrics.0:
+    metric_scope: Clementino toolkit integration modules organized into skills

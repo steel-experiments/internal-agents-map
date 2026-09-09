@@ -7,14 +7,14 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: cloudflare-ai-stack-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - coding
 - code-review
 autonomy: drafts-reviewed
 operating_models:
-- scope: 'pull request → AI review findings'
+- scope: pull request → AI review findings
   attention_boundary: work-product-review
 rubric:
   invocation:
@@ -52,8 +52,8 @@ primitives:
   desc: 'Multi-agent CI review: risk tiering, specialist agents, Codex-rule citations'
 key_metrics:
 - 3,683 internal users (60% of company, 93% of R&D)
-- 47.95M AI requests / month; 241.37B tokens via AI Gateway
-- Merge-request rate ~doubled to 10,952 / week
+- 47.95M AI requests and 241.37B tokens via AI Gateway in the preceding 30 days
+- 10,952 merge requests in the week of March 23, 2026, nearly double the Q4 baseline; four-week average above 8,700
 - 295 teams using agentic AI tools
 lessons_learned:
 - Centralize through a proxy early; direct-to-gateway looks simpler but blocks per-user attribution, model cataloging,
@@ -99,6 +99,7 @@ evidence:
   headline_metric:
   - source_id: cloudflare-ai-stack-source-1
     relation: supports
+    locator: Preserved content.md, lines 14–20
   architecture.sandbox:
   - source_id: cloudflare-ai-stack-source-1
     relation: supports
@@ -135,15 +136,19 @@ evidence:
   key_metrics.0:
   - source_id: cloudflare-ai-stack-source-1
     relation: supports
+    locator: Preserved content.md, lines 14–16
   key_metrics.1:
   - source_id: cloudflare-ai-stack-source-1
     relation: supports
+    locator: Preserved content.md, lines 14–20
   key_metrics.2:
   - source_id: cloudflare-ai-stack-source-1
     relation: supports
+    locator: Preserved content.md, lines 25–29
   key_metrics.3:
   - source_id: cloudflare-ai-stack-source-1
     relation: supports
+    locator: Preserved content.md, lines 14–18
   lessons_learned.0:
   - source_id: cloudflare-ai-stack-source-1
     relation: supports
@@ -164,25 +169,28 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: medium
-    confidence_reason: 'The source documents automated review findings, but the record combines several platform workflows.'
+    confidence_reason: The source documents automated review findings, but the record combines several platform
+      workflows.
     valid_at: '2026-04-20'
   headline_metric:
     valid_at: '2026'
-    metric_scope: Requests across Cloudflare's internal AI engineering system
+    metric_scope: Internal AI engineering requests in the 30 days preceding the report
     measurement_method: Company-reported AI Gateway count for the preceding 30 days
   key_metrics.0:
     valid_at: '2026'
-    metric_scope: Users of Cloudflare's internal AI engineering system
-    denominator: Cloudflare employees and research and development employees
+    metric_scope: Active internal AI coding-tool users in the preceding 30 days
+    denominator: Approximately 6,100 employees for company share; R&D organization for R&D share
   key_metrics.1:
     valid_at: '2026'
-    metric_scope: Requests and tokens across Cloudflare's internal AI engineering system
+    metric_scope: Internal AI requests and AI Gateway tokens in the preceding 30 days
+    measurement_method: Reported request counts and AI Gateway token counts
   key_metrics.2:
-    valid_at: '2026'
-    metric_scope: Company merge requests; not limited to agent-authored changes
+    valid_at: 2026-03
+    metric_scope: Company merge requests in the week of March 23, 2026, versus Q4 baseline; not agent-authored PRs
+    measurement_method: Weekly merge-request count; distinct from the four-week rolling average
   key_metrics.3:
     valid_at: '2026'
-    metric_scope: Teams that use agentic AI tools
+    metric_scope: Teams using agentic AI tools and coding assistants in the reported 30-day snapshot
   lessons_learned.0:
     kind: inference
     provenance: catalog-judgment

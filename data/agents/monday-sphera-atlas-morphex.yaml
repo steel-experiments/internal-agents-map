@@ -7,14 +7,14 @@ year: 2026
 first_public_evidence:
   date: '2026'
   source_id: monday-sphera-atlas-morphex-source-1
-last_reviewed_at: '2026-08-31'
+last_reviewed_at: '2026-09-09'
 status: internal
 domains:
 - coding
 - code-review
 autonomy: autonomous
 operating_models:
-- scope: 'Atlas or Morphex feature task → tested and merged pull request'
+- scope: Atlas or Morphex feature task → tested and merged pull request
   attention_boundary: outcome-review
 rubric:
   invocation:
@@ -54,8 +54,8 @@ primitives:
   desc: monday boards as the shared-state layer for human/agent collaboration
 key_metrics:
 - 'Morphex: 19 of 20 PRs merge automatically without human review'
-- 90% of engineers use AI coding tools monthly (up from ~50% YoY)
-- Per-engineer PR throughput +50%
+- 90% of Builders use AI coding tools monthly; adoption nearly doubled year over year
+- Per-engineer PR throughput increased by more than 50%
 - Guardrails catches ~25% of agent PRs before human review; low single-digit revert rate
 lessons_learned:
 - Evals from day one; should have been day one, not month nine
@@ -84,6 +84,7 @@ evidence:
   headline_metric:
   - source_id: monday-sphera-atlas-morphex-source-1
     relation: supports
+    locator: Preserved content.md, lines 148–152
   architecture.sandbox:
   - source_id: monday-sphera-atlas-morphex-source-1
     relation: supports
@@ -120,15 +121,19 @@ evidence:
   key_metrics.0:
   - source_id: monday-sphera-atlas-morphex-source-1
     relation: supports
+    locator: Preserved content.md, lines 148–152
   key_metrics.1:
   - source_id: monday-sphera-atlas-morphex-source-1
     relation: supports
+    locator: Preserved content.md, lines 10, 16, 22
   key_metrics.2:
   - source_id: monday-sphera-atlas-morphex-source-1
     relation: supports
+    locator: Preserved content.md, lines 10, 23
   key_metrics.3:
   - source_id: monday-sphera-atlas-morphex-source-1
     relation: supports
+    locator: Preserved content.md, lines 154–158
   lessons_learned.0:
   - source_id: monday-sphera-atlas-morphex-source-1
     relation: supports
@@ -152,7 +157,8 @@ claim_metadata:
     kind: inference
     provenance: catalog-judgment
     confidence: medium
-    confidence_reason: 'The secondary source reports predominantly automatic merges and automated guardrails, while humans manage tasks and outcomes.'
+    confidence_reason: The secondary source reports predominantly automatic merges and automated guardrails, while
+      humans manage tasks and outcomes.
     valid_at: '2026'
   lessons_learned.0:
     kind: inference
@@ -179,3 +185,20 @@ claim_metadata:
     provenance: catalog-judgment
     confidence: medium
     confidence_reason: The catalog derives this observation from the linked sources.
+  headline_metric:
+    metric_scope: Morphex PRs that merge automatically after CI and Guardrails pass
+    denominator: Morphex pull requests; sample size and period not supplied
+  key_metrics.0:
+    metric_scope: Morphex PRs that merge automatically after CI and Guardrails pass
+    denominator: Morphex pull requests; sample size and period not supplied
+  key_metrics.1:
+    metric_scope: Monthly AI coding-tool adoption among monday Builders, including engineers, PMs, analysts, and
+      designers
+    denominator: Builders; not exclusively engineers
+  key_metrics.2:
+    metric_scope: Per-engineer pull-request throughput
+    denominator: Engineers; baseline period and cohort size not specified
+  key_metrics.3:
+    metric_scope: Recent cut of top PR-generating agents; Guardrails rejection before review and reverts among merged
+      PRs
+    denominator: Agent PRs for Guardrails rejection; merged PRs for revert rate

@@ -88,7 +88,7 @@ Evidence strength describes the available detail. It does not measure whether a 
 
 ## Optional description fields
 
-`architecture` can contain short strings for `sandbox`, `harness`, `model`, `tool_access`, `knowledge`, `credentials`, and `context_mgmt`. Its `interfaces` field is a list.
+`architecture` can contain short strings for `sandbox`, `harness`, `model`, `tool_access`, `knowledge`, `credentials`, and `context_mgmt`. Its `interfaces` field is a list. For a reviewed but undocumented execution sandbox, use the canonical string `unknown`; omit an inapplicable sandbox for a supporting pattern. An earlier implementation's environment must be labeled as historical, not attributed to its replacement.
 
 Domain values are `coding`, `code-review`, `support`, `on-call`, `research`, `customer-success`, `security`, `finance-ops`, `data`, `ci-triage`, `maintenance`, `ops`, `recruitment`, and `migrations`.
 
@@ -162,7 +162,7 @@ evidence:
       locator: "12:40"
 ```
 
-The relation is `supports`, `contradicts`, or `contextualizes`. Use a stable locator when one exists. For source code, record the commit, path, and line. For a talk, record the timestamp.
+The relation is `supports`, `contradicts`, or `contextualizes`. Use a stable locator when one exists. For preserved sources, `Preserved content.md, lines 23–27` refers to the immutable artifact in that source's capture bundle, including its archive header. A locator must identify the supporting passage, not merely a broad topic. For source code, record the commit, path, and line. For a talk, record the timestamp.
 
 Use `claim_metadata` when the default classification is not correct:
 
@@ -179,6 +179,8 @@ claim_metadata:
     denominator: "All merged pull requests"
     measurement_method: "Company dashboard"
 ```
+
+A metric's `valid_at` can identify a dated reported observation, but does not by itself define a measurement interval. Keep the interval explicit in `metric_scope` or `measurement_method`; never derive it from a capture or review timestamp. If a source says only “last month” or “as of Part 2,” preserve that wording and leave unsupported calendar dates unset.
 
 Claim kinds are `fact`, `metric`, `inference`, and `opinion`. Provenance values are `reported`, `observed`, `inferred`, and `catalog-judgment`. Confidence values are `high`, `medium`, `low`, and `unverified`.
 
