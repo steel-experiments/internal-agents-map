@@ -578,3 +578,24 @@ footer {
     gap:8px;
   }
 }
+
+.nav-links .contribute-link {
+  color: #2856d8;
+}
+.contribution-invite {
+  max-width: 480px;
+  font-size: 14px;
+}
+.contribution-invite strong {
+  color: var(--ink);
+  font-weight: 550;
+}
+.contribution-invite p {
+  margin-top: 8px;
+}
+.contribution-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-top: 12px;
+}
