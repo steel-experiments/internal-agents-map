@@ -420,14 +420,17 @@ dd {
   font-size:13px;
 }
 footer {
-  grid-column:1/-1;
   border-top:1px solid var(--rule);
-  padding:24px 0 32px;
+  color:var(--muted);
+  font-size:12px;
+}
+.footer-inner {
+  max-width:1248px;
+  padding:24px 32px 32px;
+  margin:auto;
   display:flex;
   justify-content:space-between;
   gap:24px;
-  color:var(--muted);
-  font-size:12px;
 }
 .skip-link {
   position:absolute;
@@ -521,8 +524,12 @@ footer {
   .entry-top {
     align-items:start;
   }
-  .entry-end,footer {
+  .entry-end,.footer-inner {
     flex-wrap:wrap;
+  }
+  .footer-inner {
+    padding-right:22px;
+    padding-left:22px;
   }
 }
 @media(max-width:420px) {
