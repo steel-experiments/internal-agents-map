@@ -12,7 +12,8 @@
   --muted:#666;
   --rule:#ededee;
   --surface:#f3f3f3;
-  --blue:#386bff;
+  --blue:#00C6C5;
+  --link:#007b7a;
   font-family:Geist,Arial,Helvetica,sans-serif;
   color:var(--ink);
   background:#fff;
@@ -26,7 +27,7 @@ body {
   margin:0;
 }
 a {
-  color:#2856d8;
+  color:var(--link);
   text-underline-offset:3px;
 }
 a:hover {
@@ -278,7 +279,7 @@ button:hover {
 }
 .entry>details>summary {
   font-size:13px;
-  color:#2856d8;
+  color:var(--link);
   cursor:pointer;
   width:fit-content;
 }
@@ -597,7 +598,7 @@ footer {
 }
 
 .nav-links .contribute-link {
-  color: #2856d8;
+  color: var(--link);
 }
 .contribution-invite {
   max-width: 480px;
@@ -618,7 +619,7 @@ footer {
 }
 
 /* Definitions: fine rules and diagram labels share the catalog's typography. */
-.nav-links [aria-current="page"] { color: #2856d8; }
+.nav-links [aria-current="page"] { color: var(--link); }
 .guide-header { padding-bottom: 48px; }
 .guide-header h1 { max-width: 700px; margin-top: 10px; }
 .guide-header > p { max-width: 680px; }
@@ -639,7 +640,7 @@ footer {
 .definition-grid > div:first-child { padding-left: 0; }
 .definition-grid > div:last-child { border-right: 0; }
 .definition-grid p { font-size: 13px; }
-.diagram-number { display: block; color: #2856d8; font-size: 12px; }
+.diagram-number { display: block; color: var(--link); font-size: 12px; }
 .example-node { border: 1px solid #c9c9cf; padding: 14px 24px; width: fit-content; margin: auto; font-weight: 550; }
 .example-branches { display: grid; grid-template-columns: repeat(3, 1fr); padding-top: 32px; position: relative; }
 .example-branches::before { content: ""; position: absolute; height: 16px; border-left: 1px solid #b8b8c0; left: 50%; top: 0; }
@@ -650,7 +651,7 @@ footer {
 .example-branches > div::after { content: ""; position: absolute; height: 20px; border-left: 1px solid #b8b8c0; top: -16px; left: 50%; }
 .example-branches strong { display: block; font-weight: 550; }
 .example-branches span { display: block; font-size: 13px; color: #666; margin-top: 8px; }
-.guide blockquote { border-left: 2px solid #386bff; margin: 24px 0; padding: 8px 24px; font-size: 19px; }
+.guide blockquote { border-left: 2px solid var(--blue); margin: 24px 0; padding: 8px 24px; font-size: 19px; }
 .approval-flow { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-block: 1px solid #ededee; padding: 24px 0; font-size: 14px; }
 .approval-flow small { display: block; color: #666; font-size: 12px; font-weight: 400; margin-top: 6px; }
 .flow-arrow { color: #999; }
@@ -670,7 +671,7 @@ footer {
 .quadrant-cell:nth-child(4) li { left: 12%; top: 15%; }
 .quadrant-cell:nth-child(4) li:nth-child(2) { left: 33%; top: 37%; }
 .quadrant-cell:nth-child(4) li:nth-child(3) { left: 20%; top: 60%; }
-.quadrant-cell li::before { content: ""; position: absolute; width: 8px; height: 8px; background: #386bff; border: 2px solid white; border-radius: 50%; left: 0; top: 5px; }
+.quadrant-cell li::before { content: ""; position: absolute; width: 8px; height: 8px; background: var(--blue); border: 2px solid white; border-radius: 50%; left: 0; top: 5px; }
 .quadrant-cell a { display: block; line-height: 1.35; text-decoration: none; }
 .quadrant-cell a:hover { text-decoration: underline; }
 .quadrant-cell a strong { font-weight: 550; }
