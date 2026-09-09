@@ -60,7 +60,10 @@ class SiteTests(unittest.TestCase):
     def test_definitions_placements_require_supported_scope_and_context(self):
         html = build.render_definitions(self.catalog)
         self.assertEqual(html.count("data-chart-approach-id="), 3)
+        self.assertEqual(html.count("data-chart-reference="), 2)
         self.assertIn('href="index.html#brex-agent-platform"', html)
+        self.assertIn("Codex / Claude Code", html)
+        self.assertIn("ChatGPT / Claude", html)
         self.assertNotIn("@@", html)
         changed = copy.deepcopy(self.catalog)
         for claim in changed["claims"]:

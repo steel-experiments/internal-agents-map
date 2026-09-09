@@ -676,7 +676,12 @@ footer {
 .quadrant-cell a:hover { text-decoration: underline; }
 .quadrant-cell a strong { font-weight: 550; }
 .quadrant-cell a span { display: block; font-size: 11px; margin-top: 3px; }
-.quadrant-empty p { position: absolute; top: 52%; width: 100%; text-align: center; color: #888; font-size: 12px; }
+.quadrant-cell li > strong { display: block; font-weight: 550; line-height: 1.35; }
+.quadrant-cell li > span { display: block; font-size: 11px; line-height: 1.35; margin-top: 3px; }
+.quadrant-cell .reference-marker { color: #73737d; }
+.quadrant-cell .reference-marker::before { background: #fff; border-color: #8c8c96; }
+.quadrant-cell li[data-chart-reference="ready-made-task"] { left: 18%; top: 34%; max-width: 76%; }
+.quadrant-cell li[data-chart-reference="general-assistant"] { left: 28%; top: 34%; max-width: 66%; }
 .quadrant-x-axis { grid-column: 2; display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: #666; }
 .guide-faq details { border-bottom: 1px solid #ededee; padding: 18px 0; }
 .guide-faq summary { cursor: pointer; font-weight: 500; }
@@ -704,11 +709,10 @@ footer {
   .quadrant-cell h3 { font-size: 8px; left: 6px; right: 6px; top: 6px; }
   .quadrant-cell:nth-child(n+3) h3 { bottom: 6px; }
   .quadrant-cell li { font-size: 11px; padding-left: 12px; }
-  .quadrant-cell a span { font-size: 9px; }
+  .quadrant-cell a span, .quadrant-cell li > span { font-size: 9px; }
   .quadrant-cell li::before { width: 6px; height: 6px; border-width: 1px; top: 4px; }
   .quadrant-cell li:nth-child(2) { left: 22%; }
   .quadrant-cell:nth-child(4) li:nth-child(2) { left: 28%; }
-  .quadrant-empty p { font-size: 9px; }
   .quadrant-x-axis, .quadrant-y-axis { font-size: 9px; }
 }
 
@@ -723,6 +727,7 @@ footer {
 .placement-notes li { margin-top: 24px; font-size: 13px; }
 .placement-notes li strong { font-weight: 550; }
 .placement-notes li p { margin: 8px 0; }
+.placement-notes .reference-placement { color: #666; }
 .quadrant-cell li[data-chart-approach-id="stripe-minions"] { left: 62%; top: 67%; max-width: 35%; }
 .quadrant-cell li[data-chart-approach-id="brex-agent-platform"] { left: 32%; top: 35%; max-width: 62%; }
 @media (max-width: 600px) {
