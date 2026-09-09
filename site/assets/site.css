@@ -424,6 +424,15 @@ footer {
   color:var(--muted);
   font-size:12px;
 }
+.footer-brand small {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.footer-brand small a {
+  color: inherit;
+}
 .footer-inner {
   max-width:1248px;
   padding:24px 32px 32px;
