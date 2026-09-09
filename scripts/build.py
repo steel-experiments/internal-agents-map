@@ -1442,10 +1442,10 @@ def render_definitions(catalog: dict) -> str:
         cell = "outcomes" if boundary in {"outcome-review", "exception-only"} else mode
         cells[cell].append(
             f'<li data-chart-approach-id="{site_text(approach["id"])}">'
-            f'<a href="index.html#{site_text(approach["id"])}">'
-            f"{site_text(approach['company'])} · {site_text(approach['agent_name'])}</a>"
-            f"<span>{site_text(model['scope'])}</span>"
-            f"<small>{site_text(site_label(boundary))}</small></li>"
+            f'<a href="index.html#{site_text(approach["id"])}" '
+            f'title="{site_text(model["scope"])} · {site_text(site_label(boundary))}">'
+            f"<strong>{site_text(approach['company'])}</strong>"
+            f"<span>{site_text(approach['agent_name'])}</span></a></li>"
         )
     shell = (ROOT / "templates/site.html").read_text(encoding="utf-8")
     sidebar = re.search(r"<aside.*?</aside>", shell, re.S)[0]

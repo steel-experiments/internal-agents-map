@@ -75,18 +75,17 @@
     <h2>Interaction × review boundary</h2>
     <p>These selected internal workflows show how ongoing interaction and human review can differ. Read each placement as an example of a documented workflow, not a fixed identity for the whole agent.</p>
     <figure class="quadrant-figure">
-      <div class="quadrant-columns"><span>Foreground<small>Active interaction</small></span><span>Background<small>Without continuous interaction</small></span></div>
-      <div class="quadrant-row-label">Outcome or exception review</div>
-      <div class="quadrant-row">
-        <div class="quadrant-cell quadrant-empty"><p>No example placed</p><span>The selected evidence doesn't establish this combination.</span></div>
-        <div class="quadrant-cell"><ul><li data-chart-approach-id="plaid-fix-my-connection"><a href="index.html#plaid-fix-my-connection">Plaid · Fix My Connection</a><span>integration degradation → repaired connection</span><small>Outcome review</small></li><li data-chart-approach-id="posthog-stamphog"><a href="index.html#posthog-stamphog">PostHog · StampHog</a><span>eligible pull request → approval decision</span><small>Exception only</small></li></ul></div>
+      <div class="quadrant-chart">
+        <div class="quadrant-y-axis">Human review boundary <span aria-hidden="true">↑</span></div>
+        <div class="quadrant-plot">
+          <div class="quadrant-cell quadrant-empty"><h3>Foreground<br>Outcome / exception review</h3><p>No selected example</p></div>
+          <div class="quadrant-cell"><h3>Background<br>Outcome / exception review</h3><ul><li data-chart-approach-id="plaid-fix-my-connection"><a href="index.html#plaid-fix-my-connection" title="integration degradation → repaired connection · Outcome review"><strong>Plaid</strong><span>Fix My Connection</span></a></li><li data-chart-approach-id="posthog-stamphog"><a href="index.html#posthog-stamphog" title="eligible pull request → approval decision · Exception only"><strong>PostHog</strong><span>StampHog</span></a></li></ul></div>
+          <div class="quadrant-cell"><h3>Foreground<br>Steering / work-product review</h3><ul><li data-chart-approach-id="sentry-junior"><a href="index.html#sentry-junior" title="assigned task → human-steered and reviewed output · Continuous steering"><strong>Sentry</strong><span>Junior</span></a></li></ul></div>
+          <div class="quadrant-cell"><h3>Background<br>Steering / work-product review</h3><ul><li data-chart-approach-id="doordash-code-review"><a href="index.html#doordash-code-review" title="pull request → AI review comments · Work product review"><strong>DoorDash</strong><span>AI Code Review Agent</span></a></li><li data-chart-approach-id="ramp-inspect"><a href="index.html#ramp-inspect" title="Inspect coding task → reviewed production merge · Work product review"><strong>Ramp</strong><span>Inspect</span></a></li><li data-chart-approach-id="stripe-minions"><a href="index.html#stripe-minions" title="work context → merge-ready pull request · Work product review"><strong>Stripe</strong><span>Minions</span></a></li></ul></div>
+        </div>
+        <div class="quadrant-x-axis"><span>Active interaction</span><span>Background work →</span></div>
       </div>
-      <div class="quadrant-row-label">Steering or work-product review</div>
-      <div class="quadrant-row">
-        <div class="quadrant-cell"><ul><li data-chart-approach-id="sentry-junior"><a href="index.html#sentry-junior">Sentry · Junior</a><span>assigned task → human-steered and reviewed output</span><small>Continuous steering</small></li></ul></div>
-        <div class="quadrant-cell"><ul><li data-chart-approach-id="doordash-code-review"><a href="index.html#doordash-code-review">DoorDash · AI Code Review Agent</a><span>pull request → AI review comments</span><small>Work product review</small></li><li data-chart-approach-id="ramp-inspect"><a href="index.html#ramp-inspect">Ramp · Inspect</a><span>Inspect coding task → reviewed production merge</span><small>Work product review</small></li><li data-chart-approach-id="stripe-minions"><a href="index.html#stripe-minions">Stripe · Minions</a><span>work context → merge-ready pull request</span><small>Work product review</small></li></ul></div>
-      </div>
-      <figcaption>Qualitative placements based on catalog assessments, not scores or independent verification. Follow each agent to its scoped operating model and source evidence. Review boundaries do not describe every permission. Modes can change; cloud or local hosting is a separate property.</figcaption>
+      <figcaption>Quadrant membership reflects catalog assessments. Spacing within each quadrant is for label readability, not a measured score or ranking. Follow each agent to its scoped operating model and source evidence. Review boundaries do not describe every permission. Modes can change; cloud or local hosting is a separate property.</figcaption>
     </figure>
   </section>
   <section id="faq" class="guide-faq">

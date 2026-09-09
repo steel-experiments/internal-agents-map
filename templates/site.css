@@ -628,22 +628,31 @@ footer {
 .example-branches span { display: block; font-size: 13px; color: #666; margin-top: 8px; }
 .guide blockquote { border-left: 2px solid #386bff; margin: 24px 0; padding: 8px 24px; font-size: 19px; }
 .approval-flow { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-block: 1px solid #ededee; padding: 24px 0; font-size: 14px; }
-.approval-flow small, .quadrant-columns small { display: block; color: #666; font-size: 12px; font-weight: 400; margin-top: 6px; }
+.approval-flow small { display: block; color: #666; font-size: 12px; font-weight: 400; margin-top: 6px; }
 .flow-arrow { color: #999; }
-.quadrant-columns, .quadrant-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.quadrant-columns { text-align: center; padding: 16px 0; font-weight: 550; }
-.quadrant-row-label { border-block: 1px solid #b8b8c0; padding: 9px 16px; font-size: 11px; letter-spacing: .04em; color: #666; background: #fafafa; }
-.quadrant-row { border-bottom: 1px solid #ededee; }
-.quadrant-cell { padding: 24px; min-height: 180px; }
-.quadrant-cell:first-child { border-right: 1px solid #b8b8c0; }
+.quadrant-chart { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; }
+.quadrant-y-axis { writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; font-size: 12px; color: #666; letter-spacing: .02em; }
+.quadrant-y-axis span { margin-top: 14px; }
+.quadrant-plot { aspect-ratio: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); border: 1px solid #9b9ba5; }
+.quadrant-cell { position: relative; min-width: 0; }
+.quadrant-cell:nth-child(odd) { border-right: 1px solid #c9c9cf; }
+.quadrant-cell:nth-child(-n+2) { border-bottom: 1px solid #c9c9cf; }
+.quadrant-cell:nth-child(2), .quadrant-cell:nth-child(3) { background: #fafafa; }
+.quadrant-cell h3 { position: absolute; top: 12px; left: 14px; right: 14px; margin: 0; font-size: 11px; line-height: 1.5; font-weight: 400; color: #666; }
+.quadrant-cell:nth-child(n+3) h3 { top: auto; bottom: 12px; }
 .quadrant-cell ul { margin: 0; padding: 0; list-style: none; }
-.quadrant-cell li { position: relative; padding-left: 14px; margin-bottom: 24px; font-size: 14px; }
-.quadrant-cell li:last-child { margin-bottom: 0; }
-.quadrant-cell li::before { content: ""; position: absolute; width: 5px; height: 5px; border: 1px solid #386bff; border-radius: 50%; left: 0; top: 8px; }
-.quadrant-cell li span, .quadrant-cell li small { display: block; color: #666; font-size: 12px; margin-top: 6px; line-height: 1.6; }
-.quadrant-cell li small { font-size: 11px; }
-.quadrant-empty { color: #777; font-size: 13px; }
-.quadrant-empty p { margin-top: 0; }
+.quadrant-cell li { position: absolute; left: 15%; top: 34%; max-width: 78%; font-size: 14px; padding-left: 17px; }
+.quadrant-cell li:nth-child(2) { left: 33%; top: 65%; }
+.quadrant-cell:nth-child(4) li { left: 12%; top: 15%; }
+.quadrant-cell:nth-child(4) li:nth-child(2) { left: 33%; top: 37%; }
+.quadrant-cell:nth-child(4) li:nth-child(3) { left: 20%; top: 60%; }
+.quadrant-cell li::before { content: ""; position: absolute; width: 8px; height: 8px; background: #386bff; border: 2px solid white; border-radius: 50%; left: 0; top: 5px; }
+.quadrant-cell a { display: block; line-height: 1.35; text-decoration: none; }
+.quadrant-cell a:hover { text-decoration: underline; }
+.quadrant-cell a strong { font-weight: 550; }
+.quadrant-cell a span { display: block; font-size: 11px; margin-top: 3px; }
+.quadrant-empty p { position: absolute; top: 52%; width: 100%; text-align: center; color: #888; font-size: 12px; }
+.quadrant-x-axis { grid-column: 2; display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: #666; }
 .guide-faq details { border-bottom: 1px solid #ededee; padding: 18px 0; }
 .guide-faq summary { cursor: pointer; font-weight: 500; }
 .guide-faq details p { margin-bottom: 0; color: #666; }
@@ -659,8 +668,14 @@ footer {
   .example-branches span { font-size: 11px; }
   .approval-flow { gap: 8px; font-size: 12px; }
   .approval-flow small { font-size: 10px; }
-  .quadrant-cell { padding: 20px 10px; }
-  .quadrant-cell li { font-size: 12px; padding-left: 12px; overflow-wrap: anywhere; }
-  .quadrant-columns { font-size: 13px; gap: 12px; }
-  .quadrant-columns small { font-size: 11px; }
+  .quadrant-chart { grid-template-columns: 18px minmax(0, 1fr); gap: 7px; }
+  .quadrant-cell h3 { font-size: 8px; left: 6px; right: 6px; top: 6px; }
+  .quadrant-cell:nth-child(n+3) h3 { bottom: 6px; }
+  .quadrant-cell li { font-size: 11px; padding-left: 12px; }
+  .quadrant-cell a span { font-size: 9px; }
+  .quadrant-cell li::before { width: 6px; height: 6px; border-width: 1px; top: 4px; }
+  .quadrant-cell li:nth-child(2) { left: 22%; }
+  .quadrant-cell:nth-child(4) li:nth-child(2) { left: 28%; }
+  .quadrant-empty p { font-size: 9px; }
+  .quadrant-x-axis, .quadrant-y-axis { font-size: 9px; }
 }
