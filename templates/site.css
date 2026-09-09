@@ -420,6 +420,7 @@ dd {
   font-size:13px;
 }
 footer {
+  grid-column:1/-1;
   border-top:1px solid var(--rule);
   padding:24px 0 32px;
   display:flex;
@@ -603,10 +604,17 @@ footer {
 /* Definitions: fine rules and diagram labels share the catalog's typography. */
 .nav-links [aria-current="page"] { color: #2856d8; }
 .guide-header { padding-bottom: 48px; }
-.guide-header h1 { max-width: 700px; }
-.guide p { line-height: 1.7; }
+.guide-header h1 { max-width: 700px; margin-top: 10px; }
+.guide-header > p { max-width: 680px; }
+.guide-header .lede { font-size: 20px; line-height: 1.5; margin-top: 20px; }
+.guide p { line-height: 1.65; }
+.guide section > p { max-width: 680px; }
+.guide section > .eyebrow { margin-bottom: 10px; }
+.guide section > h2 { margin-bottom: 16px; }
+.guide section > h3 + p { margin-top: 10px; }
+.guide section > p + p { margin-top: 14px; }
 .guide section { border-top: 1px solid #ededee; padding: 40px 0; }
-.guide section > h3 { margin-top: 32px; }
+.guide section > h3 { margin-top: 28px; max-width: 680px; }
 .guide h3 { font-size: 18px; font-weight: 550; }
 .guide figure { margin: 32px 0; }
 .guide figcaption { color: #666; font-size: 12px; line-height: 1.65; margin-top: 20px; }
@@ -655,10 +663,17 @@ footer {
 .quadrant-x-axis { grid-column: 2; display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: #666; }
 .guide-faq details { border-bottom: 1px solid #ededee; padding: 18px 0; }
 .guide-faq summary { cursor: pointer; font-weight: 500; }
-.guide-faq details p { margin-bottom: 0; color: #666; }
+.guide-faq details p { margin: 12px 0 0; max-width: 680px; color: #666; }
+.guide-faq summary { line-height: 1.5; }
+.guide .quadrant-figure { max-width: 680px; }
+.dimension-intro { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin-top: 24px; max-width: 680px; }
+.dimension-intro h3 { line-height: 1.4; margin-bottom: 10px; }
+.dimension-intro p { font-size: 14px; }
 @media (max-width: 600px) {
   .guide-header h1 { font-size: 30px; }
   .guide-header { padding-bottom: 32px; }
+  .guide-header .lede { font-size: 18px; }
+  .dimension-intro { grid-template-columns: 1fr; gap: 20px; }
   .guide section { padding: 32px 0; }
   .definition-grid { grid-template-columns: 1fr; }
   .definition-grid > div, .definition-grid > div:first-child { padding: 20px 0; border-right: 0; border-bottom: 1px solid #ededee; }
