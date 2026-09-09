@@ -57,6 +57,22 @@ class SiteTests(unittest.TestCase):
         )
         self.assertEqual(parsed.coverage["approach"], [a["id"] for a in expected_order])
 
+    def test_definitions_placements_require_matching_workflow_metadata(self):
+        html = build.render_definitions(self.catalog)
+        self.assertEqual(html.count("data-chart-approach-id="), 6)
+        self.assertIn('href="index.html#sentry-junior"', html)
+        self.assertNotIn("@@", html)
+        changed = copy.deepcopy(self.catalog)
+        for approach in changed["approaches"]:
+            if approach["id"] == "sentry-junior":
+                approach["operating_models"] = []
+            if approach["id"] == "stripe-minions":
+                approach["rubric"]["invocation"] = ["unknown"]
+        html = build.render_definitions(changed)
+        self.assertEqual(html.count("data-chart-approach-id="), 4)
+        self.assertNotIn('href="index.html#sentry-junior"', html)
+        self.assertNotIn('href="index.html#stripe-minions"', html)
+
     def fixture(self):
         source = copy.deepcopy(self.catalog["sources"][0])
         approach = copy.deepcopy(self.catalog["approaches"][0])
@@ -179,6 +195,7 @@ class SiteTests(unittest.TestCase):
                     build.main()
                     for name in [
                         "index.html",
+                        "definitions.html",
                         "agents.json",
                         "assets/site.css",
                         "assets/site.js",
@@ -214,6 +231,19 @@ class ArtifactTests(unittest.TestCase):
     def test_missing_asset(self):
         (self.root / "assets/site.css").unlink()
         self.assertTrue(checker.validate(self.root))
+
+    def test_cross_page_fragments_and_document_local_ids(self):
+        path = self.root / "definitions.html"
+        original = path.read_text()
+        self.assertEqual(checker.validate(self.root), [])
+        path.write_text(original.replace('href="#terms"', 'href="index.html#terms"'))
+        self.assertTrue(any("Invalid fragment" in e for e in checker.validate(self.root)))
+        path.write_text(
+            original.replace('href="index.html#sentry-junior"', 'href="#sentry-junior"')
+        )
+        self.assertTrue(any("Invalid fragment" in e for e in checker.validate(self.root)))
+        path.unlink()
+        self.assertTrue(any("definitions.html" in e for e in checker.validate(self.root)))
 
     def test_bad_fragment(self):
         self.change_html('href="#main"', 'href="#missing"')

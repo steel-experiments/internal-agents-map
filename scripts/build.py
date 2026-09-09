@@ -1418,6 +1418,54 @@ def render_site(catalog: dict) -> str:
     return re.sub(r"@@([A-Z]+)@@", lambda match: values[match[1]], template)
 
 
+def render_definitions(catalog: dict) -> str:
+    """Illustrate selected, scoped catalog assessments without ranking agents."""
+    selected = {
+        "sentry-junior": ("foreground", "continuous-steering"),
+        "stripe-minions": ("background", "work-product-review"),
+        "ramp-inspect": ("background", "work-product-review"),
+        "doordash-code-review": ("background", "work-product-review"),
+        "posthog-stamphog": ("background", "exception-only"),
+        "plaid-fix-my-connection": ("background", "outcome-review"),
+    }
+    cells = {"foreground": [], "background": [], "outcomes": []}
+    for approach in catalog["approaches"]:
+        if approach["id"] not in selected:
+            continue
+        mode, boundary = selected[approach["id"]]
+        models = approach.get("operating_models", [])
+        invocation = approach.get("rubric", {}).get("invocation", [])
+        trigger = "interactive" if mode == "foreground" else "background"
+        model = next((m for m in models if m["attention_boundary"] == boundary), None)
+        if model is None or trigger not in invocation:
+            continue
+        cell = "outcomes" if boundary in {"outcome-review", "exception-only"} else mode
+        cells[cell].append(
+            f'<li data-chart-approach-id="{site_text(approach["id"])}">'
+            f'<a href="index.html#{site_text(approach["id"])}">'
+            f"{site_text(approach['company'])} · {site_text(approach['agent_name'])}</a>"
+            f"<span>{site_text(model['scope'])}</span>"
+            f"<small>{site_text(site_label(boundary))}</small></li>"
+        )
+    shell = (ROOT / "templates/site.html").read_text(encoding="utf-8")
+    sidebar = re.search(r"<aside.*?</aside>", shell, re.S)[0]
+    for anchor in ("main", "catalog", "methodology"):
+        sidebar = sidebar.replace(f'href="#{anchor}"', f'href="index.html#{anchor}"')
+    sidebar = sidebar.replace(
+        'href="definitions.html"', 'href="definitions.html" aria-current="page"'
+    )
+    values = {
+        "SIDEBAR": sidebar,
+        "FOOTER": re.search(r"<footer>.*?</footer>", shell, re.S)[0],
+        **{
+            key.upper(): "".join(items) or "<li>No selected example currently fits.</li>"
+            for key, items in cells.items()
+        },
+    }
+    template = (ROOT / "templates/definitions.html").read_text(encoding="utf-8")
+    return re.sub(r"@@([A-Z]+)@@", lambda match: values[match[1]], template)
+
+
 def rendered_outputs(records: list[dict]) -> dict[Path, str | bytes]:
     readme = README.read_text(encoding="utf-8")
     patterns = PATTERNS.read_text(encoding="utf-8")
@@ -1445,6 +1493,7 @@ def rendered_outputs(records: list[dict]) -> dict[Path, str | bytes]:
         LANDSCAPE: render_landscape(records),
         DATA_JSON: catalog_json,
         ROOT / "site/index.html": render_site(catalog),
+        ROOT / "site/definitions.html": render_definitions(catalog),
         ROOT / "site/agents.json": catalog_json,
         **{
             ROOT / "site/assets" / name: (ROOT / "templates" / name).read_text(encoding="utf-8")

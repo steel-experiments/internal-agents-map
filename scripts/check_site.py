@@ -15,6 +15,7 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parent.parent
 ALLOWED_FILES = {
     "index.html",
+    "definitions.html",
     "agents.json",
     "assets/site.css",
     "assets/site.js",
@@ -70,19 +71,24 @@ def validate(root: Path, catalog_path: Path = ROOT / "data/agents.json") -> list
     if errors:
         return errors
     try:
-        html = (root / "index.html").read_text(encoding="utf-8")
-        parser = SiteParser()
-        parser.feed(html)
+        pages = {}
+        for name in sorted(ALLOWED_FILES):
+            if not name.endswith(".html"):
+                continue
+            page = SiteParser()
+            page.feed((root / name).read_text(encoding="utf-8"))
+            pages[root / name] = page
+            for required in ("html", "head", "title", "body", "nav", "main", "header", "footer"):
+                if required not in page.tags:
+                    errors.append(f"Missing landmark: {required} in {name}")
+            duplicates = sorted(key for key, count in Counter(page.ids).items() if count > 1)
+            if duplicates:
+                errors.append(f"Duplicate IDs: {duplicates} in {name}")
+        parser = pages[root / "index.html"]
         catalog_bytes = catalog_path.read_bytes()
         catalog = json.loads(catalog_bytes)
         if (root / "agents.json").read_bytes() != catalog_bytes:
             errors.append("Site JSON differs from the source catalog.")
-        for required in ("html", "head", "title", "body", "nav", "main", "header", "footer"):
-            if required not in parser.tags:
-                errors.append(f"Missing landmark: {required}")
-        duplicates = sorted(key for key, count in Counter(parser.ids).items() if count > 1)
-        if duplicates:
-            errors.append(f"Duplicate IDs: {duplicates}")
         for kind, collection in (
             ("approach", "approaches"),
             ("claim", "claims"),
@@ -95,9 +101,8 @@ def validate(root: Path, catalog_path: Path = ROOT / "data/agents.json") -> list
         for claim in catalog["claims"]:
             if " ".join(str(claim["text"]).split()) not in visible_text:
                 errors.append(f"Missing claim text: {claim['id']}")
-        ids = set(parser.ids)
 
-        def check_url(url: str, base: Path) -> None:
+        def check_url(url: str, document: Path) -> None:
             url = url.strip()
             parts = urlsplit(url)
             if parts.scheme:
@@ -111,21 +116,22 @@ def validate(root: Path, catalog_path: Path = ROOT / "data/agents.json") -> list
             if "\\" in decoded:
                 errors.append(f"Invalid path separator: {url}")
                 return
-            target = (base / decoded).resolve() if decoded else root / "index.html"
+            target = (document.parent / decoded).resolve() if decoded else document
             if not target.is_relative_to(root):
                 errors.append(f"Path escapes site: {url}")
             elif not target.is_file():
                 errors.append(f"Missing local target: {url}")
             elif parts.fragment and (
-                target != root / "index.html" or unquote(parts.fragment) not in ids
+                target not in pages or unquote(parts.fragment) not in pages[target].ids
             ):
                 errors.append(f"Invalid fragment: {url}")
 
-        for url in parser.urls:
-            check_url(url, root)
+        for document, page in pages.items():
+            for url in page.urls:
+                check_url(url, document)
         css = (root / "assets/site.css").read_text(encoding="utf-8")
         for match in re.finditer(r'url\(\s*[\'"]?([^\'"\s)]+)[\'"]?\s*\)', css):
-            check_url(match[1], root / "assets")
+            check_url(match[1], root / "assets/site.css")
         if "@import" in css.lower():
             errors.append("CSS imports are outside the self-contained artifact contract.")
         # Reuse the existing policy on every artifact, including new untracked text.

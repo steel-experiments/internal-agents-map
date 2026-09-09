@@ -10,6 +10,10 @@ provenance, confidence, qualifications, evidence relations, and source locators.
 - Edit `data/agents/*.yaml` for catalog content. Do not edit normalized JSON or generated HTML.
 - Edit [the HTML shell](../templates/site.html), [CSS](../templates/site.css), and
   [JavaScript](../templates/site.js) for the website.
+- Edit [the Definitions page](../templates/definitions.html) for the guide. Its quadrant
+  is generated from selected catalog workflows; changed or missing interaction/review
+  metadata removes a placement. Positions are qualitative, not autonomy scores.
+  The guide shares navigation, footer, CSS, and Geist with the catalog.
 - Run `uv run --locked python scripts/build.py` to regenerate Markdown, JSON, and `site/`.
 - Run `uv run --locked python scripts/check_site.py --root site` and the existing catalog checks.
 - Serve the page locally with:
