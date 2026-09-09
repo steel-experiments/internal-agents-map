@@ -4,6 +4,8 @@ Contributions can add an approach, add a source, correct a claim, or improve the
 
 The catalog favors broad collection and explicit provenance. Do not invent missing details. Record unknown values as `unknown`. Keep commentary and conflicting evidence, but label them.
 
+The catalog is public. Do not add personal contact data, such as e-mail addresses or private notes about people, to any file. Only public sources belong here. CI rejects e-mail addresses in tracked files.
+
 ## Set up the project
 
 1. [Install uv](https://docs.astral.sh/uv/getting-started/installation/).

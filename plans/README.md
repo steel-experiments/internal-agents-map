@@ -9,12 +9,17 @@ verification gate, and update the status row when finished.
 | Plan | Title | Priority | Effort | Depends on | Status |
 | --- | --- | --- | --- | --- | --- |
 | 001 | Preserve sources proactively and use verified archive fallbacks | P1 | L | — | DONE |
+| 002 | Repair catalog verification and archival failure handling | P1 | M | — | IN PROGRESS |
+| 003 | Reconcile catalog evidence and record research limitations | P2 | M | 002 (final validation) | IN PROGRESS |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) |
 REJECTED (with one-line rationale)
 
+Plans 002–003 were added on 2026-09-09 after the project review and explicitly authorized for execution.
+
 ## Dependency notes
 
+- Plan 003 research can run alongside Plan 002; final generation and validation use both changes.
 - Plan 001 is self-contained. Implement the capture and validation foundation before
   attempting the bulk source backfill described near the end of the plan.
 

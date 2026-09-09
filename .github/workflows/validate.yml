@@ -20,6 +20,7 @@ jobs:
       - run: uv sync --locked
       - run: uv run --locked python scripts/archive_sources.py --check
       - run: uv run --locked python scripts/build.py --check
+      - run: uv run --locked python scripts/check_private_data.py
       - run: uv run --locked ruff check .
       - run: uv run --locked ruff format --check .
       - run: uv run --locked python -m unittest discover -s tests
