@@ -681,7 +681,7 @@ footer {
 .quadrant-cell .reference-marker { color: #73737d; }
 .quadrant-cell .reference-marker::before { background: #fff; border-color: #8c8c96; }
 .quadrant-cell li[data-chart-reference="ready-made-task"] { left: 10%; top: 32%; max-width: 76%; }
-.quadrant-cell li[data-chart-reference="deep-research"] { left: 48%; top: 48%; max-width: 48%; }
+.quadrant-cell li[data-chart-reference="deep-research"] { left: 48%; top: 46%; max-width: 48%; }
 .quadrant-cell li[data-chart-reference="devin"] { left: 20%; top: 68%; max-width: 66%; }
 .quadrant-cell li[data-chart-reference="general-assistant"] { left: 28%; top: 34%; max-width: 66%; }
 .quadrant-x-axis { grid-column: 2; display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: #666; }
@@ -718,7 +718,7 @@ footer {
   .quadrant-cell:nth-child(4) li:nth-child(2) { left: 28%; }
   .quadrant-cell:nth-child(3) li > span { display: none; }
   .quadrant-cell li[data-chart-reference="ready-made-task"] { left: 10%; top: 30%; }
-  .quadrant-cell li[data-chart-reference="deep-research"] { left: 43%; top: 48%; max-width: 54%; }
+  .quadrant-cell li[data-chart-reference="deep-research"] { left: 43%; top: 47%; max-width: 54%; }
   .quadrant-cell li[data-chart-reference="devin"] { left: 18%; top: 72%; }
   .quadrant-x-axis, .quadrant-y-axis { font-size: 9px; }
 }
