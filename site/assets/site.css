@@ -662,8 +662,10 @@ footer {
 .quadrant-cell { position: relative; min-width: 0; }
 .quadrant-cell:nth-child(odd) { border-right: 1px solid #c9c9cf; }
 .quadrant-cell:nth-child(-n+2) { border-bottom: 1px solid #c9c9cf; }
-.quadrant-cell:nth-child(2), .quadrant-cell:nth-child(3) { background: #fafafa; }
-.quadrant-cell h3 { position: absolute; top: 12px; left: 14px; right: 14px; margin: 0; font-size: 11px; line-height: 1.5; font-weight: 400; color: #666; }
+.quadrant-cell:nth-child(-n+2) { background: #f1fbfa; }
+.quadrant-cell:nth-child(n+3) { background: #fafafa; }
+.quadrant-cell h3 { position: absolute; top: 12px; left: 14px; right: 14px; margin: 0; font-size: 12px; line-height: 1.35; font-weight: 600; color: var(--ink); letter-spacing: -.015em; }
+.quadrant-cell h3 span { display: block; margin-bottom: 4px; color: var(--link); font-size: 9px; line-height: 1.3; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; }
 .quadrant-cell:nth-child(n+3) h3 { top: auto; bottom: 12px; }
 .quadrant-cell ul { margin: 0; padding: 0; list-style: none; }
 .quadrant-cell li { position: absolute; left: 15%; top: 34%; max-width: 78%; font-size: 14px; padding-left: 17px; }
@@ -684,19 +686,30 @@ footer {
 .quadrant-cell li[data-chart-reference="ready-made-task"] { left: 49%; top: 42%; max-width: 48%; }
 .quadrant-cell li[data-chart-reference="general-assistant"] { left: 28%; top: 34%; max-width: 66%; }
 .quadrant-x-axis { grid-column: 2; display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: #666; }
+.quadrant-legend { display: flex; flex-wrap: wrap; gap: 10px 24px; margin: 24px 0 12px 40px; color: var(--muted); font-size: 12px; }
+.quadrant-legend span { display: inline-flex; align-items: center; gap: 8px; }
+.quadrant-legend i { width: 10px; height: 10px; border-radius: 50%; }
+.quadrant-legend .catalog-marker { background: var(--blue); border: 2px solid var(--blue); }
+.quadrant-legend .reference-marker-key { background: #fff; border: 2px solid #8c8c96; }
 .guide-faq details { border-bottom: 1px solid #ededee; padding: 18px 0; }
 .guide-faq summary { cursor: pointer; font-weight: 500; }
 .guide-faq details p { margin: 12px 0 0; max-width: 680px; color: #666; }
 .guide-faq summary { line-height: 1.5; }
 .guide .quadrant-figure { max-width: 680px; }
-.dimension-intro { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin-top: 24px; max-width: 680px; }
-.dimension-intro h3 { line-height: 1.4; margin-bottom: 10px; }
-.dimension-intro p { font-size: 14px; }
+.dimension-intro { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 24px; max-width: 680px; }
+.dimension-intro > div { border: 1px solid #d8d8dc; padding: 20px; background: #fff; }
+.dimension-axis-label { display: block; margin-bottom: 10px; color: var(--link); font-size: 10px; line-height: 1.4; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; }
+.dimension-intro h3 { font-size: 18px; line-height: 1.3; margin-bottom: 16px; }
+.dimension-intro p { font-size: 13px; color: var(--muted); }
+.dimension-scale { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 8px; align-items: center; border-block: 1px solid var(--rule); padding: 11px 0; margin-bottom: 16px; font-size: 11px; line-height: 1.3; }
+.dimension-scale span:nth-child(2) { color: var(--link); font-size: 16px; }
+.dimension-scale span:last-child { text-align: right; }
 @media (max-width: 600px) {
   .guide-header h1 { font-size: 30px; }
   .guide-header { padding-bottom: 32px; }
   .guide-header .lede { font-size: 18px; }
   .dimension-intro { grid-template-columns: 1fr; gap: 20px; }
+  .dimension-intro > div { padding: 18px; }
   .guide section { padding: 32px 0; }
   .definition-grid { grid-template-columns: 1fr; }
   .definition-grid > div, .definition-grid > div:first-child { padding: 20px 0; border-right: 0; border-bottom: 1px solid #ededee; }
@@ -708,7 +721,8 @@ footer {
   .approval-flow small { font-size: 10px; }
   .quadrant-chart { grid-template-columns: 18px minmax(0, 1fr); gap: 7px; }
   .quadrant-plot { aspect-ratio: .82; }
-  .quadrant-cell h3 { font-size: 8px; left: 6px; right: 6px; top: 6px; }
+  .quadrant-cell h3 { font-size: 9px; left: 6px; right: 6px; top: 6px; }
+  .quadrant-cell h3 span { display: none; }
   .quadrant-cell:nth-child(n+3) h3 { bottom: 6px; }
   .quadrant-cell li { font-size: 11px; padding-left: 12px; }
   .quadrant-cell a span, .quadrant-cell li > span { font-size: 9px; }
@@ -719,6 +733,7 @@ footer {
   .quadrant-cell li[data-chart-reference="deep-research"] { left: 5%; top: 42%; max-width: 40%; }
   .quadrant-cell li[data-chart-reference="ready-made-task"] { left: 49%; top: 42%; max-width: 48%; }
   .quadrant-x-axis, .quadrant-y-axis { font-size: 9px; }
+  .quadrant-legend { margin-left: 25px; gap: 8px 18px; }
 }
 
 /* A company workflow supplies the context around model-directed work. */

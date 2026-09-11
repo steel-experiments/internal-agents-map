@@ -70,6 +70,9 @@ class SiteTests(unittest.TestCase):
         self.assertIn("Codex / Claude Code / Devin", html)
         self.assertIn("Deep research agent", html)
         self.assertIn("ChatGPT / Claude", html)
+        self.assertIn("Horizontal axis · work breadth", html)
+        self.assertIn("Company-specific · focused", html)
+        self.assertIn("Reference example", html)
         self.assertNotIn("@@", html)
         changed = copy.deepcopy(self.catalog)
         for claim in changed["claims"]:
