@@ -1,0 +1,537 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "posthog-stamphog",
+      "company": "PostHog",
+      "agent_name": "StampHog",
+      "approach_type": "background-agent",
+      "deployment_stage": "scaled",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026-07-09",
+        "source_id": "posthog-stamphog-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "open-sourced",
+      "domains": [
+        "code-review"
+      ],
+      "autonomy": "autonomous",
+      "operating_models": [
+        {
+          "scope": "eligible pull request → approval decision",
+          "attention_boundary": "exception-only",
+          "level": 5
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "background",
+          "event-driven"
+        ],
+        "state": "run-only",
+        "identity": "dedicated-agent",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "posthog-stamphog--summary",
+        "posthog-stamphog--headline-metric",
+        "posthog-stamphog--architecture-harness",
+        "posthog-stamphog--architecture-model",
+        "posthog-stamphog--architecture-interfaces",
+        "posthog-stamphog--architecture-tool-access",
+        "posthog-stamphog--architecture-knowledge",
+        "posthog-stamphog--architecture-credentials",
+        "posthog-stamphog--architecture-context-mgmt",
+        "posthog-stamphog--primitives-0",
+        "posthog-stamphog--primitives-1",
+        "posthog-stamphog--primitives-2",
+        "posthog-stamphog--key-metrics-0",
+        "posthog-stamphog--key-metrics-1",
+        "posthog-stamphog--key-metrics-2",
+        "posthog-stamphog--lessons-learned-0",
+        "posthog-stamphog--lessons-learned-1",
+        "posthog-stamphog--lessons-learned-2",
+        "posthog-stamphog--operating-models-0"
+      ],
+      "source_ids": [
+        "posthog-stamphog-source-1",
+        "posthog-stamphog-source-2",
+        "posthog-stamphog-source-3"
+      ],
+      "interfaces": [
+        "github",
+        "ci"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "posthog-stamphog--summary",
+      "approach_id": "posthog-stamphog",
+      "field": "summary",
+      "text": "A GitHub-label-triggered PR approval agent that applies fail-closed deterministic safety gates, asks an LLM to check for showstoppers, autonomously approves eligible changes, and refuses or escalates the rest.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-1",
+          "relation": "supports",
+          "locator": "Add a PR auto-stamper"
+        },
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, How it works"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--headline-metric",
+      "approach_id": "posthog-stamphog",
+      "field": "headline_metric",
+      "text": "Handled 1,600 PRs in the previous month, as reported on July 9, 2026; roughly one in three merged main-repository PRs received its final approval during the reported quarter",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "PostHog reports two different windows in its July 9, 2026 article; exact monthly and quarterly boundaries are not supplied.",
+      "valid_at": "2026-07",
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 105, 118"
+        }
+      ],
+      "reported_by": "PostHog",
+      "metric_scope": "Monthly PRs handled autonomously and quarterly final approvals in the main repository",
+      "denominator": "Merged main-repository PRs for the quarterly share; absolute handled PRs for the monthly count",
+      "measurement_method": "Company-reported production usage"
+    },
+    {
+      "id": "posthog-stamphog--architecture-harness",
+      "approach_id": "posthog-stamphog",
+      "field": "architecture.harness",
+      "text": "A GitHub Action invokes a Python pipeline that fetches and classifies a PR, applies hard gates, waits for in-flight reviewer bots, runs an LLM review, and posts a verdict",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, How it works and Architecture"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--architecture-model",
+      "approach_id": "posthog-stamphog",
+      "field": "architecture.model",
+      "text": "Claude through the Claude Agent SDK, with Read, Grep, and Glob tools",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, LLM Review"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--architecture-interfaces",
+      "approach_id": "posthog-stamphog",
+      "field": "architecture.interfaces",
+      "text": "github, ci",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Usage"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--architecture-tool-access",
+      "approach_id": "posthog-stamphog",
+      "field": "architecture.tool_access",
+      "text": "Reads the diff and repository files plus trusted review-state, discussion, ownership, and reviewer signals",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, LLM Review"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--architecture-knowledge",
+      "approach_id": "posthog-stamphog",
+      "field": "architecture.knowledge",
+      "text": "Repository-specific deny categories, size and risk tiers calibrated from prior human approvals, review guidance, and ownership data",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Tiers and Empirical basis"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--architecture-credentials",
+      "approach_id": "posthog-stamphog",
+      "field": "architecture.credentials",
+      "text": "A dedicated Anthropic organization secret and a StampHog GitHub App token whose approvals satisfy branch protection",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Usage and final verdict"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--architecture-context-mgmt",
+      "approach_id": "posthog-stamphog",
+      "field": "architecture.context_mgmt",
+      "text": "Each run emits a versioned JSON evidence bundle retained as a CI artifact for 30 days; a sticky GitHub comment carries non-approval verdict history and labels preserve retry state",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Usage and Evidence bundle"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--primitives-0",
+      "approach_id": "posthog-stamphog",
+      "field": "primitives.0",
+      "text": "Draft state, conflicts, requested changes, sensitive paths, size ceilings, and risk tiers can block AI approval; the LLM may tighten but never loosen a gate",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, How it works"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--primitives-1",
+      "approach_id": "posthog-stamphog",
+      "field": "primitives.1",
+      "text": "Eligible changes can be approved while risky, ambiguous, or insufficiently assured changes are refused or escalated to a suitable human reviewer",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-1",
+          "relation": "supports",
+          "locator": "Add a PR auto-stamper"
+        },
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, LLM Review"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--primitives-2",
+      "approach_id": "posthog-stamphog",
+      "field": "primitives.2",
+      "text": "Each run records PR metadata, classification, gate results, reviewer output, and the final verdict",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Evidence bundle"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--key-metrics-0",
+      "approach_id": "posthog-stamphog",
+      "field": "key_metrics.0",
+      "text": "1,600 PRs handled autonomously in the previous month, as reported on July 9, 2026",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "July 9 is the report date; the source says last month without exact measurement boundaries.",
+      "valid_at": "2026-07-09",
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 118"
+        }
+      ],
+      "reported_by": "PostHog",
+      "metric_scope": "PRs handled autonomously in the previous month, as reported on July 9, 2026; exact boundaries unspecified",
+      "measurement_method": "Company-reported production usage"
+    },
+    {
+      "id": "posthog-stamphog--key-metrics-1",
+      "approach_id": "posthog-stamphog",
+      "field": "key_metrics.1",
+      "text": "Roughly one in three PRs merged into PostHog's main repository received StampHog's final approval during the reported quarter",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": "2026-07",
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 105"
+        }
+      ],
+      "reported_by": "PostHog",
+      "metric_scope": "Main-repository merged PRs receiving StampHog final approval during the reported quarter",
+      "denominator": "Merged PRs in the main repository",
+      "measurement_method": "Company-reported production usage"
+    },
+    {
+      "id": "posthog-stamphog--key-metrics-2",
+      "approach_id": "posthog-stamphog",
+      "field": "key_metrics.2",
+      "text": "20% of PRs approved by StampHog in the July 28, 2026 report, at approximately $300 per month in tokens",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": "2026-07",
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-2",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 131"
+        }
+      ],
+      "reported_by": "PostHog",
+      "metric_scope": "PostHog PRs approved by StampHog and monthly token cost in the July 28, 2026 report",
+      "denominator": "PostHog PRs in the report's scope",
+      "measurement_method": "Company-reported production usage and token spend"
+    },
+    {
+      "id": "posthog-stamphog--lessons-learned-0",
+      "approach_id": "posthog-stamphog",
+      "field": "lessons_learned.0",
+      "text": "Use deterministic controls for known risks and allow the LLM to make approval stricter, never more permissive",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The source code explicitly implements and documents this safety invariant.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, How it works"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--lessons-learned-1",
+      "approach_id": "posthog-stamphog",
+      "field": "lessons_learned.1",
+      "text": "Calibrate thresholds and deny categories from repository history rather than treating small diffs as inherently safe",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The source code documents calibration against historical approval outcomes.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Tiers and Empirical basis"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--lessons-learned-2",
+      "approach_id": "posthog-stamphog",
+      "field": "lessons_learned.2",
+      "text": "Fail closed and preserve retry state when dependencies, credentials, or concurrent reviewer bots are unavailable",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The source code explicitly documents fail-closed and retry behavior.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-3",
+          "relation": "supports",
+          "locator": "commit 988c9031bb93c74bafcdfb670c01497c79a4f644, tools/pr-approval-agent/README.md, Usage"
+        }
+      ]
+    },
+    {
+      "id": "posthog-stamphog--operating-models-0",
+      "approach_id": "posthog-stamphog",
+      "field": "operating_models.0",
+      "text": "Level 5 for eligible pull request → approval decision; human attention boundary: exception-only.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "Eligible pull requests are approved automatically; risky or ambiguous cases are refused or routed to a human.",
+      "valid_at": "2026-07-09",
+      "evidence": [
+        {
+          "source_id": "posthog-stamphog-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "posthog-stamphog-source-1",
+      "title": "Stop being the code review bottleneck",
+      "url": "https://posthog.com/newsletter/code-review-tips",
+      "canonical_url": "https://posthog.com/newsletter/code-review-tips",
+      "kind": "corporate-article",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "published_at": "2026-07-09",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "posthog-stamphog-source-1",
+        "original_url": "https://posthog.com/newsletter/code-review-tips",
+        "final_url": "https://posthog.com/newsletter/code-review-tips",
+        "captured_at": "2026-08-31T17:45:51Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/posthog-stamphog-source-1/content.md",
+            "sha256": "sha256:4cc3f02d4188cf9d525aa29d16f7e578553c4acdb180eb43d2db3a5382cf72ad",
+            "bytes": 15950
+          }
+        }
+      },
+      "approach_id": "posthog-stamphog"
+    },
+    {
+      "id": "posthog-stamphog-source-2",
+      "title": "10,000 PRs a month is easy: How devex is evolving at PostHog",
+      "url": "https://posthog.com/blog/10k-prs-a-month",
+      "canonical_url": "https://posthog.com/blog/10k-prs-a-month",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "authors": [
+        "Paul D'Ambra"
+      ],
+      "published_at": "2026-07-28",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "posthog-stamphog-source-2",
+        "original_url": "https://posthog.com/blog/10k-prs-a-month",
+        "final_url": "https://posthog.com/blog/10k-prs-a-month",
+        "captured_at": "2026-08-31T17:46:04Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/posthog-stamphog-source-2/content.md",
+            "sha256": "sha256:cd5dcde3b2e17a10a8d5ac8de33dbc3ef9ae92ec6cb438163dbe9c9d8fe4d79c",
+            "bytes": 14035
+          }
+        }
+      },
+      "approach_id": "posthog-stamphog"
+    },
+    {
+      "id": "posthog-stamphog-source-3",
+      "title": "StampHog PR approval agent source code and documentation",
+      "url": "https://github.com/PostHog/posthog/tree/988c9031bb93c74bafcdfb670c01497c79a4f644/tools/pr-approval-agent",
+      "canonical_url": "https://github.com/PostHog/posthog/tree/988c9031bb93c74bafcdfb670c01497c79a4f644/tools/pr-approval-agent",
+      "kind": "source-code",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "posthog-stamphog-source-3",
+        "original_url": "https://github.com/PostHog/posthog/tree/988c9031bb93c74bafcdfb670c01497c79a4f644/tools/pr-approval-agent",
+        "final_url": "https://github.com/PostHog/posthog/tree/988c9031bb93c74bafcdfb670c01497c79a4f644/tools/pr-approval-agent",
+        "captured_at": "2026-08-31T17:46:13Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/posthog-stamphog-source-3/content.md",
+            "sha256": "sha256:7f4e1844030a44ed0120e3de99db3e847390fb1ee7658779d5b7908608c8bc1e",
+            "bytes": 15840
+          }
+        }
+      },
+      "approach_id": "posthog-stamphog"
+    }
+  ]
+}

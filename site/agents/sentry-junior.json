@@ -1,0 +1,583 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "sentry-junior",
+      "company": "Sentry",
+      "agent_name": "Junior",
+      "approach_type": "task-agent",
+      "deployment_stage": "deployed",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026",
+        "source_id": "sentry-junior-source-2"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "open-sourced",
+      "domains": [
+        "coding",
+        "code-review",
+        "support",
+        "on-call"
+      ],
+      "autonomy": "human-in-loop",
+      "operating_models": [
+        {
+          "scope": "assigned task → human-steered and reviewed output",
+          "attention_boundary": "continuous-steering",
+          "level": 2
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "event-driven",
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "sentry-junior--summary",
+        "sentry-junior--headline-metric",
+        "sentry-junior--architecture-sandbox",
+        "sentry-junior--architecture-harness",
+        "sentry-junior--architecture-model",
+        "sentry-junior--architecture-interfaces",
+        "sentry-junior--architecture-tool-access",
+        "sentry-junior--architecture-knowledge",
+        "sentry-junior--architecture-credentials",
+        "sentry-junior--architecture-context-mgmt",
+        "sentry-junior--primitives-0",
+        "sentry-junior--primitives-1",
+        "sentry-junior--primitives-2",
+        "sentry-junior--key-metrics-0",
+        "sentry-junior--key-metrics-1",
+        "sentry-junior--lessons-learned-0",
+        "sentry-junior--lessons-learned-1",
+        "sentry-junior--lessons-learned-2",
+        "sentry-junior--lessons-learned-3",
+        "sentry-junior--lessons-learned-4",
+        "sentry-junior--operating-models-0"
+      ],
+      "source_ids": [
+        "sentry-junior-source-1",
+        "sentry-junior-source-2",
+        "sentry-junior-source-3",
+        "sentry-junior-source-4"
+      ],
+      "interfaces": [
+        "slack",
+        "web",
+        "github"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "sentry-junior--summary",
+      "approach_id": "sentry-junior",
+      "field": "summary",
+      "text": "An open-source Slack agent built at Sentry that acts like an intern; takes tasks, retrieves context across many company systems, and is steered and reviewed by humans. Its CEO argues one general-purpose agent beat several vendor-specific bots.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "sentry-junior-source-2",
+          "relation": "supports"
+        },
+        {
+          "source_id": "sentry-junior-source-3",
+          "relation": "contextualizes"
+        }
+      ]
+    },
+    {
+      "id": "sentry-junior--headline-metric",
+      "approach_id": "sentry-junior",
+      "field": "headline_metric",
+      "text": "Open-source (Apache-2.0) Slack agent (~100k lines of TS) used internally at Sentry",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 10–24, 34–60"
+        },
+        {
+          "source_id": "sentry-junior-source-4",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 412–414"
+        }
+      ],
+      "reported_by": "Sentry",
+      "metric_scope": "Junior codebase size and license in the author report"
+    },
+    {
+      "id": "sentry-junior--architecture-sandbox",
+      "approach_id": "sentry-junior",
+      "field": "architecture.sandbox",
+      "text": "Vercel serverless functions; Vercel agent-browser sandbox with an on-path proxy for traffic interception; ephemeral containers",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sentry-junior--architecture-harness",
+      "approach_id": "sentry-junior",
+      "field": "architecture.harness",
+      "text": "Custom harness on Pi's SDK; a task broker over Vercel Queues with an inbox -> worker-claim -> interrupt/resume pattern to survive serverless timeouts; 'skills-as-runbooks'",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sentry-junior--architecture-model",
+      "approach_id": "sentry-junior",
+      "field": "architecture.model",
+      "text": "Claude Sonnet (faster); swappable (Opus as a more expensive option)",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sentry-junior--architecture-interfaces",
+      "approach_id": "sentry-junior",
+      "field": "architecture.interfaces",
+      "text": "slack, web, github",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sentry-junior--architecture-tool-access",
+      "approach_id": "sentry-junior",
+      "field": "architecture.tool_access",
+      "text": "Progressive discovery via MCP; by default Junior connects to no provider until the agent requests a tool lookup; plugins connect Sentry, GitHub, Linear, Notion",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sentry-junior--architecture-knowledge",
+      "approach_id": "sentry-junior",
+      "field": "architecture.knowledge",
+      "text": "Conversation transcripts persisted in Redis; repo search to trace code paths; skill docs (TELEMETRY.md, SOUL.md)",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sentry-junior--architecture-credentials",
+      "approach_id": "sentry-junior",
+      "field": "architecture.credentials",
+      "text": "On-path proxy injection; the model never sees the token because it is not in the sandbox; plugins declare OAuth flows and credential domains; GitHub distinguishes read vs. write",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sentry-junior--architecture-context-mgmt",
+      "approach_id": "sentry-junior",
+      "field": "architecture.context_mgmt",
+      "text": "Incremental transcript updates in Redis; resource subscriptions to GitHub PR events for follow-ups",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sentry-junior--primitives-0",
+      "approach_id": "sentry-junior",
+      "field": "primitives.0",
+      "text": "searchMcpTools loads tools on demand instead of dumping every schema into the prompt",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sentry-junior--primitives-1",
+      "approach_id": "sentry-junior",
+      "field": "primitives.1",
+      "text": "Credentials injected host-side; the sandbox/model never touches a secret",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sentry-junior--primitives-2",
+      "approach_id": "sentry-junior",
+      "field": "primitives.2",
+      "text": "Survives serverless timeouts via a queue + claim model",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sentry-junior--key-metrics-0",
+      "approach_id": "sentry-junior",
+      "field": "key_metrics.0",
+      "text": "Around 100,000 lines of TypeScript excluding tests, evals, docs, and lockfiles",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 22"
+        }
+      ],
+      "reported_by": "Sentry",
+      "metric_scope": "TypeScript lines in Junior excluding tests, evals, documentation, and lockfiles"
+    },
+    {
+      "id": "sentry-junior--key-metrics-1",
+      "approach_id": "sentry-junior",
+      "field": "key_metrics.1",
+      "text": "4 months from start to writeup",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 10–22"
+        }
+      ],
+      "reported_by": "Sentry",
+      "metric_scope": "Author-reported development and iteration time before the writeup"
+    },
+    {
+      "id": "sentry-junior--lessons-learned-0",
+      "approach_id": "sentry-junior",
+      "field": "lessons_learned.0",
+      "text": "One general-purpose agent connected to many company systems beats several vendor-specific bots",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sentry-junior--lessons-learned-1",
+      "approach_id": "sentry-junior",
+      "field": "lessons_learned.1",
+      "text": "Skills-as-runbooks encode operational knowledge the agent can follow",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sentry-junior--lessons-learned-2",
+      "approach_id": "sentry-junior",
+      "field": "lessons_learned.2",
+      "text": "Stateless compute fights you; serverless functions time out and disappear; model the agent around interrupt/resume",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sentry-junior--lessons-learned-3",
+      "approach_id": "sentry-junior",
+      "field": "lessons_learned.3",
+      "text": "Unit tests are the wrong yardstick for agents; invest in evals and integration tests instead",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sentry-junior--lessons-learned-4",
+      "approach_id": "sentry-junior",
+      "field": "lessons_learned.4",
+      "text": "Writes need per-user authorization, not blanket trust",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sentry-junior--operating-models-0",
+      "approach_id": "sentry-junior",
+      "field": "operating_models.0",
+      "text": "Level 2 for assigned task → human-steered and reviewed output; human attention boundary: continuous-steering.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The source explicitly describes humans steering and reviewing the agent throughout its work.",
+      "valid_at": "2026",
+      "evidence": [
+        {
+          "source_id": "sentry-junior-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "sentry-junior-source-1",
+      "title": "Building an Intern (Junior at Sentry)",
+      "url": "https://cra.mr/building-an-intern/",
+      "canonical_url": "https://cra.mr/building-an-intern/",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "sentry-junior-source-1",
+        "original_url": "https://cra.mr/building-an-intern/",
+        "final_url": "https://cra.mr/building-an-intern/",
+        "captured_at": "2026-08-31T17:48:07Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/sentry-junior-source-1/content.md",
+            "sha256": "sha256:51fee97548429baa049c0faf6a90d93bcc4891bdea99eac6cfa94fe0b003b9cc",
+            "bytes": 28000
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "sentry-junior"
+    },
+    {
+      "id": "sentry-junior-source-2",
+      "title": "getsentry/junior source repository",
+      "url": "https://github.com/getsentry/junior",
+      "canonical_url": "https://github.com/getsentry/junior",
+      "kind": "repository",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "sentry-junior-source-2",
+        "original_url": "https://github.com/getsentry/junior",
+        "final_url": "https://github.com/getsentry/junior",
+        "captured_at": "2026-08-31T17:48:16Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/sentry-junior-source-2/content.md",
+            "sha256": "sha256:7f3d4d7f05a8309d287a87bb2a7bf9f0018e40d83cc80b13f0d5a9adde3f9dbf",
+            "bytes": 2512
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "sentry-junior"
+    },
+    {
+      "id": "sentry-junior-source-3",
+      "title": "Sentry Labs",
+      "url": "https://labs.sentry.dev/",
+      "canonical_url": "https://labs.sentry.dev/",
+      "kind": "documentation",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "sentry-junior-source-3",
+        "original_url": "https://labs.sentry.dev/",
+        "final_url": "https://labs.sentry.dev/",
+        "captured_at": "2026-08-31T17:48:27Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/sentry-junior-source-3/content.md",
+            "sha256": "sha256:b81bca2f99265e347a968ce4976c507cd2b7bfd747e057f5fc2204123d5198f0",
+            "bytes": 2439
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "sentry-junior"
+    },
+    {
+      "id": "sentry-junior-source-4",
+      "title": "getsentry/junior Apache 2.0 license",
+      "url": "https://github.com/getsentry/junior/blob/main/LICENSE?plain=1",
+      "canonical_url": "https://github.com/getsentry/junior/blob/main/LICENSE?plain=1",
+      "kind": "source-code",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-31",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "sentry-junior-source-4",
+        "original_url": "https://github.com/getsentry/junior/blob/main/LICENSE?plain=1",
+        "final_url": "https://github.com/getsentry/junior/blob/main/LICENSE?plain=1",
+        "captured_at": "2026-08-31T18:13:51Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/sentry-junior-source-4/content.md",
+            "sha256": "sha256:dc33599d579924aae2f2d107d9585af5f2efeee4d22e22631ae510b7f4535faf",
+            "bytes": 10674
+          }
+        }
+      },
+      "approach_id": "sentry-junior"
+    }
+  ]
+}

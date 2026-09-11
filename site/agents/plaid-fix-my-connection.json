@@ -1,0 +1,199 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "plaid-fix-my-connection",
+      "company": "Plaid",
+      "agent_name": "Fix My Connection",
+      "approach_type": "task-agent",
+      "deployment_stage": "scaled",
+      "year": 2025,
+      "first_public_evidence": {
+        "date": "2025-06",
+        "source_id": "plaid-fix-my-connection-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "ops",
+        "maintenance"
+      ],
+      "autonomy": "autonomous",
+      "operating_models": [
+        {
+          "scope": "integration degradation → repaired connection",
+          "attention_boundary": "outcome-review",
+          "level": 4
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "background"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "plaid-fix-my-connection--summary",
+        "plaid-fix-my-connection--headline-metric",
+        "plaid-fix-my-connection--architecture-tool-access",
+        "plaid-fix-my-connection--key-metrics-0",
+        "plaid-fix-my-connection--key-metrics-1",
+        "plaid-fix-my-connection--operating-models-0"
+      ],
+      "source_ids": [
+        "plaid-fix-my-connection-source-1"
+      ],
+      "interfaces": []
+    }
+  ],
+  "claims": [
+    {
+      "id": "plaid-fix-my-connection--summary",
+      "approach_id": "plaid-fix-my-connection",
+      "field": "summary",
+      "text": "Plaid's internal agent for bank-integration reliability. Fix My Connection proactively detects bank-integration failures and generates repair scripts automatically. Plaid reports more than 2 million successful user-permissioned logins and a 90% reduction in the average time to fix a degradation.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-fix-my-connection-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "plaid-fix-my-connection--headline-metric",
+      "approach_id": "plaid-fix-my-connection",
+      "field": "headline_metric",
+      "text": "More than 2 million successful logins and 90% faster average repair",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Plaid reported the figures in its own blog without independent verification.",
+      "valid_at": "2025-06",
+      "evidence": [
+        {
+          "source_id": "plaid-fix-my-connection-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 26–32"
+        }
+      ],
+      "reported_by": "Plaid",
+      "metric_scope": "Automated repair of bank connections and the successful user-permissioned logins enabled by those repairs"
+    },
+    {
+      "id": "plaid-fix-my-connection--architecture-tool-access",
+      "approach_id": "plaid-fix-my-connection",
+      "field": "architecture.tool_access",
+      "text": "Plaid bank-integration infrastructure",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-fix-my-connection-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "plaid-fix-my-connection--key-metrics-0",
+      "approach_id": "plaid-fix-my-connection",
+      "field": "key_metrics.0",
+      "text": "More than 2 million successful user-permissioned logins",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Plaid reported the figure in its own blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-fix-my-connection-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 26–32"
+        }
+      ],
+      "reported_by": "Plaid",
+      "metric_scope": "Automated repair of bank connections and the successful user-permissioned logins enabled by those repairs"
+    },
+    {
+      "id": "plaid-fix-my-connection--key-metrics-1",
+      "approach_id": "plaid-fix-my-connection",
+      "field": "key_metrics.1",
+      "text": "Average time to fix a degradation reduced by 90%",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Plaid reported the figure in its own blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-fix-my-connection-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 26–32"
+        }
+      ],
+      "reported_by": "Plaid",
+      "metric_scope": "Automated repair of bank connections and the successful user-permissioned logins enabled by those repairs",
+      "denominator": "Average degradation-repair time before automated repairs; no baseline duration provided"
+    },
+    {
+      "id": "plaid-fix-my-connection--operating-models-0",
+      "approach_id": "plaid-fix-my-connection",
+      "field": "operating_models.0",
+      "text": "Level 4 for integration degradation → repaired connection; human attention boundary: outcome-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "Plaid measures success by outcomes such as successful logins rather than per-repair inspection.",
+      "valid_at": "2025-06",
+      "evidence": [
+        {
+          "source_id": "plaid-fix-my-connection-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "plaid-fix-my-connection-source-1",
+      "title": "AI agents at Plaid (June 2025)",
+      "url": "https://plaid.com/blog/ai-agents-june-2025/",
+      "canonical_url": "https://plaid.com/blog/ai-agents-june-2025/",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "published_at": "2025-06",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "plaid-fix-my-connection-source-1",
+        "original_url": "https://plaid.com/blog/ai-agents-june-2025/",
+        "final_url": "https://plaid.com/blog/ai-agents-june-2025/",
+        "captured_at": "2026-08-31T17:45:33Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/plaid-fix-my-connection-source-1/content.md",
+            "sha256": "sha256:7fc4e30083766bf66d62e92ee0af10c514e09a0d0b6341422644017d14ab7857",
+            "bytes": 5195
+          }
+        }
+      },
+      "approach_id": "plaid-fix-my-connection"
+    }
+  ]
+}

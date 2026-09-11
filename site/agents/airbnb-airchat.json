@@ -1,0 +1,283 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "airbnb-airchat",
+      "company": "Airbnb",
+      "agent_name": "Airchat (airchat-cli)",
+      "approach_type": "platform",
+      "deployment_stage": "scaled",
+      "year": 2025,
+      "first_public_evidence": {
+        "date": "2025",
+        "source_id": "airbnb-airchat-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "coding",
+        "code-review"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "coding task → reviewed pull request",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive",
+          "background"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "mixed"
+      },
+      "claim_ids": [
+        "airbnb-airchat--summary",
+        "airbnb-airchat--headline-metric",
+        "airbnb-airchat--architecture-harness",
+        "airbnb-airchat--architecture-model",
+        "airbnb-airchat--architecture-tool-access",
+        "airbnb-airchat--key-metrics-0",
+        "airbnb-airchat--operating-models-0"
+      ],
+      "source_ids": [
+        "airbnb-airchat-source-1",
+        "airbnb-airchat-source-2",
+        "airbnb-airchat-source-3"
+      ],
+      "interfaces": []
+    }
+  ],
+  "claims": [
+    {
+      "id": "airbnb-airchat--summary",
+      "approach_id": "airbnb-airchat",
+      "field": "summary",
+      "text": "Airbnb's internal agentic-coding harness, built by its Dev AI team. Airchat is a wrapper over Claude Code with a unified gateway for cost and metrics, an internal plugin marketplace, AirDev Workspaces for parallel sessions, and more than a dozen internal MCP servers that connect agents to internal systems. The team abandoned an earlier from-scratch orchestrator and shipped a thin shim over Airchat instead.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "The build is described by Airbnb engineers in talks and podcasts, not in a first-party engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "airbnb-airchat-source-1",
+          "relation": "contextualizes"
+        },
+        {
+          "source_id": "airbnb-airchat-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "airbnb-airchat--headline-metric",
+      "approach_id": "airbnb-airchat",
+      "field": "headline_metric",
+      "text": "About 64% of pull requests materialized through agentic coding",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "low",
+      "confidence_reason": "The 64% figure comes from a third-party newsletter that quotes the engineers, not from a first-party Airbnb source.",
+      "valid_at": "2025-10",
+      "evidence": [
+        {
+          "source_id": "airbnb-airchat-source-3",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 16, 24, 194"
+        }
+      ],
+      "reported_by": "Airbnb",
+      "metric_scope": "Airbnb PRs materialized through agentic coding by the October 2025 talk",
+      "denominator": "Airbnb pull requests; exact count not supplied"
+    },
+    {
+      "id": "airbnb-airchat--architecture-harness",
+      "approach_id": "airbnb-airchat",
+      "field": "architecture.harness",
+      "text": "Wrapper over Claude Code with a unified gateway, an internal plugin marketplace, and AirDev parallel workspaces",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "airbnb-airchat-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "airbnb-airchat--architecture-model",
+      "approach_id": "airbnb-airchat",
+      "field": "architecture.model",
+      "text": "Claude Code (a vendor agent), wrapped by Airbnb",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "airbnb-airchat-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "airbnb-airchat--architecture-tool-access",
+      "approach_id": "airbnb-airchat",
+      "field": "architecture.tool_access",
+      "text": "More than a dozen internal MCP servers connect agents to internal systems",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "airbnb-airchat-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "airbnb-airchat--key-metrics-0",
+      "approach_id": "airbnb-airchat",
+      "field": "key_metrics.0",
+      "text": "About 64% of pull requests materialized through agentic coding",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "low",
+      "confidence_reason": "The figure comes from a third-party newsletter, not a first-party Airbnb source.",
+      "valid_at": "2025-10",
+      "evidence": [
+        {
+          "source_id": "airbnb-airchat-source-3",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 16, 24, 194"
+        }
+      ],
+      "reported_by": "Airbnb",
+      "metric_scope": "Airbnb PRs materialized through agentic coding by the October 2025 talk",
+      "denominator": "Airbnb pull requests; exact count not supplied"
+    },
+    {
+      "id": "airbnb-airchat--operating-models-0",
+      "approach_id": "airbnb-airchat",
+      "field": "operating_models.0",
+      "text": "Level 3 for coding task → reviewed pull request; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "Airbnb engineers describe agents producing pull requests that engineers review, which locates human attention at work-product review.",
+      "valid_at": "2025",
+      "evidence": [
+        {
+          "source_id": "airbnb-airchat-source-2",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "airbnb-airchat-source-1",
+      "title": "Agentic coding at Airbnb (DPE.org)",
+      "url": "https://dpe.org/sessions/szczepan-faber-mike-nakhimovich/agentic-coding-at-airbnb/",
+      "canonical_url": "https://dpe.org/sessions/szczepan-faber-mike-nakhimovich/agentic-coding-at-airbnb/",
+      "kind": "talk",
+      "provenance_class": "direct-participant",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "airbnb-airchat-source-1",
+        "original_url": "https://dpe.org/sessions/szczepan-faber-mike-nakhimovich/agentic-coding-at-airbnb/",
+        "final_url": "https://dpe.org/sessions/szczepan-faber-mike-nakhimovich/agentic-coding-at-airbnb/",
+        "captured_at": "2026-08-31T17:38:40Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/airbnb-airchat-source-1/content.md",
+            "sha256": "sha256:4ab4a7c2fdbc723d88e0df3f7d7582d1a8c37f143a1627c17c5f602c5941d862",
+            "bytes": 1307
+          }
+        }
+      },
+      "approach_id": "airbnb-airchat"
+    },
+    {
+      "id": "airbnb-airchat-source-2",
+      "title": "Beyond the CLI (DX podcast)",
+      "url": "https://getdx.com/podcast/beyond-the-cli-agentic-ai-for-async-workloads-and-non-developers/",
+      "canonical_url": "https://getdx.com/podcast/beyond-the-cli-agentic-ai-for-async-workloads-and-non-developers/",
+      "kind": "podcast",
+      "provenance_class": "direct-participant",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "airbnb-airchat-source-2",
+        "original_url": "https://getdx.com/podcast/beyond-the-cli-agentic-ai-for-async-workloads-and-non-developers/",
+        "final_url": "https://getdx.com/podcast/beyond-the-cli-agentic-ai-for-async-workloads-and-non-developers/",
+        "captured_at": "2026-08-31T17:38:48Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/airbnb-airchat-source-2/content.md",
+            "sha256": "sha256:f5c2460670c198c7a0822d397e83c916849b91f0309eb79dcf4bb40e11e510a1",
+            "bytes": 50796
+          }
+        }
+      },
+      "approach_id": "airbnb-airchat"
+    },
+    {
+      "id": "airbnb-airchat-source-3",
+      "title": "How to get your team past the AI (The AI Thinker)",
+      "url": "https://www.theaithinker.com/p/how-to-get-your-team-past-the-ai",
+      "canonical_url": "https://www.theaithinker.com/p/how-to-get-your-team-past-the-ai",
+      "kind": "news",
+      "provenance_class": "independent-secondary",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "airbnb-airchat-source-3",
+        "original_url": "https://www.theaithinker.com/p/how-to-get-your-team-past-the-ai",
+        "final_url": "https://www.theaithinker.com/p/how-to-get-your-team-past-the-ai",
+        "captured_at": "2026-08-31T17:38:58Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/airbnb-airchat-source-3/content.md",
+            "sha256": "sha256:1d1dc23408c8f7e01428147e7091b605620e8fe66d637f61fa743b85bdf1c7c6",
+            "bytes": 34229
+          }
+        }
+      },
+      "approach_id": "airbnb-airchat"
+    }
+  ]
+}

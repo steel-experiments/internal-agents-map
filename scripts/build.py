@@ -14,7 +14,11 @@ from collections import Counter
 from datetime import date, datetime
 from pathlib import Path, PurePosixPath
 from typing import Any, NoReturn
-from urllib.parse import urlsplit
+from urllib.parse import urljoin, urlsplit
+from xml.sax.saxutils import escape as xml_escape
+
+from bs4 import BeautifulSoup
+from markdownify import markdownify
 
 try:
     import yaml
@@ -1396,23 +1400,12 @@ def render_site(catalog: dict) -> str:
             (len(sources), "sources"),
         )
     )
-    docs = "".join(
-        link(blob + path, label)
-        for path, label in (
-            ("data/schema.md", "Data schema"),
-            ("docs/patterns.md", "Architecture patterns"),
-            ("docs/adoption-lessons.md", "Adoption observations"),
-            ("docs/evidence-review.md", "Evidence review"),
-            ("CONTRIBUTING.md", "Contribution guide"),
-        )
-    )
     values = {
         "STATS": stats,
         "REVIEW": site_text(max((a["last_reviewed_at"] for a in approaches), default="Unknown")),
         "FILTERS": "".join(filters),
         "COUNT": str(len(approaches)),
         "ENTRIES": "\n".join(entries),
-        "DOCS": docs,
     }
     template = (ROOT / "templates/site.html").read_text(encoding="utf-8")
     return re.sub(r"@@([A-Z]+)@@", lambda match: values[match[1]], template)
@@ -1503,7 +1496,7 @@ def render_definitions(catalog: dict) -> str:
         )
     shell = (ROOT / "templates/site.html").read_text(encoding="utf-8")
     sidebar = re.search(r"<aside.*?</aside>", shell, re.S)[0]
-    for anchor in ("main", "catalog", "methodology"):
+    for anchor in ("main", "catalog"):
         sidebar = sidebar.replace(f'href="#{anchor}"', f'href="index.html#{anchor}"')
     sidebar = sidebar.replace(
         'href="definitions.html"', 'href="definitions.html" aria-current="page"'
@@ -1521,13 +1514,358 @@ def render_definitions(catalog: dict) -> str:
     return re.sub(r"@@([A-Z]+)@@", lambda match: values[match[1]], template)
 
 
+def render_editorial_page(name: str) -> str:
+    """Render editorial pages with shared navigation and project-relative links."""
+    prefix = "../" if name.startswith("notes/") else ""
+    shell = (ROOT / "templates/site.html").read_text(encoding="utf-8")
+    sidebar = re.search(r"<aside.*?</aside>", shell, re.S)[0]
+    for anchor in ("main", "catalog"):
+        sidebar = sidebar.replace(f'href="#{anchor}"', f'href="index.html#{anchor}"')
+    sidebar = re.sub(
+        r'href="(?!https?://)([^"]+)"',
+        lambda match: f'href="{prefix}{match[1]}"',
+        sidebar,
+    )
+    current = "notes.html" if name.startswith("notes/") else name
+    sidebar = sidebar.replace(
+        f'href="{prefix}{current}"', f'href="{prefix}{current}" aria-current="page"'
+    )
+    values = {
+        "SIDEBAR": sidebar,
+        "FOOTER": re.search(r"<footer>.*?</footer>", shell, re.S)[0],
+    }
+    template = (ROOT / "templates" / name).read_text(encoding="utf-8")
+    return re.sub(r"@@([A-Z]+)@@", lambda match: values[match[1]], template)
+
+
+ORIGIN = "https://internal-agents.com"
+SITE_NAME = "Internal Agents Map"
+CONTENT_LICENSE = "https://creativecommons.org/licenses/by-sa/4.0/"
+PUBLISHER = {
+    "@type": "Organization",
+    "@id": "https://steel.dev/#organization",
+    "name": "Steel",
+    "url": "https://steel.dev/",
+    "description": "Open-source browser infrastructure for AI agents.",
+    "sameAs": ["https://github.com/steel-dev", "https://x.com/steeldotdev"],
+}
+
+
+def canonical_url(name: str) -> str:
+    return ORIGIN + ("/" if name == "index.html" else "/" + name)
+
+
+def page_lastmod(
+    name: str, soup: BeautifulSoup, catalog_reviewed: str, note_dates: dict
+) -> str | None:
+    """Return the date a page last changed, or None when no content date exists."""
+    if name.startswith("notes/"):
+        stamp = soup.select_one(".note-meta time[datetime]")
+        return stamp["datetime"] if stamp else None
+    if name == "notes.html":
+        return max(note_dates.values(), default=None)
+    if name in ("index.html", "definitions.html"):
+        return catalog_reviewed
+    return None
+
+
+def structured_data(name: str, soup: BeautifulSoup, url: str, lastmod: str | None) -> dict:
+    """Describe a page and its publisher for search engines and answer engines."""
+    title = soup.title.get_text()
+    description = soup.find("meta", attrs={"name": "description"})["content"]
+    website = {
+        "@type": "WebSite",
+        "@id": f"{ORIGIN}/#website",
+        "name": SITE_NAME,
+        "url": ORIGIN + "/",
+        "description": "A source-backed catalog of AI systems organizations build for their own teams.",
+        "publisher": {"@id": PUBLISHER["@id"]},
+        "license": CONTENT_LICENSE,
+    }
+    page = {
+        "@type": "WebPage",
+        "@id": url,
+        "url": url,
+        "name": title,
+        "description": description,
+        "isPartOf": {"@id": website["@id"]},
+        "publisher": {"@id": PUBLISHER["@id"]},
+    }
+    if lastmod:
+        page["dateModified"] = lastmod
+    graph = [PUBLISHER, website, page]
+    if name == "index.html":
+        graph.append(
+            {
+                "@type": "Dataset",
+                "@id": f"{ORIGIN}/#dataset",
+                "name": SITE_NAME,
+                "description": description,
+                "url": ORIGIN + "/",
+                "license": CONTENT_LICENSE,
+                "isAccessibleForFree": True,
+                "creator": {"@id": PUBLISHER["@id"]},
+                "publisher": {"@id": PUBLISHER["@id"]},
+                "dateModified": lastmod,
+                "distribution": [
+                    {
+                        "@type": "DataDownload",
+                        "encodingFormat": "application/json",
+                        "contentUrl": f"{ORIGIN}/agents.json",
+                    },
+                    {
+                        "@type": "DataDownload",
+                        "encodingFormat": "text/markdown",
+                        "contentUrl": f"{ORIGIN}/data-guide.md",
+                    },
+                ],
+            }
+        )
+    elif name.startswith("notes/"):
+        heading = soup.find("main").find("h1")
+        page["@type"] = "Article"
+        page["headline"] = heading.get_text(" ", strip=True) if heading else title
+        page["mainEntityOfPage"] = url
+        page["author"] = {"@id": PUBLISHER["@id"]}
+        page["inLanguage"] = "en"
+        if lastmod:
+            page["datePublished"] = lastmod
+    return {"@context": "https://schema.org", "@graph": graph}
+
+
+def social_metadata(name: str, soup: BeautifulSoup, url: str, lastmod: str | None) -> str:
+    """Render Open Graph and Twitter card tags for link previews."""
+    title = soup.title.get_text()
+    description = soup.find("meta", attrs={"name": "description"})["content"]
+    is_article = name.startswith("notes/")
+    tags = [
+        ("property", "og:type", "article" if is_article else "website"),
+        ("property", "og:site_name", SITE_NAME),
+        ("property", "og:locale", "en_US"),
+        ("property", "og:title", title),
+        ("property", "og:description", description),
+        ("property", "og:url", url),
+        ("name", "twitter:card", "summary"),
+        ("name", "twitter:site", "@steeldotdev"),
+    ]
+    if is_article and lastmod:
+        tags.append(("property", "article:published_time", lastmod))
+    return "".join(
+        f'  <meta {attribute}="{key}" content="{html.escape(value, quote=True)}">\n'
+        for attribute, key, value in tags
+    )
+
+
+def page_markdown(document: str, url: str) -> str:
+    """Keep editorial content and evidence, omit navigation and decorative controls."""
+    soup = BeautifulSoup(document, "html.parser")
+    main = soup.find("main") or soup
+    for element in main.select("script, style, form, [hidden], [aria-hidden='true']"):
+        element.decompose()
+    for svg in main.find_all("svg"):
+        description = svg.get("aria-label") or svg.get_text(" ", strip=True)
+        svg.replace_with(soup.new_string(description))
+    for link in main.find_all("a", href=True):
+        link["href"] = urljoin(url, link["href"])
+    # Inline metadata needs whitespace after removing its visual layout.
+    for element in main.find_all(["span", "small", "strong", "a"]):
+        element.insert_after(" ")
+    body = markdownify(str(main), heading_style="ATX", bullets="-", strip=["summary"])
+    return f"Source: {url}\n\n" + re.sub(r"\n{3,}", "\n\n", body).strip() + "\n"
+
+
+def publication_outputs(outputs: dict[Path, str | bytes], catalog: dict) -> dict[Path, str | bytes]:
+    """Generate discovery and delivery artifacts from the same validated site content."""
+    site = ROOT / "site"
+    pages = {
+        p.relative_to(site).as_posix(): v
+        for p, v in outputs.items()
+        if p.is_relative_to(site) and p.suffix == ".html"
+    }
+    assets = {}
+    # Hash fonts before CSS, so a font change also invalidates its stylesheet.
+    for name in ("fonts/Geist.woff2", "site.js", "site.css"):
+        content = outputs[site / "assets" / name]
+        if isinstance(content, str):
+            for old, new in assets.items():
+                content = content.replace(old, new)
+        raw = content.encode() if isinstance(content, str) else content
+        path = Path(name)
+        hashed = str(
+            path.with_name(f"{path.stem}.{hashlib.sha256(raw).hexdigest()[:16]}{path.suffix}")
+        )
+        assets[name] = hashed
+        outputs[site / "assets" / hashed] = content
+    outputs[site / "assets/manifest.json"] = json.dumps(assets, indent=2) + "\n"
+    outputs[site / "favicon.ico"] = (ROOT / "templates/favicon.ico").read_bytes()
+    routes = {}
+    lastmods = {}
+    catalog_reviewed = max((a["last_reviewed_at"] for a in catalog["approaches"]), default=None)
+    parsed_pages = {
+        name: BeautifulSoup(document, "html.parser") for name, document in pages.items()
+    }
+    note_dates = {
+        name: stamp["datetime"]
+        for name, soup in parsed_pages.items()
+        if name.startswith("notes/") and (stamp := soup.select_one(".note-meta time[datetime]"))
+    }
+    for name, document in pages.items():
+        prefix = "../" if name.startswith("notes/") else ""
+        document = document.replace(
+            "</head>", f'  <link rel="icon" href="{prefix}favicon.ico" sizes="32x32">\n</head>'
+        )
+        md_name = name.removesuffix(".html") + ".md"
+        url = canonical_url(name)
+        if name != "404.html":
+            outputs[site / md_name] = page_markdown(document, url)
+            soup = parsed_pages[name]
+            lastmod = page_lastmod(name, soup, catalog_reviewed, note_dates)
+            lastmods[name] = lastmod
+            # A closing tag inside JSON would end the script element early.
+            json_ld = json.dumps(
+                structured_data(name, soup, url, lastmod), ensure_ascii=False
+            ).replace("</", "<\\/")
+            metadata = (
+                f'<link rel="canonical" href="{url}">\n'
+                f'  <link rel="alternate" type="text/markdown" href="{ORIGIN}/{md_name}">\n'
+                f'  <link rel="describedby" type="text/markdown" href="{ORIGIN}/data-guide.md">\n'
+                + social_metadata(name, soup, url, lastmod)
+                + f'  <script type="application/ld+json">{json_ld}</script>\n'
+            )
+            routes["/" if name == "index.html" else "/" + name] = "/" + md_name
+            document = document.replace("</head>", "  " + metadata + "</head>")
+        for old, new in assets.items():
+            document = document.replace("assets/" + old, "assets/" + new)
+        if name == "404.html":
+            # Missing nested URLs must still load navigation and assets from the root.
+            document = re.sub(r'(href|src)="(?!https?://|#)([^"]+)"', r'\1="/\2"', document)
+        outputs[site / name] = document
+    routes["/index.html"] = "/index.md"
+    outputs[ROOT / "routing-manifest.json"] = json.dumps(routes, indent=2) + "\n"
+    outputs[site / "sitemap.xml"] = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "".join(
+            f"  <url><loc>{xml_escape(canonical_url(name))}</loc>"
+            + (f"<lastmod>{lastmods[name]}</lastmod>" if lastmods.get(name) else "")
+            + "</url>\n"
+            for name in sorted(pages)
+            if name != "404.html"
+        )
+        + "</urlset>\n"
+    )
+    outputs[site / "robots.txt"] = (
+        "# Public catalog: crawling is allowed.\n"
+        "# Content Signals express preferences; cited publishers retain their own rights.\n"
+        "User-agent: *\nAllow: /\n"
+        "Content-Signal: search=yes, ai-input=yes, ai-train=yes\n\n"
+        "User-agent: OAI-SearchBot\nUser-agent: ChatGPT-User\n"
+        "User-agent: Claude-SearchBot\nUser-agent: Claude-User\nAllow: /\n"
+        "Content-Signal: search=yes, ai-input=yes, ai-train=yes\n\n"
+        f"Sitemap: {ORIGIN}/sitemap.xml\n"
+    )
+    guide = (ROOT / "templates/data-guide.md").read_text()
+    outputs[site / "data-guide.md"] = guide + "\n" + (ROOT / "data/schema.md").read_text()
+    index = []
+    claims = {c["id"]: c for c in catalog["claims"]}
+    sources = {s["id"]: s for s in catalog["sources"]}
+    parsed_catalog = BeautifulSoup(pages["index.html"], "html.parser")
+    for approach in catalog["approaches"]:
+        key = approach["id"]
+        record = {
+            "schema_version": catalog["schema_version"],
+            "approaches": [approach],
+            "claims": [claims[k] for k in approach["claim_ids"]],
+            "sources": [sources[k] for k in approach["source_ids"]],
+        }
+        outputs[site / f"agents/{key}.json"] = (
+            json.dumps(record, ensure_ascii=False, indent=2) + "\n"
+        )
+        entry = parsed_catalog.find(attrs={"data-approach-id": key})
+        entry.find("h3").name = "h1"
+        outputs[site / f"agents/{key}.md"] = page_markdown(str(entry), ORIGIN + "/#" + key)
+        index.append(
+            {
+                **{
+                    k: approach[k]
+                    for k in (
+                        "id",
+                        "company",
+                        "agent_name",
+                        "approach_type",
+                        "domains",
+                        "last_reviewed_at",
+                    )
+                },
+                "url": ORIGIN + "/#" + key,
+                "json_url": f"{ORIGIN}/agents/{key}.json",
+                "markdown_url": f"{ORIGIN}/agents/{key}.md",
+            }
+        )
+    outputs[site / "agents/index.json"] = (
+        json.dumps({"schema_version": 1, "approaches": index}, ensure_ascii=False, indent=2) + "\n"
+    )
+    outputs[site / "llms.txt"] = (
+        "# Internal Agents Map\n\n"
+        "> A source-backed catalog of AI systems organizations build or adapt for their own teams.\n\n"
+        "Read the compact index first, then fetch individual records for relevant systems. "
+        "Preserve claim qualifications, dates, confidence, and contradicting evidence. "
+        "Cite original sources; catalog judgments and company-reported metrics are not independent verification.\n\n"
+        f"- [Compact catalog index]({ORIGIN}/agents/index.json)\n"
+        f"- [Data and evidence guide]({ORIGIN}/data-guide.md)\n"
+        f"- [Complete dataset]({ORIGIN}/agents.json)\n"
+        + "".join(
+            f"- [{BeautifulSoup(document, 'html.parser').title.get_text()}]({ORIGIN}/{name.removesuffix('.html')}.md)\n"
+            for name, document in pages.items()
+            if name != "404.html"
+        )
+    )
+    config = json.loads((ROOT / "templates/vercel.json").read_text())
+    common_links = f'<{ORIGIN}/data-guide.md>; rel="describedby"; type="text/markdown", <{ORIGIN}/agents/index.json>; rel="collection"; type="application/json"'
+    for hashed in assets.values():
+        config["headers"].append(
+            {
+                "source": "/assets/" + hashed,
+                "headers": [
+                    {"key": "Cache-Control", "value": "public, max-age=31536000, immutable"}
+                ],
+            }
+        )
+    for name in pages:
+        if name != "404.html":
+            config["headers"].append(
+                {
+                    "source": "/" + name.removesuffix(".html") + ".md",
+                    "headers": [
+                        {"key": "Link", "value": f'<{canonical_url(name)}>; rel="canonical"'}
+                    ],
+                }
+            )
+    for path, md in routes.items():
+        config["headers"].append(
+            {
+                "source": path,
+                "headers": [
+                    {"key": "Vary", "value": "Accept"},
+                    {
+                        "key": "Link",
+                        "value": f'<{ORIGIN}{md}>; rel="alternate"; type="text/markdown", '
+                        + common_links,
+                    },
+                ],
+            }
+        )
+    outputs[ROOT / "vercel.json"] = json.dumps(config, indent=2) + "\n"
+    return outputs
+
+
 def rendered_outputs(records: list[dict]) -> dict[Path, str | bytes]:
     readme = README.read_text(encoding="utf-8")
     patterns = PATTERNS.read_text(encoding="utf-8")
     adoption_lessons = ADOPTION_LESSONS.read_text(encoding="utf-8")
     catalog = normalize(records)
     catalog_json = json.dumps(catalog, indent=2, ensure_ascii=False) + "\n"
-    return {
+    outputs = {
         README: replace_between_markers(
             readme, OVERVIEW_BEGIN, OVERVIEW_END, render_overview(records), "README.md"
         ),
@@ -1549,6 +1887,21 @@ def rendered_outputs(records: list[dict]) -> dict[Path, str | bytes]:
         DATA_JSON: catalog_json,
         ROOT / "site/index.html": render_site(catalog),
         ROOT / "site/definitions.html": render_definitions(catalog),
+        **{
+            ROOT / "site" / name: render_editorial_page(name)
+            for name in (
+                "404.html",
+                "methodology.html",
+                "notes.html",
+                "notes/stop-a-run.html",
+                "notes/review-noise.html",
+                "notes/split-the-work.html",
+                "notes/work-can-continue.html",
+                "notes/load-tools.html",
+                "notes/steps-without-a-model.html",
+                "notes/test-on-your-work.html",
+            )
+        },
         ROOT / "site/agents.json": catalog_json,
         **{
             ROOT / "site/assets" / name: (ROOT / "templates" / name).read_text(encoding="utf-8")
@@ -1559,6 +1912,8 @@ def rendered_outputs(records: list[dict]) -> dict[Path, str | bytes]:
             for name in ("Geist.woff2", "OFL.txt")
         },
     }
+
+    return publication_outputs(outputs, catalog)
 
 
 def write_outputs(outputs: dict[Path, str | bytes]) -> None:
@@ -1601,6 +1956,13 @@ def main() -> None:
             )
         print(f"Validated {len(records)} approaches. Generated files are current.")
         return
+    for pattern in ("assets/*.*.*", "assets/fonts/*.*.woff2", "agents/*.json", "agents/*.md"):
+        for old in (ROOT / "site").glob(pattern):
+            generated = old.parent.name == "agents" or re.fullmatch(
+                r"(?:site|Geist)\.[a-f0-9]{16}\.(?:css|js|woff2)", old.name
+            )
+            if generated and old not in outputs and old.is_file() and not old.is_symlink():
+                old.unlink()
     write_outputs(outputs)
     print(f"\n{len(records)} approaches. Build complete.")
 

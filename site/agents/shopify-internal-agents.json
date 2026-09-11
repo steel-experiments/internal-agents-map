@@ -1,0 +1,480 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "shopify-internal-agents",
+      "company": "Shopify",
+      "agent_name": "Aquifer / River",
+      "approach_type": "platform",
+      "deployment_stage": "scaled",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026",
+        "source_id": "shopify-internal-agents-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "coding",
+        "code-review",
+        "research",
+        "security"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "River coding request → reviewed pull request",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "event-driven",
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "shopify-internal-agents--summary",
+        "shopify-internal-agents--headline-metric",
+        "shopify-internal-agents--architecture-sandbox",
+        "shopify-internal-agents--architecture-harness",
+        "shopify-internal-agents--architecture-model",
+        "shopify-internal-agents--architecture-interfaces",
+        "shopify-internal-agents--architecture-tool-access",
+        "shopify-internal-agents--architecture-knowledge",
+        "shopify-internal-agents--architecture-credentials",
+        "shopify-internal-agents--architecture-context-mgmt",
+        "shopify-internal-agents--primitives-0",
+        "shopify-internal-agents--primitives-1",
+        "shopify-internal-agents--primitives-2",
+        "shopify-internal-agents--key-metrics-0",
+        "shopify-internal-agents--key-metrics-1",
+        "shopify-internal-agents--key-metrics-2",
+        "shopify-internal-agents--lessons-learned-0",
+        "shopify-internal-agents--lessons-learned-1",
+        "shopify-internal-agents--lessons-learned-2",
+        "shopify-internal-agents--lessons-learned-3",
+        "shopify-internal-agents--operating-models-0"
+      ],
+      "source_ids": [
+        "shopify-internal-agents-source-1"
+      ],
+      "interfaces": [
+        "slack",
+        "github"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "shopify-internal-agents--summary",
+      "approach_id": "shopify-internal-agents",
+      "field": "summary",
+      "text": "The Aquifer agent platform (session/harness/sandbox split) powers River, a Slack-native coding agent, plus research, migration, and app-security agents.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "shopify-internal-agents--headline-metric",
+      "approach_id": "shopify-internal-agents",
+      "field": "headline_metric",
+      "text": "1 in 8 merged PRs company-wide coauthored by River",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 12"
+        }
+      ],
+      "reported_by": "Shopify",
+      "metric_scope": "Merged River-coauthored PRs across Shopify",
+      "denominator": "All Shopify merged pull requests"
+    },
+    {
+      "id": "shopify-internal-agents--architecture-sandbox",
+      "approach_id": "shopify-internal-agents",
+      "field": "architecture.sandbox",
+      "text": "An execution environment (filesystem, shell, repo, build/test) separated from the harness; Shopify credits the brain-and-hands framing to Anthropic",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "shopify-internal-agents--architecture-harness",
+      "approach_id": "shopify-internal-agents",
+      "field": "architecture.harness",
+      "text": "Session (durable; Postgres append-only event log) + Harness (cheap agent loop) + Cell (ephemeral Go runtime); cells die, sessions persist",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "shopify-internal-agents--architecture-model",
+      "approach_id": "shopify-internal-agents",
+      "field": "architecture.model",
+      "text": "The design lets Shopify change the model without changing the sandbox",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "shopify-internal-agents--architecture-interfaces",
+      "approach_id": "shopify-internal-agents",
+      "field": "architecture.interfaces",
+      "text": "slack, github",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "shopify-internal-agents--architecture-tool-access",
+      "approach_id": "shopify-internal-agents",
+      "field": "architecture.tool_access",
+      "text": "Repo + tests + data warehouse + production traces + PR creation; a gateway credentials proxy",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "shopify-internal-agents--architecture-knowledge",
+      "approach_id": "shopify-internal-agents",
+      "field": "architecture.knowledge",
+      "text": "Monorepo 'World' (code + skills + conventions + intent docs + runbooks + AGENTS.md); Nix reproducible envs; Slack-transcript corpus mining",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "shopify-internal-agents--architecture-credentials",
+      "approach_id": "shopify-internal-agents",
+      "field": "architecture.credentials",
+      "text": "Gateway credentials proxy; per-profile sandbox policies; Shopify SSO",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "shopify-internal-agents--architecture-context-mgmt",
+      "approach_id": "shopify-internal-agents",
+      "field": "architecture.context_mgmt",
+      "text": "Skills loaded on-demand as files, updatable per session; session survival across cell/sandbox/machine death",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "shopify-internal-agents--primitives-0",
+      "approach_id": "shopify-internal-agents",
+      "field": "primitives.0",
+      "text": "Durable identity, disposable loop, isolated execution; swap any layer independently",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "shopify-internal-agents--primitives-1",
+      "approach_id": "shopify-internal-agents",
+      "field": "primitives.1",
+      "text": "Slack-native coding agent in public channels only; visibility drives adoption",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "shopify-internal-agents--primitives-2",
+      "approach_id": "shopify-internal-agents",
+      "field": "primitives.2",
+      "text": "Written-down knowledge mined from successful patterns and public transcripts",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "shopify-internal-agents--key-metrics-0",
+      "approach_id": "shopify-internal-agents",
+      "field": "key_metrics.0",
+      "text": "River: 59,918 sessions / 30 days across 5,170 Slack channels",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 83"
+        }
+      ],
+      "reported_by": "Shopify",
+      "metric_scope": "River sessions and distinct Slack channels in a recent 30-day period",
+      "measurement_method": "river_sessions domain table, written by River every session"
+    },
+    {
+      "id": "shopify-internal-agents--key-metrics-1",
+      "approach_id": "shopify-internal-agents",
+      "field": "key_metrics.1",
+      "text": "3,536 River-coauthored PRs merged; 1 in 8 merged PRs company-wide",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 12, 83"
+        }
+      ],
+      "reported_by": "Shopify",
+      "metric_scope": "River-coauthored merged PRs in the recent 30-day period; company-wide PR share",
+      "denominator": "All Shopify merged pull requests for the one-in-eight share",
+      "measurement_method": "river_sessions domain table for reported session-linked counts"
+    },
+    {
+      "id": "shopify-internal-agents--key-metrics-2",
+      "approach_id": "shopify-internal-agents",
+      "field": "key_metrics.2",
+      "text": "Median session 19 min; median 50 tool calls/session",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 65"
+        }
+      ],
+      "reported_by": "Shopify",
+      "metric_scope": "Median River session duration and tool calls per session"
+    },
+    {
+      "id": "shopify-internal-agents--lessons-learned-0",
+      "approach_id": "shopify-internal-agents",
+      "field": "lessons_learned.0",
+      "text": "Agent-friendly is human-friendly; monorepo, reproducible envs, written skills, and fast CI help both",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "shopify-internal-agents--lessons-learned-1",
+      "approach_id": "shopify-internal-agents",
+      "field": "lessons_learned.1",
+      "text": "Local agents have a ceiling; private windows mean only the person at the keyboard learns anything",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "shopify-internal-agents--lessons-learned-2",
+      "approach_id": "shopify-internal-agents",
+      "field": "lessons_learned.2",
+      "text": "Session survival is critical; cells die, sandboxes die, machines die; the conversation doesn't",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "shopify-internal-agents--lessons-learned-3",
+      "approach_id": "shopify-internal-agents",
+      "field": "lessons_learned.3",
+      "text": "Treat agents as profiles, not platforms; a new agent is a new bundle on the same substrate",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "shopify-internal-agents--operating-models-0",
+      "approach_id": "shopify-internal-agents",
+      "field": "operating_models.0",
+      "text": "Level 3 for River coding request → reviewed pull request; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The source documents pull-request creation but does not establish outcome-only supervision.",
+      "valid_at": "2026",
+      "evidence": [
+        {
+          "source_id": "shopify-internal-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "shopify-internal-agents-source-1",
+      "title": "Under the River",
+      "url": "https://shopify.engineering/under-the-river",
+      "canonical_url": "https://shopify.engineering/under-the-river",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "shopify-internal-agents-source-1",
+        "original_url": "https://shopify.engineering/under-the-river",
+        "final_url": "https://shopify.engineering/under-the-river",
+        "captured_at": "2026-08-31T17:48:37Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/shopify-internal-agents-source-1/content.md",
+            "sha256": "sha256:b6959f35653333a4b1d0c121de670b362420c92d4481bfc922a6be83a0f2e848",
+            "bytes": 13739
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "shopify-internal-agents"
+    }
+  ]
+}

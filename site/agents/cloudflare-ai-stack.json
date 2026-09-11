@@ -1,0 +1,558 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "cloudflare-ai-stack",
+      "company": "Cloudflare",
+      "agent_name": "Internal AI engineering stack",
+      "approach_type": "platform",
+      "deployment_stage": "scaled",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026",
+        "source_id": "cloudflare-ai-stack-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "coding",
+        "code-review"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "pull request → AI review findings",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "event-driven",
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "cloudflare-ai-stack--summary",
+        "cloudflare-ai-stack--headline-metric",
+        "cloudflare-ai-stack--architecture-sandbox",
+        "cloudflare-ai-stack--architecture-harness",
+        "cloudflare-ai-stack--architecture-model",
+        "cloudflare-ai-stack--architecture-interfaces",
+        "cloudflare-ai-stack--architecture-tool-access",
+        "cloudflare-ai-stack--architecture-knowledge",
+        "cloudflare-ai-stack--architecture-credentials",
+        "cloudflare-ai-stack--architecture-context-mgmt",
+        "cloudflare-ai-stack--primitives-0",
+        "cloudflare-ai-stack--primitives-1",
+        "cloudflare-ai-stack--primitives-2",
+        "cloudflare-ai-stack--primitives-3",
+        "cloudflare-ai-stack--key-metrics-0",
+        "cloudflare-ai-stack--key-metrics-1",
+        "cloudflare-ai-stack--key-metrics-2",
+        "cloudflare-ai-stack--key-metrics-3",
+        "cloudflare-ai-stack--lessons-learned-0",
+        "cloudflare-ai-stack--lessons-learned-1",
+        "cloudflare-ai-stack--lessons-learned-2",
+        "cloudflare-ai-stack--lessons-learned-3",
+        "cloudflare-ai-stack--operating-models-0"
+      ],
+      "source_ids": [
+        "cloudflare-ai-stack-source-1",
+        "cloudflare-ai-stack-source-2"
+      ],
+      "interfaces": [
+        "cli",
+        "ci",
+        "web"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "cloudflare-ai-stack--summary",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "summary",
+      "text": "An internal platform of MCP servers, an access layer, and AI tooling (incl. an AI code reviewer) that makes agents useful inside Cloudflare.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "cloudflare-ai-stack-source-2",
+          "relation": "contextualizes"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare-ai-stack--headline-metric",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "headline_metric",
+      "text": "47.95 million AI requests in 30 days across the internal AI engineering system",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": "2026",
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 14–20"
+        }
+      ],
+      "reported_by": "Cloudflare",
+      "metric_scope": "Internal AI engineering requests in the 30 days preceding the report",
+      "measurement_method": "Company-reported AI Gateway count for the preceding 30 days"
+    },
+    {
+      "id": "cloudflare-ai-stack--architecture-sandbox",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "architecture.sandbox",
+      "text": "Dynamic Workers for sandboxed code execution; Sandbox SDK to clone/build/test",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare-ai-stack--architecture-harness",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "architecture.harness",
+      "text": "OpenCode + Windsurf clients; Agents SDK (McpAgent + Durable Objects) for stateful sessions",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare-ai-stack--architecture-model",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "architecture.model",
+      "text": "Workers AI (open-weight, on-platform) + frontier models (Opus, GPT), routed by task",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare-ai-stack--architecture-interfaces",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "architecture.interfaces",
+      "text": "cli, ci, web",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare-ai-stack--architecture-tool-access",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "architecture.tool_access",
+      "text": "MCP Server Portal; one OAuth point aggregating 182+ tools from 13 servers; AI Gateway for routing, cost, BYOK, ZDR",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare-ai-stack--architecture-knowledge",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "architecture.knowledge",
+      "text": "Backstage catalog (2,055 services) + AGENTS.md generated across ~3,900 repos",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare-ai-stack--architecture-credentials",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "architecture.credentials",
+      "text": "Zero API keys on client machines; a Worker injects keys server-side; Cloudflare Access (Zero Trust) auth",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare-ai-stack--architecture-context-mgmt",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "architecture.context_mgmt",
+      "text": "Code Mode collapses upstream tool schemas into search + execute, holding token overhead constant at scale",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare-ai-stack--primitives-0",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "primitives.0",
+      "text": "One OAuth aggregation point for all MCP tools",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare-ai-stack--primitives-1",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "primitives.1",
+      "text": "Collapse N tool schemas into 2 calls to hold token overhead constant at scale",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare-ai-stack--primitives-2",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "primitives.2",
+      "text": "Structured, generated repo context (runtime, nav, conventions, boundaries, deps)",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare-ai-stack--primitives-3",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "primitives.3",
+      "text": "Multi-agent CI review: risk tiering, specialist agents, Codex-rule citations",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare-ai-stack--key-metrics-0",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "key_metrics.0",
+      "text": "3,683 internal users (60% of company, 93% of R&D)",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": "2026",
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 14–16"
+        }
+      ],
+      "reported_by": "Cloudflare",
+      "metric_scope": "Active internal AI coding-tool users in the preceding 30 days",
+      "denominator": "Approximately 6,100 employees for company share; R&D organization for R&D share"
+    },
+    {
+      "id": "cloudflare-ai-stack--key-metrics-1",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "key_metrics.1",
+      "text": "47.95M AI requests and 241.37B tokens via AI Gateway in the preceding 30 days",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": "2026",
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 14–20"
+        }
+      ],
+      "reported_by": "Cloudflare",
+      "metric_scope": "Internal AI requests and AI Gateway tokens in the preceding 30 days",
+      "measurement_method": "Reported request counts and AI Gateway token counts"
+    },
+    {
+      "id": "cloudflare-ai-stack--key-metrics-2",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "key_metrics.2",
+      "text": "10,952 merge requests in the week of March 23, 2026, nearly double the Q4 baseline; four-week average above 8,700",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": "2026-03",
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 25–29"
+        }
+      ],
+      "reported_by": "Cloudflare",
+      "metric_scope": "Company merge requests in the week of March 23, 2026, versus Q4 baseline; not agent-authored PRs",
+      "measurement_method": "Weekly merge-request count; distinct from the four-week rolling average"
+    },
+    {
+      "id": "cloudflare-ai-stack--key-metrics-3",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "key_metrics.3",
+      "text": "295 teams using agentic AI tools",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": "2026",
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 14–18"
+        }
+      ],
+      "reported_by": "Cloudflare",
+      "metric_scope": "Teams using agentic AI tools and coding assistants in the reported 30-day snapshot"
+    },
+    {
+      "id": "cloudflare-ai-stack--lessons-learned-0",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "lessons_learned.0",
+      "text": "Centralize through a proxy early; direct-to-gateway looks simpler but blocks per-user attribution, model cataloging, and policy later",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare-ai-stack--lessons-learned-1",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "lessons_learned.1",
+      "text": "Without structured data, agents are working blind; they read code but can't see the system around it (Backstage / AGENTS.md)",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare-ai-stack--lessons-learned-2",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "lessons_learned.2",
+      "text": "Tool schemas eat context (34 GitLab tools ≈ 7.5% of a 200K window); collapse them at the portal",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare-ai-stack--lessons-learned-3",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "lessons_learned.3",
+      "text": "Frontier + open-source hybrid: route a growing share of workloads to cheaper self-hosted models",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare-ai-stack--operating-models-0",
+      "approach_id": "cloudflare-ai-stack",
+      "field": "operating_models.0",
+      "text": "Level 3 for pull request → AI review findings; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The source documents automated review findings, but the record combines several platform workflows.",
+      "valid_at": "2026-04-20",
+      "evidence": [
+        {
+          "source_id": "cloudflare-ai-stack-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "cloudflare-ai-stack-source-1",
+      "title": "The AI engineering stack we built internally",
+      "url": "https://blog.cloudflare.com/internal-ai-engineering-stack/",
+      "canonical_url": "https://blog.cloudflare.com/internal-ai-engineering-stack/",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "cloudflare-ai-stack-source-1",
+        "original_url": "https://blog.cloudflare.com/internal-ai-engineering-stack/",
+        "final_url": "https://blog.cloudflare.com/internal-ai-engineering-stack/",
+        "captured_at": "2026-08-31T17:40:51Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/cloudflare-ai-stack-source-1/content.md",
+            "sha256": "sha256:2454a2ab695ab9611aa982b541b698f3bb948358a6680c7da13e66ad7307a9d8",
+            "bytes": 29257
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "cloudflare-ai-stack"
+    },
+    {
+      "id": "cloudflare-ai-stack-source-2",
+      "title": "Hacker News discussion of Cloudflare's internal AI engineering stack",
+      "url": "https://news.ycombinator.com/item?id=47837240",
+      "canonical_url": "https://news.ycombinator.com/item?id=47837240",
+      "kind": "hn-thread",
+      "provenance_class": "community",
+      "role": "commentary",
+      "authors": [
+        "mavelikara"
+      ],
+      "published_at": "2026-04-20",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "cloudflare-ai-stack-source-2",
+        "original_url": "https://news.ycombinator.com/item?id=47837240",
+        "final_url": "https://news.ycombinator.com/item?id=47837240",
+        "captured_at": "2026-08-31T17:40:59Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/cloudflare-ai-stack-source-2/content.md",
+            "sha256": "sha256:529a706a81204c6f55ca7acf5ff98d9343c7060b986a6dcf535f579dfe4ef0dc",
+            "bytes": 742
+          }
+        }
+      },
+      "approach_id": "cloudflare-ai-stack"
+    }
+  ]
+}

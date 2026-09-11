@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import importlib.util
 import json
 import re
@@ -14,8 +15,19 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent
 ALLOWED_FILES = {
+    "favicon.ico",
+    "404.html",
     "index.html",
     "definitions.html",
+    "methodology.html",
+    "notes.html",
+    "notes/stop-a-run.html",
+    "notes/review-noise.html",
+    "notes/split-the-work.html",
+    "notes/work-can-continue.html",
+    "notes/load-tools.html",
+    "notes/steps-without-a-model.html",
+    "notes/test-on-your-work.html",
     "agents.json",
     "assets/site.css",
     "assets/site.js",
@@ -51,6 +63,41 @@ class SiteParser(HTMLParser):
 
 def validate(root: Path, catalog_path: Path = ROOT / "data/agents.json") -> list[str]:
     errors = []
+    catalog = json.loads(catalog_path.read_bytes())
+    allowed = ALLOWED_FILES | {
+        "robots.txt",
+        "sitemap.xml",
+        "llms.txt",
+        "data-guide.md",
+        "agents/index.json",
+        "assets/manifest.json",
+    }
+    allowed |= {
+        name.replace(".html", ".md")
+        for name in ALLOWED_FILES
+        if name.endswith(".html") and name != "404.html"
+    }
+    allowed |= {f"agents/{a['id']}.{ext}" for a in catalog["approaches"] for ext in ("json", "md")}
+    try:
+        manifest = json.loads((root / "assets/manifest.json").read_text())
+        if set(manifest) != {"site.css", "site.js", "fonts/Geist.woff2"}:
+            errors.append("Invalid hashed asset manifest.")
+        for original, hashed in manifest.items():
+            original_path = Path(original)
+            pattern = (
+                re.escape(str(original_path.with_suffix("")))
+                + r"\.[a-f0-9]{16}"
+                + re.escape(original_path.suffix)
+            )
+            if not re.fullmatch(pattern, hashed):
+                errors.append(f"Invalid hashed asset path: {hashed}")
+                continue
+            allowed.add("assets/" + hashed)
+            content = (root / "assets" / hashed).read_bytes()
+            if hashlib.sha256(content).hexdigest()[:16] != Path(hashed).name.split(".")[-2]:
+                errors.append(f"Asset content hash mismatch: {hashed}")
+    except (OSError, ValueError, TypeError):
+        errors.append("Missing or invalid hashed assets.")
     if root.is_symlink() or not root.is_dir():
         return ["Site root must be a real directory, not a symlink."]
     root = root.resolve()
@@ -62,17 +109,22 @@ def validate(root: Path, catalog_path: Path = ROOT / "data/agents.json") -> list
             actual.add(path.relative_to(root).as_posix())
             if path.stat().st_size == 0:
                 errors.append(f"Empty output: {path.relative_to(root)}")
-        elif path.is_dir() and path.relative_to(root).as_posix() not in {"assets", "assets/fonts"}:
+        elif path.is_dir() and path.relative_to(root).as_posix() not in {
+            "assets",
+            "assets/fonts",
+            "notes",
+            "agents",
+        }:
             errors.append(f"Unexpected directory: {path.relative_to(root)}")
-    if actual != ALLOWED_FILES:
+    if actual != allowed:
         errors.append(
-            f"Output boundary mismatch: missing {sorted(ALLOWED_FILES - actual)}, extra {sorted(actual - ALLOWED_FILES)}"
+            f"Output boundary mismatch: missing {sorted(allowed - actual)}, extra {sorted(actual - allowed)}"
         )
     if errors:
         return errors
     try:
         pages = {}
-        for name in sorted(ALLOWED_FILES):
+        for name in sorted(allowed):
             if not name.endswith(".html"):
                 continue
             page = SiteParser()
@@ -109,6 +161,9 @@ def validate(root: Path, catalog_path: Path = ROOT / "data/agents.json") -> list
                 if parts.scheme.lower() not in {"http", "https"}:
                     errors.append(f"Unsafe URL scheme: {url}")
                 return
+            if document.name == "404.html" and url.startswith("/") and not url.startswith("//"):
+                check_url(url[1:], root / "index.html")
+                return
             if parts.netloc or url.startswith(("/", "\\")):
                 errors.append(f"Asset/link must be relative: {url}")
                 return
@@ -129,18 +184,19 @@ def validate(root: Path, catalog_path: Path = ROOT / "data/agents.json") -> list
         for document, page in pages.items():
             for url in page.urls:
                 check_url(url, document)
-        css = (root / "assets/site.css").read_text(encoding="utf-8")
-        for match in re.finditer(r'url\(\s*[\'"]?([^\'"\s)]+)[\'"]?\s*\)', css):
-            check_url(match[1], root / "assets/site.css")
-        if "@import" in css.lower():
-            errors.append("CSS imports are outside the self-contained artifact contract.")
+        for css_path in (root / "assets").glob("*.css"):
+            css = css_path.read_text(encoding="utf-8")
+            for match in re.finditer(r"url\(\s*['\"]?([^'\"\s)]+)['\"]?\s*\)", css):
+                check_url(match[1], css_path)
+            if "@import" in css.lower():
+                errors.append("CSS imports are outside the self-contained artifact contract.")
         # Reuse the existing policy on every artifact, including new untracked text.
         spec = importlib.util.spec_from_file_location(
             "site_privacy", ROOT / "scripts/check_private_data.py"
         )
         privacy = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(privacy)
-        for name in ALLOWED_FILES:
+        for name in allowed:
             if privacy.find_emails(root / name):
                 errors.append(f"Private contact data in artifact: {name}")
     except (OSError, ValueError, KeyError) as error:

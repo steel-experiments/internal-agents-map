@@ -289,11 +289,21 @@ class ArtifactTests(unittest.TestCase):
         self.assertTrue(any("Duplicate IDs" in e for e in checker.validate(self.root)))
 
     def test_escaping_path(self):
-        self.change_html('href="assets/site.css"', 'href="../outside.css"')
+        self.change_html(
+            'href="assets/'
+            + json.loads((self.root / "assets/manifest.json").read_text())["site.css"]
+            + '"',
+            'href="../outside.css"',
+        )
         self.assertTrue(any("escapes" in e for e in checker.validate(self.root)))
 
     def test_absolute_asset(self):
-        self.change_html('href="assets/site.css"', 'href="/assets/site.css"')
+        self.change_html(
+            'href="assets/'
+            + json.loads((self.root / "assets/manifest.json").read_text())["site.css"]
+            + '"',
+            'href="/assets/site.css"',
+        )
         self.assertTrue(any("relative" in e for e in checker.validate(self.root)))
 
     def test_executable_scheme(self):
@@ -327,7 +337,7 @@ class ArtifactTests(unittest.TestCase):
 
 
 class WorkflowTests(unittest.TestCase):
-    def test_publication_requires_validated_main_artifact(self):
+    def test_workflow_validates_without_deploying(self):
         workflow = yaml.load(
             (ROOT / ".github/workflows/validate.yml").read_text(), Loader=yaml.BaseLoader
         )
@@ -335,27 +345,15 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("github.ref", workflow["concurrency"]["group"])
         self.assertEqual(workflow["concurrency"]["cancel-in-progress"], "true")
         jobs = workflow["jobs"]
-        validation = jobs["validate"]
-        steps = validation["steps"]
+        self.assertEqual(list(jobs), ["validate"])
+        steps = jobs["validate"]["steps"]
         commands = [step.get("run", "") for step in steps]
         self.assertIn("uv run --locked python scripts/build.py --check", commands)
         self.assertIn("uv run --locked python scripts/check_site.py --root site", commands)
         self.assertNotIn("uv run --locked python scripts/build.py", commands)
-        upload = steps[-1]
-        self.assertTrue(upload["uses"].startswith("actions/upload-pages-artifact@"))
-        self.assertEqual(upload["with"]["path"], "site/")
-        deploy = jobs["deploy"]
-        self.assertEqual(deploy["needs"], "validate")
-        for condition in [upload["if"], deploy["if"]]:
-            self.assertIn("github.ref == 'refs/heads/main'", condition)
-            self.assertIn("github.event_name == 'push'", condition)
-            self.assertIn("github.event_name == 'workflow_dispatch'", condition)
-            self.assertNotIn("github.event_name == 'pull_request'", condition)
-        self.assertEqual(deploy["environment"]["name"], "github-pages")
-        self.assertEqual(deploy["permissions"], {"pages": "write", "id-token": "write"})
-        self.assertNotIn("pages", validation.get("permissions", {}))
-        self.assertIn("concurrency", deploy)
-        for step in steps + deploy["steps"]:
+        # One public host only: GitHub Pages would duplicate every page.
+        self.assertNotIn("pages", str(workflow).lower())
+        for step in steps:
             if "uses" in step:
                 self.assertRegex(step["uses"], r"@[0-9a-f]{40}$")
 

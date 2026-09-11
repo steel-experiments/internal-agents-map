@@ -1,0 +1,235 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "plaid-internal-mcp-server",
+      "company": "Plaid",
+      "agent_name": "Internal MCP server",
+      "approach_type": "supporting-pattern",
+      "deployment_stage": "scaled",
+      "year": 2025,
+      "first_public_evidence": {
+        "date": "2025",
+        "source_id": "plaid-internal-mcp-server-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "coding"
+      ],
+      "autonomy": "unknown",
+      "operating_models": [
+        {
+          "scope": "engineer request → internal tool access",
+          "attention_boundary": "unknown",
+          "level": null
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "plaid-internal-mcp-server--summary",
+        "plaid-internal-mcp-server--headline-metric",
+        "plaid-internal-mcp-server--architecture-harness",
+        "plaid-internal-mcp-server--architecture-tool-access",
+        "plaid-internal-mcp-server--architecture-credentials",
+        "plaid-internal-mcp-server--key-metrics-0",
+        "plaid-internal-mcp-server--key-metrics-1",
+        "plaid-internal-mcp-server--operating-models-0"
+      ],
+      "source_ids": [
+        "plaid-internal-mcp-server-source-1"
+      ],
+      "interfaces": []
+    }
+  ],
+  "claims": [
+    {
+      "id": "plaid-internal-mcp-server--summary",
+      "approach_id": "plaid-internal-mcp-server",
+      "field": "summary",
+      "text": "Plaid's central internal Model Context Protocol server. Plaid built it because third-party MCP servers could not reach its internal data. The server integrates more than 20 tools and several internal services such as Jira, application logs, and data schemas, behind Plaid's identity-aware proxy and centralized authorization. Plaid reports thousands of tool calls and dozens of agents built on the server. Separately, Claude Code and Cursor are used by more than 80% of Plaid engineers; server adoption is not quantified.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-internal-mcp-server-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 38–45, 65–89"
+        }
+      ]
+    },
+    {
+      "id": "plaid-internal-mcp-server--headline-metric",
+      "approach_id": "plaid-internal-mcp-server",
+      "field": "headline_metric",
+      "text": "Dozens of agents rely on the internal MCP server; Claude Code and Cursor are used by over 80% of engineers",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Plaid reported the figures in its own engineering blog without independent verification.",
+      "valid_at": "2025",
+      "evidence": [
+        {
+          "source_id": "plaid-internal-mcp-server-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 38, 89"
+        }
+      ],
+      "reported_by": "Plaid",
+      "metric_scope": "Claude Code and Cursor adoption among Plaid engineers; separate from internal MCP server adoption",
+      "denominator": "Plaid engineers for the AI-client usage share"
+    },
+    {
+      "id": "plaid-internal-mcp-server--architecture-harness",
+      "approach_id": "plaid-internal-mcp-server",
+      "field": "architecture.harness",
+      "text": "Central internal MCP server that fronts vendor AI clients",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-internal-mcp-server-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "plaid-internal-mcp-server--architecture-tool-access",
+      "approach_id": "plaid-internal-mcp-server",
+      "field": "architecture.tool_access",
+      "text": "More than 20 tools and several internal services (Jira, logs, schemas)",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-internal-mcp-server-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "plaid-internal-mcp-server--architecture-credentials",
+      "approach_id": "plaid-internal-mcp-server",
+      "field": "architecture.credentials",
+      "text": "Behind Plaid's identity-aware proxy and centralized authorization",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-internal-mcp-server-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "plaid-internal-mcp-server--key-metrics-0",
+      "approach_id": "plaid-internal-mcp-server",
+      "field": "key_metrics.0",
+      "text": "Claude Code and Cursor are used by over 80% of Plaid engineers; the source does not report internal MCP server adoption share",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Plaid reported the figures in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-internal-mcp-server-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 38, 89"
+        }
+      ],
+      "reported_by": "Plaid",
+      "metric_scope": "Claude Code and Cursor adoption among Plaid engineers; separate from internal MCP server adoption",
+      "denominator": "Plaid engineers for the AI-client usage share"
+    },
+    {
+      "id": "plaid-internal-mcp-server--key-metrics-1",
+      "approach_id": "plaid-internal-mcp-server",
+      "field": "key_metrics.1",
+      "text": "Thousands of tool calls and dozens of agents built on it",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Plaid reported the figures in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "plaid-internal-mcp-server-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 89"
+        }
+      ],
+      "reported_by": "Plaid",
+      "metric_scope": "Tool calls and agents relying on the internal MCP server across engineering, product, and support"
+    },
+    {
+      "id": "plaid-internal-mcp-server--operating-models-0",
+      "approach_id": "plaid-internal-mcp-server",
+      "field": "operating_models.0",
+      "text": "Unclassified for engineer request → internal tool access; human attention boundary: unknown.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "unverified",
+      "confidence_reason": "The MCP server is a tool-access layer, not a workflow with a single human-attention boundary.",
+      "valid_at": "2025",
+      "evidence": [
+        {
+          "source_id": "plaid-internal-mcp-server-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "plaid-internal-mcp-server-source-1",
+      "title": "The Plaid internal MCP server",
+      "url": "https://engineering.plaid.com/the-plaid-internal-mcp-server-8eff08bb6bdb",
+      "canonical_url": "https://engineering.plaid.com/the-plaid-internal-mcp-server-8eff08bb6bdb",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "plaid-internal-mcp-server-source-1",
+        "original_url": "https://engineering.plaid.com/the-plaid-internal-mcp-server-8eff08bb6bdb",
+        "final_url": "https://engineering.plaid.com/the-plaid-internal-mcp-server-8eff08bb6bdb",
+        "captured_at": "2026-08-31T17:45:43Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/plaid-internal-mcp-server-source-1/content.md",
+            "sha256": "sha256:eaef686c595e813529b0393b47da2d86d96e3508ebf5e8641f548bdece56a1c1",
+            "bytes": 11749
+          }
+        }
+      },
+      "approach_id": "plaid-internal-mcp-server"
+    }
+  ]
+}

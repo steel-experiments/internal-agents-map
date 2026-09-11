@@ -1,0 +1,352 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "replit-manager-agent",
+      "company": "Replit",
+      "agent_name": "Manager agent (agent-of-agents)",
+      "approach_type": "orchestration-system",
+      "deployment_stage": "scaled",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026",
+        "source_id": "replit-manager-agent-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "coding",
+        "code-review",
+        "support",
+        "research",
+        "data"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "objective → verifiable multi-agent work product",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "replit-manager-agent--summary",
+        "replit-manager-agent--headline-metric",
+        "replit-manager-agent--architecture-sandbox",
+        "replit-manager-agent--architecture-harness",
+        "replit-manager-agent--architecture-model",
+        "replit-manager-agent--architecture-interfaces",
+        "replit-manager-agent--architecture-tool-access",
+        "replit-manager-agent--architecture-context-mgmt",
+        "replit-manager-agent--primitives-0",
+        "replit-manager-agent--key-metrics-0",
+        "replit-manager-agent--key-metrics-1",
+        "replit-manager-agent--lessons-learned-0",
+        "replit-manager-agent--lessons-learned-1",
+        "replit-manager-agent--operating-models-0"
+      ],
+      "source_ids": [
+        "replit-manager-agent-source-1"
+      ],
+      "interfaces": [
+        "slack"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "replit-manager-agent--summary",
+      "approach_id": "replit-manager-agent",
+      "field": "summary",
+      "text": "An internal agent-of-agents stack where every employee gets a manager agent that spawns multiple agents for verifiable work and escalates judgment to humans.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "replit-manager-agent-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "replit-manager-agent--headline-metric",
+      "approach_id": "replit-manager-agent",
+      "field": "headline_metric",
+      "text": "2.9x code output for a consistent author cohort; review latency, PR reversions, and incident trends reported flat",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "replit-manager-agent-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 10, 38–56"
+        }
+      ],
+      "reported_by": "Replit",
+      "metric_scope": "Code output for a consistent author cohort across early January to late June; separate from company-wide hiring effects",
+      "denominator": "Same cohort of authors before and after",
+      "measurement_method": "Comparison of contributed code for a consistent author cohort; raw company-wide lines of code increased 5.8x"
+    },
+    {
+      "id": "replit-manager-agent--architecture-sandbox",
+      "approach_id": "replit-manager-agent",
+      "field": "architecture.sandbox",
+      "text": "microVMs and remote filesystems behind access policies, token proxies, audit logging, and a ZeroTrust network",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "replit-manager-agent-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 34"
+        }
+      ]
+    },
+    {
+      "id": "replit-manager-agent--architecture-harness",
+      "approach_id": "replit-manager-agent",
+      "field": "architecture.harness",
+      "text": "Fleet/loop orchestration: a manager agent launches parallel agents for verifiable work and escalates judgment",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "replit-manager-agent-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "replit-manager-agent--architecture-model",
+      "approach_id": "replit-manager-agent",
+      "field": "architecture.model",
+      "text": "Not specified",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "replit-manager-agent-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "replit-manager-agent--architecture-interfaces",
+      "approach_id": "replit-manager-agent",
+      "field": "architecture.interfaces",
+      "text": "slack",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "replit-manager-agent-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "replit-manager-agent--architecture-tool-access",
+      "approach_id": "replit-manager-agent",
+      "field": "architecture.tool_access",
+      "text": "Investigates incidents, reviews PRs, answers questions, analyzes company data, triages support, researches sales accounts, improves Replit Agent itself",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "replit-manager-agent-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "replit-manager-agent--architecture-context-mgmt",
+      "approach_id": "replit-manager-agent",
+      "field": "architecture.context_mgmt",
+      "text": "Manager agent coordinates parallel sub-agents and routes results",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "replit-manager-agent-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "replit-manager-agent--primitives-0",
+      "approach_id": "replit-manager-agent",
+      "field": "primitives.0",
+      "text": "One human gives an objective; the manager spawns parallel agents for verifiable work and escalates judgment",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "replit-manager-agent-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "replit-manager-agent--key-metrics-0",
+      "approach_id": "replit-manager-agent",
+      "field": "key_metrics.0",
+      "text": "2.9x code output for a consistent author cohort from early January to late June",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "replit-manager-agent-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 10, 38–56"
+        }
+      ],
+      "reported_by": "Replit",
+      "metric_scope": "Code output for a consistent author cohort across early January to late June; separate from company-wide hiring effects",
+      "denominator": "Same cohort of authors before and after",
+      "measurement_method": "Comparison of contributed code for a consistent author cohort; raw company-wide lines of code increased 5.8x"
+    },
+    {
+      "id": "replit-manager-agent--key-metrics-1",
+      "approach_id": "replit-manager-agent",
+      "field": "key_metrics.1",
+      "text": "No corresponding deterioration in review/reversion/incident metrics",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "replit-manager-agent-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 50–56"
+        }
+      ],
+      "reported_by": "Replit",
+      "metric_scope": "Company code review latency, PR reversion rates, and incidents opened during increased code output",
+      "measurement_method": "Company comparison of review latency, PR reversion rates, and incident trends"
+    },
+    {
+      "id": "replit-manager-agent--lessons-learned-0",
+      "approach_id": "replit-manager-agent",
+      "field": "lessons_learned.0",
+      "text": "Give every employee a manager agent that spawns sub-agents; verifiable work parallelizes, judgment escalates to humans",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "replit-manager-agent-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "replit-manager-agent--lessons-learned-1",
+      "approach_id": "replit-manager-agent",
+      "field": "lessons_learned.1",
+      "text": "Track outcome metrics (reverts, incidents), not activity; output can scale without quality regressions",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "replit-manager-agent-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "replit-manager-agent--operating-models-0",
+      "approach_id": "replit-manager-agent",
+      "field": "operating_models.0",
+      "text": "Level 3 for objective → verifiable multi-agent work product; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The source describes autonomous parallel execution followed by human judgment on the resulting work.",
+      "valid_at": "2026",
+      "evidence": [
+        {
+          "source_id": "replit-manager-agent-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "replit-manager-agent-source-1",
+      "title": "The Self-Driving Company",
+      "url": "https://ld.replit.com/blog/self-driving-company",
+      "canonical_url": "https://ld.replit.com/blog/self-driving-company",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "replit-manager-agent-source-1",
+        "original_url": "https://ld.replit.com/blog/self-driving-company",
+        "final_url": "https://ld.replit.com/blog/self-driving-company",
+        "captured_at": "2026-08-31T17:55:49Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/replit-manager-agent-source-1/content.md",
+            "sha256": "sha256:5574ad7e12c3c3ffaa8b6a892da4dec151f8c7a9f48ee766f508b8d583a31eb2",
+            "bytes": 15860
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "replit-manager-agent"
+    }
+  ]
+}

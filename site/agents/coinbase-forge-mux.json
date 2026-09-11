@@ -1,0 +1,401 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "coinbase-forge-mux",
+      "company": "Coinbase",
+      "agent_name": "Forge / Mux",
+      "approach_type": "agent-system",
+      "deployment_stage": "scaled",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026",
+        "source_id": "coinbase-forge-mux-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "coding",
+        "code-review"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "Slack, GitHub, or Linear request → reviewed pull request and build",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "event-driven",
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "coinbase-forge-mux--summary",
+        "coinbase-forge-mux--headline-metric",
+        "coinbase-forge-mux--architecture-sandbox",
+        "coinbase-forge-mux--architecture-harness",
+        "coinbase-forge-mux--architecture-model",
+        "coinbase-forge-mux--architecture-interfaces",
+        "coinbase-forge-mux--architecture-tool-access",
+        "coinbase-forge-mux--architecture-knowledge",
+        "coinbase-forge-mux--primitives-0",
+        "coinbase-forge-mux--primitives-1",
+        "coinbase-forge-mux--key-metrics-0",
+        "coinbase-forge-mux--lessons-learned-0",
+        "coinbase-forge-mux--lessons-learned-1",
+        "coinbase-forge-mux--lessons-learned-2",
+        "coinbase-forge-mux--operating-models-0"
+      ],
+      "source_ids": [
+        "coinbase-forge-mux-source-1",
+        "coinbase-forge-mux-source-2"
+      ],
+      "interfaces": [
+        "slack",
+        "github",
+        "linear"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "coinbase-forge-mux--summary",
+      "approach_id": "coinbase-forge-mux",
+      "field": "summary",
+      "text": "Forge turns a Slack/GitHub/Linear discussion into a Linear issue, fix, PR, and one-off build; Mux lets employees run many coding agents concurrently.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "coinbase-forge-mux-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "coinbase-forge-mux-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "coinbase-forge-mux--headline-metric",
+      "approach_id": "coinbase-forge-mux",
+      "field": "headline_metric",
+      "text": "Mux: 600+ users including engineers, PMs, and designers (335 active, 197 power users)",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "coinbase-forge-mux-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 24–34"
+        }
+      ],
+      "reported_by": "Coinbase",
+      "metric_scope": "Registered Mux users including engineers, PMs, and designers; 335 active and 197 power users"
+    },
+    {
+      "id": "coinbase-forge-mux--architecture-sandbox",
+      "approach_id": "coinbase-forge-mux",
+      "field": "architecture.sandbox",
+      "text": "Mux gives each concurrent agent its own git worktree, branch, and terminal",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "coinbase-forge-mux-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "coinbase-forge-mux--architecture-harness",
+      "approach_id": "coinbase-forge-mux",
+      "field": "architecture.harness",
+      "text": "Portfolio approach; Claude Code, OpenCode, Cursor, and Copilot rather than one harness; Forge is a custom harness invokable from Slack, GitHub, and Linear",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "coinbase-forge-mux-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "coinbase-forge-mux-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "coinbase-forge-mux--architecture-model",
+      "approach_id": "coinbase-forge-mux",
+      "field": "architecture.model",
+      "text": "Portfolio across multiple providers",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "coinbase-forge-mux-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "coinbase-forge-mux--architecture-interfaces",
+      "approach_id": "coinbase-forge-mux",
+      "field": "architecture.interfaces",
+      "text": "slack, github, linear",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "coinbase-forge-mux-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "coinbase-forge-mux--architecture-tool-access",
+      "approach_id": "coinbase-forge-mux",
+      "field": "architecture.tool_access",
+      "text": "Linear treated as the structured product context / source of truth",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "coinbase-forge-mux-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "coinbase-forge-mux--architecture-knowledge",
+      "approach_id": "coinbase-forge-mux",
+      "field": "architecture.knowledge",
+      "text": "Linear as the durable structured-context layer for product work",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "coinbase-forge-mux-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "coinbase-forge-mux--primitives-0",
+      "approach_id": "coinbase-forge-mux",
+      "field": "primitives.0",
+      "text": "Custom harness: Slack bug discussion → Linear issue → fix → PR → one-off build",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "coinbase-forge-mux-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "coinbase-forge-mux--primitives-1",
+      "approach_id": "coinbase-forge-mux",
+      "field": "primitives.1",
+      "text": "Concurrency layer; one human coordinates many isolated coding agents, each in its own worktree/branch/terminal",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "coinbase-forge-mux-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "coinbase-forge-mux--key-metrics-0",
+      "approach_id": "coinbase-forge-mux",
+      "field": "key_metrics.0",
+      "text": "Mux: 600+ users including engineers, PMs, and designers (335 active, 197 power users)",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "coinbase-forge-mux-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 24–34"
+        }
+      ],
+      "reported_by": "Coinbase",
+      "metric_scope": "Registered Mux users including engineers, PMs, and designers; 335 active and 197 power users"
+    },
+    {
+      "id": "coinbase-forge-mux--lessons-learned-0",
+      "approach_id": "coinbase-forge-mux",
+      "field": "lessons_learned.0",
+      "text": "Support a portfolio of harnesses (Claude Code, OpenCode, Cursor, Copilot) rather than standardizing on one",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "coinbase-forge-mux-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "coinbase-forge-mux--lessons-learned-1",
+      "approach_id": "coinbase-forge-mux",
+      "field": "lessons_learned.1",
+      "text": "Keep the system of record (Linear) as the agent's structured context; conversation can be the input, Linear stays durable",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "coinbase-forge-mux-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "coinbase-forge-mux--lessons-learned-2",
+      "approach_id": "coinbase-forge-mux",
+      "field": "lessons_learned.2",
+      "text": "Simple per-agent worktree/branch/terminal isolation is a pragmatic alternative to full sandboxing for concurrent coding",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "coinbase-forge-mux-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "coinbase-forge-mux--operating-models-0",
+      "approach_id": "coinbase-forge-mux",
+      "field": "operating_models.0",
+      "text": "Level 3 for Slack, GitHub, or Linear request → reviewed pull request and build; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The source describes delegated implementation that returns a pull request and build for human review.",
+      "valid_at": "2026",
+      "evidence": [
+        {
+          "source_id": "coinbase-forge-mux-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "coinbase-forge-mux-source-1",
+      "title": "Coding had a concurrency problem: how Mux helped solve it",
+      "url": "https://www.coinbase.com/de/blog/coding-had-a-concurrency-problem-how-mux-helped-solve-it",
+      "canonical_url": "https://www.coinbase.com/de/blog/coding-had-a-concurrency-problem-how-mux-helped-solve-it",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "coinbase-forge-mux-source-1",
+        "original_url": "https://www.coinbase.com/de/blog/coding-had-a-concurrency-problem-how-mux-helped-solve-it",
+        "final_url": "https://www.coinbase.com/de/blog/coding-had-a-concurrency-problem-how-mux-helped-solve-it",
+        "captured_at": "2026-08-31T17:41:07Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/coinbase-forge-mux-source-1/content.md",
+            "sha256": "sha256:741948a748f28315d02d2fe5e5d6e2816d755179592e2cbf5c6b57be6daf8850",
+            "bytes": 6767
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "coinbase-forge-mux"
+    },
+    {
+      "id": "coinbase-forge-mux-source-2",
+      "title": "Coinbase × Linear (Forge workflow)",
+      "url": "https://linear.app/customers/coinbase",
+      "canonical_url": "https://linear.app/customers/coinbase",
+      "kind": "case-study",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "coinbase-forge-mux-source-2",
+        "original_url": "https://linear.app/customers/coinbase",
+        "final_url": "https://linear.app/customers/coinbase",
+        "captured_at": "2026-08-31T17:41:18Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/coinbase-forge-mux-source-2/content.md",
+            "sha256": "sha256:b1b946c51a9f2ba6967b8d9a0ebd11f303714242714f4c22f8c09909f0f97f89",
+            "bytes": 4437
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "coinbase-forge-mux"
+    }
+  ]
+}

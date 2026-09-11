@@ -4,6 +4,7 @@ version = "0.0.0"
 description = "Source-backed catalog of internal AI agent implementations"
 requires-python = ">=3.12"
 dependencies = [
+    "markdownify==1.2.2",
     "PyYAML==6.0.2",
 ]
 

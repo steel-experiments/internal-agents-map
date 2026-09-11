@@ -25,7 +25,10 @@
 <section id="terms">
   <p class="eyebrow">01 / The scope of the map</p>
   <h2>What is an internal agent?</h2>
-  <p>An <strong>internal agent</strong> serves an organization’s own workflows, using the company context, tools, and permissions needed for its task.</p>
+  <div class="core-definition">
+    <div><span class="definition-label">Working definition</span><p>An <strong>internal agent</strong> works with company context and tools to carry out the organization’s own work.</p></div>
+    <svg viewBox="0 0 300 210" role="img" aria-label="An agent connected to knowledge, tools, and workflows within an organization"><rect x="12" y="12" width="276" height="186" rx="2"/><text x="30" y="38">Organization</text><path d="M150 94 L60 149 M150 94 L150 149 M150 94 L240 149"/><circle class="agent-dot" cx="150" cy="94" r="9"/><text x="150" y="72" text-anchor="middle">Agent</text><circle cx="60" cy="149" r="5"/><circle cx="150" cy="149" r="5"/><circle cx="240" cy="149" r="5"/><text x="60" y="177" text-anchor="middle">Knowledge</text><text x="150" y="177" text-anchor="middle">Tools</text><text x="240" y="177" text-anchor="middle">Workflows</text></svg>
+  </div>
   <p>It might investigate a failed deployment, prepare a code change, or help an employee resolve an IT issue. “Internal” describes the work it serves. The organization can build the system itself or adapt an existing product.</p>
   <p>An agent answering customers directly serves a customer-facing role. One system can support both kinds of work.</p>
   <h3>What makes it an agent?</h3>
@@ -86,13 +89,24 @@
   <h2>Different questions about the same system</h2>
   <p>These terms answer different questions about a system. They can apply together.</p>
   <h3>Cloud and local: where does the work run?</h3>
+  <p class="concept-definition">Local and cloud describe <strong>where the agent runs.</strong></p>
+  <div class="concept-pair">
+    <figure><svg viewBox="0 0 300 150" role="img" aria-label="Local execution: the agent runs inside your device"><rect x="70" y="25" width="160" height="92" rx="3"/><path d="M55 128 H245 M120 117 V128 M180 117 V128"/><circle class="agent-dot" cx="150" cy="65" r="9"/><text x="150" y="98" text-anchor="middle">Agent runs here</text></svg><figcaption><strong>Local</strong><span>Execution on your device</span></figcaption></figure>
+    <figure><svg viewBox="0 0 300 150" role="img" aria-label="Cloud execution: your device connects to an agent running on a remote computer"><rect x="20" y="60" width="70" height="45" rx="2"/><path d="M12 114 H98 M90 82 H175"/><rect x="175" y="25" width="105" height="90" rx="3"/><circle class="agent-dot" cx="227" cy="55" r="9"/><text x="227" y="83" text-anchor="middle">Agent runs</text><text x="227" y="99" text-anchor="middle">here</text><text x="55" y="139" text-anchor="middle">Your device</text><text x="227" y="139" text-anchor="middle">Remote computer</text></svg><figcaption><strong>Cloud</strong><span>Execution on hosted infrastructure</span></figcaption></figure>
+  </div>
   <p>A <strong>cloud agent</strong> executes on hosted infrastructure, independently of the user’s device.</p>
   <p>A <strong>local agent</strong> executes on the user’s device. It may still call a model hosted in the cloud: model hosting and agent execution can happen in different places.</p>
   <p>Stripe’s Minions run on AWS EC2 development machines, making them an example of cloud execution.</p>
   <h3>Foreground and background: how do people interact with it?</h3>
+  <p class="concept-definition">Foreground and background describe <strong>how you participate while it works.</strong></p>
+  <div class="concept-pair">
+    <figure><svg viewBox="0 0 300 150" role="img" aria-label="Foreground work: repeated exchanges between you and the agent"><circle cx="55" cy="32" r="8"/><path d="M40 57 Q55 37 70 57 M55 65 V125 M245 65 V125 M75 72 H225 L219 68 M225 91 H75 L81 87 M75 110 H225 L219 106"/><circle class="agent-dot" cx="245" cy="40" r="9"/><text x="55" y="145" text-anchor="middle">You</text><text x="245" y="145" text-anchor="middle">Agent</text></svg><figcaption><strong>Foreground</strong><span>Discuss, steer, and iterate as it works</span></figcaption></figure>
+    <figure><svg viewBox="0 0 300 150" role="img" aria-label="Background work: a trigger starts the agent, which works independently and returns a result"><path d="M65 65 H110 L104 61 M190 65 H235 L229 61"/><circle cx="40" cy="65" r="6"/><rect x="110" y="30" width="80" height="70" stroke-dasharray="3 4"/><circle class="agent-dot" cx="150" cy="65" r="9"/><rect x="235" y="50" width="28" height="30"/><path d="M241 65 L247 71 L257 59"/><text x="40" y="129" text-anchor="middle">Trigger</text><text x="150" y="129" text-anchor="middle">Agent works</text><text x="249" y="129" text-anchor="middle">Result</text></svg><figcaption><strong>Background</strong><span>Work proceeds without continuous interaction</span></figcaption></figure>
+  </div>
   <p><strong>Foreground work</strong> involves active interaction with a person: discussing the task, giving instructions, or steering the next steps.</p>
   <p><strong>Background work</strong> proceeds without continuous interaction. A person can start it and return later, or a schedule or event can trigger it.</p>
   <p>These are modes of work. The same agent can move between them. An engineer might give a Minion instructions, leave it to work, then return to discuss the result.</p>
+  <aside class="concept-combination"><span class="definition-label">These descriptions work together</span><p>One agent can be <strong>internal, cloud-hosted, and background.</strong></p><dl><div><dt>Whose work?</dt><dd>Internal</dd></div><div><dt>Where does it run?</dt><dd>Cloud</dd></div><div><dt>How do you participate?</dt><dd>Background</dd></div></dl><p class="combination-note">A local agent can also work in the background. A cloud agent can work with you in the foreground.</p></aside>
   <h3 id="autonomy">Autonomy: what can it do without approval?</h3>
   <p><strong>Autonomy</strong> describes the decisions and actions an agent can take without human approval.</p>
   <p>Describe that authority concretely:</p>

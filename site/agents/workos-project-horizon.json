@@ -1,0 +1,553 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "workos-project-horizon",
+      "company": "WorkOS",
+      "agent_name": "Project Horizon",
+      "approach_type": "platform",
+      "deployment_stage": "deployed",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026",
+        "source_id": "workos-project-horizon-source-1"
+      },
+      "last_reviewed_at": "2026-08-31",
+      "status": "internal",
+      "domains": [
+        "coding",
+        "code-review",
+        "security"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "requirements and acceptance criteria → tested implementation",
+          "attention_boundary": "outcome-review",
+          "level": 4
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "event-driven",
+          "interactive"
+        ],
+        "state": "durable-session",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "workos-project-horizon--summary",
+        "workos-project-horizon--architecture-sandbox",
+        "workos-project-horizon--architecture-harness",
+        "workos-project-horizon--architecture-model",
+        "workos-project-horizon--architecture-interfaces",
+        "workos-project-horizon--architecture-tool-access",
+        "workos-project-horizon--architecture-knowledge",
+        "workos-project-horizon--architecture-credentials",
+        "workos-project-horizon--architecture-context-mgmt",
+        "workos-project-horizon--primitives-0",
+        "workos-project-horizon--primitives-1",
+        "workos-project-horizon--primitives-2",
+        "workos-project-horizon--primitives-3",
+        "workos-project-horizon--lessons-learned-0",
+        "workos-project-horizon--lessons-learned-1",
+        "workos-project-horizon--lessons-learned-2",
+        "workos-project-horizon--lessons-learned-3",
+        "workos-project-horizon--lessons-learned-4",
+        "workos-project-horizon--operating-models-0"
+      ],
+      "source_ids": [
+        "workos-project-horizon-source-1",
+        "workos-project-horizon-source-2",
+        "workos-project-horizon-source-3",
+        "workos-project-horizon-source-4"
+      ],
+      "interfaces": [
+        "linear",
+        "github",
+        "slack",
+        "web"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "workos-project-horizon--summary",
+      "approach_id": "workos-project-horizon",
+      "field": "summary",
+      "text": "An internal autonomous 'code factory' where a continuously running swarm of agents handles the implementation loop while engineers focus on requirements and acceptance testing. Deliberately modular so the harness can evolve.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "workos-project-horizon-source-2",
+          "relation": "supports"
+        },
+        {
+          "source_id": "workos-project-horizon-source-3",
+          "relation": "contextualizes"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--architecture-sandbox",
+      "approach_id": "workos-project-horizon",
+      "field": "architecture.sandbox",
+      "text": "Cloudflare Containers + Sandbox SDK; disposable, tightly scoped sandboxes with explicit lifecycle APIs and egress controls; full monorepo stack in Docker dev containers",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--architecture-harness",
+      "approach_id": "workos-project-horizon",
+      "field": "architecture.harness",
+      "text": "Modular by design; the core article runs OpenCode in the sandbox; the Applied AI Showcase runs Claude Remote Routines. The harness is swappable as agent tech changes; separate PM, implementation, and prospective verification/security roles",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "workos-project-horizon-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--architecture-model",
+      "approach_id": "workos-project-horizon",
+      "field": "architecture.model",
+      "text": "Swappable; the harness is the constant, not the model",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "workos-project-horizon-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--architecture-interfaces",
+      "approach_id": "workos-project-horizon",
+      "field": "architecture.interfaces",
+      "text": "linear, github, slack, web",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--architecture-tool-access",
+      "approach_id": "workos-project-horizon",
+      "field": "architecture.tool_access",
+      "text": "A custom MCP server stitches internal data sources (Datadog, Sentry, Slack, WorkOS Pipes); all outbound traffic proxied through Workers with allowlists, limits, logging, and token injection",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "workos-project-horizon-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--architecture-knowledge",
+      "approach_id": "workos-project-horizon",
+      "field": "architecture.knowledge",
+      "text": "AGENTS.md and CLAUDE.md capture scripts, docs, conventions; MCP codifies the patterns engineers already follow; Notion + Figma for specs/mockups",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--architecture-credentials",
+      "approach_id": "workos-project-horizon",
+      "field": "architecture.credentials",
+      "text": "WorkOS Pipes (no OAuth/token-refresh to maintain); scoped short-lived GitHub tokens per user; engineers use their own identity in the MCP; least-privilege + egress controls",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--architecture-context-mgmt",
+      "approach_id": "workos-project-horizon",
+      "field": "architecture.context_mgmt",
+      "text": "The orchestrator pauses/resumes sandboxes and tracks state + artifacts across a run",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--primitives-0",
+      "approach_id": "workos-project-horizon",
+      "field": "primitives.0",
+      "text": "Separate what runs code from what manages the lifecycle",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--primitives-1",
+      "approach_id": "workos-project-horizon",
+      "field": "primitives.1",
+      "text": "A runtime controlled end-to-end, with lifecycle APIs and egress controls for the threat model",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--primitives-2",
+      "approach_id": "workos-project-horizon",
+      "field": "primitives.2",
+      "text": "Each run ships work and produces the next set of fixes, surfacing where the platform is brittle",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--primitives-3",
+      "approach_id": "workos-project-horizon",
+      "field": "primitives.3",
+      "text": "Tuning tools is ongoing, not a one-time integration",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--lessons-learned-0",
+      "approach_id": "workos-project-horizon",
+      "field": "lessons_learned.0",
+      "text": "You need purpose-built agent infrastructure; a runtime you control end-to-end with lifecycle APIs and egress controls",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--lessons-learned-1",
+      "approach_id": "workos-project-horizon",
+      "field": "lessons_learned.1",
+      "text": "Separate concerns: sandboxes are an execution primitive; the orchestrator is the control plane",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--lessons-learned-2",
+      "approach_id": "workos-project-horizon",
+      "field": "lessons_learned.2",
+      "text": "Build modularly so the harness can evolve; OpenCode today, Claude Remote Routines tomorrow, without rebuilding the platform",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "workos-project-horizon-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--lessons-learned-3",
+      "approach_id": "workos-project-horizon",
+      "field": "lessons_learned.3",
+      "text": "Make autonomy a platform; the system gets faster and more reliable through use as fixes feed back in",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--lessons-learned-4",
+      "approach_id": "workos-project-horizon",
+      "field": "lessons_learned.4",
+      "text": "MCP tuning is an iterative product, not a one-time integration; codify the patterns engineers already follow",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "workos-project-horizon--operating-models-0",
+      "approach_id": "workos-project-horizon",
+      "field": "operating_models.0",
+      "text": "Level 4 for requirements and acceptance criteria → tested implementation; human attention boundary: outcome-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The source describes engineers focusing on requirements and acceptance testing while agents run the implementation loop.",
+      "valid_at": "2026-05-06",
+      "evidence": [
+        {
+          "source_id": "workos-project-horizon-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "workos-project-horizon-source-1",
+      "title": "Project Horizon - an autonomous code factory at WorkOS",
+      "url": "https://workos.com/blog/project-horizon",
+      "canonical_url": "https://workos.com/blog/project-horizon",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "workos-project-horizon-source-1",
+        "original_url": "https://workos.com/blog/project-horizon",
+        "final_url": "https://workos.com/blog/project-horizon",
+        "captured_at": "2026-08-31T17:51:33Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/workos-project-horizon-source-1/content.md",
+            "sha256": "sha256:d65c744f67e8dcebff0bd7a541dc513e650d496825b2b6d7caa5fccc415bcdbf",
+            "bytes": 22458
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "workos-project-horizon"
+    },
+    {
+      "id": "workos-project-horizon-source-2",
+      "title": "Applied AI Showcase (Horizon with Claude Remote Routines)",
+      "url": "https://workos.com/blog/applied-ai-showcase",
+      "canonical_url": "https://workos.com/blog/applied-ai-showcase",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "workos-project-horizon-source-2",
+        "original_url": "https://workos.com/blog/applied-ai-showcase",
+        "final_url": "https://workos.com/blog/applied-ai-showcase",
+        "captured_at": "2026-08-31T17:51:42Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/workos-project-horizon-source-2/content.md",
+            "sha256": "sha256:39859b8507602df7bd868c0c1ff702ab82e5b74155f18c5a5608ed06233952f0",
+            "bytes": 10305
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "workos-project-horizon"
+    },
+    {
+      "id": "workos-project-horizon-source-3",
+      "title": "An autonomous UI-quality program",
+      "url": "https://workos.com/blog/autonomous-ui-quality-program",
+      "canonical_url": "https://workos.com/blog/autonomous-ui-quality-program",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "workos-project-horizon-source-3",
+        "original_url": "https://workos.com/blog/autonomous-ui-quality-program",
+        "final_url": "https://workos.com/blog/autonomous-ui-quality-program",
+        "captured_at": "2026-08-31T17:51:49Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/workos-project-horizon-source-3/content.md",
+            "sha256": "sha256:d6aa4db6f84168d77c3025f59a65f066a8d0e7df847aad2e3071bb1602987420",
+            "bytes": 6360
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "workos-project-horizon"
+    },
+    {
+      "id": "workos-project-horizon-source-4",
+      "title": "Hacker News submission for Project Horizon",
+      "url": "https://news.ycombinator.com/item?id=48039227",
+      "canonical_url": "https://news.ycombinator.com/item?id=48039227",
+      "kind": "hn-thread",
+      "provenance_class": "community",
+      "role": "discovery",
+      "authors": [
+        "i0exception"
+      ],
+      "published_at": "2026-05-06",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "workos-project-horizon-source-4",
+        "original_url": "https://news.ycombinator.com/item?id=48039227",
+        "final_url": "https://news.ycombinator.com/item?id=48039227",
+        "captured_at": "2026-08-31T17:51:59Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/workos-project-horizon-source-4/content.md",
+            "sha256": "sha256:9ce203a78d2e0e764ba23813d5c5968b9deddae29a3bc6c052cb8a8e465a96f9",
+            "bytes": 413
+          }
+        }
+      },
+      "approach_id": "workos-project-horizon"
+    }
+  ]
+}

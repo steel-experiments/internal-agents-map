@@ -1,0 +1,243 @@
+# Reading the Internal Agents Map programmatically
+
+No account, API key, or agent registration is required. These are public static files.
+
+1. Fetch [the compact index](https://internal-agents.com/agents/index.json).
+2. Match `company`, `agent_name`, `approach_type`, or `domains` to your question.
+3. Follow an entry's `json_url` or `markdown_url` to retrieve its evidence.
+4. Cite original publisher URLs and retain relevant dates and qualifications.
+
+The compact index has its own `schema_version: 1` and an `approaches` array. Each
+entry includes identification and filter fields, `last_reviewed_at`, a human-readable
+`url`, and links to the individual JSON and Markdown representations.
+
+[The complete dataset](https://internal-agents.com/agents.json) and individual JSON
+records use the catalog schema version below. Individual records retain the same
+`approaches`, `claims`, and `sources` collections, limited to one approach and its
+associated evidence. Join `claim_ids` and `source_ids` by `id`; do not infer facts
+from an agent's name or fill in unknown fields.
+
+Markdown is also available by sending `Accept: text/markdown` to a published HTML
+page. HTML is the default; an explicit `.md` URL always returns Markdown. Negotiated
+responses use `Vary: Accept`. Filters and URL fragments do not reduce the exported
+catalog; use individual records for selective retrieval.
+
+Distinguish reported facts from catalog judgments. Keep provenance, confidence,
+metric scopes, denominators, dates, and all evidence relations, including
+`contradicts` and `contextualizes`. An unknown value is not a negative finding.
+Company-reported results are not independently verified unless a source says so.
+
+Source `url` and `canonical_url` refer to the publisher, not this website. Capture
+paths remain repository-relative: resolve them against
+https://github.com/steel-experiments/internal-agents-map/blob/main/.
+Preserved source files are not hosted under this website's `/archive/` path.
+
+These files are regenerated on publication. Revalidate cached responses rather than
+assuming an unchanged URL contains unchanged data. The sitemap lists canonical HTML
+pages; `llms.txt` links to the reading formats. Crawl permission does not replace
+the repository license or the rights of cited publishers.
+
+---
+
+# Catalog data schema
+
+Each YAML file in `data/agents/` describes one reported approach. An approach can be an agent, a platform, an orchestration system, or an implemented supporting pattern.
+
+The build creates three linked collections in `data/agents.json`:
+
+- `approaches` contains the systems and their comparison fields.
+- `claims` contains sourced statements derived from authored fields.
+- `sources` contains the evidence and commentary records.
+
+Copy `templates/agent.yaml` when you add an approach. Omit optional fields when no public source documents them. Use `unknown` for required rubric fields when the sources do not provide an answer.
+
+## Required approach fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | string | A kebab-case ID that matches the file name. |
+| `company` | string | The organization that built or adapted the approach. |
+| `agent_name` | string | The reported name. Use a clear description if no name is public. |
+| `approach_type` | enum | The type of approach. See the values below. |
+| `deployment_stage` | enum | `research`, `prototype`, `pilot`, `deployed`, `scaled`, or `unknown`. |
+| `year` | integer | The year of the earliest verified public evidence. |
+| `first_public_evidence` | map | The evidence `date` and its `source_id`. |
+| `last_reviewed_at` | date | The last catalog review date. |
+| `status` | enum | `internal`, `open-sourced`, `commercialized`, or `mixed` for a combined record. |
+| `domains` | list | Work domains, such as `coding`, `support`, or `security`. |
+| `autonomy` | enum | The autonomy level. See the values below. |
+| `operating_models` | list | Scoped catalog assessments of where human attention returns in a normal successful run. |
+| `rubric` | map | Shared comparison fields. |
+| `summary` | string | A short, factual description. |
+| `sources` | list | Structured public sources. |
+| `evidence` | map | A link from each authored claim to one or more sources. |
+
+Optional identity fields include `aliases` and `family_id`. Use `relationships` to connect records. Each relationship has a `type` and `approach_id`. Types are `component-of`, `built-on`, `successor-of`, and `related-to`.
+
+### Approach types
+
+- `task-agent`: An agent that performs a bounded task.
+- `background-agent`: An agent that runs after delegation or an event.
+- `agent-system`: A set of related agents with shared infrastructure.
+- `platform`: Infrastructure that supports several agents or workflows.
+- `orchestration-system`: A system that coordinates other agents.
+- `supporting-pattern`: An implemented design that supports agent operation.
+
+### Autonomy values
+
+- `assistive`: A person drives the work and the system provides help.
+- `human-in-loop`: The system acts, but a person participates in each cycle or approval.
+- `drafts-reviewed`: The system prepares work that a person reviews before use.
+- `autonomous`: The work takes effect without required human review.
+- `unknown`: The sources do not document the review boundary.
+
+### Operating models and derived levels
+
+`operating_models` adapts [Dan Shapiro's five levels of AI-assisted software development](https://www.danshapiro.com/blog/2026/01/the-five-levels-from-spicy-autocomplete-to-the-software-factory/) to a documented internal-agent workflow, not to an organization as a whole. Shapiro's original framework is coding-oriented; this catalog generalizes it by asking where human attention normally returns. Each item contains only:
+
+| Field | Description |
+| --- | --- |
+| `scope` | A short description of the workflow being assessed, preferably from input to output. |
+| `attention_boundary` | Where human attention normally returns during a successful run. |
+
+The build derives the level from the attention boundary:
+
+| Attention boundary | Derived level | Meaning |
+| --- | ---: | --- |
+| `continuous-steering` | 2 | A person pairs with the agent throughout execution. |
+| `work-product-review` | 3 | The agent produces a draft or implementation that a person reviews. |
+| `outcome-review` | 4 | A person delegates from a specification and evaluates tests, behavior, or outcomes rather than routinely inspecting implementation. |
+| `exception-only` | 5 | A person is normally involved only when the system raises an exception. |
+| `unknown` | — | The collected evidence does not locate the human attention boundary. |
+
+Never render or interpret a level without its scope. Compound systems can have multiple scoped assessments. Use `unknown` rather than averaging different workflows or guessing from `autonomy`, invocation mode, output volume, or company identity.
+
+Each `operating_models.N` item is an evidence-linked inference with `catalog-judgment` provenance. Its claim metadata must include `confidence`, `confidence_reason`, and `valid_at`. The level itself is generated and is never authored as a reported company fact.
+
+## Comparison rubric
+
+The rubric organizes different definitions and designs. It does not determine whether an approach belongs in the catalog.
+
+| Field | Allowed values |
+| --- | --- |
+| `invocation` | A list of `interactive`, `background`, `scheduled`, `event-driven`, or `unknown`. |
+| `state` | `run-only`, `durable-session`, `cross-session-memory`, `mixed`, or `unknown`. |
+| `identity` | `user`, `dedicated-agent`, `service`, `mixed`, or `unknown`. |
+| `evidence_strength` | `detailed-primary`, `limited-primary`, `secondary-only`, `mixed`, or `unknown`. |
+
+Evidence strength describes the available detail. It does not measure whether a claim is true. A company article can provide detailed architecture and still contain marketing claims.
+
+## Optional description fields
+
+`architecture` can contain short strings for `sandbox`, `harness`, `model`, `tool_access`, `knowledge`, `credentials`, and `context_mgmt`. Its `interfaces` field is a list. For a reviewed but undocumented execution sandbox, use the canonical string `unknown`; omit an inapplicable sandbox for a supporting pattern. An earlier implementation's environment must be labeled as historical, not attributed to its replacement.
+
+Domain values are `coding`, `code-review`, `support`, `on-call`, `research`, `customer-success`, `security`, `finance-ops`, `data`, `ci-triage`, `maintenance`, `ops`, `recruitment`, and `migrations`.
+
+Interface values are `slack`, `github`, `web`, `cli`, `linear`, `chrome-extension`, `webhook`, `desktop`, `scheduled`, `skill`, `cursor`, `api`, `automation`, `ci`, `intercom`, `jira`, `internal-ui`, `mobile`, and `monday`.
+
+`primitives` is a list of maps with `name` and `desc` fields. `key_metrics` and `lessons_learned` are lists of strings. `headline_metric` is a short reported result.
+
+Treat all company metrics as self-reported unless an independent source verifies them. Include the date, scope, denominator, and measurement method when the source provides them.
+
+## Source records
+
+Every source requires these fields:
+
+| Field | Description |
+| --- | --- |
+| `id` | A repository-wide unique kebab-case ID. |
+| `title` | The source title. |
+| `url` | The immutable original publisher URL. It must use HTTPS and must never be replaced with an archive URL. |
+| `canonical_url` | The normalized publisher URL after redirects and tracking removal. |
+| `kind` | The source format. |
+| `provenance_class` | The relationship between the publisher and the approach. |
+| `accessed_at` | The collection date. |
+| `last_verified_at` | The last successful review date. |
+| `role` | `evidence`, `commentary`, or `discovery`. The default is `evidence`. |
+
+Optional fields include `publisher`, `authors`, `published_at`, `archived_url`, `capture`, and `duplicate_of`. `archived_url` is the preferred verified external archive URL and must use HTTPS. `capture` points to a repository-owned Steel capture manifest:
+
+```yaml
+archived_url: "https://web.archive.org/web/20260831123456/https://example.com/article"
+capture:
+  manifest_path: "archive/sources/company-agent-source-1/metadata.json"
+```
+
+The capture map contains exactly `manifest_path`. Capture bundles use this deterministic layout:
+
+```text
+archive/sources/<source-id>/metadata.json
+archive/sources/<source-id>/content.md
+archive/sources/<source-id>/page.pdf        # optional
+```
+
+The version 1 JSON manifest contains `schema_version`, `source_id`, `original_url`, `final_url`, `captured_at`, `http_status`, `tool`, and `artifacts`. It may also contain `external_archive_url`, which must equal `archived_url`. The `tool` map records `name: steel` and a non-empty version. `artifacts.markdown` is mandatory; `artifacts.pdf` is optional. Each artifact records its repository-relative `path`, exact `bytes`, and a lowercase `sha256:<digest>`. Markdown must be non-empty. PDFs must begin with `%PDF-` and cannot exceed 10 MiB. Paths and hashes are validated during every build.
+
+Captures are append-only evidence snapshots: never overwrite an existing bundle or use a capture to replace the original `url`. Create a new source ID when materially changed source content is needed for new claims.
+
+Source kinds are `engineering-blog`, `corporate-article`, `documentation`, `source-code`, `repository`, `release`, `social-post`, `talk`, `transcript`, `podcast`, `paper`, `case-study`, `news`, `hn-thread`, `hn-comment`, `forum`, and `other`.
+
+Provenance classes are:
+
+- `first-party`: The organization published the source.
+- `direct-participant`: A person who worked on the system published the source.
+- `independent-secondary`: An outside publication reported the information.
+- `community`: A community member supplied analysis or commentary.
+- `aggregator`: The source collects information from other sources.
+
+Use source records for evidence, context, and commentary. A Hacker News thread and each material comment are separate sources. Store item and comment IDs in the URL or optional metadata.
+
+## Claim evidence
+
+Every descriptive field becomes a claim in the generated JSON file. The `evidence` map links its field path to source records.
+
+```yaml
+evidence:
+  summary:
+    - source_id: acme-agent-source-1
+      relation: supports
+      locator: "Architecture, paragraph 3"
+  key_metrics.0:
+    - source_id: acme-agent-source-2
+      relation: supports
+      locator: "12:40"
+```
+
+The relation is `supports`, `contradicts`, or `contextualizes`. Use a stable locator when one exists. For preserved sources, `Preserved content.md, lines 23–27` refers to the immutable artifact in that source's capture bundle, including its archive header. A locator must identify the supporting passage, not merely a broad topic. For source code, record the commit, path, and line. For a talk, record the timestamp.
+
+Use `claim_metadata` when the default classification is not correct:
+
+```yaml
+claim_metadata:
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: "A direct participant reported the number without a method."
+    valid_at: 2026-04
+    reported_by: Acme
+    metric_scope: "Merged agent-authored pull requests"
+    denominator: "All merged pull requests"
+    measurement_method: "Company dashboard"
+```
+
+A metric's `valid_at` can identify a dated reported observation, but does not by itself define a measurement interval. Keep the interval explicit in `metric_scope` or `measurement_method`; never derive it from a capture or review timestamp. If a source says only “last month” or “as of Part 2,” preserve that wording and leave unsupported calendar dates unset.
+
+Claim kinds are `fact`, `metric`, `inference`, and `opinion`. Provenance values are `reported`, `observed`, `inferred`, and `catalog-judgment`. Confidence values are `high`, `medium`, `low`, and `unverified`.
+
+Metric metadata can also include `value`, `unit`, `reported_by`, `metric_scope`, `denominator`, and `measurement_method`. The generated export uses the company as `reported_by` when a reported metric does not override it.
+
+## Collection rules
+
+1. Resolve the approach identity before you extract claims.
+2. Capture source metadata before you summarize the source.
+3. Keep each authored claim short and specific.
+4. Link every claim to exact evidence.
+5. Preserve supporting, conflicting, and contextual sources.
+6. Mark catalog interpretation as `inferred` or `catalog-judgment`.
+7. Record unknown values instead of inferring absence.
+
+Normalize URLs and remove tracking parameters. Link mirrors and translations with `duplicate_of`. Do not merge two approaches only because one company built both. Use relationship metadata in a future record revision when systems share a platform or change names.
+
+Run `uv run python scripts/build.py` after each data change. Run
+`uv run python scripts/build.py --check` to verify committed output.

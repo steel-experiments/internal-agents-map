@@ -1,0 +1,189 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "retool-retoolgpt",
+      "company": "Retool",
+      "agent_name": "RetoolGPT",
+      "approach_type": "task-agent",
+      "deployment_stage": "deployed",
+      "year": 2025,
+      "first_public_evidence": {
+        "date": "2025-08",
+        "source_id": "retool-retoolgpt-source-1"
+      },
+      "last_reviewed_at": "2026-08-31",
+      "status": "internal",
+      "domains": [
+        "support",
+        "coding"
+      ],
+      "autonomy": "assistive",
+      "operating_models": [
+        {
+          "scope": "internal question → sourced answer",
+          "attention_boundary": "unknown",
+          "level": null
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "retool-retoolgpt--summary",
+        "retool-retoolgpt--architecture-model",
+        "retool-retoolgpt--architecture-knowledge",
+        "retool-retoolgpt--operating-models-0"
+      ],
+      "source_ids": [
+        "retool-retoolgpt-source-1",
+        "retool-retoolgpt-source-2"
+      ],
+      "interfaces": []
+    }
+  ],
+  "claims": [
+    {
+      "id": "retool-retoolgpt--summary",
+      "approach_id": "retool-retoolgpt",
+      "field": "summary",
+      "text": "Retool's internal assistant, built as a version of ChatGPT with access to Retool's internal Confluence documents, Retool documentation, and Linear tickets. The team deployed it organization-wide in a read-only environment so the whole team could use it.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "retool-retoolgpt-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "retool-retoolgpt-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "retool-retoolgpt--architecture-model",
+      "approach_id": "retool-retoolgpt",
+      "field": "architecture.model",
+      "text": "Built on ChatGPT",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "retool-retoolgpt-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "retool-retoolgpt--architecture-knowledge",
+      "approach_id": "retool-retoolgpt",
+      "field": "architecture.knowledge",
+      "text": "Retool Confluence documents, Retool documentation, and Linear tickets",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "retool-retoolgpt-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "retool-retoolgpt--operating-models-0",
+      "approach_id": "retool-retoolgpt",
+      "field": "operating_models.0",
+      "text": "Unclassified for internal question → sourced answer; human attention boundary: unknown.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "unverified",
+      "confidence_reason": "The public evidence does not document where human attention returns in the question-and-answer flow.",
+      "valid_at": "2025-08",
+      "evidence": [
+        {
+          "source_id": "retool-retoolgpt-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "retool-retoolgpt-source-1",
+      "title": "How we built RetoolGPT",
+      "url": "https://retool.com/blog/how-we-built-retoolgpt",
+      "canonical_url": "https://retool.com/blog/how-we-built-retoolgpt",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "published_at": "2025-08-05",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "retool-retoolgpt-source-1",
+        "original_url": "https://retool.com/blog/how-we-built-retoolgpt",
+        "final_url": "https://retool.com/blog/how-we-built-retoolgpt",
+        "captured_at": "2026-08-31T17:47:13Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/retool-retoolgpt-source-1/content.md",
+            "sha256": "sha256:ea0306fa05f826a3864b8fb86a421c31981b363440df166c5d88004a6ec27a97",
+            "bytes": 16758
+          }
+        }
+      },
+      "approach_id": "retool-retoolgpt"
+    },
+    {
+      "id": "retool-retoolgpt-source-2",
+      "title": "AI Build Week, Day 3: How we made RetoolGPT",
+      "url": "https://www.youtube.com/watch?v=8VTdYUBAZsY",
+      "canonical_url": "https://www.youtube.com/watch?v=8VTdYUBAZsY",
+      "kind": "talk",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "retool-retoolgpt-source-2",
+        "original_url": "https://www.youtube.com/watch?v=8VTdYUBAZsY",
+        "final_url": "https://www.youtube.com/watch?v=8VTdYUBAZsY",
+        "captured_at": "2026-08-31T17:47:24Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/retool-retoolgpt-source-2/content.md",
+            "sha256": "sha256:abb7d3c8ff3c0d99dfbf2d60f87d3951bdc8cdcc67e6679bb3e6dacc541db926",
+            "bytes": 1353
+          }
+        }
+      },
+      "approach_id": "retool-retoolgpt"
+    }
+  ]
+}

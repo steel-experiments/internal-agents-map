@@ -1,0 +1,537 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "monday-sphera-atlas-morphex",
+      "company": "monday.com",
+      "agent_name": "Sphera / Atlas / Morphex",
+      "approach_type": "agent-system",
+      "deployment_stage": "scaled",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026",
+        "source_id": "monday-sphera-atlas-morphex-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "coding",
+        "code-review"
+      ],
+      "autonomy": "autonomous",
+      "operating_models": [
+        {
+          "scope": "Atlas or Morphex feature task → tested and merged pull request",
+          "attention_boundary": "outcome-review",
+          "level": 4
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "event-driven",
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "dedicated-agent",
+        "evidence_strength": "secondary-only"
+      },
+      "claim_ids": [
+        "monday-sphera-atlas-morphex--summary",
+        "monday-sphera-atlas-morphex--headline-metric",
+        "monday-sphera-atlas-morphex--architecture-sandbox",
+        "monday-sphera-atlas-morphex--architecture-harness",
+        "monday-sphera-atlas-morphex--architecture-model",
+        "monday-sphera-atlas-morphex--architecture-interfaces",
+        "monday-sphera-atlas-morphex--architecture-tool-access",
+        "monday-sphera-atlas-morphex--architecture-knowledge",
+        "monday-sphera-atlas-morphex--architecture-credentials",
+        "monday-sphera-atlas-morphex--architecture-context-mgmt",
+        "monday-sphera-atlas-morphex--primitives-0",
+        "monday-sphera-atlas-morphex--primitives-1",
+        "monday-sphera-atlas-morphex--primitives-2",
+        "monday-sphera-atlas-morphex--primitives-3",
+        "monday-sphera-atlas-morphex--key-metrics-0",
+        "monday-sphera-atlas-morphex--key-metrics-1",
+        "monday-sphera-atlas-morphex--key-metrics-2",
+        "monday-sphera-atlas-morphex--key-metrics-3",
+        "monday-sphera-atlas-morphex--lessons-learned-0",
+        "monday-sphera-atlas-morphex--lessons-learned-1",
+        "monday-sphera-atlas-morphex--lessons-learned-2",
+        "monday-sphera-atlas-morphex--lessons-learned-3",
+        "monday-sphera-atlas-morphex--lessons-learned-4",
+        "monday-sphera-atlas-morphex--operating-models-0"
+      ],
+      "source_ids": [
+        "monday-sphera-atlas-morphex-source-1"
+      ],
+      "interfaces": [
+        "slack",
+        "monday",
+        "github"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "monday-sphera-atlas-morphex--summary",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "summary",
+      "text": "An internal agent system on Amazon Bedrock where agents have identities, managers, scopes, and performance scores; Atlas ships features, Morphex ships PRs autonomously.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--headline-metric",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "headline_metric",
+      "text": "Morphex: 19 of 20 PRs merge without human review",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 148–152"
+        }
+      ],
+      "reported_by": "monday.com",
+      "metric_scope": "Morphex PRs that merge automatically after CI and Guardrails pass",
+      "denominator": "Morphex pull requests; sample size and period not supplied"
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--architecture-sandbox",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "architecture.sandbox",
+      "text": "Amazon EKS, one pod per active session; a remote sandbox tests each PR before review; EFS workspace mount",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--architecture-harness",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "architecture.harness",
+      "text": "Claude Agent SDK behind a thin monday-agent-sdk wrapper (provider neutrality, cold-start optimization, custom harness opinions)",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--architecture-model",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "architecture.model",
+      "text": "Amazon Bedrock; Application Inference Profiles for routing; cross-region failover; PrivateLink (traffic stays in VPC)",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--architecture-interfaces",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "architecture.interfaces",
+      "text": "slack, monday, github",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--architecture-tool-access",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "architecture.tool_access",
+      "text": "Triggers via Slack @mention, monday item assignment, or GitHub PR review → SNS → per-team SQS → consumers; monday MCP servers underpin the Guardrails",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--architecture-knowledge",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "architecture.knowledge",
+      "text": "File-based memory: MEMORY.md (cross-session) + diary/YYYY-MM-DD.md; sessions/repos/secrets on EFS; durable records on S3",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--architecture-credentials",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "architecture.credentials",
+      "text": "Per-session secrets in AWS Secrets Manager; same RBAC as humans; real Slack/GitHub/monday accounts",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--architecture-context-mgmt",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "architecture.context_mgmt",
+      "text": "Live state in ElastiCache (sub-ms); monday boards (Builders CoWORK) as shared state for tasks, status, handoffs",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--primitives-0",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "primitives.0",
+      "text": "Stable identity + assigned human manager + scope + performance score",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--primitives-1",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "primitives.1",
+      "text": "Automated review against monday standards (metrics, feature flags, security)",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--primitives-2",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "primitives.2",
+      "text": "MEMORY.md + daily diary instead of vector retrieval",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--primitives-3",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "primitives.3",
+      "text": "monday boards as the shared-state layer for human/agent collaboration",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--key-metrics-0",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "key_metrics.0",
+      "text": "Morphex: 19 of 20 PRs merge automatically without human review",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 148–152"
+        }
+      ],
+      "reported_by": "monday.com",
+      "metric_scope": "Morphex PRs that merge automatically after CI and Guardrails pass",
+      "denominator": "Morphex pull requests; sample size and period not supplied"
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--key-metrics-1",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "key_metrics.1",
+      "text": "90% of Builders use AI coding tools monthly; adoption nearly doubled year over year",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 10, 16, 22"
+        }
+      ],
+      "reported_by": "monday.com",
+      "metric_scope": "Monthly AI coding-tool adoption among monday Builders, including engineers, PMs, analysts, and designers",
+      "denominator": "Builders; not exclusively engineers"
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--key-metrics-2",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "key_metrics.2",
+      "text": "Per-engineer PR throughput increased by more than 50%",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 10, 23"
+        }
+      ],
+      "reported_by": "monday.com",
+      "metric_scope": "Per-engineer pull-request throughput",
+      "denominator": "Engineers; baseline period and cohort size not specified"
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--key-metrics-3",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "key_metrics.3",
+      "text": "Guardrails catches ~25% of agent PRs before human review; low single-digit revert rate",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 154–158"
+        }
+      ],
+      "reported_by": "monday.com",
+      "metric_scope": "Recent cut of top PR-generating agents; Guardrails rejection before review and reverts among merged PRs",
+      "denominator": "Agent PRs for Guardrails rejection; merged PRs for revert rate"
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--lessons-learned-0",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "lessons_learned.0",
+      "text": "Evals from day one; should have been day one, not month nine",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--lessons-learned-1",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "lessons_learned.1",
+      "text": "Skip the vector store; file-based memory (MEMORY.md) was the right answer",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--lessons-learned-2",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "lessons_learned.2",
+      "text": "Remote-sandbox every PR before human review, with production-traffic replay",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--lessons-learned-3",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "lessons_learned.3",
+      "text": "The existing auth/identity/deploy pipeline applies to agents; reuse it",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--lessons-learned-4",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "lessons_learned.4",
+      "text": "AI engineering is building the feedback loops that let imperfect agents be trusted safely",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "monday-sphera-atlas-morphex--operating-models-0",
+      "approach_id": "monday-sphera-atlas-morphex",
+      "field": "operating_models.0",
+      "text": "Level 4 for Atlas or Morphex feature task → tested and merged pull request; human attention boundary: outcome-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The secondary source reports predominantly automatic merges and automated guardrails, while humans manage tasks and outcomes.",
+      "valid_at": "2026",
+      "evidence": [
+        {
+          "source_id": "monday-sphera-atlas-morphex-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "monday-sphera-atlas-morphex-source-1",
+      "title": "AI Teammates: how monday.com runs production AI agents on Amazon Bedrock",
+      "url": "https://aws.amazon.com/blogs/machine-learning/ai-teammates-how-monday-com-runs-production-ai-agents-on-amazon-bedrock/",
+      "canonical_url": "https://aws.amazon.com/blogs/machine-learning/ai-teammates-how-monday-com-runs-production-ai-agents-on-amazon-bedrock/",
+      "kind": "case-study",
+      "provenance_class": "independent-secondary",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "monday-sphera-atlas-morphex-source-1",
+        "original_url": "https://aws.amazon.com/blogs/machine-learning/ai-teammates-how-monday-com-runs-production-ai-agents-on-amazon-bedrock/",
+        "final_url": "https://aws.amazon.com/blogs/machine-learning/ai-teammates-how-monday-com-runs-production-ai-agents-on-amazon-bedrock/",
+        "captured_at": "2026-08-31T17:44:51Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/monday-sphera-atlas-morphex-source-1/content.md",
+            "sha256": "sha256:25216f6eb831f212852e1852a69cd661ce1c97e998a774dd2ed9acbaf019d9ab",
+            "bytes": 18211
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "monday-sphera-atlas-morphex"
+    }
+  ]
+}

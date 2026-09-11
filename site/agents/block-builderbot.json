@@ -1,0 +1,557 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "block-builderbot",
+      "company": "Block",
+      "agent_name": "Builderbot",
+      "approach_type": "orchestration-system",
+      "deployment_stage": "scaled",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026",
+        "source_id": "block-builderbot-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "coding",
+        "code-review"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "ticket → reviewed pull request",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "event-driven",
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "block-builderbot--summary",
+        "block-builderbot--headline-metric",
+        "block-builderbot--architecture-sandbox",
+        "block-builderbot--architecture-harness",
+        "block-builderbot--architecture-model",
+        "block-builderbot--architecture-interfaces",
+        "block-builderbot--architecture-tool-access",
+        "block-builderbot--architecture-knowledge",
+        "block-builderbot--primitives-0",
+        "block-builderbot--primitives-1",
+        "block-builderbot--key-metrics-0",
+        "block-builderbot--key-metrics-1",
+        "block-builderbot--key-metrics-2",
+        "block-builderbot--lessons-learned-0",
+        "block-builderbot--lessons-learned-1",
+        "block-builderbot--lessons-learned-2",
+        "block-builderbot--operating-models-0"
+      ],
+      "source_ids": [
+        "block-builderbot-source-1",
+        "block-builderbot-source-2",
+        "block-builderbot-source-3",
+        "block-builderbot-source-4",
+        "block-builderbot-source-5"
+      ],
+      "interfaces": [
+        "slack",
+        "linear",
+        "jira",
+        "github"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "block-builderbot--summary",
+      "approach_id": "block-builderbot",
+      "field": "summary",
+      "text": "A multi-agent orchestration layer built on goose + MCP that coordinates agents across Block's entire codebase, invoked in Slack to take a ticket end-to-end to a reviewed PR.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "block-builderbot-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "block-builderbot-source-2",
+          "relation": "supports"
+        },
+        {
+          "source_id": "block-builderbot-source-3",
+          "relation": "contextualizes"
+        },
+        {
+          "source_id": "block-builderbot-source-4",
+          "relation": "contextualizes"
+        }
+      ]
+    },
+    {
+      "id": "block-builderbot--headline-metric",
+      "approach_id": "block-builderbot",
+      "field": "headline_metric",
+      "text": "~1,500 PRs merged per week (~15% of all production code changes at Block)",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "block-builderbot-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 24"
+        }
+      ],
+      "reported_by": "Block",
+      "metric_scope": "Builderbot merged pull requests per week at Block",
+      "denominator": "All production code changes across Block for the approximately 15% share"
+    },
+    {
+      "id": "block-builderbot--architecture-sandbox",
+      "approach_id": "block-builderbot",
+      "field": "architecture.sandbox",
+      "text": "unknown",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The preserved sources do not document an execution sandbox; unknown does not mean absent.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "block-builderbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "block-builderbot--architecture-harness",
+      "approach_id": "block-builderbot",
+      "field": "architecture.harness",
+      "text": "Multi-agent orchestration built on goose (open-source agent framework) + MCP; multi-player, real-time, operating inside Slack threads",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "block-builderbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "block-builderbot--architecture-model",
+      "approach_id": "block-builderbot",
+      "field": "architecture.model",
+      "text": "goose framework; model not specified",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "block-builderbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "block-builderbot--architecture-interfaces",
+      "approach_id": "block-builderbot",
+      "field": "architecture.interfaces",
+      "text": "slack, linear, jira, github",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "block-builderbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "block-builderbot--architecture-tool-access",
+      "approach_id": "block-builderbot",
+      "field": "architecture.tool_access",
+      "text": "MCP connects agents to internal tools and data; picks up Linear/Jira tickets, creates the branch, writes code, opens the PR, watches CI",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "block-builderbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "block-builderbot--architecture-knowledge",
+      "approach_id": "block-builderbot",
+      "field": "architecture.knowledge",
+      "text": "Company-wide code context across hundreds of millions of lines and hundreds of services; Block also frames Builderbot as an 'agentic protector' around its software world model",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "block-builderbot-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "block-builderbot-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "block-builderbot--primitives-0",
+      "approach_id": "block-builderbot",
+      "field": "primitives.0",
+      "text": "Coordinates multiple agents over one codebase instead of running a single loop",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "block-builderbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "block-builderbot--primitives-1",
+      "approach_id": "block-builderbot",
+      "field": "primitives.1",
+      "text": "Linear/Jira ticket -> branch -> code -> PR -> CI watch, end to end",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "block-builderbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "block-builderbot--key-metrics-0",
+      "approach_id": "block-builderbot",
+      "field": "key_metrics.0",
+      "text": "200,000+ operations per day",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "block-builderbot-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 24"
+        }
+      ],
+      "reported_by": "Block",
+      "metric_scope": "Builderbot operations per day; the article does not define an operation"
+    },
+    {
+      "id": "block-builderbot--key-metrics-1",
+      "approach_id": "block-builderbot",
+      "field": "key_metrics.1",
+      "text": "~1,500 pull requests merged per week (~15% of all production code changes at Block)",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "block-builderbot-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 24"
+        }
+      ],
+      "reported_by": "Block",
+      "metric_scope": "Builderbot merged pull requests per week at Block",
+      "denominator": "All production code changes across Block for the approximately 15% share"
+    },
+    {
+      "id": "block-builderbot--key-metrics-2",
+      "approach_id": "block-builderbot",
+      "field": "key_metrics.2",
+      "text": "\"What used to take months now takes days\"",
+      "kind": "opinion",
+      "provenance": "reported",
+      "confidence": "low",
+      "confidence_reason": "Qualitative company statement, not a measured before-and-after study.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "block-builderbot-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 24–26"
+        }
+      ],
+      "metric_scope": "Reported turnaround for Square seller features and repetitive engineering work"
+    },
+    {
+      "id": "block-builderbot--lessons-learned-0",
+      "approach_id": "block-builderbot",
+      "field": "lessons_learned.0",
+      "text": "Concentrate investment on orchestration, context, and the environment; let engineers focus on the problems worth solving",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "block-builderbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "block-builderbot--lessons-learned-1",
+      "approach_id": "block-builderbot",
+      "field": "lessons_learned.1",
+      "text": "Meet people in Slack: tag @builderbot with a short description and it works in the thread",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "block-builderbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "block-builderbot--lessons-learned-2",
+      "approach_id": "block-builderbot",
+      "field": "lessons_learned.2",
+      "text": "Multi-player real-time collaboration lets humans steer research, planning, and implementation rather than only reviewing after the fact",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "block-builderbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "block-builderbot--operating-models-0",
+      "approach_id": "block-builderbot",
+      "field": "operating_models.0",
+      "text": "Level 3 for ticket → reviewed pull request; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The source explicitly describes end-to-end implementation ending in a reviewed pull request.",
+      "valid_at": "2026-06-21",
+      "evidence": [
+        {
+          "source_id": "block-builderbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "block-builderbot-source-1",
+      "title": "Block rolls out Builderbot, a new suite of AI-native tools that changes the way we ship",
+      "url": "https://block.xyz/inside/block-rolls-out-builderbot-a-new-suite-of-ai-native-tools-that-changes-the-way-we-ship",
+      "canonical_url": "https://block.xyz/inside/block-rolls-out-builderbot-a-new-suite-of-ai-native-tools-that-changes-the-way-we-ship",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "block-builderbot-source-1",
+        "original_url": "https://block.xyz/inside/block-rolls-out-builderbot-a-new-suite-of-ai-native-tools-that-changes-the-way-we-ship",
+        "final_url": "https://block.xyz/inside/block-rolls-out-builderbot-a-new-suite-of-ai-native-tools-that-changes-the-way-we-ship",
+        "captured_at": "2026-08-31T17:39:51Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/block-builderbot-source-1/content.md",
+            "sha256": "sha256:4189377fdd7349ee5fb0b8aa176460f51543348c6d53b1ae7e8a20943818643f",
+            "bytes": 4286
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "block-builderbot"
+    },
+    {
+      "id": "block-builderbot-source-2",
+      "title": "Protecting our systems with intelligence (Builderbot architecture)",
+      "url": "https://engineering.block.xyz/blog/protecting-our-systems-with-intelligence",
+      "canonical_url": "https://engineering.block.xyz/blog/protecting-our-systems-with-intelligence",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "block-builderbot-source-2",
+        "original_url": "https://engineering.block.xyz/blog/protecting-our-systems-with-intelligence",
+        "final_url": "https://engineering.block.xyz/blog/protecting-our-systems-with-intelligence",
+        "captured_at": "2026-08-31T17:39:58Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/block-builderbot-source-2/content.md",
+            "sha256": "sha256:2e7d3fb1c1682165745f9b78ef2560e0713e182eebd59887768cac12aa7dc9f7",
+            "bytes": 9784
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "block-builderbot"
+    },
+    {
+      "id": "block-builderbot-source-3",
+      "title": "block/builderbot source repository",
+      "url": "https://github.com/block/builderbot",
+      "canonical_url": "https://github.com/block/builderbot",
+      "kind": "repository",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "block-builderbot-source-3",
+        "original_url": "https://github.com/block/builderbot",
+        "final_url": "https://github.com/block/builderbot",
+        "captured_at": "2026-08-31T17:40:09Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/block-builderbot-source-3/content.md",
+            "sha256": "sha256:503f6115efd4f7042b22085d685af3ca026c145e8efe57544be7e8776f0d0de6",
+            "bytes": 2503
+          }
+        }
+      },
+      "approach_id": "block-builderbot"
+    },
+    {
+      "id": "block-builderbot-source-4",
+      "title": "Hacker News discussion of the Builderbot announcement",
+      "url": "https://news.ycombinator.com/item?id=48618973",
+      "canonical_url": "https://news.ycombinator.com/item?id=48618973",
+      "kind": "hn-thread",
+      "provenance_class": "community",
+      "role": "commentary",
+      "authors": [
+        "msolujic"
+      ],
+      "published_at": "2026-06-21",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "block-builderbot-source-4",
+        "original_url": "https://news.ycombinator.com/item?id=48618973",
+        "final_url": "https://news.ycombinator.com/item?id=48618973",
+        "captured_at": "2026-08-31T17:40:18Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/block-builderbot-source-4/content.md",
+            "sha256": "sha256:23805ab1d4e83b1cfb9d18ba3cdbcdd49851b1276d05ac826a63d013334dac13",
+            "bytes": 836
+          }
+        }
+      },
+      "approach_id": "block-builderbot"
+    },
+    {
+      "id": "block-builderbot-source-5",
+      "title": "Hacker News comment that points to the Builderbot repository",
+      "url": "https://news.ycombinator.com/item?id=48619052",
+      "canonical_url": "https://news.ycombinator.com/item?id=48619052",
+      "kind": "hn-comment",
+      "provenance_class": "community",
+      "role": "discovery",
+      "authors": [
+        "kha1n3vol3"
+      ],
+      "published_at": "2026-06-21",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "block-builderbot-source-5",
+        "original_url": "https://news.ycombinator.com/item?id=48619052",
+        "final_url": "https://news.ycombinator.com/item?id=48619052",
+        "captured_at": "2026-08-31T17:40:26Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/block-builderbot-source-5/content.md",
+            "sha256": "sha256:1073d4b99c35b7feb054dc79e8a8ad71267aabbed5735d4972f5c26c62f6fe4d",
+            "bytes": 560
+          }
+        }
+      },
+      "approach_id": "block-builderbot"
+    }
+  ]
+}

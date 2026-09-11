@@ -1,0 +1,7 @@
+{
+  "name": "internal-agents-map-delivery",
+  "private": true,
+  "type": "module",
+  "scripts": {"test": "node --test tests/negotiation.test.mjs"},
+  "dependencies": {"@vercel/functions": "3.9.7"}
+}

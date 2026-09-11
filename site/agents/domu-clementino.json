@@ -1,0 +1,380 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "domu-clementino",
+      "company": "Domu",
+      "agent_name": "Clementino",
+      "approach_type": "task-agent",
+      "deployment_stage": "deployed",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026",
+        "source_id": "domu-clementino-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "support",
+        "finance-ops",
+        "coding",
+        "recruitment",
+        "customer-success"
+      ],
+      "autonomy": "human-in-loop",
+      "operating_models": [
+        {
+          "scope": "employee request → approved customer-impacting action",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "domu-clementino--summary",
+        "domu-clementino--headline-metric",
+        "domu-clementino--architecture-harness",
+        "domu-clementino--architecture-model",
+        "domu-clementino--architecture-interfaces",
+        "domu-clementino--architecture-tool-access",
+        "domu-clementino--architecture-knowledge",
+        "domu-clementino--architecture-credentials",
+        "domu-clementino--architecture-context-mgmt",
+        "domu-clementino--primitives-0",
+        "domu-clementino--primitives-1",
+        "domu-clementino--key-metrics-0",
+        "domu-clementino--lessons-learned-0",
+        "domu-clementino--lessons-learned-1",
+        "domu-clementino--lessons-learned-2",
+        "domu-clementino--operating-models-0"
+      ],
+      "source_ids": [
+        "domu-clementino-source-1"
+      ],
+      "interfaces": [
+        "slack",
+        "desktop"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "domu-clementino--summary",
+      "approach_id": "domu-clementino",
+      "field": "summary",
+      "text": "A general-purpose 'AI colleague' spanning sales, finance, client ops, engineering, and recruitment, later split into a reusable toolkit plus Slack and desktop surfaces.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "domu-clementino-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "domu-clementino--headline-metric",
+      "approach_id": "domu-clementino",
+      "field": "headline_metric",
+      "text": "~35 integrations organized into skills",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "domu-clementino-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 58–60"
+        }
+      ],
+      "reported_by": "Domu",
+      "metric_scope": "Clementino toolkit integration modules organized into skills"
+    },
+    {
+      "id": "domu-clementino--architecture-harness",
+      "approach_id": "domu-clementino",
+      "field": "architecture.harness",
+      "text": "Claude/Anthropic SDK wrapper; a reusable tool/skill/memory layer separated from the Slack and desktop interfaces",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "domu-clementino-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "domu-clementino--architecture-model",
+      "approach_id": "domu-clementino",
+      "field": "architecture.model",
+      "text": "Claude (Anthropic SDK)",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "domu-clementino-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "domu-clementino--architecture-interfaces",
+      "approach_id": "domu-clementino",
+      "field": "architecture.interfaces",
+      "text": "slack, desktop",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "domu-clementino-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "domu-clementino--architecture-tool-access",
+      "approach_id": "domu-clementino",
+      "field": "architecture.tool_access",
+      "text": "~35 integrations organized into skills; specialist delegates per domain",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "domu-clementino-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "domu-clementino--architecture-knowledge",
+      "approach_id": "domu-clementino",
+      "field": "architecture.knowledge",
+      "text": "Four memory layers: conversation context, persistent facts, knowledge RAG, and live system state",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "domu-clementino-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "domu-clementino--architecture-credentials",
+      "approach_id": "domu-clementino",
+      "field": "architecture.credentials",
+      "text": "Customer-impacting actions gated behind team-visible Slack approvals",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "domu-clementino-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "domu-clementino--architecture-context-mgmt",
+      "approach_id": "domu-clementino",
+      "field": "architecture.context_mgmt",
+      "text": "Four-layer memory separation; prompt size dropped substantially after splitting capabilities from the Slack layer",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "domu-clementino-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "domu-clementino--primitives-0",
+      "approach_id": "domu-clementino",
+      "field": "primitives.0",
+      "text": "Transient conversation, persistent facts, knowledge RAG, and live system state; kept separate",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "domu-clementino-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "domu-clementino--primitives-1",
+      "approach_id": "domu-clementino",
+      "field": "primitives.1",
+      "text": "Capabilities separated from the interface layer so they power multiple surfaces",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "domu-clementino-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "domu-clementino--key-metrics-0",
+      "approach_id": "domu-clementino",
+      "field": "key_metrics.0",
+      "text": "~35 integrations organized into skills",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "domu-clementino-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 58–60"
+        }
+      ],
+      "reported_by": "Domu",
+      "metric_scope": "Clementino toolkit integration modules organized into skills"
+    },
+    {
+      "id": "domu-clementino--lessons-learned-0",
+      "approach_id": "domu-clementino",
+      "field": "lessons_learned.0",
+      "text": "Separate reusable capabilities (tools/skills/memory) from the interface layer; prompt size drops while capability is preserved",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "domu-clementino-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "domu-clementino--lessons-learned-1",
+      "approach_id": "domu-clementino",
+      "field": "lessons_learned.1",
+      "text": "Model memory explicitly: conversation context, persistent facts, RAG, and live state have different lifecycles",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "domu-clementino-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "domu-clementino--lessons-learned-2",
+      "approach_id": "domu-clementino",
+      "field": "lessons_learned.2",
+      "text": "Gate customer-impacting actions behind human approvals rather than trusting the model",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "domu-clementino-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "domu-clementino--operating-models-0",
+      "approach_id": "domu-clementino",
+      "field": "operating_models.0",
+      "text": "Level 3 for employee request → approved customer-impacting action; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The source documents explicit human approval for customer-impacting actions.",
+      "valid_at": "2026",
+      "evidence": [
+        {
+          "source_id": "domu-clementino-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "domu-clementino-source-1",
+      "title": "Why we split our internal agent in two",
+      "url": "https://domu.ai/blog/why-we-split-our-internal-agent-in-two",
+      "canonical_url": "https://domu.ai/blog/why-we-split-our-internal-agent-in-two",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "domu-clementino-source-1",
+        "original_url": "https://domu.ai/blog/why-we-split-our-internal-agent-in-two",
+        "final_url": "https://domu.ai/blog/why-we-split-our-internal-agent-in-two",
+        "captured_at": "2026-08-31T17:41:45Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/domu-clementino-source-1/content.md",
+            "sha256": "sha256:911788d9acd6aa775fee843f162a7f28ae679631cf1c565a4b790a5bb913ebae",
+            "bytes": 8174
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "domu-clementino"
+    }
+  ]
+}

@@ -1,0 +1,370 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "uv run --locked python scripts/build.py && uv run --locked python scripts/check_site.py --root site",
+  "installCommand": "npm ci",
+  "outputDirectory": "site",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.internal-agents.com"
+        }
+      ],
+      "destination": "https://internal-agents.com/:path*",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    },
+    {
+      "source": "/:path*.md",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/markdown; charset=utf-8"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/:path*.json",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/data-guide.md>; rel=\"describedby\"; type=\"text/markdown\""
+        }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        }
+      ]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/xml; charset=utf-8"
+        }
+      ]
+    },
+    {
+      "source": "/404.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/assets/fonts/Geist.44ef8d175229ff58.woff2",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/assets/site.8e920c7cdeed4a7e.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/assets/site.b18a4085e98c7b84.css",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/index.md",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/definitions.md",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/definitions.html>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/methodology.md",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/methodology.html>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/notes.md",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/notes.html>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/notes/stop-a-run.md",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/notes/stop-a-run.html>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/notes/review-noise.md",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/notes/review-noise.html>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/notes/split-the-work.md",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/notes/split-the-work.html>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/notes/work-can-continue.md",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/notes/work-can-continue.html>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/notes/load-tools.md",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/notes/load-tools.html>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/notes/steps-without-a-model.md",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/notes/steps-without-a-model.html>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/notes/test-on-your-work.md",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/notes/test-on-your-work.html>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/",
+      "headers": [
+        {
+          "key": "Vary",
+          "value": "Accept"
+        },
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/index.md>; rel=\"alternate\"; type=\"text/markdown\", <https://internal-agents.com/data-guide.md>; rel=\"describedby\"; type=\"text/markdown\", <https://internal-agents.com/agents/index.json>; rel=\"collection\"; type=\"application/json\""
+        }
+      ]
+    },
+    {
+      "source": "/definitions.html",
+      "headers": [
+        {
+          "key": "Vary",
+          "value": "Accept"
+        },
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/definitions.md>; rel=\"alternate\"; type=\"text/markdown\", <https://internal-agents.com/data-guide.md>; rel=\"describedby\"; type=\"text/markdown\", <https://internal-agents.com/agents/index.json>; rel=\"collection\"; type=\"application/json\""
+        }
+      ]
+    },
+    {
+      "source": "/methodology.html",
+      "headers": [
+        {
+          "key": "Vary",
+          "value": "Accept"
+        },
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/methodology.md>; rel=\"alternate\"; type=\"text/markdown\", <https://internal-agents.com/data-guide.md>; rel=\"describedby\"; type=\"text/markdown\", <https://internal-agents.com/agents/index.json>; rel=\"collection\"; type=\"application/json\""
+        }
+      ]
+    },
+    {
+      "source": "/notes.html",
+      "headers": [
+        {
+          "key": "Vary",
+          "value": "Accept"
+        },
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/notes.md>; rel=\"alternate\"; type=\"text/markdown\", <https://internal-agents.com/data-guide.md>; rel=\"describedby\"; type=\"text/markdown\", <https://internal-agents.com/agents/index.json>; rel=\"collection\"; type=\"application/json\""
+        }
+      ]
+    },
+    {
+      "source": "/notes/stop-a-run.html",
+      "headers": [
+        {
+          "key": "Vary",
+          "value": "Accept"
+        },
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/notes/stop-a-run.md>; rel=\"alternate\"; type=\"text/markdown\", <https://internal-agents.com/data-guide.md>; rel=\"describedby\"; type=\"text/markdown\", <https://internal-agents.com/agents/index.json>; rel=\"collection\"; type=\"application/json\""
+        }
+      ]
+    },
+    {
+      "source": "/notes/review-noise.html",
+      "headers": [
+        {
+          "key": "Vary",
+          "value": "Accept"
+        },
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/notes/review-noise.md>; rel=\"alternate\"; type=\"text/markdown\", <https://internal-agents.com/data-guide.md>; rel=\"describedby\"; type=\"text/markdown\", <https://internal-agents.com/agents/index.json>; rel=\"collection\"; type=\"application/json\""
+        }
+      ]
+    },
+    {
+      "source": "/notes/split-the-work.html",
+      "headers": [
+        {
+          "key": "Vary",
+          "value": "Accept"
+        },
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/notes/split-the-work.md>; rel=\"alternate\"; type=\"text/markdown\", <https://internal-agents.com/data-guide.md>; rel=\"describedby\"; type=\"text/markdown\", <https://internal-agents.com/agents/index.json>; rel=\"collection\"; type=\"application/json\""
+        }
+      ]
+    },
+    {
+      "source": "/notes/work-can-continue.html",
+      "headers": [
+        {
+          "key": "Vary",
+          "value": "Accept"
+        },
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/notes/work-can-continue.md>; rel=\"alternate\"; type=\"text/markdown\", <https://internal-agents.com/data-guide.md>; rel=\"describedby\"; type=\"text/markdown\", <https://internal-agents.com/agents/index.json>; rel=\"collection\"; type=\"application/json\""
+        }
+      ]
+    },
+    {
+      "source": "/notes/load-tools.html",
+      "headers": [
+        {
+          "key": "Vary",
+          "value": "Accept"
+        },
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/notes/load-tools.md>; rel=\"alternate\"; type=\"text/markdown\", <https://internal-agents.com/data-guide.md>; rel=\"describedby\"; type=\"text/markdown\", <https://internal-agents.com/agents/index.json>; rel=\"collection\"; type=\"application/json\""
+        }
+      ]
+    },
+    {
+      "source": "/notes/steps-without-a-model.html",
+      "headers": [
+        {
+          "key": "Vary",
+          "value": "Accept"
+        },
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/notes/steps-without-a-model.md>; rel=\"alternate\"; type=\"text/markdown\", <https://internal-agents.com/data-guide.md>; rel=\"describedby\"; type=\"text/markdown\", <https://internal-agents.com/agents/index.json>; rel=\"collection\"; type=\"application/json\""
+        }
+      ]
+    },
+    {
+      "source": "/notes/test-on-your-work.html",
+      "headers": [
+        {
+          "key": "Vary",
+          "value": "Accept"
+        },
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/notes/test-on-your-work.md>; rel=\"alternate\"; type=\"text/markdown\", <https://internal-agents.com/data-guide.md>; rel=\"describedby\"; type=\"text/markdown\", <https://internal-agents.com/agents/index.json>; rel=\"collection\"; type=\"application/json\""
+        }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Vary",
+          "value": "Accept"
+        },
+        {
+          "key": "Link",
+          "value": "<https://internal-agents.com/index.md>; rel=\"alternate\"; type=\"text/markdown\", <https://internal-agents.com/data-guide.md>; rel=\"describedby\"; type=\"text/markdown\", <https://internal-agents.com/agents/index.json>; rel=\"collection\"; type=\"application/json\""
+        }
+      ]
+    }
+  ]
+}

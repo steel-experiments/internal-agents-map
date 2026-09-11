@@ -15,6 +15,12 @@ provenance, confidence, qualifications, evidence relations, and source locators.
   link to scope, context, and tool claims; missing or unsupported claims remove a marker.
   Review placements when those claims change. Coordinates are illustrative, not scores.
   The guide shares navigation, footer, CSS, and Geist with the catalog.
+- Edit [the Methodology page](../templates/methodology.html) for the evidence guide.
+  It shares navigation, footer, CSS, and Geist with the catalog.
+- Edit [the Notes index](../templates/notes.html) and the articles in `templates/notes/`
+  for short observations. The build shares the catalog navigation and footer with these
+  pages. Nested article links stay relative, so the site works from any base path.
+  Follow [the notes writing guide](notes-writing.md) for language, quotes, and diagrams.
 - Run `uv run --locked python scripts/build.py` to regenerate Markdown, JSON, and `site/`.
 - Run `uv run --locked python scripts/check_site.py --root site` and the existing catalog checks.
 - Serve the page locally with:
@@ -71,26 +77,17 @@ coverage, JSON parity, and privacy. It rejects extra files, symlinks, escaping p
 and executable URL schemes. External source URLs are not fetched by this checker;
 the existing external-link scheduler handles those checks.
 
-The existing `validate` workflow runs archive, build, site, privacy, lint, format,
-test, and local-link gates before uploading **only `site/`**. Pull requests validate
-without uploading or deploying. Pushes to `main`, or manual runs on `main`, may deploy
-through a separate job that depends on successful validation. Workflow concurrency
-is scoped to workflow and Git ref; a newer `main` run cancels an older run, while
-PR runs cannot cancel publication. Deployment is additionally serialized in the Pages group.
+The `validate` workflow runs archive, build, site, privacy, lint, format, test, and
+local-link gates on pull requests and on pushes to `main`. It does not deploy. Workflow
+concurrency is scoped to workflow and Git ref; a newer `main` run cancels an older run.
 
-Initial setup: in repository Settings → Pages, set **Source: GitHub Actions**. No custom
-domain is configured by this feature. The configured project URL is
-`https://steel-experiments.github.io/internal-agents-map/`.
-
-Publication status: **Live at [Internal Agents Map](https://steel-experiments.github.io/internal-agents-map/).**
-The first publication from commit `abf9887` passed validation and deployment in
-[Actions run 34336076085](https://github.com/steel-experiments/internal-agents-map/actions/runs/34336076085)
-on 2026-09-09. Public HTML, CSS, JavaScript, JSON, Geist, and its license all returned
-HTTP 200 and matched the local artifact bytes.
+GitHub Pages is disabled for this repository. The site has one public host,
+`https://internal-agents.com/`, served by Vercel (see below). A second host would split
+search authority and duplicate every page.
 
 Rollback: revert the faulty change on `main` to restore a previously validated website
-revision, including its templates and generated outputs. The same validation and Pages
-workflow republishes it. Do not upload an unchecked folder manually.
+revision, including its templates and generated outputs, then redeploy to Vercel.
+Do not upload an unchecked folder manually.
 
 ## Browser acceptance record
 
@@ -124,3 +121,80 @@ among existing generated documentation.
 Live publication acceptance on 2026-09-09 also passed in Chromium: all 39 entries
 were visible, Geist loaded, and search, evidence disclosures, permalinks, and reload
 worked without page errors.
+
+## Vercel delivery and agent-readable formats
+
+The canonical site is now **https://internal-agents.com/** on Vercel, in the Steel
+team (`nen-labs/internal-agents-map`). `www` permanently redirects to the apex while
+retaining paths and query strings. Automatic Vercel Git integration was
+not connected during setup; CLI deployment works independently.
+
+The build generates `robots.txt`, `sitemap.xml`, `llms.txt`, Markdown for every
+published content page, `agents/index.json`, and `agents/<id>.json` and `.md`.
+The sitemap excludes the custom 404 and does not invent modification dates. The
+compact index links to individual records containing all associated claims and
+sources. `agents.json` remains byte-identical to the normalized source catalog.
+`data-guide.md` combines reading instructions with the repository schema reference.
+Robots allows public crawling, including explicit search/retrieval bot groups.
+The owner selected `search=yes, ai-input=yes, ai-train=yes`; Content Signals
+declare these preferences in both the wildcard and search/retrieval groups.
+These preferences do not change the rights of cited publishers.
+
+Edit `templates/vercel.json` for delivery configuration; the build produces root
+`vercel.json` with per-page discovery headers and exact hashed asset cache rules.
+Edit `templates/data-guide.md` for reading instructions and `templates/404.html`
+for the missing-page experience. The error page is excluded from indexing, uses
+root-relative navigation/assets to work for missing nested URLs, and is served
+with HTTP 404 by Vercel. Its root-relative links target Vercel hosting.
+
+The Python build creates content-hashed CSS, JavaScript, and font files and updates
+HTML/preload/CSS references together. Vercel gives only these exact hashed paths
+one-year immutable browser caching. Unhashed compatibility copies remain available
+with revalidation; HTML, JSON, Markdown, and discovery files also revalidate.
+Obsolete generated hashes and individual records are removed on rebuild.
+
+`middleware.ts` uses the generated `routing-manifest.json` to rewrite explicit
+Markdown requests to static `.md` files. Browser requests and wildcard Accept
+headers stay HTML. Quality preferences and `q=0` are respected; HTML wins an
+explicit equal-quality tie. Both representations use `Vary: Accept`. The CDN sees
+distinct rewrite targets; direct Markdown URLs also work without middleware.
+Filters do not change exported content. There is no
+runtime HTML conversion, model call, authenticated API, or registration service.
+
+Before publishing, regenerate and validate locally, then deploy a preview:
+
+```sh
+uv sync --locked
+npm ci
+uv run --locked python scripts/build.py
+uv run --locked python scripts/check_site.py --root site
+uv run --locked python -m unittest discover -s tests
+npm test
+vercel deploy --yes --scope nen-labs
+```
+
+Vercel also builds and checks the artifact on every deployment. Generate locally
+first because Vercel reads routing configuration before executing the build.
+Check the preview's content types, negotiated representations, cache headers, and
+missing nested URL before `vercel deploy --prod --yes --scope nen-labs`. Protected
+previews can be checked with `vercel curl --deployment <preview-url>`. Production
+must remain publicly readable without bypass credentials.
+
+Repeatable deployed verification:
+
+```sh
+uv run --locked python scripts/check_delivery.py https://your-preview.vercel.app --preview
+uv run --locked python scripts/check_delivery.py https://internal-agents.com
+```
+
+The verifier checks response bytes against generated files, content types, discovery
+headers, immutable asset caching, quality-weighted negotiation, missing nested URLs,
+and alternating HTML/Markdown requests to detect cache contamination. It removes
+only Vercel's appended feedback-toolbar script when comparing protected preview HTML.
+
+Delivery acceptance on 2026-09-11: 122 Python tests and 2 Node tests passed;
+47 preview and 47 production HTTP checks passed. Vercel serves Brotli-compressed
+HTML with CDN cache hits. `www` returns 308 and preserves path/query. Both Vercel
+nameservers are verified. Local DNS still held the previous delegation, so custom
+domain HTTPS checks used `--resolve-ip` with a public DNS answer; no TLS checks
+were bypassed. Browser acceptance used the public production Vercel alias.

@@ -1,0 +1,463 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "browserbase-bb",
+      "company": "Browserbase",
+      "agent_name": "bb",
+      "approach_type": "task-agent",
+      "deployment_stage": "deployed",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026",
+        "source_id": "browserbase-bb-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "coding",
+        "code-review",
+        "support",
+        "customer-success",
+        "research"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "coding request → reviewed pull request",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "event-driven",
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "browserbase-bb--summary",
+        "browserbase-bb--headline-metric",
+        "browserbase-bb--architecture-sandbox",
+        "browserbase-bb--architecture-harness",
+        "browserbase-bb--architecture-model",
+        "browserbase-bb--architecture-interfaces",
+        "browserbase-bb--architecture-tool-access",
+        "browserbase-bb--architecture-knowledge",
+        "browserbase-bb--architecture-credentials",
+        "browserbase-bb--primitives-0",
+        "browserbase-bb--primitives-1",
+        "browserbase-bb--primitives-2",
+        "browserbase-bb--key-metrics-0",
+        "browserbase-bb--key-metrics-1",
+        "browserbase-bb--key-metrics-2",
+        "browserbase-bb--lessons-learned-0",
+        "browserbase-bb--lessons-learned-1",
+        "browserbase-bb--lessons-learned-2",
+        "browserbase-bb--lessons-learned-3",
+        "browserbase-bb--operating-models-0"
+      ],
+      "source_ids": [
+        "browserbase-bb-source-1"
+      ],
+      "interfaces": [
+        "slack",
+        "web",
+        "webhook"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "browserbase-bb--summary",
+      "approach_id": "browserbase-bb",
+      "field": "summary",
+      "text": "One generalized agent in Slack that writes PRs, investigates sessions, queries the warehouse, logs feature requests, and runs browser agents across engineering, ops, sales, and support.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "browserbase-bb--headline-metric",
+      "approach_id": "browserbase-bb",
+      "field": "headline_metric",
+      "text": "Feature-request pipeline at 100% coverage with zero human effort",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 26"
+        }
+      ],
+      "reported_by": "Browserbase",
+      "metric_scope": "Automatic feature-request scanning of every closed support ticket and meeting transcript",
+      "denominator": "Closed support tickets and meeting transcripts"
+    },
+    {
+      "id": "browserbase-bb--architecture-sandbox",
+      "approach_id": "browserbase-bb",
+      "field": "architecture.sandbox",
+      "text": "Ephemeral Linux VM; pre-warmed snapshot rebuilt every 30 min; idles out after 30 min",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "browserbase-bb--architecture-harness",
+      "approach_id": "browserbase-bb",
+      "field": "architecture.harness",
+      "text": "OpenCode core loop with 6 tools (read/write/edit/exec/safebash/skill)",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "browserbase-bb--architecture-model",
+      "approach_id": "browserbase-bb",
+      "field": "architecture.model",
+      "text": "Frontier models",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "browserbase-bb--architecture-interfaces",
+      "approach_id": "browserbase-bb",
+      "field": "architecture.interfaces",
+      "text": "slack, web, webhook",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "browserbase-bb--architecture-tool-access",
+      "approach_id": "browserbase-bb",
+      "field": "architecture.tool_access",
+      "text": "exec routes through a serverless integration proxy (Snowflake, HubSpot, Pylon, Grafana); the sandbox never sees real secrets",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "browserbase-bb--architecture-knowledge",
+      "approach_id": "browserbase-bb",
+      "field": "architecture.knowledge",
+      "text": "Key repos cloned into /knowledge/; skills (markdown) loaded on demand",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "browserbase-bb--architecture-credentials",
+      "approach_id": "browserbase-bb",
+      "field": "architecture.credentials",
+      "text": "Credential brokering; the sandbox boots with references + rotating session tokens only; the proxy holds real creds; egress injection for a few hosts",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "browserbase-bb--primitives-0",
+      "approach_id": "browserbase-bb",
+      "field": "primitives.0",
+      "text": "Markdown playbooks lazy-loaded per task so the general agent stays small",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "browserbase-bb--primitives-1",
+      "approach_id": "browserbase-bb",
+      "field": "primitives.1",
+      "text": "Scoped permissions per session limit the actions available to the agent",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "browserbase-bb--primitives-2",
+      "approach_id": "browserbase-bb",
+      "field": "primitives.2",
+      "text": "The sandbox runs arbitrary code yet never touches a secret",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "browserbase-bb--key-metrics-0",
+      "approach_id": "browserbase-bb",
+      "field": "key_metrics.0",
+      "text": "Feature-request pipeline at 100% coverage, zero human effort",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 26"
+        }
+      ],
+      "reported_by": "Browserbase",
+      "metric_scope": "Automatic feature-request scanning of every closed support ticket and meeting transcript",
+      "denominator": "Closed support tickets and meeting transcripts"
+    },
+    {
+      "id": "browserbase-bb--key-metrics-1",
+      "approach_id": "browserbase-bb",
+      "field": "key_metrics.1",
+      "text": "99% of first-response times < 24 hrs",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "The source reports 99% below 24 hours with awkward wording; no sample, timestamps, or method is provided.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 26"
+        }
+      ],
+      "reported_by": "Browserbase",
+      "metric_scope": "Reported support first-response time below 24 hours",
+      "denominator": "Support first responses; exact sample and measurement window not provided"
+    },
+    {
+      "id": "browserbase-bb--key-metrics-2",
+      "approach_id": "browserbase-bb",
+      "field": "key_metrics.2",
+      "text": "Session investigation: 30–60 min of log-diving → one Slack message",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A Slack message replaces the manual initiation workflow; the article does not report end-to-end automated investigation latency.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 26"
+        }
+      ],
+      "reported_by": "Browserbase",
+      "metric_scope": "Session investigation initiation: manual log-diving versus a Slack request"
+    },
+    {
+      "id": "browserbase-bb--lessons-learned-0",
+      "approach_id": "browserbase-bb",
+      "field": "lessons_learned.0",
+      "text": "One agent with good abstractions beats a fleet of narrow bots",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "browserbase-bb--lessons-learned-1",
+      "approach_id": "browserbase-bb",
+      "field": "lessons_learned.1",
+      "text": "Separate capabilities from the core loop; domain logic lives in skills + service packages",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "browserbase-bb--lessons-learned-2",
+      "approach_id": "browserbase-bb",
+      "field": "lessons_learned.2",
+      "text": "Don't trust the model, remove its ability to do wrong: scope tools and services per invocation source",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "browserbase-bb--lessons-learned-3",
+      "approach_id": "browserbase-bb",
+      "field": "lessons_learned.3",
+      "text": "Meet people where they are; Slack is the highest-leverage surface because that's where work already happens",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "browserbase-bb--operating-models-0",
+      "approach_id": "browserbase-bb",
+      "field": "operating_models.0",
+      "text": "Level 3 for coding request → reviewed pull request; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The source documents agent-authored pull requests while the enclosing workflow retains human review.",
+      "valid_at": "2026",
+      "evidence": [
+        {
+          "source_id": "browserbase-bb-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "browserbase-bb-source-1",
+      "title": "How we build internal agents at Browserbase",
+      "url": "https://browserbase.com/blog/internal-agents",
+      "canonical_url": "https://browserbase.com/blog/internal-agents",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "browserbase-bb-source-1",
+        "original_url": "https://browserbase.com/blog/internal-agents",
+        "final_url": "https://www.browserbase.com/blog/internal-agents",
+        "captured_at": "2026-08-31T17:40:42Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/browserbase-bb-source-1/content.md",
+            "sha256": "sha256:dd3ad8521c55701e44595b24ddfdda6f15ed6a3d9c47b7fef4893ae8b92858e9",
+            "bytes": 21167
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "browserbase-bb"
+    }
+  ]
+}

@@ -1,0 +1,224 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "microsoft-prassistant",
+      "company": "Microsoft",
+      "agent_name": "PRAssistant",
+      "approach_type": "background-agent",
+      "deployment_stage": "scaled",
+      "year": 2025,
+      "first_public_evidence": {
+        "date": "2025-07",
+        "source_id": "microsoft-prassistant-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "code-review"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "pull request → AI review comments",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "event-driven"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "microsoft-prassistant--summary",
+        "microsoft-prassistant--headline-metric",
+        "microsoft-prassistant--architecture-interfaces",
+        "microsoft-prassistant--key-metrics-0",
+        "microsoft-prassistant--key-metrics-1",
+        "microsoft-prassistant--key-metrics-2",
+        "microsoft-prassistant--operating-models-0"
+      ],
+      "source_ids": [
+        "microsoft-prassistant-source-1"
+      ],
+      "interfaces": [
+        "github"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "microsoft-prassistant--summary",
+      "approach_id": "microsoft-prassistant",
+      "field": "summary",
+      "text": "Microsoft's internal AI code-review agent, built by the Developer Division Data and AI team. When an engineer creates a pull request, PRAssistant joins as a reviewer and leaves comments like a human reviewer. It is a distinct internal build that predates and later informed GitHub Copilot Pull Request Reviews.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "microsoft-prassistant-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "microsoft-prassistant--headline-metric",
+      "approach_id": "microsoft-prassistant",
+      "field": "headline_metric",
+      "text": "Supports more than 90% of Microsoft PRs, impacting over 600,000 pull requests per month",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Microsoft reported the figures in its own engineering blog without independent verification.",
+      "valid_at": "2025-07",
+      "evidence": [
+        {
+          "source_id": "microsoft-prassistant-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 10"
+        }
+      ],
+      "reported_by": "Microsoft",
+      "metric_scope": "PRs supported by the internal AI review assistant across Microsoft",
+      "denominator": "Company pull requests for coverage share"
+    },
+    {
+      "id": "microsoft-prassistant--architecture-interfaces",
+      "approach_id": "microsoft-prassistant",
+      "field": "architecture.interfaces",
+      "text": "github",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "microsoft-prassistant-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "microsoft-prassistant--key-metrics-0",
+      "approach_id": "microsoft-prassistant",
+      "field": "key_metrics.0",
+      "text": "More than 90% of pull requests across the company",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Microsoft reported the figures in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "microsoft-prassistant-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 10"
+        }
+      ],
+      "reported_by": "Microsoft",
+      "metric_scope": "PRs supported by the internal AI review assistant across Microsoft",
+      "denominator": "Company pull requests for coverage share"
+    },
+    {
+      "id": "microsoft-prassistant--key-metrics-1",
+      "approach_id": "microsoft-prassistant",
+      "field": "key_metrics.1",
+      "text": "More than 600,000 pull requests impacted per month",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Microsoft reported the figures in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "microsoft-prassistant-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 10"
+        }
+      ],
+      "reported_by": "Microsoft",
+      "metric_scope": "PRs supported by the internal AI review assistant across Microsoft",
+      "denominator": "Company pull requests for coverage share"
+    },
+    {
+      "id": "microsoft-prassistant--key-metrics-2",
+      "approach_id": "microsoft-prassistant",
+      "field": "key_metrics.2",
+      "text": "About 5,000 repositories in early onboarding",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Microsoft reported the figures in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "microsoft-prassistant-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 35"
+        }
+      ],
+      "reported_by": "Microsoft",
+      "metric_scope": "Repositories onboarded in early AI code-review experiments",
+      "measurement_method": "Early experiments and data science studies across onboarded repositories"
+    },
+    {
+      "id": "microsoft-prassistant--operating-models-0",
+      "approach_id": "microsoft-prassistant",
+      "field": "operating_models.0",
+      "text": "Level 3 for pull request → AI review comments; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The engineering blog describes engineers acting on PRAssistant review comments, which locates human attention at work-product review.",
+      "valid_at": "2025-07",
+      "evidence": [
+        {
+          "source_id": "microsoft-prassistant-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "microsoft-prassistant-source-1",
+      "title": "Enhancing code quality at scale with AI-powered code reviews",
+      "url": "https://devblogs.microsoft.com/engineering-at-microsoft/enhancing-code-quality-at-scale-with-ai-powered-code-reviews/",
+      "canonical_url": "https://devblogs.microsoft.com/engineering-at-microsoft/enhancing-code-quality-at-scale-with-ai-powered-code-reviews/",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "published_at": "2025-07-14",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "microsoft-prassistant-source-1",
+        "original_url": "https://devblogs.microsoft.com/engineering-at-microsoft/enhancing-code-quality-at-scale-with-ai-powered-code-reviews/",
+        "final_url": "https://devblogs.microsoft.com/engineering-at-microsoft/enhancing-code-quality-at-scale-with-ai-powered-code-reviews/",
+        "captured_at": "2026-08-31T17:55:39Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/microsoft-prassistant-source-1/content.md",
+            "sha256": "sha256:b1e5a99a03d2996ce76bf48f7720853b04e645e50ac7f7af53d14f4238f2d405",
+            "bytes": 11219
+          }
+        }
+      },
+      "approach_id": "microsoft-prassistant"
+    }
+  ]
+}

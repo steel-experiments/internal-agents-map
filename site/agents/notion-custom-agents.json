@@ -1,0 +1,238 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "notion-custom-agents",
+      "company": "Notion",
+      "agent_name": "Custom Agents",
+      "approach_type": "platform",
+      "deployment_stage": "scaled",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026-04",
+        "source_id": "notion-custom-agents-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "support",
+        "finance-ops",
+        "recruitment",
+        "security"
+      ],
+      "autonomy": "unknown",
+      "operating_models": [
+        {
+          "scope": "cross-team internal tasks → Custom Agents output",
+          "attention_boundary": "unknown",
+          "level": null
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "notion-custom-agents--summary",
+        "notion-custom-agents--headline-metric",
+        "notion-custom-agents--key-metrics-0",
+        "notion-custom-agents--key-metrics-1",
+        "notion-custom-agents--key-metrics-2",
+        "notion-custom-agents--operating-models-0"
+      ],
+      "source_ids": [
+        "notion-custom-agents-source-1",
+        "notion-custom-agents-source-2"
+      ],
+      "interfaces": []
+    }
+  ],
+  "claims": [
+    {
+      "id": "notion-custom-agents--summary",
+      "approach_id": "notion-custom-agents",
+      "field": "summary",
+      "text": "Notion's Custom Agents platform, dogfooded internally across non-engineering teams such as IT ticketing, supply chain, procurement, and recruiting. By the end of alpha testing, Notion had more than 3,000 internal Custom Agents. Notion's own security team is one of the most active internal users. Notion rebuilt the agent harness three to five times as frontier models improved.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "notion-custom-agents-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "notion-custom-agents-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "notion-custom-agents--headline-metric",
+      "approach_id": "notion-custom-agents",
+      "field": "headline_metric",
+      "text": "More than 3,000 internal Custom Agents by end of alpha testing",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Notion reported the agent count in its own engineering blog without independent verification.",
+      "valid_at": "2026-04",
+      "evidence": [
+        {
+          "source_id": "notion-custom-agents-source-2",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 51"
+        }
+      ],
+      "reported_by": "Notion",
+      "metric_scope": "Internal Notion Custom Agents at the end of alpha; excludes the separate customer alpha count"
+    },
+    {
+      "id": "notion-custom-agents--key-metrics-0",
+      "approach_id": "notion-custom-agents",
+      "field": "key_metrics.0",
+      "text": "More than 3,000 internal Custom Agents by end of alpha testing",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Notion reported the agent count in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "notion-custom-agents-source-2",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 51"
+        }
+      ],
+      "reported_by": "Notion",
+      "metric_scope": "Internal Notion Custom Agents at the end of alpha; excludes the separate customer alpha count"
+    },
+    {
+      "id": "notion-custom-agents--key-metrics-1",
+      "approach_id": "notion-custom-agents",
+      "field": "key_metrics.1",
+      "text": "Notion's security team is one of the most active internal users",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Qualitative first-party description; no comparative activity count is supplied.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "notion-custom-agents-source-2",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 57"
+        }
+      ],
+      "metric_scope": "Notion security team internal Custom Agent use"
+    },
+    {
+      "id": "notion-custom-agents--key-metrics-2",
+      "approach_id": "notion-custom-agents",
+      "field": "key_metrics.2",
+      "text": "Agent harness rebuilt three to five times as models improved",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Participants give differing approximate rebuild counts for harness, framework, and feature; not a precise engineering inventory.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "notion-custom-agents-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 115, 275–277, 819"
+        }
+      ],
+      "reported_by": "Notion",
+      "metric_scope": "Notion agent/framework rebuilds recalled by participants; estimates range from three to five"
+    },
+    {
+      "id": "notion-custom-agents--operating-models-0",
+      "approach_id": "notion-custom-agents",
+      "field": "operating_models.0",
+      "text": "Unclassified for cross-team internal tasks → Custom Agents output; human attention boundary: unknown.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "unverified",
+      "confidence_reason": "Custom Agents spans many teams and workflows, so no single human-attention boundary applies.",
+      "valid_at": "2026-04",
+      "evidence": [
+        {
+          "source_id": "notion-custom-agents-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "notion-custom-agents-source-1",
+      "title": "Notion's Token Town: 5 Rebuilds, 100+ Tools (Latent Space)",
+      "url": "https://latent.space/p/notion",
+      "canonical_url": "https://latent.space/p/notion",
+      "kind": "podcast",
+      "provenance_class": "direct-participant",
+      "role": "evidence",
+      "published_at": "2026-04-14",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "notion-custom-agents-source-1",
+        "original_url": "https://latent.space/p/notion",
+        "final_url": "https://www.latent.space/p/notion",
+        "captured_at": "2026-08-31T17:45:03Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/notion-custom-agents-source-1/content.md",
+            "sha256": "sha256:4e42077011382b9f77410822df8528a03212a6ed34d17c92c86c4da95acb0c89",
+            "bytes": 124631
+          }
+        }
+      },
+      "approach_id": "notion-custom-agents"
+    },
+    {
+      "id": "notion-custom-agents-source-2",
+      "title": "How we built security into Custom Agents",
+      "url": "https://www.notion.com/en-gb/blog/how-we-built-security-into-custom-agents",
+      "canonical_url": "https://www.notion.com/en-gb/blog/how-we-built-security-into-custom-agents",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "notion-custom-agents-source-2",
+        "original_url": "https://www.notion.com/en-gb/blog/how-we-built-security-into-custom-agents",
+        "final_url": "https://www.notion.com/en-gb/blog/how-we-built-security-into-custom-agents",
+        "captured_at": "2026-08-31T17:45:14Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/notion-custom-agents-source-2/content.md",
+            "sha256": "sha256:c442cf76acff653271f723f00e785e6ed3c069b3136efe38f35439e706742a3c",
+            "bytes": 7751
+          }
+        }
+      },
+      "approach_id": "notion-custom-agents"
+    }
+  ]
+}

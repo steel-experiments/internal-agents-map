@@ -1,191 +1,77 @@
 ---
 name: add-agent-from-url
-description: Research a URL and decide whether it belongs in the Internal Agents Map catalog, then add it when it passes the inclusion rubric. Use this skill whenever the user shares a link (engineering blog, talk, podcast, paper, HN thread, newsletter) about a company's internal AI agent, harness, platform, or dogfooding story and asks to add it, check it, evaluate it, or "see if this qualifies" — even if they do not name the catalog or the rubric.
+description: Assess a source URL for the Internal Agents Map catalog, or add or update a case when requested. Use for links describing an organization's internal agent or supporting system.
 ---
 
-# Add an approach from a URL
+# Assess or add a case from a URL
 
-You are the intake pipeline for the Internal Agents Map catalog. A URL arrives. You research it,
-score it against the inclusion rubric, and then act on the score: add a record, log a border case,
-or record an exclusion. The catalog's value is that every entry is a real internal build with
-linked evidence, so the discipline below is the product. A wrongly added promotional story costs
-more than a missed entry, because the backlog keeps missed entries findable.
+Use [CONTRIBUTING.md](../../../CONTRIBUTING.md#inclusion-rules) as the inclusion policy.
+Read [data/schema.md](../../../data/schema.md) when writing records. Paths below are relative
+to the repository root.
 
-## Workflow overview
+## Match the request
 
-1. Fetch the URL, preserve it while live, and extract the claims.
-2. Check the catalog for an existing record.
-3. Score the source against the rubric.
-4. Branch on the score: add, border case, or exclude.
-5. Verify the repo state and report.
+For questions such as “does this qualify?”, return an assessment without editing files.
+For a request to add or update a case, make the corresponding local edits. Existing authorization
+continues to apply. Do not infer permission to commit or publish from an assessment or add request.
+Check the working tree before editing and preserve unrelated changes.
 
-## Step 1: Fetch and extract
+## Read the evidence
 
-Fetch the URL. If the fetch fails, say so and stop; do not score from memory. Never reconstruct a
-removed source from search snippets.
+Fetch the source and follow references to original material when available. If it is unavailable,
+look for a verified preserved copy or replacement source. Do not reconstruct it from snippets or
+memory. Without readable evidence, report Needs evidence and identify the missing source.
 
-Extract these facts from the page itself, not from your prior knowledge of the company:
+Extract the organization, internal workflow, and what the team built or adapted. Record the
+implementation or use that the source describes, its date, and the publisher's relationship to
+the work. Keep metric scopes, dates, denominators, and methods where reported.
 
-- The organization that runs the system.
-- The system's name (or the absence of one).
-- What the system does, described as a workflow from input to output.
-- Who built it: the org itself, a vendor tool adopted as-is, or something in between.
-- Whether the system is internal, a shipping product, or both.
-- Architecture details: harness, sandbox, model, tools, interfaces, knowledge, credentials.
-- Metrics with their dates, scopes, and denominators.
-- The publication date and the author's relationship to the system.
+Search `data/agents/` with `rg` for the organization, system, and aliases before choosing Add.
+A matching system calls for Update, not a duplicate or exclusion.
 
-If the URL is a secondary source (newsletter, news report) that references a primary source,
-fetch the primary source too and score that. Record both as sources when you write a record.
-The catalog prefers the primary source for claims, with the secondary as context.
+## Make the decision
 
-If the URL is a Hacker News thread or forum discussion, treat the thread and each material
-comment as separate candidate sources with the `community` provenance class.
+Apply the contribution guide's questions and return Add, Update, Needs evidence, or Out of scope.
+Give the evidence and a short reason. For Needs evidence, name the unresolved fact. Do not score
+cases numerically or require a product name. Commercial status does not decide eligibility.
+Supporting systems can qualify when their connection to agent work is documented.
 
-## Step 2: Check for an existing record
+For an assessment, stop after the report. For an authorized catalog change:
 
-Run `ls data/agents/` and grep the file contents for the company name and the system name,
-including likely aliases. The catalog stores aliases in an `aliases` field, so search file
-contents, not just file names.
+- Add: create `data/agents/<id>.yaml` from `templates/agent.yaml`.
+- Update: attach new sources and supported claims to the existing record. If the source adds
+  nothing new, report that no change is needed.
+- Needs evidence or Out of scope: record the reason and source in `docs/coverage-backlog.md`.
+  Update an existing lead rather than duplicating it. Preserve dated decision history.
 
-- If the system is already cataloged, do not add a second record. Instead, offer to add the new
-  URL as a source to the existing record, with evidence links for any claims it supports.
-- If the company is cataloged but this system is new, proceed. One company can have several
-  records (see Atlassian and Plaid).
+## Write and check the change
 
-## Step 3: Score against the rubric
+Link each claim to source evidence. Distinguish reported claims from catalog judgments and
+assess confidence from the support for each claim. Source type alone does not determine confidence.
+Company metrics remain self-reported unless independently verified. Unknown means undocumented.
 
-Score each dimension 0, 1, or 2. Base every score on what the fetched sources document, not on
-what the company is known for. The rubric rewards demonstrated builds and punishes promotion.
+Preserve accepted sources using the contribution guide's source-preservation procedure. Review
+the captured text before linking it. The original URL remains the citation. A capture preserves
+what was available; it does not make a claim more reliable. Do not save an error or access-control
+page as evidence. If preservation fails, report the collection blocker separately from eligibility
+and leave the change incomplete. Retain any local draft and list its path and blocker in the
+report, so the user can distinguish unfinished work from a completed addition. Do not bypass
+access restrictions or weaken validation.
 
-| # | Dimension | 0 | 1 | 2 |
-| --- | --- | --- | --- | --- |
-| 1 | Identified build | No named system; the org "uses AI" | Named system, thin description | Named system with its workflow described |
-| 2 | Internal ownership | Vendor tool adopted as-is (a Cursor or Claude Code usage story) | Adaptation claimed but not demonstrated | Distinct internal build, or material adaptation shown (wrapper, internal MCP servers, gateway, own framework) |
-| 3 | Source provenance | Unattributed, rumor, anonymous | Community thread or independent secondary only | First-party engineering source, repository, paper, or direct-participant talk or podcast |
-| 4 | Operational specificity | Announcement or vision, no usage evidence | Some usage signals | Concrete architecture, scale, or workflow detail with dates |
-| 5 | Product independence | The story is the org using its own shipping consumer product internally | Straddles: an internal adaptation layer sits on a shipping product | Internal-only system, or a distinct build that predates or informed a product |
+For operating models, record the task scope and documented human review boundary. Each assessment
+needs dated claim metadata with `catalog-judgment` provenance. Levels are derived by the build.
+Do not derive them from autonomy labels or average different workflows.
 
-### Hard gates
+Regenerate outputs with `uv run python scripts/build.py`. Run the verification commands in
+[the pull request template](../../../.github/pull_request_template.md), including archive, site,
+privacy, build, and local-link checks. Read the source against the claims as well: passing checks
+cannot establish that an interpretation is correct.
 
-Fail the intake outright, whatever the total, when any of these hold:
+If a check fails, fix the change within scope or report the blocker. Preserve unrelated work;
+do not use a broad `git restore` to clean up. Do not commit or publish a failing change.
 
-- No named organization.
-- The system is not agent-shaped: pure model-serving or inference infrastructure (see the
-  Netflix exclusion in `docs/coverage-backlog.md`) is out of scope.
-- Dimension 3 scores 0: rumor or unattributed claim.
-- Dimension 5 scores 0: the company's own shipping consumer product used internally with no
-  distinct internal build. This is promotional dogfooding. The v0 and GitLab Duo exclusions in
-  the backlog are the precedents. The rule exists because such stories market the product; they
-  do not document an internal build.
-- The system is already cataloged (Step 2).
+## Report
 
-### Decision
-
-- **Add** when dimensions 1 and 2 both score 2, dimension 5 scores 2, and the total is 8 or more.
-- **Border case** when the hard gates pass but the add conditions do not. Typical causes: a
-  shipping product with a real internal adaptation layer (dimension 5 at 1), or secondary-only
-  provenance with thin detail. Log it in the backlog with the specific question a human must
-  answer.
-- **Exclude** when a hard gate fails or the total is 4 or less. Log it in the backlog under
-  "Refuted or excluded" with the reason and the source.
-
-Report the scores and the branch you took. Show your work in one short table; the user should be
-able to audit the call without rereading the source.
-
-## Step 4a: Add path — write the record
-
-1. Copy `templates/agent.yaml` to `data/agents/<id>.yaml`. The kebab-case id must match the file
-   name.
-2. Fill the record from the extracted facts. Follow the schema rules below; they exist because
-   each one closed a real defect.
-3. Preserve every evidence source while it is still live, review the captured Markdown, and add
-   the emitted `capture` and `archived_url` fields to the matching source record:
-
-   ```bash
-   uv run python scripts/archive_sources.py --source-id <source-id>
-   ```
-
-   Use `--pdf` only when visual layout supports a claim. Do not use credentials, CAPTCHA solving,
-   or proxies to capture private or access-controlled content. If capture fails or returns an
-   error/interstitial page, stop the automated Add path and report a border case; do not weaken
-   validation or save the error page as evidence.
-4. Regenerate all catalog-derived files and analysis snapshots:
-
-   ```bash
-   uv run python scripts/build.py
-   ```
-
-   The build owns the generated sections in the README, `docs/patterns.md`, and
-   `docs/adoption-lessons.md`. Do not update their counts by hand.
-5. Run the full verification block:
-
-   ```bash
-   uv run python scripts/archive_sources.py --check
-   uv run python scripts/build.py --check
-   uv run ruff check .
-   uv run ruff format --check .
-   uv run python -m unittest discover -s tests
-   uv run python scripts/check_links.py --local
-   git diff --check
-   ```
-
-6. If anything fails, fix the record or source content. Do not weaken a check to pass it.
-7. Commit everything in one commit (YAML, capture bundle, regenerated README, landscape,
-   agents.json, patterns.md, and backlog edits) and push to main. The user chose full automation
-   for the pass path. Follow the repo commit style: imperative subject line within 50 characters,
-   body wrapped at 72 characters, and the Co-Authored-By trailer.
-8. If verification cannot pass after honest fixes, stop, leave the working tree clean
-   (`git restore` the generated files, keep the YAML), and report. A blocked add is a border
-   case; log it rather than forcing it.
-
-### Schema rules that catch contributors
-
-- `operating_models` is required and must be a non-empty list of items with exactly `scope` and
-  `attention_boundary`. Each item needs an evidence link and claim metadata with
-  `kind: inference`, `provenance: catalog-judgment`, `confidence`, `confidence_reason`, and
-  `valid_at`. The level is derived by the build; never author it as a company fact.
-- Boundary values: `continuous-steering`, `work-product-review`, `outcome-review`,
-  `exception-only`, `unknown`. Derive the boundary from the documented workflow, never from the
-  `autonomy` field. When the system spans several workflows, or the source is a tool-access
-  layer with no single human-attention point, use `unknown`. Do not average.
-- A colon inside an unquoted YAML scalar breaks parsing. Quote every `scope` string.
-- Every entry in `sources` must be linked from at least one claim in `evidence`, or the build
-  fails with "not linked to a claim". Conversely, every evidence link must reference a source id
-  that exists in the record.
-- `first_public_evidence` must point at a source with the `evidence` role.
-- Use `unknown` for any field the sources do not document. Do not invent architecture fields.
-  Missing evidence is recorded as `unknown`, never as absence of a feature.
-- Mark company metrics as self-reported. Confidence `medium` for first-party self-reported
-  figures; `low` when the figure reaches you through a third party (the Airbnb 64% precedent).
-- Record `locator` values when the source has stable anchors (section, timestamp, comment id).
-- Keep `url` as the immutable publisher citation. `archived_url` is an external archive, normally
-  Wayback; `capture.manifest_path` points to the reviewed local Steel capture. A snapshot preserves
-  evidence but does not strengthen its provenance class.
-
-## Step 4b: Border-case and exclude paths — log the backlog
-
-Edit `docs/coverage-backlog.md`. Do not create catalog records on these paths.
-
-- Border case: add an entry under the matching tier with status "Border case", the scores, the
-  open question a human must resolve, and the source list. Mirror the Snowflake Cortex and
-  Datadog Bits entries for tone.
-- Exclude: add a bullet under "Refuted or excluded" naming the system, the failing gate, and the
-  reason, so nobody re-researches it. One or two sentences is enough.
-- Keep the editorial rule section and the audit trail intact; you are appending, not rewriting.
-
-Commit and push the backlog edit with a message that names what was excluded or parked and why.
-
-## Step 5: Report
-
-Close with a short report: the scores, the branch, the record id or backlog change, the
-verification results, and the commit hash. If you logged a border case, restate the open
-question so the user can answer it later.
-
-## What this skill does not do
-
-- It does not spawn verification subagents. The single-pass rubric is the agreed depth. When a
-  caller wants adversarial verification for a high-stakes entry, they can run the three-vote
-  pass separately.
-- It does not edit the hand-written analysis pages beyond the counts in `docs/patterns.md`.
-- It does not push when verification fails.
+State the decision, supporting evidence, and any unresolved question. For edits, include the
+record or backlog path and check results. Report commits or publication only when authorized
+and completed. Do not claim independent verification from repeated agent agreement.

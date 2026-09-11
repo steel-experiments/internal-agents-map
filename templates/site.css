@@ -756,6 +756,89 @@ footer {
 .quadrant-cell li[data-chart-approach-id="brex-agent-platform"] { left: 10%; top: 30%; max-width: 58%; }
 .quadrant-cell li[data-chart-approach-id="sentry-junior"] { left: 56%; top: 50%; max-width: 38%; }
 .quadrant-cell li[data-chart-approach-id="shopify-internal-agents"] { left: 17%; top: 72%; max-width: 52%; }
+
+/* Definition illustrations share one visual vocabulary: a teal dot is the agent. */
+.core-definition { display: grid; grid-template-columns: 1.25fr 1fr; align-items: center; gap: 28px; padding: 28px 0; margin: 24px 0; border-block: 1px solid #c9c9cf; max-width: 680px; }
+.definition-label { display: block; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--link); margin-bottom: 14px; font-weight: 600; }
+.guide .core-definition p { font-size: 25px; line-height: 1.4; letter-spacing: -.03em; margin: 0; }
+.core-definition svg, .concept-pair svg { display: block; width: 100%; fill: none; stroke: #929299; stroke-width: 1.2; }
+.core-definition svg text, .concept-pair svg text { fill: var(--muted); stroke: none; font: 11px Geist, sans-serif; }
+.core-definition svg .agent-dot, .concept-pair svg .agent-dot { fill: var(--blue); stroke: var(--blue); }
+.guide .concept-definition { font-size: 21px; line-height: 1.45; max-width: 610px; }
+.concept-pair { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); max-width: 680px; margin: 24px 0; border-block: 1px solid #d8d8dc; }
+.guide .concept-pair figure { margin: 0; padding: 22px 16px; min-width: 0; }
+.concept-pair figure + figure { border-left: 1px solid #d8d8dc; }
+.guide .concept-pair figcaption { margin: 18px 0 0; line-height: 1.5; }
+.concept-pair figcaption strong { display: block; color: var(--ink); font-size: 16px; margin-bottom: 4px; }
+.concept-pair figcaption span { display: block; font-size: 13px; }
+.concept-combination { max-width: 680px; padding: 24px; margin: 28px 0; background: #f1fbfa; border: 1px solid #d8e8e7; }
+.guide .concept-combination > p { font-size: 21px; line-height: 1.45; margin: 0; }
+.concept-combination dl { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; margin: 24px 0; }
+.concept-combination dt { font-size: 12px; color: var(--muted); }
+.concept-combination dd { margin: 6px 0 0; font-weight: 550; }
+.guide .concept-combination .combination-note { font-size: 13px; color: var(--muted); }
+@media (max-width: 600px) {
+  .core-definition { grid-template-columns: 1fr; gap: 20px; }
+  .guide .core-definition p { font-size: 24px; }
+  .core-definition svg { max-width: 300px; margin: auto; }
+  .concept-pair { grid-template-columns: 1fr; }
+  .concept-pair figure + figure { border-left: 0; border-top: 1px solid #d8d8dc; }
+  .concept-pair svg { max-width: 320px; margin: auto; }
+  .concept-combination { padding: 20px; }
+  .concept-combination dl { grid-template-columns: 1fr; gap: 14px; }
+}
+
+/* Notes use the same fine rules, type, and restrained diagram accents. */
+.notes { font-size: 16px; }
+.notes .guide-header { max-width: 680px; padding-bottom: 32px; }
+.notes .note-list, .note-detail > article { max-width: 680px; }
+.note-preview { padding: 28px 0; border-top: 1px solid var(--rule); }
+.note-preview h2 { margin: 10px 0 12px; font-size: 25px; }
+.note-preview h2 a { color: var(--ink); text-decoration: none; }
+.note-preview h2 a:hover { color: var(--link); text-decoration: underline; }
+.note-preview > p:not(.eyebrow) { max-width: 580px; }
+.notes .note-meta { color: var(--muted); font-size: 14px; margin-top: 18px; }
+.note-meta span { margin-left: 16px; white-space: nowrap; }
+.notes-editorial { max-width: 620px; border-top: 1px solid var(--rule); padding: 24px 0 40px; color: var(--muted); font-size: 14px; }
+.note-back { display: inline-block; margin-bottom: 28px; font-size: 14px; }
+.note-detail h1 { max-width: 640px; }
+.notes section { padding: 28px 0; }
+.notes section > h2 { font-size: 22px; }
+.notes blockquote { margin: 28px 0 12px; padding: 4px 20px; font-size: 21px; }
+.notes .quote-credit { color: var(--muted); font-size: 14px; margin: 0 0 24px; }
+.notes .note-diagram { margin: 28px 0 0; border: 1px solid #dcdce0; padding: 24px; }
+.note-flow { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr); gap: 12px; align-items: center; }
+.note-node { min-width: 0; }
+.note-node > span { display: block; color: var(--muted); font-size: 14px; margin-bottom: 12px; }
+.note-node strong { display: block; font-size: 16px; font-weight: 550; line-height: 1.4; }
+.note-node small { display: block; color: var(--muted); font-size: 14px; line-height: 1.5; margin-top: 8px; }
+.note-node-accent strong { color: var(--link); }
+.note-arrow { color: #888; }
+.note-diagram-tail { border-top: 1px solid var(--rule); margin-top: 24px; padding-top: 16px; font-size: 14px; }
+.notes figcaption { font-size: 14px; margin-top: 18px; }
+.note-question { border-left: 2px solid var(--blue); padding-left: 18px; margin-top: 24px; }
+.note-question strong { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 550; color: var(--link); }
+.note-sources ol { padding-left: 22px; margin: 0; font-size: 14px; }
+.note-sources li + li { margin-top: 16px; }
+.note-sources li span { display: block; color: var(--muted); margin-top: 4px; }
+.note-sources .resource-links { font-size: 14px; }
+.note-next { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px 24px; border-top: 1px solid var(--rule); padding: 24px 0 40px; font-size: 14px; }
+.note-versions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.note-versions > div { border-top: 1px solid #c9c9cf; padding-top: 14px; }
+.note-versions .diagram-number { font-size: 14px; margin-bottom: 12px; }
+.note-versions strong { display: block; font-size: 16px; line-height: 1.4; font-weight: 550; }
+.note-versions p { font-size: 14px; color: var(--muted); margin-top: 8px; }
+.note-versions .note-version-current { border-top: 2px solid var(--blue); }
+@media (max-width: 600px) {
+  .notes .note-diagram { padding: 20px; }
+  .note-flow { grid-template-columns: 1fr; gap: 14px; }
+  .note-node > span { margin-bottom: 4px; }
+  .note-arrow { transform: rotate(90deg); width: fit-content; }
+  .note-versions { grid-template-columns: 1fr; gap: 24px; }
+  .note-versions .diagram-number { margin-bottom: 6px; }
+  .note-preview h2 { font-size: 23px; }
+  .note-meta span { display: block; margin: 4px 0 0; }
+}
 @media (max-width: 600px) {
   .workflow-node { padding: 18px 12px; }
   .workflow-node .eyebrow { font-size: 10px; }

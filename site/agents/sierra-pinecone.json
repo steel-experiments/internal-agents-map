@@ -1,0 +1,547 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "sierra-pinecone",
+      "company": "Sierra",
+      "agent_name": "Pinecone",
+      "approach_type": "task-agent",
+      "deployment_stage": "scaled",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026",
+        "source_id": "sierra-pinecone-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "coding",
+        "code-review",
+        "support",
+        "research",
+        "data"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "employee request → reviewed agent output",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "event-driven",
+          "interactive"
+        ],
+        "state": "durable-session",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "sierra-pinecone--summary",
+        "sierra-pinecone--headline-metric",
+        "sierra-pinecone--architecture-sandbox",
+        "sierra-pinecone--architecture-harness",
+        "sierra-pinecone--architecture-model",
+        "sierra-pinecone--architecture-interfaces",
+        "sierra-pinecone--architecture-tool-access",
+        "sierra-pinecone--architecture-knowledge",
+        "sierra-pinecone--architecture-credentials",
+        "sierra-pinecone--architecture-context-mgmt",
+        "sierra-pinecone--primitives-0",
+        "sierra-pinecone--primitives-1",
+        "sierra-pinecone--primitives-2",
+        "sierra-pinecone--key-metrics-0",
+        "sierra-pinecone--key-metrics-1",
+        "sierra-pinecone--lessons-learned-0",
+        "sierra-pinecone--lessons-learned-1",
+        "sierra-pinecone--lessons-learned-2",
+        "sierra-pinecone--lessons-learned-3",
+        "sierra-pinecone--operating-models-0"
+      ],
+      "source_ids": [
+        "sierra-pinecone-source-1",
+        "sierra-pinecone-source-2",
+        "sierra-pinecone-source-3"
+      ],
+      "interfaces": [
+        "slack",
+        "web",
+        "linear",
+        "mobile"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "sierra-pinecone--summary",
+      "approach_id": "sierra-pinecone",
+      "field": "summary",
+      "text": "One company-wide agent that collapsed separate support, analytics, engineering, and sales agents into a single runtime with an MCP Gateway to 45 systems.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "sierra-pinecone-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sierra-pinecone--headline-metric",
+      "approach_id": "sierra-pinecone",
+      "field": "headline_metric",
+      "text": "More than 75,000 sessions created by 600 people in the month preceding the report",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 134–139"
+        }
+      ],
+      "reported_by": "Sierra",
+      "metric_scope": "Pinecone users and sessions in the month preceding the report; calendar month unspecified"
+    },
+    {
+      "id": "sierra-pinecone--architecture-sandbox",
+      "approach_id": "sierra-pinecone",
+      "field": "architecture.sandbox",
+      "text": "Agency layer reconciles recoverable Kubernetes runners; conversation/events/checkpoints stay durable separately",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sierra-pinecone--architecture-harness",
+      "approach_id": "sierra-pinecone",
+      "field": "architecture.harness",
+      "text": "App server + Agency + runners; intent-based model/environment routing (Claude Code + Codex)",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "sierra-pinecone-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sierra-pinecone--architecture-model",
+      "approach_id": "sierra-pinecone",
+      "field": "architecture.model",
+      "text": "Claude Code + Codex; routes by intent (planning, coding, prose)",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sierra-pinecone--architecture-interfaces",
+      "approach_id": "sierra-pinecone",
+      "field": "architecture.interfaces",
+      "text": "slack, web, linear, mobile",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sierra-pinecone--architecture-tool-access",
+      "approach_id": "sierra-pinecone",
+      "field": "architecture.tool_access",
+      "text": "MCP Gateway connected to 45 systems; a network proxy decides whether privileged requests proceed and injects credentials after approval",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sierra-pinecone--architecture-knowledge",
+      "approach_id": "sierra-pinecone",
+      "field": "architecture.knowledge",
+      "text": "Durable sessions over disposable environments; Redis Streams",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "sierra-pinecone-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sierra-pinecone--architecture-credentials",
+      "approach_id": "sierra-pinecone",
+      "field": "architecture.credentials",
+      "text": "Gateway enforces the invoking employee's access at tool-call time and isolates customer data; the harness never holds the real secret",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-2",
+          "relation": "supports"
+        },
+        {
+          "source_id": "sierra-pinecone-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sierra-pinecone--architecture-context-mgmt",
+      "approach_id": "sierra-pinecone",
+      "field": "architecture.context_mgmt",
+      "text": "Durable session state separated from ephemeral compute",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sierra-pinecone--primitives-0",
+      "approach_id": "sierra-pinecone",
+      "field": "primitives.0",
+      "text": "One gateway spanning 45 systems, enforcing employee permissions at call time",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sierra-pinecone--primitives-1",
+      "approach_id": "sierra-pinecone",
+      "field": "primitives.1",
+      "text": "Recoverable K8s runners with a network proxy for credential injection",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sierra-pinecone--primitives-2",
+      "approach_id": "sierra-pinecone",
+      "field": "primitives.2",
+      "text": "Routes model and environment by request intent, independent of the tool layer",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sierra-pinecone--key-metrics-0",
+      "approach_id": "sierra-pinecone",
+      "field": "key_metrics.0",
+      "text": "More than 75,000 sessions created by 600 people in the month preceding the report",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 134–139"
+        }
+      ],
+      "reported_by": "Sierra",
+      "metric_scope": "Pinecone users and sessions in the month preceding the report; calendar month unspecified"
+    },
+    {
+      "id": "sierra-pinecone--key-metrics-1",
+      "approach_id": "sierra-pinecone",
+      "field": "key_metrics.1",
+      "text": "70% of company PRs opened through Pinecone in the month preceding the report",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 138"
+        }
+      ],
+      "reported_by": "Sierra",
+      "metric_scope": "Company PRs opened through Pinecone in the month preceding the report",
+      "denominator": "Sierra PRs opened in that month; not merged PRs"
+    },
+    {
+      "id": "sierra-pinecone--lessons-learned-0",
+      "approach_id": "sierra-pinecone",
+      "field": "lessons_learned.0",
+      "text": "Collapse departmental bots into one agent; cross-functional jobs don't respect org-chart boundaries",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sierra-pinecone--lessons-learned-1",
+      "approach_id": "sierra-pinecone",
+      "field": "lessons_learned.1",
+      "text": "Own the routing/context/workflow layer; let models be interchangeable (different models win at planning, coding, prose)",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "sierra-pinecone-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sierra-pinecone--lessons-learned-2",
+      "approach_id": "sierra-pinecone",
+      "field": "lessons_learned.2",
+      "text": "Enforce permissions at the tool-call layer via a gateway, not via prompt instructions",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-2",
+          "relation": "supports"
+        },
+        {
+          "source_id": "sierra-pinecone-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sierra-pinecone--lessons-learned-3",
+      "approach_id": "sierra-pinecone",
+      "field": "lessons_learned.3",
+      "text": "Session counts and tool calls are usage, not value; track business outcomes instead",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "sierra-pinecone--operating-models-0",
+      "approach_id": "sierra-pinecone",
+      "field": "operating_models.0",
+      "text": "Level 3 for employee request → reviewed agent output; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The source documents delegated work through a company-wide agent without establishing outcome-only supervision.",
+      "valid_at": "2026",
+      "evidence": [
+        {
+          "source_id": "sierra-pinecone-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "sierra-pinecone-source-1",
+      "title": "Pinecone: harnessing the wisdom of the workforce",
+      "url": "https://sierra.ai/jp/blog/pinecone-harnessing-the-wisdom-of-the-workforce",
+      "canonical_url": "https://sierra.ai/jp/blog/pinecone-harnessing-the-wisdom-of-the-workforce",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "sierra-pinecone-source-1",
+        "original_url": "https://sierra.ai/jp/blog/pinecone-harnessing-the-wisdom-of-the-workforce",
+        "final_url": "https://sierra.ai/jp/blog/pinecone-harnessing-the-wisdom-of-the-workforce",
+        "captured_at": "2026-08-31T17:48:45Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/sierra-pinecone-source-1/content.md",
+            "sha256": "sha256:24399215c37e3bd845e9c7acd34429c292e571355757c7cb9d1bab7ef92b7343",
+            "bytes": 16372
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "sierra-pinecone"
+    },
+    {
+      "id": "sierra-pinecone-source-2",
+      "title": "Building Sierra's MCP Gateway",
+      "url": "https://sierra.ai/blog/building-sierras-mcp-gateway-an-engineering-iceberg",
+      "canonical_url": "https://sierra.ai/blog/building-sierras-mcp-gateway-an-engineering-iceberg",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "sierra-pinecone-source-2",
+        "original_url": "https://sierra.ai/blog/building-sierras-mcp-gateway-an-engineering-iceberg",
+        "final_url": "https://sierra.ai/blog/building-sierras-mcp-gateway-an-engineering-iceberg",
+        "captured_at": "2026-08-31T17:48:54Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/sierra-pinecone-source-2/content.md",
+            "sha256": "sha256:279856d3baa539b0050f39763f27f2a01da1e2c0a82630ace0070b6940c459b2",
+            "bytes": 14727
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "sierra-pinecone"
+    },
+    {
+      "id": "sierra-pinecone-source-3",
+      "title": "Agency: secure, scalable sandboxes for agents",
+      "url": "https://sierra.ai/es/blog/agency-secure-scalable-sandboxes-for-agents",
+      "canonical_url": "https://sierra.ai/es/blog/agency-secure-scalable-sandboxes-for-agents",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "sierra-pinecone-source-3",
+        "original_url": "https://sierra.ai/es/blog/agency-secure-scalable-sandboxes-for-agents",
+        "final_url": "https://sierra.ai/es/blog/agency-secure-scalable-sandboxes-for-agents",
+        "captured_at": "2026-08-31T17:49:02Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/sierra-pinecone-source-3/content.md",
+            "sha256": "sha256:6b8d53460e96c2d39444c1cda5a385e1b7b3c5a34a6e8d76030e9de1ae7e790e",
+            "bytes": 12903
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "sierra-pinecone"
+    }
+  ]
+}

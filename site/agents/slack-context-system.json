@@ -1,0 +1,423 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "slack-context-system",
+      "company": "Slack",
+      "agent_name": "Multi-agent context system",
+      "approach_type": "supporting-pattern",
+      "deployment_stage": "research",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026",
+        "source_id": "slack-context-system-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "research"
+      ],
+      "autonomy": "human-in-loop",
+      "operating_models": [
+        {
+          "scope": "long-running investigation → synthesized report",
+          "attention_boundary": "unknown",
+          "level": null
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "unknown"
+        ],
+        "state": "durable-session",
+        "identity": "unknown",
+        "evidence_strength": "mixed"
+      },
+      "claim_ids": [
+        "slack-context-system--summary",
+        "slack-context-system--headline-metric",
+        "slack-context-system--architecture-harness",
+        "slack-context-system--architecture-model",
+        "slack-context-system--architecture-tool-access",
+        "slack-context-system--architecture-context-mgmt",
+        "slack-context-system--primitives-0",
+        "slack-context-system--primitives-1",
+        "slack-context-system--primitives-2",
+        "slack-context-system--key-metrics-0",
+        "slack-context-system--lessons-learned-0",
+        "slack-context-system--lessons-learned-1",
+        "slack-context-system--lessons-learned-2",
+        "slack-context-system--operating-models-0"
+      ],
+      "source_ids": [
+        "slack-context-system-source-1",
+        "slack-context-system-source-2"
+      ],
+      "interfaces": []
+    }
+  ],
+  "claims": [
+    {
+      "id": "slack-context-system--summary",
+      "approach_id": "slack-context-system",
+      "field": "summary",
+      "text": "A coordinator/dispatcher multi-agent design with structured context channels for long-running investigations spanning hundreds of steps.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "slack-context-system-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "slack-context-system-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "slack-context-system--headline-metric",
+      "approach_id": "slack-context-system",
+      "field": "headline_metric",
+      "text": "Context management for security investigations spanning hundreds of inference requests and megabytes of output",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "slack-context-system-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 34–38"
+        },
+        {
+          "source_id": "slack-context-system-source-2",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 22"
+        }
+      ],
+      "reported_by": "Slack",
+      "metric_scope": "Complex security investigations requiring tailored multi-agent context; qualitative workload scale"
+    },
+    {
+      "id": "slack-context-system--architecture-harness",
+      "approach_id": "slack-context-system",
+      "field": "architecture.harness",
+      "text": "Coordinator/dispatcher: a central coordinator dispatches to expert agents and to critic agents",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "slack-context-system-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "slack-context-system-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "slack-context-system--architecture-model",
+      "approach_id": "slack-context-system",
+      "field": "architecture.model",
+      "text": "Not specified",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "slack-context-system-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "slack-context-system-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "slack-context-system--architecture-tool-access",
+      "approach_id": "slack-context-system",
+      "field": "architecture.tool_access",
+      "text": "Expert agents produce reports; critic agents evaluate them using evidence-inspection tools",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "slack-context-system-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "slack-context-system-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "slack-context-system--architecture-context-mgmt",
+      "approach_id": "slack-context-system",
+      "field": "architecture.context_mgmt",
+      "text": "Three channels; Director's Journal (working memory), Critic's Review (credibility-weighted findings), Critic's Timeline (deduped chronological synthesis)",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "slack-context-system-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "slack-context-system-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "slack-context-system--primitives-0",
+      "approach_id": "slack-context-system",
+      "field": "primitives.0",
+      "text": "Structured working memory: findings, decisions, questions, hypotheses",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "slack-context-system-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "slack-context-system-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "slack-context-system--primitives-1",
+      "approach_id": "slack-context-system",
+      "field": "primitives.1",
+      "text": "A truth filter with credibility scores over submitted findings",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "slack-context-system-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "slack-context-system-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "slack-context-system--primitives-2",
+      "approach_id": "slack-context-system",
+      "field": "primitives.2",
+      "text": "A chronological, deduped, conflict-resolved synthesis retained across steps",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "slack-context-system-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "slack-context-system-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "slack-context-system--key-metrics-0",
+      "approach_id": "slack-context-system",
+      "field": "key_metrics.0",
+      "text": "Handles multi-agent runs spanning hundreds of requests and megabytes of output",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "slack-context-system-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 34–38"
+        },
+        {
+          "source_id": "slack-context-system-source-2",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 22"
+        }
+      ],
+      "reported_by": "Slack",
+      "metric_scope": "Complex security investigations requiring tailored multi-agent context; qualitative workload scale"
+    },
+    {
+      "id": "slack-context-system--lessons-learned-0",
+      "approach_id": "slack-context-system",
+      "field": "lessons_learned.0",
+      "text": "Don't pass all information at every step; build structured summaries agents can reliably build on",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "slack-context-system-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "slack-context-system-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "slack-context-system--lessons-learned-1",
+      "approach_id": "slack-context-system",
+      "field": "lessons_learned.1",
+      "text": "Separate expert agents (produce) from critic agents (evaluate); corroborated findings are prioritized",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "slack-context-system-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "slack-context-system-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "slack-context-system--lessons-learned-2",
+      "approach_id": "slack-context-system",
+      "field": "lessons_learned.2",
+      "text": "Context management becomes its own subsystem once runs get long",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "slack-context-system-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "slack-context-system-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "slack-context-system--operating-models-0",
+      "approach_id": "slack-context-system",
+      "field": "operating_models.0",
+      "text": "Unclassified for long-running investigation → synthesized report; human attention boundary: unknown.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "unverified",
+      "confidence_reason": "The research pattern documents agent coordination and criticism but not the normal human attention boundary.",
+      "valid_at": "2026",
+      "evidence": [
+        {
+          "source_id": "slack-context-system-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "slack-context-system-source-1",
+      "title": "Managing context in long-running agentic applications",
+      "url": "https://slack.engineering/managing-context-in-long-run-agentic-applications/",
+      "canonical_url": "https://slack.engineering/managing-context-in-long-run-agentic-applications/",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "slack-context-system-source-1",
+        "original_url": "https://slack.engineering/managing-context-in-long-run-agentic-applications/",
+        "final_url": "https://slack.engineering/managing-context-in-long-run-agentic-applications/",
+        "captured_at": "2026-08-31T17:49:11Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/slack-context-system-source-1/content.md",
+            "sha256": "sha256:7a971b0fb7f055b66353ef8efe21fb8658f63414ebad33e935c3bd1bc12e7ae9",
+            "bytes": 22513
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "slack-context-system"
+    },
+    {
+      "id": "slack-context-system-source-2",
+      "title": "How Slack manages context in long-running multi-agent systems",
+      "url": "https://www.infoq.com/news/2026/04/slack-agent-context-management/",
+      "canonical_url": "https://www.infoq.com/news/2026/04/slack-agent-context-management/",
+      "kind": "news",
+      "provenance_class": "independent-secondary",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "slack-context-system-source-2",
+        "original_url": "https://www.infoq.com/news/2026/04/slack-agent-context-management/",
+        "final_url": "https://www.infoq.com/news/2026/04/slack-agent-context-management/",
+        "captured_at": "2026-08-31T17:49:20Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/slack-context-system-source-2/content.md",
+            "sha256": "sha256:80bd0ce26c165f3c8faf87d85c517048d8468d095ef1f3c591ab77b83994327a",
+            "bytes": 4131
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "slack-context-system"
+    }
+  ]
+}

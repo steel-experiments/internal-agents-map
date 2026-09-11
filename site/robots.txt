@@ -1,0 +1,14 @@
+# Public catalog: crawling is allowed.
+# Content Signals express preferences; cited publishers retain their own rights.
+User-agent: *
+Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+
+Sitemap: https://internal-agents.com/sitemap.xml

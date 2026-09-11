@@ -1,0 +1,497 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "dropbox-nova",
+      "company": "Dropbox",
+      "agent_name": "Nova",
+      "approach_type": "platform",
+      "deployment_stage": "scaled",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026",
+        "source_id": "dropbox-nova-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "coding",
+        "ci-triage",
+        "on-call",
+        "maintenance"
+      ],
+      "autonomy": "human-in-loop",
+      "operating_models": [
+        {
+          "scope": "agent-assisted SDLC workflow → accepted change",
+          "attention_boundary": "unknown",
+          "level": null
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "event-driven",
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "dropbox-nova--summary",
+        "dropbox-nova--headline-metric",
+        "dropbox-nova--architecture-sandbox",
+        "dropbox-nova--architecture-harness",
+        "dropbox-nova--architecture-model",
+        "dropbox-nova--architecture-interfaces",
+        "dropbox-nova--architecture-tool-access",
+        "dropbox-nova--architecture-knowledge",
+        "dropbox-nova--architecture-credentials",
+        "dropbox-nova--architecture-context-mgmt",
+        "dropbox-nova--primitives-0",
+        "dropbox-nova--primitives-1",
+        "dropbox-nova--key-metrics-0",
+        "dropbox-nova--key-metrics-1",
+        "dropbox-nova--key-metrics-2",
+        "dropbox-nova--lessons-learned-0",
+        "dropbox-nova--lessons-learned-1",
+        "dropbox-nova--lessons-learned-2",
+        "dropbox-nova--lessons-learned-3",
+        "dropbox-nova--operating-models-0"
+      ],
+      "source_ids": [
+        "dropbox-nova-source-1",
+        "dropbox-nova-source-2"
+      ],
+      "interfaces": [
+        "web",
+        "cli",
+        "api",
+        "slack"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "dropbox-nova--summary",
+      "approach_id": "dropbox-nova",
+      "field": "summary",
+      "text": "An internal platform for coding agents: engineers launch parallel sessions and internal systems invoke agents inside automated SDLC workflows.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "dropbox-nova--headline-metric",
+      "approach_id": "dropbox-nova",
+      "field": "headline_metric",
+      "text": "Dozens of agents can run in parallel from one runbook",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 65–69"
+        }
+      ],
+      "reported_by": "Dropbox",
+      "metric_scope": "Migration-owner orchestration of dozens of agents from a shared runbook; qualitative capacity description"
+    },
+    {
+      "id": "dropbox-nova--architecture-sandbox",
+      "approach_id": "dropbox-nova",
+      "field": "architecture.sandbox",
+      "text": "Isolated env with a codebase snapshot at a specific commit; full Dropbox monorepo via Bazel; hermetic remote execution + caching",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "dropbox-nova--architecture-harness",
+      "approach_id": "dropbox-nova",
+      "field": "architecture.harness",
+      "text": "Validation loop (propose → validate → feed back) with continue_on_validation_failure and max_iterations (~5); branch management kept outside the agent",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "dropbox-nova--architecture-model",
+      "approach_id": "dropbox-nova",
+      "field": "architecture.model",
+      "text": "Platform-agnostic; multiple coding agents behind one interface; swap models without rebuilding infra; prompt-eval tooling",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "dropbox-nova--architecture-interfaces",
+      "approach_id": "dropbox-nova",
+      "field": "architecture.interfaces",
+      "text": "web, cli, api, slack",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "dropbox-nova--architecture-tool-access",
+      "approach_id": "dropbox-nova",
+      "field": "architecture.tool_access",
+      "text": "Skills/plugins to gather evidence, read logs, inspect failures; MCP integrations; Bazel-aware selectivity tools",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "dropbox-nova--architecture-knowledge",
+      "approach_id": "dropbox-nova",
+      "field": "architecture.knowledge",
+      "text": "Localized AGENTS.md per service; Dash (Dropbox context engineering); passing + failing test logs",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "dropbox-nova--architecture-credentials",
+      "approach_id": "dropbox-nova",
+      "field": "architecture.credentials",
+      "text": "Operates within Dropbox's existing infra and validation paths; same auth/authz as engineers",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "dropbox-nova--architecture-context-mgmt",
+      "approach_id": "dropbox-nova",
+      "field": "architecture.context_mgmt",
+      "text": "Session history (notes/logs) carried across retry attempts",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "dropbox-nova--primitives-0",
+      "approach_id": "dropbox-nova",
+      "field": "primitives.0",
+      "text": "Bounded iteration with feedback on failure; deterministic systems control test execution",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "dropbox-nova--primitives-1",
+      "approach_id": "dropbox-nova",
+      "field": "primitives.1",
+      "text": "Dropbox context-engineering system feeding agents across the SDLC",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "dropbox-nova--key-metrics-0",
+      "approach_id": "dropbox-nova",
+      "field": "key_metrics.0",
+      "text": "Flaky-test remediation (Deflaker): 100+ validation runs",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 58–62"
+        }
+      ],
+      "reported_by": "Dropbox",
+      "metric_scope": "CI validation runs per proposed Deflaker flaky-test fix",
+      "measurement_method": "Run the test 100 or more times depending on its failure rate; retry capped at five fix attempts"
+    },
+    {
+      "id": "dropbox-nova--key-metrics-1",
+      "approach_id": "dropbox-nova",
+      "field": "key_metrics.1",
+      "text": "Predecessor Goose-based migrator used across thousands of migration entries before workflows moved onto Nova",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 65–69"
+        }
+      ],
+      "reported_by": "Dropbox",
+      "metric_scope": "Predecessor Goose-based migrator, before workflows moved onto Nova"
+    },
+    {
+      "id": "dropbox-nova--key-metrics-2",
+      "approach_id": "dropbox-nova",
+      "field": "key_metrics.2",
+      "text": "Dozens of agents launchable from one runbook",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 65–69"
+        }
+      ],
+      "reported_by": "Dropbox",
+      "metric_scope": "Migration-owner orchestration of dozens of agents from a shared runbook; qualitative capacity description"
+    },
+    {
+      "id": "dropbox-nova--lessons-learned-0",
+      "approach_id": "dropbox-nova",
+      "field": "lessons_learned.0",
+      "text": "Platform value exceeds code generation; validation, guardrails, and context matter as much",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "dropbox-nova--lessons-learned-1",
+      "approach_id": "dropbox-nova",
+      "field": "lessons_learned.1",
+      "text": "Context, validation, and guardrails reinforce each other to make background work trustworthy",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "dropbox-nova--lessons-learned-2",
+      "approach_id": "dropbox-nova",
+      "field": "lessons_learned.2",
+      "text": "Not every step belongs in the agent loop; deterministic systems should control test execution and timing",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "dropbox-nova--lessons-learned-3",
+      "approach_id": "dropbox-nova",
+      "field": "lessons_learned.3",
+      "text": "Integrate with existing engineering infrastructure rather than building separate AI-specific workflows",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "dropbox-nova--operating-models-0",
+      "approach_id": "dropbox-nova",
+      "field": "operating_models.0",
+      "text": "Unclassified for agent-assisted SDLC workflow → accepted change; human attention boundary: unknown.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "unverified",
+      "confidence_reason": "The source documents human participation but does not locate one consistent attention boundary across Nova workflows.",
+      "valid_at": "2026-05-22",
+      "evidence": [
+        {
+          "source_id": "dropbox-nova-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "dropbox-nova-source-1",
+      "title": "Introducing Nova, our internal platform for coding agents",
+      "url": "https://dropbox.tech/machine-learning/introducing-nova-our-internal-platform-for-coding-agents",
+      "canonical_url": "https://dropbox.tech/machine-learning/introducing-nova-our-internal-platform-for-coding-agents",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "dropbox-nova-source-1",
+        "original_url": "https://dropbox.tech/machine-learning/introducing-nova-our-internal-platform-for-coding-agents",
+        "final_url": "https://dropbox.tech/machine-learning/introducing-nova-our-internal-platform-for-coding-agents",
+        "captured_at": "2026-08-31T17:42:18Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/dropbox-nova-source-1/content.md",
+            "sha256": "sha256:e6b443ee09b9dbe68c0c10aab951ba8f75640d0202f0be4e95fca23f9d3d3593",
+            "bytes": 13723
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "dropbox-nova"
+    },
+    {
+      "id": "dropbox-nova-source-2",
+      "title": "Hacker News submission for Nova",
+      "url": "https://news.ycombinator.com/item?id=48235065",
+      "canonical_url": "https://news.ycombinator.com/item?id=48235065",
+      "kind": "hn-thread",
+      "provenance_class": "community",
+      "role": "discovery",
+      "authors": [
+        "el_duderino"
+      ],
+      "published_at": "2026-05-22",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "dropbox-nova-source-2",
+        "original_url": "https://news.ycombinator.com/item?id=48235065",
+        "final_url": "https://news.ycombinator.com/item?id=48235065",
+        "captured_at": "2026-08-31T17:42:27Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/dropbox-nova-source-2/content.md",
+            "sha256": "sha256:b608472ab9489885d07bfaa57186859b3a7d4c54b1168ca7a2ab789f5d0f2f8f",
+            "bytes": 886
+          }
+        }
+      },
+      "approach_id": "dropbox-nova"
+    }
+  ]
+}

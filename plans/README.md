@@ -51,7 +51,7 @@ all 115 original metrics: 108 retained with supporting locators, five reclassifi
 and two unsupported metrics removed. See [the evidence review](../docs/evidence-review.md).
 
 2026-09-09: Plan 004 completed and published at
-[Internal Agents Map](https://steel-experiments.github.io/internal-agents-map/).
+[Internal Agents Map](https://internal-agents.com/).
 Self-hosted Geist, search/filtering, shareable entries, and evidence disclosures
 are generated from the catalog. All 116 tests and required checks pass; the first
 validation/deployment workflow succeeded and all six public assets match the

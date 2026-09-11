@@ -1,0 +1,637 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "doordash-flux",
+      "company": "DoorDash",
+      "agent_name": "Flux / Agentic AI Platform",
+      "approach_type": "platform",
+      "deployment_stage": "scaled",
+      "year": 2025,
+      "first_public_evidence": {
+        "date": "2025-11-11",
+        "source_id": "doordash-flux-source-2"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "code-review",
+        "coding",
+        "ci-triage",
+        "on-call",
+        "maintenance",
+        "data"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "engineering task → reviewed agent output",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "event-driven",
+          "interactive",
+          "scheduled"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "doordash-flux--summary",
+        "doordash-flux--headline-metric",
+        "doordash-flux--architecture-sandbox",
+        "doordash-flux--architecture-harness",
+        "doordash-flux--architecture-model",
+        "doordash-flux--architecture-interfaces",
+        "doordash-flux--architecture-tool-access",
+        "doordash-flux--architecture-knowledge",
+        "doordash-flux--architecture-credentials",
+        "doordash-flux--architecture-context-mgmt",
+        "doordash-flux--primitives-0",
+        "doordash-flux--primitives-1",
+        "doordash-flux--primitives-2",
+        "doordash-flux--primitives-3",
+        "doordash-flux--primitives-4",
+        "doordash-flux--key-metrics-0",
+        "doordash-flux--key-metrics-1",
+        "doordash-flux--key-metrics-2",
+        "doordash-flux--lessons-learned-0",
+        "doordash-flux--lessons-learned-1",
+        "doordash-flux--lessons-learned-2",
+        "doordash-flux--lessons-learned-3",
+        "doordash-flux--lessons-learned-4",
+        "doordash-flux--lessons-learned-5",
+        "doordash-flux--operating-models-0"
+      ],
+      "source_ids": [
+        "doordash-flux-source-1",
+        "doordash-flux-source-2",
+        "doordash-flux-source-3"
+      ],
+      "interfaces": [
+        "slack",
+        "github",
+        "scheduled",
+        "cli",
+        "skill",
+        "cursor"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "doordash-flux--summary",
+      "approach_id": "doordash-flux",
+      "field": "summary",
+      "text": "DoorDash's internal agentic AI platform; a unified cognitive layer over company data and operations, with an AI Marketplace of specialized agents and the Flux cloud-agent runtime for engineering tasks.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "doordash-flux-source-2",
+          "relation": "supports"
+        },
+        {
+          "source_id": "doordash-flux-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--headline-metric",
+      "approach_id": "doordash-flux",
+      "field": "headline_metric",
+      "text": "130,000 engineering tasks automated in one month",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Dated August 11, 2026 report of a one-month count; this is the observation date, not the measurement window.",
+      "valid_at": "2026-08-11",
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 10–12"
+        }
+      ],
+      "reported_by": "DoorDash",
+      "metric_scope": "Engineering tasks automated in one reported month; calendar measurement month unspecified"
+    },
+    {
+      "id": "doordash-flux--architecture-sandbox",
+      "approach_id": "doordash-flux",
+      "field": "architecture.sandbox",
+      "text": "Firecracker microVMs; <5s p95 end-to-end setup (boot, clone repos, install tools, configure harness)",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--architecture-harness",
+      "approach_id": "doordash-flux",
+      "field": "architecture.harness",
+      "text": "Maturity model: deterministic workflows -> ReAct agents -> hierarchical deep agents -> experimental swarms",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--architecture-model",
+      "approach_id": "doordash-flux",
+      "field": "architecture.model",
+      "text": "Model-agnostic platform primitives support third-party or in-house agent components",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--architecture-interfaces",
+      "approach_id": "doordash-flux",
+      "field": "architecture.interfaces",
+      "text": "slack, github, scheduled, cli, skill, cursor",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--architecture-tool-access",
+      "approach_id": "doordash-flux",
+      "field": "architecture.tool_access",
+      "text": "In-house MCP gateway ('Agent Gateway'); LangGraph orchestration; prospective A2A; tools declared per playbook with scoped, logged permissions",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-2",
+          "relation": "supports"
+        },
+        {
+          "source_id": "doordash-flux-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--architecture-knowledge",
+      "approach_id": "doordash-flux",
+      "field": "architecture.knowledge",
+      "text": "AI Marketplace of specialized agents; DataExplorer for grounded analytics; DoorDash-specific context in playbooks",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-2",
+          "relation": "supports"
+        },
+        {
+          "source_id": "doordash-flux-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--architecture-credentials",
+      "approach_id": "doordash-flux",
+      "field": "architecture.credentials",
+      "text": "Scoped per playbook; brokered through the gateway, never on the laptop; provenance on every action",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--architecture-context-mgmt",
+      "approach_id": "doordash-flux",
+      "field": "architecture.context_mgmt",
+      "text": "Hybrid retrieval: BM25 + dense semantic + reciprocal-rank fusion -> RAG; schema-aware SQL with EXPLAIN validation",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--primitives-0",
+      "approach_id": "doordash-flux",
+      "field": "primitives.0",
+      "text": "Isolated Firecracker microVM with repos, tools, secrets, runtime deps",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--primitives-1",
+      "approach_id": "doordash-flux",
+      "field": "primitives.1",
+      "text": "Governed, audited access to CI, observability, issue trackers, deploy, code search",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--primitives-2",
+      "approach_id": "doordash-flux",
+      "field": "primitives.2",
+      "text": "YAML unit of agentic work: task, inputs, skills, tools, permissions, validation, outputs",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--primitives-3",
+      "approach_id": "doordash-flux",
+      "field": "primitives.3",
+      "text": "Identifies schemas, generates grounded SQL, validates via EXPLAIN before execution",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--primitives-4",
+      "approach_id": "doordash-flux",
+      "field": "primitives.4",
+      "text": "Workflows -> agents -> deep-agent hierarchies -> swarms; governance hardens as control decentralizes",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--key-metrics-0",
+      "approach_id": "doordash-flux",
+      "field": "key_metrics.0",
+      "text": "130,000 engineering tasks automated in one month",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Dated August 11, 2026 report of a one-month count; this is the observation date, not the measurement window.",
+      "valid_at": "2026-08-11",
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 10–12"
+        }
+      ],
+      "reported_by": "DoorDash",
+      "metric_scope": "Engineering tasks automated in one reported month; calendar measurement month unspecified"
+    },
+    {
+      "id": "doordash-flux--key-metrics-1",
+      "approach_id": "doordash-flux",
+      "field": "key_metrics.1",
+      "text": "25,000+ automated code reviews per week",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Dated August 11, 2026 report; weekly measurement boundaries are not supplied.",
+      "valid_at": "2026-08-11",
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 10–12"
+        }
+      ],
+      "reported_by": "DoorDash",
+      "metric_scope": "Weekly automated code reviews powered by Flux"
+    },
+    {
+      "id": "doordash-flux--key-metrics-2",
+      "approach_id": "doordash-flux",
+      "field": "key_metrics.2",
+      "text": "300+ playbooks; 10,000+ invocations per week",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-3",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 10"
+        }
+      ],
+      "reported_by": "DoorDash",
+      "metric_scope": "Unique playbooks and weekly invocations on Flux"
+    },
+    {
+      "id": "doordash-flux--lessons-learned-0",
+      "approach_id": "doordash-flux",
+      "field": "lessons_learned.0",
+      "text": "Start narrow to earn trust; began with automated code review before CI triage, on-call, maintenance, ticket-driven dev",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--lessons-learned-1",
+      "approach_id": "doordash-flux",
+      "field": "lessons_learned.1",
+      "text": "Make the work visible; public Slack threads drove adoption; private per-run channels did not build team habits",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--lessons-learned-2",
+      "approach_id": "doordash-flux",
+      "field": "lessons_learned.2",
+      "text": "Playbooks need enablement; workshops and hackathons turn repeated operational work into reusable playbooks",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--lessons-learned-3",
+      "approach_id": "doordash-flux",
+      "field": "lessons_learned.3",
+      "text": "Earn complexity by exhausting simpler primitives first; keep swarms at the research frontier until governance catches up",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--lessons-learned-4",
+      "approach_id": "doordash-flux",
+      "field": "lessons_learned.4",
+      "text": "Deterministic verification before probabilistic judgment; SQL linting and EXPLAIN before deeper validation; LLM-as-judge + DeepEval",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--lessons-learned-5",
+      "approach_id": "doordash-flux",
+      "field": "lessons_learned.5",
+      "text": "Log provenance so any answer traces back to source queries, documents, and inter-agent activity",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "doordash-flux--operating-models-0",
+      "approach_id": "doordash-flux",
+      "field": "operating_models.0",
+      "text": "Level 3 for engineering task → reviewed agent output; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The platform spans several workflows; the cited engineering examples retain human review of agent output.",
+      "valid_at": "2025-11-11",
+      "evidence": [
+        {
+          "source_id": "doordash-flux-source-3",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "doordash-flux-source-1",
+      "title": "Delegating Engineering Work To Cloud-Based Agents (Flux)",
+      "url": "https://x.com/AIatDoorDash/status/2087285008906240193",
+      "canonical_url": "https://x.com/AIatDoorDash/status/2087285008906240193",
+      "kind": "social-post",
+      "provenance_class": "direct-participant",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "doordash-flux-source-1",
+        "original_url": "https://x.com/AIatDoorDash/status/2087285008906240193",
+        "final_url": "https://x.com/AIatDoorDash/status/2087285008906240193",
+        "captured_at": "2026-08-31T17:42:01Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/doordash-flux-source-1/content.md",
+            "sha256": "sha256:3fe095b0e92562a9dbf25d6fc3d6d816ed51168d964ff238d7acf2e455bfb01d",
+            "bytes": 1178
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "doordash-flux"
+    },
+    {
+      "id": "doordash-flux-source-2",
+      "title": "Beyond single agents: DoorDash's collaborative AI ecosystem",
+      "url": "https://careersatdoordash.com/blog/beyond-single-agents-doordash-building-collaborative-ai-ecosystem/",
+      "canonical_url": "https://careersatdoordash.com/blog/beyond-single-agents-doordash-building-collaborative-ai-ecosystem/",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "published_at": "2025-11-11",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "doordash-flux-source-2",
+        "original_url": "https://careersatdoordash.com/blog/beyond-single-agents-doordash-building-collaborative-ai-ecosystem/",
+        "final_url": "https://careersatdoordash.com/blog/beyond-single-agents-doordash-building-collaborative-ai-ecosystem/",
+        "captured_at": "2026-08-31T17:55:30Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/doordash-flux-source-2/content.md",
+            "sha256": "sha256:8e9f42ae8559f6dafaa322262329fd03fc96f6cca949ec64a1497cb971d34d34",
+            "bytes": 22418
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "doordash-flux"
+    },
+    {
+      "id": "doordash-flux-source-3",
+      "title": "Delegating Engineering Work To Cloud-Based Agents",
+      "url": "https://careersatdoordash.com/blog/delegating-engineering-work-to-cloud-based-agents/",
+      "canonical_url": "https://careersatdoordash.com/blog/delegating-engineering-work-to-cloud-based-agents/",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "published_at": "2026-08-11",
+      "accessed_at": "2026-08-31",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "doordash-flux-source-3",
+        "original_url": "https://careersatdoordash.com/blog/delegating-engineering-work-to-cloud-based-agents/",
+        "final_url": "https://careersatdoordash.com/blog/delegating-engineering-work-to-cloud-based-agents/",
+        "captured_at": "2026-08-31T18:09:17Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/doordash-flux-source-3/content.md",
+            "sha256": "sha256:b319a0ace131d82a2c4f8b477df5511412e3a1c3127e5d74cdb5598624f75b15",
+            "bytes": 9896
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "doordash-flux"
+    }
+  ]
+}

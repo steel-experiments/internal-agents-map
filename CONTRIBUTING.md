@@ -6,6 +6,56 @@ The catalog favors broad collection and explicit provenance. Do not invent missi
 
 The catalog is public. Do not add personal contact data, such as e-mail addresses or private notes about people, to any file. Only public sources belong here. CI rejects e-mail addresses in tracked files.
 
+## Inclusion rules
+
+This section is the shared inclusion policy for the catalog and its intake skill.
+Include a case when public evidence answers these questions:
+
+1. Which organization uses it, and for what internal work?
+2. What did that organization build or materially adapt?
+3. What implementation or use does the source describe?
+
+Material adaptation means a documented change for the organization's work, such as internal
+tool connections, company context, workflow logic, or controls. Buying licenses or reporting
+adoption alone is insufficient. No minimum amount of custom code is required.
+
+An agent or an implemented system that supports agents can qualify. Label its approach type.
+General model-serving infrastructure without a documented agent workflow is out of scope.
+Research implementations and prototypes can qualify; label their deployment stage accurately.
+
+A system does not need a product name. Use a descriptive label when the workflow is identifiable.
+Commercial and open-source systems can qualify, including an organization's own product.
+Apply the same evidence requirements to all cases. A product announcement alone is insufficient.
+
+Prefer original sources. Outside reporting can support a case when it answers the questions
+above with attributed evidence. Record source provenance and assess support for each claim.
+Rumors and unattributed claims do not establish eligibility.
+
+### Intake decisions
+
+- **Add:** The evidence meets the inclusion rules and no record exists.
+- **Update:** The system already has a record. Link new evidence to that record.
+- **Needs evidence:** A required fact is unclear. Record the missing fact or source.
+- **Out of scope:** The documented work does not meet the inclusion rules. State which rule fails.
+
+Classify the submitted case, not every system the organization might have. An adoption-only
+story is out of scope as submitted. Use Needs evidence when the source describes a possible
+internal build but leaves a required fact unclear. New evidence can reopen either decision.
+
+Keep eligibility separate from execution. A source capture or validation failure blocks the
+change; it does not establish that the case is out of scope. Record the blocker without changing
+a supported eligibility decision. Do not add a case based on search snippets or remembered text.
+
+### Agent-assisted intake
+
+The [intake skill](.claude/skills/add-agent-from-url/SKILL.md) applies these rules to source URLs.
+A request to assess a case produces an assessment. A request to add or update it authorizes the
+corresponding local edits. Commit and publication actions follow the user's authorization.
+
+Review whether sources support the claims before adding them. Automated checks validate record
+structure, source-file integrity, and links; they do not confirm reported results or interpretations.
+Agreement between reviewing agents is not independent evidence.
+
 ## Set up the project
 
 1. [Install uv](https://docs.astral.sh/uv/getting-started/installation/).
@@ -30,9 +80,7 @@ create or activate a virtual environment yourself.
 8. Run `uv run python scripts/build.py`.
 9. Run all verification commands in the pull request template.
 
-The approach must describe a system that a named organization built or materially adapted for its own teams. It can be a task agent, background agent, agent system, platform, orchestration system, or implemented supporting pattern.
-
-Do not add a generic vendor product without a documented internal adaptation. Do not add an unattributed rumor as an approach.
+Apply the [inclusion rules](#inclusion-rules) before writing a record.
 
 ## Add a source or commentary
 

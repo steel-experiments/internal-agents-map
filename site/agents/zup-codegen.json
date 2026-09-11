@@ -1,0 +1,259 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "zup-codegen",
+      "company": "Zup",
+      "agent_name": "CodeGen",
+      "approach_type": "task-agent",
+      "deployment_stage": "research",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026",
+        "source_id": "zup-codegen-source-1"
+      },
+      "last_reviewed_at": "2026-08-31",
+      "status": "internal",
+      "domains": [
+        "coding"
+      ],
+      "autonomy": "human-in-loop",
+      "operating_models": [
+        {
+          "scope": "constrained coding task → human-supervised edit",
+          "attention_boundary": "continuous-steering",
+          "level": 2
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "unknown"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "zup-codegen--summary",
+        "zup-codegen--architecture-harness",
+        "zup-codegen--architecture-model",
+        "zup-codegen--architecture-tool-access",
+        "zup-codegen--architecture-credentials",
+        "zup-codegen--primitives-0",
+        "zup-codegen--primitives-1",
+        "zup-codegen--lessons-learned-0",
+        "zup-codegen--lessons-learned-1",
+        "zup-codegen--operating-models-0"
+      ],
+      "source_ids": [
+        "zup-codegen-source-1"
+      ],
+      "interfaces": []
+    }
+  ],
+  "claims": [
+    {
+      "id": "zup-codegen--summary",
+      "approach_id": "zup-codegen",
+      "field": "summary",
+      "text": "A research-documented internal coding agent where constrained editing tools and layered safety controls mattered more than prompt tweaks.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "zup-codegen-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "zup-codegen--architecture-harness",
+      "approach_id": "zup-codegen",
+      "field": "architecture.harness",
+      "text": "Constrained editing tools; state-management concerns; progressive levels of human oversight",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "zup-codegen-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "zup-codegen--architecture-model",
+      "approach_id": "zup-codegen",
+      "field": "architecture.model",
+      "text": "Not specified (see paper)",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "zup-codegen-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "zup-codegen--architecture-tool-access",
+      "approach_id": "zup-codegen",
+      "field": "architecture.tool_access",
+      "text": "Constrained editing tools rather than free-form code generation",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "zup-codegen-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "zup-codegen--architecture-credentials",
+      "approach_id": "zup-codegen",
+      "field": "architecture.credentials",
+      "text": "Layered safety controls",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "zup-codegen-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "zup-codegen--primitives-0",
+      "approach_id": "zup-codegen",
+      "field": "primitives.0",
+      "text": "Tools that limit what the agent can change, vs. unconstrained generation",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "zup-codegen-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "zup-codegen--primitives-1",
+      "approach_id": "zup-codegen",
+      "field": "primitives.1",
+      "text": "Levels of human review that increase trust over time",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "zup-codegen-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "zup-codegen--lessons-learned-0",
+      "approach_id": "zup-codegen",
+      "field": "lessons_learned.0",
+      "text": "Targeted tool design and layered safety controls matter more than prompt tweaks",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "zup-codegen-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "zup-codegen--lessons-learned-1",
+      "approach_id": "zup-codegen",
+      "field": "lessons_learned.1",
+      "text": "Progressive levels of human oversight help build trust before granting autonomy",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "zup-codegen-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "zup-codegen--operating-models-0",
+      "approach_id": "zup-codegen",
+      "field": "operating_models.0",
+      "text": "Level 2 for constrained coding task → human-supervised edit; human attention boundary: continuous-steering.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The research source describes progressive human oversight but does not establish background delegation.",
+      "valid_at": "2026",
+      "evidence": [
+        {
+          "source_id": "zup-codegen-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "zup-codegen-source-1",
+      "title": "Building an Internal Coding Agent at Zup",
+      "url": "https://arxiv.org/abs/2604.09805",
+      "canonical_url": "https://arxiv.org/abs/2604.09805",
+      "kind": "paper",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "zup-codegen-source-1",
+        "original_url": "https://arxiv.org/abs/2604.09805",
+        "final_url": "https://arxiv.org/abs/2604.09805",
+        "captured_at": "2026-08-31T17:52:42Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/zup-codegen-source-1/content.md",
+            "sha256": "sha256:738c9131fd4b99581f618b9dfe9f4c289f4b890db0eea36f58d200d0211f7eab",
+            "bytes": 3944
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "zup-codegen"
+    }
+  ]
+}

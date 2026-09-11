@@ -1,0 +1,574 @@
+{
+  "schema_version": 1,
+  "approaches": [
+    {
+      "id": "airbnb-airchat",
+      "company": "Airbnb",
+      "agent_name": "Airchat (airchat-cli)",
+      "approach_type": "platform",
+      "domains": [
+        "coding",
+        "code-review"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#airbnb-airchat",
+      "json_url": "https://internal-agents.com/agents/airbnb-airchat.json",
+      "markdown_url": "https://internal-agents.com/agents/airbnb-airchat.md"
+    },
+    {
+      "id": "atlassian-rovo-dev",
+      "company": "Atlassian",
+      "agent_name": "Rovo Dev (RovoDev)",
+      "approach_type": "task-agent",
+      "domains": [
+        "coding",
+        "code-review"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#atlassian-rovo-dev",
+      "json_url": "https://internal-agents.com/agents/atlassian-rovo-dev.json",
+      "markdown_url": "https://internal-agents.com/agents/atlassian-rovo-dev.md"
+    },
+    {
+      "id": "block-builderbot",
+      "company": "Block",
+      "agent_name": "Builderbot",
+      "approach_type": "orchestration-system",
+      "domains": [
+        "coding",
+        "code-review"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#block-builderbot",
+      "json_url": "https://internal-agents.com/agents/block-builderbot.json",
+      "markdown_url": "https://internal-agents.com/agents/block-builderbot.md"
+    },
+    {
+      "id": "brex-agent-platform",
+      "company": "Brex",
+      "agent_name": "Internal Agent Platform",
+      "approach_type": "platform",
+      "domains": [
+        "finance-ops",
+        "support",
+        "customer-success"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#brex-agent-platform",
+      "json_url": "https://internal-agents.com/agents/brex-agent-platform.json",
+      "markdown_url": "https://internal-agents.com/agents/brex-agent-platform.md"
+    },
+    {
+      "id": "browserbase-bb",
+      "company": "Browserbase",
+      "agent_name": "bb",
+      "approach_type": "task-agent",
+      "domains": [
+        "coding",
+        "code-review",
+        "support",
+        "customer-success",
+        "research"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#browserbase-bb",
+      "json_url": "https://internal-agents.com/agents/browserbase-bb.json",
+      "markdown_url": "https://internal-agents.com/agents/browserbase-bb.md"
+    },
+    {
+      "id": "cloudflare-ai-stack",
+      "company": "Cloudflare",
+      "agent_name": "Internal AI engineering stack",
+      "approach_type": "platform",
+      "domains": [
+        "coding",
+        "code-review"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#cloudflare-ai-stack",
+      "json_url": "https://internal-agents.com/agents/cloudflare-ai-stack.json",
+      "markdown_url": "https://internal-agents.com/agents/cloudflare-ai-stack.md"
+    },
+    {
+      "id": "coinbase-forge-mux",
+      "company": "Coinbase",
+      "agent_name": "Forge / Mux",
+      "approach_type": "agent-system",
+      "domains": [
+        "coding",
+        "code-review"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#coinbase-forge-mux",
+      "json_url": "https://internal-agents.com/agents/coinbase-forge-mux.json",
+      "markdown_url": "https://internal-agents.com/agents/coinbase-forge-mux.md"
+    },
+    {
+      "id": "databricks-costar",
+      "company": "Databricks",
+      "agent_name": "coSTAR and internal engineering agents",
+      "approach_type": "agent-system",
+      "domains": [
+        "coding",
+        "code-review",
+        "on-call"
+      ],
+      "last_reviewed_at": "2026-08-31",
+      "url": "https://internal-agents.com/#databricks-costar",
+      "json_url": "https://internal-agents.com/agents/databricks-costar.json",
+      "markdown_url": "https://internal-agents.com/agents/databricks-costar.md"
+    },
+    {
+      "id": "domu-clementino",
+      "company": "Domu",
+      "agent_name": "Clementino",
+      "approach_type": "task-agent",
+      "domains": [
+        "support",
+        "finance-ops",
+        "coding",
+        "recruitment",
+        "customer-success"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#domu-clementino",
+      "json_url": "https://internal-agents.com/agents/domu-clementino.json",
+      "markdown_url": "https://internal-agents.com/agents/domu-clementino.md"
+    },
+    {
+      "id": "doordash-code-review",
+      "company": "DoorDash",
+      "agent_name": "AI Code Review Agent",
+      "approach_type": "background-agent",
+      "domains": [
+        "code-review"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#doordash-code-review",
+      "json_url": "https://internal-agents.com/agents/doordash-code-review.json",
+      "markdown_url": "https://internal-agents.com/agents/doordash-code-review.md"
+    },
+    {
+      "id": "doordash-flux",
+      "company": "DoorDash",
+      "agent_name": "Flux / Agentic AI Platform",
+      "approach_type": "platform",
+      "domains": [
+        "code-review",
+        "coding",
+        "ci-triage",
+        "on-call",
+        "maintenance",
+        "data"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#doordash-flux",
+      "json_url": "https://internal-agents.com/agents/doordash-flux.json",
+      "markdown_url": "https://internal-agents.com/agents/doordash-flux.md"
+    },
+    {
+      "id": "dropbox-nova",
+      "company": "Dropbox",
+      "agent_name": "Nova",
+      "approach_type": "platform",
+      "domains": [
+        "coding",
+        "ci-triage",
+        "on-call",
+        "maintenance"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#dropbox-nova",
+      "json_url": "https://internal-agents.com/agents/dropbox-nova.json",
+      "markdown_url": "https://internal-agents.com/agents/dropbox-nova.md"
+    },
+    {
+      "id": "flex-investigation-agent",
+      "company": "Flex",
+      "agent_name": "AI Investigation Agent",
+      "approach_type": "task-agent",
+      "domains": [
+        "finance-ops",
+        "on-call",
+        "coding"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#flex-investigation-agent",
+      "json_url": "https://internal-agents.com/agents/flex-investigation-agent.json",
+      "markdown_url": "https://internal-agents.com/agents/flex-investigation-agent.md"
+    },
+    {
+      "id": "github-qubot",
+      "company": "GitHub",
+      "agent_name": "Qubot",
+      "approach_type": "task-agent",
+      "domains": [
+        "data"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#github-qubot",
+      "json_url": "https://internal-agents.com/agents/github-qubot.json",
+      "markdown_url": "https://internal-agents.com/agents/github-qubot.md"
+    },
+    {
+      "id": "harvey-spectre",
+      "company": "Harvey",
+      "agent_name": "Spectre",
+      "approach_type": "platform",
+      "domains": [
+        "coding",
+        "code-review",
+        "on-call",
+        "security"
+      ],
+      "last_reviewed_at": "2026-08-31",
+      "url": "https://internal-agents.com/#harvey-spectre",
+      "json_url": "https://internal-agents.com/agents/harvey-spectre.json",
+      "markdown_url": "https://internal-agents.com/agents/harvey-spectre.md"
+    },
+    {
+      "id": "hubspot-sidekick",
+      "company": "HubSpot",
+      "agent_name": "Sidekick",
+      "approach_type": "task-agent",
+      "domains": [
+        "code-review"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#hubspot-sidekick",
+      "json_url": "https://internal-agents.com/agents/hubspot-sidekick.json",
+      "markdown_url": "https://internal-agents.com/agents/hubspot-sidekick.md"
+    },
+    {
+      "id": "linear-agent",
+      "company": "Linear",
+      "agent_name": "Linear Agent",
+      "approach_type": "task-agent",
+      "domains": [
+        "support",
+        "customer-success",
+        "coding"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#linear-agent",
+      "json_url": "https://internal-agents.com/agents/linear-agent.json",
+      "markdown_url": "https://internal-agents.com/agents/linear-agent.md"
+    },
+    {
+      "id": "microsoft-prassistant",
+      "company": "Microsoft",
+      "agent_name": "PRAssistant",
+      "approach_type": "background-agent",
+      "domains": [
+        "code-review"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#microsoft-prassistant",
+      "json_url": "https://internal-agents.com/agents/microsoft-prassistant.json",
+      "markdown_url": "https://internal-agents.com/agents/microsoft-prassistant.md"
+    },
+    {
+      "id": "monday-sphera-atlas-morphex",
+      "company": "monday.com",
+      "agent_name": "Sphera / Atlas / Morphex",
+      "approach_type": "agent-system",
+      "domains": [
+        "coding",
+        "code-review"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#monday-sphera-atlas-morphex",
+      "json_url": "https://internal-agents.com/agents/monday-sphera-atlas-morphex.json",
+      "markdown_url": "https://internal-agents.com/agents/monday-sphera-atlas-morphex.md"
+    },
+    {
+      "id": "notion-custom-agents",
+      "company": "Notion",
+      "agent_name": "Custom Agents",
+      "approach_type": "platform",
+      "domains": [
+        "support",
+        "finance-ops",
+        "recruitment",
+        "security"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#notion-custom-agents",
+      "json_url": "https://internal-agents.com/agents/notion-custom-agents.json",
+      "markdown_url": "https://internal-agents.com/agents/notion-custom-agents.md"
+    },
+    {
+      "id": "plaid-ai-annotator",
+      "company": "Plaid",
+      "agent_name": "AI Annotator",
+      "approach_type": "task-agent",
+      "domains": [
+        "data"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#plaid-ai-annotator",
+      "json_url": "https://internal-agents.com/agents/plaid-ai-annotator.json",
+      "markdown_url": "https://internal-agents.com/agents/plaid-ai-annotator.md"
+    },
+    {
+      "id": "plaid-fix-my-connection",
+      "company": "Plaid",
+      "agent_name": "Fix My Connection",
+      "approach_type": "task-agent",
+      "domains": [
+        "ops",
+        "maintenance"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#plaid-fix-my-connection",
+      "json_url": "https://internal-agents.com/agents/plaid-fix-my-connection.json",
+      "markdown_url": "https://internal-agents.com/agents/plaid-fix-my-connection.md"
+    },
+    {
+      "id": "plaid-internal-mcp-server",
+      "company": "Plaid",
+      "agent_name": "Internal MCP server",
+      "approach_type": "supporting-pattern",
+      "domains": [
+        "coding"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#plaid-internal-mcp-server",
+      "json_url": "https://internal-agents.com/agents/plaid-internal-mcp-server.json",
+      "markdown_url": "https://internal-agents.com/agents/plaid-internal-mcp-server.md"
+    },
+    {
+      "id": "posthog-stamphog",
+      "company": "PostHog",
+      "agent_name": "StampHog",
+      "approach_type": "background-agent",
+      "domains": [
+        "code-review"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#posthog-stamphog",
+      "json_url": "https://internal-agents.com/agents/posthog-stamphog.json",
+      "markdown_url": "https://internal-agents.com/agents/posthog-stamphog.md"
+    },
+    {
+      "id": "ramp-inspect",
+      "company": "Ramp",
+      "agent_name": "Inspect",
+      "approach_type": "background-agent",
+      "domains": [
+        "coding",
+        "code-review",
+        "on-call"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#ramp-inspect",
+      "json_url": "https://internal-agents.com/agents/ramp-inspect.json",
+      "markdown_url": "https://internal-agents.com/agents/ramp-inspect.md"
+    },
+    {
+      "id": "replit-manager-agent",
+      "company": "Replit",
+      "agent_name": "Manager agent (agent-of-agents)",
+      "approach_type": "orchestration-system",
+      "domains": [
+        "coding",
+        "code-review",
+        "support",
+        "research",
+        "data"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#replit-manager-agent",
+      "json_url": "https://internal-agents.com/agents/replit-manager-agent.json",
+      "markdown_url": "https://internal-agents.com/agents/replit-manager-agent.md"
+    },
+    {
+      "id": "retool-retoolgpt",
+      "company": "Retool",
+      "agent_name": "RetoolGPT",
+      "approach_type": "task-agent",
+      "domains": [
+        "support",
+        "coding"
+      ],
+      "last_reviewed_at": "2026-08-31",
+      "url": "https://internal-agents.com/#retool-retoolgpt",
+      "json_url": "https://internal-agents.com/agents/retool-retoolgpt.json",
+      "markdown_url": "https://internal-agents.com/agents/retool-retoolgpt.md"
+    },
+    {
+      "id": "salesforce-slackbot",
+      "company": "Salesforce",
+      "agent_name": "Slackbot",
+      "approach_type": "task-agent",
+      "domains": [
+        "support",
+        "customer-success",
+        "ops"
+      ],
+      "last_reviewed_at": "2026-08-31",
+      "url": "https://internal-agents.com/#salesforce-slackbot",
+      "json_url": "https://internal-agents.com/agents/salesforce-slackbot.json",
+      "markdown_url": "https://internal-agents.com/agents/salesforce-slackbot.md"
+    },
+    {
+      "id": "sentry-junior",
+      "company": "Sentry",
+      "agent_name": "Junior",
+      "approach_type": "task-agent",
+      "domains": [
+        "coding",
+        "code-review",
+        "support",
+        "on-call"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#sentry-junior",
+      "json_url": "https://internal-agents.com/agents/sentry-junior.json",
+      "markdown_url": "https://internal-agents.com/agents/sentry-junior.md"
+    },
+    {
+      "id": "shopify-internal-agents",
+      "company": "Shopify",
+      "agent_name": "Aquifer / River",
+      "approach_type": "platform",
+      "domains": [
+        "coding",
+        "code-review",
+        "research",
+        "security"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#shopify-internal-agents",
+      "json_url": "https://internal-agents.com/agents/shopify-internal-agents.json",
+      "markdown_url": "https://internal-agents.com/agents/shopify-internal-agents.md"
+    },
+    {
+      "id": "sierra-pinecone",
+      "company": "Sierra",
+      "agent_name": "Pinecone",
+      "approach_type": "task-agent",
+      "domains": [
+        "coding",
+        "code-review",
+        "support",
+        "research",
+        "data"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#sierra-pinecone",
+      "json_url": "https://internal-agents.com/agents/sierra-pinecone.json",
+      "markdown_url": "https://internal-agents.com/agents/sierra-pinecone.md"
+    },
+    {
+      "id": "slack-context-system",
+      "company": "Slack",
+      "agent_name": "Multi-agent context system",
+      "approach_type": "supporting-pattern",
+      "domains": [
+        "research"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#slack-context-system",
+      "json_url": "https://internal-agents.com/agents/slack-context-system.json",
+      "markdown_url": "https://internal-agents.com/agents/slack-context-system.md"
+    },
+    {
+      "id": "spotify-honk-xirp",
+      "company": "Spotify",
+      "agent_name": "Honk / Xirp",
+      "approach_type": "agent-system",
+      "domains": [
+        "coding",
+        "migrations",
+        "code-review"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#spotify-honk-xirp",
+      "json_url": "https://internal-agents.com/agents/spotify-honk-xirp.json",
+      "markdown_url": "https://internal-agents.com/agents/spotify-honk-xirp.md"
+    },
+    {
+      "id": "stripe-minions",
+      "company": "Stripe",
+      "agent_name": "Minions",
+      "approach_type": "background-agent",
+      "domains": [
+        "coding",
+        "code-review"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#stripe-minions",
+      "json_url": "https://internal-agents.com/agents/stripe-minions.json",
+      "markdown_url": "https://internal-agents.com/agents/stripe-minions.md"
+    },
+    {
+      "id": "uber-coding-agent",
+      "company": "Uber",
+      "agent_name": "Internal coding agent (unnamed)",
+      "approach_type": "task-agent",
+      "domains": [
+        "coding"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#uber-coding-agent",
+      "json_url": "https://internal-agents.com/agents/uber-coding-agent.json",
+      "markdown_url": "https://internal-agents.com/agents/uber-coding-agent.md"
+    },
+    {
+      "id": "uber-ureview",
+      "company": "Uber",
+      "agent_name": "uReview",
+      "approach_type": "background-agent",
+      "domains": [
+        "code-review"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#uber-ureview",
+      "json_url": "https://internal-agents.com/agents/uber-ureview.json",
+      "markdown_url": "https://internal-agents.com/agents/uber-ureview.md"
+    },
+    {
+      "id": "workos-project-horizon",
+      "company": "WorkOS",
+      "agent_name": "Project Horizon",
+      "approach_type": "platform",
+      "domains": [
+        "coding",
+        "code-review",
+        "security"
+      ],
+      "last_reviewed_at": "2026-08-31",
+      "url": "https://internal-agents.com/#workos-project-horizon",
+      "json_url": "https://internal-agents.com/agents/workos-project-horizon.json",
+      "markdown_url": "https://internal-agents.com/agents/workos-project-horizon.md"
+    },
+    {
+      "id": "ycombinator-agent-infra",
+      "company": "Y Combinator",
+      "agent_name": "Internal agent infrastructure",
+      "approach_type": "platform",
+      "domains": [
+        "coding",
+        "ops"
+      ],
+      "last_reviewed_at": "2026-09-09",
+      "url": "https://internal-agents.com/#ycombinator-agent-infra",
+      "json_url": "https://internal-agents.com/agents/ycombinator-agent-infra.json",
+      "markdown_url": "https://internal-agents.com/agents/ycombinator-agent-infra.md"
+    },
+    {
+      "id": "zup-codegen",
+      "company": "Zup",
+      "agent_name": "CodeGen",
+      "approach_type": "task-agent",
+      "domains": [
+        "coding"
+      ],
+      "last_reviewed_at": "2026-08-31",
+      "url": "https://internal-agents.com/#zup-codegen",
+      "json_url": "https://internal-agents.com/agents/zup-codegen.json",
+      "markdown_url": "https://internal-agents.com/agents/zup-codegen.md"
+    }
+  ]
+}

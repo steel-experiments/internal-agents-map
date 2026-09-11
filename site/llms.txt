@@ -1,0 +1,20 @@
+# Internal Agents Map
+
+> A source-backed catalog of AI systems organizations build or adapt for their own teams.
+
+Read the compact index first, then fetch individual records for relevant systems. Preserve claim qualifications, dates, confidence, and contradicting evidence. Cite original sources; catalog judgments and company-reported metrics are not independent verification.
+
+- [Compact catalog index](https://internal-agents.com/agents/index.json)
+- [Data and evidence guide](https://internal-agents.com/data-guide.md)
+- [Complete dataset](https://internal-agents.com/agents.json)
+- [Internal Agents Map](https://internal-agents.com/index.md)
+- [What makes an agent internal? · Internal Agents Map](https://internal-agents.com/definitions.md)
+- [Methodology · Internal Agents Map](https://internal-agents.com/methodology.md)
+- [Notes · Internal Agents Map](https://internal-agents.com/notes.md)
+- [When should an agent stop? · Notes · Internal Agents Map](https://internal-agents.com/notes/stop-a-run.md)
+- [More comments can mean more work · Notes · Internal Agents Map](https://internal-agents.com/notes/review-noise.md)
+- [Separate the search from the check · Notes · Internal Agents Map](https://internal-agents.com/notes/split-the-work.md)
+- [The worker can stop. The work can continue. · Notes · Internal Agents Map](https://internal-agents.com/notes/work-can-continue.md)
+- [Load tools when the task needs them · Notes · Internal Agents Map](https://internal-agents.com/notes/load-tools.md)
+- [Some steps do not need a model · Notes · Internal Agents Map](https://internal-agents.com/notes/steps-without-a-model.md)
+- [Test the agent on your own work · Notes · Internal Agents Map](https://internal-agents.com/notes/test-on-your-work.md)

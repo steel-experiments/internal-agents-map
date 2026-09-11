@@ -1,0 +1,501 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "uber-ureview",
+      "company": "Uber",
+      "agent_name": "uReview",
+      "relationships": [
+        {
+          "type": "related-to",
+          "approach_id": "uber-coding-agent"
+        }
+      ],
+      "approach_type": "background-agent",
+      "deployment_stage": "scaled",
+      "year": 2025,
+      "first_public_evidence": {
+        "date": "2025-08-12",
+        "source_id": "uber-ureview-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "code-review"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "pull request → filtered AI review findings",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "background",
+          "event-driven"
+        ],
+        "state": "unknown",
+        "identity": "service",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "uber-ureview--summary",
+        "uber-ureview--headline-metric",
+        "uber-ureview--architecture-harness",
+        "uber-ureview--architecture-model",
+        "uber-ureview--architecture-interfaces",
+        "uber-ureview--architecture-tool-access",
+        "uber-ureview--architecture-knowledge",
+        "uber-ureview--architecture-context-mgmt",
+        "uber-ureview--primitives-0",
+        "uber-ureview--primitives-1",
+        "uber-ureview--primitives-2",
+        "uber-ureview--key-metrics-0",
+        "uber-ureview--key-metrics-1",
+        "uber-ureview--key-metrics-2",
+        "uber-ureview--key-metrics-3",
+        "uber-ureview--key-metrics-4",
+        "uber-ureview--lessons-learned-0",
+        "uber-ureview--lessons-learned-1",
+        "uber-ureview--lessons-learned-2",
+        "uber-ureview--operating-models-0"
+      ],
+      "source_ids": [
+        "uber-ureview-source-1"
+      ],
+      "interfaces": [
+        "internal-ui",
+        "ci"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "uber-ureview--summary",
+      "approach_id": "uber-ureview",
+      "field": "summary",
+      "text": "An event-driven AI code reviewer for Uber's internal review platform that generates, grades, filters, deduplicates, and posts findings while leaving engineers in control of the reviewed change.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Introduction; How It Works"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--headline-metric",
+      "approach_id": "uber-ureview",
+      "field": "headline_metric",
+      "text": "Uber's introduction reports reviews of over 90% of approximately 65,000 weekly diffs, with over 75% usefulness and over 65% addressed comments; a later paragraph says 65,000 diffs per month",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "low",
+      "confidence_reason": "The opening paragraph reports approximately 65,000 weekly diffs, but the cost discussion says 65,000 per month. These conflicting periods remain unresolved; neither is independently verified.",
+      "valid_at": "2025-08",
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 34, 98"
+        },
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "contradicts",
+          "locator": "Preserved content.md, lines 120 (65,000 per month, versus weekly in line 34)"
+        }
+      ],
+      "reported_by": "Uber",
+      "metric_scope": "Introduction's reported weekly diff coverage, plus comment usefulness/addressed rates; later paragraph's monthly period conflicts and remains unresolved",
+      "denominator": "Introduction reports approximately 65,000 weekly diffs; cost paragraph says monthly. Usefulness covers rated comments; addressed rate covers posted comments",
+      "measurement_method": "Production coverage, developer ratings, and automatic addressed-comment detection"
+    },
+    {
+      "id": "uber-ureview--architecture-harness",
+      "approach_id": "uber-ureview",
+      "field": "architecture.harness",
+      "text": "A prompt-chained pipeline separates comment generation, confidence grading, validation, semantic deduplication, and category filtering; three specialized assistants were in operation when published",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "How It Works; Comment Generation; Post-Processing"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--architecture-model",
+      "approach_id": "uber-ureview",
+      "field": "architecture.model",
+      "text": "Periodic benchmark evaluation; Claude 4 Sonnet as generator with o4-mini-high as grader was the highest-F1 reported pairing",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Empirical Model Evaluation"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--architecture-interfaces",
+      "approach_id": "uber-ureview",
+      "field": "architecture.interfaces",
+      "text": "internal-ui, ci",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Comment Delivery and Feedback Collection; Impact and Evaluation"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--architecture-tool-access",
+      "approach_id": "uber-ureview",
+      "field": "architecture.tool_access",
+      "text": "Reviews eligible code in Uber's six monorepos across Go, Java, Android, iOS, TypeScript, and Python; richer internal artifacts were not yet connected when published",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Impact and Evaluation; Better at Catching Bugs than Assessing System Design"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--architecture-knowledge",
+      "approach_id": "uber-ureview",
+      "field": "architecture.knowledge",
+      "text": "Surrounding source context plus a shared registry of Uber-specific coding and style rules",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Ingestion and Preprocessing; Comment Generation by Specialized Assistants"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--architecture-context-mgmt",
+      "approach_id": "uber-ureview",
+      "field": "architecture.context_mgmt",
+      "text": "Comments and metadata are streamed through Kafka to Hive for feedback analysis, experiments, and operational dashboards",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Comment Delivery and Feedback Collection"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--primitives-0",
+      "approach_id": "uber-ureview",
+      "field": "primitives.0",
+      "text": "Standard, best-practices, and AppSec reviewers generate findings for different issue classes",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Comment Generation by Specialized Assistants"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--primitives-1",
+      "approach_id": "uber-ureview",
+      "field": "primitives.1",
+      "text": "Confidence grading, semantic deduplication, and historically low-value category suppression reduce noise",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Post-Processing and Quality Filtering"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--primitives-2",
+      "approach_id": "uber-ureview",
+      "field": "primitives.2",
+      "text": "Developer ratings, addressed-comment detection, and a curated benchmark tune prompts, thresholds, and models",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Evaluation and Continuous Improvement"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--key-metrics-0",
+      "approach_id": "uber-ureview",
+      "field": "key_metrics.0",
+      "text": "Introduction reports reviews of over 90% of approximately 65,000 weekly diffs; cost discussion instead says 65,000 diffs per month",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "low",
+      "confidence_reason": "The opening paragraph reports approximately 65,000 weekly diffs, but the cost discussion says 65,000 per month. These conflicting periods remain unresolved; neither is independently verified.",
+      "valid_at": "2025-08",
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 34"
+        },
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "contradicts",
+          "locator": "Preserved content.md, lines 120 (65,000 per month, versus weekly in line 34)"
+        }
+      ],
+      "reported_by": "Uber",
+      "metric_scope": "Introduction's reported weekly diffs analyzed; monthly period in the cost paragraph conflicts and remains unresolved",
+      "denominator": "Approximately 65,000 weekly diffs according to the introduction; same volume described as monthly in the cost paragraph"
+    },
+    {
+      "id": "uber-ureview--key-metrics-1",
+      "approach_id": "uber-ureview",
+      "field": "key_metrics.1",
+      "text": "Over 75% of comments rated useful by engineers who interact with the tool",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": "2025-08",
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 76, 98"
+        }
+      ],
+      "reported_by": "Uber",
+      "metric_scope": "Comments rated useful by engineers who provide feedback",
+      "denominator": "Comments with engineer interaction",
+      "measurement_method": "Useful / Not Useful rating links"
+    },
+    {
+      "id": "uber-ureview--key-metrics-2",
+      "approach_id": "uber-ureview",
+      "field": "key_metrics.2",
+      "text": "Over 65% of posted comments addressed in the same changeset",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": "2025-08",
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 82, 98"
+        }
+      ],
+      "reported_by": "Uber",
+      "metric_scope": "Posted comments considered addressed in the same changeset",
+      "denominator": "Posted comments",
+      "measurement_method": "Five reruns on the final commit and semantic-similarity matching"
+    },
+    {
+      "id": "uber-ureview--key-metrics-3",
+      "approach_id": "uber-ureview",
+      "field": "key_metrics.3",
+      "text": "Median review latency of 4 minutes across all six Uber monorepos",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": "2025-08",
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 94"
+        }
+      ],
+      "reported_by": "Uber",
+      "metric_scope": "Reviews across all six Uber monorepos",
+      "measurement_method": "Production latency telemetry"
+    },
+    {
+      "id": "uber-ureview--key-metrics-4",
+      "approach_id": "uber-ureview",
+      "field": "key_metrics.4",
+      "text": "Approximately 1,500 developer hours reportedly saved per week, based on an assumed 10-minute second review per processed commit",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "low",
+      "confidence_reason": "The source estimates about 1,500 hours using over 10,000 commits and a 10-minute assumption; the rounded figures do not arithmetically reconcile exactly and are not observed time savings.",
+      "valid_at": "2025-08",
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 104"
+        }
+      ],
+      "reported_by": "Uber",
+      "metric_scope": "Processed commits excluding configuration files; modeled second-review time savings",
+      "denominator": "Over 10,000 commits per week",
+      "measurement_method": "Processed commits multiplied by an assumed 10 minutes for a second human review"
+    },
+    {
+      "id": "uber-ureview--lessons-learned-0",
+      "approach_id": "uber-ureview",
+      "field": "lessons_learned.0",
+      "text": "Prefer fewer high-confidence findings over high comment volume",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The article states this lesson directly and documents the associated mechanisms.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Precision Is More Valuable than Volume"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--lessons-learned-1",
+      "approach_id": "uber-ureview",
+      "field": "lessons_learned.1",
+      "text": "Combine prompts with deterministic filtering, deduplication, evaluation, and feedback instrumentation",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The article states this lesson directly and documents the pipeline.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Guardrails Are Just as Important as Prompts"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--lessons-learned-2",
+      "approach_id": "uber-ureview",
+      "field": "lessons_learned.2",
+      "text": "Roll out gradually by team and assistant while tracking precision, recall, usefulness, and false positives",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The article states this lesson directly and describes the rollout telemetry.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports",
+          "locator": "Trust Grows with Gradual Rollout"
+        }
+      ]
+    },
+    {
+      "id": "uber-ureview--operating-models-0",
+      "approach_id": "uber-ureview",
+      "field": "operating_models.0",
+      "text": "Level 3 for pull request → filtered AI review findings; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The source describes AI-generated review findings while engineers remain in control of the change.",
+      "valid_at": "2025-08-12",
+      "evidence": [
+        {
+          "source_id": "uber-ureview-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "uber-ureview-source-1",
+      "title": "uReview: Scalable, Trustworthy GenAI for Code Review at Uber",
+      "url": "https://www.uber.com/us/en/blog/ureview/",
+      "canonical_url": "https://www.uber.com/us/en/blog/ureview/",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "published_at": "2025-08-12",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "uber-ureview-source-1",
+        "original_url": "https://www.uber.com/us/en/blog/ureview/",
+        "final_url": "https://www.uber.com/us/en/blog/ureview/",
+        "captured_at": "2026-08-31T17:51:23Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/uber-ureview-source-1/content.md",
+            "sha256": "sha256:c59a0d07af90fbc87d6cee3dfb9d99ead426723b4e0c8d5b16a198f756dc5a6e",
+            "bytes": 22823
+          }
+        }
+      },
+      "approach_id": "uber-ureview"
+    }
+  ]
+}

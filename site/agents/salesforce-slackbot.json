@@ -1,0 +1,383 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "salesforce-slackbot",
+      "company": "Salesforce",
+      "agent_name": "Slackbot",
+      "approach_type": "task-agent",
+      "deployment_stage": "scaled",
+      "year": 2025,
+      "first_public_evidence": {
+        "date": "2025-12-01",
+        "source_id": "salesforce-slackbot-source-2"
+      },
+      "last_reviewed_at": "2026-08-31",
+      "status": "commercialized",
+      "domains": [
+        "support",
+        "customer-success",
+        "ops"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "employee request → drafted work",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "user",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "salesforce-slackbot--summary",
+        "salesforce-slackbot--architecture-harness",
+        "salesforce-slackbot--architecture-model",
+        "salesforce-slackbot--architecture-interfaces",
+        "salesforce-slackbot--architecture-tool-access",
+        "salesforce-slackbot--architecture-knowledge",
+        "salesforce-slackbot--architecture-credentials",
+        "salesforce-slackbot--primitives-0",
+        "salesforce-slackbot--lessons-learned-0",
+        "salesforce-slackbot--lessons-learned-1",
+        "salesforce-slackbot--operating-models-0"
+      ],
+      "source_ids": [
+        "salesforce-slackbot-source-1",
+        "salesforce-slackbot-source-2",
+        "salesforce-slackbot-source-3",
+        "salesforce-slackbot-source-4"
+      ],
+      "interfaces": [
+        "slack"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "salesforce-slackbot--summary",
+      "approach_id": "salesforce-slackbot",
+      "field": "summary",
+      "text": "Salesforce was 'customer zero' for the rebuilt Slackbot; an employee agent that finds company context, drafts work, and connects Slack context with Salesforce data; now also an external product.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "salesforce-slackbot-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "salesforce-slackbot-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "salesforce-slackbot--architecture-harness",
+      "approach_id": "salesforce-slackbot",
+      "field": "architecture.harness",
+      "text": "An employee agent intended as a front door to other agents",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "salesforce-slackbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "salesforce-slackbot--architecture-model",
+      "approach_id": "salesforce-slackbot",
+      "field": "architecture.model",
+      "text": "Not specified",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "salesforce-slackbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "salesforce-slackbot--architecture-interfaces",
+      "approach_id": "salesforce-slackbot",
+      "field": "architecture.interfaces",
+      "text": "slack",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "salesforce-slackbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "salesforce-slackbot--architecture-tool-access",
+      "approach_id": "salesforce-slackbot",
+      "field": "architecture.tool_access",
+      "text": "Finds company context, drafts work, manages meetings, connects Slack context with Salesforce data",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "salesforce-slackbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "salesforce-slackbot--architecture-knowledge",
+      "approach_id": "salesforce-slackbot",
+      "field": "architecture.knowledge",
+      "text": "Slack context joined with Salesforce CRM data",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "salesforce-slackbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "salesforce-slackbot--architecture-credentials",
+      "approach_id": "salesforce-slackbot",
+      "field": "architecture.credentials",
+      "text": "Permission-aware by construction; sees what the employee can see, respects roles and access controls",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "salesforce-slackbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "salesforce-slackbot--primitives-0",
+      "approach_id": "salesforce-slackbot",
+      "field": "primitives.0",
+      "text": "Agent visibility is bounded by the invoking employee's permissions",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "salesforce-slackbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "salesforce-slackbot--lessons-learned-0",
+      "approach_id": "salesforce-slackbot",
+      "field": "lessons_learned.0",
+      "text": "Dogfood internally first ('customer zero') before shipping externally",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "salesforce-slackbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "salesforce-slackbot--lessons-learned-1",
+      "approach_id": "salesforce-slackbot",
+      "field": "lessons_learned.1",
+      "text": "Make permission-awareness a construction property, not a prompt instruction; the agent sees only what the employee can see",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "salesforce-slackbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "salesforce-slackbot--operating-models-0",
+      "approach_id": "salesforce-slackbot",
+      "field": "operating_models.0",
+      "text": "Level 3 for employee request → drafted work; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The source describes an employee agent that prepares drafts and contextual work for human use.",
+      "valid_at": "2026-01-14",
+      "evidence": [
+        {
+          "source_id": "salesforce-slackbot-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "salesforce-slackbot-source-1",
+      "title": "Salesforce announces general availability of Slackbot",
+      "url": "https://www.salesforce.com/ap/news/press-releases/2026/01/14/salesforce-announces-the-general-availability-of-slackbot-your-personal-agent-for-work-sg/",
+      "canonical_url": "https://www.salesforce.com/ap/news/press-releases/2026/01/14/salesforce-announces-the-general-availability-of-slackbot-your-personal-agent-for-work-sg/",
+      "kind": "release",
+      "provenance_class": "first-party",
+      "published_at": "2026-01-14",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "salesforce-slackbot-source-1",
+        "original_url": "https://www.salesforce.com/ap/news/press-releases/2026/01/14/salesforce-announces-the-general-availability-of-slackbot-your-personal-agent-for-work-sg/",
+        "final_url": "https://www.salesforce.com/ap/news/press-releases/2026/01/14/salesforce-announces-the-general-availability-of-slackbot-your-personal-agent-for-work-sg/",
+        "captured_at": "2026-08-31T17:47:34Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/salesforce-slackbot-source-1/content.md",
+            "sha256": "sha256:c14fe270bc355074a54043066df3b7dbbc7217db4c3ffc52ad1c5317cbe40bc6",
+            "bytes": 13509
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "salesforce-slackbot"
+    },
+    {
+      "id": "salesforce-slackbot-source-2",
+      "title": "Interview with Slackbot about connected work context",
+      "url": "https://www.salesforce.com/in/news/stories/salesforce-slackbot-ai-interview/",
+      "canonical_url": "https://www.salesforce.com/in/news/stories/salesforce-slackbot-ai-interview/",
+      "kind": "corporate-article",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "published_at": "2025-12-01",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "salesforce-slackbot-source-2",
+        "original_url": "https://www.salesforce.com/in/news/stories/salesforce-slackbot-ai-interview/",
+        "final_url": "https://www.salesforce.com/in/news/stories/salesforce-slackbot-ai-interview/",
+        "captured_at": "2026-08-31T17:47:44Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/salesforce-slackbot-source-2/content.md",
+            "sha256": "sha256:66285b2f071812a5051b7c8470c0218f48bb712235ec57de9c345c101e8bef72",
+            "bytes": 9504
+          }
+        }
+      },
+      "approach_id": "salesforce-slackbot"
+    },
+    {
+      "id": "salesforce-slackbot-source-3",
+      "title": "Salesforce rolls out new Slackbot AI agent",
+      "url": "https://venturebeat.com/technology/salesforce-rolls-out-new-slackbot-ai-agent-as-it-battles-microsoft-and",
+      "canonical_url": "https://venturebeat.com/technology/salesforce-rolls-out-new-slackbot-ai-agent-as-it-battles-microsoft-and",
+      "kind": "news",
+      "provenance_class": "independent-secondary",
+      "role": "commentary",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "salesforce-slackbot-source-3",
+        "original_url": "https://venturebeat.com/technology/salesforce-rolls-out-new-slackbot-ai-agent-as-it-battles-microsoft-and",
+        "final_url": "https://venturebeat.com/technology/salesforce-rolls-out-new-slackbot-ai-agent-as-it-battles-microsoft-and",
+        "captured_at": "2026-08-31T17:47:51Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/salesforce-slackbot-source-3/content.md",
+            "sha256": "sha256:e2466be395e0da687d028e1702da194650ab68f1992652e9226f9987e348f483",
+            "bytes": 17732
+          }
+        }
+      },
+      "approach_id": "salesforce-slackbot"
+    },
+    {
+      "id": "salesforce-slackbot-source-4",
+      "title": "Hacker News submission for the Salesforce Slackbot rollout",
+      "url": "https://news.ycombinator.com/item?id=46600760",
+      "canonical_url": "https://news.ycombinator.com/item?id=46600760",
+      "kind": "hn-thread",
+      "provenance_class": "community",
+      "role": "discovery",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "salesforce-slackbot-source-4",
+        "original_url": "https://news.ycombinator.com/item?id=46600760",
+        "final_url": "https://news.ycombinator.com/item?id=46600760",
+        "captured_at": "2026-08-31T17:47:58Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/salesforce-slackbot-source-4/content.md",
+            "sha256": "sha256:e53a0fb8b2084605b1e994de831d053b1fcdffacd4282744cd0f9545fbfce238",
+            "bytes": 566
+          }
+        }
+      },
+      "approach_id": "salesforce-slackbot"
+    }
+  ]
+}

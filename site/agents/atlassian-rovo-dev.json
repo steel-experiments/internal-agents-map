@@ -1,0 +1,292 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "atlassian-rovo-dev",
+      "company": "Atlassian",
+      "agent_name": "Rovo Dev (RovoDev)",
+      "aliases": [
+        "RovoDev",
+        "HULA"
+      ],
+      "approach_type": "task-agent",
+      "deployment_stage": "scaled",
+      "year": 2024,
+      "first_public_evidence": {
+        "date": "2024-11",
+        "source_id": "atlassian-rovo-dev-source-3"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "commercialized",
+      "domains": [
+        "coding",
+        "code-review"
+      ],
+      "autonomy": "human-in-loop",
+      "operating_models": [
+        {
+          "scope": "Jira issue → reviewed pull request",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "atlassian-rovo-dev--summary",
+        "atlassian-rovo-dev--headline-metric",
+        "atlassian-rovo-dev--architecture-harness",
+        "atlassian-rovo-dev--architecture-interfaces",
+        "atlassian-rovo-dev--key-metrics-0",
+        "atlassian-rovo-dev--key-metrics-1",
+        "atlassian-rovo-dev--operating-models-0"
+      ],
+      "source_ids": [
+        "atlassian-rovo-dev-source-1",
+        "atlassian-rovo-dev-source-2",
+        "atlassian-rovo-dev-source-3"
+      ],
+      "interfaces": [
+        "jira"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "atlassian-rovo-dev--summary",
+      "approach_id": "atlassian-rovo-dev",
+      "field": "summary",
+      "text": "Atlassian's internal coding agent, built on the HULA (Human-in-the-loop software development agents) framework. Rovo Dev works inside Jira and runs a four-step cycle (set context, generate a plan, generate code, and raise a pull request). Atlassian dogfooded it across all Jira sites for more than a year across 1,900+ repositories. It reached general availability in October 2025.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "atlassian-rovo-dev-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "atlassian-rovo-dev-source-3",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "atlassian-rovo-dev--headline-metric",
+      "approach_id": "atlassian-rovo-dev",
+      "field": "headline_metric",
+      "text": "Dogfooded across 1,900+ repositories with a 50,000+ comment internal dataset",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Atlassian reported the dogfooding scale in its own engineering blog without independent verification.",
+      "valid_at": "2026",
+      "evidence": [
+        {
+          "source_id": "atlassian-rovo-dev-source-2",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 66, 87"
+        }
+      ],
+      "reported_by": "Atlassian",
+      "metric_scope": "Internal code-review dogfooding repositories and Rovo Dev-generated classifier training comments"
+    },
+    {
+      "id": "atlassian-rovo-dev--architecture-harness",
+      "approach_id": "atlassian-rovo-dev",
+      "field": "architecture.harness",
+      "text": "Built on the HULA framework, which runs set context, generate plan, generate code, and raise PR",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "atlassian-rovo-dev-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "atlassian-rovo-dev--architecture-interfaces",
+      "approach_id": "atlassian-rovo-dev",
+      "field": "architecture.interfaces",
+      "text": "jira",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "atlassian-rovo-dev-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "atlassian-rovo-dev--key-metrics-0",
+      "approach_id": "atlassian-rovo-dev",
+      "field": "key_metrics.0",
+      "text": "Dogfooded across 1,900+ repositories over more than a year",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Atlassian reported the dogfooding scale in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "atlassian-rovo-dev-source-2",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 87"
+        }
+      ],
+      "reported_by": "Atlassian",
+      "metric_scope": "Internal code-review evaluation across 1,900+ repositories spanning over a year",
+      "measurement_method": "Year-long online evaluation across internal repositories"
+    },
+    {
+      "id": "atlassian-rovo-dev--key-metrics-1",
+      "approach_id": "atlassian-rovo-dev",
+      "field": "key_metrics.1",
+      "text": "Trained on a proprietary internal dogfooding dataset of 50,000+ Rovo Dev comments",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Atlassian reported the dataset size in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "atlassian-rovo-dev-source-2",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 66"
+        }
+      ],
+      "reported_by": "Atlassian",
+      "metric_scope": "ModernBERT classifier training dataset of internally sourced Rovo Dev-generated comments",
+      "measurement_method": "Internal dogfooding comments labeled by whether they led to a code resolution"
+    },
+    {
+      "id": "atlassian-rovo-dev--operating-models-0",
+      "approach_id": "atlassian-rovo-dev",
+      "field": "operating_models.0",
+      "text": "Level 3 for Jira issue → reviewed pull request; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The HULA framework and engineering blog describe a human-in-the-loop cycle that ends in a reviewed pull request.",
+      "valid_at": "2024-11",
+      "evidence": [
+        {
+          "source_id": "atlassian-rovo-dev-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "atlassian-rovo-dev-source-1",
+      "title": "Improving the coding agent experience",
+      "url": "https://www.atlassian.com/blog/atlassian-engineering/improving-coding-agent-experience",
+      "canonical_url": "https://www.atlassian.com/blog/atlassian-engineering/improving-coding-agent-experience",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "atlassian-rovo-dev-source-1",
+        "original_url": "https://www.atlassian.com/blog/atlassian-engineering/improving-coding-agent-experience",
+        "final_url": "https://www.atlassian.com/blog/atlassian-engineering/improving-coding-agent-experience",
+        "captured_at": "2026-08-31T17:39:24Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/atlassian-rovo-dev-source-1/content.md",
+            "sha256": "sha256:a468f0d31e7772c927f2d53ba3086ecd78871bc3ec0a73ac332278804eb6b1da",
+            "bytes": 10923
+          }
+        }
+      },
+      "approach_id": "atlassian-rovo-dev"
+    },
+    {
+      "id": "atlassian-rovo-dev-source-2",
+      "title": "Developer productivity improved with Rovo Dev",
+      "url": "https://www.atlassian.com/blog/atlassian-engineering/developer-productivity-improved-with-rovo-dev",
+      "canonical_url": "https://www.atlassian.com/blog/atlassian-engineering/developer-productivity-improved-with-rovo-dev",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "atlassian-rovo-dev-source-2",
+        "original_url": "https://www.atlassian.com/blog/atlassian-engineering/developer-productivity-improved-with-rovo-dev",
+        "final_url": "https://www.atlassian.com/blog/atlassian-engineering/developer-productivity-improved-with-rovo-dev",
+        "captured_at": "2026-08-31T17:39:33Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/atlassian-rovo-dev-source-2/content.md",
+            "sha256": "sha256:b1647b8ac1a5dbd5c6e8dee67b596d668681746db9a3374165a637b11e1607f7",
+            "bytes": 12256
+          }
+        }
+      },
+      "approach_id": "atlassian-rovo-dev"
+    },
+    {
+      "id": "atlassian-rovo-dev-source-3",
+      "title": "HULA: Human-in-the-loop software development agents (arXiv 2411.12924)",
+      "url": "https://arxiv.org/abs/2411.12924",
+      "canonical_url": "https://arxiv.org/abs/2411.12924",
+      "kind": "paper",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "published_at": "2024-11",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "atlassian-rovo-dev-source-3",
+        "original_url": "https://arxiv.org/abs/2411.12924",
+        "final_url": "https://arxiv.org/abs/2411.12924",
+        "captured_at": "2026-08-31T17:39:42Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/atlassian-rovo-dev-source-3/content.md",
+            "sha256": "sha256:a5daa4616710f897d08ae2b3798dc485ca57ec5171a1b7bce536bb78472489f7",
+            "bytes": 2543
+          }
+        }
+      },
+      "approach_id": "atlassian-rovo-dev"
+    }
+  ]
+}

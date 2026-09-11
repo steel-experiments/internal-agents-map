@@ -1,0 +1,214 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "github-qubot",
+      "company": "GitHub",
+      "agent_name": "Qubot",
+      "approach_type": "task-agent",
+      "deployment_stage": "scaled",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026-06",
+        "source_id": "github-qubot-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "data"
+      ],
+      "autonomy": "assistive",
+      "operating_models": [
+        {
+          "scope": "data question → warehouse answer",
+          "attention_boundary": "unknown",
+          "level": null
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "github-qubot--summary",
+        "github-qubot--headline-metric",
+        "github-qubot--architecture-model",
+        "github-qubot--architecture-tool-access",
+        "github-qubot--key-metrics-0",
+        "github-qubot--key-metrics-1",
+        "github-qubot--operating-models-0"
+      ],
+      "source_ids": [
+        "github-qubot-source-1"
+      ],
+      "interfaces": []
+    }
+  ],
+  "claims": [
+    {
+      "id": "github-qubot--summary",
+      "approach_id": "github-qubot",
+      "field": "summary",
+      "text": "GitHub's internal data-analytics agent, powered by GitHub Copilot. Any GitHub employee can ask a question about the company data warehouse in plain language and get an answer within seconds.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "github-qubot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "github-qubot--headline-metric",
+      "approach_id": "github-qubot",
+      "field": "headline_metric",
+      "text": "Hundreds of users run thousands of queries; data questions in internal Slack channels dropped",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "GitHub reported the adoption figures in its own engineering blog without independent verification.",
+      "valid_at": "2026-06",
+      "evidence": [
+        {
+          "source_id": "github-qubot-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 70"
+        }
+      ],
+      "reported_by": "GitHub",
+      "metric_scope": "Internal GitHub Qubot users and queries; no exact count or measurement window"
+    },
+    {
+      "id": "github-qubot--architecture-model",
+      "approach_id": "github-qubot",
+      "field": "architecture.model",
+      "text": "Powered by GitHub Copilot",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "github-qubot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "github-qubot--architecture-tool-access",
+      "approach_id": "github-qubot",
+      "field": "architecture.tool_access",
+      "text": "Queries GitHub's data warehouse",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "github-qubot-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "github-qubot--key-metrics-0",
+      "approach_id": "github-qubot",
+      "field": "key_metrics.0",
+      "text": "Hundreds of users run thousands of queries",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "GitHub reported the adoption figures in its own engineering blog.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "github-qubot-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 70"
+        }
+      ],
+      "reported_by": "GitHub",
+      "metric_scope": "Internal GitHub Qubot users and queries; no exact count or measurement window"
+    },
+    {
+      "id": "github-qubot--key-metrics-1",
+      "approach_id": "github-qubot",
+      "field": "key_metrics.1",
+      "text": "Volume of data questions in internal data and analytics Slack channels dropped",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Company reports a qualitative decrease without before-and-after counts.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "github-qubot-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 70"
+        }
+      ],
+      "metric_scope": "Questions in GitHub internal data and analytics Slack channels"
+    },
+    {
+      "id": "github-qubot--operating-models-0",
+      "approach_id": "github-qubot",
+      "field": "operating_models.0",
+      "text": "Unclassified for data question → warehouse answer; human attention boundary: unknown.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "unverified",
+      "confidence_reason": "The public evidence does not document where human attention returns in the question-and-answer flow.",
+      "valid_at": "2026-06",
+      "evidence": [
+        {
+          "source_id": "github-qubot-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "github-qubot-source-1",
+      "title": "How we built an internal data analytics agent",
+      "url": "https://github.blog/ai-and-ml/github-copilot/how-we-built-an-internal-data-analytics-agent/",
+      "canonical_url": "https://github.blog/ai-and-ml/github-copilot/how-we-built-an-internal-data-analytics-agent/",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "role": "evidence",
+      "published_at": "2026-06-19",
+      "accessed_at": "2026-08-13",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "github-qubot-source-1",
+        "original_url": "https://github.blog/ai-and-ml/github-copilot/how-we-built-an-internal-data-analytics-agent/",
+        "final_url": "https://github.blog/ai-and-ml/github-copilot/how-we-built-an-internal-data-analytics-agent/",
+        "captured_at": "2026-08-31T17:42:43Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/github-qubot-source-1/content.md",
+            "sha256": "sha256:820488e2b11a401e35bac3141b644a3f94d5a09e4e3b074c6c5e40d5421992da",
+            "bytes": 8226
+          }
+        }
+      },
+      "approach_id": "github-qubot"
+    }
+  ]
+}

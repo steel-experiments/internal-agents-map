@@ -17,3 +17,6 @@ research.md
 
 # Skill eval iterations (scratch output, kept locally)
 .skill-workspace/
+.vercel
+
+node_modules/

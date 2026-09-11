@@ -1,0 +1,647 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "stripe-minions",
+      "company": "Stripe",
+      "agent_name": "Minions",
+      "approach_type": "background-agent",
+      "deployment_stage": "scaled",
+      "year": 2026,
+      "first_public_evidence": {
+        "date": "2026",
+        "source_id": "stripe-minions-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "coding",
+        "code-review"
+      ],
+      "autonomy": "drafts-reviewed",
+      "operating_models": [
+        {
+          "scope": "work context → merge-ready pull request",
+          "attention_boundary": "work-product-review",
+          "level": 3
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "background",
+          "event-driven",
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "detailed-primary"
+      },
+      "claim_ids": [
+        "stripe-minions--summary",
+        "stripe-minions--headline-metric",
+        "stripe-minions--architecture-sandbox",
+        "stripe-minions--architecture-harness",
+        "stripe-minions--architecture-model",
+        "stripe-minions--architecture-interfaces",
+        "stripe-minions--architecture-tool-access",
+        "stripe-minions--architecture-knowledge",
+        "stripe-minions--architecture-credentials",
+        "stripe-minions--primitives-0",
+        "stripe-minions--key-metrics-0",
+        "stripe-minions--lessons-learned-0",
+        "stripe-minions--lessons-learned-1",
+        "stripe-minions--operating-models-0"
+      ],
+      "source_ids": [
+        "stripe-minions-source-1",
+        "stripe-minions-source-2",
+        "stripe-minions-source-3",
+        "stripe-minions-source-4",
+        "stripe-minions-source-5",
+        "stripe-minions-source-6",
+        "stripe-minions-source-7"
+      ],
+      "interfaces": [
+        "slack",
+        "github",
+        "cli",
+        "web",
+        "internal-ui"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "stripe-minions--summary",
+      "approach_id": "stripe-minions",
+      "field": "summary",
+      "text": "Homegrown one-shot coding agents that read work context, locate the right repo/workspace, implement a change end-to-end, and produce a PR for human review.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "stripe-minions-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "stripe-minions-source-3",
+          "relation": "contextualizes",
+          "locator": "Preserved content.md, lines 146–158, 190–194"
+        },
+        {
+          "source_id": "stripe-minions-source-4",
+          "relation": "contextualizes",
+          "locator": "Preserved content.md, lines 10–14"
+        },
+        {
+          "source_id": "stripe-minions-source-5",
+          "relation": "contextualizes",
+          "locator": "Preserved content.md, lines 10–14"
+        },
+        {
+          "source_id": "stripe-minions-source-6",
+          "relation": "contextualizes",
+          "locator": "Preserved content.md, lines 10–14"
+        },
+        {
+          "source_id": "stripe-minions-source-7",
+          "relation": "contextualizes",
+          "locator": "Preserved content.md, lines 10–14"
+        }
+      ]
+    },
+    {
+      "id": "stripe-minions--headline-metric",
+      "approach_id": "stripe-minions",
+      "field": "headline_metric",
+      "text": "Over 1,300 completely minion-produced PRs merged per week in Part 2, with human review and no human-written code",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Stripe reports merged PR volume without an independent count or measurement window; Part 2 is explicitly later than Part 1.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "stripe-minions-source-2",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 12"
+        },
+        {
+          "source_id": "stripe-minions-source-3",
+          "relation": "contextualizes",
+          "locator": "Preserved content.md, lines 146–158, 190–194"
+        },
+        {
+          "source_id": "stripe-minions-source-4",
+          "relation": "contextualizes",
+          "locator": "Preserved content.md, lines 10–14"
+        },
+        {
+          "source_id": "stripe-minions-source-5",
+          "relation": "contextualizes",
+          "locator": "Preserved content.md, lines 10–14"
+        },
+        {
+          "source_id": "stripe-minions-source-6",
+          "relation": "contextualizes",
+          "locator": "Preserved content.md, lines 10–14"
+        },
+        {
+          "source_id": "stripe-minions-source-7",
+          "relation": "contextualizes",
+          "locator": "Preserved content.md, lines 10–14"
+        }
+      ],
+      "reported_by": "Stripe",
+      "metric_scope": "Weekly merged PRs completely produced by Minions; Part 2 report, up from Part 1"
+    },
+    {
+      "id": "stripe-minions--architecture-sandbox",
+      "approach_id": "stripe-minions",
+      "field": "architecture.sandbox",
+      "text": "Pre-warmed AWS EC2 devboxes in the QA environment, isolated from real user data, production services, and arbitrary network egress",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "stripe-minions-source-2",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 24–30, 84"
+        }
+      ]
+    },
+    {
+      "id": "stripe-minions--architecture-harness",
+      "approach_id": "stripe-minions",
+      "field": "architecture.harness",
+      "text": "Fork of Block's goose, orchestrated by code-defined blueprints that interleave agent loops with deterministic lint, git, and CI steps",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "stripe-minions-source-2",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 38–56"
+        }
+      ]
+    },
+    {
+      "id": "stripe-minions--architecture-model",
+      "approach_id": "stripe-minions",
+      "field": "architecture.model",
+      "text": "Not specified",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "stripe-minions-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "stripe-minions--architecture-interfaces",
+      "approach_id": "stripe-minions",
+      "field": "architecture.interfaces",
+      "text": "slack, github, cli, web, internal-ui",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "stripe-minions-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 34–48"
+        }
+      ]
+    },
+    {
+      "id": "stripe-minions--architecture-tool-access",
+      "approach_id": "stripe-minions",
+      "field": "architecture.tool_access",
+      "text": "Curated subsets of Toolshed MCP tools for internal documentation, tickets, build status, and code intelligence; security controls constrain destructive actions",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "stripe-minions-source-2",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 72–84"
+        }
+      ]
+    },
+    {
+      "id": "stripe-minions--architecture-knowledge",
+      "approach_id": "stripe-minions",
+      "field": "architecture.knowledge",
+      "text": "Repository-scoped rule files shared with human-operated coding agents, plus internal context fetched through MCP",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "stripe-minions-source-2",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 64–76"
+        }
+      ]
+    },
+    {
+      "id": "stripe-minions--architecture-credentials",
+      "approach_id": "stripe-minions",
+      "field": "architecture.credentials",
+      "text": "Full permissions inside quarantined devboxes; MCP security controls limit destructive actions, and production pull requests require human review",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "stripe-minions-source-2",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 40–42, 84"
+        }
+      ]
+    },
+    {
+      "id": "stripe-minions--primitives-0",
+      "approach_id": "stripe-minions",
+      "field": "primitives.0",
+      "text": "From work context to merge-ready PR in one shot, with human approval",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "high",
+      "confidence_reason": "A linked first-party source states the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "stripe-minions-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "stripe-minions-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "stripe-minions--key-metrics-0",
+      "approach_id": "stripe-minions",
+      "field": "key_metrics.0",
+      "text": "Over 1,000 completely minion-produced PRs merged per week in Part 1, with human review and no human-written code",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "Stripe reports merged PR volume without an independent count or measurement window; no calendar metric date appears in the capture.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "stripe-minions-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 14"
+        },
+        {
+          "source_id": "stripe-minions-source-3",
+          "relation": "contextualizes",
+          "locator": "Preserved content.md, lines 146–158, 190–194"
+        },
+        {
+          "source_id": "stripe-minions-source-4",
+          "relation": "contextualizes",
+          "locator": "Preserved content.md, lines 10–14"
+        },
+        {
+          "source_id": "stripe-minions-source-5",
+          "relation": "contextualizes",
+          "locator": "Preserved content.md, lines 10–14"
+        },
+        {
+          "source_id": "stripe-minions-source-6",
+          "relation": "contextualizes",
+          "locator": "Preserved content.md, lines 10–14"
+        },
+        {
+          "source_id": "stripe-minions-source-7",
+          "relation": "contextualizes",
+          "locator": "Preserved content.md, lines 10–14"
+        }
+      ],
+      "reported_by": "Stripe",
+      "metric_scope": "Weekly merged PRs completely produced by Minions; earlier Part 1 report"
+    },
+    {
+      "id": "stripe-minions--lessons-learned-0",
+      "approach_id": "stripe-minions",
+      "field": "lessons_learned.0",
+      "text": "One-shot end-to-end coding agents work at scale when humans retain review/approval",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "stripe-minions-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "stripe-minions--lessons-learned-1",
+      "approach_id": "stripe-minions",
+      "field": "lessons_learned.1",
+      "text": "Let the agent locate the right repo/workspace itself rather than pre-scoping it",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "stripe-minions-source-1",
+          "relation": "supports"
+        },
+        {
+          "source_id": "stripe-minions-source-2",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "stripe-minions--operating-models-0",
+      "approach_id": "stripe-minions",
+      "field": "operating_models.0",
+      "text": "Level 3 for work context → merge-ready pull request; human attention boundary: work-product-review.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "high",
+      "confidence_reason": "The source explicitly states that humans review and approve production pull requests.",
+      "valid_at": "2026-02-20",
+      "evidence": [
+        {
+          "source_id": "stripe-minions-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "stripe-minions-source-1",
+      "title": "Minions: Stripe's one-shot end-to-end coding agents",
+      "url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents",
+      "canonical_url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "stripe-minions-source-1",
+        "original_url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents",
+        "final_url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents",
+        "captured_at": "2026-08-31T17:49:52Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/stripe-minions-source-1/content.md",
+            "sha256": "sha256:739a95644236ad907e123e95dbf38e5cb0baca359bca73a9ce1a666ad3aa915a",
+            "bytes": 9806
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "stripe-minions"
+    },
+    {
+      "id": "stripe-minions-source-2",
+      "title": "Minions - Part Two",
+      "url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2",
+      "canonical_url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2",
+      "kind": "engineering-blog",
+      "provenance_class": "first-party",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "stripe-minions-source-2",
+        "original_url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2",
+        "final_url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2",
+        "captured_at": "2026-08-31T17:49:59Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/stripe-minions-source-2/content.md",
+            "sha256": "sha256:bf3877ca588dd8fc63c3a3e521d93b98852de214beecea6ec6b061e74dbd24a4",
+            "bytes": 15569
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "stripe-minions"
+    },
+    {
+      "id": "stripe-minions-source-3",
+      "title": "Hacker News discussion of Minions part two",
+      "url": "https://news.ycombinator.com/item?id=47086557",
+      "canonical_url": "https://news.ycombinator.com/item?id=47086557",
+      "kind": "hn-thread",
+      "provenance_class": "community",
+      "role": "commentary",
+      "authors": [
+        "ludovicianul"
+      ],
+      "published_at": "2026-02-20",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "stripe-minions-source-3",
+        "original_url": "https://news.ycombinator.com/item?id=47086557",
+        "final_url": "https://news.ycombinator.com/item?id=47086557",
+        "captured_at": "2026-08-31T17:50:06Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/stripe-minions-source-3/content.md",
+            "sha256": "sha256:a4fae36da63e8bc8ae62adc7337948c75bf9a3a7f6c1a891096d5601c9cf1c5f",
+            "bytes": 23956
+          }
+        }
+      },
+      "approach_id": "stripe-minions"
+    },
+    {
+      "id": "stripe-minions-source-4",
+      "title": "Hacker News comment asking for examples and review evidence",
+      "url": "https://news.ycombinator.com/item?id=47086907",
+      "canonical_url": "https://news.ycombinator.com/item?id=47086907",
+      "kind": "hn-comment",
+      "provenance_class": "community",
+      "role": "commentary",
+      "authors": [
+        "3rodents"
+      ],
+      "published_at": "2026-02-20",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "stripe-minions-source-4",
+        "original_url": "https://news.ycombinator.com/item?id=47086907",
+        "final_url": "https://news.ycombinator.com/item?id=47086907",
+        "captured_at": "2026-08-31T17:50:17Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/stripe-minions-source-4/content.md",
+            "sha256": "sha256:c1fee30ef91d8ae067c9a71ed3acccd9172a9e5a6a03d3e988300f266c5fde14",
+            "bytes": 2084
+          }
+        }
+      },
+      "approach_id": "stripe-minions"
+    },
+    {
+      "id": "stripe-minions-source-5",
+      "title": "Hacker News comment questioning the level of technical detail",
+      "url": "https://news.ycombinator.com/item?id=47086953",
+      "canonical_url": "https://news.ycombinator.com/item?id=47086953",
+      "kind": "hn-comment",
+      "provenance_class": "community",
+      "role": "commentary",
+      "authors": [
+        "gas9S9zw3P9c"
+      ],
+      "published_at": "2026-02-20",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "stripe-minions-source-5",
+        "original_url": "https://news.ycombinator.com/item?id=47086953",
+        "final_url": "https://news.ycombinator.com/item?id=47086953",
+        "captured_at": "2026-08-31T17:50:25Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/stripe-minions-source-5/content.md",
+            "sha256": "sha256:c1c33299734afe2662126e1bd16a127f59081742328afdbfc6017b3a24fa4d75",
+            "bytes": 992
+          }
+        }
+      },
+      "approach_id": "stripe-minions"
+    },
+    {
+      "id": "stripe-minions-source-6",
+      "title": "Hacker News comment asking about shipped and maintained output",
+      "url": "https://news.ycombinator.com/item?id=47087114",
+      "canonical_url": "https://news.ycombinator.com/item?id=47087114",
+      "kind": "hn-comment",
+      "provenance_class": "community",
+      "role": "commentary",
+      "authors": [
+        "rco8786"
+      ],
+      "published_at": "2026-02-20",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "stripe-minions-source-6",
+        "original_url": "https://news.ycombinator.com/item?id=47087114",
+        "final_url": "https://news.ycombinator.com/item?id=47087114",
+        "captured_at": "2026-08-31T17:50:32Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/stripe-minions-source-6/content.md",
+            "sha256": "sha256:1e6f8ad9a7372e11d913ce2fa5264005bd58489a1a3df8018d3580bac593fc3c",
+            "bytes": 2331
+          }
+        }
+      },
+      "approach_id": "stripe-minions"
+    },
+    {
+      "id": "stripe-minions-source-7",
+      "title": "Hacker News comment questioning the value of pull request counts",
+      "url": "https://news.ycombinator.com/item?id=47111453",
+      "canonical_url": "https://news.ycombinator.com/item?id=47111453",
+      "kind": "hn-comment",
+      "provenance_class": "community",
+      "role": "commentary",
+      "authors": [
+        "iepathos"
+      ],
+      "published_at": "2026-02-22",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "stripe-minions-source-7",
+        "original_url": "https://news.ycombinator.com/item?id=47111453",
+        "final_url": "https://news.ycombinator.com/item?id=47111453",
+        "captured_at": "2026-08-31T17:50:40Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/stripe-minions-source-7/content.md",
+            "sha256": "sha256:7cca401d3c991caab60e07628506a8515859e34266d72fbe29da405add95a79e",
+            "bytes": 1562
+          }
+        }
+      },
+      "approach_id": "stripe-minions"
+    }
+  ]
+}

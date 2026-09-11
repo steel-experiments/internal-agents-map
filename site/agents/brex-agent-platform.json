@@ -1,0 +1,481 @@
+{
+  "schema_version": 4,
+  "approaches": [
+    {
+      "id": "brex-agent-platform",
+      "company": "Brex",
+      "agent_name": "Internal Agent Platform",
+      "approach_type": "platform",
+      "deployment_stage": "scaled",
+      "year": 2025,
+      "first_public_evidence": {
+        "date": "2025-09-25",
+        "source_id": "brex-agent-platform-source-1"
+      },
+      "last_reviewed_at": "2026-09-09",
+      "status": "internal",
+      "domains": [
+        "finance-ops",
+        "support",
+        "customer-success"
+      ],
+      "autonomy": "human-in-loop",
+      "operating_models": [
+        {
+          "scope": "internal operations request → completed operation",
+          "attention_boundary": "continuous-steering",
+          "level": 2
+        }
+      ],
+      "rubric": {
+        "invocation": [
+          "interactive"
+        ],
+        "state": "unknown",
+        "identity": "unknown",
+        "evidence_strength": "secondary-only"
+      },
+      "claim_ids": [
+        "brex-agent-platform--summary",
+        "brex-agent-platform--headline-metric",
+        "brex-agent-platform--architecture-sandbox",
+        "brex-agent-platform--architecture-harness",
+        "brex-agent-platform--architecture-model",
+        "brex-agent-platform--architecture-interfaces",
+        "brex-agent-platform--architecture-tool-access",
+        "brex-agent-platform--architecture-knowledge",
+        "brex-agent-platform--architecture-credentials",
+        "brex-agent-platform--primitives-0",
+        "brex-agent-platform--primitives-1",
+        "brex-agent-platform--key-metrics-0",
+        "brex-agent-platform--key-metrics-1",
+        "brex-agent-platform--key-metrics-2",
+        "brex-agent-platform--key-metrics-3",
+        "brex-agent-platform--lessons-learned-0",
+        "brex-agent-platform--lessons-learned-1",
+        "brex-agent-platform--lessons-learned-2",
+        "brex-agent-platform--lessons-learned-3",
+        "brex-agent-platform--lessons-learned-4",
+        "brex-agent-platform--operating-models-0"
+      ],
+      "source_ids": [
+        "brex-agent-platform-source-1"
+      ],
+      "interfaces": [
+        "slack",
+        "internal-ui"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "brex-agent-platform--summary",
+      "approach_id": "brex-agent-platform",
+      "field": "summary",
+      "text": "Retool-based internal platform where employees build, test, and deploy agents for KYC, disputes, QA, collections, and operations.",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "brex-agent-platform--headline-metric",
+      "approach_id": "brex-agent-platform",
+      "field": "headline_metric",
+      "text": "Dispute processing time fell from three hours to three seconds",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": "2025",
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 179–189"
+        }
+      ],
+      "reported_by": "Brex",
+      "metric_scope": "Dispute-submission preparation using the internal agent platform; not end-to-end chargeback resolution"
+    },
+    {
+      "id": "brex-agent-platform--architecture-sandbox",
+      "approach_id": "brex-agent-platform",
+      "field": "architecture.sandbox",
+      "text": "Retool-hosted runtime (no bespoke execution env described)",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "brex-agent-platform--architecture-harness",
+      "approach_id": "brex-agent-platform",
+      "field": "architecture.harness",
+      "text": "Retool-based builder with prompt management and multi-model testing/evaluation; built by a ~25-person systems-engineering team",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "brex-agent-platform--architecture-model",
+      "approach_id": "brex-agent-platform",
+      "field": "architecture.model",
+      "text": "Multi-model",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "brex-agent-platform--architecture-interfaces",
+      "approach_id": "brex-agent-platform",
+      "field": "architecture.interfaces",
+      "text": "slack, internal-ui",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "brex-agent-platform--architecture-tool-access",
+      "approach_id": "brex-agent-platform",
+      "field": "architecture.tool_access",
+      "text": "An MCP server exposes external product features to the internal platform; new product tools become internally available immediately; invoked via Slack /c1",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "brex-agent-platform--architecture-knowledge",
+      "approach_id": "brex-agent-platform",
+      "field": "architecture.knowledge",
+      "text": "Standard operating procedures uploaded as a knowledge base, such as 100-page dispute guides; customer account data",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "brex-agent-platform--architecture-credentials",
+      "approach_id": "brex-agent-platform",
+      "field": "architecture.credentials",
+      "text": "SSO via internal Retool proxies (no per-user accounts); ConductorOne access management; Okta auth; data classified by risk; ≤30-day retention, no training on inputs",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "brex-agent-platform--primitives-0",
+      "approach_id": "brex-agent-platform",
+      "field": "primitives.0",
+      "text": "Non-technical ops staff design prompts, test across models, deploy with QA oversight",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "brex-agent-platform--primitives-1",
+      "approach_id": "brex-agent-platform",
+      "field": "primitives.1",
+      "text": "Product features exposed to internal agents through one MCP server",
+      "kind": "fact",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "brex-agent-platform--key-metrics-0",
+      "approach_id": "brex-agent-platform",
+      "field": "key_metrics.0",
+      "text": "50%+ of customer-support cases resolved by chatbot as first touch",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": "2025",
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 76"
+        }
+      ],
+      "reported_by": "Brex",
+      "metric_scope": "Customer-support cases resolved by the chatbot at first touch",
+      "denominator": "Customer-support cases; exact sample size not provided"
+    },
+    {
+      "id": "brex-agent-platform--key-metrics-1",
+      "approach_id": "brex-agent-platform",
+      "field": "key_metrics.1",
+      "text": "Dispute processing: 3 hours → 3 seconds",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": "2025",
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 179–189"
+        }
+      ],
+      "reported_by": "Brex",
+      "metric_scope": "Dispute-submission preparation using the internal agent platform; not end-to-end chargeback resolution"
+    },
+    {
+      "id": "brex-agent-platform--key-metrics-2",
+      "approach_id": "brex-agent-platform",
+      "field": "key_metrics.2",
+      "text": "QA covers every support interaction; one person using AI instead of five QA specialists",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": "2025",
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 80"
+        }
+      ],
+      "reported_by": "Brex",
+      "metric_scope": "Quality assurance of customer-support interactions",
+      "denominator": "Every support interaction",
+      "measurement_method": "Agent applies the quality rubric to every response; one person oversees instead of five QA specialists"
+    },
+    {
+      "id": "brex-agent-platform--key-metrics-3",
+      "approach_id": "brex-agent-platform",
+      "field": "key_metrics.3",
+      "text": "KYC adverse-media accuracy 85% → 88%",
+      "kind": "metric",
+      "provenance": "reported",
+      "confidence": "medium",
+      "confidence_reason": "A linked participant or independent source reports the claim.",
+      "valid_at": "2025",
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports",
+          "locator": "Preserved content.md, lines 163–167"
+        }
+      ],
+      "reported_by": "Brex",
+      "metric_scope": "KYC adverse-media classification; human versus agent accuracy"
+    },
+    {
+      "id": "brex-agent-platform--lessons-learned-0",
+      "approach_id": "brex-agent-platform",
+      "field": "lessons_learned.0",
+      "text": "Target 40% automation, not 100%; the last mile drives investments that often yield zero value",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "brex-agent-platform--lessons-learned-1",
+      "approach_id": "brex-agent-platform",
+      "field": "lessons_learned.1",
+      "text": "Brex reports that it manages the internal platform with practices used for an external product",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "brex-agent-platform--lessons-learned-2",
+      "approach_id": "brex-agent-platform",
+      "field": "lessons_learned.2",
+      "text": "Don't skip the human in the middle; end-to-end automation fails on accuracy",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "brex-agent-platform--lessons-learned-3",
+      "approach_id": "brex-agent-platform",
+      "field": "lessons_learned.3",
+      "text": "Map workflows to the discrete steps a human would take, then translate each to LLM instructions",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "brex-agent-platform--lessons-learned-4",
+      "approach_id": "brex-agent-platform",
+      "field": "lessons_learned.4",
+      "text": "Architecture beats vendor; legal/data approvals should follow data-handling characteristics, not the tool name",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The catalog derives this observation from the linked sources.",
+      "valid_at": null,
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "brex-agent-platform--operating-models-0",
+      "approach_id": "brex-agent-platform",
+      "field": "operating_models.0",
+      "text": "Level 2 for internal operations request → completed operation; human attention boundary: continuous-steering.",
+      "kind": "inference",
+      "provenance": "catalog-judgment",
+      "confidence": "medium",
+      "confidence_reason": "The secondary report describes a human remaining in the middle of the workflow, but does not fully specify each review surface.",
+      "valid_at": "2025-09-25",
+      "evidence": [
+        {
+          "source_id": "brex-agent-platform-source-1",
+          "relation": "supports"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "brex-agent-platform-source-1",
+      "title": "Agent, Human, Ops: How Brex Is Changing Roles and Workflows",
+      "url": "https://www.firstround.com/ai/brex",
+      "canonical_url": "https://www.firstround.com/ai/brex",
+      "kind": "case-study",
+      "provenance_class": "independent-secondary",
+      "published_at": "2025-09-25",
+      "accessed_at": "2026-08-12",
+      "last_verified_at": "2026-08-31",
+      "capture": {
+        "schema_version": 1,
+        "source_id": "brex-agent-platform-source-1",
+        "original_url": "https://www.firstround.com/ai/brex",
+        "final_url": "https://www.firstround.com/ai/brex",
+        "captured_at": "2026-08-31T17:40:35Z",
+        "http_status": 200,
+        "tool": {
+          "name": "steel",
+          "version": "0.4.4"
+        },
+        "artifacts": {
+          "markdown": {
+            "path": "archive/sources/brex-agent-platform-source-1/content.md",
+            "sha256": "sha256:7f93ca0f790cfee533cc68de90faaafb87555858453c686eb9a67e408c56d428",
+            "bytes": 26716
+          }
+        }
+      },
+      "role": "evidence",
+      "approach_id": "brex-agent-platform"
+    }
+  ]
+}

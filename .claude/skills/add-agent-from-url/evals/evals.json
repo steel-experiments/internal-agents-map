@@ -3,20 +3,62 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Check this out — OpenAI wrote up the internal data agent they built for their own teams: https://openai.com/index/inside-our-in-house-data-agent/ — does this make sense to add to the map?",
-      "expected_output": "The URL passes the rubric (first-party source, distinct internal build, internal-only system). A data/agents/openai-*.yaml record is written with operating_models, evidence links, claim metadata, and a reviewed source capture created while the URL is live; archive integrity, the build, and tests pass; a local commit is created. The report shows the five rubric scores.",
+      "prompt": "Does this qualify? A readable first-party source describes Acme building an unnamed agent that investigates its internal CI failures. It explains the workflow and tool connections. No existing record matches.",
+      "expected_output": "Add assessment with evidence and a descriptive label. No edits, commits, or publication. A product name is unnecessary.",
       "files": []
     },
     {
       "id": 2,
-      "prompt": "hey saw this plaid post about how they rolled out AI coding tools to their engineers — https://plaid.com/blog/ai-coding-adoption-plaid/ — can we add it to the catalog?",
-      "expected_output": "The URL fails the internal-ownership gate: it documents vendor tool adoption (Cursor), not an internal build. No YAML record is added. An exclusion entry appears in docs/coverage-backlog.md under Refuted or excluded with the reason. A local commit is created for the backlog edit.",
+      "prompt": "Assess a case: the source documents Acme using its own commercial coding agent with internal tools, permission controls, and an on-call workflow. No record matches.",
+      "expected_output": "Add assessment if these details are supported. Commercial status is not a barrier. No edits for an assessment request.",
       "files": []
     },
     {
       "id": 3,
-      "prompt": "should this go in the catalog? snowflake's internal coding agent rollout: https://stackoverflow.blog/2026/07/02/ai-coding-chaos-into-a-repeatable-playbook/",
-      "expected_output": "The URL lands as a border case: Cortex Code is a shipping Snowflake product, but the story documents a large internal adaptation layer (about 7,000 skills, on-call integration). No YAML record is added. A Border case entry with an open question is logged in docs/coverage-backlog.md. A local commit is created.",
+      "prompt": "Please add this case: the readable source only says employees bought licenses for a vendor coding tool. It documents no internal build or adaptation.",
+      "expected_output": "Out of scope with the failed inclusion rule. Log the source and reason in the backlog; no catalog record, commit, or push.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Add this source. The system already exists under an alias; the readable source provides new implementation details.",
+      "expected_output": "Update the existing record and link supported claims, preserve the source, regenerate and check. No duplicate or exclusion. No commit or push without authorization.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Does this belong? The URL fails, no verified capture or replacement is available, and only search snippets describe the system.",
+      "expected_output": "Needs evidence, naming the unavailable source. Do not reconstruct claims or edit files.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Add this qualifying case. The source is readable and meets the rules, but its preservation attempt fails.",
+      "expected_output": "Keep the Add eligibility assessment and report the separate collection blocker. Do not present an incomplete record as added. Preserve unrelated work; no commit or publication.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Does this qualify? A source describes an internal MCP server built for company agents, with tool integrations and a specific engineering workflow.",
+      "expected_output": "Add assessment as a supporting approach if evidence supports it. Do not reject it for not being a standalone agent; no edits.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "Assess this source: it describes a general inference hosting service, with no documented connection to an internal agent workflow.",
+      "expected_output": "Out of scope with a specific reason. No edits for an assessment request.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "Update an existing case: one source says 65,000 reviews per week and another says per month. Neither explains the difference.",
+      "expected_output": "Preserve both attributed reports and the conflict. Do not invent a reconciliation or treat repeated agent agreement as verification. Run checks; no publication without authorization.",
+      "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "Add a qualifying case in a working tree with unrelated user edits. Validation fails after the record and generated files change.",
+      "expected_output": "Fix within scope or report the failure and incomplete work. Do not broadly restore files, weaken checks, commit, or publish a failing change.",
       "files": []
     }
   ]

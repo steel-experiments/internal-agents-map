@@ -10,9 +10,29 @@ The list comes from a coverage audit. The first pass ran on 2026-08-12. A follow
 work but do not appear in the [landscape](landscape.md). They excluded the 25 companies already
 cataloged.
 
-The audit used adversarial verification. Each verified claim passed a three-vote check. Claims
-that failed appear in [Refuted or excluded](#refuted-or-excluded) so contributors do not re-add
-them.
+The original audit used agreement between reviewing agents. Its vote counts describe that
+review process; they do not independently verify the sources or company results.
+
+## Policy review: 2026-09-11
+
+Current decisions follow the [inclusion rules](../CONTRIBUTING.md#inclusion-rules).
+The dated audit below preserves earlier assessments. Its “Verified” labels and confidence ratings
+are historical review labels, not current guarantees. No catalog records changed in this review,
+and external sources were not fetched again.
+
+| Candidate | Current action | Evidence question |
+| --- | --- | --- |
+| Snowflake internal adaptation | Needs evidence review; commercial status is no barrier. | Do the cited sources support the specific internal skills and workflow adaptations? |
+| Databricks Omnigent | Reopen the exclusion for evidence review. | What internal build and use do the sources document? An open-source release is not grounds for exclusion. |
+| Vercel v0 and GitLab Duo | Reassess if implementation evidence is available. | Does each source describe internal implementation or adaptation beyond a general adoption claim? |
+| Amazon Q Developer | Review before adding; the earlier ready label is provisional. | Does the study describe an identifiable internal workflow and implementation, beyond adoption metrics? |
+| Datadog Bits | Needs evidence. | Do sources document an internal agent workflow, beyond construction of a benchmark? |
+| Meta TestGen-LLM | Review the approach type. | Does the implementation qualify as an agent or an implemented system that supports agents? The author's label alone does not decide. |
+| Twilio RFP Genie | Reopen the domain-based exclusion for evidence review. | What internal work and build does a source document? The current policy does not exclude sales work. |
+
+The unnamed Uber agent and the Notion and Salesforce cases remain in the catalog. Lack of a
+product name and commercial status are not reasons to remove them. Their individual claims
+remain subject to source review.
 
 ## Promoted to the catalog
 
@@ -33,27 +53,16 @@ legitimate snapshot had been saved.
 - HubSpot — Sidekick → [landscape](landscape.md#hubspot-sidekick)
 - Databricks — coSTAR (Omnigent excluded) → [landscape](landscape.md#databricks-costar)
 
-## Editorial rule
+## Reading the historical audit
 
-A company that uses its **own shipping consumer product** internally does not qualify on that
-basis alone. Such a story is product promotion, not an internal-agent build. The rule applies
-strictly to consumer products that the company sells. Entries that straddle the line stay on this
-page with a caveat and a case-by-case judgment when they become records.
+The old intake policy treated some uses of an organization's own product as out of scope.
+The current policy applies the same internal-work and implementation requirements to commercial,
+open-source, and internal-only systems. General adoption claims remain insufficient.
 
-## How to read the status
-
-| Status | Meaning |
-| --- | --- |
-| Verified, ready | A first-party source documents the build. The claim passed three-vote verification. A contributor can write the YAML record. |
-| Ready (single-pass) | Strong primary sources back the build, but it has not passed three-vote verification yet. Confirm before you write a record. |
-| Border case | A source exists, but one inclusion rule is unclear. Examples: a commercial product whose internal dogfooding is thin, or heavy internal adaptation of a shipping product. Needs a catalog judgment. |
-| Needs verification | A lead surfaced in search but did not pass full verification. Confirm the source and the dogfooding claim before you write a record. |
-
-Confidence values follow the [data schema](../data/schema.md).
-
-- **high**: a first-party engineering source, repository, talk, or paper documents the internal build.
-- **medium**: an executive quote or a strong secondary source confirms the build, or a first-party source has one weak point.
-- **low**: a rumor or an unattributed claim.
+Earlier “Border case” and “Needs verification” labels identify leads to revisit using the current
+Needs evidence decision. “Verified, ready” records still require source review, preservation,
+and validation before addition. Old source-level confidence labels do not replace an assessment
+of support for each claim.
 
 ---
 
@@ -360,6 +369,8 @@ the dogfooding claim before you write a record.
 
 ## Refuted or excluded
 
+These are historical decisions. Product-status exclusions are reopened in the policy review above.
+
 The audit refuted these claims or excluded these leads. Do not add them without a new, stronger
 source.
 
@@ -378,6 +389,8 @@ source.
   Service on vLLM and NVIDIA Triton). This is serving infrastructure, not an agent. Excluded.
 
 ## Confirmed gaps
+
+These are gaps found by the earlier search, not proof that qualifying systems do not exist.
 
 The follow-up sweep checked these Tier 1 candidates and found no qualifying internal-agent build.
 Most have only shipping products, vendor-tool usage, or aspirational job postings.
@@ -401,7 +414,7 @@ Most have only shipping products, vendor-tool usage, or aspirational job posting
 
 ---
 
-## Open questions for the next search
+## Historical questions from the earlier search
 
 - Does Datadog run Bits Investigation on its own production incidents, or is the dogfooding limited
   to the benchmark dataset? This split vote is the weakest point in the Tier 1 set.
@@ -418,7 +431,7 @@ Most have only shipping products, vendor-tool usage, or aspirational job posting
 
 ---
 
-## Audit method
+## Historical audit method
 
 The audit ran in two passes.
 

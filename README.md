@@ -1,6 +1,6 @@
 # Internal Agents Map
 
-**[Explore the map](https://steel-experiments.github.io/internal-agents-map/)**
+**[Explore the map](https://internal-agents.com/)**
 
 ## Definition
 
@@ -101,12 +101,11 @@ systems are rarely reported.
 An entry needs a named organization, an agent or enabling approach built or materially adapted
 for that organization's own work, and public evidence describing its implementation or use.
 
-The map includes agents, agent systems, platforms, orchestration systems, and implemented
-supporting patterns. These are separate approach types. Prototypes and systems that later became
-open source or commercial products can qualify.
+Agents, platforms, and implemented supporting systems have separate approach types. Research
+implementations, prototypes, and commercial or open-source systems can qualify. A product name
+is optional. Generic adoption claims are insufficient.
 
-Generic vendor products without a documented internal adaptation are not entries. General
-opinion pieces and unattributed claims may appear as context, not as catalog approaches.
+See the [inclusion rules](CONTRIBUTING.md#inclusion-rules) for the shared policy.
 
 ## Evidence standard
 
