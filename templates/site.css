@@ -492,7 +492,7 @@ footer {
     display:none;
   }
   .brand-mark {
-    display:inline;
+    display:inline-block;
     margin-right:8px;
     font-size:20px;
   }
@@ -843,4 +843,57 @@ footer {
   .workflow-node { padding: 18px 12px; }
   .workflow-node .eyebrow { font-size: 10px; }
   .workflow-node strong { font-size: 14px; }
+}
+
+/* Interaction states: controls show what is active, and small elements answer the pointer. */
+.tag { border:0; min-height:0; cursor:pointer; }
+.tag:hover, .tag:focus-visible { background:#e0f6f5; color:var(--link); }
+select:has(option:checked:not([value=""])) { border-color:var(--link); color:var(--link); }
+#filters:not(:has(select option:checked:not([value=""]), input:not(:placeholder-shown))) .filter-row button[type="reset"] { color:var(--muted); border-color:var(--rule); }
+.text-button { background:none; border:0; padding:0; min-height:0; color:var(--link); text-decoration:underline; text-underline-offset:3px; cursor:pointer; }
+.text-button:hover { background:none; text-decoration-thickness:2px; }
+.link-arrow { display:inline-block; }
+summary { list-style:none; }
+summary::-webkit-details-marker { display:none; }
+summary::before { content:"\25B8"; display:inline-block; width:1em; color:inherit; }
+details[open] > summary::before { transform:rotate(90deg); }
+@view-transition { navigation:auto; }
+
+/* Motion: short, eased, and tied to a user action. Everything here is optional. */
+@media (prefers-reduced-motion: no-preference) {
+  :root { interpolate-size:allow-keywords; }
+  a, button, select, input { transition:color .15s, background-color .15s, border-color .15s; }
+  :focus-visible { transition:outline-offset .15s ease-out; }
+  .brand-mark { transition:transform .4s cubic-bezier(.2,.8,.2,1); }
+  .brand:hover .brand-mark { transform:rotate(90deg); }
+  .link-arrow { transition:transform .15s ease-out; }
+  a:hover .link-arrow { transform:translate(1px,-1px); }
+  .tag { transition:color .15s, background-color .15s, transform .15s; }
+  .tag:hover { transform:translateY(-1px); }
+  summary::before { transition:transform .2s ease-out; }
+  details::details-content { block-size:0; overflow-y:clip; transition:content-visibility .3s allow-discrete, block-size .3s ease-out; }
+  details[open]::details-content { block-size:auto; }
+  @keyframes settle { from { opacity:0; transform:translateY(4px); } }
+  #filters, .empty-state, .is-ticking { animation:settle .3s ease-out both; }
+  .entry { animation:settle .3s ease-out both; }
+  .entry:nth-child(2) { animation-delay:40ms; }
+  .entry:nth-child(3) { animation-delay:80ms; }
+  .entry:nth-child(4) { animation-delay:120ms; }
+  .entry:nth-child(5) { animation-delay:160ms; }
+  .entry:nth-child(6) { animation-delay:200ms; }
+  /* Remaining entries slide into place while a filter change runs inside a view transition. */
+  .is-reflowing .entry { view-transition-name:match-element; }
+  /* A teal rule marks the entry a shared link points at, then fades away. */
+  @keyframes arrive { 0%, 55% { box-shadow:-14px 0 0 -11px var(--blue); } 100% { box-shadow:-14px 0 0 -11px transparent; } }
+  .entry.is-targeted { animation:settle .3s ease-out both, arrive 2.4s ease-out both; }
+  .quadrant-cell li::before { transition:transform .2s ease-out, box-shadow .2s ease-out; }
+  .quadrant-cell li:hover::before { transform:scale(1.35); box-shadow:0 0 0 4px rgba(0,198,197,.18); }
+  /* The teal dot is the agent in every definition diagram; a slow ring shows it is at work. */
+  @keyframes breathe { 0% { stroke-width:0; stroke-opacity:.5; } 70%, 100% { stroke-width:14; stroke-opacity:0; } }
+  .agent-dot { paint-order:stroke; animation:breathe 4s ease-out infinite; }
+  @keyframes draw { to { stroke-dashoffset:0; } }
+  .agent-links { stroke-dasharray:1; stroke-dashoffset:1; animation:draw 1.2s ease-out .4s forwards; }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation:none !important; }
 }

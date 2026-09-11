@@ -200,6 +200,24 @@ class SiteTests(unittest.TestCase):
         source.pop("capture")
         self.assertNotIn("Preserved Markdown", build.render_site(fixture))
 
+    def test_work_tags_are_filter_shortcuts_and_arrows_stay_plain_in_markdown(self):
+        approach = self.catalog["approaches"][0]
+        for domain in approach["domains"]:
+            self.assertIn(f'<button type="button" class="tag" data-work="{domain}"', self.html)
+        self.assertIn('<button type="reset" form="filters"', self.html)
+        outputs = build.rendered_outputs(build.load_agents())
+        index_html = outputs[ROOT / "site/index.html"]
+        self.assertIn('<span class="link-arrow">↗</span></a>', index_html)
+        self.assertNotIn(" ↗</a>", index_html)
+        for name in ("site/index.md", f"site/agents/{approach['id']}.md"):
+            markdown = outputs[ROOT / name]
+            self.assertNotIn("link-arrow", markdown)
+            self.assertIn("[Permalink ↗](", markdown)
+        summary_tags = outputs[ROOT / f"site/agents/{approach['id']}.md"]
+        # Tags are buttons in HTML; the Markdown mirror keeps them as separated words.
+        labels = [build.site_label(item) for item in approach["domains"]]
+        self.assertIn(" ".join(labels), summary_tags)
+
     def test_empty_catalog_and_determinism(self):
         empty = {"approaches": [], "claims": [], "sources": []}
         page = build.render_site(empty)

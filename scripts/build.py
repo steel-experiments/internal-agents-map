@@ -1362,8 +1362,12 @@ def render_site(catalog: dict) -> str:
                 f"Last source verification: {site_text(source.get('last_verified_at', 'Unknown'))}"
                 "</span></li>"
             )
+        # A tag is a shortcut into the Work filter, so it carries the raw domain id.
         tags = "".join(
-            f'<span class="tag">{site_text(site_label(item))}</span>' for item in domains
+            f'<button type="button" class="tag" data-work="{site_text(item)}" '
+            f'title="Filter the catalog by {site_text(site_label(item))}">'
+            f"{site_text(site_label(item))}</button>"
+            for item in domains
         )
         entries.append(
             f'<article class="entry" {attrs_html}><div class="entry-top">'
@@ -1672,7 +1676,7 @@ def page_markdown(document: str, url: str) -> str:
     for link in main.find_all("a", href=True):
         link["href"] = urljoin(url, link["href"])
     # Inline metadata needs whitespace after removing its visual layout.
-    for element in main.find_all(["span", "small", "strong", "a"]):
+    for element in main.find_all(["span", "small", "strong", "a", "button"]):
         element.insert_after(" ")
     body = markdownify(str(main), heading_style="ATX", bullets="-", strip=["summary"])
     return f"Source: {url}\n\n" + re.sub(r"\n{3,}", "\n\n", body).strip() + "\n"
@@ -1739,6 +1743,8 @@ def publication_outputs(outputs: dict[Path, str | bytes], catalog: dict) -> dict
             )
             routes["/" if name == "index.html" else "/" + name] = "/" + md_name
             document = document.replace("</head>", "  " + metadata + "</head>")
+        # The stylesheet moves external-link arrows on hover; Markdown keeps plain text.
+        document = document.replace(" ↗</a>", ' <span class="link-arrow">↗</span></a>')
         for old, new in assets.items():
             document = document.replace("assets/" + old, "assets/" + new)
         if name == "404.html":

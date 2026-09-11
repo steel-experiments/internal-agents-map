@@ -2,12 +2,27 @@
 (() => {
   'use strict';
   const form = document.getElementById('filters');
+  const catalog = document.getElementById('catalog');
+  const list = document.querySelector('.entries');
   const entries = [...document.querySelectorAll('.entry')];
   const controls = Object.fromEntries(['q', 'work', 'type', 'supervision'].map(key => [key, form.elements.namedItem(key)]));
   const results = document.getElementById('results');
   const empty = document.getElementById('empty');
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const normalize = value => value.toLowerCase().replace(/\s+/g, ' ').trim();
   let searchTimer;
+  // Restart a CSS animation on an element that may already carry the class.
+  function replay(element, className) {
+    element.classList.remove(className);
+    void element.offsetWidth;
+    element.classList.add(className);
+  }
+  // Animate the remaining entries into place when a whole filter changes.
+  function reflow(update) {
+    if (!document.startViewTransition || reducedMotion.matches) { update(); return; }
+    list.classList.add('is-reflowing');
+    document.startViewTransition(update).finished.finally(() => list.classList.remove('is-reflowing'));
+  }
   function stateFromUrl() {
     const params = new URLSearchParams(location.search);
     for (const [key, control] of Object.entries(controls)) {
@@ -24,7 +39,8 @@
   function apply(announcement = '') {
     let count = 0;
     entries.forEach(entry => { entry.hidden = !matches(entry); if (!entry.hidden) count++; });
-    results.textContent = `${announcement}${count} of ${entries.length} approaches`;
+    const text = `${announcement}${count} of ${entries.length} approaches`;
+    if (results.textContent !== text) { results.textContent = text; replay(results, 'is-ticking'); }
     empty.hidden = count !== 0;
   }
   function writeUrl(method = 'pushState') {
@@ -51,6 +67,7 @@
     if (changed) writeUrl('replaceState');
     entry.querySelector('details').open = true;
     entry.scrollIntoView({ block: 'start', behavior: 'instant' });
+    replay(entry, 'is-targeted');
   }
   function restore() { clearTimeout(searchTimer); stateFromUrl(); apply(); revealFragment(); }
   form.addEventListener('submit', event => { event.preventDefault(); clearTimeout(searchTimer); writeUrl(); apply(); });
@@ -59,18 +76,35 @@
     searchTimer = setTimeout(() => writeUrl(), 250);
   });
   for (const key of ['work', 'type', 'supervision']) controls[key].addEventListener('change', () => {
-    clearTimeout(searchTimer); writeUrl(); apply();
+    clearTimeout(searchTimer); reflow(() => { writeUrl(); apply(); });
   });
   form.addEventListener('reset', event => {
     event.preventDefault(); clearTimeout(searchTimer);
     Object.values(controls).forEach(control => { control.value = ''; });
-    writeUrl(); apply();
+    reflow(() => { writeUrl(); apply(); });
+  });
+  // A work tag applies that Work filter and hands focus to the control that now shows it.
+  list.addEventListener('click', event => {
+    const tag = event.target.closest('.tag');
+    if (!tag) return;
+    clearTimeout(searchTimer);
+    controls.work.value = tag.dataset.work;
+    catalog.scrollIntoView({ block: 'start', behavior: 'instant' });
+    reflow(() => { writeUrl(); apply(); });
+    controls.work.focus({ preventScroll: true });
   });
   document.querySelectorAll('.permalink').forEach(link => link.addEventListener('click', event => {
     event.preventDefault(); clearTimeout(searchTimer);
     const url = new URL(location.href); url.hash = link.hash;
     if (url.href !== location.href) history.pushState(null, '', url);
     revealFragment();
+    if (!navigator.clipboard) return;
+    navigator.clipboard.writeText(url.href).then(() => {
+      link.dataset.label ??= link.innerHTML;
+      link.textContent = 'Link copied';
+      clearTimeout(link.copyTimer);
+      link.copyTimer = setTimeout(() => { link.innerHTML = link.dataset.label; }, 2000);
+    }, () => {});
   }));
   window.addEventListener('popstate', restore);
   window.addEventListener('hashchange', restore);
