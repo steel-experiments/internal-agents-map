@@ -1645,7 +1645,11 @@ def social_metadata(name: str, soup: BeautifulSoup, url: str, lastmod: str | Non
         ("property", "og:title", title),
         ("property", "og:description", description),
         ("property", "og:url", url),
-        ("name", "twitter:card", "summary"),
+        ("property", "og:image", f"{ORIGIN}/og.png"),
+        ("property", "og:image:width", "1200"),
+        ("property", "og:image:height", "630"),
+        ("property", "og:image:alt", f"{SITE_NAME}: a source-backed catalog of internal AI agents"),
+        ("name", "twitter:card", "summary_large_image"),
         ("name", "twitter:site", "@steeldotdev"),
     ]
     if is_article and lastmod:
@@ -1698,6 +1702,7 @@ def publication_outputs(outputs: dict[Path, str | bytes], catalog: dict) -> dict
         outputs[site / "assets" / hashed] = content
     outputs[site / "assets/manifest.json"] = json.dumps(assets, indent=2) + "\n"
     outputs[site / "favicon.ico"] = (ROOT / "templates/favicon.ico").read_bytes()
+    outputs[site / "og.png"] = (ROOT / "templates/og.png").read_bytes()
     routes = {}
     lastmods = {}
     catalog_reviewed = max((a["last_reviewed_at"] for a in catalog["approaches"]), default=None)

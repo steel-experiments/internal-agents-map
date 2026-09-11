@@ -1,3 +1,13 @@
+/** Hosts that alias the canonical origin. Requests on them redirect to it. */
+export const CANONICAL_ORIGIN = 'https://internal-agents.com';
+const ALIAS_HOSTS = new Set(['www.internal-agents.com', 'internal-agents-map.vercel.app']);
+
+/** Return the canonical URL for a request on an alias host, or null when the host is canonical. */
+export function canonicalRedirect(url) {
+  if (!ALIAS_HOSTS.has(url.hostname)) return null;
+  return CANONICAL_ORIGIN + url.pathname + url.search;
+}
+
 /** Prefer HTML unless the client explicitly requests an acceptable Markdown type. */
 export function wantsMarkdown(accept = '') {
   const ranges = accept.toLowerCase().split(',').map(part => {

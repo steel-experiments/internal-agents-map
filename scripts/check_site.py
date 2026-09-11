@@ -16,6 +16,7 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parent.parent
 ALLOWED_FILES = {
     "favicon.ico",
+    "og.png",
     "404.html",
     "index.html",
     "definitions.html",

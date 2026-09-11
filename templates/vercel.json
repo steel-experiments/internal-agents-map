@@ -15,6 +15,17 @@
       ],
       "destination": "https://internal-agents.com/:path*",
       "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "internal-agents-map.vercel.app"
+        }
+      ],
+      "destination": "https://internal-agents.com/:path*",
+      "permanent": true
     }
   ],
   "headers": [
@@ -77,6 +88,15 @@
     },
     {
       "source": "/404.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/agents/:path*",
       "headers": [
         {
           "key": "X-Robots-Tag",

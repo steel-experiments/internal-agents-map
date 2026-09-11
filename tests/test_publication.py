@@ -72,7 +72,11 @@ class PublicationTests(unittest.TestCase):
             self.assertEqual(soup.find("meta", property="og:url")["content"], url)
             self.assertEqual(soup.find("meta", property="og:title")["content"], soup.title.string)
             self.assertEqual(
-                soup.find("meta", attrs={"name": "twitter:card"})["content"], "summary"
+                soup.find("meta", attrs={"name": "twitter:card"})["content"],
+                "summary_large_image",
+            )
+            self.assertEqual(
+                soup.find("meta", property="og:image")["content"], build.ORIGIN + "/og.png"
             )
             lastmod = sitemap[url]
             if name.startswith("notes/"):
@@ -93,6 +97,18 @@ class PublicationTests(unittest.TestCase):
                 self.assertIsNotNone(soup.select_one('main a[href="https://steel.dev/"]'))
             self.assertIn("Compiled by", soup.footer.get_text())
             self.assertIsNotNone(soup.footer.select_one('a[href^="https://steel.dev/"]'))
+
+    def test_alias_hosts_redirect_and_record_files_stay_out_of_search(self):
+        config = json.loads(self.outputs[ROOT / "vercel.json"])
+        alias_hosts = {
+            r["has"][0]["value"]
+            for r in config["redirects"]
+            if r["destination"] == "https://internal-agents.com/:path*" and r["permanent"]
+        }
+        self.assertEqual(alias_hosts, {"www.internal-agents.com", "internal-agents-map.vercel.app"})
+        records = next(r for r in config["headers"] if r["source"] == "/agents/:path*")
+        self.assertEqual(records["headers"], [{"key": "X-Robots-Tag", "value": "noindex"}])
+        self.assertIn(self.site / "og.png", self.outputs)
 
     def test_individual_records_preserve_claims_sources_and_qualifications(self):
         index = json.loads(self.outputs[self.site / "agents/index.json"])["approaches"]

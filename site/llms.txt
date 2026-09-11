@@ -7,7 +7,7 @@ Read the compact index first, then fetch individual records for relevant systems
 - [Compact catalog index](https://internal-agents.com/agents/index.json)
 - [Data and evidence guide](https://internal-agents.com/data-guide.md)
 - [Complete dataset](https://internal-agents.com/agents.json)
-- [Internal Agents Map](https://internal-agents.com/index.md)
+- [Internal Agents Map · How companies build internal AI agents](https://internal-agents.com/index.md)
 - [What makes an agent internal? · Internal Agents Map](https://internal-agents.com/definitions.md)
 - [Methodology · Internal Agents Map](https://internal-agents.com/methodology.md)
 - [Notes · Internal Agents Map](https://internal-agents.com/notes.md)

@@ -126,8 +126,11 @@ worked without page errors.
 
 The canonical site is now **https://internal-agents.com/** on Vercel, in the Steel
 team (`nen-labs/internal-agents-map`). `www` permanently redirects to the apex while
-retaining paths and query strings. Automatic Vercel Git integration was
-not connected during setup; CLI deployment works independently.
+retaining paths and query strings, and so does the bare `internal-agents-map.vercel.app`
+alias. Middleware answers HTML requests before `vercel.json` redirects run, so it
+redirects alias hosts itself. Per-agent record files under `/agents/` carry
+`X-Robots-Tag: noindex` until they have HTML pages to point at. The project is
+connected to the GitHub repository; every push to `main` deploys to production.
 
 The build generates `robots.txt`, `sitemap.xml`, `llms.txt`, Markdown for every
 published content page, `agents/index.json`, and `agents/<id>.json` and `.md`.
