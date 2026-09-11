@@ -1405,6 +1405,7 @@ def render_site(catalog: dict) -> str:
         )
     )
     values = {
+        "TOPOGRAPHY": topography(),
         "STATS": stats,
         "REVIEW": site_text(max((a["last_reviewed_at"] for a in approaches), default="Unknown")),
         "FILTERS": "".join(filters),
@@ -1413,6 +1414,11 @@ def render_site(catalog: dict) -> str:
     }
     template = (ROOT / "templates/site.html").read_text(encoding="utf-8")
     return re.sub(r"@@([A-Z]+)@@", lambda match: values[match[1]], template)
+
+
+def topography() -> str:
+    """Decorative contour map shared by page headers that include its placeholder."""
+    return (ROOT / "templates/topography.svg").read_text(encoding="utf-8").strip()
 
 
 def render_definitions(catalog: dict) -> str:
@@ -1507,6 +1513,7 @@ def render_definitions(catalog: dict) -> str:
     )
     values = {
         "SIDEBAR": sidebar,
+        "TOPOGRAPHY": topography(),
         "PLACEMENTS": "".join(notes),
         "FOOTER": re.search(r"<footer>.*?</footer>", shell, re.S)[0],
         **{
@@ -1536,6 +1543,7 @@ def render_editorial_page(name: str) -> str:
     )
     values = {
         "SIDEBAR": sidebar,
+        "TOPOGRAPHY": topography(),
         "FOOTER": re.search(r"<footer>.*?</footer>", shell, re.S)[0],
     }
     template = (ROOT / "templates" / name).read_text(encoding="utf-8")

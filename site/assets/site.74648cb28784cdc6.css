@@ -128,8 +128,31 @@ section,[id] {
   margin-top:64px;
 }
 .intro {
+  position:relative;
+  isolation:isolate;
   padding:0 0 40px;
   border-bottom:1px solid var(--rule);
+}
+/* Contour lines behind the introduction: the hatched mark, extended into terrain. */
+.topography {
+  position:absolute;
+  inset:0 0 1px;
+  width:100%;
+  height:100%;
+  z-index:-1;
+  fill:none;
+  stroke:#e8e8eb;
+  stroke-width:1;
+  pointer-events:none;
+  mask-image:linear-gradient(to right, rgba(0,0,0,.4), #000 65%);
+}
+.topography .agent-dot {
+  fill:var(--blue);
+  stroke:var(--blue);
+}
+.topography .mark {
+  stroke:var(--blue);
+  stroke-width:1.1;
 }
 .eyebrow {
   font-size:12px;
@@ -565,7 +588,7 @@ footer {
   }
 }
 @media(max-width:800px) {
-  .intro>.eyebrow,.intro>.lede+p {
+  .intro>.eyebrow,.intro>.lede+p,.topography {
     display:none;
   }
   .intro h1 {
@@ -620,7 +643,7 @@ footer {
 
 /* Definitions: fine rules and diagram labels share the catalog's typography. */
 .nav-links [aria-current="page"] { color: var(--link); }
-.guide-header { padding-bottom: 48px; }
+.guide-header { position: relative; isolation: isolate; padding-bottom: 48px; }
 .guide-header h1 { max-width: 700px; margin-top: 10px; }
 .guide-header > p { max-width: 680px; }
 .guide-header .lede { font-size: 20px; line-height: 1.5; margin-top: 20px; }
@@ -790,7 +813,8 @@ footer {
 
 /* Notes use the same fine rules, type, and restrained diagram accents. */
 .notes { font-size: 16px; }
-.notes .guide-header { max-width: 680px; padding-bottom: 32px; }
+.notes .guide-header { padding-bottom: 32px; }
+.notes .guide-header > :not(.topography) { max-width: 680px; }
 .notes .note-list, .note-detail > article { max-width: 680px; }
 .note-preview { padding: 28px 0; border-top: 1px solid var(--rule); }
 .note-preview h2 { margin: 10px 0 12px; font-size: 25px; }
@@ -893,6 +917,11 @@ details[open] > summary::before { transform:rotate(90deg); }
   .agent-dot { paint-order:stroke; animation:breathe 4s ease-out infinite; }
   @keyframes draw { to { stroke-dashoffset:0; } }
   .agent-links { stroke-dasharray:1; stroke-dashoffset:1; animation:draw 1.2s ease-out .4s forwards; }
+  /* The terrain surveys itself in, outer contour first; the agent dot arrives last and then breathes. */
+  .contour { stroke-dasharray:1; stroke-dashoffset:1; animation:draw 1.8s cubic-bezier(.3,.7,.3,1) both; animation-delay:calc(.2s + var(--ring, 0) * .12s); }
+  @keyframes appear { from { opacity:0; } }
+  .topography .agent-dot { animation:appear .6s ease-out 3s both, breathe 4s ease-out 3.6s infinite; }
+  .topography .mark { animation:appear .5s ease-out both; animation-delay:calc(2.6s + var(--k, 0) * .07s); }
 }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation:none !important; }
