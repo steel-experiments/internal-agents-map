@@ -4,7 +4,6 @@ import type { APIRoute } from 'astro';
 import { loadCatalog } from '../lib/catalog';
 import {
   NOTES_CLOSING,
-  NOTES_EYEBROW,
   NOTES_HEADING,
   NOTES_INTRO_AFTER,
   NOTES_INTRO_BEFORE,
@@ -18,7 +17,6 @@ function document(): string {
   const catalogLink = `[agent catalog](${canonicalUrl(homePath())}#catalog)`;
   return [
     `Source: ${canonicalUrl(notesIndexPath())}`,
-    NOTES_EYEBROW,
     `# ${NOTES_HEADING}`,
     NOTES_LEDE,
     `${NOTES_INTRO_BEFORE}${catalogLink}${NOTES_INTRO_AFTER}`,
