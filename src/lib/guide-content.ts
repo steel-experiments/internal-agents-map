@@ -22,7 +22,6 @@ export const NOTES_HEADING = 'Notes';
 export const NOTES_DESCRIPTION =
   'Short notes on agent design. Each note connects an observation to reports from teams ' +
   'that build internal agents.';
-export const NOTES_EYEBROW = 'From the cases';
 export const NOTES_LEDE = 'Short observations for people who build agents.';
 /** The two halves of the introduction, around the link to the catalog. */
 export const NOTES_INTRO_BEFORE = 'Each note examines a design choice from the ';
@@ -187,7 +186,6 @@ export interface GuideSection {
   readonly links?: readonly GuideLink[];
 }
 
-export const METHODOLOGY_EYEBROW = 'Reading the map';
 export const METHODOLOGY_LEDE = 'How we record evidence and explain its limits.';
 
 const CONTRIBUTING_URL =
@@ -361,7 +359,6 @@ const MINIONS_PART_ONE =
   'https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents';
 const MINIONS_PART_TWO = `${MINIONS_PART_ONE}-part-2`;
 
-export const DEFINITIONS_EYEBROW = 'Understanding the map';
 export const DEFINITIONS_LEDE =
   'How organizations turn general-purpose models into agents for their own work.';
 

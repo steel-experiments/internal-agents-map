@@ -201,3 +201,18 @@ test.describe('the Methodology guide', () => {
     await expect(page.locator('main section')).toHaveCount(8);
   });
 });
+
+/* A guide leads with its title. The kicker that used to stand above it is gone
+   from the page and from the export, so both readings open the same way. */
+test.describe('the guide headers', () => {
+  for (const path of ['/definitions', '/methodology', '/notes']) {
+    test(`${path} opens on its title`, async ({ page, request }) => {
+      await page.goto(path);
+      await expect(page.locator('.guide-header > .eyebrow')).toHaveCount(0);
+      // The export states its source, then the same title the page leads with.
+      const title = (await page.locator('.guide-header h1').innerText()).trim();
+      const markdown = await (await request.get(`${path}.md`)).text();
+      expect(markdown.split('\n\n')[1]).toBe(`# ${title}`);
+    });
+  }
+});

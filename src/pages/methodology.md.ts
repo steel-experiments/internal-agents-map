@@ -2,7 +2,6 @@
 // ABOUTME: It renders the same text, links, and qualifications as the page.
 import type { APIRoute } from 'astro';
 import {
-  METHODOLOGY_EYEBROW,
   METHODOLOGY_HEADING,
   METHODOLOGY_LEDE,
   METHODOLOGY_SECTIONS,
@@ -13,7 +12,6 @@ import { canonicalUrl, guidePath } from '../lib/routes';
 function document(): string {
   const blocks: string[] = [
     `Source: ${canonicalUrl(guidePath('methodology'))}`,
-    METHODOLOGY_EYEBROW,
     `# ${METHODOLOGY_HEADING}`,
     METHODOLOGY_LEDE,
   ];
