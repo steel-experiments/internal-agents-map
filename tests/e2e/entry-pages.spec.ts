@@ -286,9 +286,15 @@ test.describe('page-content pilot', () => {
     await expect(page.getByText('Duplicate representation of').first()).toBeVisible();
   });
 
-  test('captures all five pages for desktop and mobile review', async ({ page }, testInfo) => {
-    test.skip(testInfo.project.name === 'no-javascript', 'Desktop and mobile captures cover visual review.');
-    for (const id of PILOT_IDS) {
+  /*
+   * One capture per record, rather than every record in one case. The list is
+   * the whole catalog, so a single case grew with it until its captures no
+   * longer fit the time a case is given; and a record that runs off the side
+   * now names itself instead of stopping the run at whichever came first.
+   */
+  for (const id of PILOT_IDS) {
+    test(`captures ${id} for desktop and mobile review`, async ({ page }, testInfo) => {
+      test.skip(testInfo.project.name === 'no-javascript', 'Desktop and mobile captures cover visual review.');
       await page.goto(`/agents/${id}`);
       await page.evaluate(async () => document.fonts.ready);
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(page.viewportSize()!.width);
@@ -296,8 +302,8 @@ test.describe('page-content pilot', () => {
         path: testInfo.outputPath(`pilot-${testInfo.project.name}-${id}.png`),
         fullPage: true,
       });
-    }
-  });
+    });
+  }
 });
 
 test.describe('lesson attribution', () => {
