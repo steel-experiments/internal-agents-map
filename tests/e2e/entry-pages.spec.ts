@@ -227,6 +227,13 @@ test.describe('page-content pilot', () => {
     expect(await (await request.get('/agents/linear-agent.md')).text()).toContain(note);
   });
 
+  test('says why an architecture field is unreported, as the Markdown export does', async ({ page, request }) => {
+    await page.goto('/agents/airbnb-airchat');
+    const note = 'The captures describe internal context through MCP servers and configuration files, not a separate knowledge store.';
+    await expect(page.locator('#implementation .is-unreported', { hasText: note })).toBeVisible();
+    expect(await (await request.get('/agents/airbnb-airchat.md')).text()).toContain(note);
+  });
+
   test('keeps Sentry code-size exclusions in the canonical observation', async ({ page, request }) => {
     await page.goto('/agents/sentry-junior');
     await expect(page.locator('#results')).toContainText('excluding tests, evals, docs, and lockfiles');

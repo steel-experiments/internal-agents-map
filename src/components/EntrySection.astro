@@ -81,7 +81,9 @@ const hasImplementation = entry.isPilot || entry.architectureClaims.length > 0 |
                   )}
                 </dd>
               ) : (
-                <dd class="is-unreported">N/A</dd>
+                <dd class="is-unreported">
+                  {row.state ? <><strong>{row.state === 'not-applicable' ? 'Not applicable' : row.state === 'not-reviewed' ? 'Not reviewed' : 'Not reported'}</strong>{row.note && <span>{row.note}</span>}</> : 'N/A'}
+                </dd>
               )}
             </>
           ))}
