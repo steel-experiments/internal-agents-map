@@ -551,4 +551,34 @@ test.describe('the site chrome', () => {
     await openPalette();
     await expect(facet.locator('.palette-pill')).not.toHaveClass(/is-on/);
   });
+  test('the filter button says whether the sheet is open', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'mobile', 'The filters are a sheet only on a phone.');
+    await page.goto('/');
+    await page.locator('[data-palette-open], .search-box').first().click();
+    await expect(page.locator('#palette')).toBeVisible();
+    const button = page.locator('.palette-filter-open');
+    await expect(button).toHaveAttribute('aria-expanded', 'false');
+    await button.click();
+    await expect(button).toHaveAttribute('aria-expanded', 'true');
+    await page.locator('.palette-back').click();
+    await expect(button).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  test('the sheet takes what it stands over out of reach', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'mobile', 'The filters are a sheet only on a phone.');
+    await page.goto('/');
+    await page.locator('[data-palette-open], .search-box').first().click();
+    await expect(page.locator('#palette')).toBeVisible();
+    const head = page.locator('.palette-search');
+    await page.locator('.palette-filter-open').click();
+    expect(await head.evaluate((el) => el.hasAttribute('inert'))).toBe(true);
+    // The field the sheet covers cannot be reached behind it, by tab or by script.
+    const reached = await page.evaluate(() => {
+      document.getElementById('palette-input')!.focus();
+      return document.activeElement?.id ?? '';
+    });
+    expect(reached).not.toBe('palette-input');
+    await page.locator('.palette-back').click();
+    expect(await head.evaluate((el) => el.hasAttribute('inert'))).toBe(false);
+  });
 });
