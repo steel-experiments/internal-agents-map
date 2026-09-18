@@ -205,6 +205,8 @@ export function startPalette(): void {
     const version = ++transition;
     closing = true;
     closeMenus();
+    // Going is not applying: a sheet left open takes its staged choices with it.
+    dropSheet();
     if (reducedMotion() || !panel) {
       closing = false;
       settle();
@@ -360,12 +362,14 @@ export function startPalette(): void {
     sheet(false);
     apply(true);
   });
-  palette.querySelector('.palette-back')?.addEventListener('click', () => {
-    // The sheet is left as it was found: its choices never reached the list.
-    if (staged) for (const facet of FACETS) chosen[facet] = new Set(staged[facet]);
+  /** Leave the sheet as it was found: its choices never reached the list. */
+  function dropSheet(): void {
+    if (!staged) return;
+    for (const facet of FACETS) chosen[facet] = new Set(staged[facet]);
     sheet(false);
     drawFacets();
-  });
+  }
+  palette.querySelector('.palette-back')?.addEventListener('click', dropSheet);
 
   input.addEventListener('input', () => apply());
   input.addEventListener('keydown', (event) => {

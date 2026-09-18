@@ -26,6 +26,12 @@ export function startNavMenu(): void {
 
   const set = (open: boolean, animated = true): void => {
     toggle.setAttribute('aria-expanded', String(open));
+    /*
+     * A wide screen has no menu to shut: the element this moves is the sidebar
+     * itself, standing in its column. Closing what is already closed would
+     * still fade it, so the menu answers only for the menu that is open.
+     */
+    if (!open && !menu.classList.contains('is-open')) return;
     moving?.stop();
     if (!animated || reducedMotion()) {
       menu.classList.toggle('is-open', open);

@@ -473,3 +473,70 @@ test.describe('the directory with javascript', () => {
     });
   });
 });
+
+/* The chrome around the page: the menu a phone opens, the dot a column carries,
+   and the sheet the filters become. Each is wired per page, for every width. */
+test.describe('the site chrome', () => {
+  test.skip(({ javaScriptEnabled }) => javaScriptEnabled === false, 'These cases need the script.');
+
+  test('leaves the sidebar alone when Escape closes something else', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'The sidebar is a column only on a wide screen.');
+    await page.goto('/');
+    // The menu answers Escape at every width, and the element it moves is the sidebar.
+    const sampling = page.evaluate(
+      () =>
+        new Promise<number>((resolve) => {
+          const sidebar = document.querySelector('.sidebar')!;
+          let lowest = 1;
+          const until = performance.now() + 500;
+          const tick = (): void => {
+            lowest = Math.min(lowest, Number(getComputedStyle(sidebar).opacity));
+            if (performance.now() < until) requestAnimationFrame(tick);
+            else resolve(lowest);
+          };
+          requestAnimationFrame(tick);
+        }),
+    );
+    await page.keyboard.press('Escape');
+    expect(await sampling).toBe(1);
+  });
+
+  test('carries the dot to its link when a narrow window is widened', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'One project is enough, and it can resize.');
+    // A narrow screen hides the column, so the dot is placed against a laid-out one.
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/');
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const dot = document.querySelector<HTMLElement>('.nav-dot')!;
+          const current = document.querySelector<HTMLElement>('.nav-links a[aria-current="page"]')!;
+          return dot.style.top === `${current.offsetTop + current.offsetHeight / 2}px`;
+        }),
+      )
+      .toBe(true);
+  });
+
+  test('drops the filter sheet’s staged choices when the palette closes', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'mobile', 'The filters are a sheet only on a phone.');
+    const openPalette = async (): Promise<void> => {
+      await page.locator('[data-palette-open], .search-box').first().click();
+      await expect(page.locator('#palette')).toBeVisible();
+    };
+    await page.goto('/');
+    await openPalette();
+    await page.locator('.palette-filter-open').click();
+    const facet = page.locator('.palette-facet').nth(1);
+    await facet.locator('.palette-pill').click();
+    await facet.locator('.palette-option').first().click();
+    await expect(facet.locator('.palette-pill')).toHaveClass(/is-on/);
+
+    // Tapping the scrim is neither Apply nor Go back, so the choice never landed.
+    const panel = (await page.locator('.palette-panel').boundingBox())!;
+    await page.mouse.click(panel.x + panel.width / 2, Math.max(4, panel.y - 8));
+    await expect(page.locator('#palette')).toBeHidden();
+    await openPalette();
+    await expect(facet.locator('.palette-pill')).not.toHaveClass(/is-on/);
+  });
+});
