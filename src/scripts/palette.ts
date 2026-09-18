@@ -368,18 +368,34 @@ export function startPalette(): void {
     settleApply();
   };
 
+  const opener_ = palette.querySelector<HTMLButtonElement>('.palette-filter-open');
+
   const sheet = (open: boolean): void => {
     filters?.classList.toggle('is-open', open);
+    opener_?.setAttribute('aria-expanded', String(open));
+    /*
+     * The sheet stands over the whole panel, so what it covers leaves with it:
+     * the field and the two round controls are behind an opaque surface, and a
+     * reader who could still tab to them would be answering a question that is
+     * no longer on the screen.
+     */
+    search?.toggleAttribute('inert', open);
+    results?.toggleAttribute('inert', open);
     staged = open
       ? (Object.fromEntries(FACETS.map((facet) => [facet, [...chosen[facet]]])) as Record<Facet, string[]>)
       : null;
     if (!open) closeMenus();
     settleApply();
   };
-  palette.querySelector('.palette-filter-open')?.addEventListener('click', () => sheet(true));
+  opener_?.addEventListener('click', () => {
+    sheet(true);
+    // The sheet takes the focus it removed from the field behind it.
+    palette.querySelector<HTMLButtonElement>('.palette-pill')?.focus();
+  });
   apply_?.addEventListener('click', () => {
     sheet(false);
     apply(true);
+    input.focus();
   });
   /** Leave the sheet as it was found: its choices never reached the list. */
   function dropSheet(): void {
@@ -388,7 +404,10 @@ export function startPalette(): void {
     sheet(false);
     drawFacets();
   }
-  palette.querySelector('.palette-back')?.addEventListener('click', dropSheet);
+  palette.querySelector('.palette-back')?.addEventListener('click', () => {
+    dropSheet();
+    input.focus();
+  });
 
   input.addEventListener('input', () => apply());
   input.addEventListener('keydown', (event) => {
