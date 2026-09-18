@@ -130,6 +130,18 @@ test.describe('the directory with javascript', () => {
     });
   }
 
+  test('reopens the palette on a clean box after a close', async ({ page }) => {
+    await page.goto('/?q=github');
+    await page.keyboard.press('Meta+k');
+    await expect(page.locator('#palette')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#palette')).toBeHidden();
+    await page.keyboard.press('Meta+k');
+    await expect(page.locator('#palette')).toBeVisible();
+    // The close fades the blocks, so nothing it leaves can outlast it on the box.
+    expect(await page.evaluate(() => document.getElementById('palette')!.style.opacity)).toBe('');
+  });
+
   test('search launchers and shortcuts survive client navigation', async ({ page }) => {
     await page.goto('/definitions');
     // A document replacement would erase this marker and mask the regression.

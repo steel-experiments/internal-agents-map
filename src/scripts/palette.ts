@@ -195,11 +195,31 @@ export function startPalette(): void {
   };
 
   /** The closing animation, stopped if the palette opens again before its fill is gone. */
-  let leaving: { stop: () => void; finished: Promise<unknown> } | undefined;
+  let leaving: { stop: () => void; cancel: () => void; finished: Promise<unknown> } | undefined;
 
   let transition = 0;
   /** True while a close is still running, when the palette is neither open nor shut. */
   let closing = false;
+
+  /** The blocks the close fades, which are the ones the open brings back in. */
+  const fading = (): HTMLElement[] => [scrim, panel].filter((block): block is HTMLElement => block !== null);
+
+  /**
+   * Give the faded blocks their own opacity back.
+   *
+   * A stopped animation keeps its last value, and a frame already queued when
+   * it is stopped still writes that value afterwards, so clearing alone leaves
+   * the close's nothing behind. What makes this safe is not the clearing but
+   * the open: it animates the same property on the same blocks, so a stale
+   * value is overwritten rather than merely removed.
+   */
+  const release = (): void => {
+    leaving?.cancel();
+    for (const block of [palette, ...fading()]) {
+      for (const animation of block.getAnimations()) animation.cancel();
+      block.style.removeProperty('opacity');
+    }
+  };
   const close = (): void => {
     if (palette.hidden || closing) return;
     const version = ++transition;
@@ -212,8 +232,10 @@ export function startPalette(): void {
       settle();
       return;
     }
+    // The blocks fade, not the box holding them: an inline opacity left on the
+    // box would outlast the close and open the palette onto nothing.
     leaving = animate(
-      palette,
+      fading(),
       { opacity: [1, 0] },
       { duration: SHUT_SECONDS, ease: EASE },
     );
@@ -222,8 +244,7 @@ export function startPalette(): void {
       if (ended || version !== transition) return;
       ended = true;
       closing = false;
-      leaving?.stop();
-      palette.style.removeProperty('opacity');
+      release();
       settle();
     };
     leaving.finished.then(done, done);
@@ -235,9 +256,7 @@ export function startPalette(): void {
     if (!palette.hidden && !closing) return;
     transition += 1;
     closing = false;
-    // A finished close keeps its fill on the palette and would hide this open.
-    leaving?.stop();
-    palette.style.removeProperty('opacity');
+    release();
     opener = document.activeElement;
     palette.hidden = false;
     sheet(false);
