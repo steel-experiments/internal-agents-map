@@ -2,7 +2,7 @@
 // ABOUTME: There is no server adapter: every page is a file in dist/.
 
 import { defineConfig } from 'astro/config';
-import { annotationIntegration } from './scripts/site-annotation.ts';
+import { annotationIntegration, devFreshnessIntegration } from './scripts/site-annotation.ts';
 import { publicationIntegration } from './scripts/site-publication.ts';
 
 export default defineConfig({
@@ -17,5 +17,5 @@ export default defineConfig({
   },
   // ENABLE_ANNOTATIONS=1 opts the dev server into annotations; builds never include it.
   // Writes routing-manifest.json and checks dist/ against the declared routes.
-  integrations: [annotationIntegration(), publicationIntegration()],
+  integrations: [devFreshnessIntegration(), annotationIntegration(), publicationIntegration()],
 });

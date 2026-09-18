@@ -198,11 +198,17 @@ export function startPalette(): void {
   let leaving: { stop: () => void; finished: Promise<unknown> } | undefined;
 
   let transition = 0;
+  /** True while a close is still running, when the palette is neither open nor shut. */
+  let closing = false;
   const close = (): void => {
-    if (palette.hidden) return;
+    if (palette.hidden || closing) return;
     const version = ++transition;
+    closing = true;
     closeMenus();
+    // Going is not applying: a sheet left open takes its staged choices with it.
+    dropSheet();
     if (reducedMotion() || !panel) {
+      closing = false;
       settle();
       return;
     }
@@ -215,6 +221,7 @@ export function startPalette(): void {
     const done = (): void => {
       if (ended || version !== transition) return;
       ended = true;
+      closing = false;
       leaving?.stop();
       palette.style.removeProperty('opacity');
       settle();
@@ -224,13 +231,16 @@ export function startPalette(): void {
   };
 
   const open = (): void => {
-    if (!palette.hidden) return;
+    // A palette still closing is on its way out, not open: it reopens from there.
+    if (!palette.hidden && !closing) return;
     transition += 1;
+    closing = false;
     // A finished close keeps its fill on the palette and would hide this open.
     leaving?.stop();
     palette.style.removeProperty('opacity');
     opener = document.activeElement;
     palette.hidden = false;
+    sheet(false);
     apply();
     input.focus();
     input.select();
@@ -265,7 +275,17 @@ export function startPalette(): void {
       closeMenus(facet);
       menu.hidden = !opening;
       pill.setAttribute('aria-expanded', String(opening));
-      if (opening) bringIn(menu);
+      if (opening) {
+        // A menu near the right edge hangs from that edge rather than past it.
+        menu.style.removeProperty('right');
+        menu.style.removeProperty('left');
+        const room = palette.querySelector('.palette-panel')?.getBoundingClientRect();
+        if (room && menu.getBoundingClientRect().right > room.right) {
+          menu.style.left = 'auto';
+          menu.style.right = '0';
+        }
+        bringIn(menu);
+      }
     });
 
     for (const option of menu.querySelectorAll<HTMLButtonElement>('.palette-option')) {
@@ -280,11 +300,76 @@ export function startPalette(): void {
           count.textContent = String(chosen[key].size);
           count.hidden = chosen[key].size === 0;
         }
-        // The panel's head is pinned, so only its foot moves as the list changes.
-        apply(true);
+        // Behind the sheet the choices are only staged, so the list waits.
+        if (!staged) apply(true);
+        settleApply();
       });
     }
   }
+
+  /*
+   * On a phone the filters are a sheet: what is chosen there is staged against
+   * the values the sheet opened with, applied by its Apply and dropped by its
+   * Go back. Elsewhere there is no sheet, so a choice still lands at once.
+   */
+  const apply_ = palette.querySelector<HTMLButtonElement>('.palette-apply');
+  let staged: Record<Facet, string[]> | null = null;
+
+  /** Whether the staged choices differ from the ones the sheet opened with. */
+  const edited = (): boolean => {
+    const opened = staged;
+    if (!opened) return false;
+    return FACETS.some(
+      (facet) =>
+        chosen[facet].size !== opened[facet].length ||
+        opened[facet].some((value) => !chosen[facet].has(value)),
+    );
+  };
+
+  /** Apply commits: it waits for something to commit. */
+  const settleApply = (): void => {
+    if (apply_) apply_.disabled = !(FACETS.some((facet) => chosen[facet].size > 0) || edited());
+  };
+
+  /** Draw every pill and option from the values now chosen. */
+  const drawFacets = (): void => {
+    for (const facet of palette.querySelectorAll<HTMLElement>('.palette-facet')) {
+      const key = facet.dataset.facet as Facet | undefined;
+      if (!key) continue;
+      const count = facet.querySelector<HTMLElement>('.palette-pill-count');
+      facet.querySelector('.palette-pill')?.classList.toggle('is-on', chosen[key].size > 0);
+      if (count) {
+        count.textContent = String(chosen[key].size);
+        count.hidden = chosen[key].size === 0;
+      }
+      for (const option of facet.querySelectorAll<HTMLButtonElement>('.palette-option')) {
+        option.setAttribute('aria-pressed', String(chosen[key].has(option.dataset.value ?? '')));
+      }
+    }
+    settleApply();
+  };
+
+  const sheet = (open: boolean): void => {
+    filters?.classList.toggle('is-open', open);
+    staged = open
+      ? (Object.fromEntries(FACETS.map((facet) => [facet, [...chosen[facet]]])) as Record<Facet, string[]>)
+      : null;
+    if (!open) closeMenus();
+    settleApply();
+  };
+  palette.querySelector('.palette-filter-open')?.addEventListener('click', () => sheet(true));
+  apply_?.addEventListener('click', () => {
+    sheet(false);
+    apply(true);
+  });
+  /** Leave the sheet as it was found: its choices never reached the list. */
+  function dropSheet(): void {
+    if (!staged) return;
+    for (const facet of FACETS) chosen[facet] = new Set(staged[facet]);
+    sheet(false);
+    drawFacets();
+  }
+  palette.querySelector('.palette-back')?.addEventListener('click', dropSheet);
 
   input.addEventListener('input', () => apply());
   input.addEventListener('keydown', (event) => {
@@ -320,6 +405,19 @@ export function startPalette(): void {
       ) return;
       event.preventDefault();
       live.open();
+    });
+  }
+
+  // A phone has no shortcut key, so the whole box is the door, not its hint.
+  const narrow = (): boolean =>
+    typeof matchMedia === 'function' && matchMedia('(max-width: 800px)').matches;
+  for (const box of document.querySelectorAll<HTMLElement>('.search-box')) {
+    // Taking the press keeps the field from focusing and the keyboard from rising.
+    box.addEventListener('pointerdown', (event) => { if (narrow()) event.preventDefault(); });
+    box.addEventListener('click', (event) => {
+      if (!narrow()) return;
+      event.preventDefault();
+      open();
     });
   }
 

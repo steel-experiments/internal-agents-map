@@ -24,7 +24,7 @@ const hasImplementation = entry.isPilot || entry.architectureClaims.length > 0 |
             </div>
           </>
         ) : entry.coverageQuestions.workflow && (
-          <p class="review-state"><strong>{entry.coverageQuestions.workflow.stateLabel}:</strong> {entry.coverageQuestions.workflow.note}</p>
+          <p class="review-state" data-state={entry.coverageQuestions.workflow.state}><strong>{entry.coverageQuestions.workflow.stateLabel}:</strong> {entry.coverageQuestions.workflow.note}</p>
         )}
       </section>
     )}
@@ -37,7 +37,7 @@ const hasImplementation = entry.isPilot || entry.architectureClaims.length > 0 |
         Each scope pairs its normal attention boundary with supporting evidence. See the <a href="/definitions#supervision">supervision definitions</a> for the level mapping and limits.
       </p>}
       {!entry.isSupportingSystem && entry.isPilot && entry.coverageQuestions.human_involvement?.note && (
-        <p class="review-state"><strong>{entry.coverageQuestions.human_involvement.stateLabel}:</strong> {entry.coverageQuestions.human_involvement.note}</p>
+        <p class="review-state" data-state={entry.coverageQuestions.human_involvement.state}><strong>{entry.coverageQuestions.human_involvement.stateLabel}:</strong> {entry.coverageQuestions.human_involvement.note}</p>
       )}
       {!entry.isSupportingSystem && entry.operatingModels.length > 0 && (
         <ul class="scope-list">

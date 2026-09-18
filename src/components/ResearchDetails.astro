@@ -57,8 +57,10 @@ const aliasById = new Map(aliasRelations.map((item) => [item.claim.id, item]));
             {claim.citations.map((citation) => (
               <li>
                 <span class:list={['relation', `relation-${citation.relation}`]}>{citation.relationLabel}</span>
-                <a href={`#${citation.anchor}`}>{citation.title}</a>
-                {citation.locator && <span class="locator">{citation.locator}</span>}
+                <span class="citation-source">
+                  <a href={`#${citation.anchor}`}>{citation.title}</a>
+                  {citation.locator && <span class="locator">{citation.locator}</span>}
+                </span>
               </li>
             ))}
           </ul>

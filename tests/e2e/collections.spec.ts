@@ -8,6 +8,8 @@ for (const [path, section] of [['/', 'agents'], ['/infrastructure', 'infrastruct
     await page.goto(path!);
     await expect(page.locator('article.entry:visible')).toHaveCount(count(section!));
     await expect(page.locator(`article.entry[data-collection="${section === 'agents' ? 'infrastructure' : 'agents'}"]:visible`)).toHaveCount(0);
+    const menu = page.locator('.nav-toggle');
+    if (await menu.isVisible()) await menu.click();
     await expect(page.locator('.sidebar a[href="/infrastructure"]')).toBeVisible();
     await expect(page.locator('.sidebar a[href="/"]')).toBeVisible();
   });

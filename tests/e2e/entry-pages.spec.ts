@@ -113,7 +113,7 @@ for (const entry of ENTRIES) {
       await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
 
       await expect(page.locator('#sources')).toBeVisible();
-      await expect(page.locator('#related')).toBeVisible();
+      await expect(page.locator('.page-back-end')).toBeVisible();
       if (entry.id !== 'plaid-internal-mcp-server') {
       await expect(
         page.locator('#human-involvement a[href="/definitions#supervision"]'),
@@ -227,6 +227,13 @@ test.describe('page-content pilot', () => {
     expect(await (await request.get('/agents/linear-agent.md')).text()).toContain(note);
   });
 
+  test('says why an architecture field is unreported, as the Markdown export does', async ({ page, request }) => {
+    await page.goto('/agents/airbnb-airchat');
+    const note = 'The captures describe internal context through MCP servers and configuration files, not a separate knowledge store.';
+    await expect(page.locator('#implementation .is-unreported', { hasText: note })).toBeVisible();
+    expect(await (await request.get('/agents/airbnb-airchat.md')).text()).toContain(note);
+  });
+
   test('keeps Sentry code-size exclusions in the canonical observation', async ({ page, request }) => {
     await page.goto('/agents/sentry-junior');
     await expect(page.locator('#results')).toContainText('excluding tests, evals, docs, and lockfiles');
@@ -240,7 +247,17 @@ test.describe('page-content pilot', () => {
       await page.goto(`/agents/${id}`);
       const record = CATALOG.approaches.find((item) => item.id === id)!;
       const questionBySection: Record<string, string> = { '#how-it-works': 'workflow', '#validation': 'validation', '#results': 'observations', '#lessons': 'lessons' };
-      const selectors = ['#purpose', '#how-it-works', '#human-involvement', '#implementation', '#validation', '#results', '#lessons', '#sources'].filter((selector) => !(record.catalog_section === 'infrastructure' && questionBySection[selector] && record.page_content.questions[questionBySection[selector]!]!.state === 'not-applicable'));
+      // A section that would only say nothing was reported is not rendered at all,
+      // so validation and lessons appear where the evidence gives them something.
+      const stateOf = (selector: string): string | undefined =>
+        questionBySection[selector]
+          ? record.page_content.questions[questionBySection[selector]!]?.state
+          : undefined;
+      const selectors = ['#purpose', '#how-it-works', '#human-involvement', '#implementation', '#validation', '#results', '#lessons', '#sources'].filter(
+        (selector) =>
+          !(record.catalog_section === 'infrastructure' && stateOf(selector) === 'not-applicable') &&
+          !(['#validation', '#lessons'].includes(selector) && stateOf(selector) !== 'reported' && stateOf(selector) !== 'mixed'),
+      );
       for (const selector of selectors) {
         await expect(page.locator(selector), selector).toBeVisible();
       }

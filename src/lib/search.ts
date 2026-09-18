@@ -10,9 +10,9 @@ export type FacetKey = (typeof FACET_KEYS)[number];
 /** The name each facet shows next to a chip or a suggestion. */
 export const FACET_LABELS: Record<FacetKey, string> = {
   work: 'Work domain',
-  type: 'Approach type',
+  type: 'Approach',
   invocation: 'Work modes',
-  supervision: 'Human supervision',
+  supervision: 'Supervision',
 };
 
 /** One value a facet can take, with the other spellings a person can type for it. */

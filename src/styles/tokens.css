@@ -28,12 +28,19 @@ html {
   --ease-out: cubic-bezier(.22, 1, .36, 1);
   --hover-in: 120ms;
   --hover-out: 220ms;
+  /* The type scale. A phone is held further from the eye than it is wide,
+     so every step above the smallest grows by two there. */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-md: 16px;
+  --text-lg: 20px;
+  --text-xl: 32px;
   /* A triangle, for the markers that are not catalog entries. */
   --triangle: polygon(50% 0%, 100% 100%, 0% 100%);
   font-family: Areal, Arial, Helvetica, sans-serif;
   color: var(--ink);
   background: #fff;
-  font-size: 14px;
+  font-size: var(--text-sm);
   line-height: 1.6;
 }
 * {
@@ -72,10 +79,10 @@ h1, h2, h3, h4 {
 p {
   margin: 0;
 }
-h1 { font-size: 20px; margin-bottom: 16px; }
-h2 { font-size: 16px; }
-h3 { font-size: 16px; }
-h4 { font-size: 16px; }
+h1 { font-size: var(--text-lg); margin-bottom: 16px; }
+h2 { font-size: var(--text-md); }
+h3 { font-size: var(--text-md); }
+h4 { font-size: var(--text-md); }
 /* Inline emphasis uses tone while preserving the surrounding text weight. */
 strong, b { font-weight: inherit; color: var(--ink); }
 p + p { margin-top: 16px; }
@@ -102,19 +109,41 @@ details[open] > summary::before { transform: rotate(90deg); }
   white-space: nowrap;
 }
 .eyebrow {
-  font-size: 14px;
+  font-size: var(--text-sm);
   color: var(--muted);
 
 }
 .lede {
-  font-size: 14px;
+  font-size: var(--text-sm);
   line-height: 1.45;
   letter-spacing: -.02em;
   margin-top: 24px;
   max-width: 630px;
 }
 @media (max-width: 800px) {
+  /* A phone's scrollbar floats over the page, so no column is held for it. */
+  html { scrollbar-gutter: auto; }
+  :root {
+    --text-xs: 14px;
+    --text-sm: 16px;
+    --text-md: 18px;
+    --text-lg: 22px;
+  }
   .lede { margin-top: 16px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes page-leave { to { opacity: 0; filter: blur(6px); } }
+  @keyframes page-arrive { from { opacity: 0; filter: blur(6px); } }
+  /* The navigation is the one thing that does not change between pages, so it
+     is captured apart from the rest and crosses the change untouched. */
+  /* A name has to be its own: two elements sharing one aborts the transition. */
+  .sidebar { view-transition-name: sidebar; }
+  .topbar { view-transition-name: topbar; }
+  ::view-transition-group(sidebar), ::view-transition-group(topbar) { animation: none; }
+  ::view-transition-old(sidebar), ::view-transition-new(sidebar),
+  ::view-transition-old(topbar), ::view-transition-new(topbar) { animation: none; mix-blend-mode: normal; }
+  ::view-transition-old(root) { animation: page-leave 180ms var(--ease-out) both; }
+  ::view-transition-new(root) { animation: page-arrive 260ms var(--ease-out) 120ms both; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; }

@@ -13,7 +13,6 @@ import {
   WORK_MODES_DESCRIPTION,
   DEFINITIONS_CHART,
   DEFINITIONS_DESCRIPTION,
-  DEFINITIONS_EYEBROW,
   DEFINITIONS_HEADING,
   DEFINITIONS_INTRO,
   DEFINITIONS_LEDE,
@@ -68,7 +67,6 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
   structuredData={graph}
 >
   <header class="guide-header">
-    <p class="eyebrow">{DEFINITIONS_EYEBROW}</p>
     <h1>{DEFINITIONS_HEADING}</h1>
     <p class="lede">{DEFINITIONS_LEDE}</p>
     {DEFINITIONS_INTRO.map((block) => <p><Inline parts={block} /></p>)}
@@ -80,26 +78,47 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
       <p><Inline parts={scope.definition} /></p>
     </div>
     <figure class="scope-figure">
-      <svg viewBox="0 0 684 385" role="img" aria-label={scope.diagramLabel} data-signals>
+      <svg class="scope-wide" viewBox="0 0 684 385" role="img" aria-label={scope.diagramLabel} data-signals>
         <rect class="scope-frame" x="0.5" y="0.5" width="683" height="384" rx="15.5"/>
         <text class="scope-label" x="20" y="36">Organization</text>
         <path class="scope-link signal-path" id="scope-link-0" d="M202 192 C 296 192, 340 106, 456 106"/>
         <path class="scope-link signal-path" id="scope-link-1" d="M202 192 C 296 192, 340 192, 456 192"/>
         <path class="scope-link signal-path" id="scope-link-2" d="M202 192 C 296 192, 340 278, 456 278"/>
         <circle class="scope-node scope-agent" cx="190" cy="192" r="10"/>
-        <text class="scope-label" x="190" y="168" text-anchor="middle">Agent</text>
+        <text class="scope-label" x="190" y="164" text-anchor="middle">Agent</text>
         <circle class="scope-node" cx="462" cy="106" r="6"/>
         <circle class="scope-node" cx="462" cy="192" r="6"/>
         <circle class="scope-node" cx="462" cy="278" r="6"/>
-        <text class="scope-label" x="484" y="111">Knowledge</text>
-        <text class="scope-label" x="484" y="197">Tools</text>
-        <text class="scope-label" x="484" y="283">Workflows</text>
+        <text class="scope-label" x="488" y="111">Knowledge</text>
+        <text class="scope-label" x="488" y="197">Tools</text>
+        <text class="scope-label" x="488" y="283">Workflows</text>
         <circle class="signal scope-signal" r="3" data-link="scope-link-0" data-delay="0" opacity="0"/>
         <circle class="signal scope-signal" r="3" data-link="scope-link-1" data-delay=".5" opacity="0"/>
         <circle class="signal scope-signal" r="3" data-link="scope-link-2" data-delay="1" opacity="0"/>
         <circle class="signal scope-signal" r="3" data-link="scope-link-0" data-delay="1.6" data-return opacity="0"/>
         <circle class="signal scope-signal" r="3" data-link="scope-link-1" data-delay="2.1" data-return opacity="0"/>
         <circle class="signal scope-signal" r="3" data-link="scope-link-2" data-delay="2.6" data-return opacity="0"/>
+      </svg>
+      <svg class="scope-portrait" viewBox="0 0 342 300" aria-hidden="true" data-signals>
+        <rect class="scope-frame" x="0.5" y="0.5" width="341" height="299" rx="15.5"/>
+        <text class="scope-label" x="16" y="28">Organization</text>
+        <path class="scope-link signal-path" id="scope-tall-0" d="M171 96 C 171 150, 70 150, 70 206"/>
+        <path class="scope-link signal-path" id="scope-tall-1" d="M171 96 C 171 150, 171 150, 171 206"/>
+        <path class="scope-link signal-path" id="scope-tall-2" d="M171 96 C 171 150, 272 150, 272 206"/>
+        <circle class="scope-node scope-agent" cx="171" cy="86" r="10"/>
+        <text class="scope-label" x="171" y="58" text-anchor="middle">Agent</text>
+        <circle class="scope-node" cx="70" cy="212" r="6"/>
+        <circle class="scope-node" cx="171" cy="212" r="6"/>
+        <circle class="scope-node" cx="272" cy="212" r="6"/>
+        <text class="scope-label" x="70" y="248" text-anchor="middle">Knowledge</text>
+        <text class="scope-label" x="171" y="248" text-anchor="middle">Tools</text>
+        <text class="scope-label" x="272" y="248" text-anchor="middle">Workflows</text>
+        <circle class="signal scope-signal" r="3" data-link="scope-tall-0" data-delay="0" opacity="0"/>
+        <circle class="signal scope-signal" r="3" data-link="scope-tall-1" data-delay=".5" opacity="0"/>
+        <circle class="signal scope-signal" r="3" data-link="scope-tall-2" data-delay="1" opacity="0"/>
+        <circle class="signal scope-signal" r="3" data-link="scope-tall-0" data-delay="1.6" data-return opacity="0"/>
+        <circle class="signal scope-signal" r="3" data-link="scope-tall-1" data-delay="2.1" data-return opacity="0"/>
+        <circle class="signal scope-signal" r="3" data-link="scope-tall-2" data-delay="2.6" data-return opacity="0"/>
       </svg>
     </figure>
     {scope.body.map((block) => <p><Inline parts={block} /></p>)}
@@ -220,7 +239,7 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
         <thead><tr><th>Boundary</th><th>Level</th><th>Human attention</th><th>Interpretation</th></tr></thead>
         <tbody>
           {supervision.rows.map((row) => (
-            <tr><th scope="row">{row.label}</th><td>{row.level}</td><td>{row.attention}</td><td>{row.meaning}</td></tr>
+            <tr><th scope="row">{row.label}</th><td data-label="Level"><span>{row.level}</span></td><td data-label="Human attention"><span>{row.attention}</span></td><td data-label="Interpretation"><span>{row.meaning}</span></td></tr>
           ))}
         </tbody>
       </table>
@@ -236,7 +255,7 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
         <thead><tr><th>Type</th><th>What it means</th></tr></thead>
         <tbody>
           {APPROACH_TYPE_DEFINITIONS.map((item) => (
-            <tr><th scope="row">{item.label}</th><td>{item.meaning}</td></tr>
+            <tr><th scope="row">{item.label}</th><td data-label="What it means"><span>{item.meaning}</span></td></tr>
           ))}
         </tbody>
       </table>
@@ -248,7 +267,7 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
         <thead><tr><th>Mode</th><th>What it means</th></tr></thead>
         <tbody>
           {INVOCATION_DEFINITIONS.map((item) => (
-            <tr><th scope="row">{item.label}</th><td>{item.meaning}</td></tr>
+            <tr><th scope="row">{item.label}</th><td data-label="What it means"><span>{item.meaning}</span></td></tr>
           ))}
         </tbody>
       </table>
@@ -266,7 +285,7 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
           <div class="place-machine">
             <span class="place-machine-title">Your computer</span>
             <div class="place-box"><i class="place-agent-dot" aria-hidden="true"></i></div>
-            <span class="place-callout"><svg viewBox="0 0 12 74" aria-hidden="true"><path d="M6 74 V1 M2 5.5 L6 1 L10 5.5"/></svg><span>Agent runs here</span></span>
+            <span class="place-callout"><svg viewBox="0 0 12 28" aria-hidden="true"><path d="M6 28 V1 M2 5.5 L6 1 L10 5.5"/></svg><span>Agent runs here</span></span>
           </div>
         </div>
       </figure>
@@ -284,7 +303,7 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
           <div class="place-machine">
             <span class="place-machine-title">Remote computer</span>
             <div class="place-box"><i class="place-agent-dot" aria-hidden="true"></i></div>
-            <span class="place-callout"><svg viewBox="0 0 12 74" aria-hidden="true"><path d="M6 74 V1 M2 5.5 L6 1 L10 5.5"/></svg><span>Agent runs here</span></span>
+            <span class="place-callout"><svg viewBox="0 0 12 28" aria-hidden="true"><path d="M6 28 V1 M2 5.5 L6 1 L10 5.5"/></svg><span>Agent runs here</span></span>
           </div>
         </div>
       </figure>

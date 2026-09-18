@@ -81,13 +81,18 @@ const contribute =
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="topbar">
   <a class="brand" href={homePath()}>Internal Agents Map</a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="mobile-nav">
+    <span class="visually-hidden">Menu</span>
+    <span class="nav-toggle-bars" aria-hidden="true"><span></span><span></span></span>
+  </button>
 </header>
 <div class="page-shell">
-  <aside class="sidebar">
+  <aside class="sidebar" id="mobile-nav">
     <nav aria-label="Main navigation">
       <div class="nav-links">
+        <span class="nav-dot" aria-hidden="true" hidden></span>
         <a href={homePath()} aria-current={current === 'catalog' ? 'page' : undefined}><Icon name="layers-two" />Agents</a>
-        <a href="/infrastructure" aria-current={current === 'infrastructure' ? 'page' : undefined}><Icon name="layers-two" />Infrastructure</a>
+        <a href="/infrastructure" aria-current={current === 'infrastructure' ? 'page' : undefined}><Icon name="server" />Infrastructure</a>
         <a href={notesIndexPath()} aria-current={current === 'notes' ? 'page' : undefined}><Icon name="note-text" />Notes</a>
         <a href={guidePath('definitions')} aria-current={current === 'definitions' ? 'page' : undefined}><Icon name="book" />Definitions</a>
         <a href={guidePath('methodology')} aria-current={current === 'methodology' ? 'page' : undefined}><Icon name="compass-round" />Methodology</a>
@@ -122,12 +127,16 @@ const contribute =
 <CommandPalette />
 <script>
   import { startContents } from '../scripts/contents';
+  import { startNavDot } from '../scripts/nav-dot';
+  import { startNavMenu } from '../scripts/nav-menu';
   import { startDisclosures } from '../scripts/disclosures';
   import { startPalette } from '../scripts/palette';
 
   // The router swaps the document rather than reloading it, so every page it
   // builds is wired here, not once at first load.
   document.addEventListener('astro:page-load', () => {
+    startNavDot();
+    startNavMenu();
     startContents();
     startDisclosures();
     startPalette();

@@ -49,7 +49,7 @@ const graph = structuredData([
         <h2><a href={note.path}>{notePreviewTitle(note)}</a></h2>
         <p class="note-summary">{note.summary}</p>
         <div class="tags">
-          {companies.get(note.slug)?.map((company) => <span class="tag">{company}</span>)}
+          {companies.get(note.slug)?.map((company) => <span class="tag tag-company">{company}</span>)}
           <span class="tag">{note.readingTime}</span>
         </div>
       </article>

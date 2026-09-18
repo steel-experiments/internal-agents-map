@@ -10,7 +10,7 @@
 .intro h1 { margin-top: 0; }
 .intro > h1 + p {
   max-width: 670px;
-  font-size: 14px;
+  font-size: var(--text-sm);
   color: var(--muted);
 }
 .stats {
@@ -26,19 +26,19 @@
 }
 .stat strong {
   display: block;
-  font-size: 16px;
+  font-size: var(--text-md);
   font-weight: 400;
   line-height: 1.2;
   letter-spacing: -.04em;
 }
 .stat span {
-  font-size: 14px;
+  font-size: var(--text-sm);
   color: var(--muted);
 }
 
 /* Search form. It stays hidden until the script that makes it work runs. */
 #filters input {
-  font-size: 14px;
+  font-size: var(--text-sm);
   max-width: 100%;
   min-width: 0;
 }
@@ -91,7 +91,7 @@
   align-items: center;
 }
 /* Announced through aria-describedby; the pill has no room to show it. */
-.search-help { font-size: 12px; color: var(--sand-10); }
+.search-help { font-size: var(--text-xs); color: var(--sand-10); }
 
 /* A selected facet term, inside the pill. */
 .chips {
@@ -109,11 +109,11 @@
   padding: 3px 8px 3px 11px;
   border-radius: 999px;
   background: rgba(255, 255, 255, .16);
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: #fff;
 }
 .chip-key {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: rgba(255, 255, 255, .7);
   white-space: nowrap;
 }
@@ -122,7 +122,7 @@
   min-height: 0;
   border: 0;
   background: none;
-  font-size: 14px;
+  font-size: var(--text-sm);
   line-height: 1;
   color: rgba(255, 255, 255, .7);
   cursor: pointer;
@@ -155,7 +155,7 @@
   gap: 12px;
   padding: 8px 12px;
   border-radius: 999px;
-  font-size: 14px;
+  font-size: var(--text-sm);
   cursor: pointer;
 }
 .suggestion .chip-key { min-width: 120px; }
@@ -235,7 +235,7 @@
   background: rgba(255, 255, 255, .1);
   color: rgba(255, 255, 255, .55);
   font: inherit;
-  font-size: 12px;
+  font-size: var(--text-xs);
   line-height: 1;
   white-space: nowrap;
 }
@@ -276,6 +276,9 @@
 .entry-box:hover h3 a { color: var(--sand-11); }
 .entry-box:hover .entry-summary { color: var(--sand-9); }
 .entry-box:hover .tag { color: var(--sand-9); }
+/* An accent badge is not dimmed with the rest: it stands as it is. */
+.entry-box:hover .tags > .tag:first-child,
+.entry-box:hover .tags > .tag-company { color: var(--blue-9); }
 }
 /* The heading link covers the container, so the whole card opens the entry. */
 .entry-box h3 a::after {
@@ -292,21 +295,21 @@
   margin-bottom: 8px;
 }
 .company {
-  font-size: 12px;
+  font-size: var(--text-xs);
   font-weight: 400;
 }
 .entry-type {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--muted);
 }
-.entry h3 { margin-bottom: 0; font-size: 16px; }
+.entry h3 { margin-bottom: 0; font-size: var(--text-md); }
 .entry h3 a {
   color: var(--ink);
   text-decoration: none;
 }
 
 .entry-summary {
-  font-size: 14px;
+  font-size: var(--text-sm);
   line-height: 1.65;
   max-width: 740px;
   color: var(--sand-10);
@@ -317,11 +320,14 @@
   gap: 8px;
   margin: 10px 0 12px;
 }
+/* The badge that names what a record is, or whose it is, carries the accent. */
+.tags > .tag:first-child,
+.tags > .tag-company { background: var(--blue-3); color: var(--blue-9); }
 .tag {
   background: var(--sand-3);
-  font-size: 14px;
+  font-size: var(--text-sm);
   line-height: 16px;
-  padding: 2px 9px;
+  padding: 3px 9px;
   border-radius: 999px;
   color: var(--sand-10);
 }
@@ -338,7 +344,7 @@
   margin-bottom: 24px;
   border-radius: 10px;
   background: var(--sand-3);
-  font-size: 14px;
+  font-size: var(--text-sm);
   color: var(--sand-12);
   text-decoration: none;
 }
@@ -348,7 +354,7 @@
 }
 .contribution-invite strong {
   display: block;
-  font-size: 16px;
+  font-size: var(--text-md);
   font-weight: 500;
   color: var(--ink);
 }
@@ -380,12 +386,12 @@
 }
 /* The action that carries the reader onward. */
 .button-solid {
-  background: var(--sand-12);
-  color: var(--sand-1);
+  background: var(--blue-9);
+  color: #fff;
 }
 /* Already dark, so this one lifts toward the page instead of away from it. */
 @media (hover: hover) {
-.button-solid:hover { background: var(--sand-11); }
+.button-solid:hover { background: var(--blue-10); }
 }
 
 @media (hover: hover) {
@@ -394,12 +400,12 @@
 /* The bar that closes an entry sits below the last section, not above one. */
 .page-back-end {
   margin: 24px 0 0;
-  background: var(--sand-12);
-  color: var(--sand-1);
+  background: var(--blue-9);
+  color: #fff;
 }
 /* Already dark, so this one lifts toward the page instead of away from it. */
 @media (hover: hover) {
-.page-back-end:hover { background: var(--sand-11); }
+.page-back-end:hover { background: var(--blue-10); }
 }
 .entry-header { padding-bottom: 8px; }
 .entry-header h1 {
@@ -407,14 +413,14 @@
   max-width: 700px;
 }
 .entry-header .lede {
-  font-size: 14px;
+  font-size: var(--text-sm);
   line-height: 1.5;
 }
 .notice {
   padding: 20px;
   margin-top: 24px;
   max-width: 680px;
-  font-size: 14px;
+  font-size: var(--text-sm);
   background: var(--sand-3);
   border-radius: 16px;
 }
@@ -432,7 +438,7 @@
   padding: 24px 0;
 }
 .entry-facts dt {
-  font-size: 14px;
+  font-size: var(--text-sm);
   color: var(--muted);
 }
 .entry-facts dd {
@@ -465,7 +471,7 @@
 .step-panel .claim-marked > .icon { width: 20px; height: 20px; }
 .entry-section > .section-note {
   color: var(--muted);
-  font-size: 14px;
+  font-size: var(--text-sm);
   max-width: 680px;
   margin-top: 8px;
 }
@@ -492,7 +498,7 @@
 /* The observation takes its own row, starting at the mark's edge. */
 .claim-marked > .observed { grid-column: 1 / -1; margin-top: 0; }
 .entry-section h3 {
-  font-size: 16px;
+  font-size: var(--text-md);
   margin: 32px 0 12px;
 }
 .scope-list {
@@ -517,7 +523,7 @@
 .scope-list li > span {
   display: block;
   margin-top: 4px;
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--muted);
 }
 .term-list {
@@ -532,7 +538,7 @@
 .term-list span {
   display: inline-block;
   background: var(--sand-3);
-  font-size: 12px;
+  font-size: var(--text-xs);
   line-height: 14px;
   padding: 3px 9px;
   border-radius: 999px;
@@ -542,18 +548,18 @@
 /* Claims */
 .claim {
   padding: 16px 0;
-  font-size: 14px;
+  font-size: var(--text-sm);
 }
 .claim-label {
   display: block;
-  font-size: 14px;
+  font-size: var(--text-sm);
   color: var(--muted);
   margin-bottom: 8px;
 }
 /* The kind sits inside the label, so it inherits its size and colour. */
 .claim-kind { color: inherit; }
 .claim-text {
-  font-size: 14px;
+  font-size: var(--text-sm);
   line-height: 1.6;
   max-width: 680px;
 }
@@ -562,7 +568,7 @@
   flex-wrap: wrap;
   gap: 8px 12px;
   margin-top: 12px;
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--sand-10);
 }
 .citations-label {
@@ -588,7 +594,7 @@
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   margin-top: 12px;
-  font-size: 14px;
+  font-size: var(--text-sm);
   color: var(--muted);
   border: .5px solid var(--sand-6);
   border-radius: 14px;
@@ -626,12 +632,19 @@
 .architecture .is-unreported { color: var(--sand-9); }
 .architecture-note,
 .architecture .is-unreported span { display: block; margin-top: 4px; font-size: var(--text-sm); }
-.review-state { padding: 14px 16px; background: var(--sand-2); border: .5px solid var(--sand-6); border-radius: 8px; color: var(--sand-11); }
+.review-state { color: var(--sand-11); }
+.review-state[data-state="reported"],
+.review-state[data-state="mixed"] {
+  padding: 16px;
+  background: var(--sand-3);
+  border-radius: 14px;
+  color: var(--sand-12);
+}
 .research-only-claim p { margin: 6px 0 0; }
 .architecture-caveats {
   display: block;
   margin-top: 8px;
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--sand-9);
 }
 .architecture-caveats span + span::before { content: " \00B7 "; }
@@ -688,18 +701,18 @@
 }
 .observed {
   margin-top: 12px;
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--sand-10);
 }
 .qualification {
   margin-top: 12px;
-  font-size: 12px;
+  font-size: var(--text-xs);
   max-width: 680px;
 
 }
 .conflict {
   margin-top: 12px;
-  font-size: 14px;
+  font-size: var(--text-sm);
 
 }
 .conflict strong {
@@ -708,7 +721,7 @@
   font-weight: 400;
 }
 .claim-details {
-  font-size: 14px;
+  font-size: var(--text-sm);
   color: var(--muted);
   margin-top: 12px;
 }
@@ -718,7 +731,7 @@
   gap: 8px;
   cursor: pointer;
   width: fit-content;
-  font-size: 14px;
+  font-size: var(--text-sm);
 }
 .claim-details summary::before { content: none; }
 .claim-details summary .icon { flex: none; }
@@ -756,14 +769,15 @@
   gap: 0;
 }
 .evidence .relation,
-.evidence a { padding: 10px 12px; line-height: 20px; border-top: .5px solid var(--sand-6); }
+.evidence .citation-source { padding: 10px 12px; line-height: 20px; border-top: .5px solid var(--sand-6); }
+.evidence .citation-source { display: block; min-width: 0; }
 .evidence .relation { border-right: .5px solid var(--sand-6); }
 .relation {
   font-weight: 400;
   color: var(--ink);
 }
-/* The locator belongs under its source, not back in the label column. */
-.evidence .locator { grid-column: 2; padding: 0 12px 10px; }
+/* The locator belongs under its source, in the same cell rather than a row of its own. */
+.evidence .locator { margin-top: 4px; }
 .relation-contradicts { color: #a1392d; }
 .locator {
   display: block;
@@ -792,6 +806,7 @@
 }
 
 /* Related reading */
+.related-list > li:has(> h3) { grid-column: 1 / -1; }
 .related-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -811,7 +826,7 @@
   padding: 16px;
   border-radius: 14px;
   background: var(--sand-3);
-  font-size: 14px;
+  font-size: var(--text-sm);
   line-height: 20px;
 }
 .related-kind {
@@ -855,7 +870,7 @@
   padding: 16px;
   border-radius: 14px;
   background: var(--sand-3);
-  font-size: 14px;
+  font-size: var(--text-sm);
   line-height: 20px;
 }
 .doc-card .icon { color: var(--sand-10); }
@@ -878,7 +893,7 @@
   flex-wrap: wrap;
   gap: 12px 24px;
   margin-top: 24px;
-  font-size: 14px;
+  font-size: var(--text-sm);
 }
 
 .entry-summary, .source-url, dd, .locator, .claim > p {
@@ -889,35 +904,95 @@
   .related-list, .doc-links { grid-template-columns: minmax(0, 1fr); }
   .intro > h1 + p { display: none; }
   .intro { padding-bottom: 24px; }
-  .stats { gap: 32px; margin-top: 24px; }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 16px;
+    margin-top: 24px;
+  }
+  .stat + .stat { border-left: 0; padding-left: 0; }
   .entry-top { align-items: start; }
-  .entry-header .lede { font-size: 16px; }
-  /* A narrow screen runs each field into one wrapped line instead of two rows. */
-  .caveats, .claim-details dl {
+  .entry-header .lede { font-size: var(--text-md); }
+  /*
+   * A narrow screen has no room for two columns, so each field stands over its
+   * value and the pairs are set apart. The rules that divided the columns would
+   * be stray lines here, so they go.
+   */
+  .caveats, .architecture, .concept-combination dl {
     display: block;
     margin-top: 12px;
-  }
-  .ledger, .ledger > li, .evidence, .evidence li { display: block; }
-  .ledger > li + li { margin-top: 16px; }
-  .claim-details dl { margin: 0; padding: 16px; }
-  .claim-details dt, .claim-details dd { padding: 0; border-top: 0; }
-  /* Stacked fields are no longer a grid, so the table's rules would be stray lines. */
-  .caveats {
+    padding: 0;
     border: 0;
     border-radius: 0;
+    background: none;
   }
-  .caveats dt, .caveats dd {
+  .caveats, .concept-combination dl { border: 0; border-radius: 0; padding: 0; }
+  .caveats dt, .caveats dd,
+  .architecture dt, .architecture dd,
+  .concept-combination dt, .concept-combination dd {
+    display: block;
     padding: 0;
     border: 0;
     background: none;
   }
-  .caveats dt, .claim-details dt { display: inline; }
-  .caveats dt::after, .claim-details dt::after { content: ": "; }
-  .caveats dd, .claim-details dd { display: inline; }
-  .caveats dd::after, .claim-details dd::after {
-    content: "";
+  /* Each pair keeps the table's two rows: its name on sand, its value on white. */
+  .caveats dt, .architecture dt, .concept-combination dt {
+    padding: 10px 12px;
+    background: var(--sand-3);
+    border: .5px solid var(--sand-6);
+    border-bottom: 0;
+    border-radius: 12px 12px 0 0;
+    color: var(--ink);
+  }
+  .caveats dd:last-of-type,
+  .architecture dd:last-of-type { border-bottom: .5px solid var(--sand-6); }
+  .caveats dd, .architecture dd, .concept-combination dd {
+    padding: 10px 12px;
+    background: #fff;
+    border: .5px solid var(--sand-6);
+    border-radius: 0 0 12px 12px;
+  }
+  .caveats dt:not(:first-of-type),
+  .architecture dt:not(:first-of-type) { margin-top: 12px; }
+  .concept-combination dl > div { display: block; }
+  .concept-combination dl > div + div { margin-top: 12px; }
+  /* A real table stacks the same way, each cell named by the column it left. */
+  .classification-table { border: 0; border-radius: 0; }
+  .classification-table table,
+  .classification-table tbody,
+  .classification-table tr,
+  .classification-table th,
+  .classification-table td { display: block; }
+  .classification-table thead { display: none; }
+  .classification-table tbody tr { padding: 0; border: 0; }
+  .classification-table tbody tr + tr { margin-top: 16px; }
+  .classification-table tbody th {
+    padding: 0;
+    border: 0;
+    background: none;
+    font-weight: 500;
+  }
+  .classification-table tbody td {
+    margin-top: 12px;
+    padding: 0;
+    border: 0;
+  }
+  .classification-table tbody td::before {
+    content: attr(data-label);
     display: block;
-    height: 5px;
+    padding: 10px 12px;
+    background: var(--sand-3);
+    border: .5px solid var(--sand-6);
+    border-radius: 12px 12px 0 0;
+    color: var(--ink);
+  }
+  .classification-table tbody td > span {
+    display: block;
+    padding: 10px 12px;
+    background: #fff;
+    border: .5px solid var(--sand-6);
+    border-top: 0;
+    border-radius: 0 0 12px 12px;
   }
   .claim { padding: 16px 0; }
   .sources li { padding: 8px 0; }
@@ -952,7 +1027,7 @@
 .ledger-title {
   grid-column: 1 / -1;
   display: block;
-  font-size: 14px;
+  font-size: var(--text-sm);
   font-weight: 400;
   color: var(--ink);
   text-decoration: none;
@@ -979,7 +1054,7 @@
   background: rgba(33, 32, 28, .72);
   backdrop-filter: blur(16px);
   box-shadow: 0 4px 14px rgba(33, 32, 28, .1);
-  font-size: 14px;
+  font-size: var(--text-sm);
   text-align: left;
 }
 .search-launcher .icon { flex: none; color: rgba(255, 255, 255, .55); }
@@ -1030,11 +1105,13 @@
   outline: none;
   color: inherit;
   font: inherit;
-  font-size: 16px;
+  font-size: var(--text-md);
 }
 #palette-input::placeholder { color: rgba(255, 255, 255, .4); }
 #palette-input::-webkit-search-cancel-button { display: none; }
+.palette-round, .palette-filters-foot { display: none; }
 .palette-filters { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px; }
+.palette-facet { flex: none; }
 .palette-facet { position: relative; }
 .palette-pill {
   display: inline-flex;
@@ -1046,7 +1123,7 @@
   border-radius: 999px;
   background: rgba(255, 255, 255, .08);
   color: rgba(255, 255, 255, .78);
-  font-size: 14px;
+  font-size: var(--text-sm);
   line-height: 1;
 }
 .palette-pill-label { display: block; }
@@ -1062,7 +1139,7 @@
   height: 16px;
   border-radius: 999px;
   background: rgba(255, 255, 255, .22);
-  font-size: 12px;
+  font-size: var(--text-xs);
   line-height: 1;
   text-align: center;
 }
@@ -1095,7 +1172,7 @@
   border-radius: 8px;
   background: none;
   color: rgba(255, 255, 255, .8);
-  font-size: 14px;
+  font-size: var(--text-sm);
   text-align: left;
 }
 @media (hover: hover) {
@@ -1122,7 +1199,7 @@
   margin: 0;
   padding: 12px 8px 4px;
   color: rgba(255, 255, 255, .45);
-  font-size: 14px;
+  font-size: var(--text-sm);
 }
 .palette-group ul { list-style: none; margin: 0; padding: 0; }
 .palette-group li + li { margin-top: 4px; }
@@ -1134,19 +1211,100 @@
   padding: 8px;
   border-radius: 8px;
   color: rgba(255, 255, 255, .92);
-  font-size: 14px;
+  font-size: var(--text-sm);
   text-decoration: none;
 }
 .palette-item[aria-selected="true"] { background: rgba(255, 255, 255, .1); }
 @media (hover: hover) {
   .palette-item:hover { background: rgba(255, 255, 255, .1); }
 }
-.palette-item-title { min-width: 0; }
+.palette-item-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .palette-item-detail { flex: none; color: rgba(255, 255, 255, .45); }
-.palette-empty { padding: 24px 8px; color: rgba(255, 255, 255, .45); font-size: 14px; }
+.palette-empty { padding: 24px 8px; color: rgba(255, 255, 255, .45); font-size: var(--text-sm); }
 @media (max-width: 800px) {
+  /* A pill is a touch target here, so it carries four more than it reads. */
+  .tag { padding: 4px 11px; }
+  /* A table or a panel is dense, so it holds the size the page reads at
+     rather than the larger one a phone gives running text. */
+  .entry-facts { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
+  .classification-table,
+  .claim-details,
+  .caveats,
+  .architecture,
+  .concept-combination dl,
+  .evidence,
+  .ledger,
+  .ledger-title,
+  .step-panel,
+  .claim-text,
+  .claim-label,
+  .review-state,
+  .doc-card,
+  .related-card,
+  .tag,
+  .architecture-note,
+  .claim-details summary,
+  .organization-connections { font-size: 14px; }
+  .icon { width: 20px; height: 20px; }
+  .palette-pill { height: 40px; padding: 0 10px 0 14px; font-size: 16px; }
+  .palette-pill { justify-content: flex-start; }
+  #filters .search-shortcut, .search-launcher .search-shortcut { font-size: 16px; }
+  /* A finger, not a pointer: the page's own actions carry a full touch target. */
+  .button, .page-back { height: 44px; padding: 0 14px; }
+  .palette-pill .icon { margin-left: auto; }
+  .palette-pill-count { min-width: 24px; height: 24px; border-radius: 999px; }
+  .palette-option { min-height: 40px; font-size: 16px; }
+  /* The key hint gives way to two controls, and the filters become a sheet. */
+  .palette-hint { display: none; }
+  .palette-round {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .1);
+    color: rgba(255, 255, 255, .8);
+  }
+  .palette-round:active { background: rgba(255, 255, 255, .2); }
+  .palette-filters {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 16px;
+    overflow-y: auto;
+    background: #1a1917;
+  }
+  .palette-filters.is-open { display: flex; }
+  .palette-facet { width: 100%; }
+  .palette-pill { width: 100%; justify-content: space-between; }
+  .palette-menu {
+    position: static;
+    width: auto;
+    margin-top: 4px;
+    background: rgba(28, 27, 24, .92);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+  .palette-filters-foot { display: grid; gap: 8px; margin-top: auto; padding-top: 12px; }
+  .palette-apply, .palette-back {
+    display: block;
+    width: 100%;
+    height: 40px;
+    border: 0;
+    border-radius: 10px;
+    font-size: 16px;
+  }
+  .palette-apply { background: #fff; color: var(--sand-12); }
+  .palette-apply[disabled] { opacity: .4; }
+  .palette-back { background: rgba(255, 255, 255, .1); color: rgba(255, 255, 255, .8); }
   .palette { padding: 16px; align-content: center; }
-  .palette-panel { max-height: calc(100vh - 32px); }
+  .palette-panel { height: 65vh; max-height: calc(100vh - 32px); }
 }
 
 /* Separate the infrastructure group when all records are shown. */

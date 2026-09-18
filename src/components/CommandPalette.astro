@@ -79,8 +79,16 @@ const groups = [
         placeholder="Search for anything in the map…"
       />
       <kbd class="palette-hint">Esc</kbd>
+      <button type="button" class="palette-round palette-filter-open" aria-controls="palette-filters">
+        <span class="visually-hidden">Filters</span>
+        <Icon name="filter" size={18} />
+      </button>
+      <button type="button" class="palette-round" data-palette-dismiss>
+        <span class="visually-hidden">Close</span>
+        <Icon name="close" size={18} />
+      </button>
     </div>
-    <div class="palette-filters">
+    <div class="palette-filters" id="palette-filters">
       <div class="palette-facet" data-facet="group">
         <button type="button" class="palette-pill" aria-expanded="false">
           <span class="palette-pill-label">Content type</span>
@@ -92,7 +100,7 @@ const groups = [
             <li>
               <button type="button" class="palette-option" data-value={group.id} aria-pressed="false">
                 <span>{group.label}</span>
-                <Icon name="circle-check" size={16} />
+                <Icon name="check" size={16} />
               </button>
             </li>
           ))}
@@ -110,13 +118,17 @@ const groups = [
               <li>
                 <button type="button" class="palette-option" data-value={term.id} aria-pressed="false">
                   <span>{term.label}</span>
-                  <Icon name="circle-check" size={16} />
+                  <Icon name="check" size={16} />
                 </button>
               </li>
             ))}
           </ul>
         </div>
       ))}
+      <div class="palette-filters-foot">
+        <button type="button" class="palette-apply" disabled>Apply filters</button>
+        <button type="button" class="palette-back">Go back</button>
+      </div>
     </div>
     <div class="palette-results" id="palette-results" role="listbox" aria-label="Results">
       {groups.map((group) => (

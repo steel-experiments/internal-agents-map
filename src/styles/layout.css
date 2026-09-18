@@ -18,7 +18,7 @@
   position: sticky;
   top: 96px;
   align-self: start;
-  font-size: 14px;
+  font-size: var(--text-sm);
 }
 .contents[hidden] { display: none; }
 .contents-title {
@@ -69,17 +69,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 80px;
-  background: linear-gradient(to bottom, #fff 60%, rgba(255, 255, 255, 0));
+  height: 68px;
+  padding: 0 16px;
+  background: #fff;
+  border-bottom: .5px solid var(--sand-6);
 }
 .brand {
-  font-size: 16px;
+  font-size: var(--text-md);
   font-weight: 500;
   line-height: 1;
   color: var(--ink);
   text-decoration: none;
 }
 .nav-links {
+  position: relative;
   display: grid;
   gap: 12px;
 }
@@ -87,7 +90,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: var(--text-sm);
   color: var(--muted);
   text-decoration: none;
   width: fit-content;
@@ -112,22 +115,20 @@
 .nav-links a:hover { color: var(--accent); }
 .nav-links a[aria-current="page"] {
   position: relative;
-  color: var(--sand-12);
+  color: var(--blue-9);
 }
-.nav-links a[aria-current="page"]::before {
-  content: "";
+.nav-dot {
   position: absolute;
   left: -12px;
-  top: 50%;
   width: 6px;
   height: 6px;
   margin-top: -3px;
   border-radius: 50%;
-  background: var(--sand-12);
+  background: var(--blue-9);
 }
 .nav-links .contribute-link { color: var(--link); }
 .sidebar-note {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--muted);
   margin-top: 32px;
 }
@@ -143,7 +144,7 @@
 .page-shell { padding-bottom: 48px; }
 footer {
   color: var(--sand-10);
-  font-size: 14px;
+  font-size: var(--text-sm);
   margin-top: 32px;
 }
 /* The invite reads first, straight after the page it follows; the imprint
@@ -167,25 +168,76 @@ footer a { color: inherit; }
     padding: 24px 32px 32px calc(32px + 180px + 32px);
   }
 }
+/* Two bars that fold into a cross. */
+.nav-toggle { display: none; }
+.nav-toggle-bars {
+  display: grid;
+  gap: 5px;
+  width: 20px;
+}
+.nav-toggle-bars span {
+  display: block;
+  height: 1.5px;
+  border-radius: 2px;
+  background: var(--sand-12);
+  transform-origin: center;
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars span:first-child { transform: translateY(3.25px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars span:last-child { transform: translateY(-3.25px) rotate(-45deg); }
+@media (prefers-reduced-motion: no-preference) {
+  .nav-toggle-bars span { transition: transform 200ms var(--ease-out); }
+}
 @media (max-width: 800px) {
+  .topbar { justify-content: space-between; }
+  .nav-toggle {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-right: -10px;
+    border: 0;
+    background: none;
+  }
+  /* The menu covers the page below the bar that opens it. */
+  .sidebar {
+    position: fixed;
+    inset: 68px 0 0;
+    z-index: 19;
+    /* Stated rather than left to the containing block, which a captured
+       element does not always give the whole screen. */
+    width: 100%;
+    margin: 0;
+    padding: 8px 24px 24px;
+    overflow-y: auto;
+    background: #fff;
+  }
+  .sidebar { display: none; }
+  .sidebar.is-open { display: block; }
+  /* The menu is the page here, so it is not held apart from the change. */
+  .sidebar, .topbar { view-transition-name: none; }
+  .nav-dot { display: none; }
   .page-shell {
     display: block;
     padding: 24px 24px 0;
   }
   /* No sidebar column to clear, so the footer sits on the page's own margin. */
   .footer-inner { width: auto; padding: 24px; }
-  .sidebar {
-    margin-bottom: 24px;
-    padding-bottom: 24px;
-  }
   .sidebar nav { position: static; }
   .nav-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px 24px;
-    margin-top: 16px;
-    font-size: 14px;
+    display: grid;
+    gap: 0;
+    margin-top: 8px;
+    font-size: var(--text-md);
   }
+  .nav-links a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    width: auto;
+  }
+  .nav-links a[aria-current="page"] { color: var(--blue-9); }
+  .nav-links .icon { width: 20px; height: 20px; }
   .sidebar-note { display: none; }
   .footer-inner {
     flex-wrap: wrap;
