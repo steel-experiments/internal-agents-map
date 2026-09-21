@@ -1,0 +1,32 @@
+---
+// ABOUTME: Loads Google Analytics on the live site and reports one view per routed page.
+// ABOUTME: Any other host, such as a local preview or a test run, loads nothing and sends nothing.
+import { ORIGIN } from '../lib/routes';
+
+const MEASUREMENT_ID = 'G-NTD8LT2F06';
+const host = new URL(ORIGIN).hostname;
+---
+<script is:inline define:vars={{ id: MEASUREMENT_ID, host }}>
+  (function () {
+    if (location.hostname !== host) return;
+    const queue = (window['dataLayer'] = window['dataLayer'] || []);
+    // The tag reads each command from the arguments object, so keep that shape.
+    function gtag() {
+      queue.push(arguments);
+    }
+    gtag('js', new Date());
+    // The router swaps the document instead of reloading it, so the tag cannot
+    // count views by itself: astro:page-load reports each one, the first included.
+    gtag('config', id, { send_page_view: false });
+    document.addEventListener('astro:page-load', function () {
+      gtag('event', 'page_view', {
+        page_location: location.href,
+        page_title: document.title,
+      });
+    });
+    const tag = document.createElement('script');
+    tag.async = true;
+    tag.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+    document.head.append(tag);
+  })();
+</script>

@@ -2,6 +2,7 @@
 // ABOUTME: The shared page frame: head metadata, sidebar navigation, and footer.
 // ABOUTME: Every page passes its own title, description, and structured data.
 import '../styles/site.css';
+import Analytics from '../components/Analytics.astro';
 import ContributionInvite from '../components/ContributionInvite.astro';
 import { ClientRouter } from 'astro:transitions';
 import CommandPalette from '../components/CommandPalette.astro';
@@ -50,6 +51,7 @@ const contribute =
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <Analytics />
   <title>{title}</title>
   <meta name="description" content={description} />
   {noindex && <meta name="robots" content="noindex" />}
