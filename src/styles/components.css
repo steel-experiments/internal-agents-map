@@ -398,15 +398,7 @@
 .page-back:hover { background: var(--sand-4); }
 }
 /* The bar that closes an entry sits below the last section, not above one. */
-.page-back-end {
-  margin: 24px 0 0;
-  background: var(--blue-9);
-  color: #fff;
-}
-/* Already dark, so this one lifts toward the page instead of away from it. */
-@media (hover: hover) {
-.page-back-end:hover { background: var(--blue-10); }
-}
+.page-back-end { margin: 24px 0 0; }
 .entry-header { padding-bottom: 8px; }
 .entry-header h1 {
   margin-top: 12px;

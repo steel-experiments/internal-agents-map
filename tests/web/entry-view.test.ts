@@ -7,6 +7,7 @@ import {
   CARD_SUMMARY_LIMIT,
   directoryCards,
   entryView,
+  pageProfile,
   type ClaimView,
 } from '../../src/lib/entry-view';
 
@@ -357,5 +358,12 @@ describe('the results of an entry', () => {
     expect(claim!.kind).toBe('opinion');
     expect(claim!.kindLabel).toBe('Opinion');
     expect(entry.metricClaims.map((item) => item.id)).not.toContain(claim!.id);
+  });
+});
+
+describe('pageProfile', () => {
+  it('marks each section with the icon its navigation entry draws', () => {
+    expect(pageProfile('agents').icon).toBe('layers-two');
+    expect(pageProfile('infrastructure').icon).toBe('server');
   });
 });

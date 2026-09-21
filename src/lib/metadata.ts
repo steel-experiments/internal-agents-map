@@ -10,6 +10,9 @@ export const SITE_DESCRIPTION =
 export const CONTENT_LICENSE = 'https://creativecommons.org/licenses/by-sa/4.0/';
 export const OG_IMAGE = `${ORIGIN}/og.png`;
 export const OG_IMAGE_ALT = `${SITE_NAME}: a source-backed catalog of internal AI agents`;
+/** Where a reader suggests an addition or a correction to the catalog. */
+export const CONTRIBUTE_URL =
+  'https://github.com/steel-experiments/internal-agents-map/issues/new?title=Catalog+suggestion';
 
 /** The organization that publishes the catalog. */
 export const PUBLISHER = {

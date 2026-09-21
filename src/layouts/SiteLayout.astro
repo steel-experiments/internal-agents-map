@@ -9,6 +9,7 @@ import CommandPalette from '../components/CommandPalette.astro';
 import Icon from '../components/Icon.astro';
 import { canonicalUrl, guidePath, homePath, markdownPath, notesIndexPath } from '../lib/routes';
 import {
+  CONTRIBUTE_URL,
   OG_IMAGE,
   OG_IMAGE_ALT,
   SITE_NAME,
@@ -43,8 +44,6 @@ const {
   articlePublishedTime = null,
 } = Astro.props;
 const url = canonicalUrl(path);
-const contribute =
-  'https://github.com/steel-experiments/internal-agents-map/issues/new?title=Catalog+suggestion';
 ---
 <!doctype html>
 <html lang="en">
@@ -100,7 +99,7 @@ const contribute =
         <a href={guidePath('methodology')} aria-current={current === 'methodology' ? 'page' : undefined}><Icon name="compass-round" />Methodology</a>
         <a class="nav-external" href="https://github.com/steel-experiments/internal-agents-map"><span class="nav-label"><Icon name="github" />Repository</span><Icon name="arrow-upright" /></a>
         <a class="nav-external" href="/data-guide.md"><span class="nav-label"><Icon name="file-text" />Data guide</span><Icon name="arrow-upright" /></a>
-        <a class="contribute-link nav-external" href={contribute}><span class="nav-label"><Icon name="circle-plus" />Suggest a resource</span><Icon name="arrow-upright" /></a>
+        <a class="contribute-link nav-external" href={CONTRIBUTE_URL}><span class="nav-label"><Icon name="circle-plus" />Suggest a resource</span><Icon name="arrow-upright" /></a>
         <a href="/agents.json" download><Icon name="folder-download" />Download JSON</a>
       </div>
       <p class="sidebar-note">An open catalog.<br />Built from public evidence.</p>

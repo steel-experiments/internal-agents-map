@@ -212,7 +212,7 @@ const hasRelated = entry.relatedEntries.length > 0 || entry.relatedNotes.length 
     )}
     <a class="page-back page-back-end" href={entry.profile.path}>
       <span>Back to {entry.profile.label.toLowerCase()}</span>
-      <Icon name="layers-two" />
+      <Icon name={entry.profile.icon} />
     </a>
   </article>
 </SiteLayout>

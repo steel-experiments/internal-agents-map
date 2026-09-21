@@ -27,6 +27,8 @@ export interface PageProfile {
   readonly sectionOrder: readonly ('workflow' | 'people' | 'implementation')[];
   readonly label: string;
   readonly path: string;
+  /** The mark the navigation draws for this section. */
+  readonly icon: 'layers-two' | 'server';
   readonly workflow: string;
   readonly people: string;
   readonly implementation: string;
@@ -38,12 +40,12 @@ export interface PageProfile {
 /** One profile is shared by HTML and Markdown, with research keys unchanged. */
 export function pageProfile(section: CatalogSection): PageProfile {
   return section === 'infrastructure' ? {
-    section, sectionOrder: ['implementation', 'workflow', 'people'], label: 'Infrastructure', path: '/infrastructure',
+    section, sectionOrder: ['implementation', 'workflow', 'people'], label: 'Infrastructure', path: '/infrastructure', icon: 'server',
     workflow: 'Documented uses', people: 'Access and controls',
     implementation: 'Capabilities and architecture', validation: 'Reliability and validation',
     observations: 'Adoption and operating evidence', related: 'Agents using this and related reading',
   } : {
-    section, sectionOrder: ['workflow', 'people', 'implementation'], label: 'Agents', path: '/', workflow: 'How it works',
+    section, sectionOrder: ['workflow', 'people', 'implementation'], label: 'Agents', path: '/', icon: 'layers-two', workflow: 'How it works',
     people: 'Where people stay involved', implementation: 'Implementation details',
     validation: 'Validation and failure handling', observations: 'Reported observations',
     related: 'Infrastructure used and related reading',
