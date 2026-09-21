@@ -1,0 +1,354 @@
+id: cursor-support-workflow
+company: Cursor
+agent_name: Support investigation workflow in Cursor
+approach_type: agent
+deployment_stage: deployed
+year: 2026
+first_public_evidence:
+  date: "2026-03-03"
+  source_id: cursor-support-workflow-source-1
+last_reviewed_at: "2026-09-21"
+status: internal
+domains: [support]
+autonomy: drafts-reviewed
+operating_models:
+  - scope: "customer symptom → root cause, inside a Cursor investigation session"
+    attention_boundary: continuous-steering
+  - scope: "parallel subagent run → merged escalation, customer reply, or docs pull request"
+    attention_boundary: work-product-review
+rubric:
+  invocation: [interactive, background]
+  state: unknown
+  identity: unknown
+  evidence_strength: limited-primary
+summary: "Cursor's technical support team runs customer investigations inside Cursor itself, configured for support
+  work: multi-root workspaces over the product repositories, MCP servers that reach customer databases, event logs,
+  Slack, the ticket tracker, and internal runbooks, plus slash commands, Rules and Skills, and four named subagents
+  whose merged output an engineer reviews before sending."
+headline_metric: "Cursor reports that over 75% of its support interactions run through Cursor itself and that support
+  engineer throughput increased 5-10x; the post gives no measurement period, denominator definition, or method."
+
+architecture:
+  sandbox: unknown
+  harness: "Cursor's own editor and agent product configured for support investigations: multi-root workspaces over
+    several repositories, Ask Mode investigations, MCP servers for support systems, slash commands, Rules and Skills,
+    subagents, and a Slack-triggered cloud agent that opens documentation pull requests"
+  interfaces:
+    - cursor
+    - slack
+  tool_access: "MCP servers reach customer databases holding subscription tier and team and privacy settings,
+    streamed event logs covering services used, telemetry errors, and network issues, Slack threads, engineering
+    ticket platforms, an internal documentation service of runbooks and troubleshooting guides, and an account
+    management service; the named integrations are Datadog for logs and traces, the support platform and Slack for
+    prior cases, Notion for runbooks, and Linear for escalations"
+  knowledge: "The full codebase is available locally, and Cursor indexes and semantically searches product code,
+    docs, and internal tooling in the same session; runbooks and troubleshooting guides, Slack threads, and past
+    support conversations arrive through MCP servers"
+  context_mgmt: "One Cursor session collapses code, logs, team knowledge, and past conversations; multi-root
+    workspaces keep related repositories together so a question spanning frontend logic, backend policy checks, and
+    docs stays answerable in a single thread; subagent results merge into a single output"
+
+primitives:
+  - name: "Collapse support context into one session"
+    desc: "Code, logs, team knowledge, and past conversations come together in a single Cursor session, which the
+      team describes as removing the context-gathering bottleneck for most of its work"
+  - name: "Trace the symptom in Ask Mode"
+    desc: "The investigation typically starts in Ask Mode pointed at the symptom, tracing backward through the
+      relevant product behavior with indexed semantic search over product code, docs, and internal tooling"
+  - name: "Connect the support systems through MCP servers"
+    desc: "MCP servers bring customer databases, streamed event logs, Slack, engineering ticket platforms, an
+      internal runbook service, and an account management service into the investigation instead of making the
+      engineer search each tool separately"
+  - name: "Identify where the failure occurred"
+    desc: "Datadog MCP pulls the relevant logs and traces into the investigation thread to narrow whether the
+      problem is reproducible or transient and whether it failed client-side, at the API edge, in a downstream
+      dependency, or in auth"
+  - name: "Track down similar cases"
+    desc: "Searches across the support platform and Slack start from hard identifiers such as error strings and
+      request IDs, broaden if needed, and look for the newest thread carrying a current status, a workaround, and
+      an owner"
+  - name: "Decide bug or expected behavior"
+    desc: "Notion MCP pulls the relevant runbook into the thread to cross-reference what the engineer is seeing,
+      then either confirms the behavior or supports a clearer escalation"
+  - name: "File the escalation from the same thread"
+    desc: "The Linear MCP turns the material gathered during the investigation into a formatted escalation without
+      leaving the thread"
+  - name: "Request a documentation fix from Slack"
+    desc: "When several customers hit the same question, a mention of the Cursor agent in Slack with what needs
+      updating sends a cloud agent to open a pull request against the docs repository"
+  - name: "Slash commands, Rules, and Skills for repeated steps"
+    desc: "Slash commands cover the most frequently repeated steps of the process, and Rules and Skills automate
+      common processes in support investigations; the captured page does not list the individual commands, rules,
+      or skills"
+  - name: "Subagents run steps in parallel"
+    desc: "LogInvestigator searches Datadog for the failure point and supporting evidence, KnownIssueMiner scans
+      Slack and Notion for prior threads and workarounds, TicketWriter formats the evidence into a complete
+      escalation, and CustomerReplyDrafter writes the customer response with internal details stripped out; the
+      results merge into a single output"
+
+key_metrics:
+  - "Cursor reports that over 75% of its support interactions run through Cursor itself"
+  - "Cursor reports that running support through Cursor increased support engineer throughput 5-10x"
+  - "Cursor estimates the combined workflow makes its support team as much as an order of magnitude more productive
+    than traditional approaches that require jumping between tools and across teams"
+
+lessons_learned:
+  - "Cursor's support engineers search prior cases by hard identifier first, such as an error string or request ID,
+    broaden the search only if that fails, and take the newest thread that carries a current status, a workaround,
+    and an owner."
+  - "Cursor keeps the repositories a support question spans in one multi-root workspace, so a question about
+    frontend logic, backend policy checks, and documented expected behavior stays answerable in a single thread."
+  - "Cursor's support team treats several customers asking the same question as a documentation gap and files the
+    fix itself, mentioning the Cursor agent in Slack to get a pull request opened against the docs repository."
+
+sources:
+  - id: cursor-support-workflow-source-1
+    title: "How technical support at Cursor uses Cursor"
+    url: "https://cursor.com/blog/cursor-support"
+    canonical_url: "https://cursor.com/blog/cursor-support"
+    kind: engineering-blog
+    provenance_class: first-party
+    role: evidence
+    publisher: Cursor
+    authors: ["Kody Fisher", "Zach Hudson"]
+    published_at: "2026-03-03"
+    accessed_at: "2026-09-21"
+    last_verified_at: "2026-09-21"
+    capture:
+      manifest_path: "archive/sources/cursor-support-workflow-source-1/metadata.json"
+
+evidence:
+  summary:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 10-12, 18, 24-31, 59-72"
+  headline_metric:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, line 12"
+  operating_models.0:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 16, 22, 37, 41, 45"
+  operating_models.1:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 67-74"
+  architecture.sandbox:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 16, 53"
+  architecture.harness:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 16-18, 22, 53, 59-67"
+  architecture.interfaces:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 16, 53"
+  architecture.tool_access:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 26-31, 37, 41, 45, 49"
+  architecture.knowledge:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 16, 28, 30, 41, 45"
+  architecture.context_mgmt:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 10, 18, 74"
+  primitives.0:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, line 10"
+  primitives.1:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 16, 18"
+  primitives.2:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 22, 26-31, 33"
+  primitives.3:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, line 37"
+  primitives.4:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, line 41"
+  primitives.5:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, line 45"
+  primitives.6:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, line 49"
+  primitives.7:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, line 53"
+  primitives.8:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 57-63"
+  primitives.9:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 67-74"
+  key_metrics.0:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, line 12"
+  key_metrics.1:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, line 12"
+  key_metrics.2:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, line 78"
+  lessons_learned.0:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, line 41"
+  lessons_learned.1:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, line 18"
+  lessons_learned.2:
+    - source_id: cursor-support-workflow-source-1
+      relation: supports
+      locator: "Preserved content.md, line 53"
+
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: "The post describes an engineer opening the session, pointing Ask Mode at the symptom, and
+      pulling each MCP source into the thread step by step, which places attention with the engineer throughout the
+      investigation; it never describes an investigation running without one."
+    valid_at: "2026-03"
+  operating_models.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: "The subagent section states that the parallel results merge into a single output that the
+      team reviews and sends, which locates the return of attention at the merged work product; the post does not
+      say how long the parallel run proceeds unattended."
+    valid_at: "2026-03"
+  architecture.sandbox:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: "The post says the full codebase is available locally and that a cloud agent opens docs pull
+      requests, but documents no execution isolation boundary for either; unknown does not mean absent."
+  headline_metric:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: "Cursor states both figures in one sentence of its own blog post with no measurement period,
+      no definition of a support interaction, no denominator, and no method; 'over 75%' is a floor and '5-10x' is a
+      range, and neither is independently verified."
+    valid_at: "2026-03"
+    reported_by: Cursor
+    metric_scope: "Cursor support interactions and support engineer throughput, as stated in March 2026"
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: "The share is a self-reported floor with no measurement period and no definition of a support
+      interaction, so the true value and the base it is taken over both stay open."
+    valid_at: "2026-03"
+    reported_by: Cursor
+    metric_scope: "Share of Cursor support interactions that run through Cursor itself"
+  key_metrics.1:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: "Cursor reports a 5-10x throughput range without saying what throughput counts, over which
+      period, or against which baseline, so the range cannot be reduced to a point estimate."
+    valid_at: "2026-03"
+    reported_by: Cursor
+    metric_scope: "Support engineer throughput after support work moved into Cursor"
+  key_metrics.2:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: "The closing section marks this figure as the team's own estimate, bounds it with 'as much
+      as', and compares it to unspecified traditional approaches, so it is a hedged self-assessment rather than a
+      measured result."
+    valid_at: "2026-03"
+    reported_by: Cursor
+    metric_scope: "Productivity of the support team against traditional approaches that require jumping between
+      tools and across teams"
+    measurement_method: "Team estimate; the post gives no method"
+  lessons_learned.0:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: "The known-issue section states the search order and the three properties the team wants in
+      the thread it picks; it reports the team's practice and does not measure how often that search succeeds."
+  lessons_learned.1:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: "The post gives the multi-root workspace rationale with a worked example, a disabled button
+      spanning frontend, backend, and docs; it reports the arrangement without comparing it to separate workspaces."
+  lessons_learned.2:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: "The documentation-updates section states the trigger, the Slack mention, and the cloud agent
+      pull request; it describes the routine and reports no volume or acceptance rate for those pull requests."
+
+page_content:
+  version: 1
+  reviewed_at: "2026-09-21"
+  source_ids: [cursor-support-workflow-source-1]
+  workflow_scope: "Customer report through an Ask Mode investigation over code, logs, prior threads, and runbooks to
+    a reviewed escalation, customer reply, or documentation pull request"
+  questions:
+    purpose: {state: reported, claim_paths: [summary]}
+    workflow: {state: reported, claim_paths: [primitives.1, primitives.3, primitives.4, primitives.5, primitives.6,
+      primitives.7]}
+    human_involvement: {state: reported, claim_paths: [operating_models.0, operating_models.1, primitives.9],
+      note: "A support engineer drives the investigation session, and the merged subagent output is reviewed before
+      it is sent; documentation changes return as a pull request."}
+    implementation: {state: reported, claim_paths: [architecture.harness, architecture.tool_access,
+      architecture.knowledge, architecture.context_mgmt, architecture.interfaces]}
+    validation: {state: unreported, claim_paths: [], note: "The post names review of the merged output before
+      sending, but no correctness check, evaluation, test, or accuracy measurement for the investigation result."}
+    observations: {state: reported, claim_paths: [headline_metric, key_metrics.0, key_metrics.1, key_metrics.2]}
+    lessons: {state: reported, claim_paths: [lessons_learned.0, lessons_learned.1, lessons_learned.2]}
+  implementation_fields:
+    model: {state: unreported, claim_paths: [], note: "The post names Ask Mode, subagents, and cloud agents, but no
+      model or model version anywhere."}
+    harness: {state: reported, claim_paths: [architecture.harness]}
+    sandbox: {state: unreported, claim_paths: [], note: "The codebase is described as available locally and a cloud
+      agent opens docs pull requests, but no execution isolation boundary is described for either; the legacy
+      unknown claim stays in research details."}
+    tool_access: {state: reported, claim_paths: [architecture.tool_access]}
+    knowledge: {state: reported, claim_paths: [architecture.knowledge]}
+    context_mgmt: {state: reported, claim_paths: [architecture.context_mgmt]}
+    credentials: {state: unreported, claim_paths: [], note: "The post lists the systems the MCP servers reach,
+      including customer and account management data, but never says how the session authenticates to them or whose
+      permissions apply."}
+    interfaces: {state: reported, claim_paths: [architecture.interfaces]}
+  primitive_roles: {primitives.0: mechanism, primitives.1: workflow, primitives.2: mechanism, primitives.3: workflow,
+    primitives.4: workflow, primitives.5: workflow, primitives.6: workflow, primitives.7: workflow,
+    primitives.8: mechanism, primitives.9: mechanism}
+  observations:
+    headline_metric: {category: adoption-output, basis: reported-measurement, subject: "Share of Cursor support
+      interactions running through Cursor itself and the reported support engineer throughput multiple, both stated
+      in March 2026 without a period, denominator, or method"}
+    key_metrics.0: {duplicate_of: headline_metric, reason: "Component of the compound headline: the same over-75%
+      share of support interactions, with the same missing period and denominator."}
+    key_metrics.1: {duplicate_of: headline_metric, reason: "Component of the compound headline: the same 5-10x
+      support engineer throughput range, with the same missing method."}
+    key_metrics.2: {category: effectiveness, basis: estimate, subject: "Team estimate of support productivity
+      against traditional multi-tool approaches, hedged with 'as much as' and reported separately from the
+      throughput range"}

@@ -1,0 +1,419 @@
+id: bitrise-kolega
+company: Bitrise
+agent_name: Kolega
+approach_type: agent
+deployment_stage: deployed
+year: 2026
+first_public_evidence:
+  date: "2026-07-15"
+  source_id: bitrise-kolega-source-1
+last_reviewed_at: "2026-09-21"
+status: internal
+domains:
+- coding
+- code-review
+- ci-triage
+- maintenance
+autonomy: drafts-reviewed
+operating_models:
+- scope: "Jira ticket assignment or Slack mention → merged pull request"
+  attention_boundary: work-product-review
+rubric:
+  invocation:
+  - interactive
+  - event-driven
+  state: durable-session
+  identity: dedicated-agent
+  evidence_strength: detailed-primary
+summary: "Bitrise runs Kolega, an internal coding agent that lives in Slack. A Jira ticket assigned to its Jira
+  user or an @mention in a thread starts a session; the agent reads the requirements, posts a plan, and delegates
+  the coding to a disposable Remote Dev Environment. It opens a pull request, watches CI, and reacts to review
+  comments, CI results, and Jira events as they arrive, then cleans up the machine and closes the ticket after the
+  merge. The orchestrator itself cannot run or read code. Bitrise published bitclaw, an MIT-licensed reference
+  implementation of the same architecture."
+
+architecture:
+  sandbox: "A disposable Remote Dev Environment per task, created from a single pinned template whose warmup script
+    installs Claude Code, sets up a git-only SSH identity, and starts the agent in a tmux session; every task gets
+    its own machine, and the machine is deleted when the work is done"
+  harness: "A single small Python service orchestrating from Slack. One Slack thread is one session; the
+    orchestrator creates and drives Remote Dev Environment sessions through the RDE MCP server, typing instructions
+    into the coding agent's tmux pane and reading the pane back"
+  model: "Claude. The orchestrator holds one persistent Claude conversation per Slack thread, and the dev-environment
+    template installs Claude Code for the coding agent; no model version is named"
+  interfaces:
+  - slack
+  - jira
+  - github
+  - ci
+  tool_access: "Narrowly scoped orchestrator tools: post to Slack, read and manage pull requests, read Jira, query
+    Datadog for logs, metrics, and error tracking, and create and drive Remote Dev Environments. The orchestrator
+    has no shell and no file access and cannot read source code through the GitHub API; those tools are denied in
+    code rather than in the prompt. The coding agent inside the dev environment holds a push-scoped SSH key and no
+    GitHub API access, so git is its only interface to the outside world"
+  credentials: "Credentials reach the coding machine through encrypted saved inputs and session inputs and are never
+    baked into an image. The coding agent receives a push-scoped SSH key and no GitHub API access, and the
+    orchestrator's own credentials never touch the machine"
+  context_mgmt: "One Slack thread is one session backed by one persistent Claude conversation, so context survives
+    messages, webhooks, and days-later follow-ups. Pull requests and tickets are anchored to the thread that owns
+    them, so review comments, CI results, and Jira transitions arrive in the right conversation. The thread receives
+    milestones only, not the agent's running commentary"
+
+primitives:
+- name: "Ticket-to-merge loop in one Slack thread"
+  desc: "Jira assignment or Slack mention → plan → delegated coding in a disposable dev environment → pull request →
+    reactions to review and CI events → human-instructed merge, cleanup, and ticket closure"
+- name: "Pick up the work and post a plan"
+  desc: "Assigning a Jira ticket to Kolega's Jira user, or an @mention in a thread, starts a session; the agent posts
+    a card within a second, reads the requirements, posts a plan, and then reports milestones only"
+- name: "Delegate the coding to a disposable dev environment"
+  desc: "The orchestrator creates a Remote Dev Environment from a pinned template with a self-contained task brief
+    naming the repository, the ticket, the acceptance criteria, and the branch rules"
+- name: "Write and test the code, push a branch, and open a pull request"
+  desc: "The coding agent in the dev environment makes the change, runs the tests locally, pushes the branch over
+    git, and the pull request is opened and reported back to the thread"
+- name: "React to anchored events without a human relay"
+  desc: "Review comments, CI results, Jira comments, and the merge itself arrive in the owning thread as they
+    happen; the agent fixes what a reviewer asked for, answers questions on the ticket, and reacts to events rather
+    than polling"
+- name: "Merge on an explicit human instruction, then clean up"
+  desc: "Merging happens only on an explicit human instruction; after the merge the agent tears down the dev
+    machine, transitions the ticket, and signs off in the thread"
+- name: "An orchestrator that cannot code"
+  desc: "The orchestrator has no shell and no file access and cannot even read source code through the GitHub API;
+    the tools are denied in code, not in the prompt, so it plans, relays, narrates, and asks"
+- name: "Isolation as the security model"
+  desc: "The coding agent's push-scoped SSH key and lack of GitHub API access mean that a prompt injection hidden in
+    a codebase reaches no further than a pushed branch that still has to survive human review"
+- name: "Never block on input"
+  desc: "The task brief instructs the coding agent to pick the most defensible default, document the assumption in
+    the commit message and pull request description, and continue, because the pull request review is where wrong
+    assumptions get corrected"
+- name: "Test in an environment that matches CI"
+  desc: "Dev-environment sessions run on the same infrastructure and stacks as Bitrise CI, so passing tests in the
+    session and in CI stop being different claims; when CI fails the orchestrator relays the failing check into the
+    session and the coding agent reproduces it"
+- name: "Gate public writes and fail closed"
+  desc: "Untrusted authors' text is redacted before the model sees it, every public write waits behind an Approve /
+    Reject button in Slack, and the agent holds when it cannot confirm that an author is trusted, a repository is
+    private, or a check succeeded"
+
+key_metrics:
+- "Bitrise describes a design-system migration touching around 200 usages across 167 files that Kolega planned,
+  delegated, and then shepherded for four days through three rounds of merge conflicts and nine automated review
+  comments, with the humans involved only reviewing"
+- "Bitrise describes the orchestrator as a single small Python service that was mostly written by a coding agent and
+  went from first commit to handling real tickets in a few weeks"
+
+lessons_learned:
+- "Bitrise puts its guardrails in code rather than in the system prompt: which tools exist, whose text the agent may
+  read, and what needs approval are hard checks rather than prompt instructions."
+- "Bitrise keeps humans on two decisions, merging and anything the outside world can see, and lets planning, coding,
+  testing, and replying to reviewers run without a human in the middle."
+- "Each Bitrise guardrail followed an incident: the agent once merged its own pull request the moment it saw an
+  approval, so merging now happens only on an explicit human instruction."
+- "Bitrise handles a stop command outside the normal message queue so that it interrupts a running turn, and holds
+  when the agent cannot confirm that an author is trusted, a repository is private, or a check succeeded."
+- "The Bitrise team prefers to delegate the thinking rather than only the typing: its orchestrator does not read
+  source code even to plan, on the view that the coding agent in front of the full working tree should plan its own
+  work."
+
+sources:
+- id: bitrise-kolega-source-1
+  title: "How we built a coding agent that lives in Slack, and the recipe to build your own"
+  url: "https://bitrise.io/blog/post/how-we-built-a-coding-agent-that-lives-in-slack-and-the-recipe-to-build-your-own"
+  canonical_url: "https://bitrise.io/blog/post/how-we-built-a-coding-agent-that-lives-in-slack-and-the-recipe-to-build-your-own"
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  publisher: Bitrise
+  authors:
+  - Balazs Rostas
+  published_at: "2026-07-15"
+  accessed_at: "2026-09-21"
+  last_verified_at: "2026-09-21"
+  capture:
+    manifest_path: "archive/sources/bitrise-kolega-source-1/metadata.json"
+
+evidence:
+  summary:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 14, 16, 28, 44, 68"
+  operating_models.0:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 48, 51, 89, 107"
+  architecture.sandbox:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 77, 79, 81"
+  architecture.harness:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 59, 65, 82"
+  architecture.model:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 65, 77, 105"
+  architecture.interfaces:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 14, 28, 66, 67"
+  architecture.tool_access:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 66, 68, 79"
+  architecture.credentials:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 77, 79"
+  architecture.context_mgmt:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 35, 65, 67"
+  primitives.0:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 14, 37-42"
+  primitives.1:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 28, 32-33, 35"
+  primitives.2:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 77, 78"
+  primitives.3:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 14, 38-39, 79"
+  primitives.4:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 44, 67"
+  primitives.5:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 42, 44, 89"
+  primitives.6:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 63, 68"
+  primitives.7:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, line 79"
+  primitives.8:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, line 78"
+  primitives.9:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, line 80"
+  primitives.10:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 89, 92"
+  key_metrics.0:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, line 48"
+  key_metrics.1:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, line 59"
+  lessons_learned.0:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 68, 88"
+  lessons_learned.1:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, line 90"
+  lessons_learned.2:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, line 89"
+  lessons_learned.3:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, lines 91, 92"
+  lessons_learned.4:
+  - source_id: bitrise-kolega-source-1
+    relation: supports
+    locator: "Preserved content.md, line 93"
+
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: high
+    confidence_reason: "The post states that on a four-day migration the humans involved did exactly one thing,
+      review, and that merging now happens only on an explicit human instruction after the agent once merged on
+      seeing an approval. Review is of the pull request itself, which places the boundary at the work product rather
+      than at the outcome."
+    valid_at: "2026-07"
+  key_metrics.0:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: "Bitrise reports the file and usage counts for one migration in its own engineering blog
+      without a measurement method; it describes the scale of one task, not a measured result."
+    reported_by: Bitrise
+    metric_scope: "One design-system migration Kolega handled during a recent week"
+  key_metrics.1:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: "Bitrise states the service size, its authorship, and an approximate build time in its own
+      engineering blog; no line count, commit history, or dated milestone supports the few-weeks figure."
+    reported_by: Bitrise
+    metric_scope: "Building the Kolega orchestrator service"
+  lessons_learned.0:
+    kind: fact
+    provenance: reported
+    confidence: high
+    confidence_reason: "The post states the rule and names the enforced case: the orchestrator's shell, file, and
+      GitHub source-read tools are denied in code rather than in the prompt."
+  lessons_learned.1:
+    kind: fact
+    provenance: reported
+    confidence: high
+    confidence_reason: "The two retained decisions are stated explicitly, and the merge gate and the Approve /
+      Reject button on public writes are described as the mechanisms that hold them."
+  lessons_learned.2:
+    kind: fact
+    provenance: reported
+    confidence: high
+    confidence_reason: "The post names the specific incident and the specific rule change it produced; it does not
+      say how often the incident occurred or what other guardrails each incident produced."
+  lessons_learned.3:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: "Both behaviors are described as implemented rules with their triggers named; the post gives
+      no example of either firing, so the effect on real runs is not documented."
+  lessons_learned.4:
+    kind: opinion
+    provenance: reported
+    confidence: medium
+    confidence_reason: "This is the team's stated design preference for its own orchestrator, supported by the
+      reported fact that the orchestrator does not read source code; the post offers no comparison against an
+      orchestrator that plans from source, so the preference is not shown to generalize."
+
+page_content:
+  version: 1
+  reviewed_at: "2026-09-21"
+  source_ids:
+  - bitrise-kolega-source-1
+  workflow_scope: "Jira ticket assignment or Slack mention through delegated coding in a disposable dev environment
+    to a human-instructed merge and ticket closure"
+  questions:
+    purpose:
+      state: reported
+      claim_paths:
+      - summary
+    workflow:
+      state: reported
+      claim_paths:
+      - primitives.1
+      - primitives.2
+      - primitives.3
+      - primitives.4
+      - primitives.5
+    human_involvement:
+      state: reported
+      claim_paths:
+      - primitives.5
+      - primitives.10
+      - operating_models.0
+      note: "Humans review the pull request and then give an explicit merge instruction; the agent may not merge on
+        an approval alone, and every write the outside world can see waits behind an Approve / Reject button."
+    implementation:
+      state: reported
+      claim_paths:
+      - architecture.sandbox
+      - architecture.harness
+      - architecture.model
+      - architecture.tool_access
+      - architecture.credentials
+      - architecture.context_mgmt
+      - architecture.interfaces
+    validation:
+      state: reported
+      claim_paths:
+      - primitives.9
+      - primitives.10
+    observations:
+      state: reported
+      claim_paths:
+      - key_metrics.0
+      - key_metrics.1
+      note: "Bitrise reports no performance metric for Kolega: no throughput, acceptance rate, cost, or time saved.
+        Both recorded observations describe the scale of the work and of the build, not a measured result."
+    lessons:
+      state: reported
+      claim_paths:
+      - lessons_learned.0
+      - lessons_learned.1
+      - lessons_learned.2
+      - lessons_learned.3
+      - lessons_learned.4
+  implementation_fields:
+    model:
+      state: reported
+      claim_paths:
+      - architecture.model
+    harness:
+      state: reported
+      claim_paths:
+      - architecture.harness
+    sandbox:
+      state: reported
+      claim_paths:
+      - architecture.sandbox
+    tool_access:
+      state: reported
+      claim_paths:
+      - architecture.tool_access
+    knowledge:
+      state: unreported
+      claim_paths: []
+      note: "The agent pulls what it needs at run time through scoped tools and the working tree in the dev
+        environment; no retrieval corpus, index, or company knowledge store is described."
+    context_mgmt:
+      state: reported
+      claim_paths:
+      - architecture.context_mgmt
+    credentials:
+      state: reported
+      claim_paths:
+      - architecture.credentials
+    interfaces:
+      state: reported
+      claim_paths:
+      - architecture.interfaces
+  primitive_roles:
+    primitives.0: mechanism
+    primitives.1: workflow
+    primitives.2: workflow
+    primitives.3: workflow
+    primitives.4: workflow
+    primitives.5: workflow
+    primitives.6: mechanism
+    primitives.7: mechanism
+    primitives.8: mechanism
+    primitives.9: validation
+    primitives.10: validation
+  observations:
+    key_metrics.0:
+      category: implementation-scale
+      basis: qualitative
+      subject: "One design-system migration Kolega handled, in usages, files, days, merge-conflict rounds, and
+        review comments"
+    key_metrics.1:
+      category: implementation-scale
+      basis: qualitative
+      subject: "Size, authorship, and elapsed build time of the Kolega orchestrator service"

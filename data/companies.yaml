@@ -7,6 +7,13 @@
     file: airbnb.svg
     source_url: https://www.airbnb.com/
     accessed_at: '2026-09-15'
+- id: amplitude
+  name: Amplitude
+  homepage: https://amplitude.com/
+  logo:
+    file: amplitude.png
+    source_url: https://github.com/amplitude
+    accessed_at: '2026-09-21'
 - id: atlassian
   name: Atlassian
   homepage: https://www.atlassian.com/
@@ -14,6 +21,13 @@
     file: atlassian.svg
     source_url: https://atlassian.design/foundations/logos
     accessed_at: '2026-09-15'
+- id: bitrise
+  name: Bitrise
+  homepage: https://bitrise.io/
+  logo:
+    file: bitrise.png
+    source_url: https://github.com/bitrise-io
+    accessed_at: '2026-09-21'
 - id: block
   name: Block
   homepage: https://block.xyz/
@@ -42,6 +56,13 @@
     file: coinbase.png
     source_url: https://github.com/coinbase
     accessed_at: '2026-09-15'
+- id: cursor
+  name: Cursor
+  homepage: https://cursor.com/
+  logo:
+    file: cursor.png
+    source_url: https://github.com/cursor
+    accessed_at: '2026-09-21'
 - id: databricks
   name: Databricks
   homepage: https://www.databricks.com/
@@ -49,6 +70,13 @@
     file: databricks.svg
     source_url: https://www.databricks.com/company/newsroom/press-kit
     accessed_at: '2026-09-15'
+- id: deel
+  name: Deel
+  homepage: https://www.deel.com/
+  logo:
+    file: deel.png
+    source_url: https://github.com/letsdeel
+    accessed_at: '2026-09-21'
 - id: domu
   name: Domu
   homepage: https://domu.ai/
@@ -70,6 +98,20 @@
     file: dropbox.svg
     source_url: https://brand.dropbox.com/logo
     accessed_at: '2026-09-15'
+- id: duolingo
+  name: Duolingo
+  homepage: https://www.duolingo.com/
+  logo:
+    file: duolingo.png
+    source_url: https://github.com/duolingo
+    accessed_at: '2026-09-21'
+- id: figma
+  name: Figma
+  homepage: https://www.figma.com/
+  logo:
+    file: figma.png
+    source_url: https://github.com/figma
+    accessed_at: '2026-09-21'
 - id: flex
   name: Flex
   homepage: https://www.withflex.com/
@@ -105,6 +147,13 @@
     file: linear.svg
     source_url: https://linear.app/brand
     accessed_at: '2026-09-15'
+- id: meta
+  name: Meta
+  homepage: https://about.meta.com/
+  logo:
+    file: meta.png
+    source_url: https://github.com/facebook
+    accessed_at: '2026-09-21'
 - id: microsoft
   name: Microsoft
   homepage: https://www.microsoft.com/
@@ -196,6 +245,13 @@
     file: slack.svg
     source_url: https://slack.com/media-kit
     accessed_at: '2026-09-15'
+- id: snap
+  name: Snap
+  homepage: https://www.snap.com/
+  logo:
+    file: snap.png
+    source_url: https://github.com/Snapchat
+    accessed_at: '2026-09-21'
 - id: spotify
   name: Spotify
   homepage: https://spotify.com/

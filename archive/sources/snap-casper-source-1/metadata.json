@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "snap-casper-source-1",
+  "original_url": "https://eng.snap.com/casper",
+  "final_url": "https://eng.snap.com/casper",
+  "captured_at": "2026-09-21T12:44:32Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.5.0-preview.6"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/snap-casper-source-1/content.md",
+      "sha256": "sha256:8ed33e40f78f2fb631e497e7b6ac5bd47d0440ab214eea45e42f45d0f6c39c7a",
+      "bytes": 19686
+    }
+  }
+}

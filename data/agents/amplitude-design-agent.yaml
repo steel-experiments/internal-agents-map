@@ -1,0 +1,310 @@
+id: amplitude-design-agent
+company: Amplitude
+agent_name: Design Agent
+approach_type: agent
+deployment_stage: deployed
+year: 2026
+first_public_evidence:
+  date: "2026-05-19"
+  source_id: amplitude-design-agent-source-1
+last_reviewed_at: "2026-09-21"
+status: internal
+domains: [design]
+autonomy: drafts-reviewed
+operating_models:
+  - scope: "prompt or screenshot → generated HTML artifact a person judges, shares, or carries forward"
+    attention_boundary: work-product-review
+rubric:
+  invocation: [interactive]
+  state: unknown
+  identity: unknown
+  evidence_strength: limited-primary
+summary: "Amplitude built Design Agent, an internal web tool that anyone in the company reaches behind Google OAuth to turn a text prompt, a screenshot, or a rough product idea into on-brand HTML output. Amplitude's brand guidelines and design-system tokens sit in the agent system prompt, so the output reads as the company's own. The tool began as a proof of concept for product and engineering teams and has expanded to other designers, marketers, and creative teams."
+headline_metric: "Over 2,219 session snapshots in Design Agent's first few weeks, with repeat usage across multiple teams (self-reported)"
+
+architecture:
+  sandbox: unknown
+  harness: "Claude Managed Agents supplies reasoning, tool use, and multi-step generation; Amplitude wrote no state machine, prompt chain, or tool-calling logic. A thin wrapper of Cloudflare Workers serves the web interface and the agent interaction endpoint."
+  model: "Claude, through Claude Managed Agents; no model version is named."
+  interfaces: [web]
+  tool_access: "Amplitude states that it defined the agent's tools and context but does not name them. Generated artifacts are written to Cloudflare R2, each with a permanent URL."
+  knowledge: "A structured Markdown document in the Google design.md format holds Amplitude's brand guidelines, color system, typography rules, spacing conventions, and component patterns."
+  context_mgmt: "The brand and design-system document is baked into the agent system prompt, so it is present in every conversation; behavior changes ship by editing that prompt and take effect in minutes."
+
+primitives:
+  - name: "Prompt or screenshot to on-brand HTML artifact"
+    desc: "A text prompt, a screenshot, or a rough product idea becomes interactive HTML styled to the Amplitude design system."
+  - name: "Submit the request in the web interface"
+    desc: "The interface offers a text input, an option to upload a screenshot or reference image, and a panel that displays the generated artifact."
+  - name: "Let the managed agent plan and generate"
+    desc: "Claude Managed Agents reasons about the prompt, runs a multi-step plan, handles tool-call follow-ups, and assembles the final artifact."
+  - name: "Persist the artifact with a stable URL"
+    desc: "Every generated artifact lands in Cloudflare R2 with a stable, permanent URL, and users keep a visible generation history."
+  - name: "Share, iterate, or carry the output forward"
+    desc: "People share the output links in Slack threads, return to generate follow-ups on previous outputs, or copy the generated HTML into a coding agent."
+  - name: "Bake brand context into the system prompt"
+    desc: "Amplitude's design philosophy and design-system tokens are written into the system prompt, which Amplitude reports turned generic model output into output that reads as its own."
+  - name: "Instrument every session and turn failures into regression tests"
+    desc: "Amplitude tracks every session, output, and tool call with its own analytics, reviews sessions to find failure patterns, and creates eval examples from the worst outputs as regression tests before updating skills files, prompts, and agent configuration."
+
+key_metrics:
+  - "Amplitude reports roughly 2-4x more viewers than makers for generated artifacts, which it reads as a signal that outputs are shared beyond the people who generate them"
+  - "Amplitude reports a working Design Agent for its product and engineering teams two days after starting, on Claude Managed Agents and Cloudflare"
+
+lessons_learned:
+  - "Amplitude wrote its brand guidelines and design-system tokens into the agent system prompt and reports that the difference from generic model output was drastic; this is its own result for one internal design tool, not a measured comparison."
+  - "Amplitude instruments Design Agent with its own product analytics, reviews sessions to find failure patterns, and turns the worst outputs into eval examples that act as regression tests."
+  - "Amplitude reports that managed agent orchestration and serverless hosting left it with no servers, monitoring, autoscaling, or database to run, which suits an internal tool maintained by one person."
+  - "Will Newton concludes that agents are products needing repeated iteration with real users, and advises keeping the stack simple and not skipping instrumentation; this is his stated view from building this one internal tool."
+
+sources:
+  - id: amplitude-design-agent-source-1
+    title: "How we built a design agent at Amplitude with Claude managed agents and Cloudflare"
+    url: "https://www.amplitude.com/blog/design-agent"
+    canonical_url: "https://www.amplitude.com/blog/design-agent"
+    kind: engineering-blog
+    provenance_class: first-party
+    role: evidence
+    publisher: Amplitude
+    authors: ["Will Newton"]
+    published_at: "2026-05-19"
+    accessed_at: "2026-09-21"
+    last_verified_at: "2026-09-21"
+    capture:
+      manifest_path: "archive/sources/amplitude-design-agent-source-1/metadata.json"
+
+evidence:
+  summary:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 18, 20, 54, 64"
+  headline_metric:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, line 64"
+  operating_models.0:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 71, 73, 75"
+  architecture.sandbox:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 28, 81"
+  architecture.harness:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 28-29, 81, 85"
+  architecture.model:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 18, 22, 28"
+  architecture.interfaces:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 54, 85"
+  architecture.tool_access:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 30, 81, 85"
+  architecture.knowledge:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 46, 48"
+  architecture.context_mgmt:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 48, 83"
+  primitives.0:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 18, 20"
+  primitives.1:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, line 54"
+  primitives.2:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 28, 81"
+  primitives.3:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 30, 56, 85"
+  primitives.4:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 56, 71, 75"
+  primitives.5:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 18, 46, 48, 50"
+  primitives.6:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 91, 93"
+  key_metrics.0:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, line 75"
+  key_metrics.1:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 22, 107"
+  lessons_learned.0:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 46, 48, 50"
+  lessons_learned.1:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 91, 93"
+  lessons_learned.2:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, line 87"
+  lessons_learned.3:
+    - source_id: amplitude-design-agent-source-1
+      relation: supports
+      locator: "Preserved content.md, lines 101-110"
+
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: "The source shows the agent producing a finished artifact that the requester then judges, shares in Slack, re-prompts, or copies into a coding agent; it documents no separate approval gate, so the boundary is read from the described use rather than from a stated review step."
+    valid_at: "2026-05"
+  headline_metric:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: "Amplitude reports the count from its own analytics instrumentation on Design Agent, with no independent review and no total of eligible users, teams, or sessions."
+    valid_at: "2026-05"
+    value: 2219
+    unit: "session snapshots"
+    reported_by: Amplitude
+    metric_scope: "Design Agent session snapshots across Amplitude teams in the first few weeks of use, as reported in the May 2026 post"
+    denominator: "None reported; the post gives no user, team, or session total to divide by"
+    measurement_method: "Amplitude product analytics instrumented on Design Agent, which the post says tracks every session, output, and tool call"
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: "The post gives the ratio as roughly 2-4x with no period, no counting rule for a viewer or a maker, and no underlying totals, so the range is an approximation rather than a stated measurement."
+    valid_at: "2026-05"
+    reported_by: Amplitude
+    metric_scope: "Viewers of generated Design Agent artifacts compared with the people who generated them"
+    denominator: "None reported"
+    measurement_method: "Not stated; the post reports the ratio without a counting rule"
+  key_metrics.1:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: "The author states the two-day figure twice as elapsed build time for the first working version; it describes implementation effort rather than a performance result, and no start date or effort total is given."
+    valid_at: "2026-05"
+    reported_by: Amplitude
+    metric_scope: "Elapsed time from starting the build to a working Design Agent for Amplitude product and engineering teams"
+    denominator: "Not applicable"
+    measurement_method: "Not stated; the author reports the duration without a record of hours or a defined start"
+  architecture.sandbox:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: "The post says Claude Managed Agents handles execution behind the scenes but names no execution isolation boundary for the agent's work; unknown records the gap, not an absent sandbox."
+  lessons_learned.0:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: "The post describes the design.md context document and the system-prompt change as steps the team took, and calls the difference drastic; that judgment is the author's own, with no side-by-side evaluation."
+  lessons_learned.1:
+    kind: fact
+    provenance: reported
+    confidence: high
+    confidence_reason: "The measurement section states the practice directly: sessions reviewed in Agent Analytics for failure patterns, eval examples created from the worst outputs as regression tests, then skills files, prompts, and configuration updated."
+  lessons_learned.2:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: "The hosting section states the absence of servers, monitoring, autoscaling, and a database and ties it to a one-person internal tool; this is the team's own description of its setup, not an audited operating record."
+  lessons_learned.3:
+    kind: opinion
+    provenance: reported
+    confidence: medium
+    confidence_reason: "The closing section is the author's stated conclusion from this one build; he offers no comparison with other agents, so the advice is attributed rather than established."
+
+page_content:
+  version: 1
+  reviewed_at: "2026-09-21"
+  source_ids: [amplitude-design-agent-source-1]
+  workflow_scope: "Prompt or screenshot in the internal web app, through managed-agent generation and R2 storage, to an artifact a person shares or carries forward"
+  questions:
+    purpose:
+      state: reported
+      claim_paths: [summary]
+    workflow:
+      state: reported
+      claim_paths: [primitives.1, primitives.2, primitives.3, primitives.4]
+    human_involvement:
+      state: reported
+      claim_paths: [primitives.4, operating_models.0]
+      note: "A person writes every request and then judges the artifact, sharing the link, re-prompting, or pasting the HTML into a coding agent; the post documents no separate approval gate."
+    implementation:
+      state: reported
+      claim_paths: [architecture.harness, architecture.model, architecture.tool_access, architecture.knowledge, architecture.context_mgmt, architecture.interfaces]
+    validation:
+      state: reported
+      claim_paths: [primitives.6]
+    observations:
+      state: reported
+      claim_paths: [headline_metric, key_metrics.0, key_metrics.1]
+    lessons:
+      state: reported
+      claim_paths: [lessons_learned.0, lessons_learned.1, lessons_learned.2, lessons_learned.3]
+  implementation_fields:
+    model:
+      state: reported
+      claim_paths: [architecture.model]
+    harness:
+      state: reported
+      claim_paths: [architecture.harness]
+    sandbox:
+      state: unreported
+      claim_paths: []
+      note: "The post names Claude Managed Agents as the runtime but no execution isolation boundary; the legacy unknown claim stays in the research details."
+    tool_access:
+      state: reported
+      claim_paths: [architecture.tool_access]
+    knowledge:
+      state: reported
+      claim_paths: [architecture.knowledge]
+    context_mgmt:
+      state: reported
+      claim_paths: [architecture.context_mgmt]
+    credentials:
+      state: unreported
+      claim_paths: []
+      note: "Google OAuth gates human access to the web app; how the agent itself authenticates to Claude Managed Agents, Workers, or R2 is not documented."
+    interfaces:
+      state: reported
+      claim_paths: [architecture.interfaces]
+  primitive_roles:
+    primitives.0: mechanism
+    primitives.1: workflow
+    primitives.2: workflow
+    primitives.3: workflow
+    primitives.4: workflow
+    primitives.5: mechanism
+    primitives.6: validation
+  observations:
+    headline_metric:
+      category: adoption-output
+      basis: reported-measurement
+      subject: "Design Agent session snapshots across Amplitude teams in the first few weeks of use"
+    key_metrics.0:
+      category: adoption-output
+      basis: estimate
+      subject: "Ratio of viewers of generated artifacts to the people who generated them"
+    key_metrics.1:
+      category: implementation-scale
+      basis: qualitative
+      subject: "Elapsed build time to a working Design Agent for product and engineering teams"

@@ -428,8 +428,35 @@ Most have only shipping products, vendor-tool usage, or aspirational job posting
   documented.
 - **Twilio**: the AI offerings are shipping products. A narrow sales tool ("RFP Genie") exists but
   falls outside the catalog domains.
-- **Asana**: "AI Teammates" and "AI Studio" are products. Only job postings describe an internal
-  team, not a shipped build.
+- **Asana — Needs evidence (re-examined 2026-09-21).** The earlier rejection cited only
+  product announcements and job postings; the source below supersedes that rationale.
+  - **New evidence of an internal workflow:**
+    Source: [How the revenue team at Asana saved $100k a year by automating workflows](https://asana.com/resources/revenue-team-asana-automating-workflows),
+    by Alicia Raeburn, published 2026-06-26 in the asana.com resource center. The source removes
+    the job-posting basis of the original rejection. Asana's own APJ revenue-operations team does
+    use an AI Teammate for internal work.
+    **What it establishes:** an internal use. An APJ Programs and Operations Lead moves rep
+    requests from a Slack channel into a Revenue Operations inbox project. Rules categorize each
+    task by department, effort level, and request type. An AI Teammate then does a first-pass
+    assessment, pulls context from past requests, and surfaces the people for escalation. Asana
+    reports response times down from 3-4 days to less than one day, 165.6 working hours per week
+    recovered, and approximately $100K per year, which it equates to one sales rep quota. The
+    figures are self-reported, and the post gives no team size, no measurement period, and no
+    method.
+    **What remains unclear:** which parts of the Revenue Operations workflow the team configured
+    for its own work. The source describes the implemented sequence and its internal use, but does
+    not make clear how the team set up the categorization rules, the Teammate's instructions,
+    its retrieval of past requests, or its escalation routing.
+    **Decision:** needs evidence for inclusion question 2 (what Asana built or materially adapted).
+    The source answers questions 1 and 3 by identifying the internal team and describing its use.
+    Our inclusion policy accepts company context and workflow logic as material adaptation, requires
+    no minimum custom code, and permits an organization's own product. Stock integrations and
+    project task history therefore do not disqualify the case, and missing configuration details
+    are unknowns rather than evidence that no adaptation occurred.
+    **Next action:** find a source describing the team's configuration of the categorization rules,
+    Teammate instructions, knowledge scope, or escalation routing. An additional external-system
+    integration is not required. One related lead is unread: "How Asana uses AI Teammates to
+    scale competitive intelligence across a 400-person sales team".
 - **Canva**: the documented AI work is a consumer support product or vendor-tool usage. No
   internal build documented.
 - **Roblox**: every public AI story is a creator-facing product feature. Note: the engineering blog

@@ -6,9 +6,9 @@ This page summarizes reported operating practices in the catalog. These reports 
 
 ## Catalog snapshot
 
-These observations draw on 56 catalog entries. The entry is the counting unit; platforms and components can both appear. The evidence is uneven, and most sources are company reports.
+These observations draw on 66 catalog entries. The entry is the counting unit; platforms and components can both appear. The evidence is uneven, and most sources are company reports.
 
-27 entries list Slack as an interface. Agent autonomy, excluding infrastructure, is 20 `drafts-reviewed`, 5 `human-in-loop`, 6 `autonomous`, 1 `assistive`, and 11 `unknown`.
+33 entries list Slack as an interface. Agent autonomy, excluding infrastructure, is 28 `drafts-reviewed`, 5 `human-in-loop`, 6 `autonomous`, 1 `assistive`, and 11 `unknown`.
 
 <!-- END ADOPTION SNAPSHOT -->
 

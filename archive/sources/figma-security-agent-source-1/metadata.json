@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "figma-security-agent-source-1",
+  "original_url": "https://www.figma.com/blog/how-we-secure-figmas-internal-systems-with-agents/",
+  "final_url": "https://www.figma.com/blog/how-we-secure-figmas-internal-systems-with-agents/",
+  "captured_at": "2026-09-21T12:53:43Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.5.0-preview.6"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/figma-security-agent-source-1/content.md",
+      "sha256": "sha256:dcc88e8f637d56aaed36f93b52e76e209be49c5c7f71c15701b5f801a666e8a4",
+      "bytes": 32986
+    }
+  }
+}

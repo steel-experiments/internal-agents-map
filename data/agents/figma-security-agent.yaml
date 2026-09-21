@@ -1,0 +1,610 @@
+id: figma-security-agent
+company: Figma
+agent_name: Security alert triage and investigation agents
+aliases:
+- Tines Security Slackbot
+approach_type: agent-system
+deployment_stage: deployed
+year: 2026
+first_public_evidence:
+  date: '2026-07-29'
+  source_id: figma-security-agent-source-1
+last_reviewed_at: '2026-09-21'
+status: internal
+domains:
+- security
+- on-call
+- coding
+autonomy: drafts-reviewed
+operating_models:
+- scope: Panther alert in a Slack thread → agent investigation and evidence chain → on-call engineer confirms or
+    corrects
+  attention_boundary: work-product-review
+- scope: confirmed finding → agent-authored detection, suppression, or configuration change → draft pull request
+    review
+  attention_boundary: work-product-review
+- scope: alert matching a high-confidence benign or duplicate precedent → automatic severity downgrade before
+    anyone is paged
+  attention_boundary: exception-only
+- scope: platform security question or endpoint software approval inquiry routed to a non-triage agent
+  attention_boundary: unknown
+rubric:
+  invocation:
+  - event-driven
+  - interactive
+  state: cross-session-memory
+  identity: mixed
+  evidence_strength: detailed-primary
+summary: >-
+  Figma's security engineering team assembled an alert-response system from commercial parts rather than
+  writing an agent framework: agent loops run inside Tines workflow automation on Claude models, and retrieval
+  runs on AWS Bedrock Knowledge Bases and Amazon Kendra. Figma built the layers around them, including the Lambda
+  handlers that index every Panther SIEM alert, intent routing to specialized agents, the scoped tool contracts,
+  and the memory stores. A tagged Slack bot triages the alert with Okta, endpoint, Wiz, Slack, and Panther tools,
+  delegates deeper questions to a sub-agent that writes Snowflake SQL against the security data lake, and can open
+  pull requests against the detections repo or the monorepo.
+headline_metric: Around 70% reduction in time-to-resolution on complex alerts, reported by Figma in July 2026
+
+architecture:
+  sandbox: unknown
+  harness: 'Agent loops run inside Tines, a commercial workflow-automation product, which supplies the LLM loop
+    and the explicit tool interfaces; Figma built the surrounding system: AWS Lambda handlers that index and post
+    each Panther alert, a retrieval layer on AWS Bedrock Knowledge Bases and Amazon Kendra, webhook-triggered intent
+    routing to specialized agents, the deterministic tool-calling contracts, and the memory stores. The core tool
+    set is managed outside any individual agent as configuration-as-code.'
+  model: Claude models, named by tier rather than by version. A lighter model such as Claude Sonnet performs intent
+    routing and memory formatting; a model such as Claude Opus runs the alert triage agent and the Panther investigation
+    sub-agent.
+  interfaces:
+  - slack
+  - github
+  - webhook
+  tool_access: Each routed agent has its own scoped tool inventory and authorization layer. The alert triage agent's
+    tools cover Okta profiles, groups, and login history; North Pole Security Workshop rule and event search, host
+    sync status, and rule push for the Santa endpoint agent; Wiz audit logs, inventory, findings, and exposed resources;
+    Slack thread reads, profile lookups, and progress updates; Panther alert details, raw triggering events, and
+    related alerts; opening pull requests in the Panther detections repo or the monorepo; and delegation to the
+    Panther investigation sub-agent.
+  knowledge: 'Case memory is the Kendra and Bedrock corpus of past alerts plus investigation context, which is the
+    comment an on-call engineer leaves in the Slack alert thread or the Asana ticket and which is indexed back onto
+    the original alert. Retrieval is biased toward recent alerts and alerts that carry investigation context. The
+    investigation sub-agent keeps a separate procedural memory store organized by data-source tags such as aws,
+    okta, osquery, and workshop, holding schema findings written by a lighter model. Tines database records hold
+    stateful objects such as open agent-created pull requests and Panther investigation state.'
+  credentials: Authorization controls limit the agents to security team members, and Figma states that the agent
+    works on behalf of an authorized team member and that its tools are scoped, authorized, and monitored. Pull
+    requests the agent opens are authored by a service account, so the PR description carries the requesting engineer's
+    name and a link to the originating Slack thread. The post does not document how the agent authenticates to
+    each connected system.
+  context_mgmt: The triage agent receives the full Slack thread history plus its steering-memory markdown document,
+    loaded into context at the start of every run. It has no ambient access to whole Slack channels, and outside
+    direct messages it can read a thread only when it is re-tagged on the latest message.
+
+primitives:
+- name: Alert-to-resolution loop
+  desc: Panther alert → retrieval summary and precedent → intent routing → scoped-tool investigation → draft pull
+    request
+- name: Index the alert and retrieve precedent
+  desc: A Lambda handler converts each Panther alert into a standardized document with structured attributes and
+    indexes it into Kendra; the next similar alert queries Bedrock for semantic matches, biased toward recent alerts
+    and alerts carrying on-call investigation context
+- name: Post a first-pass summary and tag the bot
+  desc: The Lambda stream handler posts the alert to Slack with the first-pass LLM summary and similar-alert references,
+    then auto-tags the Tines Security Slackbot in the thread; on-call engineers can also tag the bot manually to
+    ask follow-up questions
+- name: Route the request by intent
+  desc: The tag fires a webhook into Tines, where a lighter model reads the full Slack thread and classifies the
+    request as alert triage, a platform security question, an app approval inquiry, or something else, and routes
+    it to a specialized agent with its own scoped tool inventory, authorization layer, and system prompt
+- name: Investigate with scoped tools
+  desc: The alert triage agent pulls the actor's Okta profile and access, checks endpoint rules and events in Workshop,
+    checks cloud findings in Wiz, reads linked Slack threads for past reasoning, and retrieves raw Panther events
+- name: Delegate data-lake questions to the investigation sub-agent
+  desc: For questions the direct tools cannot answer, the triage agent passes a natural-language query to a sub-agent
+    that writes and runs Snowflake SQL against the Panther data warehouse, which ingests AWS CloudTrail, Okta system
+    logs, GitHub audit events, GCP audit logs, osquery endpoint telemetry, Workshop and Santa events, Wiz findings,
+    and about a hundred other tables
+- name: Segment memory by precedent, policy, state, and schema
+  desc: Case memory holds past alerts and investigation context, steering memory holds behavioral rules the agent
+    can update when an engineer corrects it, Tines database records hold stateful objects, and the sub-agent's
+    tagged procedural memory holds schema findings it saves after a discovery query
+- name: Open a draft pull request for the fix
+  desc: Detection rule, allowlist, and suppression changes go to the Panther detections repo, and infrastructure,
+    service config, Terraform, RBAC, and IdP changes go to the monorepo; the agent picks up reviewer comments through
+    a GitHub webhook, can respond or make further changes, and can rebase stale branches onto the latest master
+- name: Enforce deterministic tool-call safeguards
+  desc: Every pull request the agent creates is set to draft by a deterministic post-step in the Tines workflow
+    rather than by a prompt instruction, and the same tool-calling contract keeps sensitive employee information
+    out of Okta responses and stops the agent closing or modifying pull requests it did not author
+
+key_metrics:
+- Figma reports a 20% drop in on-call pages from automatically downgrading the severity of alerts the retrieval
+  layer scored as high-confidence benign or duplicate
+- Figma reports 25% fewer endpoint software approval requests, which it attributes to the agent detecting when
+  a user is asking about a tool and directing them to comparable approved alternatives
+- Figma reports meaningfully higher on-call engineer confidence in resolution quality, which it attributes to the
+  agent's evidence chain being explicit and reviewable; no measurement is given
+- Figma reports that the first question the investigation sub-agent was asked about Zoom activity needed multiple
+  schema-discovery queries, and that the same question cost a single query after the sub-agent saved a procedural
+  memory
+- Figma states the system handles all initial security response work for the security team, and that the on-call
+  engineer's job shifted from investigating from scratch to reviewing what the agent found
+
+lessons_learned:
+- Figma separates precedent from policy across memory layers, after saving everything as steering memory started
+  overriding the agent's behavior in unwanted ways; a one-off lesson about a specific alert type goes into retrieval
+  investigation context, and a behavioral rule that should change how the agent approaches all alerts goes into
+  steering memory.
+- Figma's security team says procedural memory should have been in the system from the start, because the investigation
+  sub-agent's self-built schema memory was a late addition whose improvement was dramatic enough that the earlier
+  work feels wasted in retrospect.
+- Figma manages its core agent tool set in configuration-as-code outside any individual agent, after team members
+  iterating quickly produced divergent copies of the same core agent with different tool configurations.
+- Figma enforces controls as deterministic post-steps in the Tines workflow rather than as prompt instructions,
+  after finding that relying on the model to remember an instruction such as always creating a pull request as
+  a draft was not reliable enough.
+- Figma includes the requesting security engineer's name and a link to the originating Slack thread in every agent-authored
+  pull request, because bot-authored pull requests make git blame point at a service account; the team says it
+  should have done this from the start.
+- Figma's security team says it is more comfortable with agent autonomy when the action is bounded, reversible,
+  and supported by clear evidence than when it is broad, destructive, or hard to audit, and that read-heavy investigation,
+  duplicate detection, precedent retrieval, and draft remediation fit agentic execution better than generic high-powered
+  write paths.
+- Figma's security team advises designing the Slack trust model for public channels up front rather than bolting
+  it on, because user-activity detail that is fine in a private security thread becomes a problem in a channel
+  with a hundred people; Figma handles this with channel-aware prompt design and other deterministic controls.
+
+sources:
+- id: figma-security-agent-source-1
+  title: How we secure Figma's internal systems with agents
+  url: https://www.figma.com/blog/how-we-secure-figmas-internal-systems-with-agents/
+  canonical_url: https://www.figma.com/blog/how-we-secure-figmas-internal-systems-with-agents/
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  publisher: Figma
+  authors:
+  - Matthew Sullivan
+  - Brad Girardeau
+  published_at: '2026-07-29'
+  accessed_at: '2026-09-21'
+  last_verified_at: '2026-09-21'
+  capture:
+    manifest_path: archive/sources/figma-security-agent-source-1/metadata.json
+
+evidence:
+  summary:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 28, 32, 100-104
+  headline_metric:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, line 212 (Where we are now, and what's next)
+  - source_id: figma-security-agent-source-1
+    relation: contextualizes
+    locator: Article standfirst under the title, which states the same result as cutting time-to-resolution by
+      71% and omits the complex-alerts scope; the standfirst is outside the preserved capture and was read on the
+      live page on 2026-09-21
+  operating_models.0:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, line 210
+  operating_models.1:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 176, 184
+  operating_models.2:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 84-94
+  operating_models.3:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, line 104
+  architecture.sandbox:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 100, 121
+  architecture.harness:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 32, 100-104, 205
+  architecture.model:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 104, 110, 127, 158
+  architecture.interfaces:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 102, 104, 180
+  architecture.tool_access:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 104, 112-121
+  architecture.knowledge:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 46-48, 137, 149, 151
+  architecture.credentials:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 178, 186, 206
+  architecture.context_mgmt:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 110, 139, 188
+  primitives.0:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, line 28
+  primitives.1:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 32, 38, 46-48
+  primitives.2:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, line 102
+  primitives.3:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, line 104
+  primitives.4:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 110-119
+  primitives.5:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 121, 127-129
+  primitives.6:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 135-151
+  primitives.7:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 176, 180
+  primitives.8:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 184-186
+  key_metrics.0:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, lines 84-94, 212
+  key_metrics.1:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, line 212
+  key_metrics.2:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, line 212
+  key_metrics.3:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, line 158
+  key_metrics.4:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, line 210
+  lessons_learned.0:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, line 147
+  lessons_learned.1:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, line 204
+  lessons_learned.2:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, line 205
+  lessons_learned.3:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, line 184
+  lessons_learned.4:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, line 178
+  lessons_learned.5:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, line 190
+  lessons_learned.6:
+  - source_id: figma-security-agent-source-1
+    relation: supports
+    locator: Preserved content.md, line 206
+
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: high
+    confidence_reason: The post states that the on-call engineer's job shifted to reviewing what the agent found
+      and confirming or correcting it, which locates human attention at the investigation write-up rather than
+      during it.
+    valid_at: '2026-07'
+  operating_models.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: high
+    confidence_reason: The post says the agent opens pull requests and that a deterministic post-step sets every
+      one of them to draft, so the review of the change is the documented boundary. Opening a pull request is the
+      agent's authority; nothing in the post says the agent merges or deploys.
+    valid_at: '2026-07'
+  operating_models.2:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The severity-downgrade code path runs on a retrieval confidence score without a described
+      human checkpoint, and Figma credits it with fewer on-call pages. The post does not say what happens to a
+      downgraded alert afterwards, so the exception boundary is inferred from the reduced paging rather than stated.
+    valid_at: '2026-07'
+  operating_models.3:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: unverified
+    confidence_reason: The post names platform security questions and app approval inquiries as separate routed
+      agents with their own tools and prompts, but describes no review step for their answers. The boundary is
+      undocumented, and the triage boundary must not be assumed to carry over.
+    valid_at: '2026-07'
+  headline_metric:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: 'Figma reports the figure in its own engineering blog with no measurement method, denominator,
+      or interval, and hedges it as "around 70%". The page also states the result two ways: the standfirst says
+      time-to-resolution was cut by 71% with no scope, while the body says around 70% on complex alerts. This record
+      keeps the body wording because it is the more precise and more bounded of the two.'
+    valid_at: '2026-07'
+    reported_by: Figma
+    metric_scope: Time-to-resolution on complex security alerts handled by the agent system
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Figma attributes the drop to the automatic severity downgrade alone and repeats it in the
+      results paragraph, but reports no baseline period, denominator, or method. The downgrade runs in the retrieval
+      layer on a confidence threshold, not in the triage agent.
+    valid_at: '2026-07'
+    reported_by: Figma
+    metric_scope: On-call pages, after automatically downgrading high or critical alerts scored as high-confidence
+      benign or duplicate
+  key_metrics.1:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: The figure appears only in the summary list of results, with the mechanism Figma credits
+      for it but no baseline, denominator, or method.
+    valid_at: '2026-07'
+    reported_by: Figma
+    metric_scope: Endpoint software approval requests reaching the security team
+  key_metrics.2:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: Figma states engineer confidence is meaningfully higher but gives no survey, scale, or other
+      measurement, so this is a qualitative impression reported alongside the numeric results.
+    valid_at: '2026-07'
+    reported_by: Figma
+    metric_scope: On-call engineer confidence in resolution quality
+  key_metrics.3:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: The before-and-after query counts come from one worked example about Zoom activity that
+      Figma uses to illustrate procedural memory; the post says the pattern repeated across data sources but gives
+      no aggregate.
+    valid_at: '2026-07'
+    reported_by: Figma
+    metric_scope: Queries the investigation sub-agent needed for one repeated data-lake question, before and after
+      it saved a schema memory
+  key_metrics.4:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Figma states the coverage directly, but gives no alert counts, exclusions, or period, so
+      the scope of "all initial security response work" rests on the team's own characterization.
+    valid_at: '2026-07'
+    reported_by: Figma
+    metric_scope: Initial security response work for Figma's security team
+  architecture.sandbox:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The post places the agent loops in Tines and has the sub-agent execute SQL against Snowflake,
+      but documents no execution isolation boundary for agent-run code; unknown does not mean absent.
+  lessons_learned.0:
+    kind: fact
+    provenance: reported
+    confidence: high
+    confidence_reason: The memory section states the split and names the early mistake of saving everything as
+      steering memory, including the consequence it produced.
+  lessons_learned.1:
+    kind: opinion
+    provenance: reported
+    confidence: medium
+    confidence_reason: This is the team's own hindsight preference in the "In hindsight" list. The underlying improvement
+      is illustrated by one example and a general claim that the pattern repeated, not by measured results across
+      data sources.
+  lessons_learned.2:
+    kind: fact
+    provenance: reported
+    confidence: high
+    confidence_reason: The hindsight list states both the fragmentation problem and the configuration-as-code arrangement
+      Figma runs today.
+  lessons_learned.3:
+    kind: fact
+    provenance: reported
+    confidence: high
+    confidence_reason: The guardrails section states that the draft setting is a deterministic post-step in the
+      Tines workflow and gives the reliability failure that led to it.
+  lessons_learned.4:
+    kind: fact
+    provenance: reported
+    confidence: high
+    confidence_reason: The code-changes section states the practice, the git blame reason behind it, and the team's
+      view that it should have been there from the start.
+  lessons_learned.5:
+    kind: opinion
+    provenance: reported
+    confidence: medium
+    confidence_reason: This is Figma's stated comfort boundary for autonomy, not a measured finding, and it is
+      bounded to the action types this security workflow performs.
+  lessons_learned.6:
+    kind: opinion
+    provenance: reported
+    confidence: medium
+    confidence_reason: The hindsight list gives this as advice from Figma's experience with a Slack-integrated
+      security agent, with the controls Figma uses; the post reports no incident that tested them.
+
+page_content:
+  version: 1
+  reviewed_at: '2026-09-21'
+  source_ids:
+  - figma-security-agent-source-1
+  workflow_scope: Panther alert through retrieval precedent, intent routing, scoped-tool investigation, and a draft
+    pull request the on-call engineer reviews
+  questions:
+    purpose:
+      state: reported
+      claim_paths:
+      - summary
+    workflow:
+      state: reported
+      claim_paths:
+      - primitives.1
+      - primitives.2
+      - primitives.3
+      - primitives.4
+      - primitives.5
+      - primitives.7
+      note: The alert-to-resolution loop and the memory layers are mechanisms that support the run rather than
+        steps in it, and the deterministic safeguards are recorded under validation.
+    human_involvement:
+      state: reported
+      claim_paths:
+      - operating_models.0
+      - operating_models.1
+      - operating_models.2
+      - operating_models.3
+      - primitives.8
+      note: Four workflows have different boundaries. The on-call engineer reviews what the triage agent found;
+        remediation returns as a pull request that a deterministic post-step forces to draft, so the agent can
+        open a pull request but the post never says it merges or deploys; high-confidence benign or duplicate alerts
+        are downgraded before anyone is paged; and the post documents no review step for the non-triage intents.
+    implementation:
+      state: reported
+      claim_paths:
+      - architecture.harness
+      - architecture.model
+      - architecture.tool_access
+      - architecture.knowledge
+      - architecture.credentials
+      - architecture.context_mgmt
+      - architecture.interfaces
+    validation:
+      state: reported
+      claim_paths:
+      - primitives.8
+      note: What is documented is deterministic tool-call safeguards and pull-request review. Figma names better
+        evaluation of agent conclusions as future work, so no evaluation harness or accuracy check is reported.
+    observations:
+      state: reported
+      claim_paths:
+      - headline_metric
+      - key_metrics.0
+      - key_metrics.1
+      - key_metrics.2
+      - key_metrics.3
+      - key_metrics.4
+    lessons:
+      state: reported
+      claim_paths:
+      - lessons_learned.0
+      - lessons_learned.1
+      - lessons_learned.2
+      - lessons_learned.3
+      - lessons_learned.4
+      - lessons_learned.5
+      - lessons_learned.6
+  implementation_fields:
+    model:
+      state: reported
+      claim_paths:
+      - architecture.model
+      note: The post names Claude Sonnet and Claude Opus as examples of the tier used at each step, hedged as "a
+        model like"; no version is given.
+    harness:
+      state: reported
+      claim_paths:
+      - architecture.harness
+    sandbox:
+      state: unreported
+      claim_paths: []
+      note: Tines runs the agent loops and the sub-agent executes SQL against Snowflake, but no execution isolation
+        boundary is described; the legacy unknown claim stays in research details.
+    tool_access:
+      state: reported
+      claim_paths:
+      - architecture.tool_access
+    knowledge:
+      state: reported
+      claim_paths:
+      - architecture.knowledge
+    context_mgmt:
+      state: reported
+      claim_paths:
+      - architecture.context_mgmt
+    credentials:
+      state: reported
+      claim_paths:
+      - architecture.credentials
+      note: Authorization scoping, the service-account pull-request identity, and the on-behalf-of rule are stated;
+        the authentication mechanism for each connected system is not.
+    interfaces:
+      state: reported
+      claim_paths:
+      - architecture.interfaces
+      note: Alert summaries also reach Asana tickets and investigation context is indexed from them, but Asana
+        is not an interface value in the schema.
+  primitive_roles:
+    primitives.0: mechanism
+    primitives.1: workflow
+    primitives.2: workflow
+    primitives.3: workflow
+    primitives.4: workflow
+    primitives.5: workflow
+    primitives.6: mechanism
+    primitives.7: workflow
+    primitives.8: validation
+  observations:
+    headline_metric:
+      category: cost-latency
+      basis: estimate
+      subject: Time-to-resolution on complex security alerts handled by the agent system
+    key_metrics.0:
+      category: cost-latency
+      basis: reported-measurement
+      subject: On-call pages after automatic severity downgrading of high-confidence benign or duplicate alerts
+    key_metrics.1:
+      category: cost-latency
+      basis: reported-measurement
+      subject: Endpoint software approval requests reaching the security team
+    key_metrics.2:
+      category: effectiveness
+      basis: qualitative
+      subject: On-call engineer confidence in resolution quality
+    key_metrics.3:
+      category: cost-latency
+      basis: qualitative
+      subject: Queries the investigation sub-agent needed for one repeated data-lake question before and after
+        saving a schema memory
+    key_metrics.4:
+      category: adoption-output
+      basis: qualitative
+      subject: Share of initial security response work the system handles for Figma's security team

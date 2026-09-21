@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "meta-rea-source-1",
+  "original_url": "https://engineering.fb.com/2026/03/17/developer-tools/ranking-engineer-agent-rea-autonomous-ai-system-accelerating-meta-ads-ranking-innovation/",
+  "final_url": "https://engineering.fb.com/2026/03/17/developer-tools/ranking-engineer-agent-rea-autonomous-ai-system-accelerating-meta-ads-ranking-innovation/",
+  "captured_at": "2026-09-21T12:44:54Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.5.0-preview.6"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/meta-rea-source-1/content.md",
+      "sha256": "sha256:60276135212fb98a1d2bda5aa99bb8d5c957634cf8a61bf560db087fe971a20c",
+      "bytes": 12432
+    }
+  }
+}

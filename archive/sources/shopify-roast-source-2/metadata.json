@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "shopify-roast-source-2",
+  "original_url": "https://github.com/Shopify/roast",
+  "final_url": "https://github.com/Shopify/roast",
+  "captured_at": "2026-09-21T13:04:59Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.5.0-preview.6"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/shopify-roast-source-2/content.md",
+      "sha256": "sha256:8f698d976936c141076f87c614e92fea849a71e0be69de3489bb28e2e19bb337",
+      "bytes": 10190
+    }
+  }
+}

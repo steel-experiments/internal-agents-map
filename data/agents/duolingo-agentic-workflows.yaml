@@ -1,0 +1,369 @@
+id: duolingo-agentic-workflows
+company: Duolingo
+agent_name: Agentic workflows
+approach_type: platform
+deployment_stage: deployed
+year: 2025
+first_public_evidence:
+  date: "2025-12-11"
+  source_id: duolingo-agentic-workflows-source-1
+last_reviewed_at: "2026-09-21"
+status: internal
+domains:
+- coding
+autonomy: unknown
+operating_models:
+- scope: "prompt drafted and tested with a coding agent → workflow form merged into the internal tool list"
+  attention_boundary: work-product-review
+- scope: "published workflow run → committed change, optionally opened as a pull request"
+  attention_boundary: unknown
+rubric:
+  invocation:
+  - interactive
+  state: unknown
+  identity: service
+  evidence_strength: limited-primary
+summary: Duolingo built shared infrastructure that turns a tested prompt into an internal tool. A JSON form defines
+  a coding-agent workflow against one repository, Temporal runs the workflows that need several steps, and a shared
+  library wraps the Codex CLI and the Claude Code SDK.
+architecture:
+  sandbox: unknown
+  harness: Temporal runs the workflows; a shared CodingAgent library wraps the Codex CLI and the Claude Code SDK
+    behind one interface.
+  interfaces:
+  - internal-ui
+  - slack
+  - github
+  tool_access: Workflows clone repositories and open pull requests through a shared GitHub utility package. Prototype
+    agents use the GitHub MCP server, and an Atlassian server is named as planned work.
+  credentials: Coding-agent API keys are set as environment variables, and a shared GitHub App token makes every
+    pull request come from a bot account with centrally controlled permissions.
+primitives:
+- name: Fill out the workflow form
+  desc: A Duo describes the workflow in a simple JSON form that carries a prompt, a code repository, and zero or
+    more parameters for sharing and reuse.
+- name: Test the prompt
+  desc: Duos craft the prompt in Codex or Claude until they judge it successful and check that it works in a variety
+    of situations, then stage the workflow for end-to-end testing.
+- name: Publish to the internal tool list
+  desc: A merged form appears automatically in a list of internal tools that any Duo can run, and Slack notifications
+    report the progress of a run.
+- name: Run the common pattern
+  desc: The shared pattern clones the repository, lets the coding agent make the code change, then commits the code
+    and optionally opens a pull request.
+- name: CodingAgent library
+  desc: One library wraps the Codex CLI and the Claude Code SDK; a call gives a prompt and a working directory,
+    and an enum parameter usually selects which agent runs.
+- name: GitHub utility package
+  desc: A shared package holds the common repository interactions, such as cloning a repository and opening a pull
+    request, and is used by all of the agents.
+- name: Multi-step Temporal workflows
+  desc: A custom workflow gives each step a single retryable activity with its own timeout and retry policy, so
+    that long-running work survives a failed step.
+key_metrics:
+- Duolingo says a Duo can create a workflow that follows the common pattern in under five minutes; the post states
+  this as a section heading and a TL;DR claim, with no measurement method
+- Duolingo reports an average of 1-2 days to create a custom Temporal workflow by running BootstrapTemporalWorkflow
+  and copying an existing workflow; no period, denominator, or method is reported
+lessons_learned:
+- Duolingo found one pattern recurring across its coding agents (clone the repository, make the change, commit and
+  optionally open a pull request) and built its no-code workflow form around that pattern.
+- Duolingo splits a multi-step agent workflow into single retryable activities with their own timeouts and retry
+  policies, so that AI non-determinism does not restart the whole process.
+- Duolingo routes the pull requests of all its agents through a shared GitHub App token, so that they come from
+  one bot account with centrally controlled permissions.
+- Duolingo reports that running Docker inside Docker on Temporal blocks a set of planned agent features, and says
+  the issue is being actively addressed.
+- The authors describe agentic workflows at Duolingo as early days and call both the capabilities and the supporting
+  infrastructure open questions.
+sources:
+- id: duolingo-agentic-workflows-source-1
+  title: Scaling Engineering with Agentic Workflows
+  url: https://blog.duolingo.com/agentic-workflows/
+  canonical_url: https://blog.duolingo.com/agentic-workflows/
+  kind: corporate-article
+  provenance_class: first-party
+  role: evidence
+  publisher: Duolingo Blog
+  authors:
+  - Jesse Welch
+  - Hunter Zhang
+  published_at: "2025-12-11"
+  accessed_at: "2026-09-21"
+  last_verified_at: "2026-09-21"
+  capture:
+    manifest_path: archive/sources/duolingo-agentic-workflows-source-1/metadata.json
+evidence:
+  summary:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, lines 10, 36, 52-58
+  operating_models.0:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, lines 44, 48
+  operating_models.1:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, lines 22-28
+  architecture.sandbox:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: contextualizes
+    locator: Preserved content.md, line 102 (Docker in Docker on Temporal named as a blocker, with no execution
+      environment described)
+  architecture.harness:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, lines 54, 58
+  architecture.interfaces:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, lines 48, 90
+  architecture.tool_access:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, lines 90, 106
+  architecture.credentials:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, lines 58, 90
+  primitives.0:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, line 36
+  primitives.1:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, line 44
+  primitives.2:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, line 48
+  primitives.3:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, lines 22-28
+  primitives.4:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, lines 58-86
+  primitives.5:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, line 90
+  primitives.6:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, line 94
+  key_metrics.0:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, lines 10, 30 (TL;DR sentence and section heading)
+  key_metrics.1:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, line 54
+  lessons_learned.0:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, lines 22-32
+  lessons_learned.1:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, line 94
+  lessons_learned.2:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, line 90
+  lessons_learned.3:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, line 102
+  lessons_learned.4:
+  - source_id: duolingo-agentic-workflows-source-1
+    relation: supports
+    locator: Preserved content.md, lines 114-116
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The post says Duos test the prompt until they judge it successful and stage the workflow
+      for end-to-end testing before merging the form. It does not say who else reviews a form, so the boundary covers
+      the creator only.
+    valid_at: "2025-12"
+  operating_models.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: unverified
+    confidence_reason: The post describes the run pattern as commit and optionally open a pull request, but never
+      says whether a person must review the change before it takes effect.
+    valid_at: "2025-12"
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: The five-minute figure appears as a section heading and in the TL;DR of a Duolingo blog post.
+      No sample, period, or timing method is reported, so it states an expected creation time rather than a measured
+      result.
+    valid_at: "2025-12"
+    reported_by: Duolingo
+    metric_scope: Time for a Duo to create a workflow that follows the common clone-change-commit pattern through
+      the JSON form
+  key_metrics.1:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: Duolingo reports this as an average in its own blog post, but gives a one-day range with
+      no sample size, period, or collection method, so it reads as a rough in-house figure.
+    valid_at: "2025-12"
+    reported_by: Duolingo
+    metric_scope: Time to create a custom Temporal workflow by running BootstrapTemporalWorkflow and copying an
+      existing workflow
+  lessons_learned.0:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: The post names the three-step pattern and states that the no-code form was built for common
+      patterns like this. It describes Duolingo's own repositories and does not claim the pattern fits other organizations.
+  lessons_learned.1:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: The multi-step section states the one-activity-per-step rule and gives the reason, that AI
+      non-determinism should not restart the whole process. No failure rate or comparison is reported.
+  lessons_learned.2:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: The GitHub library section states the shared App token, the bot account, and the central
+      permissions. The post does not describe what those permissions allow or deny.
+  lessons_learned.3:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: The next-steps section names Docker in Docker on Temporal as the blocker for a large set
+      of features and says it is being addressed. The expected fix date is Duolingo's forecast, so it is left out
+      of the lesson.
+  lessons_learned.4:
+    kind: opinion
+    provenance: reported
+    confidence: medium
+    confidence_reason: The closing section is the authors' own assessment of their work; it is a stated position
+      about Duolingo's maturity, not a measured finding.
+page_content:
+  version: 1
+  reviewed_at: "2026-09-21"
+  source_ids:
+  - duolingo-agentic-workflows-source-1
+  workflow_scope: "JSON workflow form → published internal tool whose run clones the repository, makes the code change,
+    and commits it, optionally opening a pull request"
+  questions:
+    purpose:
+      state: reported
+      claim_paths:
+      - summary
+    workflow:
+      state: reported
+      claim_paths:
+      - primitives.0
+      - primitives.2
+      - primitives.3
+      note: "The three primitives cover the documented JSON-form path. The CodingAgent library, the GitHub package,
+        and the Temporal multi-step pattern are mechanisms that support a run, not steps of it."
+    human_involvement:
+      state: reported
+      claim_paths:
+      - operating_models.0
+      note: "The post locates human attention in workflow creation only: the creator tests the prompt and stages
+        end-to-end testing before merging the form. It does not document who reviews the output of a run, which
+        the second operating-model claim records as unknown in research details."
+    implementation:
+      state: reported
+      claim_paths:
+      - architecture.harness
+      - architecture.tool_access
+      - architecture.credentials
+      - architecture.interfaces
+    validation:
+      state: reported
+      claim_paths:
+      - primitives.1
+      note: "Validation is documented at creation time, as prompt iteration plus staged end-to-end testing. No per-run
+        check of a workflow's output is described."
+    observations:
+      state: reported
+      claim_paths:
+      - key_metrics.0
+      - key_metrics.1
+      note: "Both figures are creation-time claims about the platform. The post reports no outcome of any workflow
+        built on it, so no downstream agent result is attributed here."
+    lessons:
+      state: reported
+      claim_paths:
+      - lessons_learned.0
+      - lessons_learned.1
+      - lessons_learned.2
+      - lessons_learned.3
+      - lessons_learned.4
+  implementation_fields:
+    model:
+      state: unreported
+      claim_paths: []
+      note: "The post names the Codex CLI and the Claude Code SDK as the agents it wraps, but identifies no model
+        for any workflow. Next research action: look for a Duolingo post or talk that names the models behind the
+        CodingAgent library."
+    harness:
+      state: reported
+      claim_paths:
+      - architecture.harness
+    sandbox:
+      state: unreported
+      claim_paths: []
+      note: "No execution isolation is described. The unknown placeholder stays in research details; the Docker-in-Docker
+        blocker names a constraint, not the environment a workflow runs in."
+    tool_access:
+      state: reported
+      claim_paths:
+      - architecture.tool_access
+      note: "The GitHub utility package is in production. The GitHub MCP server is described as a prototype and
+        the Atlassian server as planned; neither is a shipped capability."
+    knowledge:
+      state: unreported
+      claim_paths: []
+      note: "The form carries a prompt and one repository; no knowledge base, retrieval, or company-context source
+        is described. Next research action: check whether the expanded agent.json or a later post documents context
+        sources."
+    context_mgmt:
+      state: unreported
+      claim_paths: []
+      note: "Durable retries across Temporal activities are described, but nothing about how agent context is carried
+        between passes or runs."
+    credentials:
+      state: reported
+      claim_paths:
+      - architecture.credentials
+      note: "The post names the shared GitHub App token and the bot account, but not what the central permissions
+        allow."
+    interfaces:
+      state: reported
+      claim_paths:
+      - architecture.interfaces
+  primitive_roles:
+    primitives.0: workflow
+    primitives.1: validation
+    primitives.2: workflow
+    primitives.3: workflow
+    primitives.4: mechanism
+    primitives.5: mechanism
+    primitives.6: mechanism
+  observations:
+    key_metrics.0:
+      category: cost-latency
+      basis: estimate
+      subject: "Time for a Duo to create a JSON-form workflow that follows the common pattern, stated as under five
+        minutes"
+    key_metrics.1:
+      category: cost-latency
+      basis: estimate
+      subject: "Average time to create a custom Temporal workflow, stated as 1-2 days"
