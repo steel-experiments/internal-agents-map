@@ -19,8 +19,8 @@ verification gate, and update the status row when finished.
 | [009](009-agent-page-content-pilot.md) | Pilot a shared content standard on five agent pages | P1 | L | 008 editorial follow-up | DONE; user approved merge to main on 2026-09-17 |
 | [010](010-page-content-batch-2.md) | Apply the page-content standard to a second reviewed batch | P1 | M | 009 | DONE on 2026-09-17; 10 of 40 records reviewed |
 | [011](011-page-content-catalog-completion.md) | Complete the page-content standard across the catalog | P1 | L | 009, 010 | DONE on 2026-09-17; all 40 records reviewed |
-| [012](012-separate-agents-and-infrastructure.md) | Give agents and infrastructure distinct places in one catalog | P1 | L | 008–011 | DONE on 2026-09-17; independently verified on isolated branch `codex/plan-012-agents-infrastructure`; not published |
-| [013](013-add-company-pages.md) | Add company pages within the existing design | P2 | M | 012 + approved UI removals | DONE on 2026-09-17; independent full verification and desktop/mobile design review passed |
+| [012](012-separate-agents-and-infrastructure.md) | Give agents and infrastructure distinct places in one catalog | P1 | L | 008–011 | DONE on 2026-09-17; merged to main in `f02973f` and published |
+| [013](013-add-company-pages.md) | Add company pages within the existing design | P2 | M | 012 + approved UI removals | DONE on 2026-09-17; independent full verification and desktop/mobile design review passed; merged to main in `8ee1c13` and published at `/organizations/<id>` |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) |
 REJECTED (with one-line rationale)
@@ -221,4 +221,6 @@ coverage, archives, Astro/TypeScript, 69 built pages and 68 canonical routes,
 artifact parity, Ruff, privacy, local links, and whitespace checks passed. Desktop
 and mobile visual review covered collection browsing, infrastructure/agent/family
 profiles, and search. See the classification review ledger for source decisions.
-Implementation is approved locally; this record does not claim merge or deployment.
+Merged to main as `f02973f` on 2026-09-17, by the merge that also carried Plan 013
+(`9be66c7`), and published: `/infrastructure` and the agent catalog both answer on
+the live site, with the split as recorded above.
