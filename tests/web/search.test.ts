@@ -85,6 +85,7 @@ describe('suggestions', () => {
     expect(suggest('coding', vocabulary)[0]?.id).toBe('coding');
     expect(suggest('level 5', vocabulary).map((term) => term.id)).toEqual(['exception-only']);
     expect(suggest('review level', vocabulary).map((term) => term.id)).toEqual([
+      'outcome-review',
       'work-product-review',
     ]);
   });

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "cursor-support-workflow-source-1",
+  "original_url": "https://cursor.com/blog/cursor-support",
+  "final_url": "https://cursor.com/blog/cursor-support",
+  "captured_at": "2026-09-21T13:01:02Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.5.0-preview.6"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/cursor-support-workflow-source-1/content.md",
+      "sha256": "sha256:4f119ebe00e3ea8d69dc89cf43a8deb8baf3629bd6c2072c5c8fd26557aa20f1",
+      "bytes": 5839
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "amplitude-design-agent-source-1",
+  "original_url": "https://www.amplitude.com/blog/design-agent",
+  "final_url": "https://www.amplitude.com/blog/design-agent",
+  "captured_at": "2026-09-21T12:55:23Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.5.0-preview.6"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/amplitude-design-agent-source-1/content.md",
+      "sha256": "sha256:a8837e60575a00a3132f9df904687c82370d90bdf726eec0c7e28333ba65794e",
+      "bytes": 11596
+    }
+  }
+}

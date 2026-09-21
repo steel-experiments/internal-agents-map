@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "bitrise-kolega-source-1",
+  "original_url": "https://bitrise.io/blog/post/how-we-built-a-coding-agent-that-lives-in-slack-and-the-recipe-to-build-your-own",
+  "final_url": "https://bitrise.io/blog/post/how-we-built-a-coding-agent-that-lives-in-slack-and-the-recipe-to-build-your-own",
+  "captured_at": "2026-09-21T12:54:20Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.5.0-preview.6"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/bitrise-kolega-source-1/content.md",
+      "sha256": "sha256:f410bb35cd79665b785bd06cc07aa5070acd528989119de56908d35565743758",
+      "bytes": 14224
+    }
+  }
+}

@@ -8,20 +8,20 @@ Most evidence comes from organizations that describe their own systems. Architec
 
 ## Catalog snapshot
 
-The catalog currently contains 56 entries. These are catalog classifications, not independent deployments or industry shares:
+The catalog currently contains 66 entries. These are catalog classifications, not independent deployments or industry shares:
 
 | Type | Count |
 | --- | ---: |
-| Agent | 40 |
-| Platform | 11 |
-| Agent family | 3 |
+| Agent | 46 |
+| Platform | 13 |
+| Agent family | 5 |
 | Orchestration system | 0 |
 | Supporting pattern | 2 |
 
-- 17 entries document a concrete execution environment.
-- 27 entries list Slack as an interface.
-- State duration is unknown for 36, durable-session for 10, cross-session-memory for 5, mixed for 4, and run-only for 1 approaches.
-- Agent autonomy (43 records; infrastructure excluded) is classified as drafts-reviewed for 20, human-in-loop for 5, autonomous for 6, assistive for 1, and unknown for 11 approaches.
+- 19 entries document a concrete execution environment.
+- 33 entries list Slack as an interface.
+- State duration is unknown for 39, durable-session for 14, cross-session-memory for 6, mixed for 5, and run-only for 2 approaches.
+- Agent autonomy (51 records; infrastructure excluded) is classified as drafts-reviewed for 28, human-in-loop for 5, autonomous for 6, assistive for 1, and unknown for 11 approaches.
 
 <!-- END PATTERNS SNAPSHOT -->
 

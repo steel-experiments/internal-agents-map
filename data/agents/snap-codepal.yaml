@@ -1,0 +1,615 @@
+id: snap-codepal
+company: Snap
+agent_name: CodePal
+relationships:
+- type: related-to
+  approach_id: snap-casper
+approach_type: agent
+deployment_stage: scaled
+year: 2026
+first_public_evidence:
+  date: '2026-06-05'
+  source_id: snap-codepal-source-1
+last_reviewed_at: '2026-09-21'
+status: internal
+domains:
+- code-review
+autonomy: drafts-reviewed
+operating_models:
+- scope: pull request diff → posted review findings, semantic summary, and generated description that the author
+    and the human reviewer act on
+  attention_boundary: work-product-review
+rubric:
+  invocation:
+  - event-driven
+  state: durable-session
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: Snap built CodePal, an internal AI code reviewer that comments on pull requests in its GitHub Enterprise
+  instance before a human reviewer reads them. It builds symbolic context for the diff without cloning the
+  repository, runs a multi-pass review loop with a verifier that audits every finding, and posts bug findings, a
+  semantic diff summary, and a generated pull request description. Snap reports that CodePal reviews 90% of all its
+  pull requests today, and that every pull request still requires a final engineering approval.
+headline_metric: More than 200,000 reviews across 90% of all pull requests over the last 4 months, catching
+  thousands of confirmed issues that were corrected before human review and before reaching production
+
+architecture:
+  sandbox: unknown
+  harness: A parent workflow builds the review context once and writes it to a shared store that three child
+    workflows for code review, summary generation, and description generation all read; the review loop runs
+    concurrent model passes under a supervisor with an agreement gate and an eager hand-off, alongside a separate
+    long-running verifier conversation
+  interfaces:
+  - github
+  tool_access: Reads git tree diffs and only the required source blobs through the GitHub Enterprise API without
+    cloning, and for a growing share of reviews queries Code Search, Snap's internal semantic search over the full
+    codebase
+  knowledge: Repository-level customization through a .codepal.yaml file and per-path instructions, and
+    repository-specific review checks on top of the shared bug categories
+  context_mgmt: A two-pass file picker scores repository files by symbol overlap with the diff and selects the top
+    N within a token budget, so a typical review reads a few hundred KB of source whatever the repository size;
+    reviews are also chunked into logical parts to avoid overwhelming the model
+
+primitives:
+- name: Diff-to-review pipeline
+  desc: Pull request diff → symbolic context build → multi-pass review loop → verified findings, a semantic diff
+    summary, and a generated description posted on the pull request
+- name: Read the code without a clone
+  desc: Every review runs in memory against the GitHub Enterprise API, using git tree diffs to identify what
+    changed and fetching only the needed blobs, with no working copy written to disk and no long-lived repository
+    mirror
+- name: Build symbolic context with a two-pass file picker
+  desc: The first pass parses the repository with tree-sitter to build a symbol-to-file index; the second pass
+    extracts the symbols the diff references, scores files by symbol overlap, and selects the top N files within
+    the token budget
+- name: Share one context build across three child workflows
+  desc: A parent workflow runs the symbol indexing and file selection once and writes the result to a shared
+    store, which the code review, summary generation, and description generation child workflows all read
+- name: Run two bootstrap passes in parallel
+  desc: Two passes start together on the same model with different sampling parameters, and comparing their
+    findings shows which findings the model actually believes
+- name: Launch a speculative third pass behind an agreement gate
+  desc: A third pass starts in a cancellable context as soon as one bootstrap pass finishes; the supervisor
+    discards its work when the two bootstrap passes agree and counts it when they disagree
+- name: Hand off to the next pass as soon as a finding is new
+  desc: From the third pass onward, a pass that surfaces a finding the supervisor has not seen launches the next
+    pass without waiting for the current one to finish, and a pass with no net-new findings gets no successor
+- name: Detect bugs that compilation and tests miss
+  desc: CodePal looks for logic errors, null pointer risks, race conditions, resource leaks, error handling gaps,
+    type mismatches, edge cases, and state management problems, and Snap expanded the detection scope from 8 bug
+    categories to 12
+- name: Track dependencies across repositories
+  desc: For a growing share of reviews CodePal queries Code Search to identify the downstream callers a function
+    signature change would break, including callers that live in a different repository than the pull request
+    touches
+- name: Re-review each new commit incrementally
+  desc: Each new commit triggers a focused re-review, with auto-resolution of findings whose files have left the
+    diff
+- name: Verify each finding before it is posted
+  desc: The Verifier, a separate long-running model conversation, consumes findings as they merge and audits each
+    one against the supplied context, for example checking that every symbol a finding cites is present in that
+    context
+- name: Turn engineer reactions into ground truth
+  desc: The Finding Lifecycle records a thumbs up or thumbs down on each CodePal comment, together with findings
+    that authors fix and findings merged without being addressed, and aggregates them into the ground truth
+    dataset
+- name: AB test every change against the evaluation framework
+  desc: An evaluation framework built on the ground truth dataset AB tests new CodePal changes, targeting higher
+    true-positive recall and fewer false positives, with speed and cost kept as guardrails
+
+key_metrics:
+- Adoption went from 0% to 90% of pull requests within a single quarter
+- CodePal started as an opt-in experiment on 9% of pull requests and reached voluntary use across 300
+  repositories with more than 70% positive sentiment before teams were auto opted in
+- The recall rate of true positives climbed from 30% to 80%
+- The false positive rate on the golden dataset dropped to 0%, measured on the held-out golden dataset and not on
+  live traffic
+- CodePal finds 75% more bugs with a positive rating than it did before the recall work
+- Engineer sentiment on bug findings reached 80% positive
+- CodePal reviews complete within 10 minutes, while the median wait for a first human review is about 5 hours
+- Reviews cost on average about $0.40 each
+- The majority of accepted bugs, meaning findings that received a +1 vote in the pull request review, rank as
+  Critical or High severity
+- Snap's merged pull request rate is up 60% year-to-date, which the article attributes to daily engineer use of AI
+  coding tools rather than to CodePal
+
+lessons_learned:
+- Snap concluded that for its own missed bugs the context supplied to the model mattered more than picking a
+  top-tier model, and it chunks each review into logical parts so the model is not overwhelmed.
+- CodePal produces high-quality reviews with zero configuration in most Snap repositories, but Snap reports that
+  its largest and most complex repositories generate noise until teams invest in .codepal.yaml configuration and
+  per-path instructions.
+- 'Snap keeps a human approval gate: CodePal reviews code written by humans and AI alike, and every pull request
+  still requires a final engineering approval.'
+- Snap built CodePal in-house after evaluating vendor tools, citing integration depth with its internal systems
+  and speed; a working end-to-end demo shipped in two weeks, before the procurement cycle had finished.
+- Snap reports that voting on every CodePal comment creates a flywheel, because the recorded feedback influences
+  future reviews and the engineers who engage most shape what CodePal surfaces for them.
+
+sources:
+- id: snap-codepal-source-1
+  title: 'CodePal: How Snap Built an AI Code Reviewer for the Age of AI-Written Code'
+  url: https://eng.snap.com/codepal
+  canonical_url: https://eng.snap.com/codepal
+  kind: engineering-blog
+  provenance_class: first-party
+  publisher: Snap Engineering
+  role: evidence
+  published_at: '2026-06-05'
+  accessed_at: '2026-09-21'
+  last_verified_at: '2026-09-21'
+  capture:
+    manifest_path: archive/sources/snap-codepal-source-1/metadata.json
+
+evidence:
+  summary:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 18, 20, 60, 66, 92, 155
+  headline_metric:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: The Numbers, first bullet; preserved content.md, line 147
+  operating_models.0:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 121, 125, 155
+  architecture.sandbox:
+  - source_id: snap-codepal-source-1
+    relation: contextualizes
+    locator: 'Preserved content.md, lines 64-68: in-memory, no-clone repository access, with no execution or
+      isolation boundary described'
+  architecture.harness:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 68, 82-92
+  architecture.interfaces:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 20, 66
+  architecture.tool_access:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 40, 66
+  architecture.knowledge:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 44, 139
+  architecture.context_mgmt:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 60, 66, 135
+  primitives.0:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 34, 52, 68
+  primitives.1:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, line 66
+  primitives.2:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, line 60
+  primitives.3:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, line 68
+  primitives.4:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, line 82
+  primitives.5:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, line 86
+  primitives.6:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, line 90
+  primitives.7:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 44, 114
+  primitives.8:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, line 40
+  primitives.9:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, line 115
+  primitives.10:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 92, 123
+  primitives.11:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 125-127
+  primitives.12:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, line 108
+  key_metrics.0:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 100, 149
+  key_metrics.1:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, line 100
+  key_metrics.2:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 100, 117
+  key_metrics.3:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, line 117
+  key_metrics.4:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, line 117
+  key_metrics.5:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 100, 117, 150
+  key_metrics.6:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, line 148
+  key_metrics.7:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, line 151
+  key_metrics.8:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, line 46
+  key_metrics.9:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 10-12
+  lessons_learned.0:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, line 135
+  lessons_learned.1:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 137-139
+  lessons_learned.2:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 143, 155
+  lessons_learned.3:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, lines 26-30
+  lessons_learned.4:
+  - source_id: snap-codepal-source-1
+    relation: supports
+    locator: Preserved content.md, line 141
+
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: high
+    confidence_reason: The source states that engineers judge each posted finding, that their reactions are
+      recorded as ground truth, and that every pull request still requires a final engineering approval, so
+      attention returns on the review output rather than on an outcome or an exception.
+    valid_at: '2026-06'
+  headline_metric:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Snap reports the review count and the coverage share in its own engineering blog; the
+      thousands of confirmed issues carry no counting rule and none of the figures are independently reviewed.
+    valid_at: '2026-06'
+    reported_by: Snap
+    metric_scope: CodePal reviews over the last 4 months before publication; the source dates the window
+      relatively and gives no calendar range
+    denominator: 90% of all pull requests at Snap
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Snap states the start and end points of the ramp in its own blog; the quarter is named
+      only as a single quarter and no rollout dates are given.
+    valid_at: '2026-06'
+    reported_by: Snap
+    metric_scope: Share of pull requests receiving a CodePal review, from virtually no AI-reviewed pull requests
+      to over 90%, within a single unnamed quarter
+    denominator: All pull requests at Snap
+  key_metrics.1:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: The adoption narrative gives the 9% starting point, the 300-repository figure, and the
+      sentiment share, but does not date the stages or say how sentiment was collected at that point.
+    valid_at: '2026-06'
+    reported_by: Snap
+    metric_scope: The opt-in phase of the CodePal rollout, before teams were auto opted in
+    denominator: Pull requests at Snap for the 9% figure; repositories for the 300-repository figure
+  key_metrics.2:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Snap reports the recall change twice and names the evaluation framework behind it, but
+      publishes neither the dataset size nor its definition of a recallable bug.
+    valid_at: '2026-06'
+    reported_by: Snap
+    metric_scope: Recall of true positives, reported as climbing during the same quarter in which adoption
+      reached 90%; the source gives no calendar dates
+    measurement_method: An evaluation framework with a ground truth dataset formed from real engineer feedback,
+      used to AB test CodePal changes
+  key_metrics.3:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Snap states the 0% rate and volunteers the limit that it was measured on a held-out golden
+      dataset rather than on live traffic, which bounds what the number shows.
+    valid_at: '2026-06'
+    reported_by: Snap
+    metric_scope: False positive rate on the held-out golden dataset, explicitly not on live traffic
+    measurement_method: Measurement against the held-out golden dataset in the evaluation framework
+  key_metrics.4:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: Snap reports the relative increase without naming the baseline period, the absolute counts,
+      or whether review volume grew over the same span.
+    valid_at: '2026-06'
+    reported_by: Snap
+    metric_scope: Bugs found with a positive rating, compared with an unnamed earlier period
+  key_metrics.5:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: The 80% sentiment figure appears in both the adoption section and the closing numbers; the
+      source does not state how the sentiment share is collected or over how many findings.
+    valid_at: '2026-06'
+    reported_by: Snap
+    metric_scope: Engineer sentiment on CodePal bug findings
+  key_metrics.6:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Snap gives a completion bound for CodePal and a median for the human comparison; the
+      CodePal figure is stated as within 10 minutes rather than as a median, and neither figure is dated.
+    valid_at: '2026-06'
+    reported_by: Snap
+    metric_scope: CodePal review completion time against the median wait for the first human review on a Snap
+      pull request
+  key_metrics.7:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Snap reports an average unit cost without a measurement window or a statement of what the
+      cost includes.
+    valid_at: '2026-06'
+    reported_by: Snap
+    metric_scope: Average cost of one CodePal review
+  key_metrics.8:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: Snap describes the severity split as a majority and defines an accepted bug as one with a
+      +1 vote, but gives no share, no count, and no severity-rating method.
+    valid_at: '2026-06'
+    reported_by: Snap
+    metric_scope: Severity of CodePal findings that engineers accepted with a +1 vote in the pull request review
+    denominator: Accepted CodePal bug findings
+  key_metrics.9:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Snap reports this as a company-wide velocity figure behind the review bottleneck that
+      prompted CodePal; the article attributes it to AI coding tool use, not to CodePal, and gives no method.
+    valid_at: '2026-06'
+    reported_by: Snap
+    metric_scope: Snap's merged pull request rate year-to-date, reported as context for building CodePal rather
+      than as a CodePal result
+  lessons_learned.0:
+    kind: opinion
+    provenance: reported
+    confidence: medium
+    confidence_reason: The lessons section states this as Snap's own conclusion from the misses reported to the
+      team; no counts of missed bugs or model comparisons are published to support it.
+  lessons_learned.1:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: Snap reports both the zero-configuration result for most repositories and the noise its
+      biggest repositories produce without per-path instructions; the claim covers Snap's repositories only.
+  lessons_learned.2:
+    kind: fact
+    provenance: reported
+    confidence: high
+    confidence_reason: The closing section states directly that CodePal reviews human-written and AI-written code
+      and that every pull request still requires a final engineering approval.
+  lessons_learned.3:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: Snap names both reasons it rejected vendor tools and dates the demo at two weeks; the
+      procurement comparison is Snap's own account of its evaluation.
+  lessons_learned.4:
+    kind: opinion
+    provenance: reported
+    confidence: medium
+    confidence_reason: Snap describes the voting mechanism as fact and the flywheel as its own reading of it; the
+      article shows no measurement that engagement improved later reviews for the engineers who voted.
+  architecture.sandbox:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The article documents in-memory, no-clone repository access but no execution or isolation
+      boundary; unknown does not mean absent.
+
+page_content:
+  version: 1
+  reviewed_at: '2026-09-21'
+  source_ids:
+  - snap-codepal-source-1
+  workflow_scope: Pull request diff through symbolic context build, the multi-pass review loop, and verified
+    findings posted for the author and the human reviewer
+  questions:
+    purpose:
+      state: reported
+      claim_paths:
+      - summary
+    workflow:
+      state: reported
+      claim_paths:
+      - primitives.2
+      - primitives.3
+      - primitives.4
+      - primitives.5
+      - primitives.6
+      - primitives.7
+      - primitives.8
+      - primitives.9
+    human_involvement:
+      state: reported
+      claim_paths:
+      - operating_models.0
+      - lessons_learned.2
+      note: Findings are posted for the author and the human reviewer to judge and vote on, and every pull
+        request still requires a final engineering approval.
+    implementation:
+      state: reported
+      claim_paths:
+      - architecture.harness
+      - architecture.tool_access
+      - architecture.knowledge
+      - architecture.context_mgmt
+      - architecture.interfaces
+    validation:
+      state: reported
+      claim_paths:
+      - primitives.10
+      - primitives.11
+      - primitives.12
+    observations:
+      state: reported
+      claim_paths:
+      - headline_metric
+      - key_metrics.0
+      - key_metrics.1
+      - key_metrics.2
+      - key_metrics.3
+      - key_metrics.4
+      - key_metrics.5
+      - key_metrics.6
+      - key_metrics.7
+      - key_metrics.8
+      - key_metrics.9
+    lessons:
+      state: reported
+      claim_paths:
+      - lessons_learned.0
+      - lessons_learned.1
+      - lessons_learned.2
+      - lessons_learned.3
+      - lessons_learned.4
+  implementation_fields:
+    model:
+      state: unreported
+      claim_paths: []
+      note: The article names no review model; it says only that the two bootstrap passes share one model with
+        different sampling parameters and that Snap keeps testing which model balances quality, cost, and speed.
+    harness:
+      state: reported
+      claim_paths:
+      - architecture.harness
+    sandbox:
+      state: unreported
+      claim_paths: []
+      note: The article documents in-memory, no-clone repository access through the GitHub Enterprise API but no
+        execution or isolation boundary; the unknown claim stays in the research details.
+    tool_access:
+      state: reported
+      claim_paths:
+      - architecture.tool_access
+    knowledge:
+      state: reported
+      claim_paths:
+      - architecture.knowledge
+    context_mgmt:
+      state: reported
+      claim_paths:
+      - architecture.context_mgmt
+    credentials:
+      state: unreported
+      claim_paths: []
+      note: The article states that every review runs against the GitHub Enterprise API but does not document how
+        CodePal authenticates to it or to Code Search.
+    interfaces:
+      state: reported
+      claim_paths:
+      - architecture.interfaces
+  primitive_roles:
+    primitives.0: mechanism
+    primitives.1: mechanism
+    primitives.2: workflow
+    primitives.3: workflow
+    primitives.4: workflow
+    primitives.5: workflow
+    primitives.6: workflow
+    primitives.7: workflow
+    primitives.8: workflow
+    primitives.9: workflow
+    primitives.10: validation
+    primitives.11: validation
+    primitives.12: validation
+  observations:
+    headline_metric:
+      category: adoption-output
+      basis: reported-measurement
+      subject: CodePal review volume and pull request coverage over the last 4 months before publication, with
+        the confirmed issues corrected before human review
+    key_metrics.0:
+      category: adoption-output
+      basis: reported-measurement
+      subject: Growth of CodePal pull request coverage from none to over 90% within a single unnamed quarter
+    key_metrics.1:
+      category: adoption-output
+      basis: reported-measurement
+      subject: The opt-in phase of the rollout, covering the 9% starting share, 300 voluntary repositories, and
+        sentiment during that phase
+    key_metrics.2:
+      category: effectiveness
+      basis: reported-measurement
+      subject: True-positive recall measured against the ground truth dataset
+    key_metrics.3:
+      category: effectiveness
+      basis: reported-measurement
+      subject: False positive rate on the held-out golden dataset, explicitly not on live traffic
+    key_metrics.4:
+      category: effectiveness
+      basis: reported-measurement
+      subject: Relative increase in positively rated bug findings against an unnamed earlier baseline
+    key_metrics.5:
+      category: effectiveness
+      basis: reported-measurement
+      subject: Engineer sentiment on CodePal bug findings
+    key_metrics.6:
+      category: cost-latency
+      basis: reported-measurement
+      subject: CodePal review completion time against the median wait for a first human review
+    key_metrics.7:
+      category: cost-latency
+      basis: reported-measurement
+      subject: Average cost of one CodePal review
+    key_metrics.8:
+      category: effectiveness
+      basis: qualitative
+      subject: Severity split of the CodePal findings that engineers accepted with a +1 vote
+    key_metrics.9:
+      category: adoption-output
+      basis: reported-measurement
+      subject: Snap's company-wide merged pull request rate year-to-date, reported as context for building
+        CodePal rather than as a CodePal result

@@ -17,9 +17,17 @@
       "html": "/agents/airbnb-pascal.html",
       "markdown": "/agents/airbnb-pascal.md"
     },
+    "/agents/amplitude-design-agent": {
+      "html": "/agents/amplitude-design-agent.html",
+      "markdown": "/agents/amplitude-design-agent.md"
+    },
     "/agents/atlassian-rovo-dev": {
       "html": "/agents/atlassian-rovo-dev.html",
       "markdown": "/agents/atlassian-rovo-dev.md"
+    },
+    "/agents/bitrise-kolega": {
+      "html": "/agents/bitrise-kolega.html",
+      "markdown": "/agents/bitrise-kolega.md"
     },
     "/agents/block-builderbot": {
       "html": "/agents/block-builderbot.html",
@@ -61,9 +69,17 @@
       "html": "/agents/coinbase-mux.html",
       "markdown": "/agents/coinbase-mux.md"
     },
+    "/agents/cursor-support-workflow": {
+      "html": "/agents/cursor-support-workflow.html",
+      "markdown": "/agents/cursor-support-workflow.md"
+    },
     "/agents/databricks-costar": {
       "html": "/agents/databricks-costar.html",
       "markdown": "/agents/databricks-costar.md"
+    },
+    "/agents/deel-payroll-incident-agents": {
+      "html": "/agents/deel-payroll-incident-agents.html",
+      "markdown": "/agents/deel-payroll-incident-agents.md"
     },
     "/agents/domu-clementino": {
       "html": "/agents/domu-clementino.html",
@@ -93,6 +109,14 @@
       "html": "/agents/dropbox-nova.html",
       "markdown": "/agents/dropbox-nova.md"
     },
+    "/agents/duolingo-agentic-workflows": {
+      "html": "/agents/duolingo-agentic-workflows.html",
+      "markdown": "/agents/duolingo-agentic-workflows.md"
+    },
+    "/agents/figma-security-agent": {
+      "html": "/agents/figma-security-agent.html",
+      "markdown": "/agents/figma-security-agent.md"
+    },
     "/agents/flex-investigation-agent": {
       "html": "/agents/flex-investigation-agent.html",
       "markdown": "/agents/flex-investigation-agent.md"
@@ -116,6 +140,10 @@
     "/agents/linear-agent": {
       "html": "/agents/linear-agent.html",
       "markdown": "/agents/linear-agent.md"
+    },
+    "/agents/meta-rea": {
+      "html": "/agents/meta-rea.html",
+      "markdown": "/agents/meta-rea.md"
     },
     "/agents/microsoft-prassistant": {
       "html": "/agents/microsoft-prassistant.html",
@@ -185,6 +213,10 @@
       "html": "/agents/shopify-river.html",
       "markdown": "/agents/shopify-river.md"
     },
+    "/agents/shopify-roast": {
+      "html": "/agents/shopify-roast.html",
+      "markdown": "/agents/shopify-roast.md"
+    },
     "/agents/sierra-pinecone": {
       "html": "/agents/sierra-pinecone.html",
       "markdown": "/agents/sierra-pinecone.md"
@@ -192,6 +224,14 @@
     "/agents/slack-context-system": {
       "html": "/agents/slack-context-system.html",
       "markdown": "/agents/slack-context-system.md"
+    },
+    "/agents/snap-casper": {
+      "html": "/agents/snap-casper.html",
+      "markdown": "/agents/snap-casper.md"
+    },
+    "/agents/snap-codepal": {
+      "html": "/agents/snap-codepal.html",
+      "markdown": "/agents/snap-codepal.md"
     },
     "/agents/spotify-honk-xirp": {
       "html": "/agents/spotify-honk-xirp.html",
@@ -233,9 +273,17 @@
       "html": "/organizations/airbnb.html",
       "markdown": "/organizations/airbnb.md"
     },
+    "/organizations/amplitude": {
+      "html": "/organizations/amplitude.html",
+      "markdown": "/organizations/amplitude.md"
+    },
     "/organizations/atlassian": {
       "html": "/organizations/atlassian.html",
       "markdown": "/organizations/atlassian.md"
+    },
+    "/organizations/bitrise": {
+      "html": "/organizations/bitrise.html",
+      "markdown": "/organizations/bitrise.md"
     },
     "/organizations/block": {
       "html": "/organizations/block.html",
@@ -253,9 +301,17 @@
       "html": "/organizations/coinbase.html",
       "markdown": "/organizations/coinbase.md"
     },
+    "/organizations/cursor": {
+      "html": "/organizations/cursor.html",
+      "markdown": "/organizations/cursor.md"
+    },
     "/organizations/databricks": {
       "html": "/organizations/databricks.html",
       "markdown": "/organizations/databricks.md"
+    },
+    "/organizations/deel": {
+      "html": "/organizations/deel.html",
+      "markdown": "/organizations/deel.md"
     },
     "/organizations/domu": {
       "html": "/organizations/domu.html",
@@ -268,6 +324,14 @@
     "/organizations/dropbox": {
       "html": "/organizations/dropbox.html",
       "markdown": "/organizations/dropbox.md"
+    },
+    "/organizations/duolingo": {
+      "html": "/organizations/duolingo.html",
+      "markdown": "/organizations/duolingo.md"
+    },
+    "/organizations/figma": {
+      "html": "/organizations/figma.html",
+      "markdown": "/organizations/figma.md"
     },
     "/organizations/flex": {
       "html": "/organizations/flex.html",
@@ -288,6 +352,10 @@
     "/organizations/linear": {
       "html": "/organizations/linear.html",
       "markdown": "/organizations/linear.md"
+    },
+    "/organizations/meta": {
+      "html": "/organizations/meta.html",
+      "markdown": "/organizations/meta.md"
     },
     "/organizations/microsoft": {
       "html": "/organizations/microsoft.html",
@@ -340,6 +408,10 @@
     "/organizations/slack": {
       "html": "/organizations/slack.html",
       "markdown": "/organizations/slack.md"
+    },
+    "/organizations/snap": {
+      "html": "/organizations/snap.html",
+      "markdown": "/organizations/snap.md"
     },
     "/organizations/spotify": {
       "html": "/organizations/spotify.html",

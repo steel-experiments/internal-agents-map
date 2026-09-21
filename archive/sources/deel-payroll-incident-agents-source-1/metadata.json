@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "deel-payroll-incident-agents-source-1",
+  "original_url": "https://www.deel.com/blog/900-engineering-hours-eliminated-with-akai/",
+  "final_url": "https://www.deel.com/blog/900-engineering-hours-eliminated-with-akai/",
+  "captured_at": "2026-09-21T12:53:37Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.5.0-preview.6"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/deel-payroll-incident-agents-source-1/content.md",
+      "sha256": "sha256:6397cff043f2c0c6c0b8005745c5aca592a4bd5a928d5f4b176d5709ce8a43e9",
+      "bytes": 9928
+    }
+  }
+}

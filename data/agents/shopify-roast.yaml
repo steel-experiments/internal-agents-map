@@ -1,0 +1,444 @@
+id: shopify-roast
+company: Shopify
+agent_name: Roast
+approach_type: platform
+deployment_stage: deployed
+year: 2025
+first_public_evidence:
+  date: '2025-06-18'
+  source_id: shopify-roast-source-1
+last_reviewed_at: '2026-09-21'
+status: open-sourced
+domains:
+- coding
+- code-review
+- on-call
+- research
+autonomy: unknown
+operating_models:
+- scope: "Boba workflow: untyped Ruby test file → deterministic cleanup and Sorbet autocorrect → coding-agent
+    iteration until tests and type checking pass"
+  attention_boundary: unknown
+rubric:
+  invocation:
+  - interactive
+  - scheduled
+  state: durable-session
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: Roast is the workflow orchestration framework Shopify's Augmented Engineering Developer Experience team
+  extracted from its internal AI tools and open-sourced; Shopify runs Roast workflows internally to interleave
+  AI steps with deterministic code.
+architecture:
+  sandbox: unknown
+  harness: "As released in 2025: a Ruby command-line framework that reads a workflow.yml file and matching markdown
+    prompt files, interprets each step from its structure, and can be used with any programming language."
+  model: An OpenAI API key is a prerequisite, or OpenRouter for other models; the Raix library abstracts AI providers
+    and adds retry, caching and structured output; the built-in CodingAgent tool is powered by Claude Code.
+  tool_access: Built-in ReadFile, WriteFile, UpdateFiles, Grep, SearchFile, Cmd, Bash and CodingAgent tools; WriteFile
+    carries security restrictions and Cmd carries configurable restrictions.
+  knowledge: Markdown prompt files use ERB templating to read the workflow context; complex logic goes in custom
+    Ruby step classes that inherit from BaseStep.
+  credentials: An OpenAI or OpenRouter API key is required; Raix initializers in the .roast/initializers directory
+    can add custom authentication schemes.
+  context_mgmt: Steps in a workflow share their conversation transcript, so a later step references earlier discoveries
+    without extra configuration; every execution is saved so a run can resume from any step.
+  interfaces:
+  - cli
+primitives:
+- name: Clean up the test file
+  desc: Deterministic sed steps clean up the code before any AI step runs.
+- name: Bump the file to strict typing
+  desc: The workflow raises the test file to strict Sorbet typing.
+- name: Run Sorbet autocorrect
+  desc: Sorbet's autocorrect resolves the type errors it can fix on its own.
+- name: Hand remaining issues to the coding agent
+  desc: The CodingAgent iteratively fixes the type errors the deterministic steps left behind.
+- name: Confirm the file passes
+  desc: The workflow runs the tests and ensures that both the tests and type checking pass.
+- name: Declarative workflow definition
+  desc: A workflow.yml file and matching prompt.md files define the steps, and Roast interprets each step from
+    its structure.
+- name: Mixed deterministic and AI steps
+  desc: Directory prompts, shell commands wrapped in $(), inline prompts, custom Ruby step classes and nested-array
+    parallel steps run in one workflow.
+- name: Advanced control flow
+  desc: Workflows iterate over collections, execute steps conditionally and branch with case statements.
+- name: Built-in tool set
+  desc: ReadFile, WriteFile, UpdateFiles, Grep, SearchFile, Cmd and Bash are supplied out of the box.
+- name: CodingAgent step
+  desc: A Claude Code integration runs as a step and iterates within the guardrails and objectives the workflow
+    author sets.
+- name: Shared transcript
+  desc: Steps share their conversation transcript so later steps build on the context earlier steps produced.
+- name: Session replay
+  desc: Roast saves every workflow execution so development resumes from any step instead of rerunning expensive
+    AI operations.
+key_metrics:
+- Shopify engineers analyzed thousands of test files with Roast, identifying and fixing common antipatterns and
+  increasing test coverage; the post reports no count, period or baseline.
+- A dozen engineers had contributed features and workflows to the public Roast repository by publication.
+lessons_learned:
+- Shopify says AI agents need help staying on track and work much better when a complicated prompt is broken into
+  discrete steps; letting AI roam free around millions of lines of code did not work well for its unit-test work.
+- For type annotation, Shopify runs deterministic cleanup and Sorbet autocorrect first and hands only the remaining
+  issues to the coding agent.
+- Shopify says saving every workflow execution and resuming from any step speeds up workflow development because
+  expensive AI operations are not rerun.
+- Shopify describes using an AI step as a placeholder for a part of a workflow the author does not yet understand,
+  then replacing it with deterministic code once the problem is clearer.
+sources:
+- id: shopify-roast-source-1
+  title: 'Introducing Roast: Structured AI workflows made easy'
+  url: https://shopify.engineering/introducing-roast
+  canonical_url: https://shopify.engineering/introducing-roast
+  kind: engineering-blog
+  provenance_class: first-party
+  role: evidence
+  publisher: Shopify
+  authors:
+  - Obie Fernandez
+  published_at: '2025-06-18'
+  accessed_at: '2026-09-21'
+  last_verified_at: '2026-09-21'
+  capture:
+    manifest_path: archive/sources/shopify-roast-source-1/metadata.json
+- id: shopify-roast-source-2
+  title: 'Shopify/roast: Structured AI workflows made easy'
+  url: https://github.com/Shopify/roast
+  canonical_url: https://github.com/Shopify/roast
+  kind: repository
+  provenance_class: first-party
+  role: evidence
+  publisher: Shopify
+  accessed_at: '2026-09-21'
+  last_verified_at: '2026-09-21'
+  capture:
+    manifest_path: archive/sources/shopify-roast-source-2/metadata.json
+evidence:
+  summary:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 12, 16, 170: the DX team built and open-sourced Roast, extracted it from
+      internal AI tools, and reports internal deployment'
+  operating_models.0:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 94, 174: the Boba workflow runs deterministic cleanup and autocorrect,
+      then the CodingAgent iterates until tests and type checking pass'
+  architecture.sandbox:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 70-77: the tool list names file and command restrictions, not an execution
+      boundary'
+  architecture.harness:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 16, 26-64: convention-oriented framework, workflow.yml plus prompt files,
+      command-line tool usable from any language'
+  - source_id: shopify-roast-source-2
+    relation: contextualizes
+    locator: 'Preserved content.md, lines 12-66: the repository now documents a Ruby DSL built from cogs and run
+      with bin/roast execute, a later redesign of the 2025 YAML configuration'
+  architecture.model:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 50, 146-154: OpenAI API key or OpenRouter prerequisite, Raix provider
+      abstraction, CodingAgent powered by Claude Code'
+  - source_id: shopify-roast-source-2
+    relation: contextualizes
+    locator: 'Preserved content.md, lines 60-140: the repository now documents OpenAI, Anthropic, Perplexity and
+      Gemini chat providers and Pi or Claude Code agent CLIs'
+  architecture.tool_access:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 68-77: the built-in toolkit list with its restriction notes'
+  architecture.knowledge:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 34-40, 54-58: prompt.md files with ERB templating and BaseStep Ruby step
+      classes'
+  architecture.credentials:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 146-150, 156-162: the API key prerequisite and Raix initializers adding
+      custom authentication schemes'
+  architecture.context_mgmt:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 96-98, 118-124: shared conversation transcript and saved executions that
+      resume from any step'
+  architecture.interfaces:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 16, 142-144: Roast is a command line tool distributed as a Ruby gem'
+  primitives.0:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, line 174: Boba performs cleanup with sed'
+  primitives.1:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, line 174: Boba bumps tests to strict typing'
+  primitives.2:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 94, 174: Boba runs Sorbet autocorrect'
+  primitives.3:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 94, 174: remaining issues are fed to the coding agent, which iteratively
+      fixes type errors'
+  primitives.4:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 94, 174: the agent runs tests and ensures both tests and type checking
+      pass'
+  primitives.5:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 24-36: convention over configuration, workflow.yml and directory-based
+      prompt.md steps'
+  primitives.6:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 30-64: the five step formats Roast interprets by structure'
+  primitives.7:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 102-116: iteration over collections, conditional execution and case statements'
+  primitives.8:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 66-76: the built-in toolkit list'
+  primitives.9:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 77, 79-92: the CodingAgent integrates Claude Code and has autonomy within
+      the guardrails the author sets'
+  primitives.10:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 96-98: steps share their conversation transcript'
+  primitives.11:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 118-124: session replay saves every execution and resumes from any step'
+  key_metrics.0:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, line 172: engineers have analyzed thousands of test files'
+  key_metrics.1:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, line 20: a dozen Engineers have already contributed features and workflows
+      on GitHub'
+  lessons_learned.0:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, line 10: AI agents need help staying on track; allowing AI to roam free around
+      millions of lines of code did not work very well'
+  lessons_learned.1:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 94, 174: deterministic steps clean up and autocorrect, then remaining
+      issues go to the CodingAgent'
+  lessons_learned.2:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, lines 120-124: session replay eliminates the need to rerun expensive AI operations'
+  lessons_learned.3:
+  - source_id: shopify-roast-source-1
+    relation: supports
+    locator: 'Preserved content.md, line 190: use AI as a placeholder to keep the workflow moving, then replace
+      it with deterministic code'
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: unverified
+    confidence_reason: The post follows the Boba workflow to a file where tests and type checking pass and says
+      the team pursued unit-test work with minimal human intervention, but it names no point at which a person
+      reviews the result.
+    valid_at: '2025-06'
+  architecture.sandbox:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The reviewed sources describe WriteFile security restrictions and configurable Cmd restrictions
+      but no execution or isolation boundary; unknown does not mean absent.
+  architecture.harness:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: The 2025 post describes the YAML-and-markdown design in detail; the repository captured
+      in 2026 documents a Ruby DSL instead, so the claim is scoped to the release the post describes.
+    valid_at: '2025-06'
+  architecture.model:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: The post names the API-key prerequisite, Raix, and Claude Code behind the CodingAgent, but
+      never names the model a plain AI step uses; the repository captured in 2026 lists a different provider set.
+    valid_at: '2025-06'
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: Shopify reported an approximate scale in its own engineering blog with no count, measurement
+      window, coverage baseline or method.
+    valid_at: '2025-06'
+    reported_by: Shopify
+    metric_scope: Test files analyzed with Roast workflows inside Shopify
+  key_metrics.1:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: Shopify reported an approximate contributor count for its public repository without a period,
+      and without saying whether the contributors are Shopify employees or outside developers.
+    valid_at: '2025-06'
+    reported_by: Shopify
+    metric_scope: Engineers who had contributed features and workflows to the public Roast repository as of publication
+  lessons_learned.0:
+    kind: opinion
+    provenance: reported
+    confidence: medium
+    confidence_reason: The opening section states this as what the team learned while building AI workflows for
+      unit-test grading; it is Shopify's account of its own experience, with no measurement behind it.
+  lessons_learned.1:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: The CodingAgent section and the internal-impact section both describe this step order for
+      Boba; the post does not compare it against an all-agent alternative, so it stays a description of Shopify's
+      own workflow.
+  lessons_learned.2:
+    kind: opinion
+    provenance: reported
+    confidence: medium
+    confidence_reason: The session-replay section asserts the speed-up for workflow authors; the post reports no
+      development-time measurement.
+  lessons_learned.3:
+    kind: opinion
+    provenance: reported
+    confidence: low
+    confidence_reason: The closing section presents this as the post author's reading of a quoted Shopify engineer;
+      the Steel capture preserves the author's paragraph but drops the quotation it interprets, so the engineer's
+      own wording was not reviewed from the capture.
+page_content:
+  version: 1
+  reviewed_at: '2026-09-21'
+  source_ids:
+  - shopify-roast-source-1
+  - shopify-roast-source-2
+  workflow_scope: "Boba workflow: untyped Ruby test file → deterministic cleanup and Sorbet autocorrect → coding-agent
+    iteration until tests and type checking pass"
+  questions:
+    purpose:
+      state: reported
+      claim_paths:
+      - summary
+    workflow:
+      state: reported
+      claim_paths:
+      - primitives.0
+      - primitives.1
+      - primitives.2
+      - primitives.3
+      note: "The post breaks out one internal workflow step by step, the Boba type-annotation workflow; the other
+        internal uses it names are described only by purpose."
+    human_involvement:
+      state: not-applicable
+      claim_paths: []
+      note: "Roast is a framework, so no single review boundary covers its workflows; the scoped Boba operating-model
+        claim stays in research details and its boundary is unknown."
+    implementation:
+      state: reported
+      claim_paths:
+      - architecture.harness
+      - architecture.model
+      - architecture.tool_access
+      - architecture.knowledge
+      - architecture.credentials
+      - architecture.context_mgmt
+      - architecture.interfaces
+    validation:
+      state: reported
+      claim_paths:
+      - primitives.4
+    observations:
+      state: reported
+      claim_paths:
+      - key_metrics.0
+      - key_metrics.1
+    lessons:
+      state: reported
+      claim_paths:
+      - lessons_learned.0
+      - lessons_learned.1
+      - lessons_learned.2
+      - lessons_learned.3
+  implementation_fields:
+    model:
+      state: reported
+      claim_paths:
+      - architecture.model
+      note: "The post names the API-key prerequisite, the Raix abstraction and Claude Code behind the CodingAgent;
+        it names no model for a plain AI step."
+    harness:
+      state: reported
+      claim_paths:
+      - architecture.harness
+      note: "The claim describes the 2025 release; the repository captured in 2026 documents a Ruby DSL of cogs
+        instead."
+    sandbox:
+      state: unreported
+      claim_paths: []
+      note: "The reviewed sources document WriteFile security restrictions and configurable Cmd restrictions, not
+        an execution or isolation boundary; the unknown claim stays in research details."
+    tool_access:
+      state: reported
+      claim_paths:
+      - architecture.tool_access
+    knowledge:
+      state: reported
+      claim_paths:
+      - architecture.knowledge
+    context_mgmt:
+      state: reported
+      claim_paths:
+      - architecture.context_mgmt
+    credentials:
+      state: reported
+      claim_paths:
+      - architecture.credentials
+      note: "The post names the provider API key and custom authentication schemes through Raix initializers; it
+        names no employee sign-in or secret store."
+    interfaces:
+      state: reported
+      claim_paths:
+      - architecture.interfaces
+      note: "The post names a command line tool distributed as a Ruby gem; the Slack channels the SRE workflow
+        reads are a data source, not an invocation interface."
+  primitive_roles:
+    primitives.0: workflow
+    primitives.1: workflow
+    primitives.2: workflow
+    primitives.3: workflow
+    primitives.4: validation
+    primitives.5: mechanism
+    primitives.6: mechanism
+    primitives.7: mechanism
+    primitives.8: mechanism
+    primitives.9: mechanism
+    primitives.10: mechanism
+    primitives.11: mechanism
+  observations:
+    key_metrics.0:
+      category: implementation-scale
+      basis: estimate
+      subject: Test files analyzed with Roast workflows inside Shopify
+    key_metrics.1:
+      category: adoption-output
+      basis: estimate
+      subject: Engineers who had contributed features and workflows to the public Roast repository

@@ -1,0 +1,404 @@
+id: meta-rea
+company: Meta
+agent_name: Ranking Engineer Agent (REA)
+aliases: [REA]
+approach_type: agent
+deployment_stage: deployed
+year: 2026
+first_public_evidence:
+  date: '2026-03-17'
+  source_id: meta-rea-source-1
+last_reviewed_at: '2026-09-21'
+status: internal
+domains:
+- data
+- research
+autonomy: drafts-reviewed
+operating_models:
+- scope: "engineer-approved experiment plan → multiround training experiments → model-improvement proposal reviewed for launch"
+  attention_boundary: outcome-review
+rubric:
+  invocation:
+  - interactive
+  - background
+  - event-driven
+  state: mixed
+  identity: unknown
+  evidence_strength: detailed-primary
+summary: >-
+  Meta built the Ranking Engineer Agent (REA) to run machine learning experimentation for its ads ranking
+  models. REA generates hypotheses from a historical experiment database and a deep ML research agent,
+  proposes an exploration strategy and GPU compute budget that an engineer confirms, then launches training
+  jobs, debugs failures, and iterates across workflows that span days to weeks, hibernating while a job runs
+  and waking when it completes. Engineers confirm the plan and approve the resulting improvement proposals.
+headline_metric: "REA-driven iterations doubled average model accuracy over baseline approaches across six ads ranking models in the first production validation (self-reported, March 2026)."
+
+architecture:
+  sandbox: unknown
+  harness: >-
+    Built on Confucius, an internal Meta AI agent framework for complex, multistep reasoning that supplies
+    code generation and an SDK for integrating with Meta internal tooling; REA itself splits into a REA
+    Planner and a REA Executor over a shared skill, knowledge and tool system, with the executor running an
+    agent loop and a wait state
+  tool_access: >-
+    Integrates through the Confucius SDK with Meta internal job schedulers, experiment tracking
+    infrastructure, and codebase navigation tools; launches and manages training jobs and works exclusively
+    on the Meta ads ranking model codebase under engineer-granted access controls and a confirmed compute
+    budget
+  knowledge: >-
+    A curated historical insights database of past experiments supports in-context learning across prior
+    successes and failures; a dedicated experiment logger writes outcomes, key metrics, and configurations
+    into a centralized hypothesis experiment insight database that both the deep ML research agent and the
+    hypothesis generator read
+  context_mgmt: >-
+    A hibernate-and-wake mechanism delegates the wait for a training job to a background system, shuts the
+    agent down to conserve resources, and resumes it where it left off when the job completes; REA maintains
+    persistent state and memory across multiround workflows spanning days or weeks
+
+primitives:
+- name: REA Planner and REA Executor over a shared skill, knowledge and tool system
+  desc: >-
+    The planner builds a detailed experiment plan with an engineer, the plan is exported to the executor,
+    which manages asynchronous job execution through an agent loop and wait state, and a shared skill,
+    knowledge and tool system supplies ML capabilities, historical experiment data, and integrations with
+    Meta internal infrastructure
+- name: Generate hypotheses from two sources
+  desc: >-
+    REA consults a curated historical insights database of past experiments and a deep ML research agent
+    that investigates baseline model configurations, then synthesizes both to surface configurations
+    unlikely to emerge from either source alone
+- name: Agree the exploration strategy and compute budget with an engineer
+  desc: >-
+    Before executing any plan REA proposes a detailed exploration strategy, estimates total GPU compute
+    cost, and confirms the approach with an engineer
+- name: Run the three-phase plan
+  desc: >-
+    Validation tests individual hypotheses from different sources in parallel to establish quality
+    baselines, combination merges promising hypotheses to search for synergistic improvements, and
+    exploitation explores the most promising candidates aggressively within the approved compute budget
+- name: Hibernate during a training run and wake when the job completes
+  desc: >-
+    When REA launches a training job it delegates the wait to a background system, shuts down to conserve
+    resources, and automatically resumes where it left off when the job completes, so workflows continue
+    across extended time frames without constant human monitoring
+- name: Log each experiment back into the insight database
+  desc: >-
+    A dedicated experiment logger records outcomes, key metrics, and configurations into the centralized
+    hypothesis experiment insight database, and the hypothesis generator draws on those insights to propose
+    hypotheses for each subsequent round
+- name: Screen failed runs and adapt within predefined guardrails
+  desc: >-
+    REA consults a runbook of common failure patterns, applies prioritization logic such as excluding jobs
+    with clear out-of-memory errors or training instability signals such as loss explosions, debugs
+    preliminary infrastructure failures from first principles, and halts or pauses runs when a compute
+    threshold is reached, rather than surfacing routine interruptions to engineers
+
+key_metrics:
+- Three engineers delivered proposals to launch improvements for eight models, work Meta says historically
+  required two engineers per model; Meta labels this a 5x engineering output gain.
+- Meta reports that early adopters increased their model-improvement proposals from one to five in the same
+  time frame.
+
+lessons_learned:
+- "Meta keeps engineers out of routine failure handling on REA: the agent consults a runbook of common
+  failure patterns and adapts within predefined guardrails, and engineers provide periodic oversight rather
+  than continuous monitoring."
+- "Meta bounds the agent by scope and budget: REA works exclusively on the ads ranking model codebase,
+  engineers grant explicit access controls through preflight checklist reviews, and REA confirms compute
+  budgets up front and halts or pauses runs when a threshold is reached."
+- For Meta ads ranking, pairing a historical experiment database with a deep research agent surfaced
+  configurations that Meta says neither source produced alone, and the most impactful improvements combined
+  architectural optimizations with training-efficiency techniques.
+- The Meta team holds that agents should handle the iterative mechanics of ML experimentation while engineers
+  move toward hypothesis direction, architectural decision-making, and final approvals.
+
+sources:
+- id: meta-rea-source-1
+  title: "Ranking Engineer Agent (REA): The Autonomous AI Agent Accelerating Meta's Ads Ranking Innovation"
+  url: https://engineering.fb.com/2026/03/17/developer-tools/ranking-engineer-agent-rea-autonomous-ai-system-accelerating-meta-ads-ranking-innovation/
+  canonical_url: https://engineering.fb.com/2026/03/17/developer-tools/ranking-engineer-agent-rea-autonomous-ai-system-accelerating-meta-ads-ranking-innovation/
+  kind: engineering-blog
+  publisher: Engineering at Meta
+  authors:
+  - Ashwin Kumar
+  - Erwin Gao
+  - Matan Levi
+  - Sheela Yadawad
+  - Sherman Wong
+  - Sneha Iyer
+  - Vinodh Kumar Sunkara
+  provenance_class: first-party
+  role: evidence
+  published_at: '2026-03-17'
+  accessed_at: '2026-09-21'
+  last_verified_at: '2026-09-21'
+  capture:
+    manifest_path: archive/sources/meta-rea-source-1/metadata.json
+
+evidence:
+  summary:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, lines 10-12, 23, 64, 80
+  headline_metric:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, lines 14, 90
+  operating_models.0:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, lines 12, 64, 70, 102
+  architecture.sandbox:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, lines 49, 72
+  architecture.harness:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, lines 49, 78, 80
+  architecture.tool_access:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, lines 49, 72
+  architecture.knowledge:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, lines 55-56, 82
+  architecture.context_mgmt:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, lines 33, 47
+  primitives.0:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, lines 78, 80
+  primitives.1:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, lines 53-56, 58
+  primitives.2:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, line 64
+  primitives.3:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, lines 66-68
+  primitives.4:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, line 47
+  primitives.5:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, line 82
+  primitives.6:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, lines 70, 72, 84
+  key_metrics.0:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, lines 15, 96
+  key_metrics.1:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, line 96
+  lessons_learned.0:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, lines 70, 84
+  lessons_learned.1:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, lines 64, 72
+  lessons_learned.2:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, lines 34, 58
+  lessons_learned.3:
+  - source_id: meta-rea-source-1
+    relation: supports
+    locator: Preserved content.md, lines 100-102
+
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: >-
+      The post places human attention at two points of a normal run: an engineer confirms the exploration
+      strategy and GPU compute cost before any plan executes, and humans make strategic decisions and final
+      approvals on the resulting proposals. Engineers are described as giving periodic oversight rather than
+      continuous monitoring, and routine failures are handled inside the guardrails, so attention does not
+      return at each experiment round or at the level of individual training configurations. The post never
+      says humans are involved only when the agent raises an exception, so the boundary does not reach
+      exception-only. The documented unattended runtime of days to weeks is a separate property and does not
+      move the boundary. The post also states it covers only the ML experimentation capability, so this
+      assessment does not extend to other REA capabilities.
+    valid_at: '2026-03'
+  architecture.sandbox:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: >-
+      The post names Meta internal job schedulers, access controls granted by preflight checklist review, and
+      a codebase restriction, but no execution isolation boundary for the agent; unknown does not mean absent.
+  headline_metric:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: >-
+      Meta reports the result in its own engineering blog with a stated denominator of six models and a
+      stated comparison against baseline approaches, but does not define the accuracy measure, give absolute
+      values, identify the baseline approaches, or cite an independent review.
+    valid_at: '2026-03'
+    reported_by: Meta
+    metric_scope: Average model accuracy of REA-driven iterations in the first production validation
+    denominator: A set of six ads ranking models
+    measurement_method: >-
+      Comparison of REA-driven iterations against baseline approaches; the accuracy measure is not defined
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: >-
+      The 5x label is a ratio derived from a staffing comparison rather than a measured throughput: Meta sets
+      three engineers across eight models against a stated historical norm of two engineers per model. No
+      time period, matched baseline measurement, or control for model difficulty is reported, and the output
+      counted is proposals to launch improvements rather than launched improvements.
+    valid_at: '2026-03'
+    reported_by: Meta
+    metric_scope: Engineer staffing for model-improvement proposals produced with REA
+    denominator: Eight ads ranking models staffed by three engineers
+    measurement_method: >-
+      Ratio derived from a stated historical staffing norm of two engineers per model; no measured baseline
+      throughput is reported
+  key_metrics.1:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: >-
+      Meta reports a rise from one to five model-improvement proposals per early adopter in its own
+      engineering blog. The interval is given only as the same time frame, the number of early adopters is
+      not stated, and proposal quality or acceptance is not assessed.
+    valid_at: '2026-03'
+    reported_by: Meta
+    metric_scope: Model-improvement proposals per early adopter using REA
+    measurement_method: >-
+      Self-reported before-and-after proposal count over an interval described only as the same time frame
+  lessons_learned.0:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: >-
+      The resilience section states that REA consults a runbook of common failure patterns, makes
+      prioritization decisions, and debugs preliminary infrastructure failures instead of waiting for human
+      intervention, and that engineers provide periodic oversight. The post reports the design; it gives no
+      escalation rate or measurement of how often the guardrails held.
+  lessons_learned.1:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: >-
+      The safeguards paragraph names the codebase restriction, the preflight checklist access grant, and the
+      up-front compute budget confirmation with halting or pausing at the threshold. These are stated
+      controls; the post does not describe how they are enforced or audited.
+  lessons_learned.2:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: >-
+      The hypothesis-generation section states that synthesizing the historical insights database with the ML
+      research agent surfaces configurations unlikely to emerge from any single approach, and that the most
+      impactful improvements combined architectural optimizations with training-efficiency techniques. The
+      attribution is Meta's own and rests on no reported comparison against a single-source baseline, so the
+      lesson stays bounded to the reported ads ranking case.
+  lessons_learned.3:
+    kind: opinion
+    provenance: reported
+    confidence: medium
+    confidence_reason: >-
+      The closing section states the team's own position on how ML engineering should be structured, with
+      agents handling iterative mechanics and humans making strategic decisions and final approvals. It is an
+      attributed preference about the direction Meta is taking, not a measured outcome or a general
+      recommendation.
+
+page_content:
+  version: 1
+  reviewed_at: '2026-09-21'
+  source_ids: [meta-rea-source-1]
+  workflow_scope: "Hypothesis generation through an engineer-confirmed plan, multiround training experiments, and a model-improvement proposal returned for approval"
+  questions:
+    purpose:
+      state: reported
+      claim_paths: [summary]
+    workflow:
+      state: reported
+      claim_paths: [primitives.1, primitives.2, primitives.3, primitives.4, primitives.5]
+    human_involvement:
+      state: reported
+      claim_paths: [operating_models.0, primitives.2, lessons_learned.0, lessons_learned.1]
+      note: "An engineer confirms the exploration strategy and GPU compute budget before any plan runs, and humans make the final approvals on the resulting proposals; routine failures are handled inside the guardrails instead of being escalated."
+    implementation:
+      state: reported
+      claim_paths: [architecture.harness, architecture.tool_access, architecture.knowledge, architecture.context_mgmt]
+    validation:
+      state: reported
+      claim_paths: [primitives.6]
+    observations:
+      state: reported
+      claim_paths: [headline_metric, key_metrics.0, key_metrics.1]
+    lessons:
+      state: reported
+      claim_paths: [lessons_learned.0, lessons_learned.1, lessons_learned.2, lessons_learned.3]
+  implementation_fields:
+    model:
+      state: unreported
+      claim_paths: []
+      note: "No model, model family, or provider is named for REA; the post says only that Meta is fine-tuning specialized models for hypothesis generation as continuing work."
+    harness:
+      state: reported
+      claim_paths: [architecture.harness]
+    sandbox:
+      state: unreported
+      claim_paths: []
+      note: "The post names Meta internal job schedulers, a codebase restriction, and access controls granted by preflight checklist review, but no execution isolation boundary; the legacy unknown claim stays in research details."
+    tool_access:
+      state: reported
+      claim_paths: [architecture.tool_access]
+    knowledge:
+      state: reported
+      claim_paths: [architecture.knowledge]
+    context_mgmt:
+      state: reported
+      claim_paths: [architecture.context_mgmt]
+    credentials:
+      state: unreported
+      claim_paths: []
+      note: "Engineers grant explicit access controls through preflight checklist reviews, but how REA authenticates to job schedulers, experiment tracking, or the codebase is not described."
+    interfaces:
+      state: unreported
+      claim_paths: []
+      note: "The post describes an engineer collaborating with the hypothesis generator through the REA Planner and a Confucius SDK for internal tooling, but names no user-facing interface surface."
+  primitive_roles:
+    primitives.0: mechanism
+    primitives.1: workflow
+    primitives.2: workflow
+    primitives.3: workflow
+    primitives.4: workflow
+    primitives.5: workflow
+    primitives.6: validation
+  observations:
+    headline_metric:
+      category: effectiveness
+      basis: reported-measurement
+      subject: "Average model accuracy of REA-driven iterations against baseline approaches across six ads ranking models in the first production validation"
+    key_metrics.0:
+      category: adoption-output
+      basis: estimate
+      subject: "Engineer staffing for model-improvement proposals: three engineers across eight models against a stated historical norm of two engineers per model"
+    key_metrics.1:
+      category: adoption-output
+      basis: reported-measurement
+      subject: "Model-improvement proposals per early adopter, reported as a rise from one to five in the same time frame"

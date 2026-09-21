@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_id": "duolingo-agentic-workflows-source-1",
+  "original_url": "https://blog.duolingo.com/agentic-workflows/",
+  "final_url": "https://blog.duolingo.com/agentic-workflows/",
+  "captured_at": "2026-09-21T12:59:59Z",
+  "http_status": 200,
+  "tool": {
+    "name": "steel",
+    "version": "0.5.0-preview.6"
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "archive/sources/duolingo-agentic-workflows-source-1/content.md",
+      "sha256": "sha256:2503b42a67943a128069190f1a077bf8c93ab02d68622b7e3d3f5a46a76913d7",
+      "bytes": 7523
+    }
+  }
+}

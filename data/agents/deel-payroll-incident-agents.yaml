@@ -1,0 +1,392 @@
+id: deel-payroll-incident-agents
+company: Deel
+agent_name: Four-stage payroll sync triage pipeline
+approach_type: agent
+deployment_stage: deployed
+year: 2026
+first_public_evidence:
+  date: '2026-08-31'
+  source_id: deel-payroll-incident-agents-source-1
+last_reviewed_at: '2026-09-21'
+status: internal
+domains:
+- finance-ops
+- ops
+autonomy: drafts-reviewed
+operating_models:
+- scope: failed US PEO payroll sync → automatic retry that clears the failure
+  attention_boundary: exception-only
+- scope: payroll sync failure that survives the retry → classified diagnosis and fix command delivered in Slack
+    for an engineer
+  attention_boundary: work-product-review
+rubric:
+  invocation:
+  - scheduled
+  state: run-only
+  identity: unknown
+  evidence_strength: limited-primary
+summary: Deel runs a four-stage pipeline that triages failed US PEO payroll syncs without an engineer starting it.
+  The pipeline detects and batches failures, retries them, investigates the rest with parallel data fetches, classifies
+  the cause and writes the fix command, then posts a per-failure summary to Slack. Deel deployed it on Akai, which
+  the post calls the company's internal AI orchestration platform.
+headline_metric: Deel reports 900+ engineering hours reclaimed annually
+architecture:
+  sandbox: unknown
+  harness: Four stages run in sequence on Akai, described as Deel's internal AI orchestration platform. Each stage
+    owns one job and hands off to the next with no manual intervention and no engineer to start the run.
+  interfaces:
+  - slack
+  tool_access: Scans the payroll system for failed syncs and fires retries against them. For failures that survive
+    a retry it checks hire record state, pulls logs from monitoring systems, queries the payroll database, and
+    cross-references employment compliance rules. It writes the fix command rather than running it, and posts the
+    result to Slack with direct log links.
+  knowledge: The classification stage holds a structured taxonomy of failure types, such as duplicate SSN, invalid
+    address, missing tax filing status, and bad routing data. Deel adds a new category with a one-line prompt change.
+  context_mgmt: Each stage takes JSON, does its work, and outputs JSON, so the stages share no state between them.
+primitives:
+- name: Detect and batch the failures
+  desc: Every few minutes the first stage scans the payroll system for failed syncs, deduplicates them, groups related
+    failures, and hands a clean batch downstream without a Slack ping or a human trigger.
+- name: Retry first, then investigate in parallel
+  desc: The second stage fires an automatic retry on every failure. About 55% clear themselves. For the rest it
+    fans out in parallel to check hire record state, pull monitoring logs, query the payroll database, and
+    cross-reference compliance rules, so diagnosis lands in under 10 seconds across four systems.
+- name: Classify the failure and write the fix
+  desc: The third stage categorizes the failure against a taxonomy, decides whether it belongs to the employer,
+    the employee, or Deel, and writes out the exact command needed to fix it.
+- name: Deliver one Slack section per failure
+  desc: The fourth stage packages the results into Slack with one section per failure, copy-paste fix commands, and
+    direct log links. It also scans across cases and reports a repeated error from one company as a single
+    employer-level setup issue instead of one alert per new hire.
+key_metrics:
+- Time per triage fell from 45 minutes to under 10 seconds
+- Auto-resolved cases rose from 0% to 55%; about 55% of cases now self-resolve without anyone touching them
+- Peak capacity rose from a full engineering day for 4-6 cases to 20+ cases at the same time
+lessons_learned:
+- Deel runs its stages in sequence but fires the investigation stage's data fetches at the same time, and reports
+  that this parallel fan-out is the difference between a 40-second and a 10-second operation.
+- Deel keeps the failure taxonomy in the classification stage's prompt, so a new failure category found in production
+  is a one-line prompt change.
+- Deel passes clean JSON between stages so that the stages share no state and carry no interdependencies.
+- Deel retries every payroll sync failure immediately, measures what share clears itself, and investigates only
+  the remainder; the team notes a retry on a payroll record is only safe once the diagnosis runs anyway.
+- Deel states that the pattern is not specific to its payroll system and maps onto other high-volume, low-signal
+  triage work such as API failures, database incidents, and support escalations. The post reports no second Deel
+  workflow that uses it.
+sources:
+- id: deel-payroll-incident-agents-source-1
+  title: How Deel Eliminated 900 Engineering Hours of Firefighting with a 4-Agent AI System
+  url: https://www.deel.com/blog/900-engineering-hours-eliminated-with-akai/
+  canonical_url: https://www.deel.com/blog/900-engineering-hours-eliminated-with-akai/
+  kind: corporate-article
+  provenance_class: first-party
+  role: evidence
+  publisher: Deel
+  authors:
+  - Harshil Jain
+  published_at: '2026-08-31'
+  accessed_at: '2026-09-21'
+  last_verified_at: '2026-09-21'
+  capture:
+    manifest_path: archive/sources/deel-payroll-incident-agents-source-1/metadata.json
+evidence:
+  summary:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, lines 30, 46, 52-64
+  headline_metric:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, line 77
+  operating_models.0:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, lines 56, 79
+  operating_models.1:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, lines 60, 64, 79
+  architecture.sandbox:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, lines 46, 85-91
+  architecture.harness:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, lines 46, 85
+  architecture.interfaces:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, lines 52, 64
+  architecture.tool_access:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, lines 52, 56, 60, 64
+  architecture.knowledge:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, lines 60, 87
+  architecture.context_mgmt:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, line 89
+  primitives.0:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, lines 50-52
+  primitives.1:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, lines 54-56
+  primitives.2:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, lines 58-60
+  primitives.3:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, lines 62-64
+  key_metrics.0:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, lines 34, 74
+  key_metrics.1:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, lines 76, 79
+  key_metrics.2:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, lines 36, 75
+  lessons_learned.0:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, line 85
+  lessons_learned.1:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, line 87
+  lessons_learned.2:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, line 89
+  lessons_learned.3:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, lines 40, 91
+  lessons_learned.4:
+  - source_id: deel-payroll-incident-agents-source-1
+    relation: supports
+    locator: Preserved content.md, lines 97, 99
+claim_metadata:
+  operating_models.0:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The post reports that the retry stage clears about 55% of failures and that those cases
+      self-resolve without anyone touching them, which places human attention at the exception only. Deel does not
+      say who watches the retries or whether a failed retry ever pages someone directly.
+    valid_at: '2026-08'
+  operating_models.1:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The post says the remaining cases still reach an engineer and arrive as a 30-second review
+      with the exact fix command, so a person reviews the work product before it takes effect. The post does not
+      say whether an engineer may also reject or edit the proposed command.
+    valid_at: '2026-08'
+  architecture.sandbox:
+    kind: inference
+    provenance: catalog-judgment
+    confidence: medium
+    confidence_reason: The post names Akai as the platform the pipeline runs on but documents no execution isolation
+      boundary; unknown does not mean absent.
+  headline_metric:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: Deel reports the annual figure in its own marketing-adjacent blog as a single table row with
+      no measurement window, no case count, and no method for converting saved triage time into annual hours.
+    valid_at: '2026-08'
+    value: 900
+    unit: engineering hours per year
+    reported_by: Deel
+    metric_scope: Engineering hours Deel reports it no longer spends investigating failed US PEO payroll syncs
+  key_metrics.0:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Deel reports the before-and-after pair in its own blog. The 45 minutes matches the narrative
+      description of the old triage, and the under-10-seconds figure matches the parallel-fetch description, but
+      no sample, date range, or timing method is given.
+    valid_at: '2026-08'
+    reported_by: Deel
+    metric_scope: Time to triage one failed US PEO payroll sync, before and after the pipeline
+  key_metrics.1:
+    kind: metric
+    provenance: reported
+    confidence: medium
+    confidence_reason: Deel reports both the 0% to 55% table row and the matching prose, and separately reports
+      that about 55% of failures were transient, which makes the number internally consistent. It is self-reported
+      and the counting period is not given.
+    valid_at: '2026-08'
+    reported_by: Deel
+    metric_scope: Share of failed US PEO payroll syncs resolved without an engineer, before and after the pipeline
+    denominator: All failed US PEO payroll syncs the pipeline picks up
+  key_metrics.2:
+    kind: metric
+    provenance: reported
+    confidence: low
+    confidence_reason: Both sides of this comparison are ranges rather than counts, the post gives no measured peak
+      day, and 20+ cases is an open-ended figure.
+    valid_at: '2026-08'
+    reported_by: Deel
+    metric_scope: Failed payroll sync cases handled during a peak hiring period, before and after the pipeline
+  lessons_learned.0:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: The post states the sequential-stage and parallel-fetch design and gives the 40-second to
+      10-second comparison as the result. The comparison is Deel's own and carries no measurement method.
+  lessons_learned.1:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: The post names the structured failure taxonomy and states that adding a category is a
+      one-line prompt change. It does not show the prompt or say how a new category is tested.
+  lessons_learned.2:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: The post states the JSON-in, JSON-out handoff and the absence of shared state as a design
+      choice. It reports no failure mode this choice avoided in production.
+  lessons_learned.3:
+    kind: fact
+    provenance: reported
+    confidence: medium
+    confidence_reason: The post states the retry-first ordering and gives Deel's reason, that a retry on a payroll
+      record is only safe once the diagnosis runs anyway. It does not report a case where a retry compounded a
+      structural failure.
+  lessons_learned.4:
+    kind: opinion
+    provenance: reported
+    confidence: medium
+    confidence_reason: This is Deel's own generalization of its result, stated in the closing section of a post
+      that also markets the Deel platform. The post names no second workflow at Deel or elsewhere that runs the
+      pattern, so the transfer is asserted rather than shown.
+page_content:
+  version: 1
+  reviewed_at: '2026-09-21'
+  source_ids:
+  - deel-payroll-incident-agents-source-1
+  workflow_scope: failed US PEO payroll sync through detection, retry, parallel investigation, classification, and
+    a Slack handoff to an engineer
+  questions:
+    purpose:
+      state: reported
+      claim_paths:
+      - summary
+    workflow:
+      state: reported
+      claim_paths:
+      - primitives.0
+      - primitives.1
+      - primitives.2
+      - primitives.3
+    human_involvement:
+      state: reported
+      claim_paths:
+      - operating_models.0
+      - operating_models.1
+      - primitives.2
+      note: About 55% of cases self-resolve on the retry with no one touching them. The rest reach an engineer as
+        a Slack section with the fix command, which the post describes as a 30-second review. The pipeline writes
+        the command; the post does not report it running one.
+    implementation:
+      state: reported
+      claim_paths:
+      - architecture.harness
+      - architecture.tool_access
+      - architecture.knowledge
+      - architecture.context_mgmt
+      - architecture.interfaces
+    validation:
+      state: unreported
+      claim_paths: []
+      note: The post reports no test, evaluation, or accuracy check on the classifications or the generated fix
+        commands, and no rate of wrong diagnoses.
+    observations:
+      state: reported
+      claim_paths:
+      - headline_metric
+      - key_metrics.0
+      - key_metrics.1
+      - key_metrics.2
+    lessons:
+      state: reported
+      claim_paths:
+      - lessons_learned.0
+      - lessons_learned.1
+      - lessons_learned.2
+      - lessons_learned.3
+      - lessons_learned.4
+  implementation_fields:
+    model:
+      state: unreported
+      claim_paths: []
+      note: No model, vendor, or version is named. The post refers to a prompt change, which implies a language
+        model, but naming one would be a guess.
+    harness:
+      state: reported
+      claim_paths:
+      - architecture.harness
+    sandbox:
+      state: unreported
+      claim_paths: []
+      note: The post names Akai as the host platform but documents no execution isolation boundary; the legacy
+        unknown claim stays in research details.
+    tool_access:
+      state: reported
+      claim_paths:
+      - architecture.tool_access
+    knowledge:
+      state: reported
+      claim_paths:
+      - architecture.knowledge
+    context_mgmt:
+      state: reported
+      claim_paths:
+      - architecture.context_mgmt
+    credentials:
+      state: unreported
+      claim_paths: []
+      note: How the pipeline authenticates to the payroll system, the hire record database, the monitoring logs,
+        and Slack is not documented.
+    interfaces:
+      state: reported
+      claim_paths:
+      - architecture.interfaces
+  primitive_roles:
+    primitives.0: workflow
+    primitives.1: workflow
+    primitives.2: workflow
+    primitives.3: workflow
+  observations:
+    headline_metric:
+      category: cost-latency
+      basis: estimate
+      subject: Engineering hours Deel reports it no longer spends investigating failed US PEO payroll syncs, given
+        as 900+ per year
+    key_metrics.0:
+      category: cost-latency
+      basis: reported-measurement
+      subject: Time to triage one failed US PEO payroll sync, 45 minutes before and under 10 seconds after
+    key_metrics.1:
+      category: effectiveness
+      basis: reported-measurement
+      subject: Share of failed US PEO payroll syncs resolved without an engineer, 0% before and 55% after
+    key_metrics.2:
+      category: runtime-capacity
+      basis: estimate
+      subject: Failed payroll sync cases handled at peak, a full engineering day for 4-6 cases before and 20+ at
+        the same time after
