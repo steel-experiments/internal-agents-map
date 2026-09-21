@@ -428,9 +428,9 @@ Most have only shipping products, vendor-tool usage, or aspirational job posting
   documented.
 - **Twilio**: the AI offerings are shipping products. A narrow sales tool ("RFP Genie") exists but
   falls outside the catalog domains.
-- **Asana**: "AI Teammates" and "AI Studio" are products. Only job postings describe an internal
-  team, not a shipped build.
-  - **Re-examined 2026-09-21 against a new source. The exclusion holds.**
+- **Asana — Needs evidence (re-examined 2026-09-21).** The earlier rejection cited only
+  product announcements and job postings; the source below supersedes that rationale.
+  - **New evidence of an internal workflow:**
     Source: [How the revenue team at Asana saved $100k a year by automating workflows](https://asana.com/resources/revenue-team-asana-automating-workflows),
     by Alicia Raeburn, published 2026-06-26 in the asana.com resource center. The source removes
     the job-posting basis of the original rejection. Asana's own APJ revenue-operations team does
@@ -443,23 +443,19 @@ Most have only shipping products, vendor-tool usage, or aspirational job posting
     recovered, and approximately $100K per year, which it equates to one sales rep quota. The
     figures are self-reported, and the post gives no team size, no measurement period, and no
     method.
-    **What it does not establish:** material adaptation, or an implementation. Each named
-    component is shipped Asana functionality used as designed: the Slack integration, Rules, and
-    an AI Teammate that Asana's own product menu calls a ready-to-go AI agent. The post says the
-    lead "invited an AI Teammate into his workflow". It gives the agent no name, no instructions,
-    no knowledge source outside the project's own task history, no escalation logic, no
-    connection to a system other than Slack and Asana, and no review or control step. It tells
-    the reader what the workflow does, but not what anyone built or changed. Inclusion question 3
-    fails, and question 2 fails with it. The page also sits beside a customer story about Amsive
-    that has the same structure, which is the shape of this case: a customer success story whose
-    customer is Asana.
-    **Decision:** out of scope as submitted. This is the promotional-dogfooding pattern of Vercel
-    v0 and GitLab Duo, and it does not meet the bar set in the same batch by
-    [cursor-support-workflow](../data/agents/cursor-support-workflow.yaml), where the post names
-    the MCP servers, the workspace layout, and four purpose-built subagents.
-    **Reopen it** for a source that documents the Teammate's own configuration, such as its
-    instructions, its knowledge scoping, or its escalation routing, or a connection to an internal
-    system other than Slack and Asana. One related lead is unread: "How Asana uses AI Teammates to
+    **What remains unclear:** which parts of the Revenue Operations workflow the team configured
+    for its own work. The source describes the implemented sequence and its internal use, but does
+    not make clear how the team set up the categorization rules, the Teammate's instructions,
+    its retrieval of past requests, or its escalation routing.
+    **Decision:** needs evidence for inclusion question 2 (what Asana built or materially adapted).
+    The source answers questions 1 and 3 by identifying the internal team and describing its use.
+    Our inclusion policy accepts company context and workflow logic as material adaptation, requires
+    no minimum custom code, and permits an organization's own product. Stock integrations and
+    project task history therefore do not disqualify the case, and missing configuration details
+    are unknowns rather than evidence that no adaptation occurred.
+    **Next action:** find a source describing the team's configuration of the categorization rules,
+    Teammate instructions, knowledge scope, or escalation routing. An additional external-system
+    integration is not required. One related lead is unread: "How Asana uses AI Teammates to
     scale competitive intelligence across a 400-person sales team".
 - **Canva**: the documented AI work is a consumer support product or vendor-tool usage. No
   internal build documented.

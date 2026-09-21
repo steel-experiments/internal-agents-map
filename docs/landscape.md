@@ -22,7 +22,7 @@ The L2-L5 labels adapt [Dan Shapiro's five levels of AI-assisted software develo
 | Brex | [Support quality agent](#brex-support-qa) | agent | support | Unknown · support interaction → rubric assessment and quality trends | unknown | deployed | internal | 2025 |
 | Cloudflare | [AI Code Reviewer](#cloudflare-code-reviewer) | agent | code-review | Unknown · merge request → structured review and approval state | unknown | deployed | internal | 2026 |
 | Coinbase | [Forge](#coinbase-forge-mux) | agent | coding, code-review | L3 · Slack, GitHub, or Linear request → drafted fix and pull request pushed back for review | drafts-reviewed | scaled | internal | 2026 |
-| Cursor | [Support investigation workflow in Cursor](#cursor-support-workflow) | agent | support | L2 · customer symptom → root cause, inside a Cursor investigation session<br>L3 · parallel subagent run → merged escalation, customer reply, or docs pull request | drafts-reviewed | deployed | commercialized | 2026 |
+| Cursor | [Support investigation workflow in Cursor](#cursor-support-workflow) | agent | support | L2 · customer symptom → root cause, inside a Cursor investigation session<br>L3 · parallel subagent run → merged escalation, customer reply, or docs pull request | drafts-reviewed | deployed | internal | 2026 |
 | Deel | [Four-stage payroll sync triage pipeline](#deel-payroll-incident-agents) | agent | finance-ops, ops | L5 · failed US PEO payroll sync → automatic retry that clears the failure<br>L3 · payroll sync failure that survives the retry → classified diagnosis and fix command delivered in Slack for an engineer | drafts-reviewed | deployed | internal | 2026 |
 | Domu | [Clementino](#domu-clementino) | agent | support, finance-ops, coding, recruitment, customer-success | L3 · employee request → approved customer-impacting action<br>L2 · individual works alongside the toolkit in Claude Cowork (client-review prep, spreadsheet cleanup, drafting long emails)<br>Unknown · scheduled jobs (5am standup, invoice approvals, QA sampling, huddle ingestion) | human-in-loop | deployed | internal | 2026 |
 | DoorDash | [AI Code Review Agent](#doordash-code-review) | agent | code-review | L3 · pull request → AI review comments | drafts-reviewed | scaled | internal | 2026 |
@@ -1017,7 +1017,7 @@ Last reviewed: 2026-09-17.
 | Approach type | agent |
 | First public evidence | 2026-03-03 |
 | Deployment stage | deployed |
-| Availability | commercialized |
+| Availability | internal |
 | Domains | support |
 | Operating model | L2 · customer symptom → root cause, inside a Cursor investigation session<br>L3 · parallel subagent run → merged escalation, customer reply, or docs pull request |
 | Autonomy | drafts-reviewed |
