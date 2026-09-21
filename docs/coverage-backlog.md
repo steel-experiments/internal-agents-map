@@ -430,6 +430,37 @@ Most have only shipping products, vendor-tool usage, or aspirational job posting
   falls outside the catalog domains.
 - **Asana**: "AI Teammates" and "AI Studio" are products. Only job postings describe an internal
   team, not a shipped build.
+  - **Re-examined 2026-09-21 against a new source. The exclusion holds.**
+    Source: [How the revenue team at Asana saved $100k a year by automating workflows](https://asana.com/resources/revenue-team-asana-automating-workflows),
+    by Alicia Raeburn, published 2026-06-26 in the asana.com resource center. The source removes
+    the job-posting basis of the original rejection. Asana's own APJ revenue-operations team does
+    use an AI Teammate for internal work.
+    **What it establishes:** an internal use. An APJ Programs and Operations Lead moves rep
+    requests from a Slack channel into a Revenue Operations inbox project. Rules categorize each
+    task by department, effort level, and request type. An AI Teammate then does a first-pass
+    assessment, pulls context from past requests, and surfaces the people for escalation. Asana
+    reports response times down from 3-4 days to less than one day, 165.6 working hours per week
+    recovered, and approximately $100K per year, which it equates to one sales rep quota. The
+    figures are self-reported, and the post gives no team size, no measurement period, and no
+    method.
+    **What it does not establish:** material adaptation, or an implementation. Each named
+    component is shipped Asana functionality used as designed: the Slack integration, Rules, and
+    an AI Teammate that Asana's own product menu calls a ready-to-go AI agent. The post says the
+    lead "invited an AI Teammate into his workflow". It gives the agent no name, no instructions,
+    no knowledge source outside the project's own task history, no escalation logic, no
+    connection to a system other than Slack and Asana, and no review or control step. It tells
+    the reader what the workflow does, but not what anyone built or changed. Inclusion question 3
+    fails, and question 2 fails with it. The page also sits beside a customer story about Amsive
+    that has the same structure, which is the shape of this case: a customer success story whose
+    customer is Asana.
+    **Decision:** out of scope as submitted. This is the promotional-dogfooding pattern of Vercel
+    v0 and GitLab Duo, and it does not meet the bar set in the same batch by
+    [cursor-support-workflow](../data/agents/cursor-support-workflow.yaml), where the post names
+    the MCP servers, the workspace layout, and four purpose-built subagents.
+    **Reopen it** for a source that documents the Teammate's own configuration, such as its
+    instructions, its knowledge scoping, or its escalation routing, or a connection to an internal
+    system other than Slack and Asana. One related lead is unread: "How Asana uses AI Teammates to
+    scale competitive intelligence across a 400-person sales team".
 - **Canva**: the documented AI work is a consumer support product or vendor-tool usage. No
   internal build documented.
 - **Roblox**: every public AI story is a creator-facing product feature. Note: the engineering blog

@@ -12,7 +12,7 @@ The L2-L5 labels adapt [Dan Shapiro's five levels of AI-assisted software develo
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Airbnb | [Datako](#airbnb-datako) | agent | data | Unknown · employee question → business-data query | unknown | deployed | internal | 2026 |
 | Airbnb | [Pascal](#airbnb-pascal) | agent | research | Unknown · product idea → concept brief | unknown | deployed | internal | 2026 |
-| Amplitude | [Design Agent](#amplitude-design-agent) | agent | coding | L3 · prompt or screenshot → generated HTML artifact a person judges, shares, or carries forward | drafts-reviewed | deployed | internal | 2026 |
+| Amplitude | [Design Agent](#amplitude-design-agent) | agent | design | L3 · prompt or screenshot → generated HTML artifact a person judges, shares, or carries forward | drafts-reviewed | deployed | internal | 2026 |
 | Atlassian | [Rovo Dev (RovoDev)](#atlassian-rovo-dev) | agent | coding, code-review | L3 · Jira issue → reviewed pull request | human-in-loop | scaled | commercialized | 2024 |
 | Bitrise | [Kolega](#bitrise-kolega) | agent | coding, code-review, ci-triage, maintenance | L3 · Jira ticket assignment or Slack mention → merged pull request | drafts-reviewed | deployed | internal | 2026 |
 | Block | [Builderbot](#block-builderbot) | agent | coding, code-review | L3 · ticket → reviewed pull request | drafts-reviewed | scaled | internal | 2026 |
@@ -259,7 +259,7 @@ Last reviewed: 2026-09-17.
 | First public evidence | 2026-05-19 |
 | Deployment stage | deployed |
 | Availability | internal |
-| Domains | coding |
+| Domains | design |
 | Operating model | L3 · prompt or screenshot → generated HTML artifact a person judges, shares, or carries forward |
 | Autonomy | drafts-reviewed |
 | Invocation | interactive |

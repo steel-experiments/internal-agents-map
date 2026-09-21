@@ -9,7 +9,7 @@ first_public_evidence:
   source_id: amplitude-design-agent-source-1
 last_reviewed_at: "2026-09-21"
 status: internal
-domains: [coding]
+domains: [design]
 autonomy: drafts-reviewed
 operating_models:
   - scope: "prompt or screenshot → generated HTML artifact a person judges, shares, or carries forward"

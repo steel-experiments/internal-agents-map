@@ -205,6 +205,7 @@ DOMAIN_VALUES = {
     "ops",
     "recruitment",
     "migrations",
+    "design",
 }
 INTERFACE_VALUES = {
     "slack",

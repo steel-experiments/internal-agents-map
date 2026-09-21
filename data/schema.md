@@ -104,7 +104,7 @@ Do not infer either field from the other, and use `unknown` when the source is s
 
 `architecture` can contain short strings for `sandbox`, `harness`, `model`, `tool_access`, `knowledge`, `credentials`, and `context_mgmt`. Its `interfaces` field is a list. For a reviewed but undocumented execution sandbox, use the canonical string `unknown`; omit an inapplicable sandbox for a supporting pattern. An earlier implementation's environment must be labeled as historical, not attributed to its replacement.
 
-Domain values are `coding`, `code-review`, `support`, `on-call`, `research`, `customer-success`, `security`, `finance-ops`, `data`, `ci-triage`, `maintenance`, `ops`, `recruitment`, and `migrations`.
+Domain values are `coding`, `code-review`, `support`, `on-call`, `research`, `customer-success`, `security`, `finance-ops`, `data`, `ci-triage`, `maintenance`, `ops`, `recruitment`, `migrations`, and `design`.
 
 Interface values are `slack`, `github`, `web`, `cli`, `linear`, `chrome-extension`, `webhook`, `desktop`, `scheduled`, `skill`, `cursor`, `api`, `automation`, `ci`, `intercom`, `jira`, `internal-ui`, `mobile`, and `monday`.
 
