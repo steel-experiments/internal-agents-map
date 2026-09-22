@@ -176,6 +176,25 @@ def _command_backfill(args: argparse.Namespace) -> int:
     return 0
 
 
+def _command_backfill_apply(args: argparse.Namespace) -> int:
+    from intake.apply import apply_proposals, load_proposals
+
+    changed = apply_proposals(load_proposals(args.proposals))
+    for path in changed:
+        print(f"updated locators in {path}")
+    print("Regenerate the data outputs and open the pull request yourself.")
+    return 0
+
+
+def _command_drift(args: argparse.Namespace) -> int:
+    from intake.adapters.steel import SteelSdkAdapter
+    from intake.drift import drift_report, report_markdown
+
+    payload = drift_report(adapter=SteelSdkAdapter(), output=args.output)
+    print(report_markdown(payload), end="")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="intake", description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -245,6 +264,18 @@ def build_parser() -> argparse.ArgumentParser:
     backfill.add_argument("--budget-usd", type=float, default=10.0)
     backfill.add_argument("--output", type=Path)
     backfill.set_defaults(func=_command_backfill)
+
+    backfill_apply = subparsers.add_parser(
+        "backfill-apply", help="apply approved locator proposals (locator fields only)"
+    )
+    backfill_apply.add_argument("proposals", type=Path)
+    backfill_apply.set_defaults(func=_command_backfill_apply)
+
+    drift = subparsers.add_parser(
+        "drift", help="rescrape captures and report changed sources and affected claims"
+    )
+    drift.add_argument("--output", type=Path)
+    drift.set_defaults(func=_command_drift)
 
     return parser
 

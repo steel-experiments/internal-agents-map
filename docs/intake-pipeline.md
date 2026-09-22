@@ -19,6 +19,8 @@ uv run python -m intake segment --input <content.md> --output <paragraphs.json> 
 uv run python -m intake resolve --company X --system Y [--text-file f]           # stage 3
 uv run python -m intake render --extraction <file> --output <draft.yaml> --reviewed-at YYYY-MM-DD
 uv run python -m intake backfill data/agents/<id>.yaml --budget-usd 10           # locator proposals, dry run
+uv run python -m intake backfill-apply <proposals.json>                         # apply approved locators
+uv run python -m intake drift                                                   # rescrape and report drift
 uv run python -m intake backtest --record <yaml> --extraction <file> [--compatibility <json>]
 uv run python -m intake schema                               # export the extraction-record JSON schema
 npm run verify                                               # the phase gate
@@ -76,6 +78,25 @@ what happened.
 - It never accepts a claim whose quote code has not found in the capture.
 - It never reconstructs a source from snippets, a search result, or memory.
 
+## Backfill apply and drift
+
+`backfill` (above) writes a dry-run report of locator proposals. A person reads
+each proposal against its capture, adds `approved: true` to the entries that
+hold, and saves the result as a JSON list. `backfill-apply` then edits only the
+`locator` fields named by the approved proposals. It refuses unapproved
+entries, unknown evidence paths, and links that already carry a different
+locator. It never reorders, rewrites, or removes anything. After it runs,
+regenerate the data outputs and open the pull request yourself.
+
+`drift` rescrapes every captured source without saving, compares the page with
+its preserved capture (the capture header stripped, marks and whitespace
+normalised), and writes `.intake/drift/report.json` plus a Markdown sheet to
+standard output. Changed sources list their changed line spans and the claims
+whose locators fall inside them. Blocked rescrapes are listed, never hidden.
+The pipeline proposes a new capture under a new source ID; a person captures
+and reviews. There is no schedule yet — run it by hand (see the plan's open
+decision 4).
+
 ## Status
 
 - Phase 0 (models, renderer, backtest scaffold): done.
@@ -97,4 +118,11 @@ what happened.
   operator document): implemented; the whole pipeline is tested end to end
   offline over a real capture with fake services. The acceptance run over
   three coverage-backlog leads needs both live keys and has not run.
-- Phase 5 (backfill apply, drift, schedule): see the plan's execution log.
+- Phase 5 (backfill apply, drift, schedule): apply and drift implemented and
+  tested offline (eleven tests over the real zup capture with a fake Steel
+  adapter). The live backfill proposals need `OPENAI_API_KEY`; one live drift
+  report needs `STEEL_API_KEY`; neither has run. The schedule was rejected per
+  the plan's open decision 4: run the drift report by hand for two months
+  first. A gate repair shipped with this phase: `ruff format` now checks Python
+  code blocks inside Markdown, so `plans/016-jev-investigation.md` was
+  reformatted.

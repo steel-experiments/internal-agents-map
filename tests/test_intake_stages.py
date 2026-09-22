@@ -311,7 +311,7 @@ class ExtractStageTests(unittest.TestCase):
         paragraphs = capture_paragraphs(self.fixture, "s1")
         record, stage = run_extract(
             run_id="2026-09-22T19:40:11Z-3f9a",
-            paragraphs=paragraphs,
+            paragraphs_by_source={"s1": paragraphs},
             sources=self.sources,
             hints={"company": "Zup"},
             adapter=adapter,
@@ -333,7 +333,7 @@ class ExtractStageTests(unittest.TestCase):
         paragraphs = capture_paragraphs(self.fixture, "s1")
         _record, stage = run_extract(
             run_id="2026-09-22T19:40:11Z-3f9a",
-            paragraphs=paragraphs,
+            paragraphs_by_source={"s1": paragraphs},
             sources=self.sources,
             adapter=adapter,
             budget=budget,
@@ -349,7 +349,7 @@ class ExtractStageTests(unittest.TestCase):
         with self.assertRaises(ExtractionStageError):
             run_extract(
                 run_id="2026-09-22T19:40:11Z-3f9a",
-                paragraphs=capture_paragraphs(self.fixture, "s1"),
+                paragraphs_by_source={"s1": capture_paragraphs(self.fixture, "s1")},
                 sources=self.sources,
                 adapter=adapter,
                 budget=budget,
@@ -358,7 +358,11 @@ class ExtractStageTests(unittest.TestCase):
     def test_the_input_payload_carries_paragraphs_not_instructions(self) -> None:
         paragraphs = capture_paragraphs(self.fixture, "s1")
         payload = json.loads(
-            build_input(paragraphs=paragraphs, sources=self.sources, hints={"company": "Zup"})
+            build_input(
+                paragraphs_by_source={"s1": paragraphs},
+                sources=self.sources,
+                hints={"company": "Zup"},
+            )
         )
         self.assertIn("paragraphs", payload)
         self.assertEqual(payload["candidate"], {"company": "Zup"})

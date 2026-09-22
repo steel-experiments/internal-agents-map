@@ -441,6 +441,8 @@ intake/
   models.py                        # extraction record, run manifest, review rows
   capture.py  segment.py  resolve.py  extract.py  verify_quotes.py
   judge.py  numbers.py  write.py  render.py  review.py  cache.py  budget.py
+  run.py  stage.py  preflight.py   # queue runs, stage reruns, sheet flags
+  backtest.py  backfill.py  evals.py  apply.py  drift.py
   adapters/steel.py  adapters/writer.py  adapters/jev.py
   prompts/extract.v1.md  prompts/write.v1.md  questions/judge.v1.json
 tests/test_intake_*.py             # one module per stage; fixtures from archive/sources/
@@ -804,4 +806,55 @@ STOP-line report:
   queue defaults stay honest rather than guessed.
 
 `npm run verify` green with the new tests (full gate, exit 0).
+
+### Phase 5 — backfill apply, drift, schedule (2026-09-22)
+
+STOP-line report:
+
+- Apply (step 1): `intake/apply.py` plus `backfill-apply` in the CLI. The input
+  is the dry run's proposal list, each entry carrying an `approved: true` flag
+  a person added. The applier touches only `locator` fields on existing
+  evidence links. It refuses entries without the flag, unknown evidence paths,
+  links that name no such source, and links that already carry a different
+  locator. It never reorders, rewrites, or removes anything; the person
+  regenerates the outputs and opens the pull request. The STOP line's approval
+  to modify existing records covers the machinery only: no record was edited,
+  because the live dry run that produces proposals needs `OPENAI_API_KEY` and
+  has not run. The done criterion "locators applied to the worst five records"
+  stays open with it.
+- Drift (step 2): `intake/drift.py` plus `drift` in the CLI. Every captured
+  source is rescraped without saving; the page is compared with the preserved
+  capture after the nine-line capture header is stripped, marks and whitespace
+  normalised through the quote-verifier's normaliser, and the changed line
+  spans shifted back so they number lines the way locators do. Changed sources
+  list their spans and the claims whose locators fall inside them; blocked
+  rescrapes are listed, never hidden; the report lands in
+  `.intake/drift/report.json` and never edits a record. One detail the plan did
+  not spell out: locators number lines in the preserved file with its header,
+  so the header is stripped only for the comparison and the spans are offset
+  back. "Run it once by hand and record the result" — **blocked, no
+  `STEEL_API_KEY`**. Instead the mode is proven offline over the real zup
+  capture with a fake Steel adapter: a changed abstract line reports line 18
+  and the claims citing it; an unchanged page reports no drift; a blocked
+  rescrape lands on the blocked list.
+- Schedule (step 3): **rejected, recorded here**. Open decision 4 recommends
+  running the drift report by hand for two months before any scheduled job;
+  the plan's own step 3 defers to that decision. No GitHub Actions job, no
+  Actions secret. Revisit after the two months of hand runs.
+- Gate repair, found this phase: `ruff format` in this repository now formats
+  Python code blocks inside Markdown, and `plans/016-jev-investigation.md`
+  failed `ruff format --check` — verified at HEAD in a clean worktree, so the
+  break predates this phase. The file was reformatted (code blocks only, no
+  prose change) and a papercut was logged.
+- Tests: eleven new tests in `tests/test_intake_modes.py` (apply refusals and
+  the locator-only guarantee; span, drift, and blocked paths). The intake
+  suite holds 106 tests. One Phase 4 leftover rides along:
+  `tests/test_intake_stages.py` still called `run_extract(paragraphs=...)`
+  against the committed `paragraphs_by_source` signature; the rename is part
+  of this commit so the tree is self-consistent.
+- Gate honesty: the working tree carries an unrelated, in-progress record edit
+  (Shopify) whose YAML and generated outputs fail eight web tests on their
+  own. The gate was therefore run with those five files stashed — `npm run
+  verify` exit 0, 177 web tests and the full Python suite green — and the
+  files were restored byte-identical afterwards.
 
