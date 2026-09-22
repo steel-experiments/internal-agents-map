@@ -219,6 +219,39 @@ def _command_drift(args: argparse.Namespace) -> int:
     return 0
 
 
+def _command_evals(args: argparse.Namespace) -> int:
+    from intake.adapters.jev import JevAdapter
+    from intake.budget import Budget
+    from intake.evals import build_items, labeller_agreement, run_verdicts, score, write_items
+
+    if not args.score:
+        items = build_items(count=args.count)
+        write_items(items, args.items)
+        print(f"wrote {args.items} ({len(items)} items)")
+        print(
+            "Two labellers fill labels.labeller_a and labels.labeller_b on every item, "
+            "then a person fills labels.adjudicated. Then rerun with --score."
+        )
+        return 0
+    items = json.loads(args.items.read_text(encoding="utf-8"))
+    verdicts = run_verdicts(items, adapter=JevAdapter(), budget=Budget(budget_usd=args.budget_usd))
+    report = score(items, verdicts)
+    report["labeller_agreement"] = labeller_agreement(items)
+    text = json.dumps(report, indent=2, ensure_ascii=False) + "\n"
+    if args.output is not None:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(text, encoding="utf-8")
+        print(f"wrote {args.output}")
+    agreement = report["labeller_agreement"]
+    gate = report["gate"]
+    print(f"scored {report['scored']} items ({agreement.get('labelled', 0)} double-labelled)")
+    print(
+        f"material-defect recall {report['defect_recall']}; "
+        f"alert precision {report['alert_precision']}; gate passes: {gate['passes']}"
+    )
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="intake", description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -305,6 +338,16 @@ def build_parser() -> argparse.ArgumentParser:
     )
     drift.add_argument("--output", type=Path)
     drift.set_defaults(func=_command_drift)
+
+    evals = subparsers.add_parser("evals", help="build and score the adjudicated Jev evaluation")
+    evals.add_argument("--items", type=Path, required=True, help="the item set JSON path")
+    evals.add_argument("--count", type=int, default=120, help="items to sample")
+    evals.add_argument(
+        "--score", action="store_true", help="judge the labelled items and score the gate"
+    )
+    evals.add_argument("--budget-usd", type=float, default=20.0)
+    evals.add_argument("--output", type=Path)
+    evals.set_defaults(func=_command_evals)
 
     return parser
 

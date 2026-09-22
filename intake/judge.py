@@ -273,6 +273,28 @@ def _judgments_from_cache(payload: dict[str, Any]) -> Judgments:
     return Judgments.model_validate(payload)
 
 
+def gates_pass(judgments: Judgments | None, policy: dict[str, Any]) -> bool:
+    """The judgment half of the coarse gate.
+
+    Quote and number checks stay with the caller; this covers only the five
+    answers: a stated relation at or above the bound, no flag above its bound,
+    and a current-temporal claim held to its own bound.
+    """
+    if judgments is None:
+        return True
+    relation_stated = (
+        judgments.relation.p if judgments.relation and judgments.relation.label == "stated" else 0.0
+    )
+    passed = (
+        relation_stated >= policy["relation_stated_min"]
+        and (judgments.actor_mismatch or 0.0) <= policy["actor_mismatch_max"]
+        and (judgments.approval_removed or 0.0) <= policy["approval_removed_max"]
+    )
+    if judgments.temporal is not None and judgments.temporal.label == "current":
+        passed = passed and judgments.temporal.p >= policy["temporal_current_min"]
+    return passed
+
+
 def apply_dispositions(
     record: ExtractionRecord,
     *,
@@ -297,21 +319,7 @@ def apply_dispositions(
         if not exact and claim.provenance == "reported":
             claims.append(claim.model_copy(update={"disposition": "drop"}))
             continue
-        judgments = claim.judgments
-        gates_pass = True
-        if judgments is not None:
-            relation_stated = (
-                judgments.relation.p
-                if judgments.relation and judgments.relation.label == "stated"
-                else 0.0
-            )
-            gates_pass = (
-                relation_stated >= policy["relation_stated_min"]
-                and (judgments.actor_mismatch or 0.0) <= policy["actor_mismatch_max"]
-                and (judgments.approval_removed or 0.0) <= policy["approval_removed_max"]
-            )
-            if judgments.temporal is not None and judgments.temporal.label == "current":
-                gates_pass = gates_pass and judgments.temporal.p >= policy["temporal_current_min"]
-        disposition = "accept" if exact and numbers_ok and gates_pass else "review"
+        passed = gates_pass(claim.judgments, policy)
+        disposition = "accept" if exact and numbers_ok and passed else "review"
         claims.append(claim.model_copy(update={"disposition": disposition}))
     return record.model_copy(update={"claims": claims})

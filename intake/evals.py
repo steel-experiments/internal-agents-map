@@ -210,3 +210,61 @@ def write_items(items: list[dict[str, Any]], path: Path) -> None:
         raise FileExistsError(f"{path} already exists; evaluations are append-only")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(items, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def run_verdicts(
+    items: list[dict[str, Any]],
+    *,
+    adapter: Any,
+    budget: Any,
+    cache: Any = None,
+) -> dict[str, str]:
+    """Ask Jev the same items and return the coarse gate's verdict per item.
+
+    The item's passage becomes the judged state verbatim, so Jev sees exactly
+    what the labellers saw. Verdicts are cached by item, passage, question
+    version, and model, so a warm rerun makes no new calls.
+    """
+
+    import hashlib
+
+    from intake.cache import cache_key, jev_cache
+    from intake.judge import GATE, build_request, gates_pass, judgments_from_answers, load_questions
+    from intake.models import Claim, Quote
+    from intake.segment import Paragraph
+
+    cache = cache or jev_cache()
+    questions = load_questions()
+    model = questions["model"]
+    verdicts: dict[str, str] = {}
+    for item in items:
+        passage_hash = f"sha256:{hashlib.sha256(item['passage'].encode('utf-8')).hexdigest()}"
+        key = cache_key(
+            item["claim_text"],
+            "eval",
+            passage_hash,
+            item["item_id"],
+            str(questions.get("version", 1)),
+            model,
+        )
+        cached = cache.get(key)
+        if cached is not None:
+            verdicts[item["item_id"]] = cached["verdict"]
+            continue
+        claim = Claim(
+            id=item["item_id"],
+            field="summary",
+            text=item["claim_text"],
+            kind=item["kind"],
+            provenance="reported",
+            quotes=[Quote(source=item["source_id"], text=item["claim_text"], paragraph_id="p1")],
+            disposition="review",
+        )
+        paragraph = Paragraph(id="p1", heading_path=(), start=1, end=1, text=item["passage"])
+        state, request_questions = build_request([claim], [paragraph], questions)
+        result = adapter.ask(state=state, questions=request_questions, budget=budget)
+        judgments = judgments_from_answers(claim, result.answers, 0, result.model)
+        verdict = "accept" if gates_pass(judgments, GATE) else "review"
+        verdicts[item["item_id"]] = verdict
+        cache.put(key, {"verdict": verdict})
+    return verdicts

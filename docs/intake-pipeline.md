@@ -21,6 +21,8 @@ uv run python -m intake render --extraction <file> --output <draft.yaml> --revie
 uv run python -m intake backfill data/agents/<id>.yaml --budget-usd 10 --proposals p.json  # dry run
 uv run python -m intake backfill-apply <proposals.json>                         # apply approved locators
 uv run python -m intake drift                                                   # rescrape and report drift
+uv run python -m intake evals --items <items.json>                              # sample evaluation items
+uv run python -m intake evals --items <items.json> --score --budget-usd 20       # judge and score
 uv run python -m intake backtest --records all --budget-usd 20          # the Phase 2 gate
 uv run python -m intake backtest --record <yaml> --extraction <file> [--compatibility <json>]
 uv run python -m intake schema                               # export the extraction-record JSON schema
@@ -90,6 +92,20 @@ stops and the sheet says so. A writer failure stops the batch the way it
 stops a run. The sheet pools recall, precision, locator agreement, and
 unverified quotes, and lists each record's row. A measurement only; nothing
 is applied.
+
+## The adjudicated evaluation
+
+The Phase 3 calibration runs in two steps. `evals --items <path>` samples
+claim-and-passage pairs from the authored records (deterministic seed,
+append-only file) and writes the item set for two human labellers. They fill
+`labels.labeller_a` and `labels.labeller_b` on every item from the original
+evidence; a person then fills `labels.adjudicated`. `evals --items <path>
+--score` asks Jev the same items — the item's passage becomes the judged state
+verbatim, through the same five questions and the same coarse gate the
+pipeline uses — and scores material-defect recall and alert precision against
+the adjudicated labels. Verdicts are cached, so a warm rerun makes no new
+calls. The labellers and the live pass are the blocked part: the pass needs
+`TYPESAFE_API_KEY`, the labels need two people.
 
 ## Backfill apply and drift
 

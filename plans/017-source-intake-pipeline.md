@@ -881,4 +881,16 @@ STOP-line report:
   real zup capture plus a capture-less record (skip, budget stop, writer
   stop). The intake suite holds 111 tests. The live run stays blocked on
   `OPENAI_API_KEY`; when the key arrives, the gate is one command.
+- Evaluation-command repair (same re-read): the Phase 3 gate had no operator
+  entry either — `evals.py` could build, agree, and score, but nothing asked
+  Jev the items or printed a report. The judgment half of the coarse gate is
+  extracted from `apply_dispositions` into `judge.gates_pass` (one threshold
+  table, two callers), and `evals run_verdicts` judges each item's passage
+  verbatim through the same five questions, caching by item, passage, question
+  version, and model. The CLI gained `evals --items` (build, append-only) and
+  `evals --items --score` (judge, score, labeller agreement). Thirteen new
+  tests cover the extracted gate, item building, verdicts (accept, review,
+  warm cache), and scoring (recall, precision, gate pass and fail). The intake
+  suite holds 124 tests. The live pass still needs `TYPESAFE_API_KEY` and the
+  two human labellers.
 
