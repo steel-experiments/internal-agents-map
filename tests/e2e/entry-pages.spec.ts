@@ -120,7 +120,7 @@ for (const entry of ENTRIES) {
         page.locator('#human-involvement a[href="/definitions#supervision"]'),
       ).toHaveText('supervision definitions');
       }
-      await expect(page.locator('a[href="/"]').first()).toBeVisible();
+      await expect(page.locator('a[href="/"]:visible').first()).toBeVisible();
     });
 
     test('keeps the material qualification beside its statement', async ({ page }) => {

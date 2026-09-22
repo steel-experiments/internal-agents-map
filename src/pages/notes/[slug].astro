@@ -63,7 +63,7 @@ const graph = structuredData([
         <h1>{note.title}</h1>
         <p class="lede">{note.lede}</p>
         <p class="note-meta">
-          <time datetime={note.publishedAt}>{longDate(note.publishedAt)}</time>
+          First posted <time datetime={note.publishedAt}>{longDate(note.publishedAt)}</time>
           {note.updatedAt && (
             <> · Updated <time datetime={note.updatedAt}>{longDate(note.updatedAt)}</time></>
           )}
@@ -95,7 +95,7 @@ const graph = structuredData([
           <span>All notes</span>
           <Icon name="note-text" />
         </a>
-        <a class="button button-solid" href={next.note.path}>
+        <a class="button" href={next.note.path}>
           <span>{next.isFirst ? 'Read' : 'Next'}: {next.note.title}</span>
           <Icon name="arrow-right" />
         </a>

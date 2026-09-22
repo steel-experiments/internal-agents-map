@@ -179,8 +179,8 @@ export function startPalette(): void {
     }
   };
 
-  /** The bars that open the palette: the directory's own box, or the launcher. */
-  const bars = [...document.querySelectorAll<HTMLElement>('#filters, .search-launcher')];
+  /** The bar that opens the palette, and that the palette stands in place of. */
+  const bars = [...document.querySelectorAll<HTMLElement>('.search-launcher')];
   const panel = palette.querySelector<HTMLElement>('.palette-panel');
   const scrim = palette.querySelector<HTMLElement>('.palette-scrim');
   const search = palette.querySelector<HTMLElement>('.palette-search');
@@ -421,10 +421,25 @@ export function startPalette(): void {
 
   for (const dismiss of palette.querySelectorAll('[data-palette-dismiss]')) {
     dismiss.addEventListener('click', close);
-    // The page behind holds still without hiding its overflow, which would drop
-    // every sticky element back to where it would sit on an unscrolled page.
-    dismiss.addEventListener('wheel', (event) => event.preventDefault(), { passive: false });
-    dismiss.addEventListener('touchmove', (event) => event.preventDefault(), { passive: false });
+  }
+  /*
+   * The page behind holds still without hiding its overflow, which would drop
+   * every sticky element back to where it would sit on an unscrolled page.
+   * The palette's own regions scroll; everything else it covers is swallowed
+   * here, and the stylesheet stops a region that has reached its end from
+   * handing the rest of the movement to the page.
+   */
+  const scrolls = (target: EventTarget | null): boolean =>
+    target instanceof Element &&
+    target.closest('.palette-results, .palette-filters, .palette-menu') !== null;
+  for (const movement of ['wheel', 'touchmove'] as const) {
+    palette.addEventListener(
+      movement,
+      (event) => {
+        if (!scrolls(event.target)) event.preventDefault();
+      },
+      { passive: false },
+    );
   }
   palette.addEventListener('click', (event) => {
     if (event.target instanceof Element && !event.target.closest('.palette-facet')) closeMenus();
@@ -446,20 +461,8 @@ export function startPalette(): void {
     });
   }
 
-  // A phone has no shortcut key, so the whole box is the door, not its hint.
-  const narrow = (): boolean =>
-    typeof matchMedia === 'function' && matchMedia('(max-width: 800px)').matches;
-  for (const box of document.querySelectorAll<HTMLElement>('.search-box')) {
-    // Taking the press keeps the field from focusing and the keyboard from rising.
-    box.addEventListener('pointerdown', (event) => { if (narrow()) event.preventDefault(); });
-    box.addEventListener('click', (event) => {
-      if (!narrow()) return;
-      event.preventDefault();
-      open();
-    });
-  }
-
-  // The directory's own search box is the palette's other door.
+  // The pill reads as a field and answers as a door: it opens the palette, at
+  // every width, and takes no typing of its own.
   for (const trigger of document.querySelectorAll<HTMLElement>('[data-palette-open]')) {
     // Open after the full click so a touch cannot land on the arriving scrim.
     trigger.addEventListener('click', (event) => {

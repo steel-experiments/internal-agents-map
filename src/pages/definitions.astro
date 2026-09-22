@@ -288,7 +288,7 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
           <div class="place-machine">
             <span class="place-machine-title">Your computer</span>
             <div class="place-box"><i class="place-agent-dot" aria-hidden="true"></i></div>
-            <span class="place-callout"><svg viewBox="0 0 12 28" aria-hidden="true"><path d="M6 28 V1 M2 5.5 L6 1 L10 5.5"/></svg><span>Agent runs here</span></span>
+            <span class="place-callout"><span class="place-callout-arrow" aria-hidden="true"><svg viewBox="0 0 12 8"><path d="M6 8 V1 M2 5.5 L6 1 L10 5.5"/></svg></span><span>Agent runs here</span></span>
           </div>
         </div>
       </figure>
@@ -306,7 +306,7 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
           <div class="place-machine">
             <span class="place-machine-title">Remote computer</span>
             <div class="place-box"><i class="place-agent-dot" aria-hidden="true"></i></div>
-            <span class="place-callout"><svg viewBox="0 0 12 28" aria-hidden="true"><path d="M6 28 V1 M2 5.5 L6 1 L10 5.5"/></svg><span>Agent runs here</span></span>
+            <span class="place-callout"><span class="place-callout-arrow" aria-hidden="true"><svg viewBox="0 0 12 8"><path d="M6 8 V1 M2 5.5 L6 1 L10 5.5"/></svg></span><span>Agent runs here</span></span>
           </div>
         </div>
       </figure>
@@ -376,6 +376,11 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
   import { startSignals } from '../scripts/signals';
   import { startWorkCycle } from '../scripts/work-cycle';
 
-  startSignals();
-  startWorkCycle();
+  // The router swaps the document rather than reloading it, and a module it has
+  // already run is not run again. The diagrams are wired per page it builds, as
+  // the rest of the frame is, or a second visit arrives on a still page.
+  document.addEventListener('astro:page-load', () => {
+    startSignals();
+    startWorkCycle();
+  });
 </script>

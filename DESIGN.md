@@ -5,7 +5,7 @@
 - Keep white backgrounds and Radix Sand colors: `--sand-12` for primary text, `--sand-10` for secondary text, `--sand-3` for surfaces, and `--sand-6` for fine table dividers.
 - Reuse the centered 684px content column, sticky header, sidebar, and desktop table of contents. Follow the shared mobile layout with 24px page padding.
 - Use 8–16px spacing within components and 24–40px between groups.
-- Keep catalog previews unboxed and fully clickable: title, muted summary, and rounded 14px tags. Keep search in the floating bottom pill.
+- Lay the catalog out as fully clickable cards, four wide to five tall: rounded 14px badges at the head, title and muted summary at the foot, on a white panel with a hairline Sand border, 26px corners, and a soft layered shadow. Keep search in the floating bottom pill.
 - Group workflows, lessons, and related links in soft Sand panels with 14–16px corners. Use consistent tables for structured details.
 - Use 40px-high buttons with 10px corners, a label on the left, and an existing icon on the right. Use the dark variant for the main onward action.
 - Reuse the shared icons and components. Keep diagrams simple and consistent with the same type and palette.

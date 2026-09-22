@@ -36,132 +36,6 @@
   color: var(--muted);
 }
 
-/* Search form. It stays hidden until the script that makes it work runs. */
-#filters input {
-  font-size: var(--text-sm);
-  max-width: 100%;
-  min-width: 0;
-}
-#filters input::placeholder { color: rgba(255, 255, 255, .72); }
-/* The search field floats over the catalog near the bottom of the window. */
-#filters {
-  position: fixed;
-  z-index: 10;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  width: min(296px, calc(100% - 32px));
-}
-#filters .search-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  width: 100%;
-}
-#filters .search-field {
-  position: relative;
-  min-width: 0;
-}
-/* The box is the pill: icon, any chips, and the field, on one dark ground. */
-#filters .search-box {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  min-width: 0;
-  padding: 8px 10px 8px 14px;
-  border: 0;
-  border-radius: 999px;
-  color: #fff;
-  background: rgba(33, 32, 28, .72);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 4px 14px rgba(33, 32, 28, .1);
-}
-#filters .search-box:focus-within {
-  background: rgba(33, 32, 28, .88);
-  box-shadow: 0 6px 18px rgba(33, 32, 28, .18);
-}
-#filters .search-label {
-  display: flex;
-  align-items: center;
-}
-/* Announced through aria-describedby; the pill has no room to show it. */
-.search-help { font-size: var(--text-xs); color: var(--sand-10); }
-
-/* A selected facet term, inside the pill. */
-.chips {
-  display: contents;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.chips:empty { display: none; }
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  max-width: 100%;
-  padding: 3px 8px 3px 11px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .16);
-  font-size: var(--text-xs);
-  color: #fff;
-}
-.chip-key {
-  font-size: var(--text-xs);
-  color: rgba(255, 255, 255, .7);
-  white-space: nowrap;
-}
-.chip-remove {
-  padding: 0 4px;
-  min-height: 0;
-  border: 0;
-  background: none;
-  font-size: var(--text-sm);
-  line-height: 1;
-  color: rgba(255, 255, 255, .7);
-  cursor: pointer;
-}
-.chip-remove:hover,
-.chip-remove:focus-visible { color: #fff; }
-
-/* Suggestions open upward, since the bar sits at the bottom of the window. */
-.suggestions {
-  position: absolute;
-  z-index: 2;
-  bottom: calc(100% + 8px);
-  left: 0;
-  right: 0;
-  max-height: 40vh;
-  overflow-y: auto;
-  margin: 0;
-  padding: 8px;
-  list-style: none;
-  border-radius: 14px;
-  color: #fff;
-  background: rgba(33, 32, 28, .72);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 4px 14px rgba(33, 32, 28, .1);
-}
-.suggestions[hidden] { display: none; }
-.suggestion {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  font-size: var(--text-sm);
-  cursor: pointer;
-}
-.suggestion .chip-key { min-width: 120px; }
-.suggestion:hover,
-.suggestion[aria-selected='true'] { background: rgba(0, 0, 0, .32); }
-
 /* The company mark, in a card and at the top of an entry. */
 .entry-heading {
   display: flex;
@@ -199,32 +73,6 @@
   line-height: 1;
 }
 .entry-header > .company-logo { margin-bottom: 16px; }
-#filters .search-icon {
-  flex: none;
-  width: 16px;
-  height: 16px;
-  color: #fff;
-}
-/* The pill itself draws the field, so the control inside stays bare. */
-#filters .search-box input {
-  flex: 1;
-  color: #fff;
-  min-height: 0;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: none;
-}
-#filters .search-box input:focus { outline: none; }
-#filters .search-box input::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-  width: 12px;
-  height: 12px;
-  margin-left: 8px;
-  cursor: pointer;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='m3 3 6 6m0-6-6 6' fill='none' stroke='%23b8b8b6' stroke-width='1.25' stroke-linecap='round'/%3E%3C/svg%3E") center / 12px 12px no-repeat;
-}
-#filters .search-shortcut,
 .search-launcher .search-shortcut,
 .palette-hint {
   flex: none;
@@ -238,25 +86,6 @@
   font-size: var(--text-xs);
   line-height: 1;
   white-space: nowrap;
-}
-.empty-state {
-  background: var(--surface);
-  padding: 24px;
-  margin: 24px 0;
-}
-.text-button {
-  background: none;
-  border: 0;
-  padding: 0;
-  min-height: 0;
-  color: var(--link);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  cursor: pointer;
-}
-.text-button:hover {
-  background: none;
-  text-decoration-thickness: 2px;
 }
 @media (max-width: 1050px) {
 }
@@ -330,6 +159,70 @@
   padding: 3px 9px;
   border-radius: 999px;
   color: var(--sand-10);
+}
+
+/* The directory holds its entries as cards: a grid of white panels in the
+   proportions of the design, four wide to five tall. Each card carries its
+   badges at the head and the name and summary at the foot, with the space
+   between them left open. The same card on an organization page keeps the
+   older unboxed form, which that page's own sections lay out. */
+.entries:not([hidden]) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+/* The heading names the whole grid, so it takes a row to itself. */
+.entries > .collection-heading { grid-column: 1 / -1; }
+.entries > .entry { margin-bottom: 0; }
+.entries .entry-box {
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  padding: 24px;
+  border: .5px solid var(--sand-6);
+  border-radius: 26px;
+  background: #fff;
+  /* The shading of the design, taken down to a hint: two layers, the lower one
+     close enough to the card to read as weight rather than as a shadow. */
+  box-shadow:
+    0 8px 10px rgba(0, 0, 0, .01),
+    0 2px 4px rgba(0, 0, 0, .02);
+}
+/* The badges lead the card. The markup keeps the name first, which is the
+   order this reads in as text. */
+.entries .tags { order: -1; margin: 0; }
+/* The name and its summary close the card, below whatever space is left. */
+.entries .entry-top { margin-top: auto; }
+.entries .entry-summary {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  /* Two lines of summary: the card gives the name the last word. */
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.entries .entry-box h3 a::after { border-radius: 26px; }
+/* The grid falls to one column here, and a card the width of the page is far
+   taller than its words. The proportion is a shape for a card in a row of
+   cards, so a card that stands alone takes the height of what it holds. */
+@media (max-width: 850px) {
+  .entries .entry-box { aspect-ratio: auto; }
+}
+@media (hover: hover) {
+  /* A card has a surface to answer with, so its words hold their colour and
+     the panel lifts instead. */
+  .entries .entry-box:hover h3 a { color: var(--ink); }
+  .entries .entry-box:hover .entry-summary { color: var(--sand-10); }
+  .entries .entry-box:hover .tag { color: var(--sand-10); }
+  .entries .entry-box:hover {
+    box-shadow:
+      0 10px 12px rgba(0, 0, 0, .02),
+      0 3px 5px rgba(0, 0, 0, .03);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .entries .entry-box { transition: box-shadow var(--hover-out) var(--ease-out); }
+  .entries .entry-box:hover { transition-duration: var(--hover-in); }
 }
 
 /* Entry page */
@@ -1065,7 +958,16 @@
   align-content: start;
   padding: 256px 16px 16px;
 }
-.palette-scrim { position: fixed; inset: 0; background: rgba(0, 0, 0, .53); }
+/* The page does not leave while the palette is open, it goes out of focus. */
+.palette-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .53);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+/* A region that has reached its end passes nothing on to the page behind it. */
+.palette-results, .palette-filters, .palette-menu { overscroll-behavior: contain; }
 .palette-panel {
   position: relative;
   display: flex;
@@ -1240,7 +1142,7 @@
   .icon { width: 20px; height: 20px; }
   .palette-pill { height: 40px; padding: 0 10px 0 14px; font-size: 16px; }
   .palette-pill { justify-content: flex-start; }
-  #filters .search-shortcut, .search-launcher .search-shortcut { font-size: 16px; }
+  .search-launcher .search-shortcut { font-size: 16px; }
   /* A finger, not a pointer: the page's own actions carry a full touch target. */
   .button, .page-back { height: 44px; padding: 0 14px; }
   .palette-pill .icon { margin-left: auto; }

@@ -22,8 +22,16 @@ function fade(progress: number): number {
   return 1;
 }
 
+/** The signals now crossing, so the page that replaces this one can stop them. */
+let crossing: { stop: () => void }[] = [];
+
 /** Start the signals in every diagram that declares them. */
 export function startSignals(): void {
+  // The router swaps the diagram rather than reloading the page, so the signals
+  // of the diagram it replaced are stopped here; left alone they would go on
+  // crossing a diagram that is no longer on the page.
+  for (const signal of crossing) signal.stop();
+  crossing = [];
   if (reducedMotion()) return;
 
   for (const scene of document.querySelectorAll<HTMLElement | SVGElement>('[data-signals]')) {
@@ -35,7 +43,7 @@ export function startSignals(): void {
       // A returning signal walks the same link backwards, from the far end home.
       const returning = signal.dataset.return !== undefined;
 
-      animate(0, 1, {
+      const crossed = animate(0, 1, {
         duration: travel,
         ease: 'linear',
         repeat: Infinity,
@@ -48,6 +56,7 @@ export function startSignals(): void {
           signal.style.opacity = String(fade(progress));
         },
       });
+      crossing.push(crossed);
     }
   }
 }

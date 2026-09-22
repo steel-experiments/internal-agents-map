@@ -11,6 +11,8 @@
 html {
   /* Hold the scrollbar's space so filtering to fewer cards never shifts the page. */
   scrollbar-gutter: stable;
+  /* The page ends where it ends: no pull past the top or the foot of it. */
+  overscroll-behavior-y: none;
   /* Anchors glide instead of jumping. The reduced-motion block below turns it off. */
   scroll-behavior: smooth;
 }
@@ -39,7 +41,7 @@ html {
   --triangle: polygon(50% 0%, 100% 100%, 0% 100%);
   font-family: Areal, Arial, Helvetica, sans-serif;
   color: var(--ink);
-  background: #fff;
+  background: var(--sand-1);
   font-size: var(--text-sm);
   line-height: 1.6;
 }
@@ -140,10 +142,21 @@ details[open] > summary::before { transform: rotate(90deg); }
   .sidebar { view-transition-name: sidebar; }
   .topbar { view-transition-name: topbar; }
   ::view-transition-group(sidebar), ::view-transition-group(topbar) { animation: none; }
-  ::view-transition-old(sidebar), ::view-transition-new(sidebar),
-  ::view-transition-old(topbar), ::view-transition-new(topbar) { animation: none; mix-blend-mode: normal; }
+  /* Both snapshots are opaque and neither fades, so painting the two of them
+     draws the navigation twice wherever they do not land in the same place —
+     which is what a page left part-way down does to a sticky column. Only the
+     arriving one is painted, and it stands where the new page puts it. */
+  ::view-transition-old(sidebar), ::view-transition-old(topbar) { animation: none; opacity: 0; }
+  ::view-transition-new(sidebar), ::view-transition-new(topbar) { animation: none; mix-blend-mode: normal; }
   ::view-transition-old(root) { animation: page-leave 180ms var(--ease-out) both; }
   ::view-transition-new(root) { animation: page-arrive 260ms var(--ease-out) 120ms both; }
+  /* The dot marks one page at a time, so it crosses the change as two: it
+     leaves the link it stood beside, and only once it is gone does it return
+     beside the link for the page now open. */
+  @keyframes nav-dot-leave { to { opacity: 0; } }
+  @keyframes nav-dot-arrive { from { opacity: 0; } }
+  ::view-transition-old(nav-dot-out) { animation: nav-dot-leave 90ms var(--ease-out) both; }
+  ::view-transition-new(nav-dot-in) { animation: nav-dot-arrive 120ms var(--ease-out) 100ms both; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; }
