@@ -73,10 +73,14 @@ The private-data check in `npm run verify` stays the last guard.
 
 Offline stages (`segment`, `resolve`, `verify`, `render`, `review`) rerun from
 a run directory's artifacts; the new output lands beside the original as
-`<artifact>.rerun`. Model-driven stages come from their caches, so a
-warm-cache rerun of the whole run makes no new model calls. A cold rerun can
-differ, because the writer model is not deterministic; the manifest records
-what happened.
+`<artifact>.rerun`. Model-driven stages come from their caches — Jev under
+`.intake/cache/jev.json`, the writer under `.intake/cache/writer.json` — so a
+warm-cache rerun of the whole run makes no new model calls and reproduces the
+draft byte for byte (drafts are never overwritten; the rerun writes its own
+directory). The writer's input never includes the staging header, whose
+capture timestamp would otherwise change the cache key on every run. A cold
+rerun can differ, because the writer model is not deterministic; the manifest
+records which happened, with per-stage cache hits.
 
 ## What the pipeline never does
 

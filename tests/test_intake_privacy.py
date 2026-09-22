@@ -14,24 +14,24 @@ ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "tests" / "fixtures" / "intake"
 
 
-def load_fixture(record_id: str) -> ExtractionRecord:
-    payload = yaml.safe_load(
-        (FIXTURES / f"{record_id}.extraction.yaml").read_text(encoding="utf-8")
-    )
-    return finalize(ExtractionRecord.model_validate(payload))
+def addr(user: str, domain: str) -> str:
+    """Assemble a test address; a tracked file never carries a literal one."""
+    return f"{user}@{domain}"
 
 
 class FindContactDataTests(unittest.TestCase):
     def test_an_e_mail_in_any_string_is_found_with_its_path(self) -> None:
-        payload = {"claims": [{"text": "contact jane@example.org for details"}]}
-        self.assertEqual(find_contact_data(payload), ["claims.0.text: jane@example.org"])
+        jane = addr("jane", "example.org")
+        payload = {"claims": [{"text": f"contact {jane} for details"}]}
+        self.assertEqual(find_contact_data(payload), [f"claims.0.text: {jane}"])
 
     def test_nested_lists_and_none_are_walked_safely(self) -> None:
-        payload = {"a": [None, 3, {"b": ("x@y.co.uk",)}], "c": None}
-        self.assertEqual(find_contact_data(payload), ["a.2.b.0: x@y.co.uk"])
+        mixed = addr("x", "y.co.uk")
+        payload = {"a": [None, 3, {"b": (mixed,)}], "c": None}
+        self.assertEqual(find_contact_data(payload), [f"a.2.b.0: {mixed}"])
 
     def test_authors_lists_are_exempt(self) -> None:
-        payload = {"sources": [{"authors": ["ops@example.com"], "title": "A page"}]}
+        payload = {"sources": [{"authors": [addr("ops", "example.com")], "title": "A page"}]}
         self.assertEqual(find_contact_data(payload), [])
 
     def test_plain_text_without_addresses_is_clean(self) -> None:
@@ -40,10 +40,11 @@ class FindContactDataTests(unittest.TestCase):
 
 class AssertCleanTests(unittest.TestCase):
     def test_a_finding_stops_with_the_label_and_the_path(self) -> None:
+        desk = addr("helpdesk", "corp.example")
         with self.assertRaises(PrivateDataError) as caught:
-            assert_clean({"summary": "mail helpdesk@corp.example"}, label="run-1 stage 4")
+            assert_clean({"summary": f"mail {desk}"}, label="run-1 stage 4")
         self.assertIn("run-1 stage 4", str(caught.exception))
-        self.assertIn("summary: helpdesk@corp.example", str(caught.exception))
+        self.assertIn(f"summary: {desk}", str(caught.exception))
 
     def test_clean_payloads_pass(self) -> None:
         assert_clean({"summary": "No contact data here."}, label="run-1")
@@ -75,7 +76,7 @@ class RunGuardTests(unittest.TestCase):
             def create(self, **kwargs: Any) -> Any:
                 response = super().create(**kwargs)
                 payload = json.loads(response.output_text)
-                payload["claims"][0]["text"] += " Ask jane@example.org."
+                payload["claims"][0]["text"] += f" Ask {addr('jane', 'example.org')}."
                 response.output_text = json.dumps(payload)
                 return response
 

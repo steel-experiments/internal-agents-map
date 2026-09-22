@@ -947,4 +947,17 @@ STOP-line report:
   new tests cover the walker, the exemption, the golden fixtures' cleanliness,
   and a poisoned writer reply stopping stage 4 of a real run. The intake
   suite holds 137 tests.
+- Reproducibility repair (same re-read): the product contract — "a rerun with
+  a warm cache is byte-identical" — could not hold, because stages 4 and 8
+  had no writer cache at all. The writer adapter now caches structured
+  replies keyed by instructions, input, schema, model, and effort (a hit
+  replays the payload at zero tokens and cost, and the stage line reports
+  zero calls with a cache hit), `run_candidate` threads a writer cache beside
+  the Jev cache, and both are injectable so tests stay hermetic. One input
+  repair made the keys stable: the staging header, which carries the capture
+  timestamp, no longer reaches the writer's input; paragraph IDs and line
+  ranges still number the full file, so locators are unchanged. A new
+  end-to-end test runs the zup candidate twice over the same warm caches and
+  asserts the two drafts are byte-identical with zero calls on the extract,
+  judge, and write stages. The intake suite holds 138 tests.
 

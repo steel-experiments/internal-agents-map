@@ -211,6 +211,7 @@ class EndToEndRunTests(unittest.TestCase):
             writer=writer,  # type: ignore[arg-type]
             jev=jev,  # type: ignore[arg-type]
             cache=JsonCache(self.root / "jev-cache.json"),
+            writer_cache=JsonCache(self.root / "writer-cache.json"),
             runs_root=self.root / "runs",
             drafts_root=self.root / "drafts",
             staging_root=self.root / "staging",
@@ -229,6 +230,50 @@ class EndToEndRunTests(unittest.TestCase):
         self.assertIn("Intake review: Zup", sheet)
         self.assertIn("## Claims", sheet)
         self.assertIn("## Model usage", sheet)
+
+    def test_a_warm_rerun_is_byte_identical_and_makes_no_calls(self) -> None:
+        """The product contract: a warm-cache rerun reproduces the draft."""
+        from intake.cache import JsonCache
+        from intake.run import QueueEntry
+
+        steel = SteelSdkAdapter(
+            api_key="test-key",
+            client_factory=lambda _key: FakeSteelClient(self.markdown),
+        )
+        entry = QueueEntry(
+            urls=["https://arxiv.org/abs/2604.09805"],
+            company="Zup",
+            system_name="CodeGen",
+            record_id="zup-codegen-draft",
+        )
+        common: Any = dict(
+            budget=Budget(budget_usd=5.0),
+            steel=steel,
+            writer=WriterAdapter(api_key="test-key", responses=ZupWriterResponses()),
+            jev=JevAdapter(api_key="test-key", connection=FakeJevConnection()),
+            cache=JsonCache(self.root / "warm-jev.json"),
+            writer_cache=JsonCache(self.root / "warm-writer.json"),
+            runs_root=self.root / "runs",
+            drafts_root=self.root / "drafts",
+            staging_root=self.root / "staging",
+            reviewed_at="2026-09-22",
+        )
+        first = run_candidate(entry, **common)
+        # Drafts are never overwritten; the rerun gets its own directory.
+        second = run_candidate(entry, **(common | {"drafts_root": self.root / "drafts-2"}))
+        self.assertIsNotNone(first.draft_path)
+        self.assertIsNotNone(second.draft_path)
+        self.assertEqual(
+            first.draft_path.read_text(encoding="utf-8"),  # type: ignore[union-attr]
+            second.draft_path.read_text(encoding="utf-8"),  # type: ignore[union-attr]
+        )
+        manifest = json.loads(
+            (self.root / "runs" / second.run_id / "run.json").read_text(encoding="utf-8")
+        )
+        by_stage = {stage["stage"]: stage for stage in manifest["stage_runs"]}
+        for name in ("extract", "judge", "write"):
+            self.assertEqual(by_stage[name]["calls"], 0, name)
+            self.assertGreaterEqual(by_stage[name]["cache_hits"], 1, name)
 
     def test_the_identity_file_carries_the_jev_advisory_column(self) -> None:
         summary = self.run_zup()
@@ -288,6 +333,7 @@ class EndToEndRunTests(unittest.TestCase):
             writer=writer,  # type: ignore[arg-type]
             jev=jev,  # type: ignore[arg-type]
             cache=JsonCache(self.root / "jev-cache-queue.json"),
+            writer_cache=JsonCache(self.root / "writer-cache-queue.json"),
         )
         self.assertEqual(len(summaries), 1)
         self.assertEqual(summaries[0].decision, "update")

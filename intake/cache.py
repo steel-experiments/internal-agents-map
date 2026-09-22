@@ -67,3 +67,8 @@ class JsonCache:
 def jev_cache(path: Path | None = None) -> JsonCache:
     """The default Jev judgment cache."""
     return JsonCache(path or CACHE_ROOT / "jev.json")
+
+
+def writer_cache(path: Path | None = None) -> JsonCache:
+    """The default writer-response cache (stages 4 and 8)."""
+    return JsonCache(path or CACHE_ROOT / "writer.json")

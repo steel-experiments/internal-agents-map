@@ -112,8 +112,13 @@ def run_write(
     *,
     adapter: WriterAdapter,
     budget: Budget,
+    cache: Any = None,
 ) -> tuple[ExtractionRecord, dict[str, Any]]:
-    """Write the missing confidence reasons; returns the record and stage facts."""
+    """Write the missing confidence reasons; returns the record and stage facts.
+
+    With a cache, a warm call replays the recorded reasons and reports zero
+    calls.
+    """
 
     needed = claims_needing_reasons(record)
     if not needed:
@@ -136,8 +141,10 @@ def run_write(
         schema=schema,
         schema_name="confidence_reasons",
         budget=budget,
+        cache=cache,
     )
-    calls = 1
+    calls = 0 if result.cache_hit else 1
+    cache_hits = 1 if result.cache_hit else 0
     try:
         payload = ReasonsPayload.model_validate(result.payload)
         reasons = validate_reasons(record, payload)
@@ -155,6 +162,7 @@ def run_write(
             schema=schema,
             schema_name="confidence_reasons",
             budget=budget,
+            cache=cache,
         )
         calls += 1
         try:
@@ -183,6 +191,7 @@ def run_write(
         "input_tokens": result.input_tokens,
         "output_tokens": result.output_tokens,
         "cost_usd": round(result.cost_usd, 6),
+        "cache_hits": cache_hits,
         "calls": calls,
     }
     return record.model_copy(update={"claims": claims}), stage

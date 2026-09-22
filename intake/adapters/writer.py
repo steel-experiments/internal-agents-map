@@ -38,6 +38,7 @@ class WriterResult:
     input_tokens: int
     output_tokens: int
     cost_usd: float
+    cache_hit: bool = False
 
 
 class _ResponsesProtocol(Protocol):
@@ -79,8 +80,35 @@ class WriterAdapter:
         schema: dict[str, Any],
         schema_name: str,
         budget: Budget,
+        cache: Any = None,
     ) -> WriterResult:
-        """One structured-output call; returns the parsed JSON payload."""
+        """One structured-output call; returns the parsed JSON payload.
+
+        With a cache, a warm call replays the recorded payload without
+        spending: tokens and cost report zero and ``cache_hit`` is true.
+        """
+        key: str | None = None
+        if cache is not None:
+            from intake.cache import cache_key
+
+            key = cache_key(
+                instructions,
+                input_text,
+                json.dumps(schema, sort_keys=True),
+                schema_name,
+                self.model,
+                self.reasoning_effort,
+            )
+            cached = cache.get(key)
+            if cached is not None:
+                return WriterResult(
+                    payload=cached["payload"],
+                    model=cached["model"],
+                    input_tokens=0,
+                    output_tokens=0,
+                    cost_usd=0.0,
+                    cache_hit=True,
+                )
         try:
             response = self._client_responses().create(
                 model=self.model,
@@ -109,6 +137,8 @@ class WriterAdapter:
             raise WriterApiError(f"writer model returned invalid JSON: {error}") from error
         if not isinstance(payload, dict):
             raise WriterApiError("writer model returned a non-object JSON payload")
+        if cache is not None and key is not None:
+            cache.put(key, {"payload": payload, "model": model})
         return WriterResult(
             payload=payload,
             model=model,

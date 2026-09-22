@@ -138,6 +138,7 @@ def run_candidate(
     writer: WriterAdapter | None = None,
     jev: JevAdapter | None = None,
     cache: Any = None,
+    writer_cache: Any = None,
     runs_root: Path = RUNS_ROOT,
     drafts_root: Path = DRAFTS_ROOT,
     staging_root: Path | None = None,
@@ -147,9 +148,11 @@ def run_candidate(
     import datetime as dt
 
     from intake.cache import jev_cache
+    from intake.cache import writer_cache as default_writer_cache
     from intake.catalog import load_build
 
     cache = cache or jev_cache()
+    writer_cache = writer_cache if writer_cache is not None else default_writer_cache()
     reviewed_at = reviewed_at or dt.date.today().isoformat()
     run_id = new_run_id()
     directory = run_directory(run_id, runs_root=runs_root)
@@ -192,12 +195,20 @@ def run_candidate(
     )
 
     # Stage 2: segment every capture.
-    from intake.capture import read_staging
+    from intake.capture import HEADER_LINES, read_staging
 
     paragraphs = {}
     for source in sources:
         bundle = read_staging(Path(source.staging_path or ""))
-        paragraphs[source.local_id] = segment_content(bundle["content"])
+        # The staging header is archiver bookkeeping and carries the capture
+        # timestamp; the writer never sees it, so a warm rerun's input is
+        # byte-identical. Paragraph IDs and line ranges keep numbering the
+        # full file, so locators stay stable.
+        paragraphs[source.local_id] = [
+            paragraph
+            for paragraph in segment_content(bundle["content"])
+            if paragraph.end > HEADER_LINES
+        ]
         (directory / f"paragraphs-{source.local_id}.json").write_text(
             json.dumps(
                 [
@@ -279,6 +290,7 @@ def run_candidate(
         hints=hints,
         adapter=writer or WriterAdapter(),
         budget=budget,
+        cache=writer_cache,
     )
     stages.append(stage)
     # The STOP-line guard: contact data the writer produced stops the run here.
@@ -330,7 +342,9 @@ def run_candidate(
     # Stage 8: confidence reasons.
     from intake.write import run_write
 
-    record, stage = run_write(record, adapter=writer or WriterAdapter(), budget=budget)
+    record, stage = run_write(
+        record, adapter=writer or WriterAdapter(), budget=budget, cache=writer_cache
+    )
     stages.append(stage)
     # The reasons are the last writer text; guard them like the claims.
     privacy.assert_clean(json.loads(record.model_dump_json()), label=f"{run_id} stage 8")
@@ -403,6 +417,7 @@ def run_queue(
     writer: WriterAdapter | None = None,
     jev: JevAdapter | None = None,
     cache: Any = None,
+    writer_cache: Any = None,
 ) -> list[RunSummary]:
     """Run every queue entry inside one budget."""
     entries = load_queue(path)
@@ -415,6 +430,7 @@ def run_queue(
             writer=writer,
             jev=jev,
             cache=cache,
+            writer_cache=writer_cache,
             runs_root=runs_root,
             drafts_root=drafts_root,
             staging_root=staging_root,
