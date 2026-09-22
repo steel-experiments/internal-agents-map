@@ -870,4 +870,15 @@ STOP-line report:
   the locator. A new test drives the whole seam offline: fake writer, dry run,
   unapproved refusal, approval, apply, locator landed. The intake suite holds
   108 tests.
+- Gate-command repair (found on the same re-read): the plan's Phase 2 gate
+  command (`backtest --records all --budget-usd 20`) did not exist — only the
+  single-pair comparison did. `run_batch` now walks every record under
+  `data/agents/`, maps each captured source to the `s1, s2, ...` local keys a
+  run uses, extracts with the writer, verifies quotes, and compares against
+  the human record, under one budget reservation; records without captures
+  are skipped and listed, a budget refusal or writer failure stops the batch
+  with the reason on the sheet. Tested offline with a fake writer over the
+  real zup capture plus a capture-less record (skip, budget stop, writer
+  stop). The intake suite holds 111 tests. The live run stays blocked on
+  `OPENAI_API_KEY`; when the key arrives, the gate is one command.
 

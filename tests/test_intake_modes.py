@@ -13,6 +13,7 @@ from intake.adapters.steel import ScrapedPage, SteelSdkAdapter
 from intake.adapters.writer import WriterAdapter
 from intake.apply import ApplyError, apply_proposals, load_proposals
 from intake.backfill import backfill_dry_run, proposals_payload, review_sheet
+from intake.backtest import batch_report_text, run_batch
 from intake.budget import Budget
 from intake.drift import (
     _changed_line_spans,
@@ -243,6 +244,140 @@ class BackfillToApplyTests(unittest.TestCase):
         }
         payload = proposals_payload(report)
         self.assertEqual([item["path"] for item in payload], ["summary"])
+
+
+def zup_batch_payload() -> dict[str, Any]:
+    """A minimal writer reply citing the archived zup source by its real ID."""
+    return {
+        "candidate": {
+            "company": "Zup",
+            "system_name": "CodeGen",
+            "record_id": "zup-codegen",
+            "decision": "update",
+        },
+        "classification": {
+            "approach_type": "agent",
+            "deployment_stage": "research",
+            "year": 2026,
+            "domains": ["coding"],
+            "rubric": {
+                "invocation": ["unknown"],
+                "state": "unknown",
+                "identity": "unknown",
+                "evidence_strength": "detailed-primary",
+            },
+            "operating_models": [
+                {
+                    "scope": "constrained coding task → human-supervised edit",
+                    "attention_boundary": "unknown",
+                    "claim_ids": ["#1"],
+                }
+            ],
+            "agent_name": "CodeGen",
+        },
+        "claims": [
+            {
+                "field": "summary",
+                "text": "CodeGen is Zup's internal coding agent.",
+                "kind": "fact",
+                "provenance": "reported",
+                "quotes": [
+                    {
+                        "source": "s1",
+                        "text": "We present CodeGen, an internal coding agent at Zup",
+                        "paragraph_id": "p3",
+                        "match": "missing",
+                    }
+                ],
+                "disposition": "accept",
+            },
+            {
+                "field": "operating_models[]",
+                "text": "Progressive human oversight modes are reported without defined boundaries",
+                "kind": "fact",
+                "provenance": "reported",
+                "quotes": [
+                    {
+                        "source": "s1",
+                        "text": "while progressive human oversight modes drove organic adoption without mandating trust",
+                        "paragraph_id": "p3",
+                        "match": "missing",
+                    }
+                ],
+                "disposition": "accept",
+            },
+        ],
+        "questions": {"purpose": {"claim_ids": ["#0"]}},
+    }
+
+
+class BatchBacktestTests(unittest.TestCase):
+    """The Phase 2 gate command: backtest every captured record."""
+
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self._tmp.name)
+        shutil.copy(ROOT / "data" / "agents" / "zup-codegen.yaml", self.root / "zup-codegen.yaml")
+        (self.root / "no-capture.yaml").write_text(
+            "id: no-capture\nsources:\n- id: s1\n  url: https://example.com/a\nevidence: {}\n",
+            encoding="utf-8",
+        )
+
+    def tearDown(self) -> None:
+        self._tmp.cleanup()
+
+    def test_the_batch_backtests_captured_records_and_skips_the_rest(self) -> None:
+        class OnePayload:
+            def create(self, **kwargs: Any) -> Any:
+                return FakeWriterResponse(zup_batch_payload())
+
+        report = run_batch(
+            adapter=WriterAdapter(api_key="test-key", responses=OnePayload()),
+            budget=Budget(budget_usd=20.0),
+            records_root=self.root,
+        )
+        self.assertEqual(report["records"], 1)
+        self.assertEqual([entry["record"] for entry in report["skipped"]], ["no-capture"])
+        row = report["rows"][0]
+        self.assertEqual(row["record"], "zup-codegen")
+        self.assertGreaterEqual(row["matched_claims"], 1)
+        self.assertEqual(row["unverified_quotes"], 0)
+        self.assertEqual(row["locator_agreement"]["compared"], 1)
+        self.assertEqual(row["locator_agreement"]["agreeing"], 1)
+        sheet = batch_report_text(report)
+        self.assertIn("zup-codegen", sheet)
+        self.assertIn("no-capture", sheet)
+        self.assertIn("A measurement only", sheet)
+
+    def test_a_refused_budget_stops_the_batch_before_any_call(self) -> None:
+        class NoCalls:
+            def create(self, **kwargs: Any) -> Any:
+                raise AssertionError("the budget must refuse before any call")
+
+        report = run_batch(
+            adapter=WriterAdapter(api_key="test-key", responses=NoCalls()),
+            budget=Budget(budget_usd=0.001),
+            records_root=self.root,
+        )
+        self.assertEqual(report["records"], 0)
+        self.assertEqual(report["stopped"]["reason"], "budget")
+        self.assertIn("no captured source", batch_report_text(report))
+
+    def test_a_writer_failure_stops_the_batch(self) -> None:
+        from intake.adapters.writer import WriterApiError
+
+        class Boom:
+            def create(self, **kwargs: Any) -> Any:
+                raise WriterApiError("writer down")
+
+        report = run_batch(
+            adapter=WriterAdapter(api_key="test-key", responses=Boom()),
+            budget=Budget(budget_usd=20.0),
+            records_root=self.root,
+        )
+        self.assertEqual(report["records"], 0)
+        self.assertEqual(report["stopped"]["reason"], "writer")
+        self.assertIn("stopped early: writer", batch_report_text(report))
 
 
 class DriftTests(unittest.TestCase):

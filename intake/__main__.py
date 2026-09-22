@@ -63,8 +63,23 @@ def _command_render(args: argparse.Namespace) -> int:
 
 
 def _command_backtest(args: argparse.Namespace) -> int:
+    from intake.adapters.writer import WriterAdapter
+    from intake.backtest import batch_report_text, run_batch
     from intake.backtest import main as backtest_main
+    from intake.budget import Budget
 
+    if args.records == "all":
+        report = run_batch(adapter=WriterAdapter(), budget=Budget(budget_usd=args.budget_usd))
+        text = json.dumps(report, indent=2, ensure_ascii=False) + "\n"
+        if args.output is not None:
+            args.output.parent.mkdir(parents=True, exist_ok=True)
+            args.output.write_text(text, encoding="utf-8")
+            print(f"wrote {args.output}")
+        print(batch_report_text(report), end="")
+        return 0
+    if args.record is None or args.extraction is None:
+        print("backtest needs --record and --extraction, or --records all", file=sys.stderr)
+        return 2
     return backtest_main(
         [
             "--record",
@@ -222,9 +237,11 @@ def build_parser() -> argparse.ArgumentParser:
     backtest = subparsers.add_parser(
         "backtest", help="compare an extraction record with a human record"
     )
-    backtest.add_argument("--record", type=Path, required=True)
-    backtest.add_argument("--extraction", type=Path, required=True)
+    backtest.add_argument("--record", type=Path)
+    backtest.add_argument("--extraction", type=Path)
     backtest.add_argument("--compatibility", type=Path)
+    backtest.add_argument("--records", choices=["all"], help="backtest every captured record")
+    backtest.add_argument("--budget-usd", type=float, default=20.0, help="batch mode budget")
     backtest.add_argument("--output", type=Path)
     backtest.set_defaults(func=_command_backtest)
 

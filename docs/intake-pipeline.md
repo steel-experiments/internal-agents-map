@@ -21,6 +21,7 @@ uv run python -m intake render --extraction <file> --output <draft.yaml> --revie
 uv run python -m intake backfill data/agents/<id>.yaml --budget-usd 10 --proposals p.json  # dry run
 uv run python -m intake backfill-apply <proposals.json>                         # apply approved locators
 uv run python -m intake drift                                                   # rescrape and report drift
+uv run python -m intake backtest --records all --budget-usd 20          # the Phase 2 gate
 uv run python -m intake backtest --record <yaml> --extraction <file> [--compatibility <json>]
 uv run python -m intake schema                               # export the extraction-record JSON schema
 npm run verify                                               # the phase gate
@@ -77,6 +78,18 @@ what happened.
 - It never writes `unreported`; silence renders as `not-reviewed` with a note.
 - It never accepts a claim whose quote code has not found in the capture.
 - It never reconstructs a source from snippets, a search result, or memory.
+
+## The batch backtest
+
+`backtest --records all` is the Phase 2 gate. It walks every record under
+`data/agents/`, skips the records without captures (they are listed), and for
+each captured record extracts claims with the writer over that record's own
+captures, verifies the quotes, and compares the result with the human record.
+One budget reservation covers the whole batch; when it refuses, the batch
+stops and the sheet says so. A writer failure stops the batch the way it
+stops a run. The sheet pools recall, precision, locator agreement, and
+unverified quotes, and lists each record's row. A measurement only; nothing
+is applied.
 
 ## Backfill apply and drift
 
