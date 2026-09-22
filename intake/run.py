@@ -155,6 +155,7 @@ def run_candidate(
     drafts_root: Path = DRAFTS_ROOT,
     staging_root: Path | None = None,
     reviewed_at: str | None = None,
+    repo_root: Path = ROOT,
 ) -> RunSummary:
     """Run all twelve stages for one queue candidate."""
     import datetime as dt
@@ -390,6 +391,39 @@ def run_candidate(
     build.validate_record(result.record, Path(f"{draft_id or 'draft'}.yaml"), set())
     stages.append({"stage": "validate", "model": None, "calls": 0, "cost_usd": 0.0})
 
+    # Stage 10's promotion half: only a validating draft earns it. The
+    # product contract names the promoted bundles under archive/sources/ as
+    # a run output; the archiver's append-only writer stays the single
+    # writer, and a rerun that meets its own identical bundle reuses it.
+    if draft_id:
+        from intake.capture import promote_staging
+
+        rendered_new = result.record["sources"][-len(sources) :]
+        promoted = [
+            source.model_copy(
+                update={
+                    "capture_manifest_path": promote_staging(
+                        Path(source.staging_path or ""), rendered["id"], repo_root=repo_root
+                    )
+                }
+            )
+            for source, rendered in zip(sources, rendered_new)
+        ]
+        record = record.model_copy(update={"sources": promoted})
+        result = render_extraction(
+            record, reviewed_at=reviewed_at, existing=existing, contradictions=cross_flags
+        )
+        # The record itself is unchanged from the validated draft; the only
+        # addition is the capture blocks, so the build's own manifest
+        # validator — with its root parameter — checks exactly those,
+        # against the bundles this run just wrote.
+        for source_entry in result.record["sources"][-len(promoted) :]:
+            build.load_capture_manifest(source_entry, Path(f"{draft_id}.yaml"), root=repo_root)
+        notes.append(
+            f"promoted {len(promoted)} capture bundle(s) under archive/sources/; "
+            "the pull request carries them"
+        )
+
     # Stage 9: preflight flags for the sheet.
     flags = preflight_flags(record, result)
 
@@ -401,6 +435,9 @@ def run_candidate(
         if draft_path.exists():
             raise FileExistsError(f"{draft_path} already exists; drafts are never overwritten")
         draft_path.write_text(result.record_yaml, encoding="utf-8")
+        # The run's own archival copy: a stage rerun reads its review date
+        # and promoted capture paths from here, never from today's clock.
+        (directory / "draft.yaml").write_text(result.record_yaml, encoding="utf-8")
     sheet = review_sheet(
         record,
         result,
@@ -457,6 +494,7 @@ def run_queue(
     jev: JevAdapter | None = None,
     cache: Any = None,
     writer_cache: Any = None,
+    repo_root: Path = ROOT,
 ) -> list[RunSummary]:
     """Run every queue entry inside one budget."""
     entries = load_queue(path)
@@ -473,6 +511,7 @@ def run_queue(
             runs_root=runs_root,
             drafts_root=drafts_root,
             staging_root=staging_root,
+            repo_root=repo_root,
         )
         for entry in entries
     ]

@@ -1138,4 +1138,29 @@ STOP-line report:
   stops the mode; the two older single-claim fakes moved to the batched
   shape with their per-record call count asserted. The intake suite holds
   173 tests.
+- Run promotion (loop re-read): the product contract names "the promoted
+  capture bundles under `archive/sources/`" as a per-candidate output, and
+  the architecture puts promotion in stage 10 ("captures promoted") gated on
+  validation — but the run never promoted anything; the sheet asked a person
+  to do it by hand and the draft's sources carried no manifest paths. After
+  stage 11 validates, the run now promotes each staged capture under its
+  final rendered source ID through the archiver's own append-only writer,
+  stamps the manifest paths onto the sources, re-renders (deterministic), and
+  checks exactly the new capture blocks with the build's manifest validator,
+  root parameter included. Two repairs surfaced on the way. First, a latent
+  cross-validator inconsistency: the archiver accepted the SDK tool name
+  `steel-python-sdk` (open decision 2) but the catalog's
+  `load_capture_manifest` still required exactly `steel`, so every SDK-path
+  draft would have failed `npm run verify`; the catalog validator now accepts
+  both names, completing the Phase 1 decision. Second, the render rerun read
+  its review date from a `draft.yaml` that never existed in the run
+  directory, falling back to today's date — it only passed because the tests
+  pinned 2026-09-22; the run now writes its archival draft copy into the run
+  directory and the rerun reads date and promoted paths from it. Promotion
+  is idempotent: a rerun that meets its own identical bundle reuses it
+  (bodies compared under the same header strip), and different content stops
+  the run with the conflict named. Tests: the e2e draft's source carries the
+  manifest path and the bundle exists under the run's root; a pre-existing
+  different bundle refuses; the byte-identical warm rerun re-promotes
+  nothing and stays identical. The intake suite holds 174 tests.
 

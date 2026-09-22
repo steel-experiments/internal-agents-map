@@ -492,8 +492,8 @@ def load_capture_manifest(source: dict, filename: str, *, root: Path | None = No
     tool = require_exact_fields(
         manifest["tool"], {"name", "version"}, set(), f"{field}.tool", filename
     )
-    if tool["name"] != "steel":
-        die(f"{filename}: capture manifest tool name must be 'steel'.")
+    if tool["name"] not in ("steel", "steel-python-sdk"):
+        die(f"{filename}: capture manifest tool name must be 'steel' or 'steel-python-sdk'.")
     if not isinstance(tool["version"], str) or not tool["version"].strip():
         die(f"{filename}: capture manifest tool version must be a non-empty string.")
     artifacts = require_exact_fields(

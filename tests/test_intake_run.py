@@ -228,6 +228,7 @@ class EndToEndRunTests(unittest.TestCase):
             runs_root=self.root / "runs",
             drafts_root=self.root / "drafts",
             staging_root=self.root / "staging",
+            repo_root=self.root,
             reviewed_at="2026-09-22",
         )
 
@@ -251,6 +252,29 @@ class EndToEndRunTests(unittest.TestCase):
         self.assertIn("## Eligibility", sheet)
         self.assertIn("Proposal: **update** (the writer proposed `update`).", sheet)
         self.assertIn("accepted claims establish what the organization built", sheet)
+        # The product contract: the promoted capture bundle is a run output,
+        # and the draft's source names its manifest.
+        self.assertEqual(
+            draft["sources"][0]["capture"]["manifest_path"],
+            "archive/sources/zup-codegen-draft-source-1/metadata.json",
+        )
+        self.assertTrue(
+            (
+                self.root / "archive" / "sources" / "zup-codegen-draft-source-1" / "metadata.json"
+            ).is_file()
+        )
+        self.assertIn("archive/sources/zup-codegen-draft-source-1/metadata.json", sheet)
+        self.assertTrue(any("promoted 1 capture bundle" in note for note in summary.notes))
+
+    def test_promotion_refuses_a_conflicting_existing_bundle(self) -> None:
+        from intake.capture import CaptureStageError
+
+        target = self.root / "archive" / "sources" / "zup-codegen-draft-source-1"
+        target.mkdir(parents=True)
+        (target / "metadata.json").write_text("{}", encoding="utf-8")
+        (target / "content.md").write_text("> h\n\n---\n\na different body\n", encoding="utf-8")
+        with self.assertRaises(CaptureStageError):
+            self.run_zup()
 
     def test_the_sheet_lists_the_questions_no_claim_answers(self) -> None:
         """Principle 5's other half: silence is visible to the reviewer."""
@@ -329,6 +353,7 @@ class EndToEndRunTests(unittest.TestCase):
             runs_root=self.root / "runs",
             drafts_root=self.root / "drafts",
             staging_root=self.root / "staging",
+            repo_root=self.root,
             reviewed_at="2026-09-22",
         )
         first = run_candidate(entry, **common)
@@ -381,6 +406,7 @@ class EndToEndRunTests(unittest.TestCase):
             runs_root=self.root / "runs",
             drafts_root=self.root / "drafts",
             staging_root=self.root / "staging",
+            repo_root=self.root,
             reviewed_at="2026-09-22",
         )
         draft = yaml.safe_load(summary.draft_path.read_text(encoding="utf-8"))  # type: ignore[union-attr]
@@ -460,6 +486,7 @@ class EndToEndRunTests(unittest.TestCase):
             runs_root=self.root / "runs",
             drafts_root=self.root / "drafts",
             staging_root=self.root / "staging",
+            repo_root=self.root,
             steel=steel,
             writer=writer,  # type: ignore[arg-type]
             jev=jev,  # type: ignore[arg-type]
@@ -517,6 +544,7 @@ class EndToEndRunTests(unittest.TestCase):
             runs_root=self.root / "runs",
             drafts_root=self.root / "drafts-role",
             staging_root=self.root / "staging",
+            repo_root=self.root,
             reviewed_at="2026-09-22",
         )
         draft = yaml.safe_load(summary.draft_path.read_text(encoding="utf-8"))  # type: ignore[union-attr]

@@ -197,3 +197,36 @@ def promote(
     except archiver.ArchiveError as error:
         raise CaptureStageError(str(error)) from error
     return result.manifest_path
+
+
+def promote_staging(
+    staging_dir: Path,
+    source_id: str,
+    *,
+    repo_root: Path = ROOT,
+) -> str:
+    """Promote, or accept an identical bundle an earlier run promoted.
+
+    A rerun over the same queue meets its own bundle. The append-only rule
+    forbids rewriting it, and identical content means the artifact is already
+    correct, so the run reuses it. Different content is a real conflict and
+    stops the run; a person decides.
+    """
+
+    def body_of(content: str) -> str:
+        return "\n".join(content.splitlines()[HEADER_LINES:])
+
+    manifest = repo_root / "archive" / "sources" / source_id / "metadata.json"
+    if not manifest.is_file():
+        return promote(staging_dir, source_id, repo_root=repo_root)
+    staged_body = body_of(read_staging(staging_dir)["content"])
+    promoted_body = body_of((manifest.parent / "content.md").read_text(encoding="utf-8"))
+    if (
+        hashlib.sha256(staged_body.encode("utf-8")).hexdigest()
+        != hashlib.sha256(promoted_body.encode("utf-8")).hexdigest()
+    ):
+        raise CaptureStageError(
+            f"archive/sources/{source_id} already holds different content; "
+            "the append-only rule forbids overwriting it"
+        )
+    return f"archive/sources/{source_id}/metadata.json"

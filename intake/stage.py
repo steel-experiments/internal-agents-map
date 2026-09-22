@@ -141,6 +141,22 @@ def _rerun_render(directory: Path) -> int:
         parsed = yaml.safe_load(draft.read_text(encoding="utf-8")) or {}
         if parsed.get("last_reviewed_at"):
             reviewed_at = str(parsed["last_reviewed_at"])
+        # The run promoted its captures after this extraction was saved; the
+        # draft carries the manifest paths, so stamp them back on before
+        # re-rendering or the rerun would drop the capture blocks.
+        promoted = [
+            source.get("capture", {}).get("manifest_path")
+            for source in parsed.get("sources", [])[-len(record.sources) :]
+        ]
+        if len(promoted) == len(record.sources) and all(promoted):
+            record = record.model_copy(
+                update={
+                    "sources": [
+                        source.model_copy(update={"capture_manifest_path": path})
+                        for source, path in zip(record.sources, promoted)
+                    ]
+                }
+            )
     existing = None
     manifest_path = directory / "run.json"
     if manifest_path.is_file():

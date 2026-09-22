@@ -48,9 +48,16 @@ queue before any capture or spend:
 
 Each run lives under `.intake/runs/<run-id>/` and is never overwritten:
 `review.md` (the sheet), `run.json` (the manifest), `identity.json`,
-`paragraphs-s*.json`, `extraction.yaml`, and `extraction-gated.yaml`. Drafts
-land under `drafts/`. Staging captures live under `.intake/captures/` and the
-Jev cache under `.intake/cache/`; all three are gitignored and regenerable.
+`paragraphs-s*.json`, `extraction.yaml`, `extraction-gated.yaml`, and
+`draft.yaml` (the run's archival copy of the draft). Drafts also land under
+`drafts/`. Staging captures live under `.intake/captures/` and the Jev cache
+under `.intake/cache/`; all three are gitignored and regenerable.
+
+When the draft validates, the run promotes its staging captures into
+`archive/sources/<source-id>/` through the archiver's append-only writer,
+and the draft's sources carry the manifest paths. A rerun that meets its own
+identical bundle reuses it; a bundle with different content stops the run
+with the conflict named. The pull request carries the promoted bundles.
 
 The review sheet lists every claim with its quote, its line locator, its
 numeric check, its Jev verdicts with probabilities, its disposition, and the
