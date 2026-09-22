@@ -272,7 +272,6 @@ page_content:
     sandbox:
       state: unreported
       claim_paths: []
-      note: The captures document no execution or isolation boundary.
     tool_access:
       state: reported
       claim_paths:
@@ -289,7 +288,6 @@ page_content:
     credentials:
       state: unreported
       claim_paths: []
-      note: Credential handling is not documented in either capture.
     interfaces:
       state: unreported
       claim_paths: []

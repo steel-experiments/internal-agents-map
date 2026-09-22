@@ -125,9 +125,9 @@ page_content:
     model: {state: unreported, claim_paths: [], note: 'The abstract names no model and argues the surrounding
       engineering matters more; the legacy placeholder claim stays in research details.'}
     harness: {state: reported, claim_paths: [architecture.harness]}
-    sandbox: {state: unreported, claim_paths: [], note: 'No execution or isolation boundary is documented.'}
+    sandbox: {state: unreported, claim_paths: []}
     tool_access: {state: reported, claim_paths: [architecture.tool_access]}
-    knowledge: {state: unreported, claim_paths: [], note: 'No knowledge source or store is named.'}
+    knowledge: {state: unreported, claim_paths: []}
     context_mgmt: {state: unreported, claim_paths: [], note: 'The abstract names state management as a decisive
       concern without describing any management mechanism.'}
     credentials: {state: unreported, claim_paths: [], note: 'Layered safety guardrails are safety enforcement, not

@@ -144,7 +144,7 @@ page_content:
     tool_access: {state: reported, claim_paths: [architecture.tool_access]}
     knowledge: {state: reported, claim_paths: [architecture.knowledge]}
     context_mgmt: {state: reported, claim_paths: [architecture.context_mgmt]}
-    credentials: {state: unreported, claim_paths: [], note: Credential handling is not documented in the reviewed capture.}
+    credentials: {state: unreported, claim_paths: []}
     interfaces: {state: reported, claim_paths: [architecture.interfaces]}
   primitive_roles: {primitives.0: workflow, primitives.1: workflow, primitives.2: workflow, primitives.3: workflow, primitives.4: validation}
   observations:

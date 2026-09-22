@@ -184,12 +184,11 @@ page_content:
     harness: {state: reported, claim_paths: [architecture.harness]}
     sandbox: {state: unreported, claim_paths: [], note: 'The article describes no execution or isolation boundary;
       the legacy unknown placeholder stays in research details.'}
-    tool_access: {state: unreported, claim_paths: [], note: 'The article documents no tools used for context
-      collection.'}
+    tool_access: {state: unreported, claim_paths: []}
     knowledge: {state: unreported, claim_paths: [], note: 'No knowledge source is named for Sevbot; the article''s
       factory-wide Codex context access is not attributed to Sevbot.'}
-    context_mgmt: {state: unreported, claim_paths: [], note: 'Not documented in the reviewed captures.'}
-    credentials: {state: unreported, claim_paths: [], note: 'Not documented in the reviewed captures.'}
+    context_mgmt: {state: unreported, claim_paths: []}
+    credentials: {state: unreported, claim_paths: []}
     interfaces: {state: reported, claim_paths: [architecture.interfaces]}
   primitive_roles: {primitives.0: workflow, primitives.1: workflow, primitives.2: workflow, primitives.3: workflow}
   observations: {}

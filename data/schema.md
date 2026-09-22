@@ -242,7 +242,11 @@ keys. Every disposition has a `state`, `claim_paths`, and optionally a `note`.
 States are `reported`, `unreported`, `not-applicable`, and `not-reviewed`. Reported
 slots require one or more same-entry claims supported by a reviewed source. All other
 states require no claim paths and a concrete note; for `not-reviewed`, the note is the
-next research action. A reported workflow also requires `workflow_scope`.
+next research action. An `unreported` implementation field is the one exception: the
+state already says the captures were read and name nothing, so the note is optional
+there and must be left out unless it adds a fact the state does not carry — what the
+source says instead, which claim stays in research details, or the scope that limits
+the answer. A reported workflow also requires `workflow_scope`.
 
 `primitive_roles` classifies every primitive as `workflow`, `mechanism`, or
 `validation`; the workflow question lists every workflow primitive in reading order.

@@ -280,13 +280,13 @@ page_content:
   implementation_fields:
     model: {state: reported, claim_paths: [architecture.model]}
     harness: {state: reported, claim_paths: [architecture.harness]}
-    sandbox: {state: unreported, claim_paths: [], note: 'The capture documents no execution or isolation boundary.'}
+    sandbox: {state: unreported, claim_paths: []}
     tool_access: {state: reported, claim_paths: [architecture.tool_access], note: 'Code-only access at publication;
       other internal artifacts are named as not yet connected.'}
     knowledge: {state: reported, claim_paths: [architecture.knowledge]}
     context_mgmt: {state: reported, claim_paths: [architecture.context_mgmt], note: 'The Kafka-to-Hive stream is
       feedback and operations context, not run-time context management.'}
-    credentials: {state: unreported, claim_paths: [], note: 'Credential handling is not documented in the capture.'}
+    credentials: {state: unreported, claim_paths: []}
     interfaces: {state: reported, claim_paths: [architecture.interfaces], note: 'Uber''s Phabricator-based internal
       review platform and the CI process; GitHub is explicitly not the host.'}
   primitive_roles: {primitives.0: workflow, primitives.1: workflow, primitives.2: validation, primitives.3: workflow,

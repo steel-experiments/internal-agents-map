@@ -165,17 +165,16 @@ page_content:
     lessons: {state: reported, claim_paths: [lessons_learned.0, lessons_learned.1], note: 'Two attributed opinions
       of the CTO, relayed by a single secondary article.'}
   implementation_fields:
-    model: {state: unreported, claim_paths: [], note: 'No model is named in the capture.'}
+    model: {state: unreported, claim_paths: []}
     harness: {state: unreported, claim_paths: [], note: 'No execution environment is described; the placeholder claim
       stays in research details.'}
     sandbox: {state: unreported, claim_paths: [], note: 'No isolation boundary is described; the unknown claim stays
       in research details.'}
-    tool_access: {state: unreported, claim_paths: [], note: 'No tools or systems accessed by the agent are named.'}
-    knowledge: {state: unreported, claim_paths: [], note: 'No knowledge source is described in the capture.'}
-    context_mgmt: {state: unreported, claim_paths: [], note: 'No context-management mechanism is described.'}
-    credentials: {state: unreported, claim_paths: [], note: 'Credential handling is not described in the capture.'}
-    interfaces: {state: unreported, claim_paths: [], note: 'The capture names no surface through which engineers
-      invoke the agent.'}
+    tool_access: {state: unreported, claim_paths: []}
+    knowledge: {state: unreported, claim_paths: []}
+    context_mgmt: {state: unreported, claim_paths: []}
+    credentials: {state: unreported, claim_paths: []}
+    interfaces: {state: unreported, claim_paths: []}
   primitive_roles: {primitives.0: workflow, primitives.1: workflow, primitives.2: workflow}
   observations:
     headline_metric: {category: adoption-output, basis: reported-measurement, subject: 'Weekly code changes written

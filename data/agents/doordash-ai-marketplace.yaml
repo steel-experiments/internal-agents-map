@@ -138,7 +138,6 @@ page_content:
     model:
       state: unreported
       claim_paths: []
-      note: Not documented for this subject in the reviewed source.
     harness:
       state: reported
       claim_paths:
@@ -146,7 +145,6 @@ page_content:
     sandbox:
       state: unreported
       claim_paths: []
-      note: Not documented for this subject in the reviewed source.
     tool_access:
       state: reported
       claim_paths:
@@ -158,11 +156,9 @@ page_content:
     context_mgmt:
       state: unreported
       claim_paths: []
-      note: Not documented for this subject in the reviewed source.
     credentials:
       state: unreported
       claim_paths: []
-      note: Not documented for this subject in the reviewed source.
     interfaces:
       state: reported
       claim_paths:

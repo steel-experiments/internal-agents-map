@@ -204,7 +204,7 @@ page_content:
   implementation_fields:
     model: {state: reported, claim_paths: [architecture.model]}
     harness: {state: reported, claim_paths: [architecture.harness]}
-    sandbox: {state: unreported, claim_paths: [], note: 'No execution or isolation boundary is documented.'}
+    sandbox: {state: unreported, claim_paths: []}
     tool_access: {state: reported, claim_paths: [architecture.tool_access]}
     knowledge: {state: reported, claim_paths: [architecture.knowledge]}
     context_mgmt: {state: reported, claim_paths: [architecture.context_mgmt], note: 'The prompt-size reduction that

@@ -151,13 +151,13 @@ page_content:
     observations: {state: reported, claim_paths: [headline_metric, key_metrics.0, key_metrics.1, key_metrics.2, key_metrics.3]}
     lessons: {state: unreported, claim_paths: [], note: The reviewed article reports practices and outcomes but this record contains no separate lessons claim.}
   implementation_fields:
-    model: {state: unreported, claim_paths: [], note: The reviewed source does not name the underlying model.}
-    harness: {state: unreported, claim_paths: [], note: The reviewed source does not describe the orchestration harness.}
-    sandbox: {state: unreported, claim_paths: [], note: Execution isolation is not documented.}
-    tool_access: {state: unreported, claim_paths: [], note: Tool permissions are not documented.}
+    model: {state: unreported, claim_paths: []}
+    harness: {state: unreported, claim_paths: []}
+    sandbox: {state: unreported, claim_paths: []}
+    tool_access: {state: unreported, claim_paths: []}
     knowledge: {state: reported, claim_paths: [architecture.knowledge]}
-    context_mgmt: {state: unreported, claim_paths: [], note: Context-window management is not documented.}
-    credentials: {state: unreported, claim_paths: [], note: Credential handling is not documented.}
+    context_mgmt: {state: unreported, claim_paths: []}
+    credentials: {state: unreported, claim_paths: []}
     interfaces: {state: unreported, claim_paths: [], note: The source says the existing PR workflow but does not establish a specific hosting interface.}
   primitive_roles: {primitives.0: workflow, primitives.1: workflow, primitives.2: workflow, primitives.3: workflow, primitives.4: workflow}
   observations:

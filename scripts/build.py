@@ -659,7 +659,12 @@ def validate_page_content(record: dict, filename: str, source_ids: set[str]) -> 
         die(f"{filename}: page_content.source_ids must be unique sources belonging to this entry.")
     claims = claim_fields(record)
 
-    def disposition(value: Any, field: str, allowed_paths: set[str] | None = None) -> dict:
+    def disposition(
+        value: Any,
+        field: str,
+        allowed_paths: set[str] | None = None,
+        bare_unreported: bool = False,
+    ) -> dict:
         value = require_exact_fields(value, {"state", "claim_paths"}, {"note"}, field, filename)
         if value["state"] not in REVIEW_STATES:
             die(f"{filename}: {field}.state is invalid.")
@@ -687,7 +692,7 @@ def validate_page_content(record: dict, filename: str, source_ids: set[str]) -> 
                     )
         elif paths:
             die(f"{filename}: {field} {value['state']} state requires empty claim_paths.")
-        elif not note:
+        elif not note and not (bare_unreported and value["state"] == "unreported"):
             die(f"{filename}: {field} {value['state']} state requires a note.")
         return value
 
@@ -707,7 +712,12 @@ def validate_page_content(record: dict, filename: str, source_ids: set[str]) -> 
             f"{filename}: page_content.implementation_fields must contain all eight architecture fields."
         )
     for key, value in fields.items():
-        disposition(value, f"page_content.implementation_fields.{key}", {f"architecture.{key}"})
+        disposition(
+            value,
+            f"page_content.implementation_fields.{key}",
+            {f"architecture.{key}"},
+            bare_unreported=True,
+        )
 
     roles = page["primitive_roles"]
     expected_primitives = {f"primitives.{i}" for i, _ in enumerate(record.get("primitives") or [])}

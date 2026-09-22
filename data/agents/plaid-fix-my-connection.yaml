@@ -124,15 +124,15 @@ page_content:
       transferable lesson.'}
   implementation_fields:
     model: {state: unreported, claim_paths: [], note: 'Described as AI-powered; no model is specified.'}
-    harness: {state: unreported, claim_paths: [], note: 'The capture names no execution environment.'}
-    sandbox: {state: unreported, claim_paths: [], note: 'No isolation boundary is documented.'}
+    harness: {state: unreported, claim_paths: []}
+    sandbox: {state: unreported, claim_paths: []}
     tool_access: {state: reported, claim_paths: [architecture.tool_access]}
     knowledge: {state: unreported, claim_paths: [], note: 'Integration knowledge is implied by the repair behavior; no
       knowledge store is documented.'}
-    context_mgmt: {state: unreported, claim_paths: [], note: 'Not documented in the capture.'}
+    context_mgmt: {state: unreported, claim_paths: []}
     credentials: {state: unreported, claim_paths: [], note: 'User-permissioned data access is named, but credential
       handling for the agent is not documented.'}
-    interfaces: {state: unreported, claim_paths: [], note: 'No human-facing surface is named.'}
+    interfaces: {state: unreported, claim_paths: []}
   primitive_roles: {primitives.0: workflow, primitives.1: workflow}
   observations:
     headline_metric: {category: effectiveness, basis: reported-measurement, subject: 'Automated bank-connection

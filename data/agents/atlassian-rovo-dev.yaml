@@ -202,7 +202,7 @@ page_content:
     model: {state: reported, claim_paths: [architecture.model], note: 'Documented for the code reviewer; the Jira
       coding agent model is not named.'}
     harness: {state: reported, claim_paths: [architecture.harness]}
-    sandbox: {state: unreported, claim_paths: [], note: 'No execution or isolation boundary is documented in any capture.'}
+    sandbox: {state: unreported, claim_paths: []}
     tool_access: {state: unreported, claim_paths: [], note: 'Repository selection is named as user-provided context,
       not as a documented tool-access mechanism.'}
     knowledge: {state: unreported, claim_paths: [], note: 'No separate knowledge store is documented; similar work

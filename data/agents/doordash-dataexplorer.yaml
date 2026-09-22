@@ -125,7 +125,6 @@ page_content:
     model:
       state: unreported
       claim_paths: []
-      note: Not documented for this subject in the reviewed source.
     harness:
       state: reported
       claim_paths:
@@ -133,7 +132,6 @@ page_content:
     sandbox:
       state: unreported
       claim_paths: []
-      note: Not documented for this subject in the reviewed source.
     tool_access:
       state: reported
       claim_paths:
@@ -141,19 +139,15 @@ page_content:
     knowledge:
       state: unreported
       claim_paths: []
-      note: Not documented for this subject in the reviewed source.
     context_mgmt:
       state: unreported
       claim_paths: []
-      note: Not documented for this subject in the reviewed source.
     credentials:
       state: unreported
       claim_paths: []
-      note: Not documented for this subject in the reviewed source.
     interfaces:
       state: unreported
       claim_paths: []
-      note: Not documented for this subject in the reviewed source.
   primitive_roles:
     primitives.0: workflow
     primitives.1: workflow

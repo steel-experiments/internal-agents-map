@@ -118,12 +118,12 @@ page_content:
   implementation_fields:
     model: {state: unreported, claim_paths: [], note: 'LLMs are named as the enabling technology; no model is specified.'}
     harness: {state: reported, claim_paths: [architecture.harness]}
-    sandbox: {state: unreported, claim_paths: [], note: 'The capture documents no isolation boundary.'}
+    sandbox: {state: unreported, claim_paths: []}
     tool_access: {state: unreported, claim_paths: [], note: 'No tools are named; labeling runs on internal transaction data.'}
     knowledge: {state: reported, claim_paths: [architecture.knowledge]}
     context_mgmt: {state: unreported, claim_paths: [], note: 'Not documented; richer context signals are future work.'}
-    credentials: {state: unreported, claim_paths: [], note: 'Not documented in the capture.'}
-    interfaces: {state: unreported, claim_paths: [], note: 'No human-facing surface is named.'}
+    credentials: {state: unreported, claim_paths: []}
+    interfaces: {state: unreported, claim_paths: []}
   primitive_roles: {}
   observations:
     headline_metric: {category: effectiveness, basis: reported-measurement, subject: 'AI Annotator label agreement

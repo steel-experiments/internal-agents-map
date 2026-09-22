@@ -284,8 +284,7 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "harness": {
             "state": "reported",
@@ -295,8 +294,7 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "reported",
@@ -306,23 +304,19 @@
           },
           "knowledge": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "context_mgmt": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           }
         },
         "primitive_roles": {
@@ -443,8 +437,7 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "harness": {
             "state": "reported",
@@ -454,13 +447,11 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "knowledge": {
             "state": "reported",
@@ -470,18 +461,15 @@
           },
           "context_mgmt": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           }
         },
         "primitive_roles": {
@@ -833,8 +821,7 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "No execution or isolation boundary is documented in any capture."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "unreported",
@@ -1459,23 +1446,19 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "harness": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "knowledge": {
             "state": "reported",
@@ -1485,18 +1468,15 @@
           },
           "context_mgmt": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           }
         },
         "primitive_roles": {
@@ -1612,8 +1592,7 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "harness": {
             "state": "reported",
@@ -1623,13 +1602,11 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "knowledge": {
             "state": "reported",
@@ -1639,18 +1616,15 @@
           },
           "context_mgmt": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           }
         },
         "primitive_roles": {
@@ -2010,8 +1984,7 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "harness": {
             "state": "reported",
@@ -2021,13 +1994,11 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "knowledge": {
             "state": "reported",
@@ -2037,18 +2008,15 @@
           },
           "context_mgmt": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           }
         },
         "primitive_roles": {
@@ -2170,23 +2138,19 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "harness": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "knowledge": {
             "state": "reported",
@@ -2196,18 +2160,15 @@
           },
           "context_mgmt": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           }
         },
         "primitive_roles": {
@@ -2324,8 +2285,7 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "harness": {
             "state": "reported",
@@ -2335,8 +2295,7 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "reported",
@@ -2346,8 +2305,7 @@
           },
           "knowledge": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "context_mgmt": {
             "state": "reported",
@@ -2357,8 +2315,7 @@
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "reported",
@@ -2960,8 +2917,7 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "harness": {
             "state": "reported",
@@ -2977,28 +2933,23 @@
           },
           "tool_access": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "knowledge": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "context_mgmt": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           }
         },
         "primitive_roles": {
@@ -3392,8 +3343,7 @@
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Credential handling is not documented in either capture."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "unreported",
@@ -3783,8 +3733,7 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "No execution or isolation boundary is documented."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "reported",
@@ -4004,13 +3953,11 @@
           },
           "context_mgmt": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Context-window management is not documented as a separate mechanism."
+            "claim_paths": []
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Credential handling is not documented."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "reported",
@@ -4175,8 +4122,7 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "harness": {
             "state": "reported",
@@ -4186,8 +4132,7 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "reported",
@@ -4203,13 +4148,11 @@
           },
           "context_mgmt": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "reported",
@@ -4338,8 +4281,7 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "harness": {
             "state": "reported",
@@ -4349,8 +4291,7 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "reported",
@@ -4360,23 +4301,19 @@
           },
           "knowledge": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "context_mgmt": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           }
         },
         "primitive_roles": {
@@ -4729,8 +4666,7 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "harness": {
             "state": "reported",
@@ -4740,18 +4676,15 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "knowledge": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "context_mgmt": {
             "state": "reported",
@@ -4761,13 +4694,11 @@
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           }
         },
         "primitive_roles": {
@@ -5822,8 +5753,7 @@
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Credential handling is not documented in the reviewed capture."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "reported",
@@ -5981,8 +5911,7 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "harness": {
             "state": "reported",
@@ -5992,8 +5921,7 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "reported",
@@ -6015,13 +5943,11 @@
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           }
         },
         "primitive_roles": {
@@ -6366,8 +6292,7 @@
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Credential handling for the review agent is not documented in either capture."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "reported",
@@ -6950,23 +6875,19 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not name the underlying model."
+            "claim_paths": []
           },
           "harness": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not describe the orchestration harness."
+            "claim_paths": []
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Execution isolation is not documented."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Tool permissions are not documented."
+            "claim_paths": []
           },
           "knowledge": {
             "state": "reported",
@@ -6976,13 +6897,11 @@
           },
           "context_mgmt": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Context-window management is not documented."
+            "claim_paths": []
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Credential handling is not documented."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "unreported",
@@ -7581,8 +7500,7 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "harness": {
             "state": "reported",
@@ -7592,13 +7510,11 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "knowledge": {
             "state": "reported",
@@ -7608,13 +7524,11 @@
           },
           "context_mgmt": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "reported",
@@ -7744,8 +7658,7 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "harness": {
             "state": "reported",
@@ -7755,8 +7668,7 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "reported",
@@ -7778,13 +7690,11 @@
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           }
         },
         "primitive_roles": {
@@ -8187,8 +8097,7 @@
           },
           "tool_access": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The article documents no tools used for context collection."
+            "claim_paths": []
           },
           "knowledge": {
             "state": "unreported",
@@ -8197,13 +8106,11 @@
           },
           "context_mgmt": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented in the reviewed captures."
+            "claim_paths": []
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented in the reviewed captures."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "reported",
@@ -8343,8 +8250,7 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The capture documents no isolation boundary."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "unreported",
@@ -8364,13 +8270,11 @@
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented in the capture."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "No human-facing surface is named."
+            "claim_paths": []
           }
         },
         "primitive_roles": {},
@@ -8499,13 +8403,11 @@
           },
           "harness": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The capture names no execution environment."
+            "claim_paths": []
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "No isolation boundary is documented."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "reported",
@@ -8520,8 +8422,7 @@
           },
           "context_mgmt": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented in the capture."
+            "claim_paths": []
           },
           "credentials": {
             "state": "unreported",
@@ -8530,8 +8431,7 @@
           },
           "interfaces": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "No human-facing surface is named."
+            "claim_paths": []
           }
         },
         "primitive_roles": {
@@ -10222,8 +10122,7 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "harness": {
             "state": "reported",
@@ -10233,8 +10132,7 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "reported",
@@ -10250,13 +10148,11 @@
           },
           "context_mgmt": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "reported",
@@ -10866,8 +10762,7 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The captures document no execution or isolation boundary."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "reported",
@@ -10888,8 +10783,7 @@
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Credential handling is not documented in either capture."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "unreported",
@@ -12215,8 +12109,7 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "No model is named in the capture."
+            "claim_paths": []
           },
           "harness": {
             "state": "unreported",
@@ -12230,28 +12123,23 @@
           },
           "tool_access": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "No tools or systems accessed by the agent are named."
+            "claim_paths": []
           },
           "knowledge": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "No knowledge source is described in the capture."
+            "claim_paths": []
           },
           "context_mgmt": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "No context-management mechanism is described."
+            "claim_paths": []
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Credential handling is not described in the capture."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The capture names no surface through which engineers invoke the agent."
+            "claim_paths": []
           }
         },
         "primitive_roles": {
@@ -12420,8 +12308,7 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The capture documents no execution or isolation boundary."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "reported",
@@ -12445,8 +12332,7 @@
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Credential handling is not documented in the capture."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "reported",
@@ -12997,8 +12883,7 @@
         "implementation_fields": {
           "model": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "harness": {
             "state": "reported",
@@ -13008,8 +12893,7 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "reported",
@@ -13025,18 +12909,15 @@
           },
           "context_mgmt": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "credentials": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           },
           "interfaces": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "Not documented for this subject in the reviewed source."
+            "claim_paths": []
           }
         },
         "primitive_roles": {
@@ -13157,8 +13038,7 @@
           },
           "sandbox": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "No execution or isolation boundary is documented."
+            "claim_paths": []
           },
           "tool_access": {
             "state": "reported",
@@ -13168,8 +13048,7 @@
           },
           "knowledge": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "No knowledge source or store is named."
+            "claim_paths": []
           },
           "context_mgmt": {
             "state": "unreported",

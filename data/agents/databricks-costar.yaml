@@ -228,7 +228,6 @@ page_content:
     credentials:
       state: unreported
       claim_paths: []
-      note: Credential handling is not documented in either capture.
     interfaces:
       state: unreported
       claim_paths: []
