@@ -1066,4 +1066,23 @@ STOP-line report:
   end-to-end run with `source_role: first-party` lands the class on the
   draft's source and the hint note on the sheet, while a hintless run stays
   conservative with its own note. The intake suite holds 158 tests.
+- Sheet verdicts and open questions (loop re-read): the product contract —
+  "the review sheet lists every claim with its quote, its line locator, its
+  numeric check, **its Jev verdicts with probabilities**, its disposition,
+  and **the open questions**" — was half unmet. The claim rows showed the
+  relation verdict and the two flags, but the temporal status and the
+  observation basis — computed, cached, and stored in the judgments block —
+  never reached the reviewer; and no section listed the questions no claim
+  answers, so principle 5's "the reviewer flips it after reading" had
+  nothing to read. The Relation column became a Verdicts column that joins
+  relation, temporal, and basis with their probabilities, and a new "Open
+  questions" section lists every unanswered reader question (including
+  `implementation_fields` entries) with its silence note, naming
+  `not-reviewed` as what the draft records. The operator doc's sheet
+  sentence, copied from the contract, becomes true without edits. Tests:
+  the e2e sheet shows `stated (0.92); current (0.90);
+  reported-measurement (0.85)` on a claim row (the fake Jev now answers
+  the basis question honestly); the open-questions helper covers
+  top-level and per-field silence; the zup sheet lists its three
+  unanswered questions. The intake suite holds 159 tests.
 

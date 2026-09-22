@@ -60,6 +60,31 @@ def claim_row(claim: Any) -> dict[str, Any]:
     }
 
 
+def _open_questions(questions: Any) -> list[tuple[str, str | None]]:
+    """Every reader question the extraction left unanswered.
+
+    Principle 5: unanswered questions render as ``not-reviewed`` and a person
+    flips them after reading; this lists them so the person sees which ones.
+    """
+    open_questions: list[tuple[str, str | None]] = []
+    for name in (
+        "purpose",
+        "workflow",
+        "human_involvement",
+        "implementation",
+        "validation",
+        "observations",
+        "lessons",
+    ):
+        answer = getattr(questions, name)
+        if not answer.claim_ids:
+            open_questions.append((name, answer.note))
+    for field_name, answer in sorted(questions.implementation_fields.items()):
+        if not answer.claim_ids:
+            open_questions.append((f"implementation_fields.{field_name}", answer.note))
+    return open_questions
+
+
 def review_sheet(
     record: ExtractionRecord,
     result: RenderResult,
@@ -119,21 +144,34 @@ def review_sheet(
             reason_column = f" — {reason}" if reason else ""
             lines.append(f"- `{entry.id}`{same_column}{jev_column}{reason_column}")
     lines.extend(["", "## Claims", ""])
-    header = "| Claim | Field | Disposition | Quote match | Numbers | Relation | Flags | Note |"
+    header = "| Claim | Field | Disposition | Quote match | Numbers | Verdicts | Flags | Note |"
     lines.extend([header, "| --- | --- | --- | --- | --- | --- | --- | --- |"])
     for claim in record.claims:
         row = claim_row(claim)
         quote_matches = ",".join(quote["match"] for quote in row["quotes"]) or "—"
         lines_of_quotes = ",".join(quote["lines"] for quote in row["quotes"])
         numbers = "—" if row["numbers_ok"] is None else ("ok" if row["numbers_ok"] else "check")
-        relation = row["verdicts"].get("relation", "—")
+        verdicts = "; ".join(
+            row["verdicts"][name]
+            for name in ("relation", "temporal", "basis")
+            if name in row["verdicts"]
+        )
         flags = [name for name in ("actor_mismatch", "approval_removed") if name in row["verdicts"]]
         note = row["review_note"] or ""
         lines.append(
             f"| `{row['claim_id']}` | {row['field']} | {row['disposition']} | "
-            f"{quote_matches} ({lines_of_quotes}) | {numbers} | {relation} | "
+            f"{quote_matches} ({lines_of_quotes}) | {numbers} | {verdicts or '—'} | "
             f"{', '.join(flags) or '—'} | {note} |"
         )
+    if record.questions is not None:
+        open_questions = _open_questions(record.questions)
+        if open_questions:
+            lines.extend(["", "## Open questions", ""])
+            lines.extend(
+                f"- `{name}`: no claim answers it, so the draft records "
+                f"`not-reviewed`{f' — {note}' if note else ''}."
+                for name, note in open_questions
+            )
     if result.notes:
         lines.extend(["", "## Renderer notes", ""])
         lines.extend(f"- {note}" for note in result.notes)

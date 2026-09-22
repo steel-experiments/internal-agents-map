@@ -154,20 +154,33 @@ class FakeJevConnection:
                 for question_id, question in questions.items():
                     if question["type"] == "noul":
                         answers[question_id] = {"type": "noul", "noul": 0.05}
+                    elif "relation" in question_id:
+                        answers[question_id] = {
+                            "type": "choice",
+                            "choice": "stated",
+                            "probabilities": {"stated": 0.92, "conflicts": 0.03, "unknown": 0.05},
+                        }
+                    elif "basis" in question_id:
+                        answers[question_id] = {
+                            "type": "choice",
+                            "choice": "measured",
+                            "probabilities": {
+                                "measured": 0.85,
+                                "qualitative": 0.08,
+                                "target": 0.04,
+                                "unknown": 0.03,
+                            },
+                        }
                     else:
                         answers[question_id] = {
                             "type": "choice",
-                            "choice": "stated" if "relation" in question_id else "current",
-                            "probabilities": (
-                                {"stated": 0.92, "conflicts": 0.03, "unknown": 0.05}
-                                if "relation" in question_id
-                                else {
-                                    "current": 0.9,
-                                    "future": 0.04,
-                                    "historical": 0.03,
-                                    "unknown": 0.03,
-                                }
-                            ),
+                            "choice": "current",
+                            "probabilities": {
+                                "current": 0.9,
+                                "future": 0.04,
+                                "historical": 0.03,
+                                "unknown": 0.03,
+                            },
                         }
                 return json.dumps(
                     {
@@ -230,6 +243,46 @@ class EndToEndRunTests(unittest.TestCase):
         self.assertIn("Intake review: Zup", sheet)
         self.assertIn("## Claims", sheet)
         self.assertIn("## Model usage", sheet)
+        # The contract: every claim row carries its Jev verdicts with
+        # probabilities — relation, temporal status, and observation basis.
+        self.assertIn("| Claim | Field | Disposition | Quote match | Numbers | Verdicts |", sheet)
+        self.assertIn("stated (0.92); current (0.90); reported-measurement (0.85)", sheet)
+
+    def test_the_sheet_lists_the_questions_no_claim_answers(self) -> None:
+        """Principle 5's other half: silence is visible to the reviewer."""
+        from intake.models import QuestionAnswer, Questions
+        from intake.review import _open_questions
+
+        questions = Questions(
+            workflow=QuestionAnswer(),
+            validation=QuestionAnswer(note="The pipeline found no passage in s1."),
+            implementation_fields={"credentials": QuestionAnswer()},
+        )
+        open_questions = _open_questions(questions)
+        self.assertEqual(
+            [name for name, _note in open_questions],
+            [
+                "purpose",
+                "workflow",
+                "human_involvement",
+                "implementation",
+                "validation",
+                "observations",
+                "lessons",
+                "implementation_fields.credentials",
+            ],
+        )
+        notes = dict(open_questions)
+        self.assertIsNone(notes["workflow"])
+        self.assertEqual(notes["validation"], "The pipeline found no passage in s1.")
+        # The run's sheet carries the section; the zup fixture leaves three
+        # reader questions unanswered.
+        summary = self.run_zup()
+        sheet = summary.sheet_path.read_text(encoding="utf-8") if summary.sheet_path else ""
+        self.assertIn("## Open questions", sheet)
+        self.assertIn("`workflow`: no claim answers it", sheet)
+        self.assertIn("`validation`: no claim answers it", sheet)
+        self.assertIn("`observations`: no claim answers it", sheet)
 
     def test_the_manifest_names_the_inputs_of_every_model_call(self) -> None:
         """Principle 8: input hashes beside the model strings and costs."""
