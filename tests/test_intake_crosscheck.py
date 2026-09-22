@@ -83,7 +83,7 @@ class NumberConflictTests(unittest.TestCase):
         self.assertTrue(flags[0]["quotes"])
 
     def test_a_conflict_renders_as_a_contradicts_link_on_the_existing_claim(self) -> None:
-        from intake.crosscheck import number_conflicts as conflicts
+        from intake.catalog import load_build
         from intake.models import ExtractionRecord, finalize
         from intake.render import render_extraction
 
@@ -112,22 +112,35 @@ class NumberConflictTests(unittest.TestCase):
                 ]
             }
         )
-        existing = {
+        # A synthetic existing record with a numbered lesson proves the flag.
+        synthetic = {
             "id": "zup-codegen",
             "summary": "A record.",
             "operating_models": [{"scope": "a task", "attention_boundary": "unknown"}],
             "lessons_learned": ["The agent serves 3500 users."],
             "sources": [{"id": "zup-codegen-source-1"}],
         }
-        flags = conflicts(existing, rebuilt)
+        flags = number_conflicts(synthetic, rebuilt)
         self.assertEqual([flag["claim_path"] for flag in flags], ["lessons_learned.0"])
+        self.assertTrue(flags[0]["quotes"])
+        # The real record proves the rendered link and the validation.
+        existing = yaml.safe_load(
+            (ROOT / "data" / "agents" / "zup-codegen.yaml").read_text(encoding="utf-8")
+        )
         merged = render_extraction(
-            rebuilt, reviewed_at="2026-09-22", existing=existing, contradictions=flags
+            rebuilt,
+            reviewed_at="2026-09-22",
+            existing=existing,
+            contradictions=[
+                {"claim_path": "lessons_learned.0", "quotes": [{"source": "s1", "lines": [18, 18]}]}
+            ],
         )
         links = merged.record["evidence"]["lessons_learned.0"]
         self.assertEqual(links[-1]["relation"], "contradicts")
-        self.assertTrue(links[-1]["source_id"].startswith("zup-codegen-source-"))
+        self.assertEqual(links[-1]["source_id"], "zup-codegen-source-2")
         self.assertIn("Preserved content.md", links[-1]["locator"])
+        # The merged record with its contradiction link still validates.
+        load_build().validate_record(merged.record, Path("zup-codegen.yaml"), set())
 
     def test_a_dropped_number_is_flagged_softly(self) -> None:
         existing = record_with_summary("The agent serves 3500 users.")
