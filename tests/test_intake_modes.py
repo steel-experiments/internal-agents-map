@@ -9,12 +9,14 @@ from typing import Any
 
 import yaml
 
+from intake.adapters.jev import JevAnswer, JevResult
 from intake.adapters.steel import ScrapedPage, SteelSdkAdapter
 from intake.adapters.writer import WriterAdapter
 from intake.apply import ApplyError, apply_proposals, load_proposals
 from intake.backfill import backfill_dry_run, proposals_payload, review_sheet
 from intake.backtest import batch_report_text, run_batch
 from intake.budget import Budget
+from intake.cache import JsonCache
 from intake.drift import (
     _changed_line_spans,
     affected_claim_paths,
@@ -244,6 +246,124 @@ class BackfillToApplyTests(unittest.TestCase):
         }
         payload = proposals_payload(report)
         self.assertEqual([item["path"] for item in payload], ["summary"])
+
+
+class FakeGradingJev:
+    """The Jev seam for backfill grading: five answers, one counted call."""
+
+    def __init__(self, relation_p: float = 0.95) -> None:
+        self.calls = 0
+        self.relation_p = relation_p
+
+    def ask(self, *, state: Any, questions: Any, budget: Any) -> Any:
+        self.calls += 1
+        answers = {
+            "a0_relation": JevAnswer(
+                type="choice",
+                choice="stated",
+                probabilities={"stated": self.relation_p, "conflicts": 0.03, "unknown": 0.02},
+            ),
+            "a0_actor": JevAnswer(type="noul", noul=0.04),
+            "a0_temporal": JevAnswer(
+                type="choice",
+                choice="current",
+                probabilities={"current": 0.9, "future": 0.05, "historical": 0.03, "unknown": 0.02},
+            ),
+            "a0_approval": JevAnswer(type="noul", noul=0.02),
+            "a0_basis": JevAnswer(
+                type="choice",
+                choice="measured",
+                probabilities={
+                    "measured": 0.9,
+                    "qualitative": 0.05,
+                    "target": 0.03,
+                    "unknown": 0.02,
+                },
+            ),
+        }
+        return JevResult(
+            answers=answers,
+            model="jev-1.13.0",
+            input_tokens=3000,
+            output_tokens=30,
+            cost_usd=0.0,
+            cache_hit=False,
+        )
+
+
+class BackfillGradingTests(unittest.TestCase):
+    """Stage 6 of the backfill mode: grade each verified proposal."""
+
+    def setUp(self) -> None:
+        record = yaml.safe_load(
+            (ROOT / "data" / "agents" / "zup-codegen.yaml").read_text(encoding="utf-8")
+        )
+        record["evidence"]["summary"][0].pop("locator", None)
+        self._tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self._tmp.name)
+        self.record_path = self.root / "zup-codegen.yaml"
+        self.record_path.write_text(
+            yaml.safe_dump(record, sort_keys=False, allow_unicode=True, width=100),
+            encoding="utf-8",
+        )
+
+    def tearDown(self) -> None:
+        self._tmp.cleanup()
+
+    def run_dry_run(self, jev: Any, cache: Any) -> dict[str, Any]:
+        class AlwaysFound:
+            def create(self, **kwargs: Any) -> Any:
+                return FakeWriterResponse(
+                    {
+                        "found": True,
+                        "source": "zup-codegen-source-1",
+                        "quote": "an internal coding agent at Zup",
+                        "paragraph_id": "p3",
+                    }
+                )
+
+        return backfill_dry_run(
+            self.record_path,
+            adapter=WriterAdapter(api_key="test-key", responses=AlwaysFound()),
+            budget=Budget(budget_usd=10.0),
+            jev=jev,
+            cache=cache,
+        )
+
+    def summary_proposal(self, report: dict[str, Any]) -> dict[str, Any]:
+        return next(item for item in report["proposals"] if item["path"] == "summary")
+
+    def test_every_exactly_verified_proposal_is_graded(self) -> None:
+        jev = FakeGradingJev()
+        report = self.run_dry_run(jev, cache=None)
+        # One judgment request per verified proposal; fuzzy ones never grade.
+        self.assertEqual(jev.calls, len(report["proposals"]))
+        verdicts = self.summary_proposal(report)["verdicts"]
+        self.assertEqual(verdicts["relation"], "stated (0.95)")
+        self.assertEqual(verdicts["actor_mismatch"], 0.04)
+        self.assertEqual(verdicts["model"], "jev-1.13.0")
+        self.assertIn("stated (0.95)", review_sheet(report))
+
+    def test_without_jev_the_sheet_says_not_judged(self) -> None:
+        report = self.run_dry_run(None, cache=None)
+        self.assertIsNone(self.summary_proposal(report)["verdicts"])
+        sheet = review_sheet(report)
+        self.assertIn("not judged", sheet)
+        self.assertNotIn("stated (", sheet)
+
+    def test_a_warm_cache_grades_nothing_anew(self) -> None:
+        cache = JsonCache(self.root / "grades.json")
+        first = self.run_dry_run(FakeGradingJev(), cache=cache)
+        self.assertEqual(cache.hits, 0)  # every key was written, none read yet
+        second_jev = FakeGradingJev()
+        second = self.run_dry_run(second_jev, cache=cache)
+        self.assertEqual(second_jev.calls, 0)  # the cache answered every grade
+        self.assertGreaterEqual(cache.hits, len(second["proposals"]))
+        self.assertEqual(
+            self.summary_proposal(second)["verdicts"],
+            self.summary_proposal(first)["verdicts"],
+        )
+        self.assertIn("stated (0.95)", review_sheet(second))
 
 
 def zup_batch_payload() -> dict[str, Any]:

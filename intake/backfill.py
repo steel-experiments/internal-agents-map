@@ -41,6 +41,7 @@ class LocatorProposal:
     match: str
     lines: tuple[int, int] | None
     numbers_ok: bool | None
+    verdicts: dict[str, Any] | None = None
 
     @property
     def locator(self) -> str | None:
@@ -129,6 +130,85 @@ def claim_text_of(record: dict[str, Any], path: str, build: Any) -> str | None:
     return entry[0] if entry else None
 
 
+def grade_proposal(
+    *,
+    claim_text: str,
+    quote_text: str,
+    source_id: str,
+    lines: tuple[int, int],
+    paragraphs: dict[str, list[Paragraph]],
+    jev: Any,
+    budget: Budget,
+    cache: Any = None,
+) -> dict[str, Any] | None:
+    """Stage 6 for one proposal: the judge's advisory verdicts.
+
+    The judged passage is the paragraph cluster the verified quote spans —
+    the same state a run's judge would see. Verdicts are advisory columns on
+    the sheet; approval stays with a person.
+    """
+    import hashlib
+
+    from intake.cache import cache_key
+    from intake.judge import build_request, judgments_from_answers, load_questions
+    from intake.models import Claim as ModelClaim
+
+    cluster = [
+        paragraph
+        for paragraph in paragraphs[source_id]
+        if paragraph.start <= lines[1] and paragraph.end >= lines[0]
+    ]
+    if not cluster:
+        return None
+    questions = load_questions()
+    model = questions["model"]
+    passage_hash = f"sha256:{hashlib.sha256(cluster[0].text.encode('utf-8')).hexdigest()}"
+    key = cache_key(
+        claim_text,
+        "backfill",
+        passage_hash,
+        source_id,
+        str(questions.get("version", 1)),
+        model,
+    )
+    if cache is not None:
+        cached = cache.get(key)
+        if cached is not None:
+            return cached
+    claim = ModelClaim(
+        id="backfill",
+        field="summary",
+        text=claim_text,
+        kind="fact",
+        provenance="reported",
+        quotes=[
+            Quote(
+                source=source_id,
+                text=quote_text,
+                paragraph_id=cluster[0].id,
+                match="exact",
+                lines=lines,
+            )
+        ],
+        disposition="review",
+    )
+    state, request_questions = build_request([claim], cluster, questions)
+    result = jev.ask(state=state, questions=request_questions, budget=budget)
+    judgments = judgments_from_answers(claim, result.answers, 0, result.model)
+    verdict = {
+        "relation": (
+            f"{judgments.relation.label} ({judgments.relation.p:.2f})"
+            if judgments.relation
+            else None
+        ),
+        "actor_mismatch": judgments.actor_mismatch,
+        "model": result.model,
+    }
+    if cache is not None:
+        cache.put(key, verdict)
+    return verdict
+
+
 def propose_for_claim(
     *,
     path: str,
@@ -136,8 +216,14 @@ def propose_for_claim(
     paragraphs: dict[str, list[Paragraph]],
     adapter: WriterAdapter,
     budget: Budget,
+    jev: Any = None,
+    cache: Any = None,
 ) -> LocatorProposal | None:
-    """Propose and verify one locator; returns None when nothing verifies."""
+    """Propose and verify one locator; returns None when nothing verifies.
+
+    With a Jev adapter, an exactly verified proposal is also graded (stage 6)
+    and the verdicts ride along as advisory columns.
+    """
     budget.reserve_calls(1)
     result = adapter.complete_json(
         instructions=BACKFILL_INSTRUCTIONS,
@@ -180,6 +266,18 @@ def propose_for_claim(
         )
         checks = check_claim_numbers(claim_text, window)
         numbers_ok = all(check.in_quote for check in checks) if checks else None
+    verdicts = None
+    if jev is not None and outcome.match == "exact" and lines is not None:
+        verdicts = grade_proposal(
+            claim_text=claim_text,
+            quote_text=quote.text,
+            source_id=source_id,
+            lines=lines,
+            paragraphs=paragraphs,
+            jev=jev,
+            budget=budget,
+            cache=cache,
+        )
     return LocatorProposal(
         path=path,
         source_id=source_id,
@@ -187,6 +285,7 @@ def propose_for_claim(
         match=outcome.match,
         lines=lines,
         numbers_ok=numbers_ok,
+        verdicts=verdicts,
     )
 
 
@@ -196,8 +295,14 @@ def backfill_dry_run(
     adapter: WriterAdapter,
     budget: Budget,
     build: Any = None,
+    jev: Any = None,
+    cache: Any = None,
 ) -> dict[str, Any]:
-    """Propose locators for every unlocated claim of one record; apply nothing."""
+    """Propose locators for every unlocated claim of one record; apply nothing.
+
+    With a Jev adapter, each verified proposal is also graded (stage 6) and
+    the verdicts ride along as advisory columns on the sheet.
+    """
     from intake.catalog import load_build
 
     if build is None:
@@ -214,7 +319,13 @@ def backfill_dry_run(
             failed.append(path)
             continue
         proposal = propose_for_claim(
-            path=path, claim_text=text, paragraphs=paragraphs, adapter=adapter, budget=budget
+            path=path,
+            claim_text=text,
+            paragraphs=paragraphs,
+            adapter=adapter,
+            budget=budget,
+            jev=jev,
+            cache=cache,
         )
         if proposal is not None:
             proposals.append(proposal)
@@ -261,18 +372,20 @@ def review_sheet(report: dict[str, Any]) -> str:
         f"{report['unlocated_claims']} claims without a locator; "
         f"{report['verified']} verified proposals. Nothing was applied.",
         "",
-        "| Claim | Source | Proposed locator | Quote | Match | Numbers |",
-        "| --- | --- | --- | --- | --- | --- |",
+        "| Claim | Source | Proposed locator | Quote | Match | Numbers | Relation |",
+        "| --- | --- | --- | --- | --- | --- | --- |",
     ]
     for proposal in report["proposals"]:
+        verdicts = proposal.get("verdicts") or {}
         lines.append(
-            "| {path} | {source} | {locator} | {quote} | {match} | {numbers} |".format(
+            "| {path} | {source} | {locator} | {quote} | {match} | {numbers} | {relation} |".format(
                 path=proposal["path"],
                 source=proposal["source_id"],
                 locator=proposal.get("locator") or "—",
                 quote=proposal["quote"].replace("|", "\\|"),
                 match=proposal["match"],
                 numbers="—" if proposal.get("numbers_ok") is None else str(proposal["numbers_ok"]),
+                relation=verdicts.get("relation") or "not judged",
             )
         )
     lines.append("")

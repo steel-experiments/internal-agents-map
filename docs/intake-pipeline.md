@@ -134,7 +134,11 @@ calls. The labellers and the live pass are the blocked part: the pass needs
 `backfill` (above) writes a dry-run report of locator proposals. Pass
 `--proposals <path>` to also write the JSON list `backfill-apply` consumes:
 one entry per verified quote, each carrying `approved: false`. The review
-sheet shows every proposal's quote beside its locator. A person reads each
+sheet shows every proposal's quote beside its locator. Each exactly verified
+proposal is also graded with the five judge questions over its paragraph
+cluster; the relation verdict and the actor score ride on the sheet as
+advisory columns, cached by claim and passage. Without `TYPESAFE_API_KEY`
+the sheet says `not judged` and nothing fails. A person reads each
 quote against its capture, sets `approved: true` on the entries that hold,
 and hands the file to `backfill-apply`. It then edits only the
 `locator` fields named by the approved proposals. It refuses unapproved
@@ -179,8 +183,10 @@ There is no schedule yet — run it by hand (see the plan's open decision 4).
   and has not run.
 - Phase 5 (backfill apply, drift, schedule): apply and drift implemented and
   tested offline (eleven tests over the real zup capture with a fake Steel
-  adapter). The live backfill proposals need `OPENAI_API_KEY`; one live drift
-  report needs `STEEL_API_KEY`; neither has run. The schedule was rejected per
+  adapter). The live backfill proposals need `OPENAI_API_KEY`, and their
+  stage 6 grading needs `TYPESAFE_API_KEY` (without it the sheet says
+  `not judged`); one live drift
+  report needs `STEEL_API_KEY`; none has run. The schedule was rejected per
   the plan's open decision 4: run the drift report by hand for two months
   first. A gate repair shipped with this phase: `ruff format` now checks Python
   code blocks inside Markdown, so `plans/016-jev-investigation.md` was

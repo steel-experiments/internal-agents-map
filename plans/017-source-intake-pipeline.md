@@ -1018,4 +1018,18 @@ STOP-line report:
   flag shape and the wiring: a differing lesson number lands as a
   `contradicts` link on `lessons_learned.0` from the rendered new source.
   The intake suite holds 150 tests.
+- Backfill grading (loop re-read): the mode spec says stage 4 proposes the
+  supporting quote, stage 5 verifies it, and **stage 6 grades it** — the dry
+  run stopped after stage 5, so a reviewer approved locators no judge had
+  seen. `grade_proposal` now judges each exactly verified proposal over the
+  paragraph cluster its quote spans, through the same five questions and the
+  same cache discipline (keyed by claim, passage hash, source, question
+  version, model); the relation verdict and the actor score ride on the
+  sheet as advisory columns, and approval stays with a person. The
+  `backfill` command constructs the Jev adapter only when
+  `TYPESAFE_API_KEY` exists and otherwise prints the skip note, so the mode
+  spends no key it does not have and fails nothing offline. Tests: every
+  verified proposal is graded and the sheet shows `stated (0.95)`; without
+  Jev the sheet says `not judged` with no error; a warm cache grades nothing
+  anew. The intake suite holds 153 tests.
 

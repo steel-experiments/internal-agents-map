@@ -189,12 +189,22 @@ def _command_review(args: argparse.Namespace) -> int:
 
 
 def _command_backfill(args: argparse.Namespace) -> int:
+    import os
+
+    from intake.adapters.jev import JevAdapter
     from intake.adapters.writer import WriterAdapter
     from intake.backfill import backfill_dry_run, proposals_payload, review_sheet
     from intake.budget import Budget
+    from intake.cache import jev_cache
 
     budget = Budget(budget_usd=args.budget_usd)
-    report = backfill_dry_run(args.record, adapter=WriterAdapter(), budget=budget)
+    # Stage 6 grades each proposal; without the key the sheet says so.
+    jev = JevAdapter() if os.environ.get("TYPESAFE_API_KEY") else None
+    if jev is None:
+        print("note: TYPESAFE_API_KEY is not set; proposals skip the judge (stage 6).")
+    report = backfill_dry_run(
+        args.record, adapter=WriterAdapter(), budget=budget, jev=jev, cache=jev_cache()
+    )
     sheet = review_sheet(report)
     if args.output is not None:
         args.output.parent.mkdir(parents=True, exist_ok=True)
