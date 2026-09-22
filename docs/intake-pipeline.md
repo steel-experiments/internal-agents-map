@@ -64,6 +64,13 @@ by which model, and which claim IDs map to which rendered paths. The
 archived copy records the latest run that drafted the record; the per-run
 history stays under `.intake/runs/<run-id>/`.
 
+When the queue entry carries a `homepage` hint and the organization is not
+yet in `data/companies.yaml`, the run also writes a `company-entry.yaml`
+(one registry entry with `logo: none` and a `logo_note` asking for editorial
+logo collection) into the run directory and beside the archived manifest;
+append it to `data/companies.yaml`, keeping the list sorted by id. A known
+organization gets no entry file and a note saying so.
+
 The review sheet lists every claim with its quote, its line locator, its
 numeric check, its Jev verdicts with probabilities, its disposition, and the
 open questions. It names the decision the pipeline proposes and the decision a

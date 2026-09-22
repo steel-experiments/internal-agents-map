@@ -316,6 +316,12 @@ def run_candidate(
     candidate_updates: dict[str, Any] = {}
     if entry.record_id:
         candidate_updates["record_id"] = entry.record_id
+    # The queue's company and homepage hints are input data the writer
+    # cannot know; they drive the company entry the renderer produces.
+    if entry.company:
+        candidate_updates["company"] = entry.company
+    if entry.homepage:
+        candidate_updates["homepage"] = entry.homepage
     # The identity stage's shortlist — not the writer's echo — is what the
     # reviewer reads on the sheet, with the Jev advisory column when it ran.
     candidate_updates["matched_records"] = [
@@ -473,6 +479,34 @@ def run_candidate(
         notes.append(
             f"run manifest archived at {archived_manifest.relative_to(repo_root).as_posix()}"
         )
+    # The product contract: a company registry entry when the organization
+    # is new. The run knows the registry from stage 3, so it decides.
+    if result.company_entry is not None:
+        entry_id = str(result.company_entry.get("id"))
+        known = any(
+            str(company.get("id")) == entry_id
+            or str(company.get("name", "")).lower() == str(entry.company or "").lower()
+            for company in companies
+        )
+        if known:
+            notes.append(
+                f"organization already in data/companies.yaml ({entry_id}); "
+                "no company entry written"
+            )
+        else:
+            entry_text = yaml.safe_dump(
+                [result.company_entry], sort_keys=False, allow_unicode=True, width=100
+            )
+            entry_path = directory / "company-entry.yaml"
+            entry_path.write_text(entry_text, encoding="utf-8")
+            if draft_id:
+                shutil.copyfile(
+                    entry_path, repo_root / "archive" / "intake" / draft_id / "company-entry.yaml"
+                )
+            notes.append(
+                "company entry written; append it to data/companies.yaml "
+                "(keep the list sorted by id)"
+            )
     return RunSummary(
         run_id=run_id,
         record_id=draft_id,

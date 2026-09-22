@@ -280,6 +280,75 @@ class EndToEndRunTests(unittest.TestCase):
         with self.assertRaises(CaptureStageError):
             self.run_zup()
 
+    def test_a_new_organization_gets_a_company_entry_file(self) -> None:
+        from intake.cache import JsonCache
+        from intake.run import QueueEntry
+
+        summary = run_candidate(
+            QueueEntry(
+                urls=["https://arxiv.org/abs/2604.09805"],
+                company="Example",
+                system_name="CodeGen",
+                record_id="example-draft",
+                homepage="https://example.com",
+            ),
+            budget=Budget(budget_usd=5.0),
+            steel=SteelSdkAdapter(
+                api_key="test-key", client_factory=lambda _key: FakeSteelClient(self.markdown)
+            ),
+            writer=WriterAdapter(api_key="test-key", responses=ZupWriterResponses()),  # type: ignore[arg-type]
+            jev=JevAdapter(api_key="test-key", connection=FakeJevConnection()),  # type: ignore[arg-type]
+            cache=JsonCache(self.root / "jev-company.json"),
+            writer_cache=JsonCache(self.root / "writer-company.json"),
+            runs_root=self.root / "runs",
+            drafts_root=self.root / "drafts-company",
+            staging_root=self.root / "staging",
+            repo_root=self.root,
+            reviewed_at="2026-09-22",
+        )
+        # The queue's company hint is authoritative: the writer's echo yields.
+        draft = yaml.safe_load(summary.draft_path.read_text(encoding="utf-8"))  # type: ignore[union-attr]
+        self.assertEqual(draft["company"], "Example")
+        entry_path = self.root / "runs" / summary.run_id / "company-entry.yaml"
+        self.assertTrue(entry_path.is_file())
+        entry = yaml.safe_load(entry_path.read_text(encoding="utf-8"))
+        self.assertEqual(entry[0]["id"], "example")
+        self.assertEqual(entry[0]["homepage"], "https://example.com")
+        self.assertEqual(entry[0]["logo"], "none")
+        self.assertTrue(
+            (self.root / "archive" / "intake" / "example-draft" / "company-entry.yaml").is_file()
+        )
+        self.assertTrue(any("company entry written" in note for note in summary.notes))
+
+    def test_a_known_organization_gets_no_company_entry_file(self) -> None:
+        from intake.cache import JsonCache
+        from intake.run import QueueEntry
+
+        summary = run_candidate(
+            QueueEntry(
+                urls=["https://arxiv.org/abs/2604.09805"],
+                company="Zup",
+                system_name="CodeGen",
+                record_id="zup-codegen-known",
+                homepage="https://zup.com.br",
+            ),
+            budget=Budget(budget_usd=5.0),
+            steel=SteelSdkAdapter(
+                api_key="test-key", client_factory=lambda _key: FakeSteelClient(self.markdown)
+            ),
+            writer=WriterAdapter(api_key="test-key", responses=ZupWriterResponses()),  # type: ignore[arg-type]
+            jev=JevAdapter(api_key="test-key", connection=FakeJevConnection()),  # type: ignore[arg-type]
+            cache=JsonCache(self.root / "jev-known.json"),
+            writer_cache=JsonCache(self.root / "writer-known.json"),
+            runs_root=self.root / "runs",
+            drafts_root=self.root / "drafts-known",
+            staging_root=self.root / "staging",
+            repo_root=self.root,
+            reviewed_at="2026-09-22",
+        )
+        self.assertFalse((self.root / "runs" / summary.run_id / "company-entry.yaml").is_file())
+        self.assertTrue(any("already in data/companies.yaml" in note for note in summary.notes))
+
     def test_the_sheet_lists_the_questions_no_claim_answers(self) -> None:
         """Principle 5's other half: silence is visible to the reviewer."""
         from intake.models import QuestionAnswer, Questions

@@ -1177,4 +1177,22 @@ STOP-line report:
   per-run history stays under `.intake/runs/<run-id>/`. Tests: the archived
   manifest exists with the run's ID; after the warm rerun it names the
   second run. The intake suite holds 174 tests.
+- Company entry output (loop re-read): the product contract lists "a company
+  registry entry when the organization is new" among the per-candidate
+  outputs, and the rendering rules specify its shape (`logo: none`, a
+  `logo_note` asking for editorial collection) — but no run could ever
+  produce one. The queue's `homepage` hint was parsed and dropped (the
+  renderer reads `candidate.homepage`, which only the hint supplies), and
+  `result.company_entry` was printed by the `render` command alone. The run
+  now threads the queue's `company` and `homepage` hints into the candidate
+  beside `record_id` (queue input is authoritative over the writer's echo),
+  and stage 12 writes `company-entry.yaml` into the run directory and beside
+  the archived manifest — **only when the organization is absent from
+  `data/companies.yaml`** (the registry the run already loaded at stage 3;
+  matched by id or name). A known organization gets a note instead of a
+  duplicate entry. Tests: a new organization (`Example`, homepage hint)
+  yields the entry file in both places with the id, homepage, and
+  `logo: none`, and the draft's company follows the hint over the writer's
+  echo; a known organization (Zup, homepage hint) gets no file and the
+  already-registered note. The intake suite holds 176 tests.
 
