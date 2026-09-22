@@ -987,4 +987,11 @@ STOP-line report:
   for both old and new paths is present, and the sheet carries the
   single-valued note. Unit tests cover the additive guarantees and the
   page-content upgrade path. The intake suite holds 148 tests.
+- Rerun repair (follow-on, same re-read): `intake stage render` re-rendered
+  from the run directory without the existing record and with today's date,
+  so an update run's `draft.yaml.rerun` silently differed from its own
+  draft. The rerun now takes the review date from the draft's
+  `last_reviewed_at` and merges onto the record the manifest names; the
+  end-to-end update test asserts the rerun equals the run's draft byte for
+  byte.
 

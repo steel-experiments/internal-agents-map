@@ -317,6 +317,12 @@ class EndToEndRunTests(unittest.TestCase):
         )
         sheet = summary.sheet_path.read_text(encoding="utf-8") if summary.sheet_path else ""
         self.assertIn("single-valued", sheet)
+        # A render rerun reproduces the merged draft, not a standalone one.
+        self.assertEqual(run_stage("render", summary.run_id, runs_root=self.root / "runs"), 0)
+        rerun = (self.root / "runs" / summary.run_id / "draft.yaml.rerun").read_text(
+            encoding="utf-8"
+        )
+        self.assertEqual(rerun, summary.draft_path.read_text(encoding="utf-8"))  # type: ignore[union-attr]
 
     def test_the_identity_file_carries_the_jev_advisory_column(self) -> None:
         summary = self.run_zup()

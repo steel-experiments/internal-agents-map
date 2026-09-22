@@ -129,10 +129,27 @@ def _rerun_verify(directory: Path) -> int:
 def _rerun_render(directory: Path) -> int:
     import datetime as dt
 
+    from intake.crosscheck import load_existing
     from intake.render import render_extraction
 
     record = _load_extraction(directory)
-    result = render_extraction(record, reviewed_at=dt.date.today().isoformat())
+    # The rerun must reproduce the run's draft: the review date comes from the
+    # draft itself, and an update merges onto the record it named.
+    reviewed_at = dt.date.today().isoformat()
+    draft = directory / "draft.yaml"
+    if draft.is_file():
+        parsed = yaml.safe_load(draft.read_text(encoding="utf-8")) or {}
+        if parsed.get("last_reviewed_at"):
+            reviewed_at = str(parsed["last_reviewed_at"])
+    existing = None
+    manifest_path = directory / "run.json"
+    if manifest_path.is_file():
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        record_id = manifest.get("record_id") or (manifest.get("queue_entry") or {}).get(
+            "record_id"
+        )
+        existing = load_existing(str(record_id)) if record_id else None
+    result = render_extraction(record, reviewed_at=reviewed_at, existing=existing)
     return _write_rerun(directory / "draft.yaml", result.record_yaml)
 
 
