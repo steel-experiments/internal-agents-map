@@ -893,4 +893,15 @@ STOP-line report:
   warm cache), and scoring (recall, precision, gate pass and fail). The intake
   suite holds 124 tests. The live pass still needs `TYPESAFE_API_KEY` and the
   two human labellers.
+- Acceptance queue (same re-read): the Phase 4 acceptance run now has its
+  input committed — `queue/acceptance-2026-09-11.yaml` holds the three
+  policy-review leads (Snowflake Cortex Code, Databricks Omnigent, Amazon Q
+  Developer) with every source URL from `docs/coverage-backlog.md`, HTTPS
+  only, hints only. A test loads the queue through `load_queue` and holds it
+  to three entries with at least one first-party source each, so the file
+  cannot silently rot. When both keys exist the gate is one command:
+  `uv run python -m intake run queue/acceptance-2026-09-11.yaml
+  --budget-usd 2.00`. The run itself stays blocked; the LinkedIn social post
+  in the Omnigent entry's backlog row was left out deliberately — social
+  platforms make poor captures and the reviewer can add it by hand.
 

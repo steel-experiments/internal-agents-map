@@ -380,6 +380,32 @@ class BatchBacktestTests(unittest.TestCase):
         self.assertIn("stopped early: writer", batch_report_text(report))
 
 
+class AcceptanceQueueTests(unittest.TestCase):
+    """The committed acceptance queue must stay loadable and complete."""
+
+    def test_the_queue_holds_the_three_policy_review_leads(self) -> None:
+        from intake.run import load_queue
+
+        entries = load_queue(ROOT / "queue" / "acceptance-2026-09-11.yaml")
+        self.assertEqual(len(entries), 3)
+        self.assertEqual(
+            [entry.system_name for entry in entries],
+            ["Cortex Code", "Omnigent", "Amazon Q Developer"],
+        )
+        for entry in entries:
+            self.assertTrue(entry.urls)
+            self.assertTrue(all(url.startswith("https://") for url in entry.urls))
+        # Every lead carries at least one first-party source.
+        first_party = {
+            "Cortex Code": "snowflake.com",
+            "Omnigent": "databricks.com",
+            "Amazon Q Developer": "amazon.science",
+        }
+        for entry in entries:
+            domain = first_party[entry.system_name]
+            self.assertTrue(any(domain in url for url in entry.urls))
+
+
 class DriftTests(unittest.TestCase):
     def test_affected_claims_map_through_line_locators(self) -> None:
         record = {

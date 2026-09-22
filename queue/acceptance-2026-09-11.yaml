@@ -1,0 +1,25 @@
+# ABOUTME: The Phase 4 acceptance queue: the three 2026-09-11 policy-review leads.
+# ABOUTME: Blocked until .env holds STEEL_API_KEY and OPENAI_API_KEY (plus TYPESAFE_API_KEY for judgments).
+# Run it when the keys exist:
+#   uv run python -m intake run queue/acceptance-2026-09-11.yaml --budget-usd 2.00
+# The leads and their evidence questions come from docs/coverage-backlog.md.
+# Every URL is HTTPS. The queue carries hints only; the pipeline verifies everything.
+
+- company: Snowflake
+  system_name: Cortex Code
+  urls:
+    - https://stackoverflow.blog/2026/07/02/ai-coding-chaos-into-a-repeatable-playbook/
+    - https://www.snowflake.com/en/blog/snowflake-coco-ai-coding-agent-modern-data-stack/
+    - https://www.snowflake.com/en/blog/engineering/arcticmem-persistent-memory-ai-agents/
+
+- company: Databricks
+  system_name: Omnigent
+  urls:
+    - https://www.databricks.com/blog/introducing-omnigent-meta-harness-combine-control-and-share-your-agents
+    - https://www.databricks.com/blog/benchmarking-coding-agents-databricks-multi-million-line-codebase
+    - https://www.databricks.com/blog/costar-how-we-ship-ai-agents-databricks-fast-without-breaking-things
+
+- company: Amazon
+  system_name: Amazon Q Developer
+  urls:
+    - https://www.amazon.science/blog/measuring-the-effectiveness-of-software-development-tools-and-practices

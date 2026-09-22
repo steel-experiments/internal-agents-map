@@ -11,6 +11,7 @@ Run every command from the repository root:
 
 ```sh
 uv run python -m intake run queue.yaml --budget-usd 2.00   # all twelve stages
+uv run python -m intake run queue/acceptance-2026-09-11.yaml --budget-usd 2.00  # the Phase 4 gate
 uv run python -m intake review <run-id>                     # print a run's review sheet
 uv run python -m intake stage render --run <run-id>         # rerun one offline stage
 uv run python -m intake capture <url>                       # stage 1 alone
@@ -149,8 +150,10 @@ decision 4).
   `evals --items <path> --score` is the command that runs once both exist.
 - Phase 4 (writing, preflight, run orchestration, review sheet, skill,
   operator document): implemented; the whole pipeline is tested end to end
-  offline over a real capture with fake services. The acceptance run over
-  three coverage-backlog leads needs both live keys and has not run.
+  offline over a real capture with fake services. The acceptance queue for
+  the three coverage-backlog leads is committed at
+  `queue/acceptance-2026-09-11.yaml`; the run itself needs both live keys
+  and has not run.
 - Phase 5 (backfill apply, drift, schedule): apply and drift implemented and
   tested offline (eleven tests over the real zup capture with a fake Steel
   adapter). The live backfill proposals need `OPENAI_API_KEY`; one live drift
