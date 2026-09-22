@@ -376,6 +376,11 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
   import { startSignals } from '../scripts/signals';
   import { startWorkCycle } from '../scripts/work-cycle';
 
-  startSignals();
-  startWorkCycle();
+  // The router swaps the document rather than reloading it, and a module it has
+  // already run is not run again. The diagrams are wired per page it builds, as
+  // the rest of the frame is, or a second visit arrives on a still page.
+  document.addEventListener('astro:page-load', () => {
+    startSignals();
+    startWorkCycle();
+  });
 </script>

@@ -53,8 +53,15 @@ function pulse(along: number | null, rise = RISE, fall = FALL): number {
   return 1;
 }
 
+/** The pass now running, so the page that replaces this one can stop it. */
+let running: { stop: () => void } | undefined;
+
 /** Start the cycle. Without this the diagram still states its three steps. */
 export function startWorkCycle(): void {
+  // The router swaps the diagram rather than reloading the page, so the pass
+  // over the one it replaced is stopped before another begins.
+  running?.stop();
+  running = undefined;
   const scene = document.querySelector('.cycle-scene');
   if (!scene) return;
 
@@ -86,7 +93,7 @@ export function startWorkCycle(): void {
     return true;
   };
 
-  animate(0, 1, {
+  running = animate(0, 1, {
     duration: CYCLE_SECONDS,
     ease: 'linear',
     repeat: Infinity,
