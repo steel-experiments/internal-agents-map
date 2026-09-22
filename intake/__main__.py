@@ -77,6 +77,61 @@ def _command_backtest(args: argparse.Namespace) -> int:
     )
 
 
+def _command_capture(args: argparse.Namespace) -> int:
+    from intake.capture import capture_staging
+
+    staged = capture_staging(args.url)
+    print(
+        json.dumps(
+            {
+                "staging_dir": str(staged.staging_dir),
+                "canonical_url": staged.canonical_url,
+                "captured_at": staged.captured_at,
+                "content_sha256": staged.content_sha256,
+            },
+            indent=2,
+        )
+    )
+    return 0
+
+
+def _command_promote(args: argparse.Namespace) -> int:
+    from intake.capture import promote
+
+    manifest = promote(args.staging_dir, args.source_id)
+    print(f"promoted {args.staging_dir} -> {manifest}")
+    return 0
+
+
+def _command_segment(args: argparse.Namespace) -> int:
+    from intake.segment import paragraphs_json, segment_content
+
+    paragraphs = segment_content(args.input.read_text(encoding="utf-8"))
+    payload = paragraphs_json(paragraphs)
+    if args.output is not None:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(payload, encoding="utf-8")
+        print(f"wrote {args.output} ({len(paragraphs)} paragraphs)")
+    else:
+        print(payload, end="")
+    return 0
+
+
+def _command_resolve(args: argparse.Namespace) -> int:
+    from intake.resolve import resolve_identity
+
+    text = args.text_file.read_text(encoding="utf-8") if args.text_file else (args.text or "")
+    identity = resolve_identity(company=args.company, system_name=args.system, text=text)
+    payload = json.dumps(identity, indent=2, ensure_ascii=False) + "\n"
+    if args.output is not None:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(payload, encoding="utf-8")
+        print(f"wrote {args.output}")
+    else:
+        print(payload, end="")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="intake", description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -100,6 +155,30 @@ def build_parser() -> argparse.ArgumentParser:
     backtest.add_argument("--compatibility", type=Path)
     backtest.add_argument("--output", type=Path)
     backtest.set_defaults(func=_command_backtest)
+
+    capture = subparsers.add_parser("capture", help="scrape one URL into staging")
+    capture.add_argument("url")
+    capture.set_defaults(func=_command_capture)
+
+    promote_command = subparsers.add_parser(
+        "promote", help="promote a staging bundle into archive/sources/"
+    )
+    promote_command.add_argument("staging_dir", type=Path)
+    promote_command.add_argument("--source-id", required=True)
+    promote_command.set_defaults(func=_command_promote)
+
+    segment = subparsers.add_parser("segment", help="split a capture into paragraphs")
+    segment.add_argument("--input", type=Path, required=True, help="capture content.md")
+    segment.add_argument("--output", type=Path, help="paragraphs.json path")
+    segment.set_defaults(func=_command_segment)
+
+    resolve = subparsers.add_parser("resolve", help="shortlist records for a candidate")
+    resolve.add_argument("--company")
+    resolve.add_argument("--system")
+    resolve.add_argument("--text", help="candidate text, such as the summary")
+    resolve.add_argument("--text-file", type=Path)
+    resolve.add_argument("--output", type=Path)
+    resolve.set_defaults(func=_command_resolve)
 
     return parser
 

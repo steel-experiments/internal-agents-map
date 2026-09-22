@@ -1,6 +1,6 @@
 # ABOUTME: Import shim that loads the catalog builder's validators once for the package.
 # ABOUTME: The pipeline reuses build.py's rules instead of implementing them a second time.
-"""Load ``scripts/build.py`` the same way the coverage script and the tests do."""
+"""Load ``scripts/build.py`` and ``scripts/archive_sources.py`` for reuse."""
 
 from __future__ import annotations
 
@@ -11,20 +11,30 @@ from types import ModuleType
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
-MODULE_NAME = "catalog_build"
+BUILD_NAME = "catalog_build"
+ARCHIVER_NAME = "catalog_archive_sources"
+
+
+def _load_script(module_name: str, relative: Path) -> ModuleType:
+    if module_name in sys.modules:
+        return sys.modules[module_name]
+    spec = importlib.util.spec_from_file_location(module_name, ROOT / relative)
+    if spec is None or spec.loader is None:  # pragma: no cover - unreachable on a valid install
+        raise ImportError(f"could not load {relative}")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+    return module
 
 
 def load_build() -> ModuleType:
     """Import ``scripts/build.py`` as a module and return it."""
-    if MODULE_NAME in sys.modules:
-        return sys.modules[MODULE_NAME]
-    spec = importlib.util.spec_from_file_location(MODULE_NAME, ROOT / "scripts" / "build.py")
-    if spec is None or spec.loader is None:  # pragma: no cover - unreachable on a valid install
-        raise ImportError("could not load scripts/build.py")
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[MODULE_NAME] = module
-    spec.loader.exec_module(module)
-    return module
+    return _load_script(BUILD_NAME, Path("scripts") / "build.py")
+
+
+def load_archiver() -> ModuleType:
+    """Import ``scripts/archive_sources.py`` as a module and return it."""
+    return _load_script(ARCHIVER_NAME, Path("scripts") / "archive_sources.py")
 
 
 def die_on_invalid(record: dict[str, Any], stem: str) -> None:

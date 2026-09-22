@@ -625,3 +625,44 @@ STOP-line report:
   manifests under gitignored `.intake/` until then.
 
 `npm run verify` green with the new tests (full gate, dist rebuilt).
+
+### Phase 1 — capture staging, segmentation, identity (2026-09-22)
+
+STOP-line report:
+
+- Capture (stage 1): `intake/adapters/steel.py` scrapes through the Steel Python
+  SDK (`steel-sdk==0.19.0`, pinned) and runs the archiver's own page checks on
+  the response, so interstitial titles, error statuses, `noarchive`, short
+  bodies, and non-HTTPS final URLs fail exactly as in the CLI path. The page
+  metadata the CLI discards (published time, language, canonical URL,
+  description) travels into the staging bundle's `page.json`.
+- Staging and promotion: `intake/capture.py` stages under
+  `.intake/captures/<canonical-url-hash>/` with a placeholder snapshot header of
+  the same 9-line shape the archive uses, so line locators are stable. Promotion
+  rebuilds the snapshot with the final source ID through a new
+  `write_capture_bundle` extracted from the archiver's `capture_source` — the
+  manifest format and the append-only rule stay in one place, and the archiver's
+  own tests still pass. The manifest validator now accepts the tool name
+  `steel-python-sdk` beside `steel` (open decision 2, per its recommendation).
+- Segment (stage 2): `intake/segment.py` — paragraphs with IDs `p1..pn`, heading
+  paths, and 1-based line ranges; fenced code blocks stay single paragraphs;
+  headings are their own paragraphs. Tested over all 122 existing captures:
+  segmentation is stable, IDs are sequential, ranges cover every non-blank line
+  exactly once.
+- Resolve (stage 3): `intake/resolve.py` — deterministic company match against
+  the registry (hint or text), system-name scoring against `agent_name` and
+  aliases (exact 1.0, containment 0.85, token overlap), a shortlist of at most
+  five, and a proposed decision (update / review / add / needs-evidence; no
+  company evidence proposes needs-evidence per the stage contract). Tested: all
+  66 records are found from their own company, name, and summary, top-ranked,
+  decision `update`.
+- Operator document: `docs/intake-pipeline.md` created with the commands and the
+  `.env` conventions (`STEEL_API_KEY`, `OPENAI_API_KEY`, `TYPESAFE_API_KEY`).
+- SDK-versus-CLI sample comparison (the STOP line's ask): **not run — blocked**.
+  No `STEEL_API_KEY` exists on this machine (no `.env`). The comparison needs
+  ten live scrapes through both paths; it stays open until the key is provided.
+  Everything testable offline is tested: the adapter reuses the archiver's
+  checks on fixture payloads, and promotion round-trips through the archiver's
+  own validator.
+
+`npm run verify` green with the new tests.

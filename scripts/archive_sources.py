@@ -302,8 +302,8 @@ def validate_bundle(
 
     tool = _mapping(manifest["tool"], "Capture manifest tool")
     _exact_keys(tool, {"name", "version"}, "Capture manifest tool")
-    if tool["name"] != "steel":
-        fail("Capture manifest tool name must be 'steel'.")
+    if tool["name"] not in ("steel", "steel-python-sdk"):
+        fail("Capture manifest tool name must be 'steel' or 'steel-python-sdk'.")
     if not isinstance(tool["version"], str) or not tool["version"].strip():
         fail("Capture manifest tool version must be non-empty.")
 
@@ -778,54 +778,31 @@ def _target_exists(path: Path) -> bool:
     return os.path.lexists(path)
 
 
-def capture_source(
-    source: Mapping[str, Any],
+def write_capture_bundle(
+    source_id: str,
+    original_url: str,
+    steel_result: SteelResult,
     *,
-    pdf: bool = False,
-    delay_ms: int = DEFAULT_DELAY_MS,
-    save_wayback: bool = False,
+    tool_version: str,
+    captured_at: datetime,
+    pdf_data: bytes | None = None,
+    archived_url: str | None = None,
     repo_root: Path = ROOT,
-    runner: Callable[..., subprocess.CompletedProcess[str]] | None = None,
-    opener: Callable[..., Any] | None = None,
-    sleep: Callable[[float], None] = time.sleep,
-    environ: Mapping[str, str] | None = None,
-    captured_at: datetime | None = None,
-    steel_version_value: str | None = None,
-    warning_stream: TextIO = sys.stderr,
+    tool_name: str = "steel",
 ) -> CaptureResult:
-    """Capture one source into an atomic, append-only repository bundle."""
-    source_id = source.get("id")
-    if not isinstance(source_id, str) or not ID_RE.fullmatch(source_id):
-        fail("Source has a missing or invalid ID.")
-    original_url = _require_https_url(source.get("url"), f"Source {source_id!r} URL")
+    """Write one validated capture bundle atomically into archive/sources/.
+
+    The single writer for the manifest format and the append-only rule; both the
+    CLI capture path and the intake pipeline's promotion step call it.
+    """
     archive_root = repo_root / "archive" / "sources"
     target = archive_root / source_id
     if _target_exists(target):
         fail(f"Capture bundle already exists for {source_id!r}; archives are append-only.")
-
-    version = steel_version_value or steel_version(runner=runner)
-    if not isinstance(version, str) or not version.strip():
+    if not isinstance(tool_version, str) or not tool_version.strip():
         fail("Steel version must be non-empty.")
-    steel_result = scrape_with_steel(
-        original_url,
-        pdf=pdf,
-        delay_ms=delay_ms,
-        runner=runner,
-    )
-    pdf_data = download_pdf(steel_result.pdf_url, opener=opener) if steel_result.pdf_url else None
-    archived_url = (
-        preserve_with_wayback(
-            original_url,
-            opener=opener,
-            sleep=sleep,
-            environ=environ,
-            warning_stream=warning_stream,
-        )
-        if save_wayback
-        else None
-    )
 
-    timestamp = _format_utc_timestamp(captured_at or datetime.now(timezone.utc))
+    timestamp = _format_utc_timestamp(captured_at)
     markdown_data = build_markdown_snapshot(
         steel_result,
         source_id=source_id,
@@ -845,7 +822,7 @@ def capture_source(
         "final_url": steel_result.final_url,
         "captured_at": timestamp,
         "http_status": steel_result.http_status,
-        "tool": {"name": "steel", "version": version.strip()},
+        "tool": {"name": tool_name, "version": tool_version.strip()},
         "artifacts": artifacts,
     }
     if archived_url:
@@ -882,6 +859,60 @@ def capture_source(
         shutil.rmtree(temporary, ignore_errors=True)
         fail(f"Unable to write capture bundle for {source_id!r}.")
     return CaptureResult(source_id, manifest_path, archived_url)
+
+
+def capture_source(
+    source: Mapping[str, Any],
+    *,
+    pdf: bool = False,
+    delay_ms: int = DEFAULT_DELAY_MS,
+    save_wayback: bool = False,
+    repo_root: Path = ROOT,
+    runner: Callable[..., subprocess.CompletedProcess[str]] | None = None,
+    opener: Callable[..., Any] | None = None,
+    sleep: Callable[[float], None] = time.sleep,
+    environ: Mapping[str, str] | None = None,
+    captured_at: datetime | None = None,
+    steel_version_value: str | None = None,
+    warning_stream: TextIO = sys.stderr,
+) -> CaptureResult:
+    """Capture one source into an atomic, append-only repository bundle."""
+    source_id = source.get("id")
+    if not isinstance(source_id, str) or not ID_RE.fullmatch(source_id):
+        fail("Source has a missing or invalid ID.")
+    original_url = _require_https_url(source.get("url"), f"Source {source_id!r} URL")
+    if _target_exists(repo_root / "archive" / "sources" / source_id):
+        fail(f"Capture bundle already exists for {source_id!r}; archives are append-only.")
+
+    version = steel_version_value or steel_version(runner=runner)
+    steel_result = scrape_with_steel(
+        original_url,
+        pdf=pdf,
+        delay_ms=delay_ms,
+        runner=runner,
+    )
+    pdf_data = download_pdf(steel_result.pdf_url, opener=opener) if steel_result.pdf_url else None
+    archived_url = (
+        preserve_with_wayback(
+            original_url,
+            opener=opener,
+            sleep=sleep,
+            environ=environ,
+            warning_stream=warning_stream,
+        )
+        if save_wayback
+        else None
+    )
+    return write_capture_bundle(
+        source_id,
+        original_url,
+        steel_result,
+        tool_version=version,
+        captured_at=captured_at or datetime.now(timezone.utc),
+        pdf_data=pdf_data,
+        archived_url=archived_url,
+        repo_root=repo_root,
+    )
 
 
 def check_declared_captures(
