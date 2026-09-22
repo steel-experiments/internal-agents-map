@@ -55,7 +55,10 @@ Jev cache under `.intake/cache/`; all three are gitignored and regenerable.
 The review sheet lists every claim with its quote, its line locator, its
 numeric check, its Jev verdicts with probabilities, its disposition, and the
 open questions. It names the decision the pipeline proposes and the decision a
-person must make. When the identity shortlist is non-empty, stage 3 also asks
+person must make. An **Eligibility** section carries the categorical proposal
+over the accepted claims — the contribution guide's three inclusion questions,
+each answered or named as open, the writer's own proposal beside it, and no
+numerical score. When the identity shortlist is non-empty, stage 3 also asks
 Jev the same-system question per shortlisted record and writes the
 `same_system_jev` advisory column into `identity.json`; the deterministic
 scores stay. When the run proposes an Update against a record that exists,

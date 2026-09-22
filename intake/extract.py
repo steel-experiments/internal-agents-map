@@ -31,7 +31,7 @@ from intake.models import (
 from intake.segment import Paragraph
 
 PROMPTS_DIR = Path(__file__).resolve().parent / "prompts"
-PROMPT_VERSION = "extract.v1"
+PROMPT_VERSION = "extract.v2"
 
 
 class ExtractionStageError(RuntimeError):

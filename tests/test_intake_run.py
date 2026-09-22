@@ -247,6 +247,10 @@ class EndToEndRunTests(unittest.TestCase):
         # probabilities — relation, temporal status, and observation basis.
         self.assertIn("| Claim | Field | Disposition | Quote match | Numbers | Verdicts |", sheet)
         self.assertIn("stated (0.92); current (0.90); reported-measurement (0.85)", sheet)
+        # The decision policy's eligibility proposal, categorical and reasoned.
+        self.assertIn("## Eligibility", sheet)
+        self.assertIn("Proposal: **update** (the writer proposed `update`).", sheet)
+        self.assertIn("accepted claims establish what the organization built", sheet)
 
     def test_the_sheet_lists_the_questions_no_claim_answers(self) -> None:
         """Principle 5's other half: silence is visible to the reviewer."""

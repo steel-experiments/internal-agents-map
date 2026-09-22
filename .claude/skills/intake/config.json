@@ -4,7 +4,7 @@
     "model": "gpt-6-sol",
     "reasoning_effort": "medium",
     "prompts": {
-      "extract": "extract.v1",
+      "extract": "extract.v2",
       "write": "write.v1"
     },
     "input_price_per_mtok_usd": 2.0,

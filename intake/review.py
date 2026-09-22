@@ -93,6 +93,7 @@ def review_sheet(
     preflight_flags: list[Any] | None = None,
     cross_flags: list[dict[str, Any]] | None = None,
     source_role: str | None = None,
+    eligibility: dict[str, Any] | None = None,
 ) -> str:
     """Render the Markdown sheet a reviewer reads."""
     candidate = record.candidate
@@ -143,6 +144,14 @@ def review_sheet(
             reason = getattr(entry, "reason", None)
             reason_column = f" — {reason}" if reason else ""
             lines.append(f"- `{entry.id}`{same_column}{jev_column}{reason_column}")
+    if eligibility:
+        lines.extend(["", "## Eligibility", ""])
+        lines.append(
+            f"Proposal: **{eligibility['decision']}** "
+            f"(the writer proposed `{eligibility['writer_decision']}`). "
+            "No numerical score; a person decides."
+        )
+        lines.extend(f"- {reason}" for reason in eligibility["reasons"])
     lines.extend(["", "## Claims", ""])
     header = "| Claim | Field | Disposition | Quote match | Numbers | Verdicts | Flags | Note |"
     lines.extend([header, "| --- | --- | --- | --- | --- | --- | --- | --- |"])

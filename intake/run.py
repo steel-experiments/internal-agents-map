@@ -353,6 +353,12 @@ def run_candidate(
         yaml.safe_dump(json.loads(record.model_dump_json()), sort_keys=False, allow_unicode=True),
         encoding="utf-8",
     )
+    # The decision policy's eligibility proposal: categorical, over the
+    # accepted claims, with reasons. No numerical score.
+    from intake.eligibility import propose_eligibility
+
+    eligibility = propose_eligibility(record)
+    notes.append(f"eligibility proposal: {eligibility['decision']}")
 
     # Stage 8: confidence reasons.
     from intake.write import run_write
@@ -402,6 +408,7 @@ def run_candidate(
         preflight_flags=flags,
         cross_flags=cross_flags,
         source_role=entry.source_role,
+        eligibility=eligibility,
     )
     _sheet_path, _manifest_path = write_review(
         directory,

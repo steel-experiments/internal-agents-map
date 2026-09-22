@@ -1099,4 +1099,25 @@ STOP-line report:
   fixture edit must carry into the eval set. A version bump now fails the
   suite until the skill is updated and the goldens rerun. The evals README
   names the guard. The intake suite holds 164 tests.
+- Eligibility proposal (loop re-read): the decision policy's third bullet —
+  "the pipeline applies the contributing guide's categorical questions to
+  what the accepted claims establish and proposes Add, Update, Needs
+  evidence, or Out of scope with the reason. No numerical score." — had no
+  embodiment: the `Decision` literal allowed `out-of-scope`, the sheet's
+  decision list mentioned "the eligibility proposal", the writer set
+  `decision` with no inclusion policy at all (rule 5 covered transcripts
+  only), and nothing checked or surfaced a proposal. Two halves shipped.
+  The prompt teaches the writer the contribution guide's three inclusion
+  questions and when `out-of-scope` is honest (prompt bumped to
+  `extract.v2` on a content change — the file is versioned and the old one
+  stays; the freshness guard forced `config.json` to follow, proving
+  itself on its first real bump). And `intake/eligibility.py` applies what
+  code can check: no organization named → Needs evidence on question 1;
+  no accepted claims → Needs evidence (questions 2 and 3 rest on nothing);
+  a writer `out-of-scope` → surfaced with the reason that a person names
+  the failing rule; otherwise the identity decision carries with the
+  accepted-claim count and the question-3 use check, each reason spelled
+  out. The sheet gained an **Eligibility** section and the manifest a
+  note. Five unit tests plus the end-to-end sheet assert. The intake suite
+  holds 169 tests.
 
