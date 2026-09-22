@@ -275,6 +275,37 @@ class EndToEndRunTests(unittest.TestCase):
             self.assertEqual(by_stage[name]["calls"], 0, name)
             self.assertGreaterEqual(by_stage[name]["cache_hits"], 1, name)
 
+    def test_an_update_numbers_its_sources_after_the_existing_record(self) -> None:
+        from intake.cache import JsonCache
+        from intake.run import QueueEntry
+
+        steel = SteelSdkAdapter(
+            api_key="test-key",
+            client_factory=lambda _key: FakeSteelClient(self.markdown),
+        )
+        summary = run_candidate(
+            QueueEntry(
+                urls=["https://arxiv.org/abs/2604.09805"],
+                company="Zup",
+                system_name="CodeGen",
+                record_id="zup-codegen",  # the existing record: an Update
+            ),
+            budget=Budget(budget_usd=5.0),
+            steel=steel,
+            writer=WriterAdapter(api_key="test-key", responses=ZupWriterResponses()),
+            jev=JevAdapter(api_key="test-key", connection=FakeJevConnection()),
+            cache=JsonCache(self.root / "jev-update.json"),
+            writer_cache=JsonCache(self.root / "writer-update.json"),
+            runs_root=self.root / "runs",
+            drafts_root=self.root / "drafts",
+            staging_root=self.root / "staging",
+            reviewed_at="2026-09-22",
+        )
+        draft = yaml.safe_load(summary.draft_path.read_text(encoding="utf-8"))  # type: ignore[union-attr]
+        source_ids = [source["id"] for source in draft["sources"]]
+        self.assertIn("zup-codegen-source-2", source_ids)
+        self.assertNotIn("zup-codegen-source-1", source_ids)
+
     def test_the_identity_file_carries_the_jev_advisory_column(self) -> None:
         summary = self.run_zup()
         run_dir = self.root / "runs" / summary.run_id

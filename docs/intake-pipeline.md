@@ -53,7 +53,12 @@ open questions. It names the decision the pipeline proposes and the decision a
 person must make. When the identity shortlist is non-empty, stage 3 also asks
 Jev the same-system question per shortlisted record and writes the
 `same_system_jev` advisory column into `identity.json`; the deterministic
-scores stay. The run manifest records the model strings the APIs
+scores stay. When the run proposes an Update against a record that exists,
+the new source is numbered after the existing ones, and the new claims are
+matched against the existing record with digits masked: a matched pair whose
+numbers disagree, or that drops a recorded number, lands on the sheet under
+"Cross-source checks" — the evidential-independence gap made visible. The
+run manifest records the model strings the APIs
 returned, the prompt and question versions, per-stage token usage and cost,
 cache hits, and the claim-ID-to-path compatibility map.
 

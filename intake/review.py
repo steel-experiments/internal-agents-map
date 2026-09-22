@@ -66,6 +66,7 @@ def review_sheet(
     *,
     stages: list[dict[str, Any]] | None = None,
     preflight_flags: list[Any] | None = None,
+    cross_flags: list[dict[str, Any]] | None = None,
 ) -> str:
     """Render the Markdown sheet a reviewer reads."""
     candidate = record.candidate
@@ -126,6 +127,13 @@ def review_sheet(
         lines.extend(["", "## Preflight flags", ""])
         lines.extend(
             f"- `{flag.claim_id}` ({flag.field}): {flag.issue}" for flag in preflight_flags
+        )
+    if cross_flags:
+        lines.extend(["", "## Cross-source checks", ""])
+        lines.extend(
+            f"- `{flag['claim_path']}`: {flag['issue']}"
+            + (f" (recorded {flag['existing']}, new {flag['new']})" if flag["new"] else "")
+            for flag in cross_flags
         )
     if stages:
         lines.extend(["", "## Model usage", ""])

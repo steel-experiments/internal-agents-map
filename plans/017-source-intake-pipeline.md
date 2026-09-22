@@ -960,4 +960,17 @@ STOP-line report:
   end-to-end test runs the zup candidate twice over the same warm caches and
   asserts the two drafts are byte-identical with zero calls on the extract,
   judge, and write stages. The intake suite holds 138 tests.
+- Evidential-independence repair (same re-read): the gap analysis says the
+  same stages "compare a second source's numbers against the first", but an
+  Update run never looked at the record it proposed to update. Two repairs
+  in `intake/crosscheck.py`: the run now passes the existing record's source
+  count to the renderer, so an update's new source is numbered
+  `<record>-source-<n+1>` instead of colliding with `-source-1`; and the new
+  claims are matched against the existing record's claims with digits
+  masked, so a restated metric with a new value still aligns — a matched
+  pair whose numbers disagree, or that drops a recorded number, lands on the
+  sheet under "Cross-source checks". Seven unit tests cover the masked
+  matcher's agree, differ, dropped, and unmatched paths, and an end-to-end
+  test asserts the source numbering on a real update run. The intake suite
+  holds 146 tests.
 

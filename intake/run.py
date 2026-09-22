@@ -349,8 +349,17 @@ def run_candidate(
     # The reasons are the last writer text; guard them like the claims.
     privacy.assert_clean(json.loads(record.model_dump_json()), label=f"{run_id} stage 8")
 
-    # Stage 10: render.
-    result = render_extraction(record, reviewed_at=reviewed_at)
+    # Stage 10: render. An update numbers its new sources after the existing
+    # record's, and its claims are cross-checked against them.
+    from intake import crosscheck
+
+    existing = crosscheck.load_existing(record_id)
+    cross_flags = crosscheck.number_conflicts(existing, record) if existing is not None else []
+    result = render_extraction(
+        record,
+        reviewed_at=reviewed_at,
+        existing_source_count=crosscheck.source_count(existing) if existing else 0,
+    )
     stages.append({"stage": "render", "model": None, "calls": 0, "cost_usd": 0.0})
     notes.extend(result.notes)
 
@@ -370,7 +379,9 @@ def run_candidate(
         if draft_path.exists():
             raise FileExistsError(f"{draft_path} already exists; drafts are never overwritten")
         draft_path.write_text(result.record_yaml, encoding="utf-8")
-    sheet = review_sheet(record, result, stages=stages, preflight_flags=flags)
+    sheet = review_sheet(
+        record, result, stages=stages, preflight_flags=flags, cross_flags=cross_flags
+    )
     _sheet_path, _manifest_path = write_review(
         directory,
         sheet=sheet,
