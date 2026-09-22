@@ -1,0 +1,212 @@
+# ABOUTME: The adjudicated Jev evaluation harness Plan 016 specified (Plan 017, Phase 3).
+# ABOUTME: Builds the item set offline; humans label; Jev runs need the key.
+"""Build and score the adjudicated Jev evaluation.
+
+The item set samples claim-and-passage pairs from the authored records with
+exact line locators. Two humans label each item (support, explicit conflict,
+insufficient evidence, ambiguity) from the original evidence; Jev then answers
+the same items. The report compares Jev's coarse gate against the adjudicated
+labels and reports the Plan 016 go/no-go measures: material-defect recall and
+alert precision. Building items is offline; labelling is human work; the live
+Jev pass needs ``TYPESAFE_API_KEY``.
+"""
+
+from __future__ import annotations
+
+import json
+import random
+import re
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+from intake.catalog import load_build
+
+ROOT = Path(__file__).resolve().parent.parent
+LOCATOR_RE = re.compile(r"^Preserved content\.md, lines? (?P<lines>[0-9][0-9, –-]*)$", re.DOTALL)
+LABELS = ("support", "explicit-conflict", "insufficient", "ambiguity")
+# A material defect is an explicit conflict or an unsupported claim presented
+# as established; silence alone on a properly-hedged claim is not.
+MATERIAL_DEFECTS = {"explicit-conflict", "insufficient"}
+
+
+@dataclass(frozen=True)
+class EvalItem:
+    """One claim-and-passage item with its provenance."""
+
+    item_id: str
+    record_id: str
+    claim_path: str
+    claim_text: str
+    kind: str
+    source_id: str
+    passage: str
+    locator: str
+
+    def payload(self) -> dict[str, Any]:
+        return {
+            "item_id": self.item_id,
+            "record_id": self.record_id,
+            "claim_path": self.claim_path,
+            "claim_text": self.claim_text,
+            "kind": self.kind,
+            "source_id": self.source_id,
+            "passage": self.passage,
+            "locator": self.locator,
+            "labels": {"labeller_a": None, "labeller_b": None, "adjudicated": None},
+        }
+
+
+def _locator_lines(locator: str | None) -> list[int] | None:
+    if not locator:
+        return None
+    match = LOCATOR_RE.fullmatch(" ".join(locator.split()))
+    if match is None:
+        return None
+    numbers = [
+        int(value) for value in re.split(r"[,–-]", match.group("lines")) if value.strip().isdigit()
+    ]
+    return numbers or None
+
+
+def _passage_for(manifest_path: str, locator: str) -> str | None:
+    lines = _locator_lines(locator)
+    if not lines:
+        return None
+    content = (ROOT / manifest_path).parent / "content.md"
+    try:
+        text = content.read_text(encoding="utf-8")
+    except OSError:
+        return None
+    all_lines = text.splitlines()
+    start, end = min(lines), max(lines)
+    if end > len(all_lines):
+        return None
+    window = all_lines[start - 1 : end]
+    # Widen to the surrounding paragraph so labellers see the context.
+    while start > 1 and all_lines[start - 2].strip():
+        start -= 1
+        window.insert(0, all_lines[start - 1])
+    while end < len(all_lines) and all_lines[end].strip():
+        end += 1
+        window.append(all_lines[end - 1])
+    return "\n".join(window)
+
+
+def build_items(
+    records: list[dict[str, Any]] | None = None,
+    *,
+    count: int = 120,
+    seed: int = 17,
+) -> list[dict[str, Any]]:
+    """Sample claim-and-passage items from the authored records."""
+    build = load_build()
+    if records is None:
+        records = build.load_agents()
+    candidates: list[dict[str, Any]] = []
+    for record in records:
+        claims = build.claim_fields(record)
+        manifests = {
+            source["id"]: source.get("capture", {}).get("manifest_path")
+            for source in record.get("sources", [])
+        }
+        for path, links in record.get("evidence", {}).items():
+            claim = claims.get(path)
+            if claim is None:
+                continue
+            for link in links:
+                manifest = manifests.get(link.get("source_id"))
+                if not manifest:
+                    continue
+                passage = _passage_for(manifest, link.get("locator"))
+                if not passage:
+                    continue
+                candidates.append(
+                    {
+                        "record_id": record["id"],
+                        "claim_path": path,
+                        "claim_text": claim[0],
+                        "kind": claim[1],
+                        "source_id": link["source_id"],
+                        "passage": passage,
+                        "locator": link["locator"],
+                    }
+                )
+    rng = random.Random(seed)
+    rng.shuffle(candidates)
+    items = []
+    for index, candidate in enumerate(candidates[:count]):
+        item = EvalItem(
+            item_id=f"item-{index:04d}",
+            record_id=candidate["record_id"],
+            claim_path=candidate["claim_path"],
+            claim_text=candidate["claim_text"],
+            kind=candidate["kind"],
+            source_id=candidate["source_id"],
+            passage=candidate["passage"],
+            locator=candidate["locator"],
+        )
+        items.append(item.payload())
+    return items
+
+
+def labeller_agreement(items: list[dict[str, Any]]) -> dict[str, Any]:
+    """Agreement between the two labellers, once both have labelled."""
+    paired = [
+        (item["labels"]["labeller_a"], item["labels"]["labeller_b"])
+        for item in items
+        if item["labels"]["labeller_a"] is not None and item["labels"]["labeller_b"] is not None
+    ]
+    if not paired:
+        return {"labelled": 0}
+    agreeing = sum(1 for a, b in paired if a == b)
+    return {
+        "labelled": len(paired),
+        "agreeing": agreeing,
+        "agreement": round(agreeing / len(paired), 4),
+    }
+
+
+def score(items: list[dict[str, Any]], verdicts: dict[str, str]) -> dict[str, Any]:
+    """Compare the coarse gate against the adjudicated labels.
+
+    ``verdicts`` maps item IDs to the gate's outcome: ``accept`` or ``review``.
+    A material defect the gate accepted is a miss; a healthy item sent to
+    review is a false alert. The Plan 016 criteria: at least 90 percent
+    material-defect recall and at least 80 percent alert precision.
+    """
+
+    scored = [
+        item
+        for item in items
+        if item["labels"]["adjudicated"] is not None and item["item_id"] in verdicts
+    ]
+    defects = [item for item in scored if item["labels"]["adjudicated"] in MATERIAL_DEFECTS]
+    caught = sum(1 for item in defects if verdicts[item["item_id"]] == "review")
+    alerts = [item for item in scored if verdicts[item["item_id"]] == "review"]
+    # An alert is true when the label is anything but clean support: ambiguity
+    # is also worth a person's time, so it counts as a true alert.
+    true_alerts = sum(1 for item in alerts if item["labels"]["adjudicated"] != "support")
+    recall = round(caught / len(defects), 4) if defects else None
+    precision = round(true_alerts / len(alerts), 4) if alerts else None
+    return {
+        "scored": len(scored),
+        "defects": len(defects),
+        "defect_recall": recall,
+        "alerts": len(alerts),
+        "alert_precision": precision,
+        "gate": {
+            "material_defect_recall_min": 0.9,
+            "alert_precision_min": 0.8,
+            "passes": (recall is not None and recall >= 0.9)
+            and (precision is None or precision >= 0.8),
+        },
+    }
+
+
+def write_items(items: list[dict[str, Any]], path: Path) -> None:
+    """Write the item set for the labellers; never overwrite an existing file."""
+    if path.exists():
+        raise FileExistsError(f"{path} already exists; evaluations are append-only")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(items, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

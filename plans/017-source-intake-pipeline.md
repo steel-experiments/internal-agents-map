@@ -713,3 +713,44 @@ STOP-line report:
   writer over the real zup capture.
 
 `npm run verify` green with the new tests (full gate, exit 0).
+
+### Phase 3 — Jev judgments and the adjudicated evaluation (2026-09-22)
+
+STOP-line report:
+
+- Judge (stage 6): `intake/adapters/jev.py` calls `jev-1.13.0` over direct
+  HTTPS with a persistent connection, a 20-second timeout, no automatic retry,
+  and the Plan 016 budget pattern (the 65,536-token maximum input charge
+  reserved per attempted request, about $0.0028). Every answer's shape is
+  validated before use. `intake/judge.py` asks the five Design 1 questions per
+  claim (relation, actor mismatch, temporal status, approval condition,
+  observation basis), batches the claims of one paragraph cluster into one
+  request with only that cluster as state, and caches by claim text, field,
+  capture hash, quote span, question version, and model version
+  (`intake/cache.py`, under `.intake/cache/`). A warm-cache rerun makes zero
+  requests.
+- Review-sheet columns: every verdict and probability lands on the claim rows
+  (the sheet assembly is stage 12, Phase 4; the judgment blocks carry the
+  columns). The coarse gate lives in `apply_dispositions`: `accept` only with
+  an exact quote, agreeing numbers and dates, a `stated` relation at or above
+  0.8, no actor-mismatch or approval-removal flag above 0.3; a `missing` quote
+  on a reported claim is `drop`.
+- Identity (Design 2) joins stage 3: `resolve.refine_with_jev` adds the
+  same-system probability to every shortlist entry as an advisory column; the
+  deterministic scores stay.
+- The adjudicated evaluation (**the phase gate**): the harness exists —
+  `intake/evals.py` samples claim-and-passage items from the authored records
+  with exact line locators (reproducible for a fixed seed), holds two labeller
+  columns plus an adjudicated label per item, never overwrites an item file,
+  and scores material-defect recall and alert precision against the Plan 016
+  criteria (0.9 / 0.8). **The run itself is blocked twice over**: the live Jev
+  pass needs `TYPESAFE_API_KEY`, and the labels need two humans labelling
+  about 120 items from the original evidence. Neither happened; no thresholds
+  were calibrated and nothing was faked.
+- Thresholds: `GATE` in `intake/judge.py` records the provisional values with
+  the model and question version they belong to, and states why they are
+  provisional. Calibration replaces them only after the evaluation runs; per
+  the STOP rule, if the criteria fail, Jev stays advisory with no gate and
+  every claim goes to review.
+
+`npm run verify` green with the new tests.

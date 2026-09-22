@@ -138,3 +138,53 @@ def resolve_identity(
             "reviewer confirm every identity decision."
         ),
     }
+
+
+def jev_identity_questions(
+    candidate_name: str, shortlist: list[dict[str, Any]]
+) -> dict[str, dict[str, Any]]:
+    """The Design 2 identity question for every shortlisted record."""
+    questions: dict[str, dict[str, Any]] = {}
+    for index, entry in enumerate(shortlist):
+        record = f"{entry['agent_name']} ({entry['id']})"
+        questions[f"same_{index}"] = {
+            "type": "noul",
+            "instructions": (
+                f"Does the passage describe {record} as the same system and version "
+                f"as {candidate_name}, rather than merely the same company?"
+            ),
+        }
+    return questions
+
+
+def refine_with_jev(
+    identity: dict[str, Any],
+    *,
+    passage: str,
+    candidate_name: str,
+    adapter: Any,
+    budget: Any,
+) -> dict[str, Any]:
+    """Add the Jev same-system probability to every shortlist entry.
+
+    The deterministic scores stay; Jev's answer is one advisory column that the
+    reviewer reads beside them.
+    """
+
+    shortlist = identity["matched_records"]
+    if not shortlist:
+        return identity
+    result = adapter.ask(
+        state={"candidate": candidate_name, "passage": passage},
+        questions=jev_identity_questions(candidate_name, shortlist),
+        budget=budget,
+    )
+    refined = []
+    for index, entry in enumerate(shortlist):
+        answer = result.answers.get(f"same_{index}")
+        refined.append(entry | {"same_system_jev": answer.noul if answer else None})
+    identity = identity | {
+        "matched_records": refined,
+        "jev_model": result.model,
+    }
+    return identity

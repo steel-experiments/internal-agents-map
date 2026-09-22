@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "model": "jev-1.13.0",
+  "note": "Question templates for stage 6 (judge) and the stage 3 identity question, from Plan 016 Design 1 and Design 2. Fill {i} with the assertion index and {assertion} with the assertion text. Jev answers typed questions over supplied state; it never sees instructions to follow, only data to judge.",
+  "relation": {
+    "type": "choice",
+    "criteria": {
+      "stated": "The assertion is directly established with its qualifications.",
+      "conflicts": "The passage explicitly states incompatible information.",
+      "unknown": "Partial support, ambiguity, silence, or an unstated inference."
+    }
+  },
+  "actor": {
+    "type": "noul",
+    "question": "Does assertion {i} attribute an action to a different system than this passage does?"
+  },
+  "temporal": {
+    "type": "choice",
+    "criteria": {
+      "current": "The passage describes the action as current behavior.",
+      "future": "The passage describes the action as a future plan.",
+      "historical": "The passage describes the action as historical behavior.",
+      "unknown": "The passage does not state when the action holds."
+    }
+  },
+  "approval": {
+    "type": "noul",
+    "question": "Does assertion {i} remove an approval condition that the passage states?"
+  },
+  "basis": {
+    "type": "choice",
+    "criteria": {
+      "measured": "The passage states a measured observation for the result.",
+      "qualitative": "The passage states a qualitative report for the result.",
+      "target": "The passage states a target for the result.",
+      "opinion": "The passage states an opinion about the result.",
+      "unknown": "The passage does not state a basis for the result."
+    }
+  },
+  "same_system": {
+    "type": "noul",
+    "question": "Does the passage describe {record} as the same system and version as {candidate}, rather than merely the same company?"
+  }
+}

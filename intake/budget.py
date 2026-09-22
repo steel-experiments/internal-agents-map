@@ -26,6 +26,11 @@ DEFAULT_OUTPUT_PRICE_PER_MTOK = 10.0
 # Conservative per-call ceilings for reservation; real calls stay far below.
 DEFAULT_MAX_INPUT_TOKENS = 64_000
 DEFAULT_MAX_OUTPUT_TOKENS = 16_000
+# Published Jev price at planning time, with the documented maximum input
+# charge reserved for every attempted request (the Plan 016 pattern).
+JEV_PRICE_PER_MTOK = 0.042
+JEV_MAX_REQUEST_TOKENS = 65_536
+JEV_WORST_CASE_USD = JEV_MAX_REQUEST_TOKENS * JEV_PRICE_PER_MTOK / 1_000_000
 
 
 class BudgetExceededError(RuntimeError):
@@ -65,38 +70,57 @@ def default_reservation() -> CallReservation:
 
 @dataclass
 class Budget:
-    """One run's reservation and spend ledger."""
+    """One run's reservation and spend ledger.
+
+    ``reserved_usd`` holds the worst case of every planned call, reserved
+    before any request happens; ``cost_usd`` holds the measured spend.
+    """
 
     budget_usd: float
     reservation: CallReservation = field(default_factory=default_reservation)
     reserved_calls: int = 0
+    reserved_usd: float = 0.0
     input_tokens: int = 0
     output_tokens: int = 0
     cost_usd: float = 0.0
 
-    def reserve_calls(self, count: int) -> None:
-        """Reserve the worst case for a number of calls, refusing over-budget runs."""
-        planned = self.reserved_calls + count
-        if self.total_reservation(planned) > self.budget_usd + 1e-9:
+    def _reserve(self, worst_case_usd: float, count: int, label: str) -> None:
+        planned = self.reserved_usd + count * worst_case_usd
+        if planned > self.budget_usd + 1e-9:
             raise BudgetExceededError(
-                f"reserving {count} more calls needs "
-                f"{self.total_reservation(planned):.4f} USD worst case, above the "
-                f"{self.budget_usd:.4f} USD budget"
+                f"reserving {count} more {label} needs {planned:.4f} USD worst "
+                f"case, above the {self.budget_usd:.4f} USD budget"
             )
-        self.reserved_calls = planned
+        self.reserved_usd = planned
+        self.reserved_calls += count
+
+    def reserve_calls(self, count: int) -> None:
+        """Reserve the worst case for a number of writer-model calls."""
+        self._reserve(self.reservation.worst_case_usd, count, "writer-model calls")
+
+    def reserve_jev_request(self, count: int = 1) -> None:
+        """Reserve the worst case for Jev requests."""
+        self._reserve(JEV_WORST_CASE_USD, count, "Jev requests")
 
     def total_reservation(self, calls: int | None = None) -> float:
         count = self.reserved_calls if calls is None else calls
         return count * self.reservation.worst_case_usd
 
     def record_usage(self, input_tokens: int, output_tokens: int) -> float:
-        """Record one call's usage and return its cost."""
+        """Record one writer call's usage and return its cost."""
         cost = (
             input_tokens * self.reservation.input_price_per_mtok
             + output_tokens * self.reservation.output_price_per_mtok
         ) / 1_000_000
         self.input_tokens += input_tokens
         self.output_tokens += output_tokens
+        self.cost_usd += cost
+        return cost
+
+    def record_jev_usage(self, input_tokens: int) -> float:
+        """Record one Jev request's usage and return its cost."""
+        cost = input_tokens * JEV_PRICE_PER_MTOK / 1_000_000
+        self.input_tokens += input_tokens
         self.cost_usd += cost
         return cost
 

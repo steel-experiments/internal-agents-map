@@ -52,4 +52,8 @@ The private-data check in `npm run verify` stays the last guard.
   records and the backfill dry run over the unlocated claims need
   `OPENAI_API_KEY` and have not run; their machinery is tested offline with a
   fake writer over real captures.
-- Phases 3 to 5: not implemented; the Jev stage needs `TYPESAFE_API_KEY`.
+- Phase 3 (Jev judgments, coarse gate, evaluation harness): implemented. The
+  judgment cache lives under `.intake/cache/`. The adjudicated evaluation is
+  blocked twice: the live Jev pass needs `TYPESAFE_API_KEY`, and the labels
+  need two human labellers. Gate thresholds are provisional until then.
+- Phases 4 and 5: not implemented.
