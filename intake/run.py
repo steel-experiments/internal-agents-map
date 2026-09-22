@@ -95,13 +95,25 @@ def load_queue(path: Path) -> list[QueueEntry]:
         urls = [str(url) for url in urls]
         if not urls or not all(url.startswith("https://") for url in urls):
             raise QueueError(f"{path}: entry {index} needs at least one HTTPS URL")
+        role = item.get("source_role")
+        if role is not None:
+            # The build's own class set is the rule; a typo stops the queue
+            # before any capture or spend.
+            from intake.catalog import load_build
+
+            allowed = load_build().PROVENANCE_CLASSES
+            if role not in allowed:
+                raise QueueError(
+                    f"{path}: entry {index} source_role {role!r} is not one of: "
+                    + ", ".join(sorted(allowed))
+                )
         entries.append(
             QueueEntry(
                 urls=urls,
                 company=item.get("company"),
                 system_name=item.get("system_name"),
                 record_id=item.get("record_id"),
-                source_role=item.get("source_role"),
+                source_role=role,
                 homepage=item.get("homepage"),
             )
         )
@@ -175,7 +187,9 @@ def run_candidate(
             url=capture.url,
             canonical_url=capture.canonical_url,
             kind="other",
-            provenance_class="independent-secondary",
+            # The queue's role hint names the class when the author stated
+            # one; the conservative default stays otherwise.
+            provenance_class=entry.source_role or "independent-secondary",
             published_at=_page_published(capture),
             staging_path=capture.staging_path,
             captured_at=capture.captured_at[:10],
@@ -382,7 +396,12 @@ def run_candidate(
             raise FileExistsError(f"{draft_path} already exists; drafts are never overwritten")
         draft_path.write_text(result.record_yaml, encoding="utf-8")
     sheet = review_sheet(
-        record, result, stages=stages, preflight_flags=flags, cross_flags=cross_flags
+        record,
+        result,
+        stages=stages,
+        preflight_flags=flags,
+        cross_flags=cross_flags,
+        source_role=entry.source_role,
     )
     _sheet_path, _manifest_path = write_review(
         directory,

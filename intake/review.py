@@ -67,6 +67,7 @@ def review_sheet(
     stages: list[dict[str, Any]] | None = None,
     preflight_flags: list[Any] | None = None,
     cross_flags: list[dict[str, Any]] | None = None,
+    source_role: str | None = None,
 ) -> str:
     """Render the Markdown sheet a reviewer reads."""
     candidate = record.candidate
@@ -90,6 +91,19 @@ def review_sheet(
         lines.append(
             f"- `{source.local_id}` {source.title} — {source.url} ({source.kind}, "
             f"{source.provenance_class}{published}); {promoted}"
+        )
+    lines.append("")
+    if source_role:
+        lines.append(
+            f"The queue hint set every source's provenance class to "
+            f"`{source_role}`; confirm it against each page. The `kind` stayed "
+            "the conservative `other`; set the real one."
+        )
+    else:
+        lines.append(
+            "No queue hint named a source role, so every source staged "
+            "conservatively (`other`, `independent-secondary`); set the real "
+            "kind and class."
         )
     matched = candidate.matched_records
     if matched:
@@ -154,11 +168,13 @@ def review_sheet(
             "## The decision a person makes",
             "",
             "1. Confirm the identity decision and the eligibility proposal.",
-            "2. Read every claim row with disposition `review`; edit the draft.",
-            "3. Confirm `published_at` where no quote states it.",
-            "4. Confirm no person's name or contact detail appears outside a",
+            "2. Set each source's real `kind` and confirm its provenance class",
+            "   (see Sources above).",
+            "3. Read every claim row with disposition `review`; edit the draft.",
+            "4. Confirm `published_at` where no quote states it.",
+            "5. Confirm no person's name or contact detail appears outside a",
             "   source's `authors` field; code catches e-mail addresses only.",
-            "5. Promote the captures, add the company entry, and open the pull",
+            "6. Promote the captures, add the company entry, and open the pull",
             "   request. The pipeline does none of this.",
             "",
         ]

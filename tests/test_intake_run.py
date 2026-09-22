@@ -420,6 +420,59 @@ class EndToEndRunTests(unittest.TestCase):
         with self.assertRaises(QueueError):
             load_queue(queue)
 
+    def test_the_source_role_hint_is_validated_against_the_catalog(self) -> None:
+        queue = self.root / "queue.yaml"
+        queue.write_text(
+            "- urls: [https://arxiv.org/abs/2604.09805]\n  source_role: first-party\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(load_queue(queue)[0].source_role, "first-party")
+        queue.write_text(
+            "- urls: [https://arxiv.org/abs/2604.09805]\n  source_role: vendor\n",
+            encoding="utf-8",
+        )
+        from intake.run import QueueError
+
+        with self.assertRaises(QueueError) as caught:
+            load_queue(queue)
+        self.assertIn("first-party", str(caught.exception))
+
+    def test_the_source_role_hint_sets_the_staged_provenance_class(self) -> None:
+        from intake.cache import JsonCache
+        from intake.run import QueueEntry
+
+        summary = run_candidate(
+            QueueEntry(
+                urls=["https://arxiv.org/abs/2604.09805"],
+                company="Zup",
+                system_name="CodeGen",
+                record_id="zup-codegen-draft",
+                source_role="first-party",
+            ),
+            budget=Budget(budget_usd=5.0),
+            steel=SteelSdkAdapter(
+                api_key="test-key", client_factory=lambda _key: FakeSteelClient(self.markdown)
+            ),
+            writer=WriterAdapter(api_key="test-key", responses=ZupWriterResponses()),  # type: ignore[arg-type]
+            jev=JevAdapter(api_key="test-key", connection=FakeJevConnection()),  # type: ignore[arg-type]
+            cache=JsonCache(self.root / "jev-role.json"),
+            writer_cache=JsonCache(self.root / "writer-role.json"),
+            runs_root=self.root / "runs",
+            drafts_root=self.root / "drafts-role",
+            staging_root=self.root / "staging",
+            reviewed_at="2026-09-22",
+        )
+        draft = yaml.safe_load(summary.draft_path.read_text(encoding="utf-8"))  # type: ignore[union-attr]
+        self.assertEqual(draft["sources"][0]["provenance_class"], "first-party")
+        sheet = summary.sheet_path.read_text(encoding="utf-8") if summary.sheet_path else ""
+        self.assertIn("queue hint set every source's provenance class to `first-party`", sheet)
+        # Without a hint the run stays conservative and the sheet says so.
+        plain = self.run_zup()
+        plain_sheet = plain.sheet_path.read_text(encoding="utf-8") if plain.sheet_path else ""
+        self.assertIn("staged conservatively", plain_sheet)
+        plain_draft = yaml.safe_load(plain.draft_path.read_text(encoding="utf-8"))  # type: ignore[union-attr]
+        self.assertEqual(plain_draft["sources"][0]["provenance_class"], "independent-secondary")
+
     def test_offline_stages_rerun_from_the_run_directory(self) -> None:
         summary = self.run_zup()
         self.assertEqual(run_stage("render", summary.run_id, runs_root=self.root / "runs"), 0)

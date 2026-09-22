@@ -1051,4 +1051,19 @@ STOP-line report:
   the manifest names every model stage's inputs and no offline stage's; the
   byte-identical warm rerun asserts the same per-stage digests. The
   committed schema file was regenerated. The intake suite holds 156 tests.
+- Source-role hint (loop re-read): the product contract lists "source role"
+  among the queue hints, `load_queue` parsed it, and nothing consumed it —
+  every run staged all sources as `independent-secondary` whatever the queue
+  said. The hint now reaches the sources: `load_queue` validates it against
+  the build's own `PROVENANCE_CLASSES` (principle 7 — one rule, no second
+  implementation) and refuses an unknown value before any capture or spend;
+  `run_candidate` stages the entry's sources with the hinted class and keeps
+  the conservative default otherwise. The sheet's Sources section says where
+  the class came from — the queue hint, with `kind` still `other`, or no
+  hint and both fields conservative — and the decision list gained the
+  explicit step to set the real `kind` and confirm the class. Tests: a valid
+  hint is kept and an invalid one refused naming the allowed set; an
+  end-to-end run with `source_role: first-party` lands the class on the
+  draft's source and the hint note on the sheet, while a hintless run stays
+  conservative with its own note. The intake suite holds 158 tests.
 
