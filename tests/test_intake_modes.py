@@ -456,6 +456,96 @@ class DriftTests(unittest.TestCase):
             self.assertIn("zup-codegen-source-1", sheet)
             self.assertIn("affected claims", sheet)
 
+    def test_changed_claims_are_rejudged_against_the_new_text(self) -> None:
+        from intake.adapters.jev import JevAnswer, JevResult
+        from intake.cache import JsonCache
+
+        record = yaml.safe_load(
+            (ROOT / "data" / "agents" / "zup-codegen.yaml").read_text(encoding="utf-8")
+        )
+        preserved = (
+            ROOT / "archive" / "sources" / "zup-codegen-source-1" / "content.md"
+        ).read_text(encoding="utf-8")
+        body = preserved.splitlines()[9:]
+        body[8] = body[8] + " A new sentence changes the abstract."
+        adapter = StaticDriftAdapter({"https://arxiv.org/abs/2604.09805": "\n".join(body)})
+
+        class StatedJev:
+            calls = 0
+
+            def ask(self, *, state: dict[str, Any], questions: dict[str, Any], budget: Any):
+                StatedJev.calls += 1
+                answers = {
+                    "a0_relation": JevAnswer(
+                        type="choice",
+                        choice="stated",
+                        probabilities={"stated": 0.95, "unknown": 0.05},
+                    ),
+                    "a0_actor": JevAnswer(type="noul", noul=0.05),
+                    "a0_temporal": JevAnswer(
+                        type="choice", choice="past", probabilities={"past": 0.9}
+                    ),
+                    "a0_approval": JevAnswer(type="noul", noul=0.05),
+                    "a0_basis": JevAnswer(
+                        type="choice", choice="qualitative", probabilities={"qualitative": 0.9}
+                    ),
+                }
+                return JevResult(
+                    answers=answers,
+                    model="jev-1.13.0",
+                    input_tokens=1000,
+                    output_tokens=0,
+                    cost_usd=0.0001,
+                    cache_hit=False,
+                )
+
+        with tempfile.TemporaryDirectory() as directory:
+            cache = JsonCache(Path(directory) / "cache.json")
+            payload = drift_report(
+                adapter=adapter,
+                records=[record],
+                jev=StatedJev(),
+                budget=Budget(budget_usd=5.0),
+                cache=cache,
+                output=Path(directory) / "report.json",
+            )
+            entry = payload["drift"][0]
+            self.assertTrue(entry["claim_verdicts"])
+            paths = [verdict["path"] for verdict in entry["claim_verdicts"]]
+            self.assertIn("summary", paths)
+            summary = next(v for v in entry["claim_verdicts"] if v["path"] == "summary")
+            self.assertEqual(summary["relation"], "stated (0.95)")
+            sheet = report_markdown(payload)
+            self.assertIn("relation stated (0.95)", sheet)
+            self.assertIn("advisory, against the rescraped text", sheet)
+            # A warm rerun judges nothing anew.
+            before = StatedJev.calls
+            drift_report(
+                adapter=adapter,
+                records=[record],
+                jev=StatedJev(),
+                budget=Budget(budget_usd=5.0),
+                cache=cache,
+                output=Path(directory) / "report.json",
+            )
+            self.assertEqual(StatedJev.calls, before)
+
+    def test_drift_without_a_jev_adapter_lists_claims_without_verdicts(self) -> None:
+        record = yaml.safe_load(
+            (ROOT / "data" / "agents" / "zup-codegen.yaml").read_text(encoding="utf-8")
+        )
+        preserved = (
+            ROOT / "archive" / "sources" / "zup-codegen-source-1" / "content.md"
+        ).read_text(encoding="utf-8")
+        body = preserved.splitlines()[9:]
+        body[8] = body[8] + " A new sentence changes the abstract."
+        adapter = StaticDriftAdapter({"https://arxiv.org/abs/2604.09805": "\n".join(body)})
+        with tempfile.TemporaryDirectory() as directory:
+            payload = drift_report(
+                adapter=adapter, records=[record], output=Path(directory) / "report.json"
+            )
+            self.assertEqual(payload["drift"][0]["claim_verdicts"], [])
+
     def test_an_unchanged_page_reports_no_drift(self) -> None:
         record = yaml.safe_load(
             (ROOT / "data" / "agents" / "zup-codegen.yaml").read_text(encoding="utf-8")

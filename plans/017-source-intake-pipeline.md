@@ -923,4 +923,16 @@ STOP-line report:
   deterministic score. The committed schema file was regenerated to match.
   The end-to-end test asserts the section, both columns, and the resolve
   stage's model and call count in the manifest.
+- Drift contract repair (same re-read): the drift specification says stage 6
+  runs on the affected claims against the new text, but the mode stopped at
+  listing them. `judge_drifted` now re-judges each affected claim over the
+  rescraped passage — the changed span shifted back past the capture header
+  and widened to its paragraph — through the same five questions, caching by
+  claim, passage, question version, and model. The verdicts are advisory
+  columns on the drift sheet; without a Jev adapter the report lists the
+  claims and says so. The `drift` command judges by default under its own
+  budget. Tested offline with a fake adapter: a changed abstract line
+  re-judges the claims citing it, a warm cache judges nothing anew, and a
+  report without Jev carries no verdicts and no error. The intake suite holds
+  129 tests.
 

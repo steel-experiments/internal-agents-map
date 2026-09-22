@@ -224,10 +224,17 @@ def _command_backfill_apply(args: argparse.Namespace) -> int:
 
 
 def _command_drift(args: argparse.Namespace) -> int:
+    from intake.adapters.jev import JevAdapter
     from intake.adapters.steel import SteelSdkAdapter
+    from intake.budget import Budget
     from intake.drift import drift_report, report_markdown
 
-    payload = drift_report(adapter=SteelSdkAdapter(), output=args.output)
+    payload = drift_report(
+        adapter=SteelSdkAdapter(),
+        jev=JevAdapter(),
+        budget=Budget(budget_usd=args.budget_usd),
+        output=args.output,
+    )
     print(report_markdown(payload), end="")
     return 0
 
@@ -350,6 +357,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     drift = subparsers.add_parser(
         "drift", help="rescrape captures and report changed sources and affected claims"
+    )
+    drift.add_argument(
+        "--budget-usd", type=float, default=5.0, help="budget for the advisory claim re-judging"
     )
     drift.add_argument("--output", type=Path)
     drift.set_defaults(func=_command_drift)

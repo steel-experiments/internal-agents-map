@@ -42,7 +42,9 @@ class SourceDrift:
     changed: bool
     changed_lines: list[range] = field(default_factory=list)
     affected_claims: list[str] = field(default_factory=list)
+    claim_verdicts: list[dict[str, Any]] = field(default_factory=list)
     error: str | None = None
+    new_markdown: str | None = None
 
     def to_payload(self) -> dict[str, Any]:
         return {
@@ -54,6 +56,7 @@ class SourceDrift:
                 {"start": span.start, "end": span.stop - 1} for span in self.changed_lines
             ],
             "affected_claims": self.affected_claims,
+            "claim_verdicts": self.claim_verdicts,
             "error": self.error,
         }
 
@@ -154,6 +157,7 @@ def drift_one(
         url=str(url),
         changed=True,
         changed_lines=spans,
+        new_markdown=page.markdown,
     )
 
 
@@ -173,13 +177,125 @@ def affected_claim_paths(record: dict[str, Any], spans: list[range]) -> list[str
     return sorted(set(paths))
 
 
+def _widened_passage(lines: list[str], start: int, end: int) -> str:
+    """The changed span widened to the surrounding blank-line paragraph."""
+    start = max(start, 1)
+    end = min(end, len(lines))
+    while start > 1 and lines[start - 2].strip():
+        start -= 1
+    while end < len(lines) and lines[end].strip():
+        end += 1
+    return "\n".join(lines[start - 1 : end])
+
+
+def judge_drifted(
+    *,
+    record: dict[str, Any],
+    source_id: str,
+    affected: list[str],
+    new_markdown: str,
+    spans: list[range],
+    adapter: Any,
+    budget: Any,
+    cache: Any = None,
+    build: Any = None,
+) -> list[dict[str, Any]]:
+    """Run the judge's questions on the affected claims against the new text.
+
+    Advisory only: the verdicts tell the reviewer whether each claim still
+    holds in the rescraped page. A person still captures and reviews.
+    """
+
+    import hashlib
+
+    from intake.cache import cache_key, jev_cache
+    from intake.judge import build_request, judgments_from_answers, load_questions
+    from intake.models import Claim, Quote
+    from intake.segment import Paragraph
+
+    if not affected:
+        return []
+    if build is None:
+        from intake.catalog import load_build
+
+        build = load_build()
+    cache = cache or jev_cache()
+    questions = load_questions()
+    model = questions["model"]
+    claims_map = build.claim_fields(record)
+    body_lines = new_markdown.splitlines()
+    verdicts: list[dict[str, Any]] = []
+    for path in affected:
+        entry = claims_map.get(path)
+        if entry is None:
+            continue
+        text, kind, provenance = entry
+        # The spans number the preserved file with its header; the new page
+        # has none, so shift back before widening to the paragraph.
+        body_spans = [
+            range(max(span.start - HEADER_LINES, 1), max(span.stop - HEADER_LINES, 1))
+            for span in spans
+        ]
+        passage = _widened_passage(
+            body_lines,
+            min(span.start for span in body_spans),
+            max(span.stop for span in body_spans),
+        )
+        if not passage.strip():
+            continue
+        passage_hash = f"sha256:{hashlib.sha256(passage.encode('utf-8')).hexdigest()}"
+        key = cache_key(text, "drift", passage_hash, path, str(questions.get("version", 1)), model)
+        cached = cache.get(key)
+        if cached is not None:
+            verdicts.append(cached)
+            continue
+        claim = Claim(
+            id=f"drift:{path}",
+            field="summary",
+            text=text,
+            kind=kind,
+            provenance=provenance,
+            quotes=[Quote(source=source_id, text=text, paragraph_id="p1")],
+            disposition="review",
+        )
+        paragraph = Paragraph(id="p1", heading_path=(), start=1, end=1, text=passage)
+        state, request_questions = build_request([claim], [paragraph], questions)
+        result = adapter.ask(state=state, questions=request_questions, budget=budget)
+        judgments = judgments_from_answers(claim, result.answers, 0, result.model)
+        verdict = {
+            "path": path,
+            "relation": (
+                f"{judgments.relation.label} ({judgments.relation.p:.2f})"
+                if judgments.relation
+                else None
+            ),
+            "actor_mismatch": judgments.actor_mismatch,
+            "temporal": (
+                f"{judgments.temporal.label} ({judgments.temporal.p:.2f})"
+                if judgments.temporal
+                else None
+            ),
+        }
+        cache.put(key, verdict)
+        verdicts.append(verdict)
+    return verdicts
+
+
 def drift_report(
     *,
     adapter: SteelSdkAdapter,
     records: list[dict[str, Any]] | None = None,
+    jev: Any = None,
+    budget: Any = None,
+    cache: Any = None,
     output: Path | None = None,
 ) -> dict[str, Any]:
-    """Rescrape every captured source and write the drift report."""
+    """Rescrape every captured source and write the drift report.
+
+    With a Jev adapter and a budget, each changed source's affected claims are
+    re-judged against the rescraped text as advisory verdicts. Without them the
+    report lists the affected claims and stops there.
+    """
     build = load_build()
     if records is None:
         records = build.load_agents()
@@ -189,6 +305,18 @@ def drift_report(
             drift = drift_one(record_id=record["id"], source=source, adapter=adapter)
             if drift.changed:
                 drift.affected_claims = affected_claim_paths(record, drift.changed_lines)
+                if jev is not None and budget is not None and drift.affected_claims:
+                    drift.claim_verdicts = judge_drifted(
+                        record=record,
+                        source_id=source["id"],
+                        affected=drift.affected_claims,
+                        new_markdown=drift.new_markdown or "",
+                        spans=drift.changed_lines,
+                        adapter=jev,
+                        budget=budget,
+                        cache=cache,
+                        build=build,
+                    )
             results.append(drift)
     payload = {
         "format_version": 1,
@@ -223,6 +351,17 @@ def report_markdown(payload: dict[str, Any]) -> str:
             f"affected claims: {claims}. Capture the page again under a new source "
             "ID and review the claims before citing it."
         )
+        for verdict in entry.get("claim_verdicts") or []:
+            flags = []
+            if verdict.get("actor_mismatch") is not None:
+                flags.append(f"actor {verdict['actor_mismatch']:.2f}")
+            if verdict.get("temporal"):
+                flags.append(f"temporal {verdict['temporal']}")
+            flag_text = f"; {', '.join(flags)}" if flags else ""
+            lines.append(
+                f"  - `{verdict['path']}`: relation {verdict.get('relation') or 'unknown'}"
+                f"{flag_text} — advisory, against the rescraped text"
+            )
     for entry in payload["blocked"]:
         lines.append(f"- `{entry['source_id']}` ({entry['record_id']}): {entry['error']}")
     lines.append("")
