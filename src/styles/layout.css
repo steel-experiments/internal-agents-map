@@ -1,5 +1,12 @@
 /* ABOUTME: The page frame: sidebar navigation, main column, footer, and skip link. */
 /* ABOUTME: Ported from templates/site.css, including its responsive behaviour. */
+:root {
+  /* Where a rail beside the page starts: the page's own top padding and a step
+     below it, so the columns beside the page begin under its first line rather
+     than level with it. A narrow screen restates it, since there the bar
+     stands above the page. */
+  --rail-top: 96px;
+}
 .page-shell {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 684px) minmax(0, 1fr);
@@ -11,12 +18,15 @@
   width: 224px;
   justify-self: end;
 }
-/* The rail mirrors the sidebar: same width, same distance from the column. */
+/* The rail mirrors the sidebar: same width, same distance from the column, and
+   the same line to start on. */
 .contents {
   width: 224px;
   justify-self: start;
+  /* Sticky rather than fixed: the rail keeps the column the grid gives it, and
+     since it already starts on the rail line, sticking there never moves it. */
   position: sticky;
-  top: 96px;
+  top: var(--rail-top);
   align-self: start;
   font-size: var(--text-sm);
 }
@@ -58,15 +68,25 @@
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+/*
+ * Fixed, not sticky: the column holds its place from the first pixel of the
+ * page rather than travelling with it as far as the top. It starts on the line
+ * the content column starts on — the bar above it, then the page's own top
+ * padding — which is where the rail on the other side starts too. A fixed box
+ * is out of the flow and so has no column to take its width from, and says it.
+ */
 .sidebar nav {
-  position: sticky;
-  top: 96px;
+  position: fixed;
+  top: var(--rail-top);
+  width: 224px;
 }
 .topbar {
+  /* A wide screen has no bar: the wordmark heads the rail instead. A narrow
+     one brings it back, with the button that opens the menu. */
+  display: none;
   position: sticky;
   top: 0;
   z-index: 20;
-  display: flex;
   align-items: center;
   justify-content: center;
   height: 68px;
@@ -80,6 +100,11 @@
   line-height: 1;
   color: var(--ink);
   text-decoration: none;
+}
+/* The wordmark at the head of the rail, over the links it belongs to. */
+.brand-rail {
+  display: block;
+  margin-bottom: 24px;
 }
 .nav-links {
   position: relative;
@@ -162,6 +187,7 @@ footer a { color: inherit; }
     gap: 32px;
   }
   .sidebar { width: auto; }
+  .sidebar nav { width: 180px; }
   .contents { display: none; }
   .footer-inner {
     width: auto;
@@ -188,7 +214,10 @@ footer a { color: inherit; }
   .nav-toggle-bars span { transition: transform 200ms var(--ease-out); }
 }
 @media (max-width: 800px) {
-  .topbar { justify-content: space-between; }
+  /* The bar comes back, and with it the line every rail starts under. */
+  .topbar { display: flex; justify-content: space-between; }
+  :root { --rail-top: 132px; }
+  .brand-rail { display: none; }
   .nav-toggle {
     display: grid;
     place-items: center;
@@ -222,7 +251,7 @@ footer a { color: inherit; }
   }
   /* No sidebar column to clear, so the footer sits on the page's own margin. */
   .footer-inner { width: auto; padding: 24px; }
-  .sidebar nav { position: static; }
+  .sidebar nav { position: static; width: auto; }
   .nav-links {
     display: grid;
     gap: 0;

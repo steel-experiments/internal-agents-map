@@ -95,6 +95,7 @@ const image = ogImage ?? { url: OG_IMAGE, alt: OG_IMAGE_ALT };
 <div class="page-shell">
   <aside class="sidebar" id="mobile-nav">
     <nav aria-label="Main navigation">
+      <a class="brand brand-rail" href={homePath()}>Internal Agents Map</a>
       <div class="nav-links">
         <span class="nav-dot" aria-hidden="true" hidden></span>
         <a href={homePath()} aria-current={current === 'catalog' ? 'page' : undefined}><Icon name="layers-two" />Agents</a>
@@ -123,13 +124,11 @@ const image = ogImage ?? { url: OG_IMAGE, alt: OG_IMAGE_ALT };
     <small>{SITE_NAME}, compiled by <a href="https://steel.dev/?utm_source=internal-agents-map&utm_medium=website&utm_content=footer">Steel</a>, browser infrastructure for AI agents.</small>
   </div>
 </footer>
-{path !== homePath() && path !== '/infrastructure' && (
-  <button type="button" class="search-launcher" data-palette-open>
-    <Icon name="search" size={16} />
-    <span>Search anything</span>
-    <kbd class="search-shortcut" id="search-shortcut" aria-hidden="true">⌘ K</kbd>
-  </button>
-)}
+<button type="button" class="search-launcher" data-palette-open>
+  <Icon name="search" size={16} />
+  <span>Search anything</span>
+  <kbd class="search-shortcut" id="search-shortcut" aria-hidden="true">⌘ K</kbd>
+</button>
 <CommandPalette />
 <script>
   import { startContents } from '../scripts/contents';

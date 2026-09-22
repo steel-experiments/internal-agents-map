@@ -10,33 +10,10 @@ for (const [path, section] of [['/', 'agents'], ['/infrastructure', 'infrastruct
     await expect(page.locator(`article.entry[data-collection="${section === 'agents' ? 'infrastructure' : 'agents'}"]:visible`)).toHaveCount(0);
     const menu = page.locator('.nav-toggle');
     if (await menu.isVisible()) await menu.click();
-    await expect(page.locator('.sidebar a[href="/infrastructure"]')).toBeVisible();
-    await expect(page.locator('.sidebar a[href="/"]')).toBeVisible();
+    await expect(page.locator('.nav-links a[href="/infrastructure"]')).toBeVisible();
+    await expect(page.locator('.nav-links a[href="/"]')).toBeVisible();
   });
 }
-test('legacy platform and mixed-type queries switch to grouped All with OR semantics and history', async ({ page, javaScriptEnabled }) => {
-  test.skip(javaScriptEnabled === false, 'URL filtering needs JavaScript; canonical indexes do not.');
-  await page.goto('/?type=platform&type=agent');
-  await expect(page.locator('[data-collection-group="infrastructure"]')).toBeVisible();
-  await expect(page.locator('[data-collection-group="agents"]')).toBeVisible();
-  await expect(page.locator('article.entry:visible')).toHaveCount(catalog.approaches.filter((item: any) => ['platform', 'agent'].includes(item.approach_type)).length);
-  await page.locator('#q').fill('spectre');
-  await expect(page.locator('article.entry:visible')).toHaveCount(1);
-  await expect(page).toHaveURL(/collection=all/);
-  await page.goBack();
-  await expect(page.locator('#q')).toHaveValue('');
-  await expect(page.locator('#directory-heading')).toHaveText('Agents and the infrastructure they run on.');
-  await expect(page.locator('[data-collection-group="infrastructure"]')).toBeVisible();
-  await expect(page.locator('[data-collection-group="agents"]')).toBeVisible();
-});
-test('local search stays scoped and All URLs search across collections', async ({ page, javaScriptEnabled }) => {
-  test.skip(javaScriptEnabled === false);
-  await page.goto('/?q=spectre');
-  await expect(page.locator('article.entry[data-approach-id="harvey-spectre"]')).toBeHidden();
-  await page.goto('/?collection=all&q=spectre');
-  await expect(page.locator('article.entry[data-approach-id="harvey-spectre"]')).toBeVisible();
-  await expect(page.locator('#q')).toHaveValue('spectre');
-});
 test('infrastructure has architecture first, stable claims, no agent attention levels, and Markdown parity', async ({ page, request }) => {
   await page.goto('/agents/harvey-spectre');
   const headings = await page.locator('.entry-section > h2').allTextContents();

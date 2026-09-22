@@ -25,31 +25,12 @@ const MONOGRAM_CARDS = CATALOG.approaches
 const LOGO_CARDS = CATALOG.approaches
   .filter((approach) => LOGO_BY_COMPANY.get(approach.company_id) !== null)
   .slice(0, 3);
-/** A work filter value, and the label the search box suggests for it. */
-const WORK = { value: 'security', label: 'Security' };
-const INVOCATION = { value: 'background', label: 'Background' };
-/** A supervision value, the label of its chip, and the level a person can type to reach it. */
-const SUPERVISION = { value: 'exception-only', label: 'Exception-only (level 5)', typed: 'level 5' };
-/** A search term. The cards whose text carries it are counted from the page. */
-const SEARCH = { term: 'uber' };
-
 const visibleCards = (page: Page) => page.locator('article.entry:visible');
-/** The chips of the selected facet terms, in selection order. */
-const chips = (page: Page) => page.locator('#chips .chip');
-const chip = (page: Page, key: string, value: string) =>
-  page.locator(`#chips .chip[data-key="${key}"][data-id="${value}"]`);
-const suggestion = (page: Page, key: string, value: string) =>
-  page.locator(`#suggestions [role="option"][data-key="${key}"][data-id="${value}"]`);
-/** How many cards carry the work value, hidden or not. */
-const workCount = (page: Page) => page.locator(`article.entry[data-collection="agents"][data-work~="${WORK.value}"]`).count();
-/** How many cards carry the search term in their searchable text, hidden or not. */
-const searchCount = (page: Page) =>
-  page.locator(`article.entry[data-collection="agents"][data-search*="${SEARCH.term}"]`).count();
 
 test.describe('the directory without javascript', () => {
   test.skip(({ javaScriptEnabled }) => javaScriptEnabled !== false, 'This is the no-JS project.');
 
-  test('shows every entry link and hides the filter form', async ({ page }) => {
+  test('shows every entry link', async ({ page }) => {
     await page.goto('/');
     await expect(visibleCards(page)).toHaveCount(TOTAL);
     const links = page.locator('article.entry a[href^="/agents/"]');
@@ -57,7 +38,6 @@ test.describe('the directory without javascript', () => {
       nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')),
     );
     expect(new Set(targets).size).toBe(ALL_TOTAL);
-    await expect(page.locator('#filters')).toBeHidden();
   });
 
   test('keeps the card of an old fragment link as its anchor', async ({ page }) => {
@@ -95,18 +75,20 @@ test.describe('the directory without javascript', () => {
 test.describe('the directory with javascript', () => {
   test.skip(({ javaScriptEnabled }) => javaScriptEnabled === false, 'These cases need the script.');
 
-  test('shows the filter form and the whole catalog first', async ({ page }) => {
+  test('shows the whole catalog under a bar that opens the palette', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('#filters')).toBeVisible();
     await expect(visibleCards(page)).toHaveCount(TOTAL);
-    await expect(page.locator('#results')).toHaveText(`${TOTAL} items`);
-    await expect(page.locator('#empty')).toBeHidden();
+    const bar = page.locator('.search-launcher');
+    await expect(bar).toBeVisible();
+    // It reads as a field and answers as a door: no field of its own to type in.
+    await expect(bar.locator('input')).toHaveCount(0);
+    await bar.click();
+    await expect(page.locator('#palette')).toBeVisible();
   });
 
   for (const shortcut of ['Meta+k', 'Control+k']) {
     test(`${shortcut} opens the palette and types into it`, async ({ page }) => {
-      await page.goto('/?q=github');
-      await expect(page.locator('#filters')).toBeVisible();
+      await page.goto('/');
       await expect(page.locator('#palette')).toBeHidden();
       await page.keyboard.press(shortcut);
       await expect(page.locator('#palette')).toBeVisible();
@@ -131,7 +113,7 @@ test.describe('the directory with javascript', () => {
   }
 
   test('reopens the palette on a clean box after a close', async ({ page }) => {
-    await page.goto('/?q=github');
+    await page.goto('/');
     await page.keyboard.press('Meta+k');
     await expect(page.locator('#palette')).toBeVisible();
     await page.keyboard.press('Escape');
@@ -149,10 +131,10 @@ test.describe('the directory with javascript', () => {
     for (const path of ['/notes', '/']) {
       const menu = page.locator('.nav-toggle');
       if (await menu.isVisible()) await menu.click();
-      await page.locator(`a[href="${path}"]`).first().click();
+      await page.locator(`.nav-links a[href="${path}"]`).first().click();
       await expect(page).toHaveURL(new RegExp(`${path}$`));
       expect(await page.evaluate(() => 'navigationMarker' in window)).toBe(true);
-      await page.locator(path === '/' ? '#search-shortcut' : 'button[data-palette-open]').click();
+      await page.locator('.search-launcher').click();
       await expect(page.locator('#palette')).toBeVisible();
       await page.keyboard.press('Escape');
       await expect(page.locator('#palette')).toBeHidden();
@@ -161,7 +143,7 @@ test.describe('the directory with javascript', () => {
       await page.keyboard.press('Escape');
       await expect(page.locator('#palette')).toBeHidden();
     }
-    await page.locator('#search-shortcut').click();
+    await page.locator('.search-launcher').click();
     await expect(page.locator('#palette')).toBeVisible();
   });
 
@@ -193,9 +175,9 @@ test.describe('the directory with javascript', () => {
     }
   });
 
-  test('the palette opens from the search box and reaches every kind of page', async ({ page }) => {
+  test('the palette opens from the bar and reaches every kind of page', async ({ page }) => {
     await page.goto('/');
-    await page.locator('#search-shortcut').click();
+    await page.locator('.search-launcher').click();
     await expect(page.locator('#palette')).toBeVisible();
     for (const group of ['catalog', 'infrastructure', 'notes', 'definitions']) {
       await expect(page.locator(`.palette-group[data-group="${group}"]`)).toBeVisible();
@@ -203,219 +185,6 @@ test.describe('the directory with javascript', () => {
     await page.locator('#palette-input').fill('stripe');
     await expect(page.locator('.palette-group[data-group="definitions"]')).toBeHidden();
     await expect(page.locator('.palette-item:not([hidden])').first()).toContainText('Stripe');
-  });
-
-  test('searches the cards and records the search in the URL', async ({ page }) => {
-    await page.goto('/');
-    await page.fill('#q', SEARCH.term);
-    await expect(visibleCards(page)).toHaveCount(await searchCount(page));
-    await expect(page.locator('#results')).toHaveText(`${await searchCount(page)} items`);
-    await expect(page).toHaveURL(new RegExp(`\\?q=${SEARCH.term}$`));
-    await expect(page.locator('article.entry#uber-ureview')).toBeVisible();
-  });
-
-  test('turns a suggested work area into a chip and records it in the URL', async ({ page }) => {
-    await page.goto('/');
-    await page.fill('#q', 'secu');
-    await expect(page.locator('#q')).toHaveAttribute('aria-expanded', 'true');
-    await expect(suggestion(page, 'work', WORK.value)).toHaveText(`Work domain${WORK.label}`);
-    await suggestion(page, 'work', WORK.value).click();
-
-    await expect(chip(page, 'work', WORK.value)).toContainText(WORK.label);
-    await expect(page.locator('#q')).toHaveValue('');
-    await expect(page.locator('#suggestions')).toBeHidden();
-    await expect(visibleCards(page)).toHaveCount(await workCount(page));
-    await expect(page).toHaveURL(new RegExp(`\\?work=${WORK.value}$`));
-  });
-
-  test('turns an exact facet word into a chip on Enter', async ({ page }) => {
-    await page.goto('/');
-    await page.fill('#q', WORK.label);
-    await page.keyboard.press('Enter');
-    await expect(chip(page, 'work', WORK.value)).toBeVisible();
-    await expect(page.locator('#q')).toHaveValue('');
-    await expect(page).toHaveURL(new RegExp(`\\?work=${WORK.value}$`));
-  });
-
-  test('reaches a supervision level by its number', async ({ page }) => {
-    await page.goto('/');
-    await page.fill('#q', SUPERVISION.typed);
-    await page.keyboard.press('Enter');
-    await expect(chip(page, 'supervision', SUPERVISION.value)).toContainText(SUPERVISION.label);
-    await expect(page).toHaveURL(new RegExp(`\\?supervision=${SUPERVISION.value}$`));
-    await expect(visibleCards(page)).toHaveCount(
-      await page.locator(`article.entry[data-supervision~="${SUPERVISION.value}"]`).count(),
-    );
-  });
-
-  test('keeps other words as free text that must all match', async ({ page }) => {
-    await page.goto('/');
-    await page.fill('#q', 'internal coding');
-    await page.keyboard.press('Enter');
-    await expect(chips(page)).toHaveCount(0);
-    await expect(page.locator('#q')).toHaveValue('internal coding');
-    await expect(page).toHaveURL(/\?q=internal(\+|%20)coding$/);
-    // Cards collapse before they are hidden, so let the list settle first.
-    await expect(visibleCards(page)).not.toHaveCount(TOTAL);
-    const count = await visibleCards(page).count();
-    expect(count).toBeGreaterThan(0);
-    expect(count).toBeLessThan(TOTAL);
-    for (const text of await visibleCards(page).evaluateAll((nodes) =>
-      nodes.map((node) => (node as HTMLElement).dataset.search ?? ''),
-    )) {
-      expect(text).toContain('coding');
-      expect(text).toContain('internal');
-    }
-  });
-
-  test('combines two values of one facet with OR', async ({ page }) => {
-    await page.goto('/');
-    await page.fill('#q', 'security');
-    await page.keyboard.press('Enter');
-    await page.fill('#q', 'coding');
-    await page.keyboard.press('Enter');
-    await expect(chips(page)).toHaveCount(2);
-    await expect(page).toHaveURL(/\?work=security&work=coding$/);
-    const either = await page
-      .locator('article.entry[data-collection="agents"][data-work~="security"], article.entry[data-collection="agents"][data-work~="coding"]')
-      .count();
-    await expect(visibleCards(page)).toHaveCount(either);
-  });
-
-  test('filters structural type and invocation independently', async ({ page }) => {
-    await page.goto(`/?type=agent&invocation=${INVOCATION.value}`);
-    await expect(chip(page, 'type', 'agent')).toContainText('Agent');
-    await expect(chip(page, 'invocation', INVOCATION.value)).toContainText(INVOCATION.label);
-    const matching = await page
-      .locator('article.entry[data-type~="agent"][data-invocation~="background"]')
-      .count();
-    await expect(visibleCards(page)).toHaveCount(matching);
-  });
-
-  test('combines repeated invocation values with OR', async ({ page }) => {
-    await page.goto('/?invocation=background&invocation=scheduled');
-    await expect(chips(page)).toHaveCount(2);
-    const either = await page
-      .locator('article.entry[data-invocation~="background"], article.entry[data-invocation~="scheduled"]')
-      .count();
-    await expect(visibleCards(page)).toHaveCount(either);
-  });
-
-  test('migrates the old task-agent type to agent', async ({ page }) => {
-    await page.goto('/?type=task-agent');
-    await expect(chip(page, 'type', 'agent')).toContainText('Agent');
-    await expect(visibleCards(page)).toHaveCount(
-      await page.locator('article.entry[data-type~="agent"]').count(),
-    );
-  });
-
-  test('explains the old background-agent type and preserves other filters', async ({ page }) => {
-    await page.goto(`/?type=background-agent&work=${WORK.value}`);
-    await expect(page.locator('#legacy-filter-notice')).toBeVisible();
-    await expect(page.locator('#legacy-filter-notice')).toContainText('Background invocation');
-    await expect(chip(page, 'work', WORK.value)).toBeVisible();
-    await expect(visibleCards(page)).toHaveCount(await workCount(page));
-  });
-
-  test('restores the state of a shared filtered address', async ({ page }) => {
-    await page.goto(`/?work=${WORK.value}`);
-    await expect(chip(page, 'work', WORK.value)).toBeVisible();
-    await expect(visibleCards(page)).toHaveCount(await workCount(page));
-  });
-
-  test('ignores a filter value that the catalog does not use', async ({ page }) => {
-    await page.goto('/?work=not-a-real-value');
-    await expect(chips(page)).toHaveCount(0);
-    await expect(visibleCards(page)).toHaveCount(TOTAL);
-  });
-
-  test('keeps the homepage canonical while a filter is applied', async ({ page }) => {
-    await page.goto(`/?q=${SEARCH.term}&work=${WORK.value}`);
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
-      'href',
-      'https://internal-agents.com/',
-    );
-  });
-
-  test('walks back and forward through the filter history', async ({ page }) => {
-    await page.goto('/');
-    await page.fill('#q', WORK.label);
-    await page.keyboard.press('Enter');
-    await expect(page).toHaveURL(new RegExp(`work=${WORK.value}`));
-    await page.fill('#q', SUPERVISION.typed);
-    await page.keyboard.press('Enter');
-    await expect(visibleCards(page)).toHaveCount(
-      await page
-        .locator(
-          `article.entry[data-collection="agents"][data-work~="${WORK.value}"][data-supervision~="${SUPERVISION.value}"]`,
-        )
-        .count(),
-    );
-
-    await page.goBack();
-    await expect(chip(page, 'supervision', SUPERVISION.value)).toHaveCount(0);
-    await expect(visibleCards(page)).toHaveCount(await workCount(page));
-
-    await page.goBack();
-    await expect(chips(page)).toHaveCount(0);
-    await expect(visibleCards(page)).toHaveCount(TOTAL);
-
-    await page.goForward();
-    await expect(chip(page, 'work', WORK.value)).toBeVisible();
-    await expect(visibleCards(page)).toHaveCount(await workCount(page));
-  });
-
-  test('removes a chip from its button and from Backspace', async ({ page }) => {
-    await page.goto(`/?work=${WORK.value}&supervision=${SUPERVISION.value}`);
-    await expect(chips(page)).toHaveCount(2);
-    await chip(page, 'work', WORK.value).getByRole('button').click();
-    await expect(chips(page)).toHaveCount(1);
-    await expect(page).toHaveURL(new RegExp(`\\?supervision=${SUPERVISION.value}$`));
-
-    await page.locator('#q').focus();
-    await page.keyboard.press('Backspace');
-    await expect(chips(page)).toHaveCount(0);
-    await expect(page).toHaveURL(/\/$/);
-    await expect(visibleCards(page)).toHaveCount(TOTAL);
-  });
-
-  test('explains an empty result and resets the search', async ({ page }) => {
-    await page.goto(`/?work=${WORK.value}`);
-    await page.fill('#q', 'nothing matches this text');
-    await expect(visibleCards(page)).toHaveCount(0);
-    await expect(page.locator('#empty')).toBeVisible();
-
-    await page.locator('#empty button').click();
-    await expect(visibleCards(page)).toHaveCount(TOTAL);
-    await expect(page.locator('#empty')).toBeHidden();
-    await expect(page.locator('#q')).toHaveValue('');
-    await expect(chips(page)).toHaveCount(0);
-    await expect(page).toHaveURL(/\/(\?.*)?$/);
-    expect(new URL(page.url()).searchParams.get('q')).toBeNull();
-    expect(new URL(page.url()).searchParams.get('work')).toBeNull();
-  });
-
-  test('works from the keyboard alone', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('#q').focus();
-    await page.keyboard.type(SEARCH.term);
-    await page.keyboard.press('Enter');
-    await expect(visibleCards(page)).toHaveCount(await searchCount(page));
-    await expect(page).toHaveURL(new RegExp(`\\?q=${SEARCH.term}$`));
-
-    await page.fill('#q', 'secu');
-    await page.keyboard.press('ArrowDown');
-    await expect(suggestion(page, 'work', WORK.value)).toHaveAttribute('aria-selected', 'true');
-    await expect(page.locator('#q')).toHaveAttribute('aria-activedescendant', /suggestion-/);
-    await page.keyboard.press('Enter');
-    await expect(chip(page, 'work', WORK.value)).toBeVisible();
-    await expect(page).toHaveURL(new RegExp(`\\?work=${WORK.value}$`));
-
-    // Security is a chip now, so it leaves the list. Another prefix opens it again.
-    await page.fill('#q', 'cod');
-    await expect(page.locator('#suggestions')).toBeVisible();
-    await page.keyboard.press('Escape');
-    await expect(page.locator('#suggestions')).toBeHidden();
   });
 
   test.describe('old fragment links', () => {
@@ -471,19 +240,6 @@ test.describe('the directory with javascript', () => {
     }
   });
 
-  test('captures the filtered and the empty directory', async ({ page }, testInfo) => {
-    await page.goto(`/?work=${WORK.value}`);
-    await page.screenshot({
-      path: testInfo.outputPath('directory-filtered.png'),
-      fullPage: true,
-    });
-    await page.fill('#q', 'nothing matches this text');
-    await expect(page.locator('#empty')).toBeVisible();
-    await page.screenshot({
-      path: testInfo.outputPath('directory-empty.png'),
-      fullPage: true,
-    });
-  });
 });
 
 /* The chrome around the page: the menu a phone opens, the dot a column carries,
@@ -511,6 +267,69 @@ test.describe('the site chrome', () => {
     );
     await page.keyboard.press('Escape');
     expect(await sampling).toBe(1);
+  });
+
+  test('takes the dot off one page before it brings it back on the next', async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'The dot stands beside a column only.');
+    await page.goto('/');
+    // The change captures the dot it leaves apart from the dot it arrives with,
+    // so each has its own timing to read. Sharing a name would pair them into
+    // one, and the page would carry both dots at once for the whole change.
+    await page.evaluate(() => {
+      const timings: Record<string, { start: number; end: number }> = {};
+      (window as unknown as { timings: typeof timings }).timings = timings;
+      document.addEventListener('astro:after-swap', () => {
+        // The animations begin once the change is captured, a frame or two later.
+        const until = performance.now() + 600;
+        const tick = (): void => {
+          for (const animation of document.getAnimations()) {
+            const effect = animation.effect;
+            const pseudo = effect instanceof KeyframeEffect ? effect.pseudoElement : null;
+            if (!effect || !pseudo?.includes('nav-dot')) continue;
+            const timing = effect.getComputedTiming();
+            const start = Number(timing.delay ?? 0);
+            timings[pseudo] = { start, end: start + Number(timing.activeDuration ?? 0) };
+          }
+          if (performance.now() < until) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    });
+
+    await page.locator('.nav-links a[href="/notes"]').click();
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () => Object.keys((window as unknown as { timings: Record<string, unknown> }).timings).length,
+        ),
+      )
+      .toBe(2);
+
+    const timings = await page.evaluate(
+      () =>
+        (window as unknown as { timings: Record<string, { start: number; end: number }> }).timings,
+    );
+    const leaving = timings['::view-transition-old(nav-dot-out)'];
+    const arriving = timings['::view-transition-new(nav-dot-in)'];
+    expect(leaving).toBeDefined();
+    expect(arriving).toBeDefined();
+    // The one that leaves is gone before the one that arrives begins.
+    expect(arriving!.start).toBeGreaterThanOrEqual(leaving!.end);
+
+    // And it comes back beside the page now open, not the page it left.
+    const notes = page.locator('.nav-links a[href="/notes"]');
+    await expect(notes).toHaveAttribute('aria-current', 'page');
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const dot = document.querySelector<HTMLElement>('.nav-dot')!;
+          const current = document.querySelector<HTMLElement>('.nav-links a[aria-current="page"]')!;
+          return dot.style.top === `${current.offsetTop + current.offsetHeight / 2}px`;
+        }),
+      )
+      .toBe(true);
   });
 
   test('carries the dot to its link when a narrow window is widened', async ({ page }, testInfo) => {

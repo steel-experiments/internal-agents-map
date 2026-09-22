@@ -6,7 +6,6 @@ import AgentCard from '../components/AgentCard.astro';
 import { loadCatalog, collectionCounts } from '../lib/catalog';
 import { directoryCards } from '../lib/entry-view';
 import { canonicalUrl, homePath } from '../lib/routes';
-import { facetVocabulary } from '../lib/search';
 import { SITE_DESCRIPTION, SITE_NAME, datasetNode, structuredData, webPageNode } from '../lib/metadata';
 import { ogImage } from '../lib/og';
 import { INFRASTRUCTURE_DESCRIPTION, INFRASTRUCTURE_HEADING, SECTION_CARDS } from '../lib/section-cards';
@@ -22,9 +21,6 @@ const reviewed = catalog.approaches
   .map((approach) => approach.last_reviewed_at)
   .sort()
   .at(-1);
-
-/** The facet terms the search box suggests. Escaped so the JSON cannot close its script tag. */
-const vocabulary = JSON.stringify(facetVocabulary(cards)).replace(/</g, '\\u003c');
 
 const title = `${infrastructure ? 'Infrastructure · ' : ''}${SITE_NAME} · How companies build internal AI agents`;
 const description = infrastructure ? INFRASTRUCTURE_DESCRIPTION :
@@ -51,51 +47,6 @@ const preview = infrastructure ? ogImage(path, SECTION_CARDS.infrastructure) : n
   </header>
   <section id="catalog" data-default-collection={collection} aria-labelledby="catalog-title">
     <h2 id="catalog-title" class="visually-hidden">Explore the catalog</h2>
-    <form id="filters" hidden role="search" aria-label="Filter catalog">
-      <div class="search-row">
-        <div class="search-field">
-          <div class="search-box">
-            <label class="search-label" for="q">
-              <svg class="search-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5">
-                <circle cx="7" cy="7" r="4.5" />
-                <path d="M10.4 10.4 14 14" stroke-linecap="round" />
-              </svg>
-              <span class="visually-hidden">Search this collection</span>
-            </label>
-            <ul id="chips" class="chips" aria-label="Active filters"></ul>
-            <input
-              id="q"
-              name="q"
-              type="search"
-              role="combobox"
-              aria-expanded="false"
-              aria-controls="suggestions"
-              aria-autocomplete="list"
-              aria-describedby="search-help"
-              placeholder="Search this collection"
-              autocomplete="off"
-              aria-keyshortcuts="Meta+K Control+K"
-            />
-            <button type="button" id="search-shortcut" class="search-shortcut" data-palette-open aria-label="Search all records, notes and definitions">⌘ K</button>
-          </div>
-          <ul id="suggestions" class="suggestions" role="listbox" aria-label="Filter suggestions" hidden></ul>
-        </div>
-      </div>
-      <p id="search-help" class="search-help visually-hidden">
-        Pick a suggestion, or type a work area, approach type, invocation mode, or supervision level and press Enter, to filter by it.
-        Other words search the text of every card.
-      </p>
-      <p id="legacy-filter-notice" class="search-help" hidden>
-        The old Background agent type combined structure and invocation. Use the Agent type
-        and Background invocation filters to choose the intended result set.
-      </p>
-      <script is:inline id="facet-vocabulary" type="application/json" set:html={vocabulary} />
-    </form>
-    <p id="results" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true">{cards.length} items</p>
-    <p id="empty" class="empty-state" hidden>
-      No approaches match these filters. Try a broader search or{' '}
-      <button type="reset" form="filters" class="text-button">reset the filters</button>.
-    </p>
     {(['agents', 'infrastructure'] as const).map((section) => (
       <div class="entries collection-group" data-collection-group={section} hidden={section !== collection}>
         {section === 'infrastructure' && <h2 class="collection-heading">Infrastructure</h2>}

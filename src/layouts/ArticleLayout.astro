@@ -276,7 +276,20 @@ const {
 .guide .place-panel figcaption { margin: 0; font-size: var(--text-sm); line-height: 1.4; }
 .place-panel figcaption strong { display: block; color: var(--ink); font-weight: 500; }
 .place-panel figcaption span { display: block; margin-top: 8px; color: var(--muted); }
-.place-scene { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; gap: 4px; }
+/* The callout hangs below the box, outside the rows the machine lays out, and
+   the panel clips what leaves it. The scene carries that reach as room at its
+   foot: six to the arrow, the arrow itself, and the label under it. The room is
+   the scene's rather than the machine's, so the boxes beside it stay in line. */
+.place-scene {
+  --callout-reach: 62px;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.place-scene:has(.place-callout) { padding-bottom: var(--callout-reach); }
 .place-scene-wide { display: block; }
 .exchange-scene, .cycle-scene { height: auto; }
 /* Every column carries a title row, so the boxes line up whether or not it is filled. */
@@ -307,14 +320,18 @@ const {
 }
 /*
  * The label stands outside the machine and points back in at the mark.
- * The arrow starts six below the mark and the label six below the arrow,
- * which carries it past the box's own edge.
+ * The arrow starts six below the mark and the label sits six below the arrow,
+ * so the arrow's length is what separates them: half the box down to the mark,
+ * less half the mark itself, and on past the box's own edge to the label.
  */
 .place-callout {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: calc(var(--title-row) + var(--title-gap) + var(--box-height) + 6px);
+  /* Measured from the foot of the machine, which is the foot of the box: the
+     title row above it is a minimum, not a height, and counting down from the
+     top would land wherever the type happened to leave it. */
+  top: calc(100% - var(--box-height) / 2 + var(--dot-size) / 2 + 6px);
   display: grid;
   justify-items: center;
   gap: 6px;
@@ -322,7 +339,23 @@ const {
   font-size: var(--text-sm);
   color: var(--blue-9);
 }
-.place-callout svg { display: block; width: 12px; height: 28px; fill: none; stroke: var(--blue-9); stroke-width: 1; }
+.place-callout-arrow {
+  position: relative;
+  width: 12px;
+  height: calc(var(--box-height) / 2 - var(--dot-size) / 2 + 28px);
+}
+.place-callout-arrow svg { display: block; width: 12px; height: 8px; fill: none; stroke: var(--blue-9); stroke-width: 1; }
+/* The head is drawn; the stem it starts carries on to the foot of the arrow. */
+.place-callout-arrow::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  bottom: 0;
+  width: 1px;
+  transform: translateX(-50%);
+  background: var(--blue-9);
+}
 /* A running agent is not a still one, so its mark breathes. */
 @keyframes place-pulse {
   from { transform: translate(-50%, -50%) scale(1); opacity: 1; }
@@ -392,7 +425,7 @@ const {
 
 /* Notes use the same fine rules, type, and restrained diagram accents. */
 .notes { font-size: var(--text-sm); }
-.notes .note-meta { font-size: var(--text-xs); color: var(--sand-10); }
+.notes .note-meta { font-size: var(--text-sm); color: var(--sand-10); }
 .notes .guide-header { padding-bottom: 32px; }
 .notes .guide-header > * { max-width: 680px; }
 .notes .note-list, .note-detail > article { max-width: 680px; }
@@ -403,7 +436,6 @@ const {
 .note-summary { font-size: var(--text-sm); color: var(--sand-10); max-width: 580px; }
 .note-preview:hover h2 a { color: var(--sand-11); }
 .note-preview:hover .note-summary { color: var(--sand-9); }
-.note-preview:hover .tag { color: var(--sand-11); }
 .notes-editorial { max-width: 620px; padding: 24px 0 32px; color: var(--muted); font-size: var(--text-sm); }
 .note-back { display: inline-block; margin-bottom: 32px; font-size: var(--text-sm); }
 .note-detail h1 { max-width: 640px; }
@@ -501,12 +533,13 @@ const {
   .exchange-scene text { font-size: 29px; }
   /* The machines stand one above the other, and the link between them turns. */
   .place-scene { flex-direction: column; align-items: center; gap: 6px; }
+  .place-scene:has(.place-callout) { padding-bottom: 0; }
   /* Turning the arrow does not turn the space it holds, so the difference
      between its length and its thickness is reserved above and below. */
   .place-link { grid-template-rows: auto; gap: 0; width: 64px; height: 12px; margin: 26px 0; transform: rotate(90deg); }
   .place-link .place-machine-title { display: none; }
   .place-machine { flex: none; width: var(--box-width); max-width: 100%; }
-  .place-callout { top: calc(var(--title-row) + var(--title-gap) + var(--box-height) / 2 + var(--dot-size) / 2 + 6px); }
+  .place-callout-arrow { height: 28px; }
   .place-callout svg { display: none; }
   .place-callout { gap: 10px; }
 
