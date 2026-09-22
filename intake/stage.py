@@ -129,7 +129,7 @@ def _rerun_verify(directory: Path) -> int:
 def _rerun_render(directory: Path) -> int:
     import datetime as dt
 
-    from intake.crosscheck import load_existing
+    from intake.crosscheck import load_existing, number_conflicts
     from intake.render import render_extraction
 
     record = _load_extraction(directory)
@@ -149,7 +149,10 @@ def _rerun_render(directory: Path) -> int:
             "record_id"
         )
         existing = load_existing(str(record_id)) if record_id else None
-    result = render_extraction(record, reviewed_at=reviewed_at, existing=existing)
+    contradictions = number_conflicts(existing, record) if existing is not None else None
+    result = render_extraction(
+        record, reviewed_at=reviewed_at, existing=existing, contradictions=contradictions
+    )
     return _write_rerun(directory / "draft.yaml", result.record_yaml)
 
 

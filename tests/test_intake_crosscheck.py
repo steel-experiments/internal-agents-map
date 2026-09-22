@@ -4,6 +4,8 @@ import unittest
 from pathlib import Path
 from typing import Any
 
+import yaml
+
 from intake.crosscheck import load_existing, number_conflicts, source_count
 from intake.models import Claim, Quote
 
@@ -26,7 +28,7 @@ def claim(text: str) -> Claim:
         text=text,
         kind="fact",
         provenance="reported",
-        quotes=[Quote(source="s1", text=text, paragraph_id="p1")],
+        quotes=[Quote(source="s1", text=text, paragraph_id="p1", match="exact", lines=(18, 18))],
         disposition="review",
     )
 
@@ -78,6 +80,54 @@ class NumberConflictTests(unittest.TestCase):
         self.assertEqual(flags[0]["issue"], "numbers differ")
         self.assertEqual(flags[0]["existing"], [3500])
         self.assertEqual(flags[0]["new"], [4000])
+        self.assertTrue(flags[0]["quotes"])
+
+    def test_a_conflict_renders_as_a_contradicts_link_on_the_existing_claim(self) -> None:
+        from intake.crosscheck import number_conflicts as conflicts
+        from intake.models import ExtractionRecord, finalize
+        from intake.render import render_extraction
+
+        payload = yaml.safe_load(
+            (ROOT / "tests" / "fixtures" / "intake" / "zup-codegen.extraction.yaml").read_text(
+                encoding="utf-8"
+            )
+        )
+        quote = dict(payload["claims"][0]["quotes"][0])
+        payload["claims"].append(
+            {
+                "field": "lessons_learned[]",
+                "text": "The agent serves 4000 users.",
+                "kind": "fact",
+                "provenance": "reported",
+                "quotes": [quote],
+                "disposition": "accept",
+            }
+        )
+        rebuilt = finalize(ExtractionRecord.model_validate(payload))
+        rebuilt = rebuilt.model_copy(
+            update={
+                "sources": [
+                    source.model_copy(update={"capture_manifest_path": None})
+                    for source in rebuilt.sources
+                ]
+            }
+        )
+        existing = {
+            "id": "zup-codegen",
+            "summary": "A record.",
+            "operating_models": [{"scope": "a task", "attention_boundary": "unknown"}],
+            "lessons_learned": ["The agent serves 3500 users."],
+            "sources": [{"id": "zup-codegen-source-1"}],
+        }
+        flags = conflicts(existing, rebuilt)
+        self.assertEqual([flag["claim_path"] for flag in flags], ["lessons_learned.0"])
+        merged = render_extraction(
+            rebuilt, reviewed_at="2026-09-22", existing=existing, contradictions=flags
+        )
+        links = merged.record["evidence"]["lessons_learned.0"]
+        self.assertEqual(links[-1]["relation"], "contradicts")
+        self.assertTrue(links[-1]["source_id"].startswith("zup-codegen-source-"))
+        self.assertIn("Preserved content.md", links[-1]["locator"])
 
     def test_a_dropped_number_is_flagged_softly(self) -> None:
         existing = record_with_summary("The agent serves 3500 users.")

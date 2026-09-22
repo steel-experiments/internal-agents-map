@@ -97,6 +97,11 @@ def number_conflicts(
         path = candidates[0]
         old_values = _values(old_claims[path][0])
         new_values = _values(claim.text)
+        quotes = [
+            {"source": quote.source, "lines": list(quote.lines)}
+            for quote in claim.quotes
+            if quote.match == "exact" and quote.lines
+        ]
         if old_values and new_values and not (old_values & new_values):
             flags.append(
                 {
@@ -104,6 +109,7 @@ def number_conflicts(
                     "issue": "numbers differ",
                     "existing": sorted(old_values),
                     "new": sorted(new_values),
+                    "quotes": quotes,
                 }
             )
         elif old_values and not new_values:

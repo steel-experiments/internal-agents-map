@@ -32,8 +32,15 @@ def merge_update(
     *,
     reviewed_at: str,
     notes: list[str] | None = None,
+    contradictions: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
-    """The existing record with the update's additions appended."""
+    """The existing record with the update's additions appended.
+
+    ``contradictions`` carries the cross checks' number conflicts as rendered
+    links; each appends to the existing claim's evidence with
+    ``relation: contradicts`` — the plan's proposed contradiction link. The
+    reviewer decides whether the numbers describe the same observation.
+    """
     notes = notes if notes is not None else []
     merged = copy.deepcopy(existing)
     merged["last_reviewed_at"] = reviewed_at
@@ -67,13 +74,29 @@ def merge_update(
             )
 
     evidence = merged.setdefault("evidence", {})
+
+    def _fingerprint(link: dict[str, Any]) -> tuple[Any, ...]:
+        return (link.get("source_id"), link.get("locator"), link.get("relation"))
+
     for path, links in (rendered.get("evidence") or {}).items():
-        known = {(link.get("source_id"), link.get("locator")) for link in evidence.get(path) or []}
+        known = {_fingerprint(link) for link in evidence.get(path) or []}
         for link in links:
-            if (link.get("source_id"), link.get("locator")) in known:
+            if _fingerprint(link) in known:
                 continue
             evidence.setdefault(path, []).append(link)
-            known.add((link.get("source_id"), link.get("locator")))
+            known.add(_fingerprint(link))
+
+    # The plan's contradiction policy: a restated number that disagrees with
+    # a recorded metric becomes a proposed link on the existing claim.
+    for contradiction in contradictions or []:
+        link = {
+            "source_id": contradiction["source_id"],
+            "relation": "contradicts",
+            "locator": contradiction["locator"],
+        }
+        known = {_fingerprint(item) for item in evidence.get(contradiction["claim_path"]) or []}
+        if _fingerprint(link) not in known:
+            evidence.setdefault(contradiction["claim_path"], []).append(link)
 
     metadata = merged.setdefault("claim_metadata", {})
     for path, meta in (rendered.get("claim_metadata") or {}).items():

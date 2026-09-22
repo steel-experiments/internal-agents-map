@@ -359,6 +359,7 @@ def run_candidate(
         record,
         reviewed_at=reviewed_at,
         existing=existing,
+        contradictions=cross_flags,
     )
     stages.append({"stage": "render", "model": None, "calls": 0, "cost_usd": 0.0})
     notes.extend(result.notes)

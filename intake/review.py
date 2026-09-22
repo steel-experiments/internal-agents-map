@@ -133,6 +133,9 @@ def review_sheet(
         lines.extend(
             f"- `{flag['claim_path']}`: {flag['issue']}"
             + (f" (recorded {flag['existing']}, new {flag['new']})" if flag["new"] else "")
+            + ". The draft carries the new quote as a `contradicts` link on the "
+            "existing claim; a person decides whether the numbers describe the "
+            "same observation."
             for flag in cross_flags
         )
     if stages:

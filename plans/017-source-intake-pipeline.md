@@ -1005,4 +1005,17 @@ STOP-line report:
   for a list claim exists in the merged evidence, a restated item does not
   duplicate, and a genuinely new lesson lands at the recorded length with
   evidence and metadata at that index. The intake suite holds 149 tests.
+- Contradiction policy (same re-read): the decision policy says a restated
+  number that disagrees with an existing metric "becomes a proposed evidence
+  link with ``relation: contradicts`` on the existing claim" — the cross
+  checks had produced only a sheet flag. The flags now carry the
+  disagreeing claim's exact quotes, `render_extraction` maps them through
+  the renderer's source numbering, and the merge appends each as a
+  `contradicts` link at the end of the existing claim's evidence —
+  additive, deduplicated, and proposed only: the sheet says a person decides
+  whether the numbers describe the same observation. The render rerun
+  recomputes the flags so an update's rerun keeps its links. Tests cover the
+  flag shape and the wiring: a differing lesson number lands as a
+  `contradicts` link on `lessons_learned.0` from the rendered new source.
+  The intake suite holds 150 tests.
 

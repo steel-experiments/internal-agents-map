@@ -698,6 +698,7 @@ def render_extraction(
     reviewed_at: str,
     existing_source_count: int = 0,
     existing: dict[str, Any] | None = None,
+    contradictions: list[dict[str, Any]] | None = None,
 ) -> RenderResult:
     """Render one finalized extraction record into today's YAML shape.
 
@@ -705,7 +706,9 @@ def render_extraction(
     the existing record with the update's additions appended — sources, list
     items, evidence links, metadata — and single-valued fields kept, per the
     plan's append-only principle. The source offset comes from the existing
-    record itself.
+    record itself. ``contradictions`` (the cross checks' number conflicts)
+    become proposed evidence links with ``relation: contradicts`` on the
+    existing claims they name.
     """
     if record.candidate.record_id is None:
         raise RenderError("candidate.record_id is required before rendering")
@@ -740,14 +743,30 @@ def render_extraction(
                 for index, item in enumerate(existing.get("operating_models") or [])
             },
         }
-    result = _Renderer(
-        record, reviewed_at, existing_source_count, list_offsets, existing_items
-    ).render()
+    renderer = _Renderer(record, reviewed_at, existing_source_count, list_offsets, existing_items)
+    result = renderer.render()
     if existing is None:
         return result
     from intake.merge import merge_update
 
-    merged = merge_update(existing, result.record, reviewed_at=reviewed_at, notes=result.notes)
+    links = []
+    for flag in contradictions or []:
+        for quote in flag.get("quotes") or []:
+            start, end = quote["lines"][0], quote["lines"][-1]
+            links.append(
+                {
+                    "claim_path": flag["claim_path"],
+                    "source_id": renderer.source_ids[quote["source"]],
+                    "locator": _locator(start, end),
+                }
+            )
+    merged = merge_update(
+        existing,
+        result.record,
+        reviewed_at=reviewed_at,
+        notes=result.notes,
+        contradictions=links,
+    )
     return RenderResult(
         record=merged,
         record_yaml=to_authored_yaml(merged),
