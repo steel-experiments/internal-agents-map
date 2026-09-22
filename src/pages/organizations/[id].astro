@@ -8,6 +8,7 @@ import { loadCatalog } from '../../lib/catalog';
 import { organizationView } from '../../lib/organization-view';
 import { organizationPaths, canonicalUrl } from '../../lib/routes';
 import { SITE_NAME, structuredData, webPageNode } from '../../lib/metadata';
+import { ogImage, organizationCard } from '../../lib/og';
 export function getStaticPaths() {
   return organizationPaths(loadCatalog()).map((path) => ({ params: { id: path.split('/').pop() } }));
 }
@@ -15,8 +16,9 @@ const view = organizationView(loadCatalog(), Astro.params.id!);
 const title = `${view.company.name} · ${SITE_NAME}`;
 const description = `Agents and infrastructure documented at ${view.company.name}.`;
 const graph = structuredData([webPageNode({ url: canonicalUrl(view.path), name: title, description })]);
+const preview = ogImage(view.path, organizationCard(view.company, view.groups.flatMap((group) => group.cards)));
 ---
-<SiteLayout title={title} description={description} path={view.path} structuredData={graph}>
+<SiteLayout title={title} description={description} path={view.path} structuredData={graph} ogImage={preview}>
   <article class="entry-page organization-page">
     <header class="entry-header">
       <CompanyLogo company={view.company} size={40} eager />

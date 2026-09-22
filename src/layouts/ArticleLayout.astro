@@ -3,6 +3,7 @@
 // ABOUTME: It also carries the reading styles those pages use, ported from the old site.
 import SiteLayout from './SiteLayout.astro';
 import type { JsonLdNode } from '../lib/metadata';
+import type { OgImage } from '../lib/og';
 
 interface Props {
   title: string;
@@ -17,6 +18,8 @@ interface Props {
   ogType?: 'website' | 'article';
   /** The publication date of an article, for link previews. */
   articlePublishedTime?: string | null;
+  /** The card of this page. */
+  ogImage?: OgImage | null;
 }
 
 const {
@@ -28,6 +31,7 @@ const {
   variant = 'guide',
   ogType = 'website',
   articlePublishedTime = null,
+  ogImage = null,
 } = Astro.props;
 ---
 <SiteLayout
@@ -38,6 +42,7 @@ const {
   structuredData={structuredData}
   ogType={ogType}
   articlePublishedTime={articlePublishedTime}
+  ogImage={ogImage}
 >
   <div class:list={['guide', variant === 'notes' && 'notes']}>
     <slot />

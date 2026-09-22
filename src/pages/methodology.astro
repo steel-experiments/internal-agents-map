@@ -6,6 +6,8 @@ import Icon from '../components/Icon.astro';
 import Inline from '../components/Inline.astro';
 import { guidePath, canonicalUrl } from '../lib/routes';
 import { structuredData, webPageNode } from '../lib/metadata';
+import { ogImage } from '../lib/og';
+import { SECTION_CARDS } from '../lib/section-cards';
 import {
   METHODOLOGY_DESCRIPTION,
   METHODOLOGY_HEADING,
@@ -26,6 +28,7 @@ const graph = structuredData([
   path={path}
   current="methodology"
   structuredData={graph}
+  ogImage={ogImage(path, SECTION_CARDS.methodology)}
 >
   <header class="guide-header">
     <h1>{METHODOLOGY_HEADING}</h1>

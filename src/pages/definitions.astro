@@ -28,7 +28,9 @@ import {
   inlineHref,
 } from '../lib/guide-content';
 import { structuredData, webPageNode } from '../lib/metadata';
+import { ogImage } from '../lib/og';
 import { canonicalUrl, guidePath } from '../lib/routes';
+import { SECTION_CARDS } from '../lib/section-cards';
 
 const catalog = loadCatalog();
 const cells = placementsByCell(catalog);
@@ -65,6 +67,7 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
   path={path}
   current="definitions"
   structuredData={graph}
+  ogImage={ogImage(path, SECTION_CARDS.definitions)}
 >
   <header class="guide-header">
     <h1>{DEFINITIONS_HEADING}</h1>

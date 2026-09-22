@@ -4,9 +4,11 @@
 
 import importlib.util
 import json
+import struct
 import sys
 import tempfile
 import unittest
+import zlib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -89,12 +91,35 @@ CATALOG = {
 }
 
 
-def document(title, body):
+def png(width, height):
+    """A valid one-colour PNG of the given size, as the card renderer would write it."""
+
+    def chunk(kind, data):
+        body = kind + data
+        return struct.pack(">I", len(data)) + body + struct.pack(">I", zlib.crc32(body))
+
+    raw = b"".join(b"\x00" + b"\xf1\xf0\xef" * width for _ in range(height))
+    return (
+        b"\x89PNG\r\n\x1a\n"
+        + chunk(b"IHDR", struct.pack(">IIBBBBB", width, height, 8, 2, 0, 0, 0))
+        + chunk(b"IDAT", zlib.compress(raw, 9))
+        + chunk(b"IEND", b"")
+    )
+
+
+def og_image_url(route):
+    """The card a page names in its head, on the production origin."""
+    return "https://internal-agents.com" + ("/og.png" if route == "/" else "/og" + route + ".png")
+
+
+def document(title, body, route="/"):
     """One page with the landmarks the checker requires."""
     return (
         '<!doctype html><html lang="en"><head><title>'
         + title
-        + '</title><link rel="stylesheet" href="/'
+        + '</title><meta property="og:image" content="'
+        + og_image_url(route)
+        + '?v=0"><link rel="stylesheet" href="/'
         + STYLESHEET
         + '"></head><body><nav><a href="/">Catalog</a></nav>'
         + '<main id="main"><header><h1>'
@@ -176,7 +201,7 @@ def build_artifact(root):
     sources = {source["id"]: source for source in CATALOG["sources"]}
     files = {
         "favicon.ico": "icon",
-        "og.png": "image",
+        "og.png": png(1200, 630),
         STYLESHEET: '@font-face { src: url("/fonts/Areal.woff2"); }',
         "fonts/Areal.woff2": "font",
         "agents.json": json.dumps(CATALOG),
@@ -195,25 +220,33 @@ def build_artifact(root):
         claim = claims[approach["claim_ids"][0]]
         source = sources[approach["source_ids"][0]]
         files[f"agents/{approach['id']}.html"] = document(
-            approach["agent_name"], entry(approach, claim, source)
+            approach["agent_name"], entry(approach, claim, source), "/agents/" + approach["id"]
         )
+        files[f"og/agents/{approach['id']}.png"] = png(1200, 630)
         files[f"agents/{approach['id']}.json"] = "{}"
         files[f"agents/{approach['id']}.md"] = "# " + approach["agent_name"]
     for company in CATALOG["companies"]:
         members = [a for a in CATALOG["approaches"] if a["company_id"] == company["id"]]
         company_cards = "".join(card(a, claims[a["claim_ids"][0]]) for a in members)
-        files[f"organizations/{company['id']}.html"] = document(company["name"], company_cards)
+        files[f"organizations/{company['id']}.html"] = document(
+            company["name"], company_cards, "/organizations/" + company["id"]
+        )
+        files[f"og/organizations/{company['id']}.png"] = png(1200, 630)
         files[f"organizations/{company['id']}.md"] = "# " + company["name"]
     files["404.html"] = document("Not found", "<p>No such page.</p>")
     for path in GUIDE_ROUTES[1:]:
         name = path.lstrip("/")
-        files.setdefault(name + ".html", document(Path(name).name, "<p>A page.</p>"))
+        files.setdefault(name + ".html", document(Path(name).name, "<p>A page.</p>", path))
         files[name + ".md"] = "# Page"
+        files["og/" + name + ".png"] = png(1200, 630)
     files["index.md"] = "# Catalog"
     for name, text in files.items():
         path = root / name
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(text, encoding="utf-8")
+        if isinstance(text, bytes):
+            path.write_bytes(text)
+        else:
+            path.write_text(text, encoding="utf-8")
 
 
 class AstroArtifactTests(unittest.TestCase):
@@ -258,6 +291,31 @@ class AstroArtifactTests(unittest.TestCase):
         errors = self.validate()
         self.assertTrue(any("extra" in error for error in errors), errors)
         self.assertTrue(any("logos/stray.svg" in error for error in errors), errors)
+
+    def test_a_missing_preview_card_fails(self):
+        (self.root / "og/agents/second-agent.png").unlink()
+        errors = self.validate()
+        self.assertTrue(any("og/agents/second-agent.png" in error for error in errors), errors)
+
+    def test_a_preview_card_of_the_wrong_size_fails(self):
+        (self.root / "og/agents/first-agent.png").write_bytes(png(600, 315))
+        errors = self.validate()
+        self.assertTrue(any("not a 1200x630 PNG" in error for error in errors), errors)
+        self.assertTrue(any("og/agents/first-agent.png" in error for error in errors), errors)
+
+    def test_a_page_without_a_preview_card_fails(self):
+        self.rewrite("agents/first-agent.html", ' property="og:image"', ' property="og:other"')
+        errors = self.validate()
+        self.assertTrue(
+            any("Missing og:image: agents/first-agent.html" in error for error in errors), errors
+        )
+
+    def test_a_page_naming_an_absent_card_fails(self):
+        self.rewrite(
+            "agents/first-agent.html", "/og/agents/first-agent.png", "/og/agents/nobody.png"
+        )
+        errors = self.validate()
+        self.assertTrue(any("Missing og:image target" in error for error in errors), errors)
 
     def test_missing_claim_text_fails(self):
         self.rewrite(

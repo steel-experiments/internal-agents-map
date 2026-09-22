@@ -13,6 +13,8 @@ import {
   NOTES_TITLE,
 } from '../lib/guide-content';
 import { structuredData, webPageNode } from '../lib/metadata';
+import { ogImage } from '../lib/og';
+import { SECTION_CARDS } from '../lib/section-cards';
 import { noteCompanies, notePreviewTitle, noteViews } from '../lib/notes';
 import { canonicalUrl, homePath, notesIndexPath } from '../lib/routes';
 
@@ -36,6 +38,7 @@ const graph = structuredData([
   path={path}
   current="notes"
   structuredData={graph}
+  ogImage={ogImage(path, SECTION_CARDS.notes)}
   variant="notes"
 >
   <header class="guide-header">

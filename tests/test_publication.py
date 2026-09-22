@@ -123,7 +123,15 @@ class PublicationTests(unittest.TestCase):
                 url = ORIGIN + canonical_path(name)
                 self.assertEqual(page.meta(property="og:url"), url)
                 self.assertEqual(page.meta(property="og:title"), page.title)
-                self.assertEqual(page.meta(property="og:image"), ORIGIN + "/og.png")
+                # The home page keeps the site card; every other page draws its own.
+                path = canonical_path(name)
+                image = page.meta(property="og:image")
+                if path == "/":
+                    self.assertEqual(image, ORIGIN + "/og.png")
+                else:
+                    self.assertRegex(image, rf"^{ORIGIN}/og{path}\.png\?v=[0-9a-f]{{8}}$")
+                    self.assertTrue((DIST / f"og{path}.png").is_file(), image)
+                self.assertTrue(page.meta(property="og:image:alt"))
                 self.assertEqual(page.meta(name="twitter:card"), "summary_large_image")
                 graph = json.loads(page.structured_data[0])["@graph"]
                 types = {node["@type"]: node for node in graph}
