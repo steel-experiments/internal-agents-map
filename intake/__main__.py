@@ -162,7 +162,7 @@ def _command_review(args: argparse.Namespace) -> int:
 
 def _command_backfill(args: argparse.Namespace) -> int:
     from intake.adapters.writer import WriterAdapter
-    from intake.backfill import backfill_dry_run, review_sheet
+    from intake.backfill import backfill_dry_run, proposals_payload, review_sheet
     from intake.budget import Budget
 
     budget = Budget(budget_usd=args.budget_usd)
@@ -172,6 +172,15 @@ def _command_backfill(args: argparse.Namespace) -> int:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(sheet, encoding="utf-8")
         print(f"wrote {args.output}")
+    if args.proposals is not None:
+        import json
+
+        args.proposals.parent.mkdir(parents=True, exist_ok=True)
+        args.proposals.write_text(
+            json.dumps(proposals_payload(report), indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+        print(f"wrote {args.proposals} (every entry starts unapproved)")
     print(sheet, end="")
     return 0
 
@@ -263,6 +272,9 @@ def build_parser() -> argparse.ArgumentParser:
     backfill.add_argument("record", type=Path)
     backfill.add_argument("--budget-usd", type=float, default=10.0)
     backfill.add_argument("--output", type=Path)
+    backfill.add_argument(
+        "--proposals", type=Path, help="write the proposal list backfill-apply consumes"
+    )
     backfill.set_defaults(func=_command_backfill)
 
     backfill_apply = subparsers.add_parser(

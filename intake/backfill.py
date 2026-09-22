@@ -227,6 +227,32 @@ def backfill_dry_run(
     }
 
 
+def proposals_payload(report: dict[str, Any]) -> list[dict[str, Any]]:
+    """The applier-shaped proposal list a person reviews and approves.
+
+    Entries without a locator (no exact quote match) stay out: they cannot be
+    applied. Every entry carries ``approved: false``; ``backfill-apply``
+    refuses the file until a person sets the flag after reading the quote.
+    """
+    record_id = report.get("record")
+    payload = []
+    for proposal in report["proposals"]:
+        locator = proposal.get("locator")
+        if not record_id or not locator:
+            continue
+        payload.append(
+            {
+                "record": record_id,
+                "path": proposal["path"],
+                "source_id": proposal["source_id"],
+                "locator": locator,
+                "quote": proposal["quote"],
+                "approved": False,
+            }
+        )
+    return payload
+
+
 def review_sheet(report: dict[str, Any]) -> str:
     """Render the dry-run report as the Markdown sheet a reviewer reads."""
     lines = [
@@ -235,19 +261,20 @@ def review_sheet(report: dict[str, Any]) -> str:
         f"{report['unlocated_claims']} claims without a locator; "
         f"{report['verified']} verified proposals. Nothing was applied.",
         "",
-        "| Claim | Source | Proposed locator | Match | Numbers |",
-        "| --- | --- | --- | --- | --- |",
+        "| Claim | Source | Proposed locator | Quote | Match | Numbers |",
+        "| --- | --- | --- | --- | --- | --- |",
     ]
     for proposal in report["proposals"]:
         lines.append(
-            "| {path} | {source} | {locator} | {match} | {numbers} |".format(
+            "| {path} | {source} | {locator} | {quote} | {match} | {numbers} |".format(
                 path=proposal["path"],
                 source=proposal["source_id"],
                 locator=proposal.get("locator") or "—",
+                quote=proposal["quote"].replace("|", "\\|"),
                 match=proposal["match"],
                 numbers="—" if proposal.get("numbers_ok") is None else str(proposal["numbers_ok"]),
             )
         )
     lines.append("")
-    lines.append("Apply a proposal only after reading the quote in its capture.")
+    lines.append("Apply a proposal only after reading its quote above against the capture.")
     return "\n".join(lines) + "\n"

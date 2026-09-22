@@ -46,10 +46,12 @@ offline stage with `uv run python -m intake stage render --run <run-id>`.
 
 ## Backfill and drift
 
-- `uv run python -m intake backfill data/agents/<id>.yaml --budget-usd 10`
-  proposes locators for a record's unlocated claims (dry run). A person adds
-  `approved: true` to the entries that hold; then
-  `uv run python -m intake backfill-apply <proposals.json>` edits only the
+- `uv run python -m intake backfill data/agents/<id>.yaml --budget-usd 10
+  --proposals p.json` proposes locators for a record's unlocated claims (dry
+  run); `p.json` holds one unapproved entry per verified quote. A person reads
+  each quote on the sheet against its capture, sets `approved: true` on the
+  entries that hold, and runs
+  `uv run python -m intake backfill-apply p.json`, which edits only the
   `locator` fields. Regenerate the outputs and open the pull request yourself.
 - `uv run python -m intake drift` rescrapes every captured source and reports
   changed lines with the claims that cite them (`.intake/drift/report.json`).

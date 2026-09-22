@@ -10,7 +10,10 @@ from typing import Any
 import yaml
 
 from intake.adapters.steel import ScrapedPage, SteelSdkAdapter
+from intake.adapters.writer import WriterAdapter
 from intake.apply import ApplyError, apply_proposals, load_proposals
+from intake.backfill import backfill_dry_run, proposals_payload, review_sheet
+from intake.budget import Budget
 from intake.drift import (
     _changed_line_spans,
     affected_claim_paths,
@@ -19,6 +22,15 @@ from intake.drift import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+class FakeWriterResponse:
+    """The writer seam: one canned payload."""
+
+    def __init__(self, payload: dict[str, Any]) -> None:
+        self.output_text = json.dumps(payload)
+        self.usage = type("Usage", (), {"input_tokens": 1000, "output_tokens": 500})()
+        self.model = "gpt-6-sol-2026-09-22"
 
 
 def scraped(markdown: str, url: str) -> ScrapedPage:
@@ -150,6 +162,87 @@ class ApplyTests(unittest.TestCase):
         )
         with self.assertRaises(ApplyError):
             apply_proposals(load_proposals(path), record_root=self.records)
+
+
+class BackfillToApplyTests(unittest.TestCase):
+    """The Phase 2 dry run and the Phase 5 applier must compose."""
+
+    def test_the_dry_run_output_applies_after_approval(self) -> None:
+        record = yaml.safe_load(
+            (ROOT / "data" / "agents" / "zup-codegen.yaml").read_text(encoding="utf-8")
+        )
+        record["evidence"]["summary"][0].pop("locator", None)
+
+        class AlwaysFound:
+            def create(self, **kwargs: Any) -> Any:
+                return FakeWriterResponse(
+                    {
+                        "found": True,
+                        "source": "zup-codegen-source-1",
+                        "quote": "an internal coding agent at Zup",
+                        "paragraph_id": "p3",
+                    }
+                )
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            record_path = root / "zup-codegen.yaml"
+            record_path.write_text(
+                yaml.safe_dump(record, sort_keys=False, allow_unicode=True, width=100),
+                encoding="utf-8",
+            )
+            report = backfill_dry_run(
+                record_path,
+                adapter=WriterAdapter(api_key="test-key", responses=AlwaysFound()),
+                budget=Budget(budget_usd=10.0),
+            )
+            # The reviewer reads the quote on the sheet, not only the locator.
+            self.assertIn("an internal coding agent at Zup", review_sheet(report))
+
+            payload = proposals_payload(report)
+            entry = next(item for item in payload if item["path"] == "summary")
+            self.assertIn("Preserved content.md", entry["locator"])
+            self.assertIs(entry["approved"], False)
+
+            proposals_path = root / "proposals.json"
+            proposals_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+            with self.assertRaises(ApplyError):
+                load_proposals(proposals_path)
+
+            for item in payload:
+                item["approved"] = True
+            proposals_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+            changed = apply_proposals(load_proposals(proposals_path), record_root=root)
+            self.assertEqual([path.name for path in changed], ["zup-codegen.yaml"])
+            after = yaml.safe_load(record_path.read_text(encoding="utf-8"))
+            self.assertEqual(after["evidence"]["summary"][0]["locator"], entry["locator"])
+
+    def test_entries_without_a_locator_stay_out_of_the_payload(self) -> None:
+        report = {
+            "record": "r1",
+            "proposals": [
+                {
+                    "path": "summary",
+                    "source_id": "s1",
+                    "quote": "q",
+                    "match": "exact",
+                    "lines": [18, 18],
+                    "numbers_ok": True,
+                    "locator": "Preserved content.md, line 18",
+                },
+                {
+                    "path": "key_metrics.0",
+                    "source_id": "s1",
+                    "quote": "q",
+                    "match": "fuzzy",
+                    "lines": None,
+                    "numbers_ok": None,
+                    "locator": None,
+                },
+            ],
+        }
+        payload = proposals_payload(report)
+        self.assertEqual([item["path"] for item in payload], ["summary"])
 
 
 class DriftTests(unittest.TestCase):

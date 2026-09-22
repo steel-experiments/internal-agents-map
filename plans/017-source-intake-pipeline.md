@@ -861,4 +861,13 @@ STOP-line report:
   worktree at the branch tip, fresh installs, no working-tree files —
   `npm run verify` exit 0. The committed schema file also matches a fresh
   `intake schema` export byte for byte.
+- Seam repair (found on re-read): the Phase 2 dry run and the Phase 5 applier
+  did not compose — the report carried no per-entry record ID, the sheet hid
+  the quote a reviewer must read, and no machine-readable proposal file
+  existed. `backfill --proposals <path>` now writes the applier-shaped list
+  (one entry per verified quote, every entry `approved: false` so the file
+  refuses until a person approves it), and the sheet carries the quote beside
+  the locator. A new test drives the whole seam offline: fake writer, dry run,
+  unapproved refusal, approval, apply, locator landed. The intake suite holds
+  108 tests.
 

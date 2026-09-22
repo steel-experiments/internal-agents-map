@@ -18,7 +18,7 @@ uv run python -m intake promote <dir> --source-id ID        # promote into archi
 uv run python -m intake segment --input <content.md> --output <paragraphs.json>  # stage 2
 uv run python -m intake resolve --company X --system Y [--text-file f]           # stage 3
 uv run python -m intake render --extraction <file> --output <draft.yaml> --reviewed-at YYYY-MM-DD
-uv run python -m intake backfill data/agents/<id>.yaml --budget-usd 10           # locator proposals, dry run
+uv run python -m intake backfill data/agents/<id>.yaml --budget-usd 10 --proposals p.json  # dry run
 uv run python -m intake backfill-apply <proposals.json>                         # apply approved locators
 uv run python -m intake drift                                                   # rescrape and report drift
 uv run python -m intake backtest --record <yaml> --extraction <file> [--compatibility <json>]
@@ -80,9 +80,12 @@ what happened.
 
 ## Backfill apply and drift
 
-`backfill` (above) writes a dry-run report of locator proposals. A person reads
-each proposal against its capture, adds `approved: true` to the entries that
-hold, and saves the result as a JSON list. `backfill-apply` then edits only the
+`backfill` (above) writes a dry-run report of locator proposals. Pass
+`--proposals <path>` to also write the JSON list `backfill-apply` consumes:
+one entry per verified quote, each carrying `approved: false`. The review
+sheet shows every proposal's quote beside its locator. A person reads each
+quote against its capture, sets `approved: true` on the entries that hold,
+and hands the file to `backfill-apply`. It then edits only the
 `locator` fields named by the approved proposals. It refuses unapproved
 entries, unknown evidence paths, and links that already carry a different
 locator. It never reorders, rewrites, or removes anything. After it runs,
