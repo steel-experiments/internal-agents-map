@@ -106,9 +106,10 @@ for (const entry of ENTRIES) {
       const canonical = page.locator('link[rel="canonical"]');
       await expect(canonical).toHaveAttribute('href', `https://internal-agents.com/agents/${entry.id}`);
       await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /.{40,}/);
+      // Every entry draws its own preview card; the query carries the hash of its content.
       await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
         'content',
-        'https://internal-agents.com/og.png',
+        new RegExp(`^https://internal-agents\\.com/og/agents/${entry.id}\\.png\\?v=[0-9a-f]{8}$`),
       );
       await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
 

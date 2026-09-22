@@ -9,7 +9,8 @@ import CompanyLogo from '../../components/CompanyLogo.astro';
 import ResearchDetails from '../../components/ResearchDetails.astro';
 import SourceList from '../../components/SourceList.astro';
 import { loadCatalog } from '../../lib/catalog';
-import { entryView, showQuestion } from '../../lib/entry-view';
+import { directoryCards, entryView, showQuestion } from '../../lib/entry-view';
+import { entryCard, ogImage } from '../../lib/og';
 import { assertPublishableId, canonicalUrl, organizationPath } from '../../lib/routes';
 import {
   SITE_NAME,
@@ -28,6 +29,8 @@ export function getStaticPaths() {
 
 const { id } = Astro.params as { id: string };
 const entry = entryView(loadCatalog(), id);
+const card = directoryCards(loadCatalog()).find((item) => item.id === id)!;
+const preview = ogImage(entry.path, entryCard(card));
 
 const title = `${entry.agentName} at ${entry.company} · ${SITE_NAME}`;
 const description = metaDescription(`${entry.company} — ${entry.agentName}. ${entry.summaryText}`);
@@ -50,7 +53,7 @@ const hasResults =
   (!entry.isPilot && entry.lessonClaims.length > 0);
 const hasRelated = entry.relatedEntries.length > 0 || entry.relatedNotes.length > 0;
 ---
-<SiteLayout title={title} description={description} path={entry.path} structuredData={graph}>
+<SiteLayout title={title} description={description} path={entry.path} structuredData={graph} ogImage={preview}>
   <article class="entry-page" data-approach-id={entry.id}>
     <header class="entry-header">
       <CompanyLogo company={entry.companyView} size={40} eager />

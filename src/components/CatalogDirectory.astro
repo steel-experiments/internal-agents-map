@@ -8,6 +8,8 @@ import { directoryCards } from '../lib/entry-view';
 import { canonicalUrl, homePath } from '../lib/routes';
 import { facetVocabulary } from '../lib/search';
 import { SITE_DESCRIPTION, SITE_NAME, datasetNode, structuredData, webPageNode } from '../lib/metadata';
+import { ogImage } from '../lib/og';
+import { INFRASTRUCTURE_DESCRIPTION, INFRASTRUCTURE_HEADING, SECTION_CARDS } from '../lib/section-cards';
 
 interface Props { collection?: 'agents' | 'infrastructure' }
 const { collection = 'agents' } = Astro.props;
@@ -25,7 +27,7 @@ const reviewed = catalog.approaches
 const vocabulary = JSON.stringify(facetVocabulary(cards)).replace(/</g, '\\u003c');
 
 const title = `${infrastructure ? 'Infrastructure · ' : ''}${SITE_NAME} · How companies build internal AI agents`;
-const description = infrastructure ? 'Source-backed research on platforms, runtimes, and components companies use to enable internal agents.' :
+const description = infrastructure ? INFRASTRUCTURE_DESCRIPTION :
   'A source-backed catalog of AI systems organizations build for their own teams. ' +
   'Explore approaches, operating models, and reported evidence.';
 const path = infrastructure ? '/infrastructure' : homePath();
@@ -34,11 +36,12 @@ const graph = structuredData([
   webPageNode({ url, name: title, description, dateModified: reviewed }),
   ...(!infrastructure ? [datasetNode({ description: SITE_DESCRIPTION, dateModified: reviewed })] : []),
 ]);
+const preview = infrastructure ? ogImage(path, SECTION_CARDS.infrastructure) : null;
 ---
-<SiteLayout title={title} description={description} path={path} current={infrastructure ? 'infrastructure' : 'catalog'} structuredData={graph}>
+<SiteLayout title={title} description={description} path={path} current={infrastructure ? 'infrastructure' : 'catalog'} structuredData={graph} ogImage={preview}>
   <header class="intro">
     <script is:inline id="collection-counts" type="application/json" set:html={JSON.stringify(counts)} />
-    <h1 id="directory-heading">{infrastructure ? 'Infrastructure companies build to support their agents.' : 'AI agents organizations build or adapt to do work for their own teams.'}</h1>
+    <h1 id="directory-heading">{infrastructure ? INFRASTRUCTURE_HEADING : 'AI agents organizations build or adapt to do work for their own teams.'}</h1>
     <p>{infrastructure ? 'Explore the platforms, execution environments, and tool access that make internal agents possible.' : `${SITE_DESCRIPTION} Explore their workflows, implementation, and where people stay involved.`}</p>
     <div class="stats" id="collection-stats">
       <div class="stat"><strong>{scopedCounts.entries}</strong><span>{infrastructure ? 'infrastructure records' : 'agents'}</span></div>

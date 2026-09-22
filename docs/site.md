@@ -128,6 +128,20 @@ path from the route helper and the matched identifier, so an unknown fragment ke
 homepage behavior and cannot become a redirect target. Without JavaScript, the card links remain
 the path to each entry.
 
+Every page except the home page carries its own link preview. The build draws one 1200 by 630 PNG
+per route under `dist/og/` with satori and resvg, from `src/og/render.ts`, on the ground and type
+of the directory: the possessive title the homepage uses, the summary shortened to three lines, the
+approach type and work tags, the address, and the organization mark on a white panel. An
+organization card lists its systems; a section, guide, or note card shows its heading and
+description under a blue dot eyebrow. `src/lib/og.ts` derives every value from the same views the
+pages read, and `src/lib/section-cards.ts` holds the section inputs. The `og:image` URL carries a
+short hash of the card input, so a changed card gets a new URL and the link caches of Slack,
+LinkedIn, and X drop the old one. The renderer reads `ABCAreal-Regular.ttf` and
+`ABCAreal-Medium.ttf` from `src/og/fonts/`; a missing file stops the build, because no other face
+may stand in. The home page keeps `public/og.png`. `scripts/check_site.py` requires every page to
+name a card that exists at the card size, and the SEO pulse reports a page that fell back to the
+shared card.
+
 ## Validation and publication
 
 `scripts/check_site.py --root dist` validates the built artifact: the expected route inventory,

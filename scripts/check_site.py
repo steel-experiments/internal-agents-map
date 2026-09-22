@@ -29,7 +29,22 @@ EXPORT_FILES = {
 }
 # The document the host returns for an unknown path. No route points to it.
 ERROR_PAGE = "404.html"
-DIRECTORIES = {"_astro", "fonts", "notes", "agents", "logos", "organizations"}
+DIRECTORIES = {
+    "_astro",
+    "fonts",
+    "notes",
+    "agents",
+    "logos",
+    "organizations",
+    "og",
+    "og/agents",
+    "og/organizations",
+    "og/notes",
+}
+# A link preview card: PNG, this size, and no heavier than this.
+OG_IMAGE_SIZE = (1200, 630)
+OG_IMAGE_MAX_BYTES = 300_000
+PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 # A bundled stylesheet or script: a stem, which can hold dots, a content hash, and its type.
 BUNDLED_ASSET = re.compile(r"_astro/[A-Za-z0-9_.-]+\.[A-Za-z0-9_-]{8,}\.(?:css|js)")
 CHUNK_IMPORT = re.compile(r"\./([A-Za-z0-9_.-]+\.[A-Za-z0-9_-]{8,}\.js)")
@@ -46,6 +61,7 @@ class SiteParser(HTMLParser):
         self.tags: set[str] = set()
         self.coverage: dict[str, list[str]] = {key: [] for key in ("approach", "claim", "source")}
         self.text: list[str] = []
+        self.og_image: str | None = None
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         self.tags.add(tag)
@@ -64,6 +80,8 @@ class SiteParser(HTMLParser):
         for key in self.coverage:
             if attributes.get(f"data-{key}-id"):
                 self.coverage[key].append(attributes[f"data-{key}-id"])
+        if tag == "meta" and attributes.get("property") == "og:image":
+            self.og_image = attributes.get("content")
 
     def handle_data(self, data: str) -> None:
         self.text.append(data)
@@ -71,6 +89,35 @@ class SiteParser(HTMLParser):
 
 def visible_text(page: SiteParser) -> str:
     return " ".join(" ".join(page.text).split())
+
+
+def og_image_file(route: str) -> str:
+    """The preview card of a route. The home page keeps the authored card in public/."""
+    return "og.png" if route == "/" else "og" + route + ".png"
+
+
+def png_size(data: bytes) -> tuple[int, int] | None:
+    """Read the pixel size of a PNG from its header, or None when it is not a PNG."""
+    if not data.startswith(PNG_SIGNATURE) or data[12:16] != b"IHDR":
+        return None
+    return int.from_bytes(data[16:20], "big"), int.from_bytes(data[20:24], "big")
+
+
+def check_og_image(page: SiteParser, name: str, root: Path, errors: list[str]) -> None:
+    """Every page names a card that exists in the artifact at the card size."""
+    if not page.og_image:
+        errors.append(f"Missing og:image: {name}")
+        return
+    parts = urlsplit(page.og_image)
+    target = root / unquote(parts.path).lstrip("/")
+    if not target.is_file():
+        errors.append(f"Missing og:image target: {page.og_image} in {name}")
+        return
+    data = target.read_bytes()
+    if png_size(data) != OG_IMAGE_SIZE:
+        errors.append(f"og:image is not a {OG_IMAGE_SIZE[0]}x{OG_IMAGE_SIZE[1]} PNG: {parts.path}")
+    if len(data) > OG_IMAGE_MAX_BYTES:
+        errors.append(f"og:image is over {OG_IMAGE_MAX_BYTES} bytes: {parts.path}")
 
 
 def route_files(routes: dict, errors: list[str]) -> set[str]:
@@ -161,6 +208,8 @@ def validate(
     if wanted_companies != listed_companies:
         errors.append("Organization route membership differs from the catalog.")
     expected = route_files(routes, errors) | PUBLIC_FILES | EXPORT_FILES | {ERROR_PAGE}
+    # Every route except the home page publishes its own preview card.
+    expected |= {og_image_file(route) for route in routes}
     expected |= {f"agents/{approach['id']}.json" for approach in approaches}
     # The published logo set comes from the companies the catalog declares.
     for company in catalog.get("companies") or []:
@@ -199,6 +248,7 @@ def validate(
             duplicates = sorted(key for key, count in Counter(page.ids).items() if count > 1)
             if duplicates:
                 errors.append(f"Duplicate IDs: {duplicates} in {name}")
+            check_og_image(page, name, root, errors)
 
         # A bundled asset is publishable only where a published document asks for it.
         referenced = {url.lstrip("/").split("#")[0] for page in pages.values() for url in page.urls}

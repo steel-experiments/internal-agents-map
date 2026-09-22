@@ -12,7 +12,9 @@ import {
   structuredData,
 } from '../../lib/metadata';
 import { longDate, nextNote, noteCatalogLinks, noteViewBySlug } from '../../lib/notes';
+import { ogImage } from '../../lib/og';
 import { canonicalUrl, homePath, notesIndexPath } from '../../lib/routes';
+import { noteCard } from '../../lib/section-cards';
 
 export async function getStaticPaths() {
   const entries = await getCollection('notes');
@@ -53,6 +55,7 @@ const graph = structuredData([
   variant="notes"
   ogType="article"
   articlePublishedTime={note.publishedAt}
+  ogImage={ogImage(note.path, noteCard(note))}
 >
   <div class="note-detail">
     <article>
