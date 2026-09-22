@@ -145,7 +145,8 @@ decision 4).
 - Phase 3 (Jev judgments, coarse gate, evaluation harness): implemented. The
   judgment cache lives under `.intake/cache/`. The adjudicated evaluation is
   blocked twice: the live Jev pass needs `TYPESAFE_API_KEY`, and the labels
-  need two human labellers. Gate thresholds are provisional until then.
+  need two human labellers. Gate thresholds are provisional until then;
+  `evals --items <path> --score` is the command that runs once both exist.
 - Phase 4 (writing, preflight, run orchestration, review sheet, skill,
   operator document): implemented; the whole pipeline is tested end to end
   offline over a real capture with fake services. The acceptance run over
