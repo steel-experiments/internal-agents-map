@@ -1163,4 +1163,18 @@ STOP-line report:
   manifest path and the bundle exists under the run's root; a pre-existing
   different bundle refuses; the byte-identical warm rerun re-promotes
   nothing and stays identical. The intake suite holds 174 tests.
+- Archived run manifest (loop re-read): open decision 1's recommendation —
+  "commit one `run.json` per drafted record, under
+  `archive/intake/<record-id>/`" — was deferred in Phase 0 "until a record
+  has been drafted end to end" and never revisited once runs produced
+  drafts; the manifest lived only under gitignored `.intake/runs/`. A run
+  that drafts a record now copies its manifest to
+  `archive/intake/<record-id>/run.json`, so the pull request carries the
+  model provenance and the compatibility map beside the promoted bundles.
+  One semantic choice recorded: the archived copy holds the **latest** run
+  that drafted the record — a warm rerun supersedes it rather than failing,
+  matching the byte-identical-rerun guarantee — while the append-only
+  per-run history stays under `.intake/runs/<run-id>/`. Tests: the archived
+  manifest exists with the run's ID; after the warm rerun it names the
+  second run. The intake suite holds 174 tests.
 

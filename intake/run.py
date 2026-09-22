@@ -456,6 +456,23 @@ def run_candidate(
         queue_entry=entry.payload(),
         notes=notes,
     )
+    # Open decision 1's recommendation: commit one run.json per drafted
+    # record under archive/intake/, so a reader sees the record was
+    # machine-drafted and by which model, with the compatibility map. The
+    # per-run history stays under .intake/runs/<run-id>/ (never overwritten);
+    # the archived copy records the latest run that drafted the record, so a
+    # warm rerun supersedes it instead of failing.
+    archived_manifest: Path | None = None
+    if draft_id:
+        import shutil
+
+        intake_dir = repo_root / "archive" / "intake" / draft_id
+        intake_dir.mkdir(parents=True, exist_ok=True)
+        archived_manifest = intake_dir / "run.json"
+        shutil.copyfile(_manifest_path, archived_manifest)
+        notes.append(
+            f"run manifest archived at {archived_manifest.relative_to(repo_root).as_posix()}"
+        )
     return RunSummary(
         run_id=run_id,
         record_id=draft_id,

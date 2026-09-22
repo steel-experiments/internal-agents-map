@@ -265,6 +265,10 @@ class EndToEndRunTests(unittest.TestCase):
         )
         self.assertIn("archive/sources/zup-codegen-draft-source-1/metadata.json", sheet)
         self.assertTrue(any("promoted 1 capture bundle" in note for note in summary.notes))
+        # Open decision 1: the run manifest is archived for the pull request.
+        archived = self.root / "archive" / "intake" / "zup-codegen-draft" / "run.json"
+        self.assertTrue(archived.is_file())
+        self.assertEqual(json.loads(archived.read_text(encoding="utf-8"))["run_id"], summary.run_id)
 
     def test_promotion_refuses_a_conflicting_existing_bundle(self) -> None:
         from intake.capture import CaptureStageError
@@ -381,6 +385,13 @@ class EndToEndRunTests(unittest.TestCase):
             self.assertEqual(
                 by_stage[name]["input_hashes"], first_stages[name]["input_hashes"], name
             )
+        # The archived manifest records the latest run that drafted the record.
+        archived = json.loads(
+            (self.root / "archive" / "intake" / "zup-codegen-draft" / "run.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        self.assertEqual(archived["run_id"], second.run_id)
 
     def test_an_update_merges_additively_into_the_existing_record(self) -> None:
         from intake.cache import JsonCache

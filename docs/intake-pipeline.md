@@ -57,7 +57,12 @@ When the draft validates, the run promotes its staging captures into
 `archive/sources/<source-id>/` through the archiver's append-only writer,
 and the draft's sources carry the manifest paths. A rerun that meets its own
 identical bundle reuses it; a bundle with different content stops the run
-with the conflict named. The pull request carries the promoted bundles.
+with the conflict named. The pull request carries the promoted bundles and
+the run manifest, archived at `archive/intake/<record-id>/run.json` (open
+decision 1's recommendation): a reader sees the record was machine-drafted,
+by which model, and which claim IDs map to which rendered paths. The
+archived copy records the latest run that drafted the record; the per-run
+history stays under `.intake/runs/<run-id>/`.
 
 The review sheet lists every claim with its quote, its line locator, its
 numeric check, its Jev verdicts with probabilities, its disposition, and the
