@@ -38,6 +38,19 @@ export function levelLabel(level: number | null): string {
   return level === null ? 'Level unknown' : `Level ${level}`;
 }
 
+/**
+ * Every attention boundary the catalog assesses, with the level the build derives
+ * from it. The `unknown` boundary has no level. The build validates the records
+ * against the same scale, so a boundary no record carries is still a real value.
+ */
+export const BOUNDARY_LEVELS: Readonly<Record<string, number | null>> = {
+  'continuous-steering': 2,
+  'work-product-review': 3,
+  'outcome-review': 4,
+  'exception-only': 5,
+  unknown: null,
+};
+
 const MONTHS = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December',

@@ -2,6 +2,7 @@
 // ABOUTME: It resolves typed words to the catalog vocabulary and matches cards without the DOM.
 
 import type { DirectoryCard } from './entry-view';
+import { BOUNDARY_LEVELS, termLabel } from './labels';
 
 /** The facets the directory filters by. They are also the URL query parameters. */
 export const FACET_KEYS = ['work', 'type', 'invocation', 'supervision'] as const;
@@ -42,29 +43,45 @@ function spellings(term: FacetTerm): string[] {
   return [term.id, term.label, ...term.aliases].flatMap((value) => [normalize(value), normalize(value.replace(/-/g, ' '))]);
 }
 
-/** Collect the facet vocabulary of the directory from its cards, sorted by label within each facet. */
+/** A supervision boundary as a filter term, named by its level where it has one. */
+function boundaryTerm(id: string): FacetTerm {
+  const label = termLabel(id);
+  const level = BOUNDARY_LEVELS[id] ?? null;
+  return {
+    key: 'supervision',
+    id,
+    label: level === null ? label : `${label} (level ${level})`,
+    aliases: level === null ? [label] : [label, `level ${level}`],
+  };
+}
+
+/** The supervision scale reads from the widest level down, with the unknown boundary last. */
+function compareWithinFacet(a: FacetTerm, b: FacetTerm): number {
+  if (a.key !== 'supervision') return a.label.localeCompare(b.label);
+  return (BOUNDARY_LEVELS[b.id] ?? -1) - (BOUNDARY_LEVELS[a.id] ?? -1);
+}
+
+/**
+ * Collect the facet vocabulary of the directory from its cards, sorted within each facet.
+ * Supervision is the whole scale rather than the boundaries the records happen to carry,
+ * so the filter offers a level the catalog has yet to document.
+ */
 export function facetVocabulary(cards: readonly DirectoryCard[]): FacetTerm[] {
   const terms = new Map<string, FacetTerm>();
   const add = (term: FacetTerm): void => {
     terms.set(`${term.key}:${term.id}`, term);
   };
+  for (const id of Object.keys(BOUNDARY_LEVELS)) add(boundaryTerm(id));
   for (const card of cards) {
     for (const domain of card.domains) add({ key: 'work', id: domain.id, label: domain.label, aliases: [] });
     add({ key: 'type', id: card.approachType, label: card.approachTypeLabel, aliases: [] });
     for (const mode of card.invocation) {
       add({ key: 'invocation', id: mode.id, label: mode.label, aliases: mode.id === 'interactive' ? ['foreground'] : [] });
     }
-    for (const boundary of card.boundaries) {
-      add({
-        key: 'supervision',
-        id: boundary.id,
-        label: boundary.level === null ? boundary.label : `${boundary.label} (level ${boundary.level})`,
-        aliases: boundary.level === null ? [boundary.label] : [boundary.label, `level ${boundary.level}`],
-      });
-    }
+    for (const boundary of card.boundaries) add(boundaryTerm(boundary.id));
   }
   return [...terms.values()].sort(
-    (a, b) => FACET_KEYS.indexOf(a.key) - FACET_KEYS.indexOf(b.key) || a.label.localeCompare(b.label),
+    (a, b) => FACET_KEYS.indexOf(a.key) - FACET_KEYS.indexOf(b.key) || compareWithinFacet(a, b),
   );
 }
 

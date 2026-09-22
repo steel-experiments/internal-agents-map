@@ -4,6 +4,8 @@
 import { describe, expect, it } from 'vitest';
 import { loadCatalog } from '../../src/lib/catalog';
 import { directoryCards } from '../../src/lib/entry-view';
+import { SUPERVISION_DEFINITIONS } from '../../src/lib/guide-content';
+import { BOUNDARY_LEVELS } from '../../src/lib/labels';
 import {
   FACET_KEYS,
   facetVocabulary,
@@ -34,10 +36,32 @@ describe('the facet vocabulary', () => {
   it('orders the terms by facet, then by label', () => {
     const keys = vocabulary.map((term) => FACET_KEYS.indexOf(term.key));
     expect(keys).toEqual([...keys].sort((a, b) => a - b));
-    for (const key of FACET_KEYS) {
+    for (const key of FACET_KEYS.filter((facet) => facet !== 'supervision')) {
       const labels = vocabulary.filter((term) => term.key === key).map((term) => term.label);
       expect(labels).toEqual([...labels].sort((a, b) => a.localeCompare(b)));
     }
+  });
+
+  it('offers the whole supervision scale, from the widest level down to the unknown boundary', () => {
+    const supervision = vocabulary.filter((term) => term.key === 'supervision');
+    expect(supervision.map((term) => term.id)).toEqual([
+      'exception-only',
+      'outcome-review',
+      'work-product-review',
+      'continuous-steering',
+      'unknown',
+    ]);
+    // The scale comes from the catalog vocabulary, not from the records, so every
+    // boundary stays on offer whether or not an implementation carries it today.
+    expect(facetVocabulary([]).map((term) => term.id)).toEqual(supervision.map((term) => term.id));
+    expect(findTerm('supervision', 'outcome-review', vocabulary)?.label).toBe('Outcome review (level 4)');
+  });
+
+  it('reads the scale the definitions publish', () => {
+    const published = Object.fromEntries(
+      SUPERVISION_DEFINITIONS.rows.map((row) => [row.id, row.level === '—' ? null : Number(row.level)]),
+    );
+    expect(published).toEqual(BOUNDARY_LEVELS);
   });
 
   it('names a supervision boundary with its level and answers to the level alone', () => {
