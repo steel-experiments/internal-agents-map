@@ -857,4 +857,8 @@ STOP-line report:
   own. The gate was therefore run with those five files stashed — `npm run
   verify` exit 0, 177 web tests and the full Python suite green — and the
   files were restored byte-identical afterwards.
+- Tip verification (added after the phase commit): a second run in a clean
+  worktree at the branch tip, fresh installs, no working-tree files —
+  `npm run verify` exit 0. The committed schema file also matches a fresh
+  `intake schema` export byte for byte.
 
