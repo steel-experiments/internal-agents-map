@@ -202,6 +202,12 @@
   overflow: hidden;
 }
 .entries .entry-box h3 a::after { border-radius: 26px; }
+/* The grid falls to one column here, and a card the width of the page is far
+   taller than its words. The proportion is a shape for a card in a row of
+   cards, so a card that stands alone takes the height of what it holds. */
+@media (max-width: 850px) {
+  .entries .entry-box { aspect-ratio: auto; }
+}
 @media (hover: hover) {
   /* A card has a surface to answer with, so its words hold their colour and
      the panel lifts instead. */

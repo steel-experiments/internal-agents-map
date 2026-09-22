@@ -188,7 +188,10 @@ footer a { color: inherit; }
     grid-template-columns: 180px minmax(0, 1fr);
     gap: 32px;
   }
-  .sidebar { width: auto; }
+  /* The fixed nav takes its place from where the sidebar sits, so the sidebar
+     must hold the width of its column. Left to shrink to fit, it collapses
+     against the right edge of the column and the nav draws over the page. */
+  .sidebar { width: 180px; }
   .sidebar nav { width: 180px; }
   .contents { display: none; }
   .footer-inner {
@@ -216,9 +219,8 @@ footer a { color: inherit; }
   .nav-toggle-bars span { transition: transform 200ms var(--ease-out); }
 }
 @media (max-width: 800px) {
-  /* The bar comes back, and with it the line every rail starts under. */
+  /* The bar comes back, and the wordmark heads it instead of the rail. */
   .topbar { display: flex; justify-content: space-between; }
-  :root { --rail-top: 132px; }
   .brand-rail { display: none; }
   .nav-toggle {
     display: grid;

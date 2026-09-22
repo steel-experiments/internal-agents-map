@@ -539,8 +539,9 @@ const {
   .place-link { grid-template-rows: auto; gap: 0; width: 64px; height: 12px; margin: 26px 0; transform: rotate(90deg); }
   .place-link .place-machine-title { display: none; }
   .place-machine { flex: none; width: var(--box-width); max-width: 100%; }
-  .place-callout-arrow { height: 28px; }
-  .place-callout svg { display: none; }
+  /* The machines stand close together here, so the label speaks for itself and
+     the arrow goes: head, stem and the space both hold. */
+  .place-callout-arrow { display: none; }
   .place-callout { gap: 10px; }
 
   /* The three questions stack as label-over-value pairs, like the catalog tables. */
