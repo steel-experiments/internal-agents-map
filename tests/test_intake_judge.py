@@ -325,6 +325,41 @@ class IdentityQuestionTests(unittest.TestCase):
         self.assertIn("same_system_jev", refined["matched_records"][0])
         self.assertEqual(refined["jev_model"], "jev-1.13.0")
 
+    def test_a_warm_identity_cache_makes_no_new_calls(self) -> None:
+        import tempfile
+        from pathlib import Path
+
+        from intake.cache import JsonCache
+
+        with tempfile.TemporaryDirectory() as directory:
+            cache = JsonCache(Path(directory) / "identity.json")
+            connection = FakeJevConnection()
+            adapter = JevAdapter(api_key="test-key", connection=connection)
+            identity = resolve_identity(company="Shopify", system_name="River")
+            first = refine_with_jev(
+                identity,
+                passage="River is Shopify's Slack-native coding agent.",
+                candidate_name="River",
+                adapter=adapter,
+                budget=Budget(budget_usd=1.0),
+                cache=cache,
+            )
+            self.assertEqual(len(connection.requests), 1)
+            second = refine_with_jev(
+                identity,
+                passage="River is Shopify's Slack-native coding agent.",
+                candidate_name="River",
+                adapter=adapter,
+                budget=Budget(budget_usd=1.0),
+                cache=cache,
+            )
+            self.assertEqual(len(connection.requests), 1)
+            self.assertTrue(second["jev_usage"]["cache_hit"])
+            self.assertEqual(
+                first["matched_records"][0]["same_system_jev"],
+                second["matched_records"][0]["same_system_jev"],
+            )
+
 
 class EvaluationHarnessTests(unittest.TestCase):
     def test_items_are_sampled_with_passages_and_empty_labels(self) -> None:

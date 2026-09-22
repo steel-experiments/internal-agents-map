@@ -190,6 +190,7 @@ class EndToEndRunTests(unittest.TestCase):
         self._tmp.cleanup()
 
     def run_zup(self) -> Any:
+        from intake.cache import JsonCache
         from intake.run import QueueEntry
 
         steel = SteelSdkAdapter(
@@ -209,6 +210,7 @@ class EndToEndRunTests(unittest.TestCase):
             steel=steel,
             writer=writer,  # type: ignore[arg-type]
             jev=jev,  # type: ignore[arg-type]
+            cache=JsonCache(self.root / "jev-cache.json"),
             runs_root=self.root / "runs",
             drafts_root=self.root / "drafts",
             staging_root=self.root / "staging",
@@ -227,6 +229,18 @@ class EndToEndRunTests(unittest.TestCase):
         self.assertIn("Intake review: Zup", sheet)
         self.assertIn("## Claims", sheet)
         self.assertIn("## Model usage", sheet)
+
+    def test_the_identity_file_carries_the_jev_advisory_column(self) -> None:
+        summary = self.run_zup()
+        run_dir = self.root / "runs" / summary.run_id
+        identity = json.loads((run_dir / "identity.json").read_text(encoding="utf-8"))
+        self.assertTrue(identity["matched_records"])
+        for entry in identity["matched_records"]:
+            self.assertIn("same_system_jev", entry)
+        manifest = json.loads((run_dir / "run.json").read_text(encoding="utf-8"))
+        resolve_stage = next(s for s in manifest["stage_runs"] if s["stage"] == "resolve")
+        self.assertEqual(resolve_stage["model"], "jev-1.13.0")
+        self.assertEqual(resolve_stage["calls"], 1)
         manifest = json.loads(
             ((self.root / "runs" / summary.run_id) / "run.json").read_text(encoding="utf-8")
         )
@@ -258,6 +272,8 @@ class EndToEndRunTests(unittest.TestCase):
         )
         writer = WriterAdapter(api_key="test-key", responses=ZupWriterResponses())
         jev = JevAdapter(api_key="test-key", connection=FakeJevConnection())
+        from intake.cache import JsonCache
+
         summaries = run_queue(
             queue,
             budget_usd=5.0,
@@ -267,6 +283,7 @@ class EndToEndRunTests(unittest.TestCase):
             steel=steel,
             writer=writer,  # type: ignore[arg-type]
             jev=jev,  # type: ignore[arg-type]
+            cache=JsonCache(self.root / "jev-cache-queue.json"),
         )
         self.assertEqual(len(summaries), 1)
         self.assertEqual(summaries[0].decision, "update")

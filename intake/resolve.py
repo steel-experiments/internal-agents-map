@@ -10,6 +10,8 @@ Add, Update, or review, and a person confirms every identity decision.
 
 from __future__ import annotations
 
+import hashlib
+import json
 import re
 from typing import Any
 
@@ -18,6 +20,7 @@ from intake.catalog import load_build
 EXACT_SCORE = 1.0
 CONTAINS_SCORE = 0.85
 MIN_SHORTLIST_SCORE = 0.5
+IDENTITY_QUESTION_VERSION = 1
 
 
 def normalize_name(value: str) -> str:
@@ -164,16 +167,38 @@ def refine_with_jev(
     candidate_name: str,
     adapter: Any,
     budget: Any,
+    cache: Any = None,
 ) -> dict[str, Any]:
     """Add the Jev same-system probability to every shortlist entry.
 
     The deterministic scores stay; Jev's answer is one advisory column that the
-    reviewer reads beside them.
+    reviewer reads beside them. With a cache, a warm rerun makes no new calls.
     """
 
     shortlist = identity["matched_records"]
     if not shortlist:
         return identity
+    if cache is not None:
+        from intake.cache import cache_key
+
+        fingerprint = json.dumps(
+            [{"id": entry["id"], "agent_name": entry.get("agent_name")} for entry in shortlist],
+            sort_keys=True,
+        )
+        passage_hash = f"sha256:{hashlib.sha256(passage.encode('utf-8')).hexdigest()}"
+        key = cache_key(
+            candidate_name,
+            passage_hash,
+            fingerprint,
+            f"identity-v{IDENTITY_QUESTION_VERSION}",
+        )
+        cached = cache.get(key)
+        if cached is not None:
+            return identity | {
+                "matched_records": cached["matched_records"],
+                "jev_model": cached["usage"]["model"],
+                "jev_usage": cached["usage"] | {"cache_hit": True},
+            }
     result = adapter.ask(
         state={"candidate": candidate_name, "passage": passage},
         questions=jev_identity_questions(candidate_name, shortlist),
@@ -183,8 +208,16 @@ def refine_with_jev(
     for index, entry in enumerate(shortlist):
         answer = result.answers.get(f"same_{index}")
         refined.append(entry | {"same_system_jev": answer.noul if answer else None})
-    identity = identity | {
+    usage = {
+        "model": result.model,
+        "input_tokens": result.input_tokens,
+        "cost_usd": round(result.cost_usd, 6),
+        "cache_hit": False,
+    }
+    if cache is not None:
+        cache.put(key, {"matched_records": refined, "usage": usage})
+    return identity | {
         "matched_records": refined,
         "jev_model": result.model,
+        "jev_usage": usage,
     }
-    return identity

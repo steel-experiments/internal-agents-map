@@ -133,10 +133,23 @@ def _command_segment(args: argparse.Namespace) -> int:
 
 
 def _command_resolve(args: argparse.Namespace) -> int:
-    from intake.resolve import resolve_identity
+    from intake.resolve import refine_with_jev, resolve_identity
 
     text = args.text_file.read_text(encoding="utf-8") if args.text_file else (args.text or "")
     identity = resolve_identity(company=args.company, system_name=args.system, text=text)
+    if args.jev and identity["matched_records"]:
+        from intake.adapters.jev import JevAdapter
+        from intake.budget import Budget
+        from intake.cache import jev_cache
+
+        identity = refine_with_jev(
+            identity,
+            passage=text[:8000],
+            candidate_name=args.system or args.company or "the candidate",
+            adapter=JevAdapter(),
+            budget=Budget(budget_usd=args.budget_usd),
+            cache=jev_cache(),
+        )
     payload = json.dumps(identity, indent=2, ensure_ascii=False) + "\n"
     if args.output is not None:
         args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -299,6 +312,8 @@ def build_parser() -> argparse.ArgumentParser:
     resolve.add_argument("--system")
     resolve.add_argument("--text", help="candidate text, such as the summary")
     resolve.add_argument("--text-file", type=Path)
+    resolve.add_argument("--jev", action="store_true", help="add the same-system advisory column")
+    resolve.add_argument("--budget-usd", type=float, default=1.0)
     resolve.add_argument("--output", type=Path)
     resolve.set_defaults(func=_command_resolve)
 

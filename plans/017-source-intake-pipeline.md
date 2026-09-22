@@ -904,4 +904,15 @@ STOP-line report:
   --budget-usd 2.00`. The run itself stays blocked; the LinkedIn social post
   in the Omnigent entry's backlog row was left out deliberately — social
   platforms make poor captures and the reviewer can add it by hand.
+- Identity-column repair (same re-read): the stage 3 contract — "shortlisted
+  records with a same-system probability" — was not met by the run.
+  `resolve.refine_with_jev` existed and was tested, but `run_candidate` never
+  called it, so a live run wrote identity files with no Jev column. The run
+  now refines every non-empty shortlist (passage capped at 8,000 characters),
+  caches by candidate, passage, shortlist, and question version, and reports
+  model, tokens, cost, and cache hits on the resolve stage line. `resolve
+  --jev` exposes the same step offline from the CLI. Two side repairs: the
+  run's Jev cache is now injectable, and the end-to-end tests pass a
+  temporary cache so fake answers never reach the shared `.intake` cache.
+  The intake suite holds 127 tests.
 

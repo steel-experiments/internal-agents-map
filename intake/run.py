@@ -31,7 +31,7 @@ from intake.models import StagedSource
 from intake.numbers import check_claim
 from intake.preflight import preflight_flags
 from intake.render import render_extraction
-from intake.resolve import resolve_identity
+from intake.resolve import IDENTITY_QUESTION_VERSION, resolve_identity
 from intake.review import review_sheet, write_review
 from intake.segment import segment_content
 from intake.verify_quotes import verify_claims
@@ -136,6 +136,7 @@ def run_candidate(
     steel: SteelSdkAdapter | None = None,
     writer: WriterAdapter | None = None,
     jev: JevAdapter | None = None,
+    cache: Any = None,
     runs_root: Path = RUNS_ROOT,
     drafts_root: Path = DRAFTS_ROOT,
     staging_root: Path | None = None,
@@ -144,8 +145,10 @@ def run_candidate(
     """Run all twelve stages for one queue candidate."""
     import datetime as dt
 
+    from intake.cache import jev_cache
     from intake.catalog import load_build
 
+    cache = cache or jev_cache()
     reviewed_at = reviewed_at or dt.date.today().isoformat()
     run_id = new_run_id()
     directory = run_directory(run_id, runs_root=runs_root)
@@ -230,6 +233,28 @@ def run_candidate(
         records=records,
         companies=companies,
     )
+    resolve_stage: dict[str, Any] = {"stage": "resolve", "model": None, "calls": 0, "cost_usd": 0.0}
+    if identity["matched_records"]:
+        from intake.resolve import refine_with_jev
+
+        identity = refine_with_jev(
+            identity,
+            passage=summary_text[:8000],
+            candidate_name=entry.system_name or entry.company or "the candidate",
+            adapter=jev or JevAdapter(),
+            budget=budget,
+            cache=cache,
+        )
+        usage = identity.get("jev_usage") or {}
+        resolve_stage = {
+            "stage": "resolve",
+            "model": usage.get("model"),
+            "question_version": IDENTITY_QUESTION_VERSION,
+            "input_tokens": usage.get("input_tokens", 0),
+            "cost_usd": usage.get("cost_usd", 0.0),
+            "cache_hits": 1 if usage.get("cache_hit") else 0,
+            "calls": 0 if usage.get("cache_hit") else 1,
+        }
     (directory / "identity.json").write_text(
         json.dumps(identity, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
     )
@@ -238,7 +263,7 @@ def run_candidate(
         if identity["matched_records"] and identity["proposed_decision"] == "update"
         else None
     )
-    stages.append({"stage": "resolve", "model": None, "calls": 0, "cost_usd": 0.0})
+    stages.append(resolve_stage)
 
     # Stage 4: extract.
     hints: dict[str, Any] = {
@@ -271,7 +296,9 @@ def run_candidate(
     stages.append({"stage": "verify", "model": None, "calls": 0, "cost_usd": 0.0})
 
     # Stage 6: judge.
-    outcome = judge_claims(record, paragraphs, adapter=jev or JevAdapter(), budget=budget)
+    outcome = judge_claims(
+        record, paragraphs, adapter=jev or JevAdapter(), budget=budget, cache=cache
+    )
     record, stage = outcome.record, outcome.stage
     stages.append(stage)
 
@@ -357,6 +384,7 @@ def run_queue(
     steel: SteelSdkAdapter | None = None,
     writer: WriterAdapter | None = None,
     jev: JevAdapter | None = None,
+    cache: Any = None,
 ) -> list[RunSummary]:
     """Run every queue entry inside one budget."""
     entries = load_queue(path)
@@ -368,6 +396,7 @@ def run_queue(
             steel=steel,
             writer=writer,
             jev=jev,
+            cache=cache,
             runs_root=runs_root,
             drafts_root=drafts_root,
             staging_root=staging_root,

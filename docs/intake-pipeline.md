@@ -17,7 +17,7 @@ uv run python -m intake stage render --run <run-id>         # rerun one offline 
 uv run python -m intake capture <url>                       # stage 1 alone
 uv run python -m intake promote <dir> --source-id ID        # promote into archive/sources/
 uv run python -m intake segment --input <content.md> --output <paragraphs.json>  # stage 2
-uv run python -m intake resolve --company X --system Y [--text-file f]           # stage 3
+uv run python -m intake resolve --company X --system Y [--text-file f] [--jev]   # stage 3
 uv run python -m intake render --extraction <file> --output <draft.yaml> --reviewed-at YYYY-MM-DD
 uv run python -m intake backfill data/agents/<id>.yaml --budget-usd 10 --proposals p.json  # dry run
 uv run python -m intake backfill-apply <proposals.json>                         # apply approved locators
@@ -50,7 +50,10 @@ Jev cache under `.intake/cache/`; all three are gitignored and regenerable.
 The review sheet lists every claim with its quote, its line locator, its
 numeric check, its Jev verdicts with probabilities, its disposition, and the
 open questions. It names the decision the pipeline proposes and the decision a
-person must make. The run manifest records the model strings the APIs
+person must make. When the identity shortlist is non-empty, stage 3 also asks
+Jev the same-system question per shortlisted record and writes the
+`same_system_jev` advisory column into `identity.json`; the deterministic
+scores stay. The run manifest records the model strings the APIs
 returned, the prompt and question versions, per-stage token usage and cost,
 cache hits, and the claim-ID-to-path compatibility map.
 
