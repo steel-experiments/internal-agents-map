@@ -23,6 +23,8 @@ verification gate, and update the status row when finished.
 | [013](013-add-company-pages.md) | Add company pages within the existing design | P2 | M | 012 + approved UI removals | DONE on 2026-09-17; independent full verification and desktop/mobile design review passed; merged to main in `8ee1c13` and published at `/organizations/<id>` |
 | [014](014-search-discovery.md) | Make the catalog findable through search | P1 | L | 013, the SEO pulse skill and its 2026-09 report | TODO; planned 2026-09-21, five phases with their own approval gates; no execution requested |
 | [015](015-social-preview-cards.md) | Give every page its own link preview card | P2 | M | 007, 013 | DONE on 2026-09-22; merged to main through pull request #11; licence follow-up scheduled |
+| [016](016-jev-investigation.md) | Investigate Jev for evidence review and discovery | P2 | M | — | DONE investigation and bounded smoke experiment on 2026-09-22; production integration deferred pending independent evaluation |
+| [017](017-source-intake-pipeline.md) | Turn a list of links into a reviewed catalog record | P1 | L | 016, the schema simplification review | TODO; planned 2026-09-22, six phases with their own approval gates; no execution requested |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) |
 REJECTED (with one-line rationale)
@@ -64,6 +66,18 @@ image, deterministic. The licensed ABC Areal desktop files the renderer needs ar
 committed for now by the owner's decision of 2026-09-22; the licence follow-up moves
 them out of the public repository. Implementation was authorized and built the same
 day.
+
+Plan 016 was requested on 2026-09-22 as an investigation of Jev, TypeSafe's typed
+judgement model, for evidence review and discovery. It ran a bounded smoke experiment
+on public captures and recommends an advisory evidence checker first, with automatic
+publication out of scope.
+
+Plan 017 was requested on 2026-09-22 as a plan after a brainstorm on a repeatable intake
+pipeline: a list of links goes in, Steel captures each page, a writer model extracts
+claims with verbatim quotes, code verifies the quotes against the capture, Jev grades
+each claim, and code renders the record in today's schema for a person to review. The
+same stages backfill locators for existing claims and detect content drift against a
+capture. Execution has not been requested.
 
 ## Dependency notes
 
