@@ -1,0 +1,172 @@
+{
+  "$comment": "Configuration of the SEO pulse for internal-agents.com. One site, one catalog, pages generated from templates. Edit this file to add or remove tracked terms, route families, or impression sinks.",
+  "site": "internal-agents.com",
+  "origin": "https://internal-agents.com",
+  "location_code": 2840,
+  "language_code": "en",
+  "serp_depth": 20,
+  "$comment_tracked_keywords": "The demand space of the catalog: how organizations build agents for their own teams, and the work those agents do. Volumes are cheap, so this set is wider than the set worth tracking positions for.",
+  "tracked_keywords": [
+    "internal ai agents",
+    "enterprise ai agents",
+    "ai agents in production",
+    "ai agent case studies",
+    "ai agent examples",
+    "companies using ai agents",
+    "ai agent adoption",
+    "how companies use ai agents",
+    "agentic ai",
+    "agentic workflows",
+    "autonomous agents",
+    "background agents",
+    "llm agents",
+    "multi agent systems",
+    "agent orchestration",
+    "ai agent architecture",
+    "ai agent platform",
+    "agent harness",
+    "model context protocol",
+    "mcp server",
+    "agent observability",
+    "agent evals",
+    "ai agent evaluation",
+    "ai agent governance",
+    "ai agent security",
+    "human in the loop ai",
+    "ai coding agents",
+    "ai code review",
+    "code review agent",
+    "ai pull request review",
+    "ai bug triage",
+    "ai sre",
+    "ai on call",
+    "ai incident response",
+    "ai support agent",
+    "ai data analyst",
+    "text to sql agent",
+    "ai agent roi",
+    "ai agent metrics",
+    "claude code",
+    "cursor agent",
+    "devin ai",
+    "github copilot agent",
+    "openai agents sdk",
+    "langgraph"
+  ],
+  "$comment_rank_keywords": "Terms the catalog can realistically hold a position for. Head terms such as 'agentic ai' or 'claude code' belong to vendors and news sites, so tracking them spends credits for no signal. The ownable shapes are the catalog's own subject (an organization with a named system) and the questions the catalog answers directly.",
+  "rank_keywords": [
+    "internal ai agents",
+    "internal agents map",
+    "ai agent case studies",
+    "companies using ai agents",
+    "how companies build internal ai agents",
+    "ai agent examples in production",
+    "internal ai agent examples",
+    "ai code review agent examples",
+    "ai agent autonomy levels",
+    "human oversight ai agents",
+    "notion scruff",
+    "stripe minions",
+    "uber ureview",
+    "shopify aquifer",
+    "airbnb pascal",
+    "atlassian rovo dev",
+    "block builderbot",
+    "dropbox deflaker",
+    "coinbase forge ai",
+    "sentry junior ai",
+    "ramp inspect agent",
+    "posthog stamphog",
+    "openai sevbot",
+    "brex internal agent platform",
+    "harvey security agents"
+  ],
+  "$comment_route_families": "Every page comes from a template, so a defect is normally a family defect, not a page defect. The audit reads routing-manifest.json, sorts each route into the first family whose pattern matches, and reports by family. `jsonld_types` are the @type values the family's graph must carry beyond the shared Organization and WebSite nodes. `min_words` is the floor for the words of the main element, set below the family today, so that it reports a loss of content and not the normal size of the page.",
+  "route_families": [
+    {
+      "id": "home",
+      "pattern": "^/$",
+      "jsonld_types": [
+        "Dataset"
+      ],
+      "min_words": 1000
+    },
+    {
+      "id": "entry",
+      "pattern": "^/agents/[^/]+$",
+      "jsonld_types": [
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "min_words": 500
+    },
+    {
+      "id": "organization",
+      "pattern": "^/organizations/[^/]+$",
+      "jsonld_types": [
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "min_words": 60
+    },
+    {
+      "id": "note",
+      "pattern": "^/notes/[^/]+$",
+      "jsonld_types": [
+        "Article"
+      ],
+      "min_words": 300
+    },
+    {
+      "id": "notes-index",
+      "pattern": "^/notes$",
+      "jsonld_types": [
+        "WebPage"
+      ],
+      "min_words": 200
+    },
+    {
+      "id": "guide",
+      "pattern": "^/(definitions|methodology|infrastructure)$",
+      "jsonld_types": [
+        "WebPage"
+      ],
+      "min_words": 400
+    }
+  ],
+  "$comment_page_rules": "Shared limits for the head of every page. The titles carry the ' · Internal Agents Map' suffix, so the title limit includes it. og_image_default names the shared card; a page other than the home page that still points at it has fallen back to the default preview.",
+  "page_rules": {
+    "title_max": 70,
+    "description_min": 110,
+    "description_max": 160,
+    "title_suffix": " · Internal Agents Map",
+    "og_image_default": "/og.png"
+  },
+  "$comment_query_rules": "Rules for the Search Console queries export (gsc-queries.mjs). `brand_pattern` separates searches for the site itself from searches for its subject. Striking distance is the position band where a title or description change on the page that already appears is the cheapest move on the site.",
+  "query_rules": {
+    "brand_pattern": "internal.?agents.?map|internal-agents\\.com",
+    "striking_min_position": 5,
+    "striking_max_position": 20,
+    "min_impressions": 20
+  },
+  "$comment_impression_sinks": "Pages that collect large numbers of impressions at near-zero click-through, so they move every site-level number away from what the catalog pages do. They are excluded from the 'ex-sinks' view of the search-performance report, never from the site total. The list starts empty: the Markdown twins (`/agents/<id>.md`), `/llms.txt`, and `/agents.json` are the candidates to watch, because they answer machine requests and humans do not click them. Add a page here once it behaves that way, and remove it when it stops.",
+  "impression_sinks": [],
+  "$comment_competitors": "Sites that answer the same questions. Watch them in the drift phase, not in the scripts.",
+  "competitors": [
+    "github.com/e2b-dev/awesome-ai-agents",
+    "a16z.com",
+    "anthropic.com",
+    "openai.com",
+    "langchain.com",
+    "humanloop.com",
+    "aiagentsdirectory.com"
+  ],
+  "paths": {
+    "$comment": "Run the scripts from the repository root. Snapshots are regenerable state that Git ignores; reports are history and get committed.",
+    "pulse_dir": ".seo",
+    "snapshots_dir": ".seo/snapshots",
+    "reports_dir": "docs/seo",
+    "routing_manifest": "routing-manifest.json",
+    "dist_dir": "dist"
+  }
+}

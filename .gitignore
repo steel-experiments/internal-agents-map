@@ -19,6 +19,12 @@ research.md
 .skill-workspace/
 .vercel
 
+# SEO pulse state: the snapshots are regenerable, the reports live in docs/seo/
+.seo/
+
+# Credentials that local tooling reads, such as the DataForSEO keys of the SEO pulse
+.env
+
 node_modules/
 
 # Astro build output and local browser reports

@@ -1,0 +1,56 @@
+{
+  "skill_name": "seo",
+  "evals": [
+    {
+      "id": 1,
+      "name": "monthly-pulse-run",
+      "prompt": "Run this month's SEO pulse for internal-agents.com and give me the report.",
+      "expected_output": "Builds the site, runs the volumes, rank, and tech-audit scripts from the repository root, reads their summaries, adds drift notes, and writes docs/seo/pulse-YYYY-MM.md with the SKILL.md template. Reports the search-performance phase as skipped when no Search Console export is available. Handles missing DataForSEO credentials or an empty balance by saying which phases are incomplete instead of inventing numbers.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "template-defect-attribution",
+      "prompt": "The organization pages look weak in search. What is wrong with them?",
+      "expected_output": "Runs tech-audit.mjs (building dist first, or with --live) and reports the organization family defects: the description of 47 characters on all 35 pages and the missing BreadcrumbList node. Names src/pages/organizations/[id].astro as the single template fix rather than listing 35 pages, and says the short page text is answered by more records for that organization, not by more words.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "demand-without-evidence",
+      "prompt": "\"ai agent pricing comparison\" gets a lot of searches. Can we make a page for it?",
+      "expected_output": "Declines to propose a page the catalog cannot support with sources, citing the inclusion rules in CONTRIBUTING.md, and explains that evidence decides what gets built. Offers the supported alternative: an existing record or note that answers part of the question, or a research lead recorded in docs/coverage-backlog.md with its source.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "config-maintenance",
+      "prompt": "Track 'ai agent evaluation harness' and 'plaid ai agent', and check their volume.",
+      "expected_output": "Adds both terms to tracked_keywords in .claude/skills/seo/config.json, adds only the ownable one ('plaid ai agent', an organization with a record) to rank_keywords, then runs dfs-volumes.mjs and reports the volume and cost per click. Keeps the existing configuration and its comments intact.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "partial-run-safety",
+      "prompt": "Just check the note pages for SEO problems, do not touch anything else.",
+      "expected_output": "Runs tech-audit.mjs --family note and reports the note defects (the short descriptions on three notes and the 73-character title on /notes/work-can-continue). States that the run wrote no snapshot, because a run of one family would replace the baseline of the month.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "queries-export-discovery",
+      "prompt": "Here is our Search Console queries export. What should we work on first?",
+      "expected_output": "Runs gsc-queries.mjs on the file, reports brand share separately from subject searches, lists the striking-distance queries (position 5 to 20 with impressions) with the page and the title change each one suggests, and lists the untracked queries to add to config.json. Does not propose a new page for a query the catalog has no record for.",
+      "files": [
+        "queries.csv"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "keywords-follow-the-catalog",
+      "prompt": "We added five new records this month. Is the keyword tracking still current?",
+      "expected_output": "Runs catalog-terms.mjs --untracked, names the new records whose organization-plus-system terms nobody tracks, adds the ones with a searchable name to rank_keywords, and skips generic names such as 'internal coding agent' with the reason.",
+      "files": []
+    }
+  ]
+}
