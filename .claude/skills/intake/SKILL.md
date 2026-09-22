@@ -44,6 +44,18 @@ offline stage with `uv run python -m intake stage render --run <run-id>`.
    add the company entry when the run printed one, and open the pull request.
    The pipeline does none of this itself.
 
+## Backfill and drift
+
+- `uv run python -m intake backfill data/agents/<id>.yaml --budget-usd 10`
+  proposes locators for a record's unlocated claims (dry run). A person adds
+  `approved: true` to the entries that hold; then
+  `uv run python -m intake backfill-apply <proposals.json>` edits only the
+  `locator` fields. Regenerate the outputs and open the pull request yourself.
+- `uv run python -m intake drift` rescrapes every captured source and reports
+  changed lines with the claims that cite them (`.intake/drift/report.json`).
+  There is no schedule; run it by hand (plan open decision 4). A changed
+  source needs a new capture under a new source ID and a human review.
+
 ## What the pipeline never does
 
 - It never writes `unreported`; silence is `not-reviewed` with a note.
