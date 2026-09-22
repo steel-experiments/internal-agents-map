@@ -270,6 +270,7 @@ class MatchedRecord(StrictModel):
 
     id: str
     same_system: float | None = Field(default=None, ge=0.0, le=1.0)
+    same_system_jev: float | None = Field(default=None, ge=0.0, le=1.0)
     reason: str | None = None
 
 

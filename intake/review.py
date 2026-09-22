@@ -98,9 +98,11 @@ def review_sheet(
             same_column = (
                 f", deterministic score {same:.2f}" if isinstance(same, (int, float)) else ""
             )
+            jev = getattr(entry, "same_system_jev", None)
+            jev_column = f", Jev same-system {jev:.2f}" if isinstance(jev, (int, float)) else ""
             reason = getattr(entry, "reason", None)
             reason_column = f" — {reason}" if reason else ""
-            lines.append(f"- `{entry.id}`{same_column}{reason_column}")
+            lines.append(f"- `{entry.id}`{same_column}{jev_column}{reason_column}")
     lines.extend(["", "## Claims", ""])
     header = "| Claim | Field | Disposition | Quote match | Numbers | Relation | Flags | Note |"
     lines.extend([header, "| --- | --- | --- | --- | --- | --- | --- | --- |"])

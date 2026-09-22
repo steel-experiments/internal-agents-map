@@ -555,6 +555,20 @@
             "default": null,
             "title": "Same System"
           },
+          "same_system_jev": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Same System Jev"
+          },
           "reason": {
             "anyOf": [
               {

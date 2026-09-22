@@ -915,4 +915,12 @@ STOP-line report:
   run's Jev cache is now injectable, and the end-to-end tests pass a
   temporary cache so fake answers never reach the shared `.intake` cache.
   The intake suite holds 127 tests.
+- Identity on the sheet (follow-on, same re-read): the sheet rendered the
+  writer's candidate echo, which carries no shortlist, so the Identity section
+  was empty in real runs. The run now merges the identity stage's shortlist
+  into the record's candidate before rendering, `MatchedRecord` gained the
+  `same_system_jev` field, and the sheet shows "Jev same-system" beside the
+  deterministic score. The committed schema file was regenerated to match.
+  The end-to-end test asserts the section, both columns, and the resolve
+  stage's model and call count in the manifest.
 

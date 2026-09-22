@@ -241,6 +241,10 @@ class EndToEndRunTests(unittest.TestCase):
         resolve_stage = next(s for s in manifest["stage_runs"] if s["stage"] == "resolve")
         self.assertEqual(resolve_stage["model"], "jev-1.13.0")
         self.assertEqual(resolve_stage["calls"], 1)
+        sheet = summary.sheet_path.read_text(encoding="utf-8") if summary.sheet_path else ""
+        self.assertIn("## Identity", sheet)
+        self.assertIn("Jev same-system 0.05", sheet)
+        self.assertIn("deterministic score", sheet)
         manifest = json.loads(
             ((self.root / "runs" / summary.run_id) / "run.json").read_text(encoding="utf-8")
         )

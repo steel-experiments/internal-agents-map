@@ -27,7 +27,7 @@ from intake.budget import Budget, new_run_id, run_directory
 from intake.capture import capture_staging
 from intake.extract import run_extract
 from intake.judge import apply_dispositions, judge_claims
-from intake.models import StagedSource
+from intake.models import MatchedRecord, StagedSource
 from intake.numbers import check_claim
 from intake.preflight import preflight_flags
 from intake.render import render_extraction
@@ -282,10 +282,23 @@ def run_candidate(
     stages.append(stage)
     # The queue's record-id hint is authoritative: the writer may echo a
     # matched-record ID of its own choosing instead of the run's intent.
+    candidate_updates: dict[str, Any] = {}
     if entry.record_id:
-        record = record.model_copy(
-            update={"candidate": record.candidate.model_copy(update={"record_id": entry.record_id})}
+        candidate_updates["record_id"] = entry.record_id
+    # The identity stage's shortlist — not the writer's echo — is what the
+    # reviewer reads on the sheet, with the Jev advisory column when it ran.
+    candidate_updates["matched_records"] = [
+        MatchedRecord(
+            id=entry_["id"],
+            same_system=entry_.get("score"),
+            same_system_jev=entry_.get("same_system_jev"),
+            reason=entry_.get("reason"),
         )
+        for entry_ in identity["matched_records"]
+    ]
+    record = record.model_copy(
+        update={"candidate": record.candidate.model_copy(update=candidate_updates)}
+    )
     (directory / "extraction.yaml").write_text(
         yaml.safe_dump(json.loads(record.model_dump_json()), sort_keys=False, allow_unicode=True),
         encoding="utf-8",
