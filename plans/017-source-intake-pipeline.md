@@ -973,4 +973,18 @@ STOP-line report:
   matcher's agree, differ, dropped, and unmatched paths, and an end-to-end
   test asserts the source numbering on a real update run. The intake suite
   holds 146 tests.
+- Update merge (follow-on, same re-read): principle 4 — "an Update adds
+  sources, claims, and evidence links at the end of their lists" — had no
+  machine embodiment; an update's draft carried only the new claims and a
+  person merged by hand. `intake/merge.py` now merges the rendered draft
+  onto the record the update names: sources, list items, evidence links,
+  and metadata entries append at the end when absent; single-valued fields
+  keep the recorded text and a difference becomes a renderer note; the
+  page-content block keeps its recorded answers and upgrades only the
+  questions the new run reviewed (never downgrading). The end-to-end update
+  test asserts the merged draft: the existing source stays first, the new
+  source appends, the recorded summary and lessons are untouched, evidence
+  for both old and new paths is present, and the sheet carries the
+  single-valued note. Unit tests cover the additive guarantees and the
+  page-content upgrade path. The intake suite holds 148 tests.
 

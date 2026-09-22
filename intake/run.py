@@ -358,7 +358,7 @@ def run_candidate(
     result = render_extraction(
         record,
         reviewed_at=reviewed_at,
-        existing_source_count=crosscheck.source_count(existing) if existing else 0,
+        existing=existing,
     )
     stages.append({"stage": "render", "model": None, "calls": 0, "cost_usd": 0.0})
     notes.extend(result.notes)

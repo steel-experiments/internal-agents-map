@@ -275,7 +275,7 @@ class EndToEndRunTests(unittest.TestCase):
             self.assertEqual(by_stage[name]["calls"], 0, name)
             self.assertGreaterEqual(by_stage[name]["cache_hits"], 1, name)
 
-    def test_an_update_numbers_its_sources_after_the_existing_record(self) -> None:
+    def test_an_update_merges_additively_into_the_existing_record(self) -> None:
         from intake.cache import JsonCache
         from intake.run import QueueEntry
 
@@ -303,8 +303,20 @@ class EndToEndRunTests(unittest.TestCase):
         )
         draft = yaml.safe_load(summary.draft_path.read_text(encoding="utf-8"))  # type: ignore[union-attr]
         source_ids = [source["id"] for source in draft["sources"]]
-        self.assertIn("zup-codegen-source-2", source_ids)
-        self.assertNotIn("zup-codegen-source-1", source_ids)
+        self.assertIn("zup-codegen-source-1", source_ids)  # the existing source stays
+        self.assertIn("zup-codegen-source-2", source_ids)  # the update appends
+        # The recorded summary is untouched: single-valued fields never change.
+        self.assertIn("preserved paper abstract", draft["summary"])
+        # Recorded evidence links stay; the update's links append.
+        self.assertTrue(draft["evidence"]["summary"])
+        self.assertIn("lessons_learned.1", draft["evidence"])
+        # The page-content block keeps the recorded answers and the new review date.
+        self.assertEqual(draft["page_content"]["reviewed_at"], "2026-09-22")
+        self.assertIn(
+            "primitives.1", draft["page_content"]["questions"]["human_involvement"]["claim_paths"]
+        )
+        sheet = summary.sheet_path.read_text(encoding="utf-8") if summary.sheet_path else ""
+        self.assertIn("single-valued", sheet)
 
     def test_the_identity_file_carries_the_jev_advisory_column(self) -> None:
         summary = self.run_zup()

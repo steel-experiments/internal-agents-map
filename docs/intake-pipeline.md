@@ -54,10 +54,15 @@ person must make. When the identity shortlist is non-empty, stage 3 also asks
 Jev the same-system question per shortlisted record and writes the
 `same_system_jev` advisory column into `identity.json`; the deterministic
 scores stay. When the run proposes an Update against a record that exists,
-the new source is numbered after the existing ones, and the new claims are
-matched against the existing record with digits masked: a matched pair whose
+the new source is numbered after the existing ones, the new claims are
+matched against the existing record with digits masked — a matched pair whose
 numbers disagree, or that drops a recorded number, lands on the sheet under
-"Cross-source checks" — the evidential-independence gap made visible. The
+"Cross-source checks" — and the draft is the **merged** record: the existing
+record with the update's sources, list items, evidence links, and metadata
+appended at the end of their lists, single-valued fields kept as recorded
+(differences become renderer notes for a person), and the page-content block
+keeping its recorded answers except where the new run reviewed a question.
+Nothing is reordered, rewritten, or removed. The
 run manifest records the model strings the APIs
 returned, the prompt and question versions, per-stage token usage and cost,
 cache hits, and the claim-ID-to-path compatibility map.

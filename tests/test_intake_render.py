@@ -241,6 +241,97 @@ class RenderBehaviourTests(unittest.TestCase):
         parsed = yaml.safe_load(result.record_yaml)
         self.assertEqual(parsed, result.record)
 
+    def staged_fixture(self, record_id: str):
+        """The fixture with its sources reset to staging semantics."""
+        record = load_fixture(record_id)
+        sources = [
+            source.model_copy(update={"capture_manifest_path": None}) for source in record.sources
+        ]
+        return record.model_copy(update={"sources": sources})
+
+    def test_an_update_merges_additively_onto_the_existing_record(self) -> None:
+        import copy
+
+        record = self.staged_fixture("zup-codegen")
+        existing = yaml.safe_load(
+            (
+                Path(__file__).resolve().parents[1] / "data" / "agents" / "zup-codegen.yaml"
+            ).read_text(encoding="utf-8")
+        )
+        before = copy.deepcopy(existing)
+        merged = render_extraction(record, reviewed_at=REVIEWED_AT, existing=existing)
+        draft = merged.record
+        self.assertEqual([s["id"] for s in draft["sources"]][0], "zup-codegen-source-1")
+        self.assertIn("zup-codegen-source-2", [s["id"] for s in draft["sources"]])
+        # Recorded fields, lists, and their order are untouched; additions append.
+        self.assertEqual(draft["summary"], before["summary"])
+        self.assertEqual(
+            draft["lessons_learned"][: len(before["lessons_learned"])], before["lessons_learned"]
+        )
+        self.assertEqual(draft["evidence"]["summary"][0], before["evidence"]["summary"][0])
+        self.assertEqual(draft["page_content"]["questions"]["workflow"]["state"], "unreported")
+        # A single-valued difference is a note, never a change.
+        self.assertTrue(any("single-valued" in note for note in merged.notes))
+        # The yaml round-trips like a standalone draft.
+        self.assertEqual(yaml.safe_load(merged.record_yaml), draft)
+
+    def test_a_reviewed_answer_upgrades_a_recorded_unreviewed_one(self) -> None:
+        from intake.merge import merge_update
+
+        existing = {
+            "sources": [{"id": "zup-codegen-source-1"}],
+            "page_content": {
+                "version": 1,
+                "reviewed_at": "2026-08-01",
+                "source_ids": ["zup-codegen-source-1"],
+                "questions": {
+                    "workflow": {"state": "unreported", "claim_paths": [], "note": "old note"}
+                },
+                "implementation_fields": {},
+                "observations": {},
+            },
+        }
+        rendered = {
+            "sources": [{"id": "zup-codegen-source-2"}],
+            "page_content": {
+                "version": 1,
+                "reviewed_at": "2026-09-22",
+                "source_ids": ["zup-codegen-source-2"],
+                "questions": {
+                    "workflow": {
+                        "state": "reported",
+                        "claim_paths": ["summary"],
+                        "note": "new note",
+                    }
+                },
+                "implementation_fields": {},
+                "observations": {},
+            },
+        }
+        merged = merge_update(existing, rendered, reviewed_at="2026-09-22")
+        question = merged["page_content"]["questions"]["workflow"]
+        self.assertEqual(question["state"], "reported")
+        self.assertEqual(question["note"], "new note")
+        self.assertEqual(
+            merged["page_content"]["source_ids"],
+            ["zup-codegen-source-1", "zup-codegen-source-2"],
+        )
+        # A not-reviewed new answer never downgrades a recorded one.
+        again = merge_update(
+            merged,
+            {
+                "sources": [],
+                "page_content": {
+                    **rendered["page_content"],
+                    "questions": {
+                        "workflow": {"state": "not-reviewed", "claim_paths": [], "note": ""}
+                    },
+                },
+            },
+            reviewed_at="2026-09-23",
+        )
+        self.assertEqual(again["page_content"]["questions"]["workflow"]["state"], "reported")
+
     def render_fixture(self, record_id: str):
         record = load_fixture(record_id)
         return record, render_extraction(record, reviewed_at=REVIEWED_AT)

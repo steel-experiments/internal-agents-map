@@ -657,15 +657,37 @@ def render_extraction(
     *,
     reviewed_at: str,
     existing_source_count: int = 0,
+    existing: dict[str, Any] | None = None,
 ) -> RenderResult:
-    """Render one finalized extraction record into today's YAML shape."""
+    """Render one finalized extraction record into today's YAML shape.
+
+    With ``existing`` (an authored record the update names), the result is
+    the existing record with the update's additions appended — sources, list
+    items, evidence links, metadata — and single-valued fields kept, per the
+    plan's append-only principle. The source offset comes from the existing
+    record itself.
+    """
     if record.candidate.record_id is None:
         raise RenderError("candidate.record_id is required before rendering")
+    if existing is not None:
+        existing_source_count = len(existing.get("sources") or [])
     if existing_source_count < 0:
         raise RenderError("existing_source_count must not be negative")
     if any(claim.id is None for claim in record.claims):
         raise RenderError("run intake.models.finalize before rendering")
-    return _Renderer(record, reviewed_at, existing_source_count).render()
+    result = _Renderer(record, reviewed_at, existing_source_count).render()
+    if existing is None:
+        return result
+    from intake.merge import merge_update
+
+    merged = merge_update(existing, result.record, reviewed_at=reviewed_at, notes=result.notes)
+    return RenderResult(
+        record=merged,
+        record_yaml=to_authored_yaml(merged),
+        company_entry=result.company_entry,
+        compatibility=result.compatibility,
+        notes=result.notes,
+    )
 
 
 def to_authored_yaml(record: dict[str, Any]) -> str:
