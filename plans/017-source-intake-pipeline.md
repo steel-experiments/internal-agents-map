@@ -666,3 +666,50 @@ STOP-line report:
   own validator.
 
 `npm run verify` green with the new tests.
+
+### Phase 2 — extraction, quote verification, numbers, backtest (2026-09-22)
+
+STOP-line report:
+
+- Extract (stage 4): `intake/adapters/writer.py` pins `gpt-6-sol` through the
+  OpenAI Responses API with structured output (the payload's JSON schema made
+  strict: every key required, no extras), records the model string the API
+  returns, and reports token usage to the budget ledger. `intake/extract.py`
+  composes the untrusted input (paragraphs with IDs, source facts, hints), runs
+  the versioned prompt `intake/prompts/extract.v1.md`, retries once on a schema
+  violation, and fails the stage on the second. The writer refers to its own
+  claims positionally (`#0`, `#1`); `resolve_references` rewrites those into
+  the content-addressed IDs after `finalize`. Dependency: `openai==3.18.0`,
+  pinned.
+- Budget: `intake/budget.py` follows the Plan 016 runner — worst-case
+  reservation per attempted call (64k input + 16k output at the published
+  $2/$10 per million prices, about $0.288 per call), refusal above the passed
+  budget, usage recorded per call, run directories under `.intake/runs/` never
+  overwritten, and a `run.json` manifest per run.
+- Verify quotes (stage 5): `intake/verify_quotes.py` normalises Unicode
+  compatibility forms, curly quotes, dashes, and whitespace on both sides, then
+  finds the smallest line window that contains the quote (`exact` with lines).
+  Near matches at or above the 0.7 word-window similarity inside the named
+  paragraph are `fuzzy`; anything else is `missing`. Both fuzzy and missing send
+  the claim to review, so the bound is deliberately loose on the safe side. The
+  golden fixtures' quotes all verify `exact` in their real captures; a
+  hyphenation variant verifies `exact`, a paraphrase is `fuzzy`, an absent quote
+  is `missing`.
+- Numbers (stage 7): `intake/numbers.py` extracts percentages, counts with
+  separators, multipliers, durations with abbreviations, spelled quantities
+  ("high hundreds"), fractions ("one in eight"), and ISO and month-name dates.
+  Every claim number must appear in the quote; a claim date must appear in the
+  quote or equal the source's published date, and the fallback carries a note.
+- Backtest: the Phase 0 scaffold plus the renderer compatibility map is the
+  comparison; the live backtest over the 66 records (**the phase gate**) is
+  **blocked — no `OPENAI_API_KEY`**. The gate (at least 90 percent recall of
+  reported facts and metrics, at least 80 percent precision, zero
+  `missing`-with-`accept`) cannot be evaluated until the key exists; nothing
+  was faked.
+- Backfill dry run: `intake/backfill.py` proposes a quote per unlocated claim
+  through the writer adapter, verifies it with stage 5, checks the numbers, and
+  writes a Markdown review sheet. Applies nothing. The live run over the 240
+  unlocated claims is blocked on the same key; tested offline with a fake
+  writer over the real zup capture.
+
+`npm run verify` green with the new tests (full gate, exit 0).

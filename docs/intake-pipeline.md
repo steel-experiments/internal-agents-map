@@ -46,5 +46,10 @@ The private-data check in `npm run verify` stays the last guard.
   SDK-versus-CLI comparison of the STOP line needs `STEEL_API_KEY` and has not
   been run. Staging and promotion are tested offline against fixture scrapes
   and the existing captures.
-- Phases 2 to 5: not implemented; their stages need the writer-model and Jev
-  adapters.
+- Phase 2 (extraction, quote verification, numbers, backtest, backfill):
+  implemented behind the writer adapter (`openai==3.18.0`, model `gpt-6-sol`,
+  structured output, one retry, budget reservation). The backtest over the 66
+  records and the backfill dry run over the unlocated claims need
+  `OPENAI_API_KEY` and have not run; their machinery is tested offline with a
+  fake writer over real captures.
+- Phases 3 to 5: not implemented; the Jev stage needs `TYPESAFE_API_KEY`.

@@ -21,6 +21,10 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 SCHEMA_VERSION = 1
 
 CLAIM_ID_RE = re.compile(r"^c-[0-9a-f]{8}$")
+# The writer model cannot know content-addressed IDs, so it refers to its own
+# claims positionally as "#0", "#1", ...; intake.extract.resolve_references
+# rewrites those into computed IDs after finalize.
+CLAIM_REF_RE = re.compile(r"^c-[0-9a-f]{8}$|^#\d+$")
 LOCAL_SOURCE_RE = re.compile(r"^s\d+$")
 RUN_ID_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z-[0-9a-f]{4}$")
 SHA256_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
@@ -372,11 +376,16 @@ class ExtractionRecord(StrictModel):
         if len(claim_ids) != len(set(claim_ids)):
             raise ValueError("claim ids must be unique")
         known_claims = set(claim_ids)
+        positional = {f"#{index}" for index in range(len(self.claims))}
+
+        def known_ref(reference: str) -> bool:
+            return reference in known_claims or reference in positional
+
         for claim in self.claims:
             if (
                 claim.observation is not None
                 and claim.observation.duplicate_of is not None
-                and claim.observation.duplicate_of not in known_claims
+                and not known_ref(claim.observation.duplicate_of)
             ):
                 raise ValueError(
                     f"observation on claim {claim.id!r} duplicates unknown claim "
@@ -394,11 +403,11 @@ class ExtractionRecord(StrictModel):
                 *self.questions.implementation_fields.values(),
             ]
             for answer in answers:
-                unknown = set(answer.claim_ids) - known_claims
+                unknown = {ref for ref in answer.claim_ids if not known_ref(ref)}
                 if unknown:
                     raise ValueError(f"question answer references unknown claims {sorted(unknown)}")
         for model in self.classification.operating_models:
-            unknown = set(model.claim_ids) - known_claims
+            unknown = {ref for ref in model.claim_ids if not known_ref(ref)}
             if unknown:
                 raise ValueError(f"operating model references unknown claims {sorted(unknown)}")
         return self
