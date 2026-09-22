@@ -139,10 +139,11 @@ payload = {
             "criteria": {
                 "stated": "The assertion is directly established with its qualifications.",
                 "conflicts": "The passage explicitly states incompatible information.",
-                "unknown": "Partial support, ambiguity, silence, or an unstated inference."
-            }
-        } for i in range(len(atomic_assertions))
-    }
+                "unknown": "Partial support, ambiguity, silence, or an unstated inference.",
+            },
+        }
+        for i in range(len(atomic_assertions))
+    },
 }
 # Add the applicable actor, temporal-status and approval-condition questions
 # to this same map. Their instructions name the relevant assertion explicitly.
@@ -202,17 +203,19 @@ for field, definition in field_definitions.items():
         "instructions": {
             "field_definition": definition,
             "question": "For `candidate`, what evidence do `sections` supply "
-                        "for the field defined in `field_definition`?"
+            "for the field defined in `field_definition`?",
         },
         "criteria": {
             "explicit": "A passage directly specifies this field for the candidate.",
             "partial": "Related information exists but does not establish the field.",
-            "absent_here": "These excerpts contain no relevant statement."
-        }
+            "absent_here": "These excerpts contain no relevant statement.",
+        },
     }
-payload = {"model": "jev-1.13.0",
-           "state": {"candidate": candidate, "sections": sections},
-           "questions": questions}
+payload = {
+    "model": "jev-1.13.0",
+    "state": {"candidate": candidate, "sections": sections},
+    "questions": questions,
+}
 ```
 
 Prefer one short section cluster and several questions over all 125 archives in one state. To produce locators, ask a bounded choice over paragraph IDs with `none` or evaluate per-paragraph relevance, then verify the selected text in code. A winning paragraph is a retrieval result, not automatically sufficient support.
@@ -250,16 +253,15 @@ for i, candidate in enumerate(candidates):
             "instructions": {
                 "requirement": requirement,
                 "question": f"Using only `candidates[{i}].scoped_claims`, "
-                            "does this workflow meet `requirement`?"
+                "does this workflow meet `requirement`?",
             },
             "criteria": {
                 "match": "The cited claims establish the requirement.",
                 "nonmatch": "The cited claims establish an incompatible behavior.",
-                "unknown": "Evidence is absent, ambiguous, or spans different workflows."
-            }
+                "unknown": "Evidence is absent, ambiguous, or spans different workflows.",
+            },
         }
-payload = {"model": "jev-1.13.0",
-           "state": {"candidates": candidates}, "questions": questions}
+payload = {"model": "jev-1.13.0", "state": {"candidates": candidates}, "questions": questions}
 ```
 
 For ranking within an eligible set, optionally add one Score per candidate for relevance: unrelated / adjacent / directly relevant. Use its expected rubric level for ordering only; no Score interpolates an exact percentage or operating level.
