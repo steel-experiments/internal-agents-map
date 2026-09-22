@@ -1085,4 +1085,18 @@ STOP-line report:
   the basis question honestly); the open-questions helper covers
   top-level and per-field silence; the zup sheet lists its three
   unanswered questions. The intake suite holds 159 tests.
+- Golden-case freshness guard (loop re-read): the evaluation section's
+  ongoing rule — "the skill's `evals/` folder keeps the golden cases; a
+  change to a prompt or question version reruns them before it ships" —
+  had no enforcement: the README asked politely, and nothing failed when a
+  version bumped without the skill following. `tests/test_intake_skill.py`
+  now pins the tie from both sides: the config's writer model, effort, and
+  prompt names must equal the code's constants; the Jev model and question
+  version, and every gate threshold, must equal `judge.GATE` (with
+  `calibrated` still false, honestly); the run budget and the fuzzy
+  similarity bound must equal the code defaults; and the three golden
+  extraction records must match the test fixtures byte for byte, so a
+  fixture edit must carry into the eval set. A version bump now fails the
+  suite until the skill is updated and the goldens rerun. The evals README
+  names the guard. The intake suite holds 164 tests.
 

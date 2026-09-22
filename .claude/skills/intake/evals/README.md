@@ -17,3 +17,8 @@ A change to a prompt or question version reruns the suite before it ships:
 ```sh
 uv run python -m unittest discover -s tests -p "test_intake_*.py"
 ```
+
+The suite enforces the tie: `tests/test_intake_skill.py` fails when the
+config's model, prompt, or question versions drift from the code, when a gate
+threshold changes without the config, or when these files stop matching the
+test fixtures byte for byte.
