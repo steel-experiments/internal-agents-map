@@ -466,7 +466,7 @@ class StageRun(StrictModel):
     output_tokens: int = Field(default=0, ge=0)
     cost_usd: float = Field(default=0.0, ge=0.0)
     cache_hits: int = Field(default=0, ge=0)
-    calls: int = Field(default=1, ge=1)
+    calls: int = Field(default=0, ge=0)
     ok: bool = True
 
 
@@ -476,7 +476,7 @@ class RunManifest(StrictModel):
     schema_version: int = SCHEMA_VERSION
     run_id: str
     created_at: str
-    queue_entry: dict[str, str | list[str]]
+    queue_entry: dict[str, str | list[str] | None]
     decision: Decision = "needs-evidence"
     record_id: str | None = None
     model_strings: dict[str, str] = {}

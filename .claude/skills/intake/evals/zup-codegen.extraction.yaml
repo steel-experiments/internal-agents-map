@@ -1,0 +1,180 @@
+# Hand-written extraction record for the Phase 0 golden test: an agent with lessons.
+# Mirrors data/agents/zup-codegen.yaml over its own capture. Claim IDs are content
+# addressed; intake.models.finalize recomputes and verifies every one of them.
+schema_version: 1
+run_id: 2026-09-22T19:41:02Z-a1b2
+candidate:
+  company: Zup
+  system_name: CodeGen
+  record_id: zup-codegen
+  decision: update
+  matched_records:
+  - id: zup-codegen
+    same_system: 0.98
+    reason: the capture names CodeGen as Zup's internal coding agent
+classification:
+  approach_type: agent
+  deployment_stage: research
+  year: 2026
+  status: internal
+  autonomy: human-in-loop
+  domains: [coding]
+  rubric:
+    invocation: [unknown]
+    state: unknown
+    identity: unknown
+    evidence_strength: detailed-primary
+  operating_models:
+  - scope: constrained coding task → human-supervised edit
+    attention_boundary: unknown
+    claim_ids: [c-42a9aeda]
+  agent_name: CodeGen
+sources:
+- local_id: s1
+  title: Building an Internal Coding Agent at Zup
+  url: https://arxiv.org/abs/2604.09805
+  canonical_url: https://arxiv.org/abs/2604.09805
+  kind: paper
+  provenance_class: first-party
+  published_at: '2026'
+  captured_at: '2026-08-31'
+  content_sha256: sha256:738c9131fd4b99581f618b9dfe9f4c289f4b890db0eea36f58d200d0211f7eab
+  capture_manifest_path: archive/sources/zup-codegen-source-1/metadata.json
+claims:
+- id: c-42a9aeda
+  field: operating_models[]
+  text: The authors report progressive human oversight modes without defining their boundaries
+  kind: fact
+  provenance: reported
+  quotes:
+  - source: s1
+    text: while progressive human oversight modes drove organic adoption without mandating trust
+    lines: [18, 18]
+    match: exact
+  disposition: accept
+- id: c-6d248e99
+  field: summary
+  text: CodeGen is Zup's internal coding agent. In the preserved paper abstract, its authors attribute
+    reliability improvements to editing tools and layered controls, and adoption to progressive
+    human oversight.
+  kind: fact
+  provenance: reported
+  quotes:
+  - source: s1
+    text: We present CodeGen, an internal coding agent at Zup
+    lines: [18, 18]
+    match: exact
+  disposition: accept
+- id: c-833fbbf0
+  field: architecture.harness
+  text: Constrained editing tools and layered safety guardrails around the agent loop
+  kind: fact
+  provenance: reported
+  quotes:
+  - source: s1
+    text: 'targeted tool design (e.g., string-replacement edits over full-file rewrites) and layered
+      safety guardrails improved agent reliability more than prompt engineering'
+    lines: [18, 18]
+    match: exact
+  disposition: accept
+- id: c-91ed7080
+  field: architecture.model
+  text: The paper argues the engineering decisions surrounding the model matter more than the model itself
+  kind: fact
+  provenance: reported
+  quotes:
+  - source: s1
+    text: the engineering decisions surrounding the model -- not the model itself -- determine whether
+      a coding agent delivers real value in practice
+    lines: [18, 18]
+    match: exact
+  disposition: accept
+- id: c-d0b5aa94
+  field: architecture.tool_access
+  text: Constrained editing tools rather than free-form code generation
+  kind: fact
+  provenance: reported
+  quotes:
+  - source: s1
+    text: string-replacement edits over full-file rewrites
+    lines: [18, 18]
+    match: exact
+  disposition: accept
+- id: c-23167d31
+  field: architecture.credentials
+  text: Layered safety controls
+  kind: fact
+  provenance: reported
+  quotes:
+  - source: s1
+    text: layered safety guardrails
+    lines: [18, 18]
+    match: exact
+  disposition: accept
+- id: c-921f8afc
+  field: primitives[]
+  primitive_name: Constrained editing tools
+  text: String-replacement edits instead of full-file rewrites, combined with layered safety controls
+  kind: fact
+  provenance: reported
+  quotes:
+  - source: s1
+    text: string-replacement edits over full-file rewrites
+    lines: [18, 18]
+    match: exact
+  disposition: accept
+- id: c-99f9f333
+  field: primitives[]
+  primitive_name: Progressive oversight
+  text: Progressive oversight modes reported by the authors; the preserved abstract does not define the boundaries
+  kind: fact
+  provenance: reported
+  quotes:
+  - source: s1
+    text: progressive human oversight modes drove organic adoption
+    lines: [18, 18]
+    match: exact
+  disposition: accept
+- id: c-5a950922
+  field: lessons_learned[]
+  text: Zup's authors report larger reliability gains from targeted editing tools and layered controls
+    than from prompt changes in CodeGen.
+  kind: opinion
+  provenance: reported
+  quotes:
+  - source: s1
+    text: improved agent reliability more than prompt engineering
+    lines: [18, 18]
+    match: exact
+  disposition: accept
+  metadata:
+    confidence: medium
+    confidence_reason: The preserved abstract makes that comparison and names string-replacement
+      edits, but contains no experiment details or numerical results to assess it independently.
+- id: c-9d1a85a9
+  field: lessons_learned[]
+  text: Zup's authors attribute organic adoption partly to progressive human oversight modes.
+  kind: opinion
+  provenance: reported
+  quotes:
+  - source: s1
+    text: while progressive human oversight modes drove organic adoption without mandating trust
+    lines: [18, 18]
+    match: exact
+  disposition: accept
+  metadata:
+    confidence: medium
+    confidence_reason: The abstract states this conclusion without specifying the modes, their
+      review boundaries, or an adoption measurement method.
+questions:
+  purpose: {claim_ids: [c-6d248e99]}
+  workflow: {}
+  human_involvement: {claim_ids: [c-99f9f333], note: Progressive human oversight modes are reported
+      as present; the abstract does not define their boundaries.}
+  implementation: {claim_ids: [c-833fbbf0, c-d0b5aa94]}
+  validation: {}
+  observations: {}
+  lessons: {claim_ids: [c-5a950922, c-9d1a85a9]}
+  implementation_fields:
+    harness: {claim_ids: [c-833fbbf0]}
+    tool_access: {claim_ids: [c-d0b5aa94]}

@@ -132,6 +132,50 @@ def _command_resolve(args: argparse.Namespace) -> int:
     return 0
 
 
+def _command_run(args: argparse.Namespace) -> int:
+    from intake.run import run_queue
+
+    summaries = run_queue(args.queue, budget_usd=args.budget_usd)
+    for summary in summaries:
+        print(
+            f"{summary.run_id}: {summary.decision}"
+            + (f" -> {summary.draft_path}" if summary.draft_path else " (no draft; see sheet)")
+        )
+        print(f"  sheet: {summary.sheet_path}")
+        for note in summary.notes:
+            print(f"  note: {note}")
+    return 0
+
+
+def _command_stage(args: argparse.Namespace) -> int:
+    from intake.stage import run_stage
+
+    return run_stage(args.name, args.run)
+
+
+def _command_review(args: argparse.Namespace) -> int:
+    from intake.review import load_review
+
+    print(load_review(args.run_id), end="")
+    return 0
+
+
+def _command_backfill(args: argparse.Namespace) -> int:
+    from intake.adapters.writer import WriterAdapter
+    from intake.backfill import backfill_dry_run, review_sheet
+    from intake.budget import Budget
+
+    budget = Budget(budget_usd=args.budget_usd)
+    report = backfill_dry_run(args.record, adapter=WriterAdapter(), budget=budget)
+    sheet = review_sheet(report)
+    if args.output is not None:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(sheet, encoding="utf-8")
+        print(f"wrote {args.output}")
+    print(sheet, end="")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="intake", description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -179,6 +223,28 @@ def build_parser() -> argparse.ArgumentParser:
     resolve.add_argument("--text-file", type=Path)
     resolve.add_argument("--output", type=Path)
     resolve.set_defaults(func=_command_resolve)
+
+    run = subparsers.add_parser("run", help="run the whole pipeline over a queue file")
+    run.add_argument("queue", type=Path)
+    run.add_argument("--budget-usd", type=float, default=2.0)
+    run.set_defaults(func=_command_run)
+
+    stage = subparsers.add_parser("stage", help="rerun one stage from a run directory")
+    stage.add_argument("name", choices=["segment", "resolve", "verify", "render", "review"])
+    stage.add_argument("--run", required=True, help="run ID under .intake/runs/")
+    stage.set_defaults(func=_command_stage)
+
+    review = subparsers.add_parser("review", help="print one run's review sheet")
+    review.add_argument("run_id")
+    review.set_defaults(func=_command_review)
+
+    backfill = subparsers.add_parser(
+        "backfill", help="propose locators for a record's unlocated claims (dry run)"
+    )
+    backfill.add_argument("record", type=Path)
+    backfill.add_argument("--budget-usd", type=float, default=10.0)
+    backfill.add_argument("--output", type=Path)
+    backfill.set_defaults(func=_command_backfill)
 
     return parser
 

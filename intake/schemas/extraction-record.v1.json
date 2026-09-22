@@ -1199,8 +1199,8 @@
             "type": "integer"
           },
           "calls": {
-            "default": 1,
-            "minimum": 1,
+            "default": 0,
+            "minimum": 0,
             "title": "Calls",
             "type": "integer"
           },
@@ -1244,6 +1244,9 @@
                 "type": "string"
               },
               "type": "array"
+            },
+            {
+              "type": "null"
             }
           ]
         },

@@ -82,7 +82,7 @@ def load_prompt(version: str = PROMPT_VERSION) -> str:
 
 def build_input(
     *,
-    paragraphs: list[Paragraph],
+    paragraphs_by_source: dict[str, list[Paragraph]],
     sources: list[StagedSource],
     hints: dict[str, Any] | None = None,
 ) -> str:
@@ -101,13 +101,15 @@ def build_input(
             ],
             "paragraphs": [
                 {
-                    "id": paragraph.id,
+                    "id": f"{local_id}-{paragraph.id}",
+                    "source": local_id,
                     "heading_path": list(paragraph.heading_path),
                     "start": paragraph.start,
                     "end": paragraph.end,
                     "text": paragraph.text,
                 }
-                for paragraph in paragraphs
+                for local_id, source_paragraphs in paragraphs_by_source.items()
+                for paragraph in source_paragraphs
             ],
         },
         ensure_ascii=False,
@@ -118,7 +120,7 @@ def build_input(
 def run_extract(
     *,
     run_id: str,
-    paragraphs: list[Paragraph],
+    paragraphs_by_source: dict[str, list[Paragraph]],
     sources: list[StagedSource],
     hints: dict[str, Any] | None = None,
     adapter: WriterAdapter,
@@ -132,7 +134,9 @@ def run_extract(
 
     budget.reserve_calls(1)
     instructions = load_prompt()
-    input_text = build_input(paragraphs=paragraphs, sources=sources, hints=hints)
+    input_text = build_input(
+        paragraphs_by_source=paragraphs_by_source, sources=sources, hints=hints
+    )
     schema = strict_schema(WriterPayload)
     result = adapter.complete_json(
         instructions=instructions,
@@ -230,22 +234,24 @@ def resolve_references(record: ExtractionRecord) -> ExtractionRecord:
 
     questions = record.questions
     if questions is not None:
-        updated = {}
-        for key in (
-            "purpose",
-            "workflow",
-            "human_involvement",
-            "implementation",
-            "validation",
-            "observations",
-            "lessons",
-        ):
-            answer = getattr(questions, key)
-            updated[key] = answer.model_copy(update={"claim_ids": resolve(answer.claim_ids)})
-        for key, answer in questions.implementation_fields.items():
-            updated.setdefault(
-                key, answer.model_copy(update={"claim_ids": resolve(answer.claim_ids)})
+        updated = {
+            key: getattr(questions, key).model_copy(
+                update={"claim_ids": resolve(getattr(questions, key).claim_ids)}
             )
+            for key in (
+                "purpose",
+                "workflow",
+                "human_involvement",
+                "implementation",
+                "validation",
+                "observations",
+                "lessons",
+            )
+        }
+        updated["implementation_fields"] = {
+            key: answer.model_copy(update={"claim_ids": resolve(answer.claim_ids)})
+            for key, answer in questions.implementation_fields.items()
+        }
         questions = questions.model_copy(update=updated)
     classification = record.classification
     operating_models = [

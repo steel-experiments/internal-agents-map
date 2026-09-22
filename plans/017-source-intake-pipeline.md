@@ -754,3 +754,54 @@ STOP-line report:
   every claim goes to review.
 
 `npm run verify` green with the new tests.
+
+### Phase 4 — writing, preflight, render, verify, skill (2026-09-22)
+
+STOP-line report:
+
+- Write (stage 8): `intake/write.py` with the versioned prompt
+  `intake/prompts/write.v1.md`. The claim prose comes from stage 4, so stage 8
+  writes the one piece stage 4 may leave blank: the per-claim confidence
+  reason. The writer receives the claims with their computed IDs and quotes;
+  an unknown claim ID, an empty reason, or a number the claim and quotes do
+  not carry fails the stage after one retry. The "every sentence carries its
+  claim IDs" rule holds structurally: every rendered field maps to claims
+  through the compatibility map, and the renderer refuses a field without one.
+- Preflight (stage 9): `intake/preflight.py` flags conflicts and low-stated
+  verdicts onto the sheet. It consumes the stage 6 relation verdicts instead
+  of asking the same question twice on the same passage — the plan's separate
+  sentence pass assumed stage 8 writes new prose; here the prose is the claims
+  and was already judged. Stage 8's output is confidence reasons, whose
+  numbers were checked at write time.
+- Render, validate, review: `intake/run.py` orchestrates all twelve stages
+  from a queue file (`uv run python -m intake run queue.yaml --budget-usd 2.00`),
+  saves every stage's artifact under `.intake/runs/<run-id>/` (never
+  overwritten), writes the draft under `drafts/` (never overwritten), and
+  `intake/review.py` produces the sheet (claims, quotes, locators, verdicts,
+  dispositions, model usage, the decision a person makes) and the `run.json`
+  manifest with the compatibility map. Stage 11 runs `build.validate_record`
+  on the draft. Offline stages rerun with `intake stage <name> --run <run-id>`
+  into `<artifact>.rerun` files.
+- Skill: `.claude/skills/intake/` with `SKILL.md`, `config.json` (model
+  strings, prompt and question versions, provisional gate thresholds with
+  their model version, budgets, similarity bound), and `evals/` holding the
+  three golden extraction records. The add-agent-from-url skill keeps the
+  policy and now points to the intake skill for execution.
+- Operator document: `docs/intake-pipeline.md` completed — commands, reading a
+  run, rerunning one stage, secrets, and what the pipeline never does.
+- Acceptance run (**the phase gate**): **blocked — no `STEEL_API_KEY` and no
+  `OPENAI_API_KEY`**. The three 2026-09-11 policy-review leads (Snowflake,
+  Databricks Omnigent, and Amazon Q Developer are ready candidates) cannot be
+  captured or drafted live. Instead, the whole pipeline is proven end to end
+  offline: a queue run over the real zup capture with fake services passes all
+  twelve stages, produces a draft that `build.validate_record` accepts with
+  locators on every evidence link, writes the sheet and manifest, and reruns
+  its offline stages. The eight-lead acceptance and the reviewer-minutes
+  measurement stay open until the keys exist.
+- One deviation recorded: the run stages every source conservatively as
+  `kind: other`, `provenance_class: independent-secondary`; the sheet tells the
+  reviewer to correct both. The writer prompt asks for the real values but the
+  queue defaults stay honest rather than guessed.
+
+`npm run verify` green with the new tests (full gate, exit 0).
+

@@ -1,0 +1,170 @@
+# Hand-written extraction record for the Phase 0 golden test: a platform.
+# Mirrors data/agents/duolingo-agentic-workflows.yaml over its own capture (a
+# representative subset of its claims). Claim IDs are content addressed;
+# intake.models.finalize recomputes and verifies every one of them.
+schema_version: 1
+run_id: 2026-09-22T19:42:33Z-7c4d
+candidate:
+  company: Duolingo
+  system_name: Agentic workflows
+  record_id: duolingo-agentic-workflows
+  decision: update
+  matched_records:
+  - id: duolingo-agentic-workflows
+    same_system: 0.96
+    reason: the capture describes the same internal workflow platform
+classification:
+  approach_type: platform
+  deployment_stage: deployed
+  year: 2025
+  status: internal
+  autonomy: unknown
+  domains: [coding]
+  rubric:
+    invocation: [interactive]
+    state: unknown
+    identity: service
+    evidence_strength: limited-primary
+  operating_models:
+  - scope: prompt drafted and tested with a coding agent → workflow form merged into the internal tool list
+    attention_boundary: work-product-review
+    claim_ids: [c-80bbd4d4]
+  agent_name: Agentic workflows
+sources:
+- local_id: s1
+  title: Scaling Engineering with Agentic Workflows
+  url: https://blog.duolingo.com/agentic-workflows/
+  canonical_url: https://blog.duolingo.com/agentic-workflows/
+  kind: corporate-article
+  provenance_class: first-party
+  published_at: '2025-12-11'
+  captured_at: '2026-09-21'
+  content_sha256: sha256:2503b42a67943a128069190f1a077bf8c93ab02d68622b7e3d3f5a46a76913d7
+  capture_manifest_path: archive/sources/duolingo-agentic-workflows-source-1/metadata.json
+claims:
+- id: c-80bbd4d4
+  field: operating_models[]
+  text: A Duo drafts and tests the prompt with a coding agent, then merges the workflow form into the internal tool list
+  kind: fact
+  provenance: reported
+  quotes:
+  - source: s1
+    text: test this prompt until they judge it successful
+    lines: [44, 44]
+    match: exact
+  - source: s1
+    text: Duos can easily merge their forms for them to automatically show up in a list of internal tools that any Duo can run
+    lines: [48, 48]
+    match: exact
+  disposition: accept
+- id: c-efabb5a6
+  field: summary
+  text: Duolingo built shared infrastructure that turns a tested prompt into an internal tool. A JSON
+    form defines a coding-agent workflow against one repository, and a shared library wraps the
+    Codex CLI and the Claude Code SDK.
+  kind: fact
+  provenance: reported
+  quotes:
+  - source: s1
+    text: Duos are already building a growing fleet of coding agents customized to Duolingo’s most repetitive tasks
+    lines: [10, 10]
+    match: exact
+  disposition: accept
+- id: c-f2b6198f
+  field: architecture.harness
+  text: A shared CodingAgent library wraps the Codex CLI and the Claude Code SDK behind one interface
+  kind: fact
+  provenance: reported
+  quotes:
+  - source: s1
+    text: We have created a single library, CodingAgent, which wraps both Codex CLI and Claude Code SDK into a single library
+    lines: [58, 58]
+    match: exact
+  disposition: accept
+- id: c-2ce433d8
+  field: architecture.credentials
+  text: Coding-agent API keys are set as environment variables
+  kind: fact
+  provenance: reported
+  quotes:
+  - source: s1
+    text: Once a creator has set up its API keys as environment variables
+    lines: [58, 58]
+    match: exact
+  disposition: accept
+- id: c-e301cad5
+  field: primitives[]
+  primitive_name: Fill out the workflow form
+  text: A Duo describes the workflow in a simple JSON form that carries a prompt, a code repository, and zero or more parameters for sharing and reuse
+  kind: fact
+  provenance: reported
+  quotes:
+  - source: s1
+    text: Our Duos start by filling out a simple JSON form about the workflow
+    lines: [36, 36]
+    match: exact
+  disposition: accept
+- id: c-e908e84f
+  field: primitives[]
+  primitive_name: Run the common pattern
+  text: The shared pattern clones the repository, lets the coding agent make the code change, then commits the code and optionally opens a pull request
+  kind: fact
+  provenance: reported
+  quotes:
+  - source: s1
+    text: Clone the repo
+    lines: [24, 26]
+    match: exact
+  disposition: accept
+- id: c-c5b7156b
+  field: key_metrics[]
+  text: Duolingo says a Duo can create a workflow that follows the common pattern in under five minutes; no measurement method is reported
+  kind: metric
+  provenance: reported
+  quotes:
+  - source: s1
+    text: create an agent in under five minutes
+    lines: [10, 10]
+    match: exact
+  numbers:
+  - claim: under five minutes
+    in_quote: true
+  judgments:
+    basis: {label: qualitative, p: 0.6}
+  disposition: accept
+  metadata:
+    confidence: medium
+    confidence_reason: The post states the figure as a section heading and a TL;DR claim, with no measurement method.
+    metric_scope: Workflow creation time for the common pattern
+  observation:
+    category: cost-latency
+    basis: qualitative
+    subject: Time for a Duo to create a workflow that follows the common pattern
+- id: c-0cc61bb9
+  field: lessons_learned[]
+  text: Duolingo found one pattern recurring across its coding agents and built its no-code workflow form around that pattern.
+  kind: fact
+  provenance: reported
+  quotes:
+  - source: s1
+    text: we found the same pattern emerged again and again as the simple way to make code changes
+    lines: [22, 28]
+    match: exact
+  disposition: accept
+  metadata:
+    confidence: medium
+    confidence_reason: The post states the recurring pattern in its own words; no adoption measurement is attached.
+questions:
+  purpose: {claim_ids: [c-efabb5a6]}
+  workflow:
+    claim_ids: [c-e301cad5, c-e908e84f]
+    note: Documented use example; no universal platform run is implied.
+  workflow_scope: prompt drafted and tested with a coding agent → workflow form merged into the internal tool list
+  human_involvement: {}
+  implementation: {claim_ids: [c-f2b6198f]}
+  validation: {}
+  observations: {claim_ids: [c-c5b7156b]}
+  lessons: {claim_ids: [c-0cc61bb9]}
+  implementation_fields:
+    harness: {claim_ids: [c-f2b6198f]}
+    credentials: {claim_ids: [c-2ce433d8]}

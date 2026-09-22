@@ -43,6 +43,15 @@ legacy field. Confirm duplicate representations have identical scope and qualifi
 Search `data/agents/` with `rg` for the organization, system, and aliases before choosing Add.
 A matching system calls for Update, not a duplicate or exclusion.
 
+## Run the pipeline
+
+For a request to add or update a case from one link or a list of links, the
+[intake skill](../intake/SKILL.md) owns execution: it captures, extracts,
+verifies, judges, and renders a draft with the review sheet, and this skill's
+policy governs what the result means. Run it when the owner supplies URLs and
+expects a draft. This skill's manual path remains for assessment questions and
+for runs the pipeline cannot serve (missing keys, offline work).
+
 ## Make the decision
 
 Apply the contribution guide's questions and return Add, Update, Needs evidence, or Out of scope.

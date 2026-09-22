@@ -24,7 +24,7 @@ verification gate, and update the status row when finished.
 | [014](014-search-discovery.md) | Make the catalog findable through search | P1 | L | 013, the SEO pulse skill and its 2026-09 report | TODO; planned 2026-09-21, five phases with their own approval gates; no execution requested |
 | [015](015-social-preview-cards.md) | Give every page its own link preview card | P2 | M | 007, 013 | DONE on 2026-09-22; merged to main through pull request #11; licence follow-up scheduled |
 | [016](016-jev-investigation.md) | Investigate Jev for evidence review and discovery | P2 | M | — | DONE investigation and bounded smoke experiment on 2026-09-22; production integration deferred pending independent evaluation |
-| [017](017-source-intake-pipeline.md) | Turn a list of links into a reviewed catalog record | P1 | L | 016, the schema simplification review | IN PROGRESS on 2026-09-22 on `claude/plan-017-source-intake-pipeline`; Phases 0–3 implemented (models, renderer, capture, segmentation, identity, writer adapter, quote verification, numbers, budget, backfill, Jev judge, gate, evaluation harness); live API gates and human labelling blocked |
+| [017](017-source-intake-pipeline.md) | Turn a list of links into a reviewed catalog record | P1 | L | 016, the schema simplification review | IN PROGRESS on 2026-09-22 on `claude/plan-017-source-intake-pipeline`; Phases 0–4 implemented (all twelve stages, queue runs, review sheets, run manifests, skill, operator doc; end-to-end test over a real capture with fake services); live acceptance runs blocked on API keys |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) |
 REJECTED (with one-line rationale)

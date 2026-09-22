@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "writer": {
+    "model": "gpt-6-sol",
+    "reasoning_effort": "medium",
+    "prompts": {
+      "extract": "extract.v1",
+      "write": "write.v1"
+    },
+    "input_price_per_mtok_usd": 2.0,
+    "output_price_per_mtok_usd": 10.0,
+    "max_input_tokens_per_call": 64000,
+    "max_output_tokens_per_call": 16000
+  },
+  "jev": {
+    "model": "jev-1.13.0",
+    "question_version": 1,
+    "input_price_per_mtok_usd": 0.042,
+    "max_input_tokens_per_request": 65536
+  },
+  "gate": {
+    "model": "jev-1.13.0",
+    "question_version": 1,
+    "calibrated": false,
+    "relation_stated_min": 0.8,
+    "actor_mismatch_max": 0.3,
+    "approval_removed_max": 0.3,
+    "temporal_current_min": 0.5
+  },
+  "budgets": {
+    "run_usd": 2.0,
+    "backtest_usd": 20.0,
+    "backfill_usd": 10.0
+  },
+  "quotes": {
+    "fuzzy_similarity_bound": 0.7
+  },
+  "notes": [
+    "The gate thresholds are provisional: the Phase 3 calibration needs TYPESAFE_API_KEY and two human labellers. Recalibrate before trusting them.",
+    "Prices are the published planning-time values; measure usage on every call and record what the APIs return."
+  ]
+}
