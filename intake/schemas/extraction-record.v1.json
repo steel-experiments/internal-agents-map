@@ -1,0 +1,1336 @@
+{
+  "extraction_record": {
+    "$defs": {
+      "Candidate": {
+        "additionalProperties": false,
+        "description": "The identity decision the pipeline proposes for one queue entry.",
+        "properties": {
+          "company": {
+            "minLength": 1,
+            "title": "Company",
+            "type": "string"
+          },
+          "system_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "System Name"
+          },
+          "record_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Record Id"
+          },
+          "decision": {
+            "default": "needs-evidence",
+            "enum": [
+              "add",
+              "update",
+              "needs-evidence",
+              "out-of-scope"
+            ],
+            "title": "Decision",
+            "type": "string"
+          },
+          "matched_records": {
+            "default": [],
+            "items": {
+              "$ref": "#/$defs/MatchedRecord"
+            },
+            "title": "Matched Records",
+            "type": "array"
+          },
+          "homepage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Homepage"
+          },
+          "company_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Company Id"
+          }
+        },
+        "required": [
+          "company"
+        ],
+        "title": "Candidate",
+        "type": "object"
+      },
+      "Claim": {
+        "additionalProperties": false,
+        "description": "One reported statement with the quotes that support it.",
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Id"
+          },
+          "field": {
+            "title": "Field",
+            "type": "string"
+          },
+          "text": {
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "fact",
+              "metric",
+              "inference",
+              "opinion"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "provenance": {
+            "enum": [
+              "reported",
+              "observed",
+              "inferred",
+              "catalog-judgment"
+            ],
+            "title": "Provenance",
+            "type": "string"
+          },
+          "quotes": {
+            "items": {
+              "$ref": "#/$defs/Quote"
+            },
+            "minItems": 1,
+            "title": "Quotes",
+            "type": "array"
+          },
+          "numbers": {
+            "default": [],
+            "items": {
+              "$ref": "#/$defs/NumberCheck"
+            },
+            "title": "Numbers",
+            "type": "array"
+          },
+          "judgments": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Judgments"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "disposition": {
+            "default": "review",
+            "enum": [
+              "accept",
+              "review",
+              "drop"
+            ],
+            "title": "Disposition",
+            "type": "string"
+          },
+          "review_note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Review Note"
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ClaimMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "observation": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Observation"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "primitive_role": {
+            "anyOf": [
+              {
+                "enum": [
+                  "workflow",
+                  "mechanism",
+                  "validation"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Primitive Role"
+          },
+          "primitive_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Primitive Name"
+          }
+        },
+        "required": [
+          "field",
+          "text",
+          "kind",
+          "provenance",
+          "quotes"
+        ],
+        "title": "Claim",
+        "type": "object"
+      },
+      "ClaimMetadata": {
+        "additionalProperties": false,
+        "description": "Qualifications the renderer copies into ``claim_metadata`` for one claim.",
+        "properties": {
+          "confidence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Confidence"
+          },
+          "confidence_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Confidence Reason"
+          },
+          "valid_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Valid At"
+          },
+          "reported_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Reported By"
+          },
+          "metric_scope": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Metric Scope"
+          },
+          "denominator": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Denominator"
+          },
+          "measurement_method": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Measurement Method"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Unit"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Value"
+          },
+          "attention_boundary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Attention Boundary"
+          }
+        },
+        "title": "ClaimMetadata",
+        "type": "object"
+      },
+      "Classification": {
+        "additionalProperties": false,
+        "description": "Entry-level classification fields proposed by the writer model.",
+        "properties": {
+          "approach_type": {
+            "title": "Approach Type",
+            "type": "string"
+          },
+          "deployment_stage": {
+            "title": "Deployment Stage",
+            "type": "string"
+          },
+          "year": {
+            "maximum": 2100,
+            "minimum": 2000,
+            "title": "Year",
+            "type": "integer"
+          },
+          "status": {
+            "default": "internal",
+            "title": "Status",
+            "type": "string"
+          },
+          "autonomy": {
+            "default": "unknown",
+            "title": "Autonomy",
+            "type": "string"
+          },
+          "domains": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Domains",
+            "type": "array"
+          },
+          "rubric": {
+            "$ref": "#/$defs/RubricProposal"
+          },
+          "operating_models": {
+            "items": {
+              "$ref": "#/$defs/OperatingModelProposal"
+            },
+            "minItems": 1,
+            "title": "Operating Models",
+            "type": "array"
+          },
+          "agent_name": {
+            "minLength": 1,
+            "title": "Agent Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "approach_type",
+          "deployment_stage",
+          "year",
+          "domains",
+          "rubric",
+          "operating_models",
+          "agent_name"
+        ],
+        "title": "Classification",
+        "type": "object"
+      },
+      "Judgments": {
+        "additionalProperties": false,
+        "description": "Advisory stage-6 verdicts for one claim. Labels are checked at render time.",
+        "properties": {
+          "relation": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Verdict"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "actor_mismatch": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Actor Mismatch"
+          },
+          "temporal": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Verdict"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "approval_removed": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Approval Removed"
+          },
+          "basis": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Verdict"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Model"
+          },
+          "question_version": {
+            "anyOf": [
+              {
+                "minimum": 1,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Question Version"
+          }
+        },
+        "title": "Judgments",
+        "type": "object"
+      },
+      "MatchedRecord": {
+        "additionalProperties": false,
+        "description": "One shortlisted existing record from the identity stage.",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "same_system": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Same System"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Reason"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "title": "MatchedRecord",
+        "type": "object"
+      },
+      "NumberCheck": {
+        "additionalProperties": false,
+        "description": "One number or date from a claim, checked against its quote by stage 7.",
+        "properties": {
+          "claim": {
+            "minLength": 1,
+            "title": "Claim",
+            "type": "string"
+          },
+          "in_quote": {
+            "title": "In Quote",
+            "type": "boolean"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Note"
+          }
+        },
+        "required": [
+          "claim",
+          "in_quote"
+        ],
+        "title": "NumberCheck",
+        "type": "object"
+      },
+      "Observation": {
+        "additionalProperties": false,
+        "description": "The page-content classification for one metric claim.\n\nEither a canonical observation (category, basis, subject) or a duplicate alias\nthat points at another metric claim and says why.",
+        "properties": {
+          "category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Category"
+          },
+          "basis": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Basis"
+          },
+          "subject": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subject"
+          },
+          "duplicate_of": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Duplicate Of"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Reason"
+          }
+        },
+        "title": "Observation",
+        "type": "object"
+      },
+      "OperatingModelProposal": {
+        "additionalProperties": false,
+        "description": "One scoped supervision assessment, backed by the named claims.",
+        "properties": {
+          "scope": {
+            "minLength": 1,
+            "title": "Scope",
+            "type": "string"
+          },
+          "attention_boundary": {
+            "title": "Attention Boundary",
+            "type": "string"
+          },
+          "claim_ids": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Claim Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "scope",
+          "attention_boundary",
+          "claim_ids"
+        ],
+        "title": "OperatingModelProposal",
+        "type": "object"
+      },
+      "QuestionAnswer": {
+        "additionalProperties": false,
+        "description": "Claim IDs that answer one reader question, plus the silence note.",
+        "properties": {
+          "claim_ids": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Claim Ids",
+            "type": "array"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Note"
+          }
+        },
+        "title": "QuestionAnswer",
+        "type": "object"
+      },
+      "Questions": {
+        "additionalProperties": false,
+        "description": "The seven reader questions plus per-field implementation answers.",
+        "properties": {
+          "purpose": {
+            "$ref": "#/$defs/QuestionAnswer",
+            "default": {
+              "claim_ids": [],
+              "note": null
+            }
+          },
+          "workflow": {
+            "$ref": "#/$defs/QuestionAnswer",
+            "default": {
+              "claim_ids": [],
+              "note": null
+            }
+          },
+          "human_involvement": {
+            "$ref": "#/$defs/QuestionAnswer",
+            "default": {
+              "claim_ids": [],
+              "note": null
+            }
+          },
+          "implementation": {
+            "$ref": "#/$defs/QuestionAnswer",
+            "default": {
+              "claim_ids": [],
+              "note": null
+            }
+          },
+          "validation": {
+            "$ref": "#/$defs/QuestionAnswer",
+            "default": {
+              "claim_ids": [],
+              "note": null
+            }
+          },
+          "observations": {
+            "$ref": "#/$defs/QuestionAnswer",
+            "default": {
+              "claim_ids": [],
+              "note": null
+            }
+          },
+          "lessons": {
+            "$ref": "#/$defs/QuestionAnswer",
+            "default": {
+              "claim_ids": [],
+              "note": null
+            }
+          },
+          "implementation_fields": {
+            "additionalProperties": {
+              "$ref": "#/$defs/QuestionAnswer"
+            },
+            "default": {},
+            "title": "Implementation Fields",
+            "type": "object"
+          },
+          "workflow_scope": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Workflow Scope"
+          }
+        },
+        "title": "Questions",
+        "type": "object"
+      },
+      "Quote": {
+        "additionalProperties": false,
+        "description": "One verbatim passage from a captured source that a claim rests on.",
+        "properties": {
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "text": {
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          },
+          "paragraph_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Paragraph Id"
+          },
+          "lines": {
+            "anyOf": [
+              {
+                "maxItems": 2,
+                "minItems": 2,
+                "prefixItems": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ],
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Lines"
+          },
+          "match": {
+            "default": "missing",
+            "enum": [
+              "exact",
+              "fuzzy",
+              "missing"
+            ],
+            "title": "Match",
+            "type": "string"
+          }
+        },
+        "required": [
+          "source",
+          "text"
+        ],
+        "title": "Quote",
+        "type": "object"
+      },
+      "RubricProposal": {
+        "additionalProperties": false,
+        "description": "The structural rubric the writer model proposes; code validates the values.",
+        "properties": {
+          "invocation": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Invocation",
+            "type": "array"
+          },
+          "state": {
+            "title": "State",
+            "type": "string"
+          },
+          "identity": {
+            "title": "Identity",
+            "type": "string"
+          },
+          "evidence_strength": {
+            "default": "unknown",
+            "title": "Evidence Strength",
+            "type": "string"
+          }
+        },
+        "required": [
+          "invocation",
+          "state",
+          "identity"
+        ],
+        "title": "RubricProposal",
+        "type": "object"
+      },
+      "StagedSource": {
+        "additionalProperties": false,
+        "description": "One captured source, staged under ``.intake/captures/`` until promotion.",
+        "properties": {
+          "local_id": {
+            "title": "Local Id",
+            "type": "string"
+          },
+          "title": {
+            "minLength": 1,
+            "title": "Title",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          },
+          "canonical_url": {
+            "title": "Canonical Url",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "provenance_class": {
+            "title": "Provenance Class",
+            "type": "string"
+          },
+          "role": {
+            "default": "evidence",
+            "title": "Role",
+            "type": "string"
+          },
+          "publisher": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Publisher"
+          },
+          "authors": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Authors"
+          },
+          "published_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Published At"
+          },
+          "staging_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Staging Path"
+          },
+          "captured_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Captured At"
+          },
+          "content_sha256": {
+            "title": "Content Sha256",
+            "type": "string"
+          },
+          "capture_manifest_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Capture Manifest Path"
+          }
+        },
+        "required": [
+          "local_id",
+          "title",
+          "url",
+          "canonical_url",
+          "kind",
+          "provenance_class",
+          "content_sha256"
+        ],
+        "title": "StagedSource",
+        "type": "object"
+      },
+      "Verdict": {
+        "additionalProperties": false,
+        "description": "A labelled Jev judgment with its probability.",
+        "properties": {
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "p": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "P",
+            "type": "number"
+          }
+        },
+        "required": [
+          "label",
+          "p"
+        ],
+        "title": "Verdict",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "The full stage-4 output for one queue candidate.",
+    "properties": {
+      "schema_version": {
+        "default": 1,
+        "title": "Schema Version",
+        "type": "integer"
+      },
+      "run_id": {
+        "title": "Run Id",
+        "type": "string"
+      },
+      "candidate": {
+        "$ref": "#/$defs/Candidate"
+      },
+      "classification": {
+        "$ref": "#/$defs/Classification"
+      },
+      "sources": {
+        "items": {
+          "$ref": "#/$defs/StagedSource"
+        },
+        "minItems": 1,
+        "title": "Sources",
+        "type": "array"
+      },
+      "claims": {
+        "items": {
+          "$ref": "#/$defs/Claim"
+        },
+        "minItems": 1,
+        "title": "Claims",
+        "type": "array"
+      },
+      "questions": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/Questions"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null
+      }
+    },
+    "required": [
+      "run_id",
+      "candidate",
+      "classification",
+      "sources",
+      "claims"
+    ],
+    "title": "ExtractionRecord",
+    "type": "object"
+  },
+  "run_manifest": {
+    "$defs": {
+      "StageRun": {
+        "additionalProperties": false,
+        "description": "One recorded model call block for a pipeline stage.",
+        "properties": {
+          "stage": {
+            "enum": [
+              "capture",
+              "segment",
+              "resolve",
+              "extract",
+              "verify",
+              "judge",
+              "numbers",
+              "write",
+              "preflight",
+              "render",
+              "validate",
+              "review"
+            ],
+            "title": "Stage",
+            "type": "string"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Model"
+          },
+          "prompt_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Prompt Version"
+          },
+          "question_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Question Version"
+          },
+          "input_tokens": {
+            "default": 0,
+            "minimum": 0,
+            "title": "Input Tokens",
+            "type": "integer"
+          },
+          "output_tokens": {
+            "default": 0,
+            "minimum": 0,
+            "title": "Output Tokens",
+            "type": "integer"
+          },
+          "cost_usd": {
+            "default": 0.0,
+            "minimum": 0.0,
+            "title": "Cost Usd",
+            "type": "number"
+          },
+          "cache_hits": {
+            "default": 0,
+            "minimum": 0,
+            "title": "Cache Hits",
+            "type": "integer"
+          },
+          "calls": {
+            "default": 1,
+            "minimum": 1,
+            "title": "Calls",
+            "type": "integer"
+          },
+          "ok": {
+            "default": true,
+            "title": "Ok",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "stage"
+        ],
+        "title": "StageRun",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "The provenance record for one pipeline run.",
+    "properties": {
+      "schema_version": {
+        "default": 1,
+        "title": "Schema Version",
+        "type": "integer"
+      },
+      "run_id": {
+        "title": "Run Id",
+        "type": "string"
+      },
+      "created_at": {
+        "title": "Created At",
+        "type": "string"
+      },
+      "queue_entry": {
+        "additionalProperties": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ]
+        },
+        "title": "Queue Entry",
+        "type": "object"
+      },
+      "decision": {
+        "default": "needs-evidence",
+        "enum": [
+          "add",
+          "update",
+          "needs-evidence",
+          "out-of-scope"
+        ],
+        "title": "Decision",
+        "type": "string"
+      },
+      "record_id": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Record Id"
+      },
+      "model_strings": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "default": {},
+        "title": "Model Strings",
+        "type": "object"
+      },
+      "prompt_versions": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "default": {},
+        "title": "Prompt Versions",
+        "type": "object"
+      },
+      "capture_hashes": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "default": {},
+        "title": "Capture Hashes",
+        "type": "object"
+      },
+      "stage_runs": {
+        "default": [],
+        "items": {
+          "$ref": "#/$defs/StageRun"
+        },
+        "title": "Stage Runs",
+        "type": "array"
+      },
+      "compatibility": {
+        "additionalProperties": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "default": {},
+        "title": "Compatibility",
+        "type": "object"
+      },
+      "notes": {
+        "default": [],
+        "items": {
+          "type": "string"
+        },
+        "title": "Notes",
+        "type": "array"
+      }
+    },
+    "required": [
+      "run_id",
+      "created_at",
+      "queue_entry"
+    ],
+    "title": "RunManifest",
+    "type": "object"
+  }
+}

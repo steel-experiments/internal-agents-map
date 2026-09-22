@@ -585,3 +585,43 @@ than the whole model bill.
 
 Planned on 2026-09-22. Execution of each phase requires its own approval as stated at
 the phase's STOP line.
+
+## Execution log
+
+Executed under the owner's Ralph-loop instruction of 2026-09-22 ("continue until the
+full plan is implemented and done"), which serves as the standing authorization the
+STOP lines ask for. Each phase still reports at its STOP line before the next begins.
+One deviation: the loop names one branch for the whole plan
+(`claude/plan-017-source-intake-pipeline`), so phases land as commits on that branch
+instead of one branch per phase.
+
+### Phase 0 — extraction record, renderer, backtest scaffold (2026-09-22)
+
+STOP-line report:
+
+- Package layout: `intake/` with `__init__.py`, `__main__.py` (commands: `schema`,
+  `render`, `backtest`), `models.py` (pydantic extraction record and run manifest,
+  content-addressed claim IDs, `finalize`), `catalog.py` (import shim that loads
+  `scripts/build.py` the way the coverage script and the tests do), `render.py`
+  (renderer, compatibility map, company entry), `backtest.py` (comparison scaffold),
+  and the committed JSON schema export `intake/schemas/extraction-record.v1.json`.
+  Tests: `tests/test_intake_models.py`, `tests/test_intake_render.py`,
+  `tests/test_intake_backtest.py`; fixtures under `tests/fixtures/intake/`.
+  `.intake/` and `drafts/` are gitignored.
+- Dependency addition: `pydantic==2.13.5` pinned like the existing `PyYAML` pin;
+  `uv.lock` refreshed. `scripts/build.py` is untouched; the package reaches its
+  validators only through `intake.catalog`.
+- Golden tests: three hand-written extraction records (plaid-ai-annotator — agent with
+  metrics; zup-codegen — agent with lessons; duolingo-agentic-workflows — platform)
+  render to YAML that `build.validate_record` accepts; every evidence link carries a
+  locator; every exact quote is verified verbatim inside its named capture lines;
+  rendering is deterministic; pipeline silence renders as `not-reviewed`, never
+  `unreported`. Backtest scaffold: the zup fixture against its human record scores
+  10/10 recall, precision 1.0, locator agreement 1.0, zero unverified quotes; the
+  plaid fixture exercises the partial-report path (6 of 7 human claims).
+- Open decision 1 (run-manifest location): not yet live — no run manifest has been
+  committed because no record has been drafted end to end. The recommendation
+  (commit under `archive/intake/<record-id>/`) stands and Phase 1 keeps staging
+  manifests under gitignored `.intake/` until then.
+
+`npm run verify` green with the new tests (full gate, dist rebuilt).

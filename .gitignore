@@ -22,6 +22,13 @@ research.md
 # SEO pulse state: the snapshots are regenerable, the reports live in docs/seo/
 .seo/
 
+# Source intake pipeline state: staging captures, stage outputs, caches, and runs
+# are regenerable; the review sheets and committed manifests travel with their records
+.intake/
+
+# Draft records awaiting human review; a person promotes them into data/agents/
+drafts/
+
 # Credentials that local tooling reads, such as the DataForSEO keys of the SEO pulse
 .env
 
