@@ -266,6 +266,7 @@ def run_candidate(
             "cost_usd": usage.get("cost_usd", 0.0),
             "cache_hits": 1 if usage.get("cache_hit") else 0,
             "calls": 0 if usage.get("cache_hit") else 1,
+            "input_hashes": [usage["input_sha256"]] if usage.get("input_sha256") else [],
         }
     (directory / "identity.json").write_text(
         json.dumps(identity, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"

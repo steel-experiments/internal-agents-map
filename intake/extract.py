@@ -130,8 +130,8 @@ def run_extract(
     """Extract one candidate's claims; returns the record and the stage facts.
 
     The stage facts feed the run manifest: the model string the API returned,
-    token usage, cost, and whether the retry fired. With a cache, a warm call
-    replays the recorded payload and reports zero calls.
+    token usage, cost, the input digests, and whether the retry fired. With a
+    cache, a warm call replays the recorded payload and reports zero calls.
     """
 
     budget.reserve_calls(1)
@@ -150,6 +150,7 @@ def run_extract(
     )
     calls = 0 if result.cache_hit else 1
     cache_hits = 1 if result.cache_hit else 0
+    input_hashes = [result.input_sha256] if result.input_sha256 else []
     try:
         payload = WriterPayload.model_validate(result.payload)
     except ValidationError as error:
@@ -169,6 +170,8 @@ def run_extract(
             cache=cache,
         )
         calls += 1
+        if result.input_sha256:
+            input_hashes.append(result.input_sha256)
         try:
             payload = WriterPayload.model_validate(result.payload)
         except ValidationError as retry_error:
@@ -194,6 +197,7 @@ def run_extract(
         "cost_usd": round(result.cost_usd, 6),
         "cache_hits": cache_hits,
         "calls": calls,
+        "input_hashes": input_hashes,
     }
     return record, stage
 

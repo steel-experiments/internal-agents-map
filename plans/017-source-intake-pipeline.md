@@ -1032,4 +1032,23 @@ STOP-line report:
   verified proposal is graded and the sheet shows `stated (0.95)`; without
   Jev the sheet says `not judged` with no error; a warm cache grades nothing
   anew. The intake suite holds 153 tests.
+- Input hashes in the manifest (loop re-read): principle 8 — "a run manifest
+  holds the model strings the APIs returned, the prompt and question
+  versions, **the input hashes**, token usage, and cost" — had no embodiment;
+  `StageRun` carried model, versions, tokens, cost, and cache hits, but
+  nothing named what a call read. Every adapter result now carries
+  `input_sha256`: the writer hashes instructions, input text, schema, model,
+  and effort (the same digest keys its cache, so a replay names the inputs it
+  originally read); Jev hashes the request's state and questions. The
+  resolve, extract, judge, and write rows list their digests under
+  `input_hashes`; offline stages list none. One repair the re-read surfaced:
+  a warm rerun made zero judge requests, so its judge row would have named
+  no inputs while the writer rows still did — each judgment cache entry now
+  stores the request digest that first answered it, and a replayed claim
+  restores it, so a cached rerun lists the same digests with `calls: 0`.
+  Tests: the adapters' digests follow the request (same inputs, same
+  digest; changed input, changed digest; a writer cache replay keeps it);
+  the manifest names every model stage's inputs and no offline stage's; the
+  byte-identical warm rerun asserts the same per-stage digests. The
+  committed schema file was regenerated. The intake suite holds 156 tests.
 

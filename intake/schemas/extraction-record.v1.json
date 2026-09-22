@@ -1218,6 +1218,14 @@
             "title": "Calls",
             "type": "integer"
           },
+          "input_hashes": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Input Hashes",
+            "type": "array"
+          },
           "ok": {
             "default": true,
             "title": "Ok",

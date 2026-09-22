@@ -205,6 +205,7 @@ def judge_claims(
     requests = 0
     input_tokens = 0
     cost_usd = 0.0
+    input_hashes: list[str] = []
     for (local_id, _paragraph_id), indexes in groups.items():
         source = source_of(local_id)
         paragraphs = paragraphs_by_source.get(local_id, [])
@@ -230,6 +231,10 @@ def judge_claims(
             if cached is not None:
                 cache_hits += 1
                 judgments_by_index[claim_index] = _judgments_from_cache(cached)
+                # A replayed claim names the request that first answered it.
+                replayed = cached.get("request_sha256")
+                if replayed and replayed not in input_hashes:
+                    input_hashes.append(replayed)
             else:
                 uncached.append(claim_index)
         if not uncached:
@@ -240,11 +245,16 @@ def judge_claims(
         requests += 1
         input_tokens += result.input_tokens
         cost_usd += result.cost_usd
+        if result.input_sha256:
+            input_hashes.append(result.input_sha256)
         for offset, claim_index in enumerate(uncached):
             claim = record.claims[claim_index]
             judgments = judgments_from_answers(claim, result.answers, offset, result.model)
             judgments_by_index[claim_index] = judgments
-            cache.put(cache_key_for(claim), _judgments_to_cache(judgments))
+            cache.put(
+                cache_key_for(claim),
+                _judgments_to_cache(judgments) | {"request_sha256": result.input_sha256},
+            )
 
     claims = [
         claim.model_copy(update={"judgments": judgments_by_index[index]})
@@ -261,6 +271,7 @@ def judge_claims(
         "cost_usd": round(cost_usd, 6),
         "cache_hits": cache_hits,
         "calls": requests,
+        "input_hashes": input_hashes,
     }
     return JudgeOutcome(record=record.model_copy(update={"claims": claims}), stage=stage)
 
@@ -270,7 +281,8 @@ def _judgments_to_cache(judgments: Judgments) -> dict[str, Any]:
 
 
 def _judgments_from_cache(payload: dict[str, Any]) -> Judgments:
-    return Judgments.model_validate(payload)
+    entry = {key: value for key, value in payload.items() if key != "request_sha256"}
+    return Judgments.model_validate(entry)
 
 
 def gates_pass(judgments: Judgments | None, policy: dict[str, Any]) -> bool:

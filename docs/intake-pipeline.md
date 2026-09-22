@@ -65,7 +65,11 @@ keeping its recorded answers except where the new run reviewed a question.
 Nothing is reordered, rewritten, or removed. The
 run manifest records the model strings the APIs
 returned, the prompt and question versions, per-stage token usage and cost,
-cache hits, and the claim-ID-to-path compatibility map.
+cache hits, the claim-ID-to-path compatibility map, and — for every model
+stage — the sha256 digests of the exact request inputs each call read
+(`input_hashes`). A warm rerun that replays a stage lists the same digests
+with `calls: 0`, so an auditor can confirm the rerun read the same inputs
+without re-deriving them.
 
 ## Secrets and `.env`
 

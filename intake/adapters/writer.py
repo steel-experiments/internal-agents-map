@@ -39,6 +39,7 @@ class WriterResult:
     output_tokens: int
     cost_usd: float
     cache_hit: bool = False
+    input_sha256: str = ""
 
 
 class _ResponsesProtocol(Protocol):
@@ -86,19 +87,22 @@ class WriterAdapter:
 
         With a cache, a warm call replays the recorded payload without
         spending: tokens and cost report zero and ``cache_hit`` is true.
+        Every result carries ``input_sha256`` — the digest of the exact
+        request inputs (instructions, input text, schema, model, effort) —
+        so a run manifest can name what each call read.
         """
-        key: str | None = None
-        if cache is not None:
-            from intake.cache import cache_key
+        from intake.cache import cache_key
 
-            key = cache_key(
-                instructions,
-                input_text,
-                json.dumps(schema, sort_keys=True),
-                schema_name,
-                self.model,
-                self.reasoning_effort,
-            )
+        input_sha256 = cache_key(
+            instructions,
+            input_text,
+            json.dumps(schema, sort_keys=True),
+            schema_name,
+            self.model,
+            self.reasoning_effort,
+        )
+        key = input_sha256 if cache is not None else None
+        if cache is not None and key is not None:
             cached = cache.get(key)
             if cached is not None:
                 return WriterResult(
@@ -108,6 +112,7 @@ class WriterAdapter:
                     output_tokens=0,
                     cost_usd=0.0,
                     cache_hit=True,
+                    input_sha256=input_sha256,
                 )
         try:
             response = self._client_responses().create(
@@ -145,4 +150,5 @@ class WriterAdapter:
             input_tokens=input_tokens,
             output_tokens=output_tokens,
             cost_usd=cost,
+            input_sha256=input_sha256,
         )

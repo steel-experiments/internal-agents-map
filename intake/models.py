@@ -468,6 +468,9 @@ class StageRun(StrictModel):
     cost_usd: float = Field(default=0.0, ge=0.0)
     cache_hits: int = Field(default=0, ge=0)
     calls: int = Field(default=0, ge=0)
+    # Principle 8: the sha256 digests of the exact request inputs each call
+    # read, so an auditor can confirm which calls a rerun replayed.
+    input_hashes: list[str] = []
     ok: bool = True
 
 

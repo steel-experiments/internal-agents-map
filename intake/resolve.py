@@ -213,6 +213,7 @@ def refine_with_jev(
         "input_tokens": result.input_tokens,
         "cost_usd": round(result.cost_usd, 6),
         "cache_hit": False,
+        "input_sha256": result.input_sha256,
     }
     if cache is not None:
         cache.put(key, {"matched_records": refined, "usage": usage})

@@ -231,6 +231,22 @@ class EndToEndRunTests(unittest.TestCase):
         self.assertIn("## Claims", sheet)
         self.assertIn("## Model usage", sheet)
 
+    def test_the_manifest_names_the_inputs_of_every_model_call(self) -> None:
+        """Principle 8: input hashes beside the model strings and costs."""
+        summary = self.run_zup()
+        manifest = json.loads(
+            (self.root / "runs" / summary.run_id / "run.json").read_text(encoding="utf-8")
+        )
+        by_stage = {stage["stage"]: stage for stage in manifest["stage_runs"]}
+        for name in ("resolve", "extract", "judge", "write"):
+            hashes = by_stage[name]["input_hashes"]
+            self.assertTrue(hashes, name)
+            for digest in hashes:
+                self.assertRegex(digest, r"^[0-9a-f]{64}$")
+        # Offline stages make no model calls and name no inputs.
+        for name in ("segment", "verify", "numbers", "render", "validate"):
+            self.assertEqual(by_stage[name]["input_hashes"], [], name)
+
     def test_a_warm_rerun_is_byte_identical_and_makes_no_calls(self) -> None:
         """The product contract: a warm-cache rerun reproduces the draft."""
         from intake.cache import JsonCache
@@ -274,6 +290,15 @@ class EndToEndRunTests(unittest.TestCase):
         for name in ("extract", "judge", "write"):
             self.assertEqual(by_stage[name]["calls"], 0, name)
             self.assertGreaterEqual(by_stage[name]["cache_hits"], 1, name)
+        # The rerun read the same inputs: identical digests on every stage.
+        first_manifest = json.loads(
+            (self.root / "runs" / first.run_id / "run.json").read_text(encoding="utf-8")
+        )
+        first_stages = {stage["stage"]: stage for stage in first_manifest["stage_runs"]}
+        for name in ("resolve", "extract", "judge", "write"):
+            self.assertEqual(
+                by_stage[name]["input_hashes"], first_stages[name]["input_hashes"], name
+            )
 
     def test_an_update_merges_additively_into_the_existing_record(self) -> None:
         from intake.cache import JsonCache

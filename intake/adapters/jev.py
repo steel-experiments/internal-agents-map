@@ -60,6 +60,7 @@ class JevResult:
     output_tokens: int
     cost_usd: float
     cache_hit: bool
+    input_sha256: str = ""
 
 
 class JevAdapter:
@@ -126,6 +127,7 @@ class JevAdapter:
             output_tokens=output_tokens,
             cost_usd=cost,
             cache_hit=False,
+            input_sha256=_request_sha256(state, questions),
         )
 
     def _authorization(self) -> str:
@@ -135,6 +137,17 @@ class JevAdapter:
         if not key:
             raise MissingApiKeyError("TYPESAFE_API_KEY is not set")
         return key
+
+
+def _request_sha256(state: dict[str, Any], questions: dict[str, dict[str, Any]]) -> str:
+    """The digest of one request's inputs: state plus questions, nothing else."""
+    from intake.cache import cache_key
+
+    return cache_key(
+        json.dumps(state, sort_keys=True, ensure_ascii=False),
+        json.dumps(questions, sort_keys=True, ensure_ascii=False),
+        MODEL,
+    )
 
 
 def _validate_answers(

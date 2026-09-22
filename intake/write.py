@@ -145,6 +145,7 @@ def run_write(
     )
     calls = 0 if result.cache_hit else 1
     cache_hits = 1 if result.cache_hit else 0
+    input_hashes = [result.input_sha256] if result.input_sha256 else []
     try:
         payload = ReasonsPayload.model_validate(result.payload)
         reasons = validate_reasons(record, payload)
@@ -165,6 +166,8 @@ def run_write(
             cache=cache,
         )
         calls += 1
+        if result.input_sha256:
+            input_hashes.append(result.input_sha256)
         try:
             payload = ReasonsPayload.model_validate(result.payload)
             reasons = validate_reasons(record, payload)
@@ -193,5 +196,6 @@ def run_write(
         "cost_usd": round(result.cost_usd, 6),
         "cache_hits": cache_hits,
         "calls": calls,
+        "input_hashes": input_hashes,
     }
     return record.model_copy(update={"claims": claims}), stage

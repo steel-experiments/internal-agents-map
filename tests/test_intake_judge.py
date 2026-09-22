@@ -119,6 +119,22 @@ class JevAdapterTests(unittest.TestCase):
         self.assertEqual(result.answers["a0_relation"].probability_of("stated"), 0.9)
         self.assertEqual(result.input_tokens, 4000)
         self.assertGreater(budget.cost_usd, 0.0)
+        self.assertRegex(result.input_sha256, r"^[0-9a-f]{64}$")
+
+    def test_the_input_hash_follows_the_request_not_the_reply(self) -> None:
+        adapter, _connection = self.make_adapter()
+        budget = Budget(budget_usd=1.0)
+        state = {"passage": "Example runs the agent."}
+        questions = {"q": {"type": "noul", "instructions": "same system?"}}
+        first = adapter.ask(state=state, questions=questions, budget=budget)
+        second = adapter.ask(state=state, questions=questions, budget=budget)
+        self.assertEqual(first.input_sha256, second.input_sha256)
+        changed = adapter.ask(
+            state={"passage": "Another company runs the agent."},
+            questions=questions,
+            budget=budget,
+        )
+        self.assertNotEqual(first.input_sha256, changed.input_sha256)
 
     def test_the_budget_refuses_unreserved_jev_requests(self) -> None:
         adapter, _connection = self.make_adapter()

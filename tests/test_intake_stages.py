@@ -275,6 +275,51 @@ def writer_payload_for_zup() -> dict[str, Any]:
     }
 
 
+class WriterAdapterTests(unittest.TestCase):
+    def test_every_result_carries_the_input_hash_and_replays_keep_it(self) -> None:
+        import tempfile
+
+        from intake.adapters.writer import WriterAdapter
+        from intake.cache import JsonCache
+
+        schema = {
+            "type": "object",
+            "properties": {"found": {"type": "boolean"}},
+            "required": ["found"],
+            "additionalProperties": False,
+        }
+
+        class SameReply:
+            def create(self, **kwargs: Any) -> Any:
+                return FakeResponse({"found": True})
+
+        with tempfile.TemporaryDirectory() as directory:
+            cache = JsonCache(Path(directory) / "writer.json")
+            adapter = WriterAdapter(api_key="test-key", responses=SameReply())
+            budget = Budget(budget_usd=10.0)
+            call = dict(
+                instructions="Find the quote.",
+                schema=schema,
+                schema_name="quote",
+            )
+            first = adapter.complete_json(
+                input_text="paragraph one", budget=budget, cache=cache, **call
+            )
+            second = adapter.complete_json(
+                input_text="paragraph one", budget=budget, cache=cache, **call
+            )
+            self.assertFalse(first.cache_hit)
+            self.assertTrue(second.cache_hit)
+            # The replayed call names the same inputs it originally read.
+            self.assertRegex(first.input_sha256, r"^[0-9a-f]{64}$")
+            self.assertEqual(first.input_sha256, second.input_sha256)
+            changed = adapter.complete_json(
+                input_text="paragraph two", budget=budget, cache=cache, **call
+            )
+            self.assertFalse(changed.cache_hit)
+            self.assertNotEqual(first.input_sha256, changed.input_sha256)
+
+
 class ExtractStageTests(unittest.TestCase):
     def setUp(self) -> None:
         import yaml
