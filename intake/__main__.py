@@ -195,7 +195,7 @@ def _command_backfill(args: argparse.Namespace) -> int:
     from intake.adapters.writer import WriterAdapter
     from intake.backfill import backfill_dry_run, proposals_payload, review_sheet
     from intake.budget import Budget
-    from intake.cache import jev_cache
+    from intake.cache import jev_cache, writer_cache
 
     budget = Budget(budget_usd=args.budget_usd)
     # Stage 6 grades each proposal; without the key the sheet says so.
@@ -203,7 +203,12 @@ def _command_backfill(args: argparse.Namespace) -> int:
     if jev is None:
         print("note: TYPESAFE_API_KEY is not set; proposals skip the judge (stage 6).")
     report = backfill_dry_run(
-        args.record, adapter=WriterAdapter(), budget=budget, jev=jev, cache=jev_cache()
+        args.record,
+        adapter=WriterAdapter(),
+        budget=budget,
+        jev=jev,
+        cache=jev_cache(),
+        writer_cache=writer_cache(),
     )
     sheet = review_sheet(report)
     if args.output is not None:

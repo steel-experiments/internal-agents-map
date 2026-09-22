@@ -13,7 +13,7 @@ from intake.adapters.jev import JevAnswer, JevResult
 from intake.adapters.steel import ScrapedPage, SteelSdkAdapter
 from intake.adapters.writer import WriterAdapter
 from intake.apply import ApplyError, apply_proposals, load_proposals
-from intake.backfill import backfill_dry_run, proposals_payload, review_sheet
+from intake.backfill import BackfillError, backfill_dry_run, proposals_payload, review_sheet
 from intake.backtest import batch_report_text, run_batch
 from intake.budget import Budget
 from intake.cache import JsonCache
@@ -34,6 +34,43 @@ class FakeWriterResponse:
         self.output_text = json.dumps(payload)
         self.usage = type("Usage", (), {"input_tokens": 1000, "output_tokens": 500})()
         self.model = "gpt-6-sol-2026-09-22"
+
+
+class BatchFound:
+    """The writer seam: one batched reply citing every supplied claim."""
+
+    def __init__(
+        self,
+        quote: str = "an internal coding agent at Zup",
+        skip: tuple[str, ...] = (),
+        first_reply: dict[str, Any] | None = None,
+    ) -> None:
+        self.calls = 0
+        self._quote = quote
+        self._skip = skip
+        self._first_reply = first_reply
+
+    def create(self, **kwargs: Any) -> Any:
+        self.calls += 1
+        if self.calls == 1 and self._first_reply is not None:
+            return FakeWriterResponse(self._first_reply)
+        # The retry appends the rejection after the JSON; read the object only.
+        input_payload, _end = json.JSONDecoder().raw_decode(kwargs["input"])
+        claims = input_payload["claims"]
+        return FakeWriterResponse(
+            {
+                "proposals": [
+                    {
+                        "path": claim["path"],
+                        "found": claim["path"] not in self._skip,
+                        "source": "zup-codegen-source-1",
+                        "quote": self._quote,
+                        "paragraph_id": "p3",
+                    }
+                    for claim in claims
+                ]
+            }
+        )
 
 
 def scraped(markdown: str, url: str) -> ScrapedPage:
@@ -176,17 +213,6 @@ class BackfillToApplyTests(unittest.TestCase):
         )
         record["evidence"]["summary"][0].pop("locator", None)
 
-        class AlwaysFound:
-            def create(self, **kwargs: Any) -> Any:
-                return FakeWriterResponse(
-                    {
-                        "found": True,
-                        "source": "zup-codegen-source-1",
-                        "quote": "an internal coding agent at Zup",
-                        "paragraph_id": "p3",
-                    }
-                )
-
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             record_path = root / "zup-codegen.yaml"
@@ -196,7 +222,7 @@ class BackfillToApplyTests(unittest.TestCase):
             )
             report = backfill_dry_run(
                 record_path,
-                adapter=WriterAdapter(api_key="test-key", responses=AlwaysFound()),
+                adapter=WriterAdapter(api_key="test-key", responses=BatchFound()),
                 budget=Budget(budget_usd=10.0),
             )
             # The reviewer reads the quote on the sheet, not only the locator.
@@ -310,21 +336,10 @@ class BackfillGradingTests(unittest.TestCase):
     def tearDown(self) -> None:
         self._tmp.cleanup()
 
-    def run_dry_run(self, jev: Any, cache: Any) -> dict[str, Any]:
-        class AlwaysFound:
-            def create(self, **kwargs: Any) -> Any:
-                return FakeWriterResponse(
-                    {
-                        "found": True,
-                        "source": "zup-codegen-source-1",
-                        "quote": "an internal coding agent at Zup",
-                        "paragraph_id": "p3",
-                    }
-                )
-
+    def run_dry_run(self, jev: Any, cache: Any, batch: BatchFound | None = None) -> dict[str, Any]:
         return backfill_dry_run(
             self.record_path,
-            adapter=WriterAdapter(api_key="test-key", responses=AlwaysFound()),
+            adapter=WriterAdapter(api_key="test-key", responses=batch or BatchFound()),
             budget=Budget(budget_usd=10.0),
             jev=jev,
             cache=cache,
@@ -364,6 +379,37 @@ class BackfillGradingTests(unittest.TestCase):
             self.summary_proposal(first)["verdicts"],
         )
         self.assertIn("stated (0.95)", review_sheet(second))
+
+    def test_one_writer_call_carries_the_whole_claim_list(self) -> None:
+        """The cost table: one extract call per record, whatever the count."""
+        batch = BatchFound()
+        report = self.run_dry_run(None, cache=None, batch=batch)
+        self.assertGreaterEqual(report["unlocated_claims"], 6)
+        self.assertEqual(batch.calls, 1)
+
+    def test_a_claim_the_writer_cannot_support_gets_no_proposal(self) -> None:
+        report = self.run_dry_run(None, cache=None, batch=BatchFound(skip=("summary",)))
+        paths = [proposal["path"] for proposal in report["proposals"]]
+        self.assertNotIn("summary", paths)
+        self.assertIn("architecture.harness", paths)
+
+    def test_a_malformed_first_reply_retries_once(self) -> None:
+        batch = BatchFound(first_reply={"proposals": "not a list"})
+        report = self.run_dry_run(None, cache=None, batch=batch)
+        self.assertEqual(batch.calls, 2)
+        self.assertTrue(report["proposals"])
+
+    def test_a_second_bad_reply_fails_the_mode(self) -> None:
+        batch = AlwaysBad()
+        with self.assertRaises(BackfillError):
+            self.run_dry_run(None, cache=None, batch=batch)  # type: ignore[arg-type]
+
+
+class AlwaysBad:
+    """The writer seam: replies that never validate."""
+
+    def create(self, **kwargs: Any) -> Any:
+        return FakeWriterResponse({"proposals": "still not a list"})
 
 
 def zup_batch_payload() -> dict[str, Any]:

@@ -450,19 +450,28 @@ class BackfillTests(unittest.TestCase):
 
             def create(self, **kwargs: Any) -> Any:
                 self.calls += 1
-                payload = {
-                    "found": True,
-                    "source": "zup-codegen-source-1",
-                    "quote": "an internal coding agent at Zup",
-                    "paragraph_id": "p3",
-                }
-                return FakeResponse(payload)
+                claims = json.JSONDecoder().raw_decode(kwargs["input"])[0]["claims"]
+                return FakeResponse(
+                    {
+                        "proposals": [
+                            {
+                                "path": claim["path"],
+                                "found": True,
+                                "source": "zup-codegen-source-1",
+                                "quote": "an internal coding agent at Zup",
+                                "paragraph_id": "p3",
+                            }
+                            for claim in claims
+                        ]
+                    }
+                )
 
         adapter = WriterAdapter(api_key="test-key", responses=FoundResponses())
         budget = Budget(budget_usd=10.0)
         report = backfill_dry_run(record_path, adapter=adapter, budget=budget)
         self.assertGreater(report["unlocated_claims"], 0)
         self.assertGreater(report["verified"], 0)
+        self.assertEqual(adapter._responses.calls, 1)  # one call per record
         sheet = review_sheet(report)
         self.assertIn("Backfill dry run", sheet)
         self.assertIn("Preserved content.md", sheet)
@@ -472,12 +481,19 @@ class BackfillTests(unittest.TestCase):
 
         class NotFoundResponses:
             def create(self, **kwargs: Any) -> Any:
+                claims = json.JSONDecoder().raw_decode(kwargs["input"])[0]["claims"]
                 return FakeResponse(
                     {
-                        "found": False,
-                        "source": "zup-codegen-source-1",
-                        "quote": "",
-                        "paragraph_id": "",
+                        "proposals": [
+                            {
+                                "path": claim["path"],
+                                "found": False,
+                                "source": "zup-codegen-source-1",
+                                "quote": "",
+                                "paragraph_id": "",
+                            }
+                            for claim in claims
+                        ]
                     }
                 )
 

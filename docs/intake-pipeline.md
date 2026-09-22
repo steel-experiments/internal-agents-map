@@ -145,7 +145,10 @@ calls. The labellers and the live pass are the blocked part: the pass needs
 
 `backfill` (above) writes a dry-run report of locator proposals. Pass
 `--proposals <path>` to also write the JSON list `backfill-apply` consumes:
-one entry per verified quote, each carrying `approved: false`. The review
+one entry per verified quote, each carrying `approved: false`. The writer
+sees the whole claim list in one call per record (the cost table's operating
+point), and each found quote is verified, number-checked, and graded on its
+own. The review
 sheet shows every proposal's quote beside its locator. Each exactly verified
 proposal is also graded with the five judge questions over its paragraph
 cluster; the relation verdict and the actor score ride on the sheet as

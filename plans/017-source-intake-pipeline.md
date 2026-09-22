@@ -1120,4 +1120,22 @@ STOP-line report:
   out. The sheet gained an **Eligibility** section and the manifest a
   note. Five unit tests plus the end-to-end sheet assert. The intake suite
   holds 169 tests.
+- Backfill call batching (loop re-read): the cost table's operating point —
+  "one extract call per record with the claim list" for the 240-claim
+  backfill at most $10 — was not the code's: the dry run called the writer
+  once **per claim**, reserving the worst case each time. 240 claims meant
+  $69 of reservations against the $10 default budget, so a live run would
+  refuse partway through the catalog even though the actual spend would
+  land near the estimate. `propose_for_record` now sends the whole claim
+  list in one structured call (prompt bumped to `backfill.v2`; the reply
+  must carry exactly one entry per supplied claim, with unknown, missing,
+  or doubled paths rejected and one retry on a malformed reply, mirroring
+  stage 4's contract). Verification, number checks, and stage 6 grading
+  stay per claim. The CLI also passes the shared writer cache, so a warm
+  dry run replays the batched reply at zero cost. Tests: one writer call
+  for a six-claim record whatever the count; `found: false` claims get no
+  proposal; a malformed first reply retries once and a second failure
+  stops the mode; the two older single-claim fakes moved to the batched
+  shape with their per-record call count asserted. The intake suite holds
+  173 tests.
 
