@@ -239,8 +239,9 @@ npm run verify
 
 ## Completion record
 
-Execution authorized by the owner on 2026-09-22 and built the same day on the branch
-`plan-015-og-cards`.
+Execution authorized by the owner on 2026-09-22, built the same day on the branch
+`plan-015-og-cards`, and merged to `main` through pull request #11 on the owner's
+instruction.
 
 - Built: `src/lib/og.ts`, `src/lib/section-cards.ts`, `src/og/render.ts`, the four
   endpoints under `src/pages/og/`, the `ogImage` prop on both layouts, and the card

@@ -21,7 +21,7 @@ verification gate, and update the status row when finished.
 | [011](011-page-content-catalog-completion.md) | Complete the page-content standard across the catalog | P1 | L | 009, 010 | DONE on 2026-09-17; all 40 records reviewed |
 | [012](012-separate-agents-and-infrastructure.md) | Give agents and infrastructure distinct places in one catalog | P1 | L | 008–011 | DONE on 2026-09-17; merged to main in `f02973f` and published |
 | [013](013-add-company-pages.md) | Add company pages within the existing design | P2 | M | 012 + approved UI removals | DONE on 2026-09-17; independent full verification and desktop/mobile design review passed; merged to main in `8ee1c13` and published at `/organizations/<id>` |
-| [015](015-social-preview-cards.md) | Give every page its own link preview card | P2 | M | 007, 013 | IN PROGRESS; built and verified on `plan-015-og-cards` 2026-09-22, pull request open; licence follow-up scheduled |
+| [015](015-social-preview-cards.md) | Give every page its own link preview card | P2 | M | 007, 013 | DONE on 2026-09-22; merged to main through pull request #11; licence follow-up scheduled |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) |
 REJECTED (with one-line rationale)
