@@ -272,6 +272,19 @@ class RenderBehaviourTests(unittest.TestCase):
         self.assertEqual(draft["page_content"]["questions"]["workflow"]["state"], "unreported")
         # A single-valued difference is a note, never a change.
         self.assertTrue(any("single-valued" in note for note in merged.notes))
+        # The compatibility map names the merged paths, never dangling ones:
+        # a claim for an item the record already carries registers against
+        # that item's index, and a new item appends after the recorded ones.
+        evidence_paths = set(draft["evidence"])
+        list_roots = {"primitives", "key_metrics", "lessons_learned", "operating_models"}
+        for paths in merged.compatibility.values():
+            for path in paths:
+                if path.split(".")[0] in list_roots:
+                    self.assertIn(path, evidence_paths, f"{path} is not a merged path")
+        # The fixture restates the recorded operating model; it must not
+        # duplicate it, and its claim maps to the recorded index.
+        self.assertEqual(len(draft["operating_models"]), len(before["operating_models"]))
+        self.assertIn("operating_models.0", evidence_paths)
         # The yaml round-trips like a standalone draft.
         self.assertEqual(yaml.safe_load(merged.record_yaml), draft)
 
@@ -331,6 +344,41 @@ class RenderBehaviourTests(unittest.TestCase):
             reviewed_at="2026-09-23",
         )
         self.assertEqual(again["page_content"]["questions"]["workflow"]["state"], "reported")
+
+    def test_a_new_list_item_appends_after_the_recorded_ones(self) -> None:
+        from intake.models import ExtractionRecord, finalize
+
+        record = self.staged_fixture("zup-codegen")
+        payload = record.model_dump()
+        payload["claims"].append(
+            {
+                "field": "lessons_learned[]",
+                "text": "A brand-new lesson the update reports.",
+                "kind": "opinion",
+                "provenance": "reported",
+                "quotes": [dict(payload["claims"][0]["quotes"][0])],
+                "disposition": "accept",
+            }
+        )
+        rebuilt = finalize(ExtractionRecord.model_validate(payload))
+        existing = yaml.safe_load(
+            (
+                Path(__file__).resolve().parents[1] / "data" / "agents" / "zup-codegen.yaml"
+            ).read_text(encoding="utf-8")
+        )
+        merged = render_extraction(rebuilt, reviewed_at=REVIEWED_AT, existing=existing)
+        draft = merged.record
+        new_index = len(existing["lessons_learned"])
+        self.assertEqual(len(draft["lessons_learned"]), new_index + 1)
+        self.assertEqual(
+            draft["lessons_learned"][new_index], "A brand-new lesson the update reports."
+        )
+        self.assertIn(f"lessons_learned.{new_index}", draft["evidence"])
+        self.assertIn(f"lessons_learned.{new_index}", draft["claim_metadata"])
+        for paths in merged.compatibility.values():
+            for path in paths:
+                if path.startswith("lessons_learned."):
+                    self.assertLess(int(path.rsplit(".", 1)[1]), len(draft["lessons_learned"]))
 
     def render_fixture(self, record_id: str):
         record = load_fixture(record_id)

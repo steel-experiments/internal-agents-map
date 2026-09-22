@@ -994,4 +994,15 @@ STOP-line report:
   `last_reviewed_at` and merges onto the record the manifest names; the
   end-to-end update test asserts the rerun equals the run's draft byte for
   byte.
+- Compatibility repair (follow-on): the merge appended new list items after
+  the recorded ones, but the renderer had numbered them from zero, so an
+  update's compatibility map named paths that did not exist in the merged
+  draft (`primitives.0` for the item that landed at `primitives.2`). The
+  renderer now takes the existing record's list lengths as index offsets,
+  and a claim for an item the record already carries registers against that
+  item's recorded index instead of appending a duplicate — the renderer and
+  the merge key items the same way. Tests assert every compatibility path
+  for a list claim exists in the merged evidence, a restated item does not
+  duplicate, and a genuinely new lesson lands at the recorded length with
+  evidence and metadata at that index. The intake suite holds 149 tests.
 

@@ -97,11 +97,25 @@ def _enum(build: Any, value: str, allowed: set[str], label: str) -> str:
 class _Renderer:
     """One extraction record's walk from claims to the authored shape."""
 
-    def __init__(self, record: ExtractionRecord, reviewed_at: str, source_offset: int) -> None:
+    def __init__(
+        self,
+        record: ExtractionRecord,
+        reviewed_at: str,
+        source_offset: int,
+        list_offsets: dict[str, int] | None = None,
+        existing_items: dict[str, dict[str, int]] | None = None,
+    ) -> None:
         self.extraction = record
         self.build = catalog.load_build()
         self.reviewed_at = reviewed_at
         self.source_offset = source_offset
+        # When merging onto an existing record, new list items append after
+        # the recorded ones, so their rendered paths start at these offsets.
+        self.list_offsets = dict(list_offsets or {})
+        # Items the existing record already carries, keyed the way the merge
+        # keys them: a claim for a known item registers against that item's
+        # index instead of appending a duplicate.
+        self.existing_items = existing_items or {}
         self.notes: list[str] = []
         self.evidence: dict[str, list[dict[str, str]]] = {}
         self.claim_metadata: dict[str, dict[str, Any]] = {}
@@ -116,6 +130,12 @@ class _Renderer:
                 raise RenderError(f"rendered source id {rendered!r} must use kebab-case")
             mapping[source.local_id] = rendered
         return mapping
+
+    def _existing_list_index(self, root: str, key: str | None) -> int | None:
+        """The index of an item the existing record already carries."""
+        if not key:
+            return None
+        return self.existing_items.get(root, {}).get(key)
 
     def register(self, claim: Claim, path: str) -> None:
         """Attach one claim's exact quotes to a rendered path."""
@@ -194,7 +214,7 @@ class _Renderer:
         key_metrics: list[str] = []
         lessons: list[str] = []
         operating_models: list[dict[str, str]] = []
-        counters = {family: 0 for family in LIST_FAMILIES}
+        counters = {family: self.list_offsets.get(family, 0) for family in LIST_FAMILIES}
 
         for claim in accepted:
             family = claim.field
@@ -214,9 +234,14 @@ class _Renderer:
                     architecture[key] = claim.text
                     self.register(claim, family)
             elif family == "primitives[]":
+                name = claim.primitive_name or ""
+                known = self._existing_list_index("primitives", name)
+                if known is not None:
+                    self.register(claim, f"primitives.{known}")
+                    continue
                 index = counters[family]
                 counters[family] += 1
-                primitives.append({"name": claim.primitive_name or "", "desc": claim.text})
+                primitives.append({"name": name, "desc": claim.text})
                 self.register(claim, f"primitives.{index}")
             elif family == "key_metrics[]":
                 if headline is not None and _text_key(claim.text) == _text_key(headline.text):
@@ -224,6 +249,10 @@ class _Renderer:
                         f"metric claim {claim.id} repeats the headline text; dropped from "
                         "key_metrics so no metric appears twice"
                     )
+                    continue
+                known = self._existing_list_index("key_metrics", claim.text)
+                if known is not None:
+                    self.register(claim, f"key_metrics.{known}")
                     continue
                 index = counters[family]
                 counters[family] += 1
@@ -233,6 +262,10 @@ class _Renderer:
                 if entry:
                     self.claim_metadata[f"key_metrics.{index}"] = entry
             elif family == "lessons_learned[]":
+                known = self._existing_list_index("lessons_learned", claim.text)
+                if known is not None:
+                    self.register(claim, f"lessons_learned.{known}")
+                    continue
                 index = counters[family]
                 counters[family] += 1
                 lessons.append(claim.text)
@@ -242,6 +275,13 @@ class _Renderer:
                     self.claim_metadata[f"lessons_learned.{index}"] = entry
 
         for proposal in classification.operating_models:
+            known = self._existing_list_index("operating_models", proposal.scope)
+            if known is not None:
+                for claim_id in proposal.claim_ids:
+                    claim = record.claim_by_id(claim_id)
+                    if claim.field == "operating_models[]":
+                        self.register(claim, f"operating_models.{known}")
+                continue
             boundary = proposal.attention_boundary
             _enum(
                 self.build,
@@ -249,7 +289,7 @@ class _Renderer:
                 self.build.ATTENTION_BOUNDARIES,
                 "operating_models.attention_boundary",
             )
-            index = len(operating_models)
+            index = self.list_offsets.get("operating_models", 0) + len(operating_models)
             operating_models.append({"scope": proposal.scope, "attention_boundary": boundary})
             entry = {
                 "kind": "inference",
@@ -675,7 +715,34 @@ def render_extraction(
         raise RenderError("existing_source_count must not be negative")
     if any(claim.id is None for claim in record.claims):
         raise RenderError("run intake.models.finalize before rendering")
-    result = _Renderer(record, reviewed_at, existing_source_count).render()
+    list_offsets: dict[str, int] | None = None
+    existing_items: dict[str, dict[str, int]] | None = None
+    if existing is not None:
+        list_offsets = {
+            "primitives[]": len(existing.get("primitives") or []),
+            "key_metrics[]": len(existing.get("key_metrics") or []),
+            "lessons_learned[]": len(existing.get("lessons_learned") or []),
+            "operating_models": len(existing.get("operating_models") or []),
+        }
+        existing_items = {
+            "primitives": {
+                item.get("name"): index
+                for index, item in enumerate(existing.get("primitives") or [])
+            },
+            "key_metrics": {
+                item: index for index, item in enumerate(existing.get("key_metrics") or [])
+            },
+            "lessons_learned": {
+                item: index for index, item in enumerate(existing.get("lessons_learned") or [])
+            },
+            "operating_models": {
+                item.get("scope"): index
+                for index, item in enumerate(existing.get("operating_models") or [])
+            },
+        }
+    result = _Renderer(
+        record, reviewed_at, existing_source_count, list_offsets, existing_items
+    ).render()
     if existing is None:
         return result
     from intake.merge import merge_update
