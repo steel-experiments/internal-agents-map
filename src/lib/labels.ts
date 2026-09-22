@@ -10,6 +10,8 @@ const TERM_LABELS: Record<string, string> = {
   'event-driven': 'Event-driven',
   'work-product-review': 'Work-product review',
   'exception-only': 'Exception-only',
+  // The review states read as one wording wherever the catalog shows them.
+  unreported: 'Not reported',
 };
 
 /** Make a readable label from an identifier such as `work-product-review`. */

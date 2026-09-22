@@ -24,7 +24,7 @@ const hasImplementation = entry.isPilot || entry.architectureClaims.length > 0 |
             </div>
           </>
         ) : entry.coverageQuestions.workflow && (
-          <p class="review-state" data-state={entry.coverageQuestions.workflow.state}><strong>{entry.coverageQuestions.workflow.stateLabel}:</strong> {entry.coverageQuestions.workflow.note}</p>
+          <p class="review-state" data-state={entry.coverageQuestions.workflow.state}><strong>{entry.coverageQuestions.workflow.stateLabel}{entry.coverageQuestions.workflow.note && ':'}</strong>{entry.coverageQuestions.workflow.note && ` ${entry.coverageQuestions.workflow.note}`}</p>
         )}
       </section>
     )}

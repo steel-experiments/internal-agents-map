@@ -51,6 +51,11 @@ const hasResults =
   entry.resultStatementClaims.length > 0 ||
   entry.isPilot ||
   (!entry.isPilot && entry.lessonClaims.length > 0);
+// The scope and denominator guidance belongs above figures. A section that reports
+// none carries its review state alone.
+const hasFigures = entry.isPilot
+  ? entry.observationItems.length > 0
+  : entry.metricClaims.length > 0 || entry.resultStatementClaims.length > 0;
 const hasRelated = entry.relatedEntries.length > 0 || entry.relatedNotes.length > 0;
 ---
 <SiteLayout title={title} description={description} path={entry.path} structuredData={graph} ogImage={preview}>
@@ -139,10 +144,10 @@ const hasRelated = entry.relatedEntries.length > 0 || entry.relatedNotes.length 
     {hasResults && showQuestion(entry, 'observations') && (
       <section class="entry-section" id="results" aria-labelledby="results-title">
         <h2 id="results-title">{entry.isPilot ? entry.profile.observations : 'Reported results and limitations'}</h2>
-        <p class="section-note">
+        {hasFigures && <p class="section-note">
           The catalog records what the sources report, with the scope and the denominator of every
           figure. A qualification below limits the figure it sits under.
-        </p>
+        </p>}
         {entry.isPilot ? entry.observationItems.map((item) => (
           <div class="observation-item">
             <p class="section-note"><strong>{item.categoryLabel}</strong> · {item.basisLabel} · {item.subject}</p>
@@ -156,7 +161,7 @@ const hasRelated = entry.relatedEntries.length > 0 || entry.relatedNotes.length 
           </>
         )}
         {entry.isPilot && entry.observationItems.length === 0 && (
-          <p class="review-state" data-state={entry.coverageQuestions.observations?.state}><strong>{entry.coverageQuestions.observations?.stateLabel}:</strong> {entry.coverageQuestions.observations?.note}</p>
+          <p class="review-state" data-state={entry.coverageQuestions.observations?.state}><strong>{entry.coverageQuestions.observations?.stateLabel}{entry.coverageQuestions.observations?.note && ':'}</strong>{entry.coverageQuestions.observations?.note && ` ${entry.coverageQuestions.observations.note}`}</p>
         )}
         {!entry.isPilot && entry.lessonClaims.length > 0 && (
           <>

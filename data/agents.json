@@ -266,8 +266,7 @@
           },
           "validation": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not report a distinct validation process for this subject."
+            "claim_paths": []
           },
           "observations": {
             "state": "reported",
@@ -277,8 +276,7 @@
           },
           "lessons": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           }
         },
         "implementation_fields": {
@@ -420,18 +418,15 @@
           },
           "validation": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not report a distinct validation process for this subject."
+            "claim_paths": []
           },
           "observations": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           },
           "lessons": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           }
         },
         "implementation_fields": {
@@ -1429,18 +1424,15 @@
           },
           "validation": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not report a distinct validation process for this subject."
+            "claim_paths": []
           },
           "observations": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           },
           "lessons": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           }
         },
         "implementation_fields": {
@@ -1574,8 +1566,7 @@
           },
           "validation": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not report a distinct validation process for this subject."
+            "claim_paths": []
           },
           "observations": {
             "state": "reported",
@@ -1585,8 +1576,7 @@
           },
           "lessons": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           }
         },
         "implementation_fields": {
@@ -1977,8 +1967,7 @@
           },
           "lessons": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           }
         },
         "implementation_fields": {
@@ -2121,18 +2110,15 @@
           },
           "validation": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not report a distinct validation process for this subject."
+            "claim_paths": []
           },
           "observations": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           },
           "lessons": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           }
         },
         "implementation_fields": {
@@ -2272,8 +2258,7 @@
           },
           "observations": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           },
           "lessons": {
             "state": "reported",
@@ -2897,8 +2882,7 @@
           },
           "validation": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not report a distinct validation process for this subject."
+            "claim_paths": []
           },
           "observations": {
             "state": "reported",
@@ -2910,8 +2894,7 @@
           },
           "lessons": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           }
         },
         "implementation_fields": {
@@ -4110,13 +4093,11 @@
           },
           "observations": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           },
           "lessons": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           }
         },
         "implementation_fields": {
@@ -4269,13 +4250,11 @@
           },
           "observations": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           },
           "lessons": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           }
         },
         "implementation_fields": {
@@ -4654,13 +4633,11 @@
           },
           "observations": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           },
           "lessons": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           }
         },
         "implementation_fields": {
@@ -5899,13 +5876,11 @@
           },
           "observations": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           },
           "lessons": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           }
         },
         "implementation_fields": {
@@ -7483,18 +7458,15 @@
           },
           "validation": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not report a distinct validation process for this subject."
+            "claim_paths": []
           },
           "observations": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           },
           "lessons": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           }
         },
         "implementation_fields": {
@@ -7640,8 +7612,7 @@
           },
           "validation": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not report a distinct validation process for this subject."
+            "claim_paths": []
           },
           "observations": {
             "state": "reported",
@@ -7651,8 +7622,7 @@
           },
           "lessons": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           }
         },
         "implementation_fields": {
@@ -10104,8 +10074,7 @@
           },
           "validation": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not report a distinct validation process for this subject."
+            "claim_paths": []
           },
           "observations": {
             "state": "reported",
@@ -10115,8 +10084,7 @@
           },
           "lessons": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           }
         },
         "implementation_fields": {
@@ -12866,18 +12834,15 @@
           },
           "validation": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not report a distinct validation process for this subject."
+            "claim_paths": []
           },
           "observations": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           },
           "lessons": {
             "state": "unreported",
-            "claim_paths": [],
-            "note": "The reviewed source does not document this for the named subject."
+            "claim_paths": []
           }
         },
         "implementation_fields": {

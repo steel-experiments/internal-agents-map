@@ -700,7 +700,7 @@ def validate_page_content(record: dict, filename: str, source_ids: set[str]) -> 
     if not isinstance(questions, dict) or set(questions) != PAGE_QUESTIONS:
         die(f"{filename}: page_content.questions must contain exactly the seven reader questions.")
     for key, value in questions.items():
-        disposition(value, f"page_content.questions.{key}")
+        disposition(value, f"page_content.questions.{key}", bare_unreported=True)
     if questions["workflow"]["state"] == "reported" and (
         not isinstance(page.get("workflow_scope"), str) or not page["workflow_scope"].strip()
     ):

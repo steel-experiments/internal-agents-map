@@ -306,29 +306,35 @@ class BuildTests(unittest.TestCase):
             record, "fixture.yaml", {source["id"] for source in record["sources"]}
         )
 
-    def test_unreported_note_is_optional_only_for_implementation_fields(self) -> None:
-        record = copy.deepcopy(next(item for item in self.records if item["id"] == "github-qubot"))
-        sources = {source["id"] for source in record["sources"]}
-        record["page_content"]["implementation_fields"]["sandbox"] = {
-            "state": "unreported",
-            "claim_paths": [],
+    def test_a_note_is_optional_for_unreported_and_required_for_every_other_state(self) -> None:
+        sources = {
+            source["id"]
+            for source in next(item for item in self.records if item["id"] == "github-qubot")[
+                "sources"
+            ]
         }
-        build.validate_page_content(record, "fixture.yaml", sources)
 
-        record["page_content"]["implementation_fields"]["sandbox"] = {
-            "state": "not-reviewed",
-            "claim_paths": [],
-        }
-        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
-            build.validate_page_content(record, "fixture.yaml", sources)
+        def record_with(slot: str, key: str, state: str) -> dict:
+            record = copy.deepcopy(
+                next(item for item in self.records if item["id"] == "github-qubot")
+            )
+            record["page_content"][slot][key] = {"state": state, "claim_paths": []}
+            return record
 
-        record = copy.deepcopy(next(item for item in self.records if item["id"] == "github-qubot"))
-        record["page_content"]["questions"]["lessons"] = {
-            "state": "unreported",
-            "claim_paths": [],
-        }
-        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
-            build.validate_page_content(record, "fixture.yaml", sources)
+        for slot, key in (("implementation_fields", "sandbox"), ("questions", "lessons")):
+            with self.subTest(slot=slot, state="unreported"):
+                build.validate_page_content(
+                    record_with(slot, key, "unreported"), "fixture.yaml", sources
+                )
+            for state in ("not-reviewed", "not-applicable"):
+                with (
+                    self.subTest(slot=slot, state=state),
+                    contextlib.redirect_stderr(io.StringIO()),
+                    self.assertRaises(SystemExit),
+                ):
+                    build.validate_page_content(
+                        record_with(slot, key, state), "fixture.yaml", sources
+                    )
 
     def test_valid_markdown_only_capture(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

@@ -7,6 +7,7 @@ import {
   entryView,
   showQuestion,
   type ClaimView,
+  type CoverageAnswerView,
   type EntryView,
   type SourceView,
   type TermView,
@@ -139,6 +140,11 @@ function claimBlock(claim: ClaimView, sources: SourceIndex, level: number): stri
 }
 
 /** Render a group of claims under one section heading. */
+/** State an answered question in one line. A state that says it all stands alone. */
+function answerLine(answer: CoverageAnswerView): string {
+  return `**${answer.stateLabel}${answer.note ? ':' : ''}**${answer.note ? ` ${answer.note}` : ''}`;
+}
+
 function claimSection(
   title: string,
   claims: readonly ClaimView[],
@@ -259,7 +265,7 @@ export function entryMarkdown(entry: EntryView, level = 1): string[] {
       lines.push(...claimSection(entry.profile.workflow, entry.workflowClaims, sources, level + 1));
       if (entry.workflowClaims.length === 0 && showQuestion(entry, 'workflow') && entry.coverageQuestions.workflow) {
         const workflow = entry.coverageQuestions.workflow;
-        lines.push(heading(level + 1, entry.profile.workflow), '', `**${workflow.stateLabel}:**${workflow.note ? ` ${workflow.note}` : ''}`, '');
+        lines.push(heading(level + 1, entry.profile.workflow), '', answerLine(workflow), '');
       }
       lines.push(heading(level + 1, entry.profile.people), '');
       for (const model of entry.isSupportingSystem ? [] : entry.operatingModels) {
@@ -276,8 +282,8 @@ export function entryMarkdown(entry: EntryView, level = 1): string[] {
       }
       lines.push('');
       lines.push(...claimSection(entry.profile.validation, entry.validationClaims, sources, level + 1));
-      if (entry.validationClaims.length === 0 && entry.coverageQuestions.validation?.note) {
-        lines.push(`**${entry.coverageQuestions.validation.stateLabel}:** ${entry.coverageQuestions.validation.note}`, '');
+      if (entry.validationClaims.length === 0 && entry.coverageQuestions.validation) {
+        lines.push(heading(level + 1, entry.profile.validation), '', answerLine(entry.coverageQuestions.validation), '');
       }
       if (entry.observationItems.length > 0) {
         lines.push(heading(level + 1, entry.profile.observations), '');
@@ -286,12 +292,12 @@ export function entryMarkdown(entry: EntryView, level = 1): string[] {
           lines.push(...claimBlock(item.claim, sources, level + 2));
         }
       }
-      if (entry.canonicalObservationClaims.length === 0 && entry.coverageQuestions.observations?.note) {
-        lines.push(heading(level + 1, entry.profile.observations), '', `**${entry.coverageQuestions.observations.stateLabel}:** ${entry.coverageQuestions.observations.note}`, '');
+      if (entry.canonicalObservationClaims.length === 0 && entry.coverageQuestions.observations) {
+        lines.push(heading(level + 1, entry.profile.observations), '', answerLine(entry.coverageQuestions.observations), '');
       }
       lines.push(...claimSection('Lessons', entry.lessonClaims, sources, level + 1));
-      if (entry.lessonClaims.length === 0 && entry.coverageQuestions.lessons?.note) {
-        lines.push(heading(level + 1, 'Lessons'), '', `**${entry.coverageQuestions.lessons.stateLabel}:** ${entry.coverageQuestions.lessons.note}`, '');
+      if (entry.lessonClaims.length === 0 && entry.coverageQuestions.lessons) {
+        lines.push(heading(level + 1, 'Lessons'), '', answerLine(entry.coverageQuestions.lessons), '');
       }
       if (entry.aliasObservationRelations.length > 0) {
         lines.push(heading(level + 1, 'Duplicate observation representations'), '');

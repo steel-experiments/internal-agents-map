@@ -140,7 +140,6 @@ page_content:
     observations:
       state: unreported
       claim_paths: []
-      note: The reviewed source does not document this for the named subject.
     lessons:
       state: reported
       claim_paths:

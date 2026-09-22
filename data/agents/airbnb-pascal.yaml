@@ -106,15 +106,12 @@ page_content:
     validation:
       state: unreported
       claim_paths: []
-      note: The reviewed source does not report a distinct validation process for this subject.
     observations:
       state: unreported
       claim_paths: []
-      note: The reviewed source does not document this for the named subject.
     lessons:
       state: unreported
       claim_paths: []
-      note: The reviewed source does not document this for the named subject.
   implementation_fields:
     model:
       state: unreported

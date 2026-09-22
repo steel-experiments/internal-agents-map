@@ -141,13 +141,30 @@ describe('record Markdown', () => {
     }
   });
 
+  it('keeps the section of a question the sources leave unanswered, state alone', () => {
+    const markdown = recordMarkdown(catalog, 'brex-support-qa');
+    const view = entryView(catalog, 'brex-support-qa');
+    const sections = [
+      [view.profile.validation, 'validation'],
+      [view.profile.observations, 'observations'],
+      ['Lessons', 'lessons'],
+    ] as const;
+    for (const [title, key] of sections) {
+      expect(view.coverageQuestions[key]?.note, key).toBeNull();
+      const section = markdown.split(`## ${title}`)[1] ?? '';
+      expect(section.trimStart().startsWith('**Not reported**'), `${key}: ${section.slice(0, 60)}`).toBe(
+        true,
+      );
+    }
+  });
+
   it('exports pilot states and duplicate representations explicitly', () => {
     const notion = recordMarkdown(catalog, 'notion-custom-agents');
     expect(notion).toContain('## Duplicate observation representations');
     expect(notion).toContain('Duplicate of `notion-custom-agents--headline-metric`');
     const yc = recordMarkdown(catalog, 'ycombinator-agent-infra');
     expect(yc).toContain('## Adoption and operating evidence');
-    expect(yc).toContain('**observations:** Unreported');
+    expect(yc).toContain('**observations:** Not reported');
     expect(yc.indexOf('## Lessons')).toBeGreaterThan(yc.indexOf('## Adoption and operating evidence'));
   });
 });

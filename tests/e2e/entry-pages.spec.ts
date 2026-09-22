@@ -211,12 +211,12 @@ test.describe('page-content pilot', () => {
       await page.goto(`/agents/${id}`);
       const workflow = page.locator('#how-it-works');
       await expect(workflow).toBeVisible();
-      await expect(workflow).toContainText('Unreported');
+      await expect(workflow).toContainText('Not reported');
       await expect(workflow).toContainText(note);
       await expect(workflow.locator('.claim')).toHaveCount(0);
       const markdown = await (await request.get(`/agents/${id}.md`)).text();
       const section = markdown.split('## How it works')[1]?.split('## Where people stay involved')[0];
-      expect(section).toContain('Unreported');
+      expect(section).toContain('Not reported');
       expect(section).toContain(note);
     });
   }
@@ -275,7 +275,7 @@ test.describe('page-content pilot', () => {
 
   test('keeps lessons separate from YC’s reviewed empty observations state', async ({ page }) => {
     await page.goto('/agents/ycombinator-agent-infra');
-    await expect(page.locator('#results')).toContainText('Unreported');
+    await expect(page.locator('#results')).toContainText('Not reported');
     await expect(page.locator('#results .claim')).toHaveCount(0);
     await expect(page.locator('#lessons .claim')).toHaveCount(2);
   });
