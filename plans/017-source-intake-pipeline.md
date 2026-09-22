@@ -935,4 +935,16 @@ STOP-line report:
   re-judges the claims citing it, a warm cache judges nothing anew, and a
   report without Jev carries no verdicts and no error. The intake suite holds
   129 tests.
+- STOP-line guard (same re-read): the plan's stop condition — "the writer
+  model returns a person's name, e-mail address, or contact detail outside a
+  source's `authors` field. Stop and report" — had no in-run detector; a
+  writer reply carrying an e-mail would have reached the draft and failed
+  only the repository-level verify, after the run. `intake/privacy.py` walks
+  the whole extraction record after stages 4 and 8 with the repository
+  scan's own e-mail pattern (authors lists exempt) and stops the run with
+  the offending paths. Names are not mechanically detectable; that half of
+  the STOP line is now an explicit step on the sheet's decision list. Eight
+  new tests cover the walker, the exemption, the golden fixtures' cleanliness,
+  and a poisoned writer reply stopping stage 4 of a real run. The intake
+  suite holds 137 tests.
 

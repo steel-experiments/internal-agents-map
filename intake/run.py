@@ -20,6 +20,7 @@ from typing import Any
 
 import yaml
 
+from intake import privacy
 from intake.adapters.jev import JevAdapter
 from intake.adapters.steel import SteelSdkAdapter
 from intake.adapters.writer import WriterAdapter
@@ -280,6 +281,8 @@ def run_candidate(
         budget=budget,
     )
     stages.append(stage)
+    # The STOP-line guard: contact data the writer produced stops the run here.
+    privacy.assert_clean(json.loads(record.model_dump_json()), label=f"{run_id} stage 4")
     # The queue's record-id hint is authoritative: the writer may echo a
     # matched-record ID of its own choosing instead of the run's intent.
     candidate_updates: dict[str, Any] = {}
@@ -329,6 +332,8 @@ def run_candidate(
 
     record, stage = run_write(record, adapter=writer or WriterAdapter(), budget=budget)
     stages.append(stage)
+    # The reasons are the last writer text; guard them like the claims.
+    privacy.assert_clean(json.loads(record.model_dump_json()), label=f"{run_id} stage 8")
 
     # Stage 10: render.
     result = render_extraction(record, reviewed_at=reviewed_at)

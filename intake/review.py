@@ -145,7 +145,9 @@ def review_sheet(
             "1. Confirm the identity decision and the eligibility proposal.",
             "2. Read every claim row with disposition `review`; edit the draft.",
             "3. Confirm `published_at` where no quote states it.",
-            "4. Promote the captures, add the company entry, and open the pull",
+            "4. Confirm no person's name or contact detail appears outside a",
+            "   source's `authors` field; code catches e-mail addresses only.",
+            "5. Promote the captures, add the company entry, and open the pull",
             "   request. The pipeline does none of this.",
             "",
         ]

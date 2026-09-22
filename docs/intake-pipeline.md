@@ -84,6 +84,10 @@ what happened.
 - It never writes `unreported`; silence renders as `not-reviewed` with a note.
 - It never accepts a claim whose quote code has not found in the capture.
 - It never reconstructs a source from snippets, a search result, or memory.
+- It never carries an e-mail address the writer produced past the stage that
+  produced it: stages 4 and 8 stop with a report (`intake/privacy.py`, the
+  same pattern the repository-level scan uses). A person's name is not
+  mechanically detectable; that check stays on the sheet's decision list.
 
 ## The batch backtest
 
