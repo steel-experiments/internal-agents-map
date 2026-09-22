@@ -21,8 +21,7 @@ verification gate, and update the status row when finished.
 | [011](011-page-content-catalog-completion.md) | Complete the page-content standard across the catalog | P1 | L | 009, 010 | DONE on 2026-09-17; all 40 records reviewed |
 | [012](012-separate-agents-and-infrastructure.md) | Give agents and infrastructure distinct places in one catalog | P1 | L | 008–011 | DONE on 2026-09-17; merged to main in `f02973f` and published |
 | [013](013-add-company-pages.md) | Add company pages within the existing design | P2 | M | 012 + approved UI removals | DONE on 2026-09-17; independent full verification and desktop/mobile design review passed; merged to main in `8ee1c13` and published at `/organizations/<id>` |
-| [014](014-search-discovery.md) | Make the catalog findable through search | P1 | L | 013, the SEO pulse skill and its 2026-09 report | TODO; planned 2026-09-21, five phases with their own approval gates; no execution requested |
-| [015](015-social-preview-cards.md) | Give every page its own link preview card | P2 | M | 007, 013; supersedes 014 Phase 5 item 1 | IN PROGRESS; built and verified on `plan-015-og-cards` 2026-09-22, pull request open; licence follow-up scheduled |
+| [015](015-social-preview-cards.md) | Give every page its own link preview card | P2 | M | 007, 013 | IN PROGRESS; built and verified on `plan-015-og-cards` 2026-09-22, pull request open; licence follow-up scheduled |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) |
 REJECTED (with one-line rationale)
@@ -48,27 +47,17 @@ stay on the monogram because their brand rules do not permit third-party use.
 Each record keeps its source page and collection date; the gray-scale review
 sheet is recorded in the plan.
 
-Plan 014 was requested on 2026-09-21 as a plan after the first SEO pulse
-(`docs/seo/pulse-2026-09.md`). It fixes the template defects the pulse found,
-derives titles and structured data that name each record's work, adds derived
-work-domain pages on the Plan 013 pattern, chooses notes against measured queries,
-and adds per-entry social previews. Every phase derives from record fields and
-adds no unsourced text. Execution has not been requested.
-
 Plan 015 was requested on 2026-09-21 as a plan after a design review of six
 link-preview treatments and two rounds of exploration in the site's own idiom. The
 owner chose the directory card inverted: Sand ground, the possessive title the
 homepage uses, the tag row, the address, and the organization logo on a white rounded
 panel. A renderer spike with satori and resvg reproduced the card at about 140 ms per
-image, deterministic. The licensed ABC Areal desktop files the renderer needs stay out of
-the public repository (the Dinamo terms forbid it) and reach the build from the
-private sibling repository; the licence type on the invoice is a STOP condition.
-Execution has not been requested.
+image, deterministic. The licensed ABC Areal desktop files the renderer needs are
+committed for now by the owner's decision of 2026-09-22; the licence follow-up moves
+them out of the public repository. Implementation was authorized and built the same
+day.
 
 ## Dependency notes
-
-- Plan 014 depends on Plan 013's derived-page pattern and on the SEO pulse skill
-  (`.claude/skills/seo/`) as its measurement gate. It changes no URL and no export.
 
 - Plan 013 adds derived company pages reached from record metadata, with no new
   menu item. It preserves Plan 012’s collections and the subsequent user-requested
