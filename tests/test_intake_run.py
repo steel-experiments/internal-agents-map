@@ -857,6 +857,14 @@ class NeedsEvidenceStopTests(unittest.TestCase):
         self.assertIsNone(stopped.draft_path)
         self.assertIsNone(stopped.sheet_path)
         self.assertTrue(any("no company name" in note for note in stopped.notes), stopped.notes)
+        # Every run directory holds run.json, a stopped run included: it
+        # records what was attempted, the capture hash, and the stop reason.
+        manifest = json.loads(
+            (self.root / "runs" / stopped.run_id / "run.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(manifest["decision"], "needs-evidence")
+        self.assertIn("s1", manifest["capture_hashes"])
+        self.assertEqual(manifest["queue_entry"]["urls"], [self.ANONYMOUS_URL])
         # The queue continues, and the second entry still drafts.
         self.assertEqual(drafted.decision, "update")
         self.assertIsNotNone(drafted.draft_path)
@@ -990,6 +998,13 @@ class CollectionBlockerTests(unittest.TestCase):
             [note for note in blocked.notes if note.startswith("collection blocker")],
             [f"collection blocker: {self.BAD_URL}: Steel returned non-success HTTP status 404."],
         )
+        # The blocked run also leaves a manifest: attempted, refused, why.
+        blocked_manifest = json.loads(
+            (self.root / "runs" / blocked.run_id / "run.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(blocked_manifest["decision"], "blocked")
+        self.assertEqual(blocked_manifest["capture_hashes"], {})
+        self.assertTrue(any("collection blocker" in note for note in blocked_manifest["notes"]))
         self.assertEqual(drafted.decision, "update")
         self.assertIsNotNone(drafted.draft_path)
 

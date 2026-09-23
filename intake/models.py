@@ -62,6 +62,9 @@ ClaimKind = Literal["fact", "metric", "inference", "opinion"]
 ClaimProvenance = Literal["reported", "observed", "inferred", "catalog-judgment"]
 Disposition = Literal["accept", "review", "drop"]
 Decision = Literal["add", "update", "needs-evidence", "out-of-scope"]
+# A run manifest also records the blocked outcome, which no candidate
+# proposes: every URL failed its page checks.
+ManifestDecision = Literal["add", "update", "needs-evidence", "out-of-scope", "blocked"]
 PrimitiveRole = Literal["workflow", "mechanism", "validation"]
 StageName = Literal[
     "capture",
@@ -483,7 +486,7 @@ class RunManifest(StrictModel):
     run_id: str
     created_at: str
     queue_entry: dict[str, str | list[str] | None]
-    decision: Decision = "needs-evidence"
+    decision: ManifestDecision = "needs-evidence"
     record_id: str | None = None
     model_strings: dict[str, str] = {}
     prompt_versions: dict[str, str] = {}

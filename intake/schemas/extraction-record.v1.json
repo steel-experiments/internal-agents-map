@@ -1305,7 +1305,8 @@
           "add",
           "update",
           "needs-evidence",
-          "out-of-scope"
+          "out-of-scope",
+          "blocked"
         ],
         "title": "Decision",
         "type": "string"

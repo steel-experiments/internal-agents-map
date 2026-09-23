@@ -1484,3 +1484,17 @@ STOP-line report:
   guard test pins the outcomes, the ranking command, and the authority
   sentence so the skill cannot silently lose them again. The intake
   suite holds 208 tests.
+- Manifests for stopped runs (loop re-read): the configuration section
+  says "Every run directory holds `run.json`", but the two outcomes that
+  stop a candidate — every URL blocked, or stage 3's needs-evidence —
+  returned without one, leaving run directories with only
+  `blockers.json` or `identity.json` and no machine record of what was
+  attempted. Both stops now write the manifest before returning: the
+  blocked one with empty capture hashes and the blocker notes, the
+  needs-evidence one with the staged capture hashes, the resolve
+  stage's model strings, and the stop reason. `RunManifest.decision`
+  gained its own literal (`ManifestDecision`) that adds `blocked`,
+  which no candidate proposes; the extraction record's `Decision` is
+  unchanged. The committed schema file was regenerated. Tests: both
+  stopped outcomes leave a `run.json` with the right decision, hashes,
+  queue entry, and notes. The intake suite holds 208 tests.

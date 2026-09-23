@@ -24,7 +24,7 @@ from intake import privacy
 from intake.adapters.jev import JevAdapter
 from intake.adapters.steel import SteelSdkAdapter
 from intake.adapters.writer import WriterAdapter
-from intake.budget import Budget, BudgetExceededError, new_run_id, run_directory
+from intake.budget import Budget, BudgetExceededError, new_run_id, run_directory, write_manifest
 from intake.capture import CaptureStageError, StagedCapture, capture_staging
 from intake.extract import run_extract
 from intake.judge import apply_dispositions, judge_claims
@@ -242,7 +242,20 @@ def run_candidate(
         notes.extend(f"collection blocker: {item['url']}: {item['error']}" for item in blockers)
     if not staged:
         # No URL survived its page checks; there is nothing to draft. The
-        # run directory holds the blocker list, and the queue continues.
+        # run directory holds the blocker list and — as for every run
+        # directory — a manifest recording what was attempted, and the
+        # queue continues.
+        write_manifest(
+            directory,
+            run_id=run_id,
+            queue_entry=entry.payload(),
+            stage_runs=stages,
+            model_strings={},
+            prompt_versions={},
+            capture_hashes={},
+            decision="blocked",
+            notes=notes,
+        )
         return RunSummary(
             run_id=run_id,
             record_id=None,
@@ -335,10 +348,22 @@ def run_candidate(
         # The stage 3 contract: no company name in the text or the hints
         # stops the candidate with Needs evidence — before any writer spend,
         # with the staged captures and the identity file left for a person
-        # who names the organization and reruns the entry.
+        # who names the organization and reruns the entry. The manifest
+        # records what was attempted, the way every run directory does.
         notes.append(
             "stage 3 found no company name in the queue hints or the captured text; "
             "a person names the organization and reruns the queue entry"
+        )
+        write_manifest(
+            directory,
+            run_id=run_id,
+            queue_entry=entry.payload(),
+            stage_runs=stages,
+            model_strings={row["stage"]: row["model"] for row in stages if row.get("model")},
+            prompt_versions={},
+            capture_hashes={source.local_id: source.content_sha256 for source in sources},
+            decision="needs-evidence",
+            notes=notes,
         )
         return RunSummary(
             run_id=run_id,
