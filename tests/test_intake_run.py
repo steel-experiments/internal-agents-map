@@ -556,6 +556,34 @@ class EndToEndRunTests(unittest.TestCase):
             for link in links:
                 self.assertIn("locator", link, f"link for {path} lacks a locator")
 
+    def test_the_manifest_accounts_for_all_twelve_stages(self) -> None:
+        summary = self.run_zup()
+        manifest = json.loads(
+            (self.root / "runs" / summary.run_id / "run.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(
+            [stage["stage"] for stage in manifest["stage_runs"]],
+            [
+                "capture",
+                "segment",
+                "resolve",
+                "extract",
+                "verify",
+                "judge",
+                "numbers",
+                "write",
+                "render",
+                "preflight",
+                "validate",
+                "review",
+            ],
+        )
+        # Preflight consumes the stage 6 verdicts: no model of its own.
+        preflight = next(s for s in manifest["stage_runs"] if s["stage"] == "preflight")
+        self.assertIsNone(preflight["model"])
+        sheet = summary.sheet_path.read_text(encoding="utf-8") if summary.sheet_path else ""
+        self.assertIn("| preflight | — | 0 |", sheet)
+
     def test_the_system_name_hint_wins_over_the_writer_echo(self) -> None:
         summary = self.run_zup(system_name="Zup CodeGen")
         sheet = summary.sheet_path.read_text(encoding="utf-8") if summary.sheet_path else ""

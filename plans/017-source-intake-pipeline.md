@@ -1460,3 +1460,15 @@ STOP-line report:
   and in the extraction record; a bare `schema` call writes the file
   (hermetic, against a temporary path). The intake suite holds 206
   tests.
+- Twelve-stage accounting (loop re-read): the manifest's `stage_runs`
+  and the sheet's Model usage table listed ten stages — preflight
+  computed its flags but appended no row, and stage 12 never recorded
+  itself — so a reader counting rows against the architecture's twelve
+  stages found two silently missing. Both rows now exist: preflight
+  (model none, zero calls — it consumes the stage 6 verdicts; the row
+  notes it follows the render it checks) and review (the sheet and
+  manifest's own production). The flags computation moved beside the
+  first render, the position it actually reads, so the row order is
+  render, preflight, validate, review. Tests: the manifest names all
+  twelve stages in order and the sheet shows the preflight row with no
+  model. The intake suite holds 207 tests.

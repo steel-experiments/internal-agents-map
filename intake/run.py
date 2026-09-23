@@ -458,6 +458,13 @@ def run_candidate(
     stages.append({"stage": "render", "model": None, "calls": 0, "cost_usd": 0.0})
     notes.extend(result.notes)
 
+    # Stage 9 as implemented: preflight reads the rendered claim set, so it
+    # follows the render it checks. It consumes the stage 6 verdicts and
+    # makes no model calls of its own; the row keeps the manifest's stage
+    # accounting complete.
+    flags = preflight_flags(record, result)
+    stages.append({"stage": "preflight", "model": None, "calls": 0, "cost_usd": 0.0})
+
     # Stage 11: validate the draft with the build's own rules.
     draft_id = result.record.get("id")
     build.validate_record(result.record, Path(f"{draft_id or 'draft'}.yaml"), set())
@@ -496,10 +503,9 @@ def run_candidate(
             "the pull request carries them"
         )
 
-    # Stage 9: preflight flags for the sheet.
-    flags = preflight_flags(record, result)
-
-    # Stage 12: the review sheet and the run manifest.
+    # Stage 12: the review sheet and the run manifest. The row records that
+    # both were produced; the manifest you are reading is its own output.
+    stages.append({"stage": "review", "model": None, "calls": 0, "cost_usd": 0.0})
     draft_path = None
     if draft_id:
         drafts_root.mkdir(parents=True, exist_ok=True)
