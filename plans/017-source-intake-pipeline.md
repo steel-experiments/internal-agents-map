@@ -1325,3 +1325,25 @@ STOP-line report:
   `blocked` and the next queue entry still drafts. The intake suite
   holds 190 tests.
 
+- Calibration per question (loop re-read): Phase 3 step 3 adopts Plan 016's
+  evaluation design wholesale — "grouped splits, two human labellers, oracle
+  passages and retrieval tracks, permutation and repeat stress, **calibration
+  per question**" — and the mechanics unit had shipped every part except the
+  last: nothing computed a Brier score, reliability bins, or a threshold
+  sweep, so the day the labels arrive the thresholds would still have been
+  set by hand with no curve to read. `calibration(items, details)` now
+  grounds the relation question — the one this label set speaks to: support
+  means `stated` was right, an explicit conflict means `conflicts`, and
+  silence or ambiguity means the honest answer was `unknown` — and reports,
+  never averaged across questions, the Brier score of the target answer's
+  probability, reliability bins of the chosen answer's confidence against
+  observed accuracy, and the coverage-versus-error sweep over candidate
+  `stated` thresholds (accepted count, defect count, error rate). To feed
+  it, `run_verdicts` gained a `details` output: each item's five answers
+  with their full probability distributions, cached beside the verdict so a
+  warm rerun restores them with zero calls. The CLI folds the block into
+  the `--score` report and prints the Brier line. Tests: the Brier value,
+  the bins, and the sweep's trade-off (a 0.85-stated defect passes the 0.80
+  bound and fails 0.90); unlabelled items score zero; `run_verdicts`
+  exposes the answers and a warm cache restores them. The intake suite
+  holds 193 tests.

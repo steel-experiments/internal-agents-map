@@ -9,6 +9,7 @@ import json
 import os
 import sys
 from pathlib import Path
+from typing import Any
 
 import yaml
 
@@ -283,6 +284,7 @@ def _command_evals(args: argparse.Namespace) -> int:
     from intake.budget import Budget
     from intake.evals import (
         build_items,
+        calibration,
         labeller_agreement,
         run_verdicts,
         score,
@@ -313,11 +315,20 @@ def _command_evals(args: argparse.Namespace) -> int:
         )
         return 0
     items = json.loads(args.items.read_text(encoding="utf-8"))
-    verdicts = run_verdicts(items, adapter=JevAdapter(), budget=Budget(budget_usd=args.budget_usd))
+    details: dict[str, dict[str, Any]] = {}
+    verdicts = run_verdicts(
+        items,
+        adapter=JevAdapter(),
+        budget=Budget(budget_usd=args.budget_usd),
+        details=details,
+    )
     report = score(items, verdicts)
     report["labeller_agreement"] = labeller_agreement(items)
     if any(item.get("repeat_group") for item in items):
         report["stability"] = stability(items, verdicts)
+    if any(item.get("labels", {}).get("adjudicated") for item in items):
+        # Plan 016's calibration per question, over the labelled items.
+        report["calibration"] = calibration(items, details)
     text = json.dumps(report, indent=2, ensure_ascii=False) + "\n"
     if args.output is not None:
         args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -336,6 +347,14 @@ def _command_evals(args: argparse.Namespace) -> int:
             f"repeat stability {stable.get('stability')} "
             f"over {stable.get('repeated_groups', 0)} repeated groups"
         )
+    if "calibration" in report:
+        relation = report["calibration"].get("relation")
+        if relation:
+            print(
+                f"relation calibration: Brier {relation['brier']} "
+                f"over {report['calibration']['scored']} labelled items; "
+                "the threshold sweep is in the report"
+            )
     return 0
 
 

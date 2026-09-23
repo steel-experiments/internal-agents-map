@@ -318,6 +318,101 @@ def score(items: list[dict[str, Any]], verdicts: dict[str, str]) -> dict[str, An
     }
 
 
+# The adjudicated label implies one relation answer. Silence and ambiguity
+# imply no definite relation, so the honest target there is `unknown`.
+RELATION_TARGETS = {
+    "support": "stated",
+    "explicit-conflict": "conflicts",
+    "insufficient": "unknown",
+    "ambiguity": "unknown",
+}
+_CALIBRATION_BINS = (0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
+_SWEEP_THRESHOLDS = (0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95)
+
+
+def calibration(items: list[dict[str, Any]], details: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    """Calibrate the relation question over the labelled items.
+
+    Plan 016 asks for calibration per question, reported as a Brier score,
+    reliability bins, and a coverage-versus-error curve — never as one
+    averaged score. This item set's labels ground the relation question
+    only: support means `stated` was right, an explicit conflict means
+    `conflicts`, and silence or ambiguity means the honest answer was
+    `unknown`. The sweep is the curve the coarse gate's threshold rides:
+    at each candidate `stated` bound it reports how many items the gate
+    would accept and how many of those were material defects.
+    """
+
+    scored = [
+        item
+        for item in items
+        if item["labels"]["adjudicated"] is not None and item["item_id"] in details
+    ]
+    rows = []
+    for item in scored:
+        answer = (details[item["item_id"]] or {}).get("relation") or {}
+        choice = answer.get("choice")
+        probabilities = answer.get("probabilities") or {}
+        target = RELATION_TARGETS.get(item["labels"]["adjudicated"])
+        if choice is None or target is None:
+            continue
+        rows.append(
+            {
+                "choice": choice,
+                "target": target,
+                "p_choice": float(probabilities.get(choice, 0.0)),
+                "p_target": float(probabilities.get(target, 0.0)),
+                "defect": item["labels"]["adjudicated"] in MATERIAL_DEFECTS,
+            }
+        )
+    if not rows:
+        return {"scored": 0}
+    brier = sum((row["p_target"] - 1.0) ** 2 for row in rows) / len(rows)
+    bins = []
+    for start, stop in zip(_CALIBRATION_BINS, _CALIBRATION_BINS[1:]):
+        in_bin = [
+            row
+            for row in rows
+            if start <= row["p_choice"] < stop or (stop == 1.0 and row["p_choice"] == 1.0)
+        ]
+        if not in_bin:
+            continue
+        bins.append(
+            {
+                "bin": f"{start:.2f}-{stop:.2f}",
+                "n": len(in_bin),
+                "observed_accuracy": round(
+                    sum(row["choice"] == row["target"] for row in in_bin) / len(in_bin), 4
+                ),
+            }
+        )
+    sweep = []
+    for threshold in _SWEEP_THRESHOLDS:
+        accepted = [
+            row for row in rows if row["choice"] == "stated" and row["p_choice"] >= threshold
+        ]
+        if not accepted:
+            continue
+        defects = sum(1 for row in accepted if row["defect"])
+        sweep.append(
+            {
+                "stated_threshold": threshold,
+                "accepted": len(accepted),
+                "coverage": round(len(accepted) / len(rows), 4),
+                "defects_accepted": defects,
+                "error": round(defects / len(accepted), 4),
+            }
+        )
+    return {
+        "scored": len(rows),
+        "relation": {
+            "brier": round(brier, 4),
+            "reliability_bins": bins,
+            "threshold_sweep": sweep,
+        },
+    }
+
+
 def write_items(items: list[dict[str, Any]], path: Path) -> None:
     """Write the item set for the labellers; never overwrite an existing file."""
     if path.exists():
@@ -326,18 +421,42 @@ def write_items(items: list[dict[str, Any]], path: Path) -> None:
     path.write_text(json.dumps(items, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
+def _answer_summary(answers: dict[str, Any]) -> dict[str, Any]:
+    """The per-question answers a calibration reads, with full distributions."""
+
+    def choice_answer(key: str) -> dict[str, Any] | None:
+        answer = answers.get(key)
+        if answer is None:
+            return None
+        return {"choice": answer.choice, "probabilities": dict(answer.probabilities or {})}
+
+    actor = answers.get("a0_actor")
+    approval = answers.get("a0_approval")
+    return {
+        "relation": choice_answer("a0_relation"),
+        "actor_mismatch": actor.noul if actor else None,
+        "temporal": choice_answer("a0_temporal"),
+        "approval_removed": approval.noul if approval else None,
+        "basis": choice_answer("a0_basis"),
+    }
+
+
 def run_verdicts(
     items: list[dict[str, Any]],
     *,
     adapter: Any,
     budget: Any,
     cache: Any = None,
+    details: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, str]:
     """Ask Jev the same items and return the coarse gate's verdict per item.
 
     The item's passage becomes the judged state verbatim, so Jev sees exactly
     what the labellers saw. Verdicts are cached by item, passage, question
-    version, and model, so a warm rerun makes no new calls.
+    version, and model, so a warm rerun makes no new calls. Pass a
+    ``details`` dict to also receive each item's per-question answers with
+    their full probability distributions — what the calibration reads; a
+    warm rerun restores them from the cache.
     """
 
     import hashlib
@@ -364,6 +483,8 @@ def run_verdicts(
         cached = cache.get(key)
         if cached is not None:
             verdicts[item["item_id"]] = cached["verdict"]
+            if details is not None and cached.get("answers"):
+                details[item["item_id"]] = cached["answers"]
             continue
         claim = Claim(
             id=item["item_id"],
@@ -380,5 +501,8 @@ def run_verdicts(
         judgments = judgments_from_answers(claim, result.answers, 0, result.model)
         verdict = "accept" if gates_pass(judgments, GATE) else "review"
         verdicts[item["item_id"]] = verdict
-        cache.put(key, {"verdict": verdict})
+        summary = _answer_summary(result.answers)
+        cache.put(key, {"verdict": verdict, "answers": summary})
+        if details is not None:
+            details[item["item_id"]] = summary
     return verdicts

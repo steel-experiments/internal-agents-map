@@ -12,6 +12,7 @@ from intake.budget import Budget
 from intake.cache import JsonCache
 from intake.evals import (
     build_items,
+    calibration,
     labeller_agreement,
     run_verdicts,
     score,
@@ -160,6 +161,33 @@ class RunVerdictsTests(unittest.TestCase):
         self.assertEqual(cold.calls, 0)
         self.assertEqual(set(verdicts.values()), {"accept"})
 
+    def test_the_answers_ride_along_and_a_warm_cache_restores_them(self) -> None:
+        details: dict[str, dict[str, Any]] = {}
+        run_verdicts(
+            self.items,
+            adapter=FakeJev(relation_p=0.95),
+            budget=Budget(budget_usd=20.0),
+            cache=self.cache,
+            details=details,
+        )
+        self.assertEqual(set(details), {item["item_id"] for item in self.items})
+        first = details[self.items[0]["item_id"]]
+        self.assertEqual(first["relation"]["choice"], "stated")
+        self.assertEqual(first["relation"]["probabilities"]["stated"], 0.95)
+        self.assertEqual(first["actor_mismatch"], 0.05)
+        # A warm rerun restores the same answers from the cache, no calls.
+        cold = FakeJev(relation_p=0.4)
+        warm: dict[str, dict[str, Any]] = {}
+        run_verdicts(
+            self.items,
+            adapter=cold,
+            budget=Budget(budget_usd=20.0),
+            cache=self.cache,
+            details=warm,
+        )
+        self.assertEqual(cold.calls, 0)
+        self.assertEqual(warm, details)
+
 
 class ScoreTests(unittest.TestCase):
     @staticmethod
@@ -204,6 +232,61 @@ class ScoreTests(unittest.TestCase):
         self.assertEqual(report["labelled"], 10)
         self.assertEqual(report["agreeing"], 9)
         self.assertEqual(report["agreement"], 0.9)
+
+
+def labelled_item(item_id: str, label: str) -> dict[str, Any]:
+    return {
+        "item_id": item_id,
+        "labels": {"labeller_a": label, "labeller_b": label, "adjudicated": label},
+    }
+
+
+def relation_detail(choice: str, probabilities: dict[str, float]) -> dict[str, Any]:
+    return {"relation": {"choice": choice, "probabilities": probabilities}}
+
+
+class CalibrationTests(unittest.TestCase):
+    """Plan 016's per-question calibration: Brier, bins, threshold sweep."""
+
+    def test_brier_bins_and_the_coverage_error_sweep(self) -> None:
+        items = [
+            labelled_item("a", "support"),
+            labelled_item("b", "support"),
+            labelled_item("c", "explicit-conflict"),
+            labelled_item("d", "insufficient"),
+        ]
+        details = {
+            "a": relation_detail("stated", {"stated": 0.95, "unknown": 0.05}),
+            "b": relation_detail("stated", {"stated": 0.9, "unknown": 0.1}),
+            # A confident `stated` over an explicit conflict: the defect the
+            # sweep must expose at the gate's own threshold.
+            "c": relation_detail("stated", {"stated": 0.85, "conflicts": 0.1, "unknown": 0.05}),
+            "d": relation_detail("stated", {"stated": 0.6, "unknown": 0.4}),
+        }
+        report = calibration(items, details)
+        self.assertEqual(report["scored"], 4)
+        relation = report["relation"]
+        # Targets: a and b -> stated, c -> conflicts, d -> unknown.
+        expected_brier = ((1 - 0.95) ** 2 + (1 - 0.9) ** 2 + (1 - 0.1) ** 2 + (1 - 0.4) ** 2) / 4
+        self.assertEqual(relation["brier"], round(expected_brier, 4))
+        top = next(b for b in relation["reliability_bins"] if b["bin"] == "0.90-1.00")
+        self.assertEqual(top["n"], 2)  # a and b; c's 0.85 falls one bin lower
+        self.assertEqual(top["observed_accuracy"], 1.0)
+        sweep = {row["stated_threshold"]: row for row in relation["threshold_sweep"]}
+        at_80 = sweep[0.8]
+        self.assertEqual(at_80["accepted"], 3)  # a, b, and the defect c; d stays out
+        self.assertEqual(at_80["defects_accepted"], 1)
+        self.assertEqual(at_80["error"], round(1 / 3, 4))
+        at_90 = sweep[0.9]
+        self.assertEqual(at_90["accepted"], 2)  # the defect no longer passes
+        self.assertEqual(at_90["defects_accepted"], 0)
+        self.assertEqual(at_90["error"], 0.0)
+
+    def test_unlabelled_items_score_zero(self) -> None:
+        item = labelled_item("a", "support")
+        item["labels"]["adjudicated"] = None
+        self.assertEqual(calibration([item], {"a": relation_detail("stated", {})}), {"scored": 0})
+        self.assertEqual(calibration([item], {}), {"scored": 0})
 
 
 class TrackSplitStressTests(unittest.TestCase):

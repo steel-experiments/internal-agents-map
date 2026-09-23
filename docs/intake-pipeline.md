@@ -178,8 +178,13 @@ locator, so the evaluation also measures the judge on searched passages
 near-duplicate claims cannot leak across the split. `--repeats N` repeats
 every item with permuted order for the permutation-and-repeat stress, and
 `--score` then reports the fraction of repeated groups that got identical
-verdicts. The labellers and the live pass are the blocked part: the pass
-needs `TYPESAFE_API_KEY`, the labels need two people.
+verdicts. Once labels exist, the scored report also carries the calibration
+Plan 016 asks for, per question and never averaged: the relation question's
+Brier score, reliability bins over the chosen answer's confidence, and a
+threshold sweep — at each candidate `stated` bound, how many items the gate
+would accept and how many of those were material defects. The labellers and
+the live pass are the blocked part: the pass needs `TYPESAFE_API_KEY`, the
+labels need two people.
 
 ## Backfill apply and drift
 
