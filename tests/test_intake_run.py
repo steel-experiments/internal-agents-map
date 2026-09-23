@@ -313,6 +313,14 @@ class EndToEndRunTests(unittest.TestCase):
         # The queue's company hint is authoritative: the writer's echo yields.
         draft = yaml.safe_load(summary.draft_path.read_text(encoding="utf-8"))  # type: ignore[union-attr]
         self.assertEqual(draft["company"], "Example")
+        # The queue's company hint wins on the draft even though the page's
+        # text names Zup and identity matched it; the add-path decision for
+        # a company the registry does not know is unit-tested in
+        # test_intake_pipeline.
+        identity = json.loads(
+            (self.root / "runs" / summary.run_id / "identity.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(identity["proposed_decision"], "update")
         entry_path = self.root / "runs" / summary.run_id / "company-entry.yaml"
         self.assertTrue(entry_path.is_file())
         entry = yaml.safe_load(entry_path.read_text(encoding="utf-8"))
@@ -742,6 +750,81 @@ class RunAdmissionTests(unittest.TestCase):
             # Nothing was captured and no run directory exists.
             self.assertEqual(steel_client.scrapes, 0)
             self.assertFalse((root / "runs").exists())
+
+
+class PagesSteelClient:
+    """Serves one fixed page per URL."""
+
+    def __init__(self, pages: dict[str, str]) -> None:
+        self._pages = pages
+
+    def scrape(self, *, url: str, format: list[str], pdf: bool, delay: int) -> Any:
+        return FakeSteelResponse(self._pages[url], url)
+
+
+class NeedsEvidenceStopTests(unittest.TestCase):
+    """The stage 3 contract: no company name stops with Needs evidence."""
+
+    ANONYMOUS_URL = "https://example.com/anonymous-agent"
+
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self._tmp.name)
+        self.anonymous = (
+            "# A study of an internal agent\n\n"
+            "The team describes an agent that helps with code review. The page "
+            "names no company and no product, so identity has nothing to match "
+            "on. Several more sentences follow so the body clears the archiver's "
+            "minimum length and the capture passes its checks.\n"
+        )
+
+    def tearDown(self) -> None:
+        self._tmp.cleanup()
+
+    def test_a_candidate_with_no_company_name_stops_before_the_writer(self) -> None:
+        from intake.cache import JsonCache
+
+        pages = {
+            self.ANONYMOUS_URL: self.anonymous,
+            "https://arxiv.org/abs/2604.09805": zup_capture_markdown(),
+        }
+        steel = SteelSdkAdapter(
+            api_key="test-key", client_factory=lambda _key: PagesSteelClient(pages)
+        )
+        responses = ZupWriterResponses()
+        writer = WriterAdapter(api_key="test-key", responses=responses)
+        queue = self.root / "queue.yaml"
+        queue.write_text(
+            f"- urls: [{self.ANONYMOUS_URL}]\n"
+            "- urls: [https://arxiv.org/abs/2604.09805]\n"
+            "  company: Zup\n"
+            "  system_name: CodeGen\n"
+            "  record_id: zup-codegen-draft\n",
+            encoding="utf-8",
+        )
+        summaries = run_queue(
+            queue,
+            budget_usd=5.0,
+            runs_root=self.root / "runs",
+            drafts_root=self.root / "drafts",
+            staging_root=self.root / "staging",
+            repo_root=self.root,
+            steel=steel,
+            writer=writer,  # type: ignore[arg-type]
+            jev=JevAdapter(api_key="test-key", connection=FakeJevConnection()),  # type: ignore[arg-type]
+            cache=JsonCache(self.root / "jev-cache.json"),
+            writer_cache=JsonCache(self.root / "writer-cache.json"),
+        )
+        stopped, drafted = summaries
+        self.assertEqual(stopped.decision, "needs-evidence")
+        self.assertIsNone(stopped.draft_path)
+        self.assertIsNone(stopped.sheet_path)
+        self.assertTrue(any("no company name" in note for note in stopped.notes), stopped.notes)
+        # The queue continues, and the second entry still drafts.
+        self.assertEqual(drafted.decision, "update")
+        self.assertIsNotNone(drafted.draft_path)
+        # The writer answered only the drafted entry's two calls.
+        self.assertEqual(responses._calls, 2)
 
 
 class ErrorPageResponse:

@@ -1422,3 +1422,25 @@ STOP-line report:
   en") so a reviewer sees what stayed behind. Tests: the metadata
   reaches the extraction record, the manifest names it in `not_carried`,
   and the sheet says so. The intake suite holds 202 tests.
+- Needs-evidence stop and the Add-path split (loop re-read): the stage 3
+  contract's fail row — "no company name in text or hints: stops with
+  Needs evidence" — had no embodiment, and `resolve_identity` conflated
+  two different situations under one decision: a company the registry
+  does not know (the Add path for a new organization, which the
+  company-entry output exists to serve) also returned `needs-evidence`,
+  while a candidate with no company name anywhere ran on through
+  extraction on the writer's own echo. Two changes. `resolve_identity`
+  now splits the cases: a company hint the registry does not match
+  proposes `add` for a new organization (the note says so), and only a
+  candidate with no company hint and no registry company named in the
+  text proposes `needs-evidence`. And `run_candidate` stops that
+  candidate after stage 3 — before any writer spend — returning a
+  `needs-evidence` summary whose notes say a person names the
+  organization and reruns the entry; the staged captures and
+  `identity.json` stay in the run directory, and the queue continues.
+  A `record_id` hint overrides the stop, because it names the update
+  target directly. Tests: the two resolve decisions with their notes;
+  an end-to-end queue whose first entry names no company stops with
+  zero writer calls while the second still drafts; the new-organization
+  e2e keeps its update decision because the page text names Zup and the
+  text match is real. The intake suite holds 204 tests.

@@ -330,12 +330,30 @@ def run_candidate(
     (directory / "identity.json").write_text(
         json.dumps(identity, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
     )
+    stages.append(resolve_stage)
+    if identity["proposed_decision"] == "needs-evidence" and not entry.record_id:
+        # The stage 3 contract: no company name in the text or the hints
+        # stops the candidate with Needs evidence — before any writer spend,
+        # with the staged captures and the identity file left for a person
+        # who names the organization and reruns the entry.
+        notes.append(
+            "stage 3 found no company name in the queue hints or the captured text; "
+            "a person names the organization and reruns the queue entry"
+        )
+        return RunSummary(
+            run_id=run_id,
+            record_id=None,
+            decision="needs-evidence",
+            draft_path=None,
+            sheet_path=None,
+            stages=stages,
+            notes=notes,
+        )
     record_id = entry.record_id or (
         identity["matched_records"][0]["id"]
         if identity["matched_records"] and identity["proposed_decision"] == "update"
         else None
     )
-    stages.append(resolve_stage)
 
     # Stage 4: extract.
     hints: dict[str, Any] = {

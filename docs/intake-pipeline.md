@@ -103,7 +103,12 @@ over the top entry's probability: at or above the update bound
 0.3) proposes Add, and a value between proposes review. The bands are
 provisional until the Phase 3 calibration runs — `identity.json` records
 the applied rule and bounds in `decision_basis` — and a person confirms
-every identity decision either way. When the run proposes an Update against a record that exists,
+every identity decision either way. A queue entry whose text and hints
+name no company at all stops after stage 3 with `needs-evidence` — no
+writer spend, no draft — and names what a person must add; the queue
+continues with the next entry. A company the registry does not know,
+named by the hint, is the Add path for a new organization, not a stop.
+When the run proposes an Update against a record that exists,
 the new source is numbered after the existing ones, the new claims are
 matched against the existing record with digits masked — a matched pair whose
 numbers disagree, or that drops a recorded number, lands on the sheet under

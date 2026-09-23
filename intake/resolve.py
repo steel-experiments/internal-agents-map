@@ -160,14 +160,36 @@ def resolve_identity(
         )
     shortlist.sort(key=lambda item: (-item["score"], item["id"]))
     shortlist = shortlist[:5]
-    if matched_company is None:
+    named_new_organization = matched_company is None and bool((company or "").strip())
+    if matched_company is None and not named_new_organization:
+        # The stage 3 contract: no company name in the text or the hints.
         decision = "needs-evidence"
+        note = (
+            "No company name in the hints or the text; needs evidence. A person "
+            "names the organization and reruns the queue entry."
+        )
+    elif named_new_organization:
+        # The Add path: a company the registry does not know, named by the
+        # queue hint. The company-entry output covers the registry gap.
+        decision = "add"
+        note = (
+            "The company hint names an organization the registry does not know; "
+            "proposing add for a new organization."
+        )
     elif shortlist:
         top = shortlist[0]["score"]
         unique_top = len(shortlist) == 1 or shortlist[1]["score"] < top
         decision = "update" if top >= CONTAINS_SCORE and unique_top else "review"
+        note = (
+            "Deterministic name matching only; the Jev same-system question and the "
+            "reviewer confirm every identity decision."
+        )
     else:
         decision = "add"
+        note = (
+            "Deterministic name matching only; the Jev same-system question and the "
+            "reviewer confirm every identity decision."
+        )
     return {
         "format_version": 1,
         "company_hint": company,
@@ -179,10 +201,7 @@ def resolve_identity(
         ),
         "matched_records": shortlist,
         "proposed_decision": decision,
-        "note": (
-            "Deterministic name matching only; the Jev same-system question and the "
-            "reviewer confirm every identity decision."
-        ),
+        "note": note,
     }
 
 

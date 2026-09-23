@@ -375,7 +375,7 @@ class ResolveIdentityTests(unittest.TestCase):
                 self.assertEqual(shortlist[0]["id"], record["id"])
                 self.assertEqual(identity["proposed_decision"], "update")
 
-    def test_no_company_evidence_proposes_needs_evidence(self) -> None:
+    def test_a_named_company_the_registry_does_not_know_proposes_add(self) -> None:
         identity = resolve_identity(
             company="Unknown Corp",
             system_name="Mystery Agent",
@@ -383,7 +383,20 @@ class ResolveIdentityTests(unittest.TestCase):
             companies=self.companies,
         )
         self.assertIsNone(identity["company"])
+        self.assertEqual(identity["proposed_decision"], "add")
+        self.assertIn("new organization", identity["note"])
+
+    def test_no_company_name_anywhere_proposes_needs_evidence(self) -> None:
+        identity = resolve_identity(
+            company=None,
+            system_name="Mystery Agent",
+            text="A page that names no registry company.",
+            records=self.records,
+            companies=self.companies,
+        )
+        self.assertIsNone(identity["company"])
         self.assertEqual(identity["proposed_decision"], "needs-evidence")
+        self.assertIn("needs evidence", identity["note"])
 
     def test_a_known_company_with_a_new_system_proposes_add(self) -> None:
         identity = resolve_identity(
