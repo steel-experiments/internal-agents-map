@@ -107,6 +107,8 @@ class GoldenCaseTests(unittest.TestCase):
         self.assertIn("collection blocker", skill)
         self.assertIn("`blocked`", skill)
         self.assertIn("`needs-evidence`", skill)
+        # Draft collisions report; they never overwrite.
+        self.assertIn("collision", skill)
         # Phase 5's worst-first batching and the hint authority rule.
         self.assertIn("backfill --rank", skill)
         self.assertIn("authoritative over the writer model's echo", skill)

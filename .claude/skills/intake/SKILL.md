@@ -41,6 +41,11 @@ URLs, and the sheet carries a Collection blockers section. An entry whose
 every URL fails reports `blocked`; an entry whose text and hints name no
 company stops after stage 3 with `needs-evidence`. Neither writes a draft
 or a sheet — read the printed notes, fix the queue entry, and rerun it.
+A run that meets an existing draft — two queue entries naming one record,
+or a rerun into the same drafts root — reports the collision in its notes
+and keeps its sheet and manifest beside the existing draft for a person
+to compare; it never overwrites and never supersedes the owning run's
+archived manifest.
 
 ## After a run
 

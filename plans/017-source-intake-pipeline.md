@@ -1579,3 +1579,15 @@ STOP-line report:
   artifacts, the owning run's archived manifest stands, and a queue
   with a collision returns both summaries. The intake suite holds 215
   tests.
+- Collision outcome in the operator surfaces (loop re-read): the
+  draft-collision unit changed rerun semantics — a rerun into the same
+  drafts root now reports instead of crashing — but both operator
+  surfaces still described the old behavior: the skill's outcomes
+  paragraph ended at `blocked` and `needs-evidence`, and the operator
+  doc's rerun paragraph said only "drafts are never overwritten; the
+  rerun writes its own directory", leaving a person to discover the
+  collision outcome from the notes alone. Both now name it: the
+  collision reports, keeps its sheet and manifest beside the existing
+  draft, never overwrites, and never supersedes the owning run's
+  archived manifest or company entry. The skill guard pins the word so
+  it cannot drift again. The intake suite holds 215 tests.

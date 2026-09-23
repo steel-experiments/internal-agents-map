@@ -159,8 +159,11 @@ a run directory's artifacts; the new output lands beside the original as
 `<artifact>.rerun`. Model-driven stages come from their caches — Jev under
 `.intake/cache/jev.json`, the writer under `.intake/cache/writer.json` — so a
 warm-cache rerun of the whole run makes no new model calls and reproduces the
-draft byte for byte (drafts are never overwritten; the rerun writes its own
-directory). The writer's input never includes the staging header, whose
+draft byte for byte (the rerun writes its own run directory; point it at a
+fresh drafts root, or it reports a collision). A rerun that meets an existing
+draft does not crash and never overwrites: its notes name the existing draft,
+its sheet and manifest stand beside it for a person to compare, and it does
+not supersede the owning run's archived manifest or company entry. The writer's input never includes the staging header, whose
 capture timestamp would otherwise change the cache key on every run. A cold
 rerun can differ, because the writer model is not deterministic; the manifest
 records which happened, with per-stage cache hits.
