@@ -1292,4 +1292,17 @@ STOP-line report:
   text so a locator can name them" — gained its pin: a timestamped
   transcript segments into paragraphs that carry the `[HH:MM:SS]` markers
   verbatim. The intake suite holds 186 tests.
+- `.env` loading (loop re-read): the secrets section tells the operator to
+  put the three keys in a git-ignored `.env` at the repository root, and
+  every adapter's error message repeats that instruction — but nothing
+  loaded the file. An operator who followed the documentation exactly and
+  ran the CLI got "key is not set" anyway. The CLI now seeds the
+  environment from `.env` at startup (a ten-line reader: comments, blanks,
+  and lines without `=` are skipped; quotes are stripped), with an exported
+  variable always winning over the file — the adapters keep reading the
+  environment only, and no value is ever printed, logged, or written to an
+  artifact. Tests: the file seeds unset variables, quoted values are
+  stripped, the environment wins, broken lines are ignored, and a missing
+  file (today's repository state) changes nothing. The intake suite holds
+  188 tests.
 

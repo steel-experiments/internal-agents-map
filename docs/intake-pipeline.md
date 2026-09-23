@@ -102,7 +102,9 @@ without re-deriving them.
 ## Secrets and `.env`
 
 The adapters read keys from the environment only. Put them in a git-ignored
-`.env` at the repository root, beside the DataForSEO keys of the SEO pulse:
+`.env` at the repository root, beside the DataForSEO keys of the SEO pulse;
+the CLI seeds the environment from that file at startup, and an exported
+variable always wins over the file:
 
 - `STEEL_API_KEY` — the Steel API key for capture staging (stage 1).
 - `OPENAI_API_KEY` — the writer model (stages 4 and 8).

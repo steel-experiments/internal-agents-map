@@ -27,6 +27,47 @@ from intake.drift import (
 ROOT = Path(__file__).resolve().parents[1]
 
 
+class EnvFileTests(unittest.TestCase):
+    def test_the_env_file_seeds_the_environment_without_overriding(self) -> None:
+        import os
+
+        from intake.__main__ import _load_env_file
+
+        with tempfile.TemporaryDirectory() as directory:
+            env = Path(directory) / ".env"
+            env.write_text(
+                "# a comment\n"
+                "STEEL_API_KEY=file-key\n"
+                'TYPESAFE_API_KEY="quoted-key"\n'
+                "BROKEN LINE WITHOUT EQUALS\n",
+                encoding="utf-8",
+            )
+            saved = {
+                "STEEL_API_KEY": os.environ.get("STEEL_API_KEY"),
+                "TYPESAFE_API_KEY": os.environ.get("TYPESAFE_API_KEY"),
+            }
+            try:
+                os.environ["STEEL_API_KEY"] = "env-key"
+                os.environ.pop("TYPESAFE_API_KEY", None)
+                _load_env_file(env)
+                # The environment wins over the file.
+                self.assertEqual(os.environ["STEEL_API_KEY"], "env-key")
+                self.assertEqual(os.environ["TYPESAFE_API_KEY"], "quoted-key")
+            finally:
+                for key, value in saved.items():
+                    if value is None:
+                        os.environ.pop(key, None)
+                    else:
+                        os.environ[key] = value
+
+    def test_a_missing_env_file_changes_nothing(self) -> None:
+        from intake.__main__ import _load_env_file
+
+        # The repository has no .env; the loader must stay a no-op.
+        _load_env_file(ROOT / ".env")
+        _load_env_file(ROOT / "definitely-no-such-file.env")
+
+
 class FakeWriterResponse:
     """The writer seam: one canned payload."""
 

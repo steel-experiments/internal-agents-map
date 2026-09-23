@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -15,6 +16,26 @@ from intake import models
 
 ROOT = Path(__file__).resolve().parent.parent
 SCHEMA_PATH = ROOT / "intake" / "schemas" / "extraction-record.v1.json"
+
+
+def _load_env_file(path: Path) -> None:
+    """Seed the environment from a git-ignored ``.env``; the environment wins.
+
+    The adapters keep reading keys from the environment only; the file just
+    seeds it at CLI startup. Values are never printed, logged, or written to
+    any artifact.
+    """
+    if not path.is_file():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        key = key.strip()
+        value = value.strip().strip("'\"")
+        if key and key not in os.environ:
+            os.environ[key] = value
 
 
 def _command_schema(args: argparse.Namespace) -> int:
@@ -189,8 +210,6 @@ def _command_review(args: argparse.Namespace) -> int:
 
 
 def _command_backfill(args: argparse.Namespace) -> int:
-    import os
-
     from intake.adapters.jev import JevAdapter
     from intake.adapters.writer import WriterAdapter
     from intake.backfill import backfill_dry_run, proposals_payload, review_sheet
@@ -439,6 +458,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    _load_env_file(ROOT / ".env")
     args = build_parser().parse_args(argv)
     return args.func(args)
 
