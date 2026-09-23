@@ -197,11 +197,30 @@ def run_candidate(
         capture_kwargs["staging_root"] = staging_root
     staged: list[StagedCapture] = []
     blockers: list[dict[str, str]] = []
+    seen_canonicals: set[str] = set()
     for url in entry.urls:
         try:
-            staged.append(capture_staging(url, **capture_kwargs))
+            capture = capture_staging(url, **capture_kwargs)
         except CaptureStageError as error:
             blockers.append({"url": url, "error": str(error)})
+            continue
+        # Two URLs of one entry can name the same page — a tracking
+        # parameter on a pasted link, most often. The normalised canonical
+        # is the source's identity, so the page is captured once. Both
+        # scrapes wrote the same staging bundle; the surviving entry must
+        # describe the bytes on disk, which the last scrape wrote.
+        if capture.canonical_url in seen_canonicals:
+            notes.append(
+                f"duplicate URL: {url} normalises to the same source as an "
+                "earlier URL of this entry; captured once"
+            )
+            for index, prior in enumerate(staged):
+                if prior.canonical_url == capture.canonical_url:
+                    staged[index] = capture
+                    break
+            continue
+        seen_canonicals.add(capture.canonical_url)
+        staged.append(capture)
     for index, capture in enumerate(staged, start=1):
         (directory / f"staging-s{index}.txt").write_text(
             str(capture.staging_dir) + "\n", encoding="utf-8"

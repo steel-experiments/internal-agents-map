@@ -1547,3 +1547,18 @@ STOP-line report:
   provenance instead of identity. Tests: the identity-only invariants
   case by case, and a canonical URL with noise staging into the same
   bundle as the clean form. The intake suite holds 213 tests.
+- Duplicate queue URLs collapse (loop re-read): the URL-normalisation
+  unit exposed a latent product gap it made easier to hit — a queue
+  entry listing the same article twice (one link carrying tracking
+  noise) scraped one page but rendered it as two sources and promoted
+  two archive bundles for it, because stage 1 never deduplicated the
+  entry's URLs. It now does, by normalised canonical URL: the second
+  scrape of the same page is reported in the notes ("duplicate URL:
+  ... captured once") and collapsed, with the surviving source entry
+  describing the bytes the last scrape wrote into the shared staging
+  bundle — the manifest validator's original-url check is what caught
+  the mismatch in the first attempt. The capture stage's call count
+  still names both scrapes. Tests: an entry with a tracking-noisy and a
+  clean variant of one URL drafts one source with the clean canonical,
+  promotes exactly one bundle, notes the duplicate, and records two
+  capture calls. The intake suite holds 214 tests.

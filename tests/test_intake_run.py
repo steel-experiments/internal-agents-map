@@ -818,6 +818,56 @@ class NeedsEvidenceStopTests(unittest.TestCase):
     def tearDown(self) -> None:
         self._tmp.cleanup()
 
+    def test_duplicate_queue_urls_collapse_into_one_source(self) -> None:
+        from intake.cache import JsonCache
+        from intake.run import QueueEntry
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            summary = run_candidate(
+                QueueEntry(
+                    urls=[
+                        "https://arxiv.org/abs/2604.09805?utm_source=newsletter",
+                        "https://arxiv.org/abs/2604.09805",
+                    ],
+                    company="Zup",
+                    system_name="CodeGen",
+                    record_id="zup-codegen-draft",
+                ),
+                budget=Budget(budget_usd=5.0),
+                steel=SteelSdkAdapter(
+                    api_key="test-key",
+                    client_factory=lambda _key: FakeSteelClient(zup_capture_markdown()),
+                ),
+                writer=WriterAdapter(api_key="test-key", responses=ZupWriterResponses()),  # type: ignore[arg-type]
+                jev=JevAdapter(api_key="test-key", connection=FakeJevConnection()),  # type: ignore[arg-type]
+                cache=JsonCache(root / "jev-cache.json"),
+                writer_cache=JsonCache(root / "writer-cache.json"),
+                runs_root=root / "runs",
+                drafts_root=root / "drafts",
+                staging_root=root / "staging",
+                repo_root=root,
+                reviewed_at="2026-09-22",
+            )
+            self.assertEqual(summary.decision, "update")
+            draft = yaml.safe_load(summary.draft_path.read_text(encoding="utf-8"))  # type: ignore[union-attr]
+            # One page, one source, one promoted bundle — not two.
+            self.assertEqual(len(draft["sources"]), 1)
+            self.assertEqual(
+                draft["sources"][0]["canonical_url"], "https://arxiv.org/abs/2604.09805"
+            )
+            promoted = list((root / "archive" / "sources").iterdir())
+            self.assertEqual(len(promoted), 1)
+            self.assertTrue(
+                any(note.startswith("duplicate URL:") for note in summary.notes), summary.notes
+            )
+            # Both scrapes happened; the collapse is reported, not hidden.
+            manifest = json.loads(
+                (root / "runs" / summary.run_id / "run.json").read_text(encoding="utf-8")
+            )
+            capture_stage = next(s for s in manifest["stage_runs"] if s["stage"] == "capture")
+            self.assertEqual(capture_stage["calls"], 2)
+
     def test_a_candidate_with_no_company_name_stops_before_the_writer(self) -> None:
         from intake.cache import JsonCache
 
