@@ -618,9 +618,22 @@ class DriftTests(unittest.TestCase):
                 all(span["start"] <= 18 <= span["end"] for span in entry["changed_lines"])
             )
             self.assertIn("summary", entry["affected_claims"])
+            # The proposal names the new capture's source ID.
+            self.assertEqual(entry["proposed_source_id"], "zup-codegen-source-2")
             sheet = report_markdown(payload)
             self.assertIn("zup-codegen-source-1", sheet)
+            self.assertIn("under `zup-codegen-source-2`", sheet)
             self.assertIn("affected claims", sheet)
+
+    def test_changed_sources_of_one_record_get_consecutive_ids(self) -> None:
+        from intake.drift import _next_source_number
+
+        record = {
+            "id": "r",
+            "sources": [{"id": "r-source-1"}, {"id": "r-source-3"}, {"id": "unrelated"}],
+        }
+        self.assertEqual(_next_source_number(record), 4)
+        self.assertEqual(_next_source_number({"id": "r", "sources": []}), 1)
 
     def test_changed_claims_are_rejudged_against_the_new_text(self) -> None:
         from intake.adapters.jev import JevAnswer, JevResult

@@ -1195,4 +1195,16 @@ STOP-line report:
   `logo: none`, and the draft's company follows the hint over the writer's
   echo; a known organization (Zup, homepage hint) gets no file and the
   already-registered note. The intake suite holds 176 tests.
+- Drift's named proposal (loop re-read): the drift specification ends with
+  "proposes a new capture under a new source ID", and the operator doc said
+  the same — but the report marked sources changed and told a person to pick
+  an ID. `drift_report` now computes the proposal: each changed source gets
+  the next consecutive ID after its record's highest numbered source
+  (`<record>-source-<n+1>`, further changed sources of the same record
+  continue the sequence), it rides in the report payload as
+  `proposed_source_id`, and the sheet names it: "Capture the page again
+  under `<id>` and review the claims before citing it." Tests: the changed
+  zup source proposes `zup-codegen-source-2` on the sheet; the numbering
+  skips gaps and unrelated IDs and starts at 1 for an empty record. The
+  intake suite holds 177 tests.
 

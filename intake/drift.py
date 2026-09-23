@@ -45,6 +45,7 @@ class SourceDrift:
     claim_verdicts: list[dict[str, Any]] = field(default_factory=list)
     error: str | None = None
     new_markdown: str | None = None
+    proposed_source_id: str | None = None
 
     def to_payload(self) -> dict[str, Any]:
         return {
@@ -58,6 +59,7 @@ class SourceDrift:
             "affected_claims": self.affected_claims,
             "claim_verdicts": self.claim_verdicts,
             "error": self.error,
+            "proposed_source_id": self.proposed_source_id,
         }
 
 
@@ -281,6 +283,17 @@ def judge_drifted(
     return verdicts
 
 
+def _next_source_number(record: dict[str, Any]) -> int:
+    """One past the record's highest numbered source, starting at 1."""
+    highest = 0
+    pattern = re.compile(re.escape(str(record.get("id", ""))) + r"-source-(\d+)$")
+    for source in record.get("sources", []):
+        match = pattern.fullmatch(str(source.get("id", "")))
+        if match:
+            highest = max(highest, int(match.group(1)))
+    return highest + 1
+
+
 def drift_report(
     *,
     adapter: SteelSdkAdapter,
@@ -301,9 +314,14 @@ def drift_report(
         records = build.load_agents()
     results: list[SourceDrift] = []
     for record in records:
+        # Changed sources of one record get consecutive new IDs after the
+        # record's highest existing source number, in source order.
+        next_number = _next_source_number(record)
         for source in record.get("sources", []):
             drift = drift_one(record_id=record["id"], source=source, adapter=adapter)
             if drift.changed:
+                drift.proposed_source_id = f"{record['id']}-source-{next_number}"
+                next_number += 1
                 drift.affected_claims = affected_claim_paths(record, drift.changed_lines)
                 if jev is not None and budget is not None and drift.affected_claims:
                     drift.claim_verdicts = judge_drifted(
@@ -346,10 +364,16 @@ def report_markdown(payload: dict[str, Any]) -> str:
     for entry in payload["drift"]:
         spans = ", ".join(f"{span['start']}–{span['end']}" for span in entry["changed_lines"])
         claims = ", ".join(entry["affected_claims"]) or "none"
+        proposed = entry.get("proposed_source_id")
+        proposal = (
+            f"Capture the page again under `{proposed}` and review the claims before citing it."
+            if proposed
+            else "Capture the page again under a new source ID and review the claims "
+            "before citing it."
+        )
         lines.append(
             f"- `{entry['source_id']}` ({entry['record_id']}): changed lines {spans}; "
-            f"affected claims: {claims}. Capture the page again under a new source "
-            "ID and review the claims before citing it."
+            f"affected claims: {claims}. {proposal}"
         )
         for verdict in entry.get("claim_verdicts") or []:
             flags = []
