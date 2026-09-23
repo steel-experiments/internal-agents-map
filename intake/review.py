@@ -94,6 +94,7 @@ def review_sheet(
     cross_flags: list[dict[str, Any]] | None = None,
     source_role: str | None = None,
     eligibility: dict[str, Any] | None = None,
+    blockers: list[dict[str, str]] | None = None,
 ) -> str:
     """Render the Markdown sheet a reviewer reads."""
     candidate = record.candidate
@@ -131,6 +132,15 @@ def review_sheet(
             "conservatively (`other`, `independent-secondary`); set the real "
             "kind and class."
         )
+    if blockers:
+        lines.extend(["", "## Collection blockers", ""])
+        lines.append(
+            "These URLs failed the page checks and were not captured. Capture "
+            "them by hand or drop them; nothing was reconstructed from "
+            "snippets, a search result, or memory."
+        )
+        for item in blockers:
+            lines.append(f"- {item['url']}: {item['error']}")
     matched = candidate.matched_records
     if matched:
         lines.extend(["", "## Identity", ""])
@@ -221,8 +231,10 @@ def review_sheet(
             "4. Confirm `published_at` where no quote states it.",
             "5. Confirm no person's name or contact detail appears outside a",
             "   source's `authors` field; code catches e-mail addresses only.",
-            "6. Promote the captures, add the company entry, and open the pull",
-            "   request. The pipeline does none of this.",
+            "6. Review the capture bundles (promoted under `archive/sources/`",
+            "   when the run drafted a record; still staged otherwise), add the",
+            "   company entry, and open the pull request. The pipeline does",
+            "   none of this.",
             "",
         ]
     )

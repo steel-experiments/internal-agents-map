@@ -102,7 +102,11 @@ def capture_staging(
     """
     archiver = load_archiver()
     archiver._require_https_url(url, "Source URL")
-    page = (adapter or SteelSdkAdapter()).scrape(url, pdf=pdf)
+    try:
+        page = (adapter or SteelSdkAdapter()).scrape(url, pdf=pdf)
+    except archiver.ArchiveError as error:
+        # The archiver's own page checks failed: a collection blocker.
+        raise CaptureStageError(str(error)) from error
     canonical = page.canonical_url or page.final_url
     key = staging_key(canonical)
     directory = staging_root / key

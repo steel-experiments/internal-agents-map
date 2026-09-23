@@ -186,11 +186,16 @@ def _command_run(args: argparse.Namespace) -> int:
 
     summaries = run_queue(args.queue, budget_usd=args.budget_usd)
     for summary in summaries:
-        print(
-            f"{summary.run_id}: {summary.decision}"
-            + (f" -> {summary.draft_path}" if summary.draft_path else " (no draft; see sheet)")
-        )
-        print(f"  sheet: {summary.sheet_path}")
+        if summary.draft_path:
+            print(f"{summary.run_id}: {summary.decision} -> {summary.draft_path}")
+        elif summary.sheet_path:
+            print(f"{summary.run_id}: {summary.decision} (no draft; see sheet)")
+        else:
+            # A fully blocked candidate: no draft, no sheet, notes carry the
+            # collection blockers.
+            print(f"{summary.run_id}: {summary.decision} (no sheet; see notes)")
+        if summary.sheet_path:
+            print(f"  sheet: {summary.sheet_path}")
         for note in summary.notes:
             print(f"  note: {note}")
     return 0

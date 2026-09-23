@@ -65,6 +65,14 @@ by which model, and which claim IDs map to which rendered paths. The
 archived copy records the latest run that drafted the record; the per-run
 history stays under `.intake/runs/<run-id>/`.
 
+A URL that fails the page checks is a **collection blocker**: the run
+reports it, keeps the URLs that captured, and continues. Blockers land in
+`blockers.json` in the run directory, in the run notes, and in a
+"Collection blockers" section on the sheet. When every URL of an entry
+fails, that entry reports `blocked` with no draft and no sheet, and the
+queue continues with the next entry. Nothing is ever reconstructed from
+snippets, a search result, or memory.
+
 When the queue entry carries a `homepage` hint and the organization is not
 yet in `data/companies.yaml`, the run also writes a `company-entry.yaml`
 (one registry entry with `logo: none` and a `logo_note` asking for editorial

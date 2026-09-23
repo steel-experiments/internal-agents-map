@@ -1305,4 +1305,23 @@ STOP-line report:
   stripped, the environment wins, broken lines are ignored, and a missing
   file (today's repository state) changes nothing. The intake suite holds
   188 tests.
+- Collection blockers in the run (loop re-read): the stop condition — "a
+  capture fails the archiver's page checks. Report a collection blocker
+  for that URL and continue with the other URLs" — had no embodiment:
+  stage 1 captured with a bare loop over the entry's URLs, so one failed
+  URL raised and killed the whole candidate, and `run_queue` had no
+  per-candidate handling, so one bad URL killed every later entry too.
+  Stage 1 now tries each URL in turn: a failure is recorded (the
+  archiver's own page-check error, wrapped into the capture stage's
+  exception at the adapter call), the surviving URLs become `s1, s2, ...`
+  as before, and the run continues. Blockers land in `blockers.json` in
+  the run directory, in the run notes, and in a "Collection blockers"
+  section on the sheet that says a person captures them by hand or drops
+  them. When no URL survives, the candidate returns a `blocked` summary
+  (no draft, no sheet) and the queue moves on. The CLI prints the
+  blocked case without pointing at a sheet that does not exist. Tests: a
+  404 among two URLs still drafts from the surviving one with the
+  blocker on the sheet and in the file; a fully blocked entry reports
+  `blocked` and the next queue entry still drafts. The intake suite
+  holds 190 tests.
 

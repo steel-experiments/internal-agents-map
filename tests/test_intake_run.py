@@ -666,5 +666,135 @@ class EndToEndRunTests(unittest.TestCase):
         self.assertEqual(run_stage("review", summary.run_id, runs_root=self.root / "runs"), 0)
 
 
+class ErrorPageResponse:
+    """What the SDK returns for a page the archiver's checks must reject."""
+
+    def __init__(self, url: str) -> None:
+        self._url = url
+
+    def model_dump(self, *, by_alias: bool = False, exclude_none: bool = False) -> dict[str, Any]:
+        return {
+            "content": {"markdown": "# Error\n\nThe page could not be loaded."},
+            "metadata": {"statusCode": 404, "title": "Not Found", "urlSource": self._url},
+        }
+
+
+class MixedSteelClient:
+    """Serves the zup page for the good URL; an error page for the bad one."""
+
+    def __init__(self, markdown: str, bad_url: str) -> None:
+        self._markdown = markdown
+        self._bad_url = bad_url
+
+    def scrape(self, *, url: str, format: list[str], pdf: bool, delay: int) -> Any:
+        if url == self._bad_url:
+            return ErrorPageResponse(url)
+        return FakeSteelResponse(self._markdown, url)
+
+
+class CollectionBlockerTests(unittest.TestCase):
+    """The stop rule: a failed capture is reported; the rest of the run goes on."""
+
+    BAD_URL = "https://example.com/broken"
+
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self._tmp.name)
+        self.markdown = zup_capture_markdown()
+        self.steel = SteelSdkAdapter(
+            api_key="test-key",
+            client_factory=lambda _key: MixedSteelClient(self.markdown, self.BAD_URL),
+        )
+
+    def tearDown(self) -> None:
+        self._tmp.cleanup()
+
+    def run_entry(self, entry: Any) -> Any:
+        from intake.cache import JsonCache
+
+        return run_candidate(
+            entry,
+            budget=Budget(budget_usd=5.0),
+            steel=self.steel,
+            writer=WriterAdapter(api_key="test-key", responses=ZupWriterResponses()),  # type: ignore[arg-type]
+            jev=JevAdapter(api_key="test-key", connection=FakeJevConnection()),  # type: ignore[arg-type]
+            cache=JsonCache(self.root / "jev-cache.json"),
+            writer_cache=JsonCache(self.root / "writer-cache.json"),
+            runs_root=self.root / "runs",
+            drafts_root=self.root / "drafts",
+            staging_root=self.root / "staging",
+            repo_root=self.root,
+            reviewed_at="2026-09-22",
+        )
+
+    def test_a_failed_capture_is_reported_and_the_other_url_still_runs(self) -> None:
+        from intake.run import QueueEntry
+
+        summary = self.run_entry(
+            QueueEntry(
+                urls=[self.BAD_URL, "https://arxiv.org/abs/2604.09805"],
+                company="Zup",
+                system_name="CodeGen",
+                record_id="zup-codegen-draft",
+            )
+        )
+        self.assertEqual(summary.decision, "update")
+        self.assertTrue(
+            any("collection blocker" in note and self.BAD_URL in note for note in summary.notes)
+        )
+        draft = yaml.safe_load(summary.draft_path.read_text(encoding="utf-8"))  # type: ignore[union-attr]
+        # Only the surviving URL became a source, numbered from s1.
+        self.assertEqual(len(draft["sources"]), 1)
+        self.assertEqual(draft["sources"][0]["url"], "https://arxiv.org/abs/2604.09805")
+        sheet = summary.sheet_path.read_text(encoding="utf-8") if summary.sheet_path else ""
+        self.assertIn("## Collection blockers", sheet)
+        self.assertIn(self.BAD_URL, sheet)
+        self.assertIn("non-success HTTP status 404", sheet)
+        # The run directory holds the machine-readable blocker list.
+        blockers = json.loads(
+            (summary.sheet_path.parent / "blockers.json").read_text(encoding="utf-8")  # type: ignore[union-attr]
+        )
+        self.assertEqual(blockers[0]["url"], self.BAD_URL)
+
+    def test_a_fully_blocked_candidate_reports_and_the_queue_continues(self) -> None:
+
+        queue = self.root / "queue.yaml"
+        queue.write_text(
+            f"- urls: [{self.BAD_URL}]\n"
+            "  company: Example\n"
+            "- urls: [https://arxiv.org/abs/2604.09805]\n"
+            "  company: Zup\n"
+            "  system_name: CodeGen\n"
+            "  record_id: zup-codegen-draft\n",
+            encoding="utf-8",
+        )
+        from intake.cache import JsonCache
+
+        summaries = run_queue(
+            queue,
+            budget_usd=5.0,
+            runs_root=self.root / "runs",
+            drafts_root=self.root / "drafts",
+            staging_root=self.root / "staging",
+            repo_root=self.root,
+            steel=self.steel,
+            writer=WriterAdapter(api_key="test-key", responses=ZupWriterResponses()),  # type: ignore[arg-type]
+            jev=JevAdapter(api_key="test-key", connection=FakeJevConnection()),  # type: ignore[arg-type]
+            cache=JsonCache(self.root / "jev-cache.json"),
+            writer_cache=JsonCache(self.root / "writer-cache.json"),
+        )
+        self.assertEqual(len(summaries), 2)
+        blocked, drafted = summaries
+        self.assertEqual(blocked.decision, "blocked")
+        self.assertIsNone(blocked.draft_path)
+        self.assertIsNone(blocked.sheet_path)
+        self.assertEqual(
+            [note for note in blocked.notes if note.startswith("collection blocker")],
+            [f"collection blocker: {self.BAD_URL}: Steel returned non-success HTTP status 404."],
+        )
+        self.assertEqual(drafted.decision, "update")
+        self.assertIsNotNone(drafted.draft_path)
+
+
 if __name__ == "__main__":
     unittest.main()

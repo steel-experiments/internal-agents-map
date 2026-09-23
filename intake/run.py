@@ -25,7 +25,7 @@ from intake.adapters.jev import JevAdapter
 from intake.adapters.steel import SteelSdkAdapter
 from intake.adapters.writer import WriterAdapter
 from intake.budget import Budget, new_run_id, run_directory
-from intake.capture import capture_staging
+from intake.capture import CaptureStageError, StagedCapture, capture_staging
 from intake.extract import run_extract
 from intake.judge import apply_dispositions, judge_claims
 from intake.models import MatchedRecord, StagedSource
@@ -177,11 +177,19 @@ def run_candidate(
     stages: list[dict[str, Any]] = []
     notes: list[str] = []
 
-    # Stage 1: capture every URL into staging.
+    # Stage 1: capture every URL into staging. A failed capture is a
+    # collection blocker for that URL — reported, never worked around — and
+    # the run continues with the other URLs.
     capture_kwargs = {"adapter": steel}
     if staging_root is not None:
         capture_kwargs["staging_root"] = staging_root
-    staged = [capture_staging(url, **capture_kwargs) for url in entry.urls]
+    staged: list[StagedCapture] = []
+    blockers: list[dict[str, str]] = []
+    for url in entry.urls:
+        try:
+            staged.append(capture_staging(url, **capture_kwargs))
+        except CaptureStageError as error:
+            blockers.append({"url": url, "error": str(error)})
     for index, capture in enumerate(staged, start=1):
         (directory / f"staging-s{index}.txt").write_text(
             str(capture.staging_dir) + "\n", encoding="utf-8"
@@ -210,9 +218,26 @@ def run_candidate(
             "input_tokens": 0,
             "output_tokens": 0,
             "cost_usd": 0.0,
-            "calls": len(staged),
+            "calls": len(entry.urls),
         }
     )
+    if blockers:
+        (directory / "blockers.json").write_text(
+            json.dumps(blockers, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+        )
+        notes.extend(f"collection blocker: {item['url']}: {item['error']}" for item in blockers)
+    if not staged:
+        # No URL survived its page checks; there is nothing to draft. The
+        # run directory holds the blocker list, and the queue continues.
+        return RunSummary(
+            run_id=run_id,
+            record_id=None,
+            decision="blocked",
+            draft_path=None,
+            sheet_path=None,
+            stages=stages,
+            notes=notes,
+        )
 
     # Stage 2: segment every capture.
     from intake.capture import HEADER_LINES, read_staging
@@ -457,6 +482,7 @@ def run_candidate(
         cross_flags=cross_flags,
         source_role=entry.source_role,
         eligibility=eligibility,
+        blockers=blockers,
     )
     _sheet_path, _manifest_path = write_review(
         directory,
