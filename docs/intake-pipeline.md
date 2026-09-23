@@ -241,7 +241,10 @@ standard output. Changed sources list their changed line spans and the claims
 whose locators fall inside them. Each affected claim is then re-judged
 against the rescraped text through the same five judge questions; the
 verdicts are advisory columns on the sheet, cached by claim, passage, and
-question version. Blocked rescrapes are listed, never hidden. The pipeline
+question version. Blocked rescrapes are listed, never hidden. Without
+`TYPESAFE_API_KEY` the command still reports changed sources and affected
+claims, without verdicts — it does not die at the first changed source
+after spending its rescrapes. The pipeline
 proposes a new capture under a new source ID; a person captures and reviews.
 There is no schedule yet — run it by hand (see the plan's open decision 4).
 

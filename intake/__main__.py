@@ -284,9 +284,15 @@ def _command_drift(args: argparse.Namespace) -> int:
     from intake.budget import Budget
     from intake.drift import drift_report, report_markdown
 
+    # The backfill precedent: spend no key the machine does not have. Without
+    # Jev the report still lists changed sources and affected claims; dying
+    # at the first changed source would waste every rescrape before it.
+    jev = JevAdapter() if os.environ.get("TYPESAFE_API_KEY") else None
+    if jev is None:
+        print("note: TYPESAFE_API_KEY is not set; affected claims are listed without verdicts.")
     payload = drift_report(
         adapter=SteelSdkAdapter(),
-        jev=JevAdapter(),
+        jev=jev,
         budget=Budget(budget_usd=args.budget_usd),
         output=args.output,
     )
@@ -330,6 +336,10 @@ def _command_evals(args: argparse.Namespace) -> int:
         )
         return 0
     items = json.loads(args.items.read_text(encoding="utf-8"))
+    if not os.environ.get("TYPESAFE_API_KEY"):
+        # Scoring is the judgment; there is no degraded mode to fall back to.
+        print("evals --score needs TYPESAFE_API_KEY; add it to .env", file=sys.stderr)
+        return 2
     details: dict[str, dict[str, Any]] = {}
     verdicts = run_verdicts(
         items,

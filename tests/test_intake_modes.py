@@ -75,6 +75,68 @@ class EnvFileTests(unittest.TestCase):
         _load_env_file(ROOT / "definitely-no-such-file.env")
 
 
+class CliKeyGuardTests(unittest.TestCase):
+    """The backfill precedent, extended: spend no key the machine lacks."""
+
+    def setUp(self) -> None:
+        import os
+
+        self._os = os
+        self._saved = os.environ.get("TYPESAFE_API_KEY")
+        os.environ.pop("TYPESAFE_API_KEY", None)
+
+    def tearDown(self) -> None:
+        if self._saved is None:
+            self._os.environ.pop("TYPESAFE_API_KEY", None)
+        else:
+            self._os.environ["TYPESAFE_API_KEY"] = self._saved
+
+    def test_drift_without_the_jev_key_still_reports_unjudged(self) -> None:
+        import contextlib
+        import io
+        from unittest.mock import patch
+
+        import intake.drift as drift_module
+        from intake.__main__ import main
+
+        captured: dict[str, Any] = {}
+
+        def fake_drift_report(**kwargs: Any) -> dict[str, Any]:
+            captured.update(kwargs)
+            return {
+                "sources_checked": 0,
+                "sources_changed": 0,
+                "drift": [],
+                "blocked": [],
+                "errors": 0,
+            }
+
+        output = io.StringIO()
+        with (
+            patch.object(drift_module, "drift_report", fake_drift_report),
+            contextlib.redirect_stdout(output),
+        ):
+            self.assertEqual(main(["drift"]), 0)
+        self.assertIsNone(captured["jev"])
+        self.assertIn("listed without verdicts", output.getvalue())
+
+    def test_evals_score_without_the_jev_key_refuses_upfront(self) -> None:
+        import contextlib
+        import io
+        import json as json_module
+        import tempfile
+
+        from intake.__main__ import main
+
+        with tempfile.TemporaryDirectory() as directory:
+            items = Path(directory) / "items.json"
+            items.write_text(json_module.dumps([{"item_id": "a"}]), encoding="utf-8")
+            errors = io.StringIO()
+            with contextlib.redirect_stderr(errors):
+                self.assertEqual(main(["evals", "--items", str(items), "--score"]), 2)
+            self.assertIn("TYPESAFE_API_KEY", errors.getvalue())
+
+
 class FakeWriterResponse:
     """The writer seam: one canned payload."""
 

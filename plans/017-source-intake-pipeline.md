@@ -1498,3 +1498,16 @@ STOP-line report:
   unchanged. The committed schema file was regenerated. Tests: both
   stopped outcomes leave a `run.json` with the right decision, hashes,
   queue entry, and notes. The intake suite holds 208 tests.
+- Key guards on drift and evals (loop re-read): the backfill command's
+  recorded discipline — construct the Jev adapter only when
+  `TYPESAFE_API_KEY` exists, print the skip note, spend no key the
+  machine does not have — covered one mode. `drift` constructed
+  `JevAdapter()` unconditionally, so a run with the Steel key but not
+  the Jev key died at the first changed source, after paying for every
+  rescrape and losing the whole report; it now runs unjudged with the
+  note, the shape `drift_report(jev=None)` already supported and
+  tested. `evals --score` has no degraded mode — the scoring is the
+  judgment — so it now refuses upfront with the key named instead of
+  dying at the first item. Tests: the drift CLI passes `jev=None` and
+  prints the note under a patched report; the evals CLI returns 2 with
+  the key named in stderr. The intake suite holds 210 tests.
