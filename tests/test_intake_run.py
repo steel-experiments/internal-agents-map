@@ -691,6 +691,19 @@ class EndToEndRunTests(unittest.TestCase):
             load_queue(queue)
         self.assertIn("first-party", str(caught.exception))
 
+    def test_an_unknown_queue_key_is_refused_naming_the_typo(self) -> None:
+        """A typo'd hint would silently drop the hint; refuse it early."""
+        queue = self.root / "queue.yaml"
+        queue.write_text(
+            "- urls: [https://arxiv.org/abs/2604.09805]\n  compan: Zup\n", encoding="utf-8"
+        )
+        from intake.run import QueueError
+
+        with self.assertRaises(QueueError) as caught:
+            load_queue(queue)
+        self.assertIn("compan", str(caught.exception))
+        self.assertIn("company", str(caught.exception))
+
     def test_an_insecure_homepage_hint_is_refused_at_queue_load(self) -> None:
         """The hint bypasses field validation via model_copy; catch it early."""
         queue = self.root / "queue.yaml"

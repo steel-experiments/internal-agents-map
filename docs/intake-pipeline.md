@@ -40,7 +40,9 @@ writer cannot verify. `source_role` names a provenance class from the
 catalog's own set
 (`first-party`, `direct-participant`, `independent-secondary`, `community`,
 `aggregator`) and sets every source of the entry; an unknown value stops the
-queue before any capture or spend:
+queue before any capture or spend, and so does an unknown key — a typo'd
+hint (`compan:`) is refused with the allowed set named instead of silently
+dropping the hint:
 
 ```yaml
 - urls: [https://example.com/posts/agents]

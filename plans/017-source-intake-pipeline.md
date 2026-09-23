@@ -1591,3 +1591,14 @@ STOP-line report:
   draft, never overwrites, and never supersedes the owning run's
   archived manifest or company entry. The skill guard pins the word so
   it cannot drift again. The intake suite holds 215 tests.
+- Queue entries reject unknown keys (loop re-read): the queue is the
+  pipeline's input contract, and every other input surface rejects
+  unknown keys — the extraction records forbid extras, `source_role`
+  and `homepage` are validated at queue load — but a typo'd hint key
+  (`compan: Zup`) was silently ignored, dropping the hint and changing
+  the run's behavior: the company hint lost, a nameless page stopped at
+  stage 3, a lost `record_id` drafting the wrong target. `load_queue`
+  now refuses unknown keys with the typo and the allowed set named,
+  before any capture or spend, the same discipline as the unknown
+  source-role refusal beside it. Tests: a typo'd key is refused naming
+  both the typo and the allowed set. The intake suite holds 216 tests.

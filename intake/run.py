@@ -82,6 +82,11 @@ class RunSummary:
     notes: list[str] = field(default_factory=list)
 
 
+QUEUE_ENTRY_KEYS = frozenset(
+    {"urls", "url", "company", "system_name", "record_id", "source_role", "homepage"}
+)
+
+
 def load_queue(path: Path) -> list[QueueEntry]:
     """Load one queue file; every entry needs at least one HTTPS URL."""
     payload = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -91,6 +96,15 @@ def load_queue(path: Path) -> list[QueueEntry]:
     for index, item in enumerate(payload):
         if not isinstance(item, dict):
             raise QueueError(f"{path}: entry {index} is not a mapping")
+        # A typo'd hint (``compan:``) would silently drop the hint and change
+        # the run's behavior, so unknown keys stop the queue the way unknown
+        # source-role values do: before any capture or spend.
+        unknown = sorted(set(item) - QUEUE_ENTRY_KEYS)
+        if unknown:
+            raise QueueError(
+                f"{path}: entry {index} carries unknown keys {', '.join(unknown)}; "
+                "allowed: " + ", ".join(sorted(QUEUE_ENTRY_KEYS))
+            )
         urls = item.get("urls") or ([item["url"]] if "url" in item else [])
         urls = [str(url) for url in urls]
         if not urls or not all(url.startswith("https://") for url in urls):
