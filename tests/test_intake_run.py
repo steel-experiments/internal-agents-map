@@ -674,6 +674,55 @@ class EndToEndRunTests(unittest.TestCase):
         self.assertEqual(run_stage("review", summary.run_id, runs_root=self.root / "runs"), 0)
 
 
+class CountingSteelClient:
+    """Serves the zup page and counts the scrapes a run actually made."""
+
+    def __init__(self, markdown: str) -> None:
+        self._markdown = markdown
+        self.scrapes = 0
+
+    def scrape(self, *, url: str, format: list[str], pdf: bool, delay: int) -> Any:
+        self.scrapes += 1
+        return FakeSteelResponse(self._markdown, url)
+
+
+class RunAdmissionTests(unittest.TestCase):
+    """The product contract: a run refuses to start above its reservation."""
+
+    def test_a_run_below_its_writer_floor_refuses_to_start(self) -> None:
+        from intake.budget import Budget, BudgetExceededError
+        from intake.cache import JsonCache
+        from intake.run import QueueEntry
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            steel_client = CountingSteelClient(zup_capture_markdown())
+            steel = SteelSdkAdapter(api_key="test-key", client_factory=lambda _key: steel_client)
+            # Two writer calls worst-case $0.576; a $0.40 budget cannot fit.
+            with self.assertRaises(BudgetExceededError) as raised:
+                run_candidate(
+                    QueueEntry(
+                        urls=["https://arxiv.org/abs/2604.09805"],
+                        company="Zup",
+                        system_name="CodeGen",
+                    ),
+                    budget=Budget(budget_usd=0.4),
+                    steel=steel,
+                    writer=WriterAdapter(api_key="test-key", responses=ZupWriterResponses()),  # type: ignore[arg-type]
+                    jev=JevAdapter(api_key="test-key", connection=FakeJevConnection()),  # type: ignore[arg-type]
+                    cache=JsonCache(root / "jev-cache.json"),
+                    writer_cache=JsonCache(root / "writer-cache.json"),
+                    runs_root=root / "runs",
+                    drafts_root=root / "drafts",
+                    staging_root=root / "staging",
+                    repo_root=root,
+                )
+            self.assertIn("one extract and one write call", str(raised.exception))
+            # Nothing was captured and no run directory exists.
+            self.assertEqual(steel_client.scrapes, 0)
+            self.assertFalse((root / "runs").exists())
+
+
 class ErrorPageResponse:
     """What the SDK returns for a page the archiver's checks must reject."""
 

@@ -1385,3 +1385,20 @@ STOP-line report:
   answer never did. Tests: the three bands, the silent-adapter fallback,
   the warm-cache path applying the same bands, the identity file's basis
   in a real run, and the config pin. The intake suite holds 200 tests.
+- Run admission check (loop re-read): the product contract — "a run
+  refuses to start if its worst-case reservation exceeds the budget
+  passed on the command line" — had only the per-call half. Every call
+  reserved its worst case before it happened, but nothing checked the
+  run's own floor at start, so a $0.40 run happily spent its extract
+  call and died at the write reservation — spend first, refuse second.
+  The judge's request count is unknowable before extraction; the writer
+  floor (one extract and one write call, $0.576 at the planning prices)
+  is not. `run_candidate` now refuses before anything is captured or
+  written — no Steel scrape, no run directory — with the floor and the
+  budget in the message. The per-request reservations for the judge and
+  the extract retry stay as they were; the ledger is unchanged (the
+  check reads the floor, it does not reserve it), so a warm rerun that
+  spends nothing still passes with the budget its original run had.
+  Tests: a below-floor budget raises before any scrape and leaves no
+  run directory, with the floor named in the message. The intake suite
+  holds 201 tests.

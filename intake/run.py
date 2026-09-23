@@ -24,7 +24,7 @@ from intake import privacy
 from intake.adapters.jev import JevAdapter
 from intake.adapters.steel import SteelSdkAdapter
 from intake.adapters.writer import WriterAdapter
-from intake.budget import Budget, new_run_id, run_directory
+from intake.budget import Budget, BudgetExceededError, new_run_id, run_directory
 from intake.capture import CaptureStageError, StagedCapture, capture_staging
 from intake.extract import run_extract
 from intake.judge import apply_dispositions, judge_claims
@@ -172,6 +172,18 @@ def run_candidate(
     cache = cache or jev_cache()
     writer_cache = writer_cache if writer_cache is not None else default_writer_cache()
     reviewed_at = reviewed_at or dt.date.today().isoformat()
+    # The product contract: a run refuses to start when its worst-case
+    # reservation cannot fit the budget. The judge's request count is
+    # unknowable before extraction, but the writer floor — one extract and
+    # one write call — is, so the admission check runs before anything is
+    # captured or spent instead of letting the run pay for its extract call
+    # and die at the write reservation.
+    floor = budget.total_reservation(2)
+    if floor > budget.budget_usd + 1e-9:
+        raise BudgetExceededError(
+            f"this run needs at least {floor:.4f} USD worst case (one extract "
+            f"and one write call), above the {budget.budget_usd:.4f} USD budget"
+        )
     run_id = new_run_id()
     directory = run_directory(run_id, runs_root=runs_root)
     stages: list[dict[str, Any]] = []

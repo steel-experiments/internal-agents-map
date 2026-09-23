@@ -46,6 +46,13 @@ queue before any capture or spend:
   source_role: first-party
 ```
 
+Every run bounds its cost before it spends. Each model call reserves its
+documented worst case first, and a run refuses to start when even its
+writer floor — one extract and one write call, $0.576 at the planning
+prices — cannot fit the budget. The judge's request count is unknowable
+before extraction, so those reservations happen per request; a run stops
+at the first refusal or API error.
+
 ## Reading a run
 
 Each run lives under `.intake/runs/<run-id>/` and is never overwritten:
