@@ -10,7 +10,16 @@ import yaml
 from intake.adapters.jev import JevAnswer, JevResult
 from intake.budget import Budget
 from intake.cache import JsonCache
-from intake.evals import build_items, labeller_agreement, run_verdicts, score, write_items
+from intake.evals import (
+    build_items,
+    labeller_agreement,
+    run_verdicts,
+    score,
+    split_groups,
+    stability,
+    stress_items,
+    write_items,
+)
 from intake.judge import GATE, gates_pass
 from intake.models import Judgments, Verdict
 
@@ -195,6 +204,61 @@ class ScoreTests(unittest.TestCase):
         self.assertEqual(report["labelled"], 10)
         self.assertEqual(report["agreeing"], 9)
         self.assertEqual(report["agreement"], 0.9)
+
+
+class TrackSplitStressTests(unittest.TestCase):
+    """The evaluation mechanics Plan 016 specified and Phase 3 adopts."""
+
+    def test_the_retrieval_track_finds_a_passage_by_search(self) -> None:
+        oracle = build_items(count=20, track="oracle")
+        retrieval = build_items(count=20, track="retrieval")
+        self.assertTrue(oracle)
+        self.assertTrue(retrieval)
+        self.assertTrue(all(item["track"] == "retrieval" for item in retrieval))
+        # The searched passage shares words with the claim it must support.
+        for item in retrieval:
+            self.assertTrue(item["passage"].strip())
+        # The zup record's claims retrieve passages that overlap them.
+        everything = build_items(count=10_000, track="retrieval")
+        zup = [item for item in everything if item["record_id"] == "zup-codegen"]
+        self.assertTrue(zup)
+        from intake.evals import _tokens
+
+        for item in zup:
+            self.assertTrue(_tokens(item["claim_text"]) & _tokens(item["passage"]))
+
+    def test_grouped_splits_keep_whole_records_on_one_side(self) -> None:
+        items = build_items(count=40)
+        groups = split_groups(items)
+        calibration_records = {item["record_id"] for item in groups["calibration"]}
+        test_records = {item["record_id"] for item in groups["test"]}
+        self.assertFalse(calibration_records & test_records)
+        self.assertEqual(len(groups["calibration"]) + len(groups["test"]), len(items))
+        # Deterministic for a fixed seed.
+        again = split_groups(items)
+        self.assertEqual(groups, again)
+
+    def test_stress_repeats_permute_and_report_stability(self) -> None:
+        items = build_items(count=6)
+        stressed = stress_items(items, repeats=3)
+        self.assertEqual(len(stressed), 18)
+        ids = [item["item_id"] for item in stressed]
+        self.assertEqual(len(set(ids)), 18)
+        groups = {item["repeat_group"] for item in stressed}
+        self.assertEqual(groups, {item["item_id"] for item in items})
+        verdicts = {item["item_id"]: "accept" for item in stressed}
+        self.assertEqual(stability(stressed, verdicts)["stability"], 1.0)
+        verdicts[ids[0]] = "review"
+        report = stability(stressed, verdicts)
+        self.assertLess(report["stability"], 1.0)
+        self.assertEqual(report["repeated_groups"], 6)
+        # Without repeats there is nothing to report.
+        self.assertEqual(
+            stability(items, {item["item_id"]: "accept" for item in items}),
+            {
+                "repeated_groups": 0,
+            },
+        )
 
 
 if __name__ == "__main__":

@@ -1259,4 +1259,26 @@ STOP-line report:
   promotion. Tests: an opt-in PDF lands in staging and promotes into a
   bundle the archiver's validator accepts; without the opt-in nothing is
   fetched. The intake suite holds 181 tests.
+- Evaluation mechanics (loop re-read): Phase 3 step 3 adopts Plan 016's
+  evaluation design wholesale — "grouped splits, two human labellers, oracle
+  passages **and retrieval tracks**, permutation and repeat stress,
+  calibration per question" — and the harness implemented only the sampling,
+  the two labeller columns, and the recall/precision scoring. Three of the
+  named mechanics now exist offline. The **retrieval track** (`--track
+  retrieval`) builds each item's passage by deterministic lexical search over
+  the capture — token overlap, no embeddings; Plan 016 Design 3 stays
+  deferred — so the evaluation measures the judge on searched passages, not
+  only located ones (items carry their track; retrieval items may lack a
+  locator, which the oracle path never hit because unlocated links were
+  skipped before construction — a latent KeyError the new track exposed and
+  the fix removes). **Grouped splits** (`--split-dir`) write calibration and
+  test files with whole records on one side, so near-duplicate claims cannot
+  leak across the split. **Permutation-and-repeat stress** (`--repeats N`)
+  copies every item with permuted order and a `repeat_group` tag, and
+  `--score` reports the stability fraction — repeated groups that got
+  identical verdicts. Calibration per question still needs the labelled
+  data; the split it will run on now exists. Tests: the retrieval track
+  finds passages that overlap their claims (zup included); splits partition
+  by record and are deterministic; stress repeats, permutes, and reports
+  stability 1.0 and below. The intake suite holds 184 tests.
 

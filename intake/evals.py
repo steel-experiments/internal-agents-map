@@ -41,7 +41,9 @@ class EvalItem:
     kind: str
     source_id: str
     passage: str
-    locator: str
+    locator: str | None
+    track: str = "oracle"
+    repeat_group: str | None = None
 
     def payload(self) -> dict[str, Any]:
         return {
@@ -53,6 +55,8 @@ class EvalItem:
             "source_id": self.source_id,
             "passage": self.passage,
             "locator": self.locator,
+            "track": self.track,
+            "repeat_group": self.repeat_group,
             "labels": {"labeller_a": None, "labeller_b": None, "adjudicated": None},
         }
 
@@ -93,13 +97,52 @@ def _passage_for(manifest_path: str, locator: str) -> str | None:
     return "\n".join(window)
 
 
+def _tokens(text: str) -> set[str]:
+    """Lowercase words of length above two; a deterministic lexical unit."""
+    return {word for word in re.findall(r"[a-z][a-z0-9-]{2,}", text.lower())}
+
+
+def _retrieved_passage(manifest_path: str, claim_text: str) -> str | None:
+    """The capture's best paragraph for the claim, by lexical overlap.
+
+    The retrieval track Plan 016 named: the passage is found by search, not
+    by the recorded locator, so the evaluation measures the judge on the
+    passages a pipeline would actually hand it. The search is deterministic
+    token overlap — no embeddings; Plan 016 Design 3 stays deferred.
+    """
+    from intake.segment import segment_content
+
+    content = (ROOT / manifest_path).parent / "content.md"
+    try:
+        text = content.read_text(encoding="utf-8")
+    except OSError:
+        return None
+    wanted = _tokens(claim_text)
+    if not wanted:
+        return None
+    best: tuple[int, str] | None = None
+    for paragraph in segment_content(text):
+        score = len(wanted & _tokens(paragraph.text))
+        if score and (best is None or score > best[0]):
+            best = (score, paragraph.text)
+    return best[1] if best is not None else None
+
+
 def build_items(
     records: list[dict[str, Any]] | None = None,
     *,
     count: int = 120,
     seed: int = 17,
+    track: str = "oracle",
 ) -> list[dict[str, Any]]:
-    """Sample claim-and-passage items from the authored records."""
+    """Sample claim-and-passage items from the authored records.
+
+    The oracle track uses the passage the recorded locator names; the
+    retrieval track finds the passage by lexical search, so the two measure
+    the judge on located and on searched evidence respectively.
+    """
+    if track not in ("oracle", "retrieval"):
+        raise ValueError(f"unknown track {track!r}: oracle or retrieval")
     build = load_build()
     if records is None:
         records = build.load_agents()
@@ -118,7 +161,10 @@ def build_items(
                 manifest = manifests.get(link.get("source_id"))
                 if not manifest:
                     continue
-                passage = _passage_for(manifest, link.get("locator"))
+                if track == "oracle":
+                    passage = _passage_for(manifest, link.get("locator"))
+                else:
+                    passage = _retrieved_passage(manifest, claim[0])
                 if not passage:
                     continue
                 candidates.append(
@@ -129,7 +175,7 @@ def build_items(
                         "kind": claim[1],
                         "source_id": link["source_id"],
                         "passage": passage,
-                        "locator": link["locator"],
+                        "locator": link.get("locator"),
                     }
                 )
     rng = random.Random(seed)
@@ -145,9 +191,77 @@ def build_items(
             source_id=candidate["source_id"],
             passage=candidate["passage"],
             locator=candidate["locator"],
+            track=track,
         )
         items.append(item.payload())
     return items
+
+
+def split_groups(
+    items: list[dict[str, Any]],
+    *,
+    calibration_fraction: float = 0.3,
+    seed: int = 17,
+) -> dict[str, list[dict[str, Any]]]:
+    """Split whole records into calibration and test groups.
+
+    Grouped splits keep every item of one record on one side, so near-duplicate
+    claims of the same record cannot leak across the split.
+    """
+    record_ids = sorted({item["record_id"] for item in items})
+    rng = random.Random(seed)
+    rng.shuffle(record_ids)
+    cut = max(1, min(len(record_ids) - 1, round(len(record_ids) * calibration_fraction)))
+    calibration_records = set(record_ids[:cut]) if len(record_ids) > 1 else set()
+    calibration = [item for item in items if item["record_id"] in calibration_records]
+    test = [item for item in items if item["record_id"] not in calibration_records]
+    return {"calibration": calibration, "test": test}
+
+
+def stress_items(
+    items: list[dict[str, Any]],
+    *,
+    repeats: int = 2,
+    seed: int = 17,
+) -> list[dict[str, Any]]:
+    """Repeat the items with permuted order for the stress Plan 016 named.
+
+    Each copy carries a new item ID and the original's ``repeat_group``, so
+    the stability report can see whether identical items get identical
+    verdicts and whether the order changed anything.
+    """
+    if repeats < 1:
+        raise ValueError("repeats must be at least 1")
+    rng = random.Random(seed)
+    stressed: list[dict[str, Any]] = []
+    for copy_index in range(repeats):
+        copies = []
+        for item in items:
+            copy = dict(item)
+            copy["item_id"] = f"{item['item_id']}-r{copy_index}"
+            copy["repeat_group"] = item["item_id"]
+            copies.append(copy)
+        rng.shuffle(copies)
+        stressed.extend(copies)
+    return stressed
+
+
+def stability(items: list[dict[str, Any]], verdicts: dict[str, str]) -> dict[str, Any]:
+    """Whether repeated copies of one item got the same verdict."""
+    groups: dict[str, list[str]] = {}
+    for item in items:
+        group = item.get("repeat_group")
+        if group and item["item_id"] in verdicts:
+            groups.setdefault(group, []).append(verdicts[item["item_id"]])
+    repeated = {group: outcomes for group, outcomes in groups.items() if len(outcomes) > 1}
+    if not repeated:
+        return {"repeated_groups": 0}
+    agreeing = sum(1 for outcomes in repeated.values() if len(set(outcomes)) == 1)
+    return {
+        "repeated_groups": len(repeated),
+        "agreeing": agreeing,
+        "stability": round(agreeing / len(repeated), 4),
+    }
 
 
 def labeller_agreement(items: list[dict[str, Any]]) -> dict[str, Any]:

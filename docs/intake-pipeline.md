@@ -158,8 +158,18 @@ evidence; a person then fills `labels.adjudicated`. `evals --items <path>
 verbatim, through the same five questions and the same coarse gate the
 pipeline uses — and scores material-defect recall and alert precision against
 the adjudicated labels. Verdicts are cached, so a warm rerun makes no new
-calls. The labellers and the live pass are the blocked part: the pass needs
-`TYPESAFE_API_KEY`, the labels need two people.
+calls.
+
+Three mechanics from the Plan 016 design ride along. `--track retrieval`
+builds the items by lexical search over each capture instead of the recorded
+locator, so the evaluation also measures the judge on searched passages
+(`--track oracle` is the default). `--split-dir <dir>` writes grouped
+`calibration.json` and `test.json` files — whole records stay on one side, so
+near-duplicate claims cannot leak across the split. `--repeats N` repeats
+every item with permuted order for the permutation-and-repeat stress, and
+`--score` then reports the fraction of repeated groups that got identical
+verdicts. The labellers and the live pass are the blocked part: the pass
+needs `TYPESAFE_API_KEY`, the labels need two people.
 
 ## Backfill apply and drift
 
