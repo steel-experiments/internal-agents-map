@@ -378,10 +378,14 @@ def run_candidate(
     candidate_updates: dict[str, Any] = {}
     if entry.record_id:
         candidate_updates["record_id"] = entry.record_id
-    # The queue's company and homepage hints are input data the writer
-    # cannot know; they drive the company entry the renderer produces.
+    # The queue's company, system-name, and homepage hints are input data
+    # the writer cannot verify; queue input is authoritative over the echo,
+    # and the company and homepage drive the company entry the renderer
+    # produces.
     if entry.company:
         candidate_updates["company"] = entry.company
+    if entry.system_name:
+        candidate_updates["system_name"] = entry.system_name
     if entry.homepage:
         candidate_updates["homepage"] = entry.homepage
     # The identity stage's shortlist — not the writer's echo — is what the

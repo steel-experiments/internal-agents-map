@@ -28,13 +28,16 @@ uv run python -m intake evals --items <items.json>                              
 uv run python -m intake evals --items <items.json> --score --budget-usd 20       # judge and score
 uv run python -m intake backtest --records all --budget-usd 20          # the Phase 2 gate
 uv run python -m intake backtest --record <yaml> --extraction <file> [--compatibility <json>]
-uv run python -m intake schema                               # export the extraction-record JSON schema
+uv run python -m intake schema                               # refresh the committed schema file
 npm run verify                                               # the phase gate
 ```
 
 A queue file is a YAML list; each entry holds `urls` (HTTPS) and optional
 `company`, `system_name`, `record_id`, `source_role`, and `homepage` hints.
-`source_role` names a provenance class from the catalog's own set
+The queue's `company`, `system_name`, `homepage`, and `record_id` hints are
+authoritative over the writer model's echo: queue input is input data the
+writer cannot verify. `source_role` names a provenance class from the
+catalog's own set
 (`first-party`, `direct-participant`, `independent-secondary`, `community`,
 `aggregator`) and sets every source of the entry; an unknown value stops the
 queue before any capture or spend:

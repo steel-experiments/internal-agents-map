@@ -101,5 +101,24 @@ class GoldenCaseTests(unittest.TestCase):
         self.assertIn("unittest discover", readme)
 
 
+class SchemaCommandTests(unittest.TestCase):
+    def test_a_bare_schema_call_writes_the_committed_file(self) -> None:
+        """The documented default: no --output refreshes the committed file."""
+        import tempfile
+
+        import intake.__main__ as cli
+
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / "extraction-record.v1.json"
+            saved = cli.SCHEMA_PATH
+            cli.SCHEMA_PATH = target
+            try:
+                self.assertEqual(cli.main(["schema"]), 0)
+            finally:
+                cli.SCHEMA_PATH = saved
+            payload = json.loads(target.read_text(encoding="utf-8"))
+            self.assertIn("extraction_record", payload)
+
+
 if __name__ == "__main__":
     unittest.main()

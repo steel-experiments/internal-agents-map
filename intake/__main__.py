@@ -45,12 +45,12 @@ def _command_schema(args: argparse.Namespace) -> int:
         "run_manifest": models.RunManifest.model_json_schema(),
     }
     text = json.dumps(payload, indent=2, ensure_ascii=False) + "\n"
-    if args.output is not None:
-        args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(text, encoding="utf-8")
-        print(f"wrote {args.output}")
-    else:
-        print(text, end="")
+    # The documented default is the committed schema file, so a bare
+    # `intake schema` refreshes it; --output redirects elsewhere.
+    target = args.output if args.output is not None else SCHEMA_PATH
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(text, encoding="utf-8")
+    print(f"wrote {target}")
     return 0
 
 

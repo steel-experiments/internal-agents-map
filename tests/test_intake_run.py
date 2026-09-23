@@ -206,7 +206,7 @@ class EndToEndRunTests(unittest.TestCase):
     def tearDown(self) -> None:
         self._tmp.cleanup()
 
-    def run_zup(self) -> Any:
+    def run_zup(self, system_name: str = "CodeGen") -> Any:
         from intake.cache import JsonCache
         from intake.run import QueueEntry
 
@@ -220,7 +220,7 @@ class EndToEndRunTests(unittest.TestCase):
             QueueEntry(
                 urls=["https://arxiv.org/abs/2604.09805"],
                 company="Zup",
-                system_name="CodeGen",
+                system_name=system_name,
                 record_id="zup-codegen-draft",
             ),
             budget=Budget(budget_usd=5.0),
@@ -555,6 +555,15 @@ class EndToEndRunTests(unittest.TestCase):
         for path, links in draft["evidence"].items():
             for link in links:
                 self.assertIn("locator", link, f"link for {path} lacks a locator")
+
+    def test_the_system_name_hint_wins_over_the_writer_echo(self) -> None:
+        summary = self.run_zup(system_name="Zup CodeGen")
+        sheet = summary.sheet_path.read_text(encoding="utf-8") if summary.sheet_path else ""
+        self.assertIn("Intake review: Zup — Zup CodeGen", sheet)
+        extraction = yaml.safe_load(
+            (self.root / "runs" / summary.run_id / "extraction.yaml").read_text(encoding="utf-8")
+        )
+        self.assertEqual(extraction["candidate"]["system_name"], "Zup CodeGen")
 
     def test_page_metadata_the_schema_cannot_carry_is_recorded(self) -> None:
         summary = self.run_zup()

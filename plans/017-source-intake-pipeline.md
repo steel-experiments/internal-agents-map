@@ -1444,3 +1444,19 @@ STOP-line report:
   zero writer calls while the second still drafts; the new-organization
   e2e keeps its update decision because the page text names Zup and the
   text match is real. The intake suite holds 204 tests.
+- System-name hint authority and the schema default (loop re-read): the
+  queue-hint override rule — queue input is authoritative over the
+  writer's echo — covered `company`, `homepage`, and `record_id`, but
+  not `system_name`: the writer's echo won the sheet title and the
+  extraction record even when the queue had named the system. The hint
+  now overrides the echo the same way, and the operator doc states the
+  rule for all four hints. Riding along, a papercut repair logged this
+  session (`papercut pc_01M35Z0QEE2VCNAN3EB82VK2RH`): `intake schema`'s
+  help documented `SCHEMA_PATH` as the default output while the command
+  printed to stdout unless `--output` was passed — an operator
+  regenerating the committed schema file got a wall of JSON and an
+  unchanged file. The bare call now writes the committed file, matching
+  the documented default. Tests: the hint names the system on the sheet
+  and in the extraction record; a bare `schema` call writes the file
+  (hermetic, against a temporary path). The intake suite holds 206
+  tests.
