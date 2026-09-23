@@ -601,6 +601,24 @@ class EndToEndRunTests(unittest.TestCase):
             load_queue(queue)
         self.assertIn("first-party", str(caught.exception))
 
+    def test_an_insecure_homepage_hint_is_refused_at_queue_load(self) -> None:
+        """The hint bypasses field validation via model_copy; catch it early."""
+        queue = self.root / "queue.yaml"
+        queue.write_text(
+            "- urls: [https://arxiv.org/abs/2604.09805]\n  homepage: https://example.com\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(load_queue(queue)[0].homepage, "https://example.com")
+        queue.write_text(
+            "- urls: [https://arxiv.org/abs/2604.09805]\n  homepage: http://example.com\n",
+            encoding="utf-8",
+        )
+        from intake.run import QueueError
+
+        with self.assertRaises(QueueError) as caught:
+            load_queue(queue)
+        self.assertIn("homepage must use HTTPS", str(caught.exception))
+
     def test_the_source_role_hint_sets_the_staged_provenance_class(self) -> None:
         from intake.cache import JsonCache
         from intake.run import QueueEntry

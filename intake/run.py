@@ -107,6 +107,11 @@ def load_queue(path: Path) -> list[QueueEntry]:
                     f"{path}: entry {index} source_role {role!r} is not one of: "
                     + ", ".join(sorted(allowed))
                 )
+        homepage = item.get("homepage")
+        if homepage is not None and not str(homepage).startswith("https://"):
+            # The hint reaches the company entry through model_copy, which
+            # skips field validation, so the queue is where it must be caught.
+            raise QueueError(f"{path}: entry {index} homepage must use HTTPS: {homepage!r}")
         entries.append(
             QueueEntry(
                 urls=urls,
@@ -114,7 +119,7 @@ def load_queue(path: Path) -> list[QueueEntry]:
                 system_name=item.get("system_name"),
                 record_id=item.get("record_id"),
                 source_role=role,
-                homepage=item.get("homepage"),
+                homepage=str(homepage) if homepage is not None else None,
             )
         )
     return entries

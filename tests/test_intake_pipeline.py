@@ -250,6 +250,29 @@ class StagingCaptureTests(unittest.TestCase):
 
 
 class SegmentationTests(unittest.TestCase):
+    def test_transcript_timestamps_stay_in_the_paragraph_text(self) -> None:
+        """The stage 2 contract: a locator must be able to name a timestamp."""
+        markdown = "\n".join(
+            [
+                "# Episode 12: agents at work",
+                "",
+                "[00:12:34] Speaker A: We deployed the coding agent to two teams.",
+                "[00:12:34] and measured the review latency over a quarter.",
+                "",
+                "[00:14:02] Speaker B: The harness runs edits in a sandbox.",
+            ]
+        )
+        paragraphs = segment_content(markdown)
+        self.assertIn(
+            "[00:12:34] Speaker A: We deployed the coding agent to two teams.\n"
+            "[00:12:34] and measured the review latency over a quarter.",
+            [paragraph.text for paragraph in paragraphs],
+        )
+        self.assertIn(
+            "[00:14:02] Speaker B: The harness runs edits in a sandbox.",
+            [paragraph.text for paragraph in paragraphs],
+        )
+
     def test_headings_code_blocks_and_lists_segment_as_expected(self) -> None:
         markdown = "\n".join(
             [

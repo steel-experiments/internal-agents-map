@@ -1281,4 +1281,15 @@ STOP-line report:
   finds passages that overlap their claims (zup included); splits partition
   by record and are deterministic; stress repeats, permutes, and reports
   stability 1.0 and below. The intake suite holds 184 tests.
+- Homepage hint validation and the timestamp pin (loop re-read): the run
+  applies the queue's hints through `model_copy`, which skips pydantic field
+  validation — so an `http://` homepage hint bypassed `Candidate`'s HTTPS
+  check and would have landed verbatim in the company entry file
+  (demonstrated before the fix). `load_queue` now refuses a non-HTTPS
+  homepage the way it refuses an unknown `source_role`: at queue load,
+  before any capture or spend. And the stage 2 contract's one untested
+  sentence — "transcript timestamps, when present, are kept in the paragraph
+  text so a locator can name them" — gained its pin: a timestamped
+  transcript segments into paragraphs that carry the `[HH:MM:SS]` markers
+  verbatim. The intake suite holds 186 tests.
 
