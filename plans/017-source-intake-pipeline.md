@@ -1231,4 +1231,16 @@ STOP-line report:
   config's budget list also gained the drift and evals defaults, and the
   freshness guard now pins all five CLI budget defaults to it through the
   parser itself. The intake suite holds 177 tests.
+- STOP-line guard on the other writer consumers (loop re-read): the stop
+  condition — "the writer model returns a person's name, e-mail address, or
+  contact detail outside a source's authors field. Stop and report" — was
+  enforced after run stages 4 and 8 only. The backfill dry run printed
+  writer-chosen quotes on its sheet with no guard, and the batch backtest
+  consumed writer output unguarded. Both now stop on the first find: the
+  backfill guards its validated batched reply before any quote reaches the
+  sheet, and the backtest guards each record's extraction the way a run
+  guards stage 4. Tests: a poisoned backfill quote stops the mode with
+  `PrivateDataError`; a poisoned backtest claim stops the batch (addresses
+  assembled from fragments, so tracked files still carry no literal one).
+  The intake suite holds 179 tests.
 

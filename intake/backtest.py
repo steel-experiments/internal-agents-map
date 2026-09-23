@@ -20,7 +20,7 @@ from typing import Any
 
 import yaml
 
-from intake import catalog
+from intake import catalog, privacy
 from intake.capture import HEADER_LINES
 from intake.models import ExtractionRecord, StagedSource
 
@@ -330,6 +330,10 @@ def run_batch(
             )
             extraction = finalize(extraction)
             extraction = verify_claims(extraction, paragraphs)
+            # The STOP-line guard over this writer output, as in a run.
+            privacy.assert_clean(
+                json.loads(extraction.model_dump_json()), label=f"backtest {record.get('id')}"
+            )
             report = compare(record, extraction)
         except BudgetExceededError as error:
             stopped = {"reason": "budget", "detail": str(error)}

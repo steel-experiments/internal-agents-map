@@ -21,6 +21,7 @@ from intake.adapters.writer import WriterAdapter
 from intake.budget import Budget
 from intake.models import Quote
 from intake.numbers import check_claim_numbers
+from intake.privacy import assert_clean as privacy_assert_clean
 from intake.segment import Paragraph, segment_content
 from intake.verify_quotes import verify_quote
 
@@ -303,6 +304,9 @@ def propose_for_record(
             cache=writer_cache,
         )
         entries = _validate_reply(result.payload, paths)
+    # The STOP-line guard: writer output with contact data stops the mode
+    # here, before any quote reaches the sheet.
+    privacy_assert_clean(entries, label="backfill stage 4")
     text_of = dict(claims)
     proposals: list[LocatorProposal] = []
     for entry in entries:

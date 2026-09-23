@@ -404,6 +404,14 @@ class BackfillGradingTests(unittest.TestCase):
         with self.assertRaises(BackfillError):
             self.run_dry_run(None, cache=None, batch=batch)  # type: ignore[arg-type]
 
+    def test_a_poisoned_reply_stops_the_mode_before_the_sheet(self) -> None:
+        from intake.privacy import PrivateDataError
+
+        address = "jane" + "@" + "example.com"
+        batch = BatchFound(quote=f"Contact {address} for details")
+        with self.assertRaises(PrivateDataError):
+            self.run_dry_run(None, cache=None, batch=batch)
+
 
 class AlwaysBad:
     """The writer seam: replies that never validate."""
@@ -536,6 +544,24 @@ class BatchBacktestTests(unittest.TestCase):
         self.assertEqual(report["records"], 0)
         self.assertEqual(report["stopped"]["reason"], "budget")
         self.assertIn("no captured source", batch_report_text(report))
+
+    def test_a_poisoned_writer_reply_stops_the_batch(self) -> None:
+        from intake.privacy import PrivateDataError
+
+        address = "jane" + "@" + "example.com"
+        payload = zup_batch_payload()
+        payload["claims"][0]["text"] = f"Reach {address} for details."
+
+        class Poisoned:
+            def create(self, **kwargs: Any) -> Any:
+                return FakeWriterResponse(payload)
+
+        with self.assertRaises(PrivateDataError):
+            run_batch(
+                adapter=WriterAdapter(api_key="test-key", responses=Poisoned()),
+                budget=Budget(budget_usd=20.0),
+                records_root=self.root,
+            )
 
     def test_a_writer_failure_stops_the_batch(self) -> None:
         from intake.adapters.writer import WriterApiError
