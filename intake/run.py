@@ -551,12 +551,25 @@ def run_candidate(
     # both were produced; the manifest you are reading is its own output.
     stages.append({"stage": "review", "model": None, "calls": 0, "cost_usd": 0.0})
     draft_path = None
+    draft_conflict = False
     if draft_id:
         drafts_root.mkdir(parents=True, exist_ok=True)
-        draft_path = drafts_root / f"{draft_id}.yaml"
-        if draft_path.exists():
-            raise FileExistsError(f"{draft_path} already exists; drafts are never overwritten")
-        draft_path.write_text(result.record_yaml, encoding="utf-8")
+        candidate_draft = drafts_root / f"{draft_id}.yaml"
+        if candidate_draft.exists():
+            # Drafts are never overwritten. Two queue entries naming one
+            # record, or a rerun into the same drafts root, report the
+            # conflict instead of crashing the queue after its spend; this
+            # run's sheet and manifest still land beside the existing draft
+            # for a person to compare.
+            draft_conflict = True
+            notes.append(
+                f"draft {candidate_draft} already exists; drafts are never "
+                "overwritten — compare this run's sheet against the existing "
+                "draft's run"
+            )
+        else:
+            draft_path = candidate_draft
+            draft_path.write_text(result.record_yaml, encoding="utf-8")
         # The run's own archival copy: a stage rerun reads its review date
         # and promoted capture paths from here, never from today's clock.
         (directory / "draft.yaml").write_text(result.record_yaml, encoding="utf-8")
@@ -586,7 +599,10 @@ def run_candidate(
     # the archived copy records the latest run that drafted the record, so a
     # warm rerun supersedes it instead of failing.
     archived_manifest: Path | None = None
-    if draft_id:
+    if draft_id and not draft_conflict:
+        # A conflicted run does not supersede the archived manifest of the
+        # run that owns the draft; its own manifest stays in its run
+        # directory for the comparison.
         import shutil
 
         intake_dir = repo_root / "archive" / "intake" / draft_id
@@ -616,7 +632,7 @@ def run_candidate(
             )
             entry_path = directory / "company-entry.yaml"
             entry_path.write_text(entry_text, encoding="utf-8")
-            if draft_id:
+            if draft_id and not draft_conflict:
                 shutil.copyfile(
                     entry_path, repo_root / "archive" / "intake" / draft_id / "company-entry.yaml"
                 )

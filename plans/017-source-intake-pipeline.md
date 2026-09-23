@@ -1562,3 +1562,20 @@ STOP-line report:
   clean variant of one URL drafts one source with the clean canonical,
   promotes exactly one bundle, notes the duplicate, and records two
   capture calls. The intake suite holds 214 tests.
+- Draft collisions report instead of crashing the queue (loop re-read):
+  "drafts are never overwritten" was enforced with a bare
+  `FileExistsError` at the stage 12 write, so a queue whose two entries
+  named one record — or a rerun into the same drafts root — crashed the
+  whole queue after the second entry's spend, and the runner returned
+  nothing: every earlier entry's summary was lost to a traceback while
+  their drafts, bundles, and archived manifests sat on disk unreported.
+  The collision is now an outcome like the others: the second run keeps
+  its sheet and manifest (a person compares the two runs), its notes
+  name the existing draft, its run directory still holds its archival
+  draft copy so stage reruns work, and it does not supersede the owning
+  run's archived manifest or company entry under `archive/intake/`. The
+  queue survives and returns both summaries. The write itself still
+  never overwrites. Tests: two colliding runs report and keep their
+  artifacts, the owning run's archived manifest stands, and a queue
+  with a collision returns both summaries. The intake suite holds 215
+  tests.

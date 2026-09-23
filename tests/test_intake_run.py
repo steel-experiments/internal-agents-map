@@ -19,6 +19,22 @@ ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "tests" / "fixtures" / "intake"
 
 
+def _queue_with_two_zup_entries(root: Path) -> Path:
+    queue = root / "queue-collision.yaml"
+    queue.write_text(
+        "- urls: [https://arxiv.org/abs/2604.09805]\n"
+        "  company: Zup\n"
+        "  system_name: CodeGen\n"
+        "  record_id: zup-codegen-draft\n"
+        "- urls: [https://arxiv.org/abs/2604.09805]\n"
+        "  company: Zup\n"
+        "  system_name: CodeGen\n"
+        "  record_id: zup-codegen-draft\n",
+        encoding="utf-8",
+    )
+    return queue
+
+
 class FakeSteelClient:
     def __init__(self, markdown: str) -> None:
         self._markdown = markdown
@@ -817,6 +833,65 @@ class NeedsEvidenceStopTests(unittest.TestCase):
 
     def tearDown(self) -> None:
         self._tmp.cleanup()
+
+    def test_two_queue_entries_colliding_on_one_record_report_the_conflict(self) -> None:
+        from intake.cache import JsonCache
+        from intake.run import QueueEntry
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            common: Any = dict(
+                budget=Budget(budget_usd=5.0),
+                steel=SteelSdkAdapter(
+                    api_key="test-key",
+                    client_factory=lambda _key: FakeSteelClient(zup_capture_markdown()),
+                ),
+                writer=WriterAdapter(api_key="test-key", responses=ZupWriterResponses()),
+                jev=JevAdapter(api_key="test-key", connection=FakeJevConnection()),
+                cache=JsonCache(root / "jev-cache.json"),
+                writer_cache=JsonCache(root / "writer-cache.json"),
+                runs_root=root / "runs",
+                staging_root=root / "staging",
+                repo_root=root,
+                reviewed_at="2026-09-22",
+            )
+            entry = QueueEntry(
+                urls=["https://arxiv.org/abs/2604.09805"],
+                company="Zup",
+                system_name="CodeGen",
+                record_id="zup-codegen-draft",
+            )
+            first = run_candidate(entry, **(common | {"drafts_root": root / "drafts"}))
+            second = run_candidate(entry, **(common | {"drafts_root": root / "drafts"}))
+            # The first run owns the draft; the second reports the conflict.
+            self.assertIsNotNone(first.draft_path)
+            self.assertIsNone(second.draft_path)
+            self.assertIsNotNone(second.sheet_path)
+            self.assertTrue(
+                any(
+                    note.startswith("draft ") and "already exists" in note for note in second.notes
+                ),
+                second.notes,
+            )
+            # The existing draft is untouched, and the conflicted run does
+            # not supersede the owning run's archived manifest.
+            self.assertEqual(
+                (root / "archive" / "intake" / "zup-codegen-draft" / "run.json").read_text(
+                    encoding="utf-8"
+                ),
+                (root / "runs" / first.run_id / "run.json").read_text(encoding="utf-8"),
+            )
+            # A queue survives the collision: both entries return summaries.
+            queue_common = dict(common)
+            budget_obj = queue_common.pop("budget")
+            queue_common.pop("reviewed_at")
+            summaries = run_queue(
+                _queue_with_two_zup_entries(root),
+                budget_usd=budget_obj.budget_usd,
+                **(queue_common | {"drafts_root": root / "drafts-queue"}),
+            )
+            self.assertEqual(len(summaries), 2)
+            self.assertTrue(all(summary.notes for summary in summaries))
 
     def test_duplicate_queue_urls_collapse_into_one_source(self) -> None:
         from intake.cache import JsonCache
