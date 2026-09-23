@@ -1472,3 +1472,15 @@ STOP-line report:
   render, preflight, validate, review. Tests: the manifest names all
   twelve stages in order and the sheet shows the preflight row with no
   model. The intake suite holds 207 tests.
+- Skill accuracy pass two (loop re-read): the first pass predates the last
+  several units, and the operator's entry point had drifted again. It did
+  not say a failed URL is a collection blocker the run reports and
+  survives, nor that a fully blocked entry reports `blocked` and a
+  nameless entry stops with `needs-evidence` — an operator hitting those
+  outcomes would have looked for a draft the run never wrote. The
+  backfill section omitted `backfill --rank`, so the worst-first order
+  the previous unit shipped was invisible at the point of use. The queue
+  hint list did not state the authority rule. All corrected; a new
+  guard test pins the outcomes, the ranking command, and the authority
+  sentence so the skill cannot silently lose them again. The intake
+  suite holds 208 tests.

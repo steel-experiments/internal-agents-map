@@ -100,6 +100,17 @@ class GoldenCaseTests(unittest.TestCase):
         readme = (SKILL / "evals" / "README.md").read_text(encoding="utf-8")
         self.assertIn("unittest discover", readme)
 
+    def test_the_skill_names_the_non_drafting_outcomes(self) -> None:
+        """The operator's entry point must keep pace with the run's behavior."""
+        skill = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+        # Collection blockers continue the run; the other two outcomes do not.
+        self.assertIn("collection blocker", skill)
+        self.assertIn("`blocked`", skill)
+        self.assertIn("`needs-evidence`", skill)
+        # Phase 5's worst-first batching and the hint authority rule.
+        self.assertIn("backfill --rank", skill)
+        self.assertIn("authoritative over the writer model's echo", skill)
+
 
 class SchemaCommandTests(unittest.TestCase):
     def test_a_bare_schema_call_writes_the_committed_file(self) -> None:

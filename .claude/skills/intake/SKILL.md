@@ -19,6 +19,8 @@ policy: it owns eligibility; this skill owns execution.
    optional `company`, `system_name`, `record_id`, `source_role`, `homepage`
    hints. `source_role` names a provenance class from the catalog's own set
    and sets every source of the entry; an unknown value stops the queue.
+   The `company`, `system_name`, `homepage`, and `record_id` hints are
+   authoritative over the writer model's echo.
 3. Agree the budget with the owner. Default `$2` per run; the run refuses to
    start above its worst-case reservation.
 
@@ -32,6 +34,13 @@ The command prints the run ID, the proposed decision, the draft path under
 `drafts/`, and the review sheet path under `.intake/runs/<run-id>/review.md`.
 Print a sheet again with `uv run python -m intake review <run-id>`; rerun an
 offline stage with `uv run python -m intake stage render --run <run-id>`.
+
+Not every entry drafts. A URL that fails the page checks becomes a
+**collection blocker**: the run reports it and continues with the other
+URLs, and the sheet carries a Collection blockers section. An entry whose
+every URL fails reports `blocked`; an entry whose text and hints name no
+company stops after stage 3 with `needs-evidence`. Neither writes a draft
+or a sheet — read the printed notes, fix the queue entry, and rerun it.
 
 ## After a run
 
@@ -52,6 +61,9 @@ offline stage with `uv run python -m intake stage render --run <run-id>`.
 
 ## Backfill and drift
 
+- `uv run python -m intake backfill --rank` lists the records by unlocated
+  evidence paths, worst first, and makes no model call — run the dry runs in
+  that order (Phase 5's batching).
 - `uv run python -m intake backfill data/agents/<id>.yaml --budget-usd 10
   --proposals p.json` proposes locators for a record's unlocated claims (dry
   run, one writer call for the whole claim list); `p.json` holds one
