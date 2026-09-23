@@ -316,7 +316,7 @@ def run_batch(
                 local_of[source_id]: source_paragraphs
                 for source_id, source_paragraphs in capture_paragraphs(bundles).items()
             }
-            extraction, _stage = run_extract(
+            extraction, stage = run_extract(
                 run_id=run_id,
                 paragraphs_by_source=paragraphs,
                 sources=sources,
@@ -337,7 +337,18 @@ def run_batch(
         except WriterApiError as error:
             stopped = {"reason": "writer", "detail": str(error)}
             break
-        rows.append({"record": record.get("id"), **report})
+        rows.append(
+            {
+                "record": record.get("id"),
+                # Phase 2 step 4: the model string, token usage, and cost of
+                # the extraction this row rests on.
+                "model": stage.get("model"),
+                "input_tokens": stage.get("input_tokens", 0),
+                "output_tokens": stage.get("output_tokens", 0),
+                "cost_usd": stage.get("cost_usd", 0.0),
+                **report,
+            }
+        )
 
     totals = {
         "records": len(rows),
@@ -347,6 +358,9 @@ def run_batch(
         "unverified_quotes": sum(row["unverified_quotes"] for row in rows),
         "locator_compared": sum(row["locator_agreement"]["compared"] for row in rows),
         "locator_agreeing": sum(row["locator_agreement"]["agreeing"] for row in rows),
+        "input_tokens": sum(row.get("input_tokens", 0) for row in rows),
+        "output_tokens": sum(row.get("output_tokens", 0) for row in rows),
+        "cost_usd": round(sum(row.get("cost_usd", 0.0) for row in rows), 6),
     }
     by_kind: dict[str, dict[str, int]] = {}
     for row in rows:
@@ -398,14 +412,18 @@ def batch_report_text(report: dict[str, Any]) -> str:
         f"Locator agreement: {totals['locator_agreeing']} of {totals['locator_compared']} "
         f"compared ({round(agreement, 4) if agreement is not None else '—'}). "
         f"Unverified quotes: {totals['unverified_quotes']}.",
+        f"Writer usage: {totals.get('input_tokens', 0)} input tokens, "
+        f"{totals.get('output_tokens', 0)} output tokens, "
+        f"${totals.get('cost_usd', 0.0):.4f}.",
         "",
-        "| Record | Human | Extraction | Matched | Unverified |",
-        "| --- | --- | --- | --- | --- |",
+        "| Record | Human | Extraction | Matched | Unverified | Model | Cost USD |",
+        "| --- | --- | --- | --- | --- | --- | --- |",
     ]
     for row in report["rows"]:
         lines.append(
             f"| {row['record']} | {row['human_claims']} | {row['extraction_claims']} "
-            f"| {row['matched_claims']} | {row['unverified_quotes']} |"
+            f"| {row['matched_claims']} | {row['unverified_quotes']} "
+            f"| {row.get('model') or '—'} | {row.get('cost_usd', 0.0):.4f} |"
         )
     for entry in report["skipped"]:
         lines.append(f"- skipped `{entry['record']}`: {entry['reason']}")

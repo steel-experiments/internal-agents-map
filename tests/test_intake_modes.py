@@ -510,9 +510,17 @@ class BatchBacktestTests(unittest.TestCase):
         self.assertEqual(row["unverified_quotes"], 0)
         self.assertEqual(row["locator_agreement"]["compared"], 1)
         self.assertEqual(row["locator_agreement"]["agreeing"], 1)
+        # Phase 2 step 4: the model string, token usage, and cost per record.
+        self.assertEqual(row["model"], "gpt-6-sol-2026-09-22")
+        self.assertGreater(row["input_tokens"], 0)
+        self.assertGreater(row["cost_usd"], 0.0)
+        self.assertEqual(report["totals"]["input_tokens"], row["input_tokens"])
+        self.assertAlmostEqual(report["totals"]["cost_usd"], row["cost_usd"], places=6)
         sheet = batch_report_text(report)
         self.assertIn("zup-codegen", sheet)
         self.assertIn("no-capture", sheet)
+        self.assertIn("Writer usage:", sheet)
+        self.assertIn("gpt-6-sol-2026-09-22", sheet)
         self.assertIn("A measurement only", sheet)
 
     def test_a_refused_budget_stops_the_batch_before_any_call(self) -> None:

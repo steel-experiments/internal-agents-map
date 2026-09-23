@@ -1207,4 +1207,13 @@ STOP-line report:
   zup source proposes `zup-codegen-source-2` on the sheet; the numbering
   skips gaps and unrelated IDs and starts at 1 for an empty record. The
   intake suite holds 177 tests.
+- Backtest per-record usage (loop re-read): Phase 2 step 4 — "record the
+  model string, token usage, and cost per record" — was dropped on the
+  floor: `run_batch` received `run_extract`'s stage facts as `_stage` and
+  discarded them, so a row said what the extraction found but not what it
+  cost or which model produced it. Each row now carries the model string,
+  input and output tokens, and cost of its extraction; the totals sum them;
+  and the sheet prints a writer-usage line plus Model and Cost columns on
+  the per-record table. The batch test asserts the row fields, the summed
+  totals, and the sheet lines. The intake suite holds 177 tests.
 
