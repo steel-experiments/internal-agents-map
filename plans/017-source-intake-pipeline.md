@@ -1216,4 +1216,19 @@ STOP-line report:
   and the sheet prints a writer-usage line plus Model and Cost columns on
   the per-record table. The batch test asserts the row fields, the summed
   totals, and the sheet lines. The intake suite holds 177 tests.
+- Skill accuracy pass (loop re-read): the operator's entry point had drifted
+  from the pipeline it fronts. Its after-run step 4 still said a person
+  promotes the captures and that "the pipeline does none of this itself" —
+  false since the promotion unit: the run promotes, archives its manifest,
+  and writes the company entry. The queue hint list omitted `source_role`;
+  the after-run step 3 still said to fix `provenance_class` unconditionally
+  (the hint sets it when given); the backfill section omitted stage 6
+  grading; the drift section did not say the report names the new source
+  ID; and one never-claim had a grammar bug ("whose quote code has not
+  found"). All corrected, with the never-claim sharpened honestly: the
+  pipeline writes draft and archive artifacts in the working tree for a
+  person's pull request; nothing reaches `main` without that person. The
+  config's budget list also gained the drift and evals defaults, and the
+  freshness guard now pins all five CLI budget defaults to it through the
+  parser itself. The intake suite holds 177 tests.
 

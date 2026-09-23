@@ -30,7 +30,9 @@
   "budgets": {
     "run_usd": 2.0,
     "backtest_usd": 20.0,
-    "backfill_usd": 10.0
+    "backfill_usd": 10.0,
+    "drift_usd": 5.0,
+    "evals_usd": 20.0
   },
   "quotes": {
     "fuzzy_similarity_bound": 0.7

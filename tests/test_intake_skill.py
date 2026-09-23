@@ -60,6 +60,17 @@ class SkillConfigTests(unittest.TestCase):
         self.assertFalse(gate["calibrated"])
 
     def test_the_budget_and_quote_bound_name_the_code_defaults(self) -> None:
+        from intake.__main__ import build_parser
+
+        parser = build_parser()
+        cli_budgets = {
+            "run_usd": parser.parse_args(["run", "queue.yaml"]).budget_usd,
+            "backtest_usd": parser.parse_args(["backtest"]).budget_usd,
+            "backfill_usd": parser.parse_args(["backfill", "record.yaml"]).budget_usd,
+            "drift_usd": parser.parse_args(["drift"]).budget_usd,
+            "evals_usd": parser.parse_args(["evals", "--items", "items.json"]).budget_usd,
+        }
+        self.assertEqual(self.config["budgets"], cli_budgets)
         self.assertEqual(self.config["budgets"]["run_usd"], DEFAULT_BUDGET_USD)
         self.assertEqual(self.config["quotes"]["fuzzy_similarity_bound"], DEFAULT_SIMILARITY_BOUND)
 

@@ -16,7 +16,9 @@ policy: it owns eligibility; this skill owns execution.
    `OPENAI_API_KEY` (writer), `TYPESAFE_API_KEY` (Jev). Without a key, the run
    stops at the stage that needs it; report that as the blocker.
 2. Write a queue file: one entry per candidate, each with `urls` (HTTPS) and
-   optional `company`, `system_name`, `record_id`, `homepage`.
+   optional `company`, `system_name`, `record_id`, `source_role`, `homepage`
+   hints. `source_role` names a provenance class from the catalog's own set
+   and sets every source of the entry; an unknown value stops the queue.
 3. Agree the budget with the owner. Default `$2` per run; the run refuses to
    start above its worst-case reservation.
 
@@ -37,32 +39,42 @@ offline stage with `uv run python -m intake stage render --run <run-id>`.
    eligibility proposal.
 2. Edit every claim row with disposition `review`. The draft under `drafts/`
    is a starting point, not a result.
-3. Confirm `published_at` where the sheet flags it; fix `kind` and
-   `provenance_class` on sources (the pipeline stages conservatively as
-   `other` / `independent-secondary`).
-4. Promote the captures (`uv run python -m intake promote <staging-dir> --source-id <id>`),
-   add the company entry when the run printed one, and open the pull request.
-   The pipeline does none of this itself.
+3. Confirm `published_at` where the sheet flags it; fix `kind` on sources and
+   confirm each `provenance_class` — the queue's `source_role` hint set the
+   class when one was given, and without a hint the pipeline staged
+   conservatively as `other` / `independent-secondary`.
+4. The run already promoted its capture bundles under `archive/sources/`,
+   archived its run manifest under `archive/intake/<record-id>/`, and wrote
+   `company-entry.yaml` when the organization is new (the run directory and
+   the archive copy both hold it). Review them, append the company entry to
+   `data/companies.yaml`, regenerate the outputs, and open the pull request.
+   `intake promote` remains for one-off staging bundles a run did not draft.
 
 ## Backfill and drift
 
 - `uv run python -m intake backfill data/agents/<id>.yaml --budget-usd 10
   --proposals p.json` proposes locators for a record's unlocated claims (dry
-  run); `p.json` holds one unapproved entry per verified quote. A person reads
+  run, one writer call for the whole claim list); `p.json` holds one
+  unapproved entry per verified quote, and each verified proposal is also
+  graded — the relation verdict rides on the sheet, or `not judged` when
+  `TYPESAFE_API_KEY` is absent. A person reads
   each quote on the sheet against its capture, sets `approved: true` on the
   entries that hold, and runs
   `uv run python -m intake backfill-apply p.json`, which edits only the
   `locator` fields. Regenerate the outputs and open the pull request yourself.
 - `uv run python -m intake drift` rescrapes every captured source and reports
-  changed lines with the claims that cite them (`.intake/drift/report.json`).
-  There is no schedule; run it by hand (plan open decision 4). A changed
-  source needs a new capture under a new source ID and a human review.
+  changed lines with the claims that cite them (`.intake/drift/report.json`),
+  re-judging the affected claims as advisory columns. There is no schedule;
+  run it by hand (plan open decision 4). The report names the new source ID
+  to capture each changed page under; a person captures and reviews.
 
 ## What the pipeline never does
 
 - It never writes `unreported`; silence is `not-reviewed` with a note.
-- It never accepts a claim whose quote code has not found in the capture.
-- It never commits, opens a pull request, or publishes.
+- It never accepts a claim whose quote code has not verified in the capture.
+- It never commits, opens a pull request, or publishes. It writes draft and
+  archive artifacts in the working tree for a person's pull request; nothing
+  reaches `main` without that person.
 
 ## Configuration
 
