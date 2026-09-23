@@ -106,6 +106,10 @@
 /* The wordmark at the head of the rail, over the links it belongs to. */
 .brand-rail {
   display: block;
+  /* The larger heading's glyphs sit lower in its line box. Match its visible
+     top without shifting the navigation rows below the wordmark. */
+  position: relative;
+  top: 3px;
   margin-bottom: 24px;
 }
 .nav-links {
