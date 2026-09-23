@@ -119,7 +119,11 @@ cache hits, the claim-ID-to-path compatibility map, and — for every model
 stage — the sha256 digests of the exact request inputs each call read
 (`input_hashes`). A warm rerun that replays a stage lists the same digests
 with `calls: 0`, so an auditor can confirm the rerun read the same inputs
-without re-deriving them.
+without re-deriving them. The page metadata the SDK returns travels into
+the extraction record (`published_at`, `language`, `description`); when
+today's source schema has no field for a value — language and description
+today — the manifest's `not_carried` map names where it went and the sheet
+says so.
 
 ## Secrets and `.env`
 

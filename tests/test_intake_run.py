@@ -548,6 +548,27 @@ class EndToEndRunTests(unittest.TestCase):
             for link in links:
                 self.assertIn("locator", link, f"link for {path} lacks a locator")
 
+    def test_page_metadata_the_schema_cannot_carry_is_recorded(self) -> None:
+        summary = self.run_zup()
+        run_dir = self.root / "runs" / summary.run_id
+        # The page metadata travels into the extraction record.
+        extraction = yaml.safe_load((run_dir / "extraction.yaml").read_text(encoding="utf-8"))
+        self.assertEqual(extraction["sources"][0]["language"], "en")
+        # Today's source schema has no language field, so the manifest names
+        # where it went and the sheet tells the reviewer.
+        manifest = json.loads((run_dir / "run.json").read_text(encoding="utf-8"))
+        self.assertEqual(
+            manifest["not_carried"],
+            {
+                "s1.language": (
+                    "today's source schema has no language field; "
+                    "preserved in the extraction record"
+                )
+            },
+        )
+        sheet = summary.sheet_path.read_text(encoding="utf-8") if summary.sheet_path else ""
+        self.assertIn("page metadata not carried by today's schema (language en)", sheet)
+
     def test_a_queue_file_drives_the_run(self) -> None:
         queue = self.root / "queue.yaml"
         queue.write_text(

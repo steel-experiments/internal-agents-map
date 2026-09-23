@@ -217,6 +217,8 @@ def run_candidate(
             # one; the conservative default stays otherwise.
             provenance_class=entry.source_role or "independent-secondary",
             published_at=_page_published(capture),
+            language=_page_field(capture, "language"),
+            description=_page_field(capture, "description"),
             staging_path=capture.staging_path,
             captured_at=capture.captured_at[:10],
             content_sha256=capture.content_sha256,
@@ -574,6 +576,14 @@ def _page_published(capture: Any) -> str | None:
     if not published:
         return None
     return published[:10]
+
+
+def _page_field(capture: Any, field: str) -> str | None:
+    """One page-metadata field the division of labour sends along."""
+    from intake.capture import read_staging
+
+    value = read_staging(capture.staging_dir)["page"].get(field)
+    return str(value) if value else None
 
 
 def run_queue(

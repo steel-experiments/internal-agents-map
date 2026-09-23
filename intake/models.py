@@ -231,6 +231,8 @@ class StagedSource(StrictModel):
     publisher: str | None = None
     authors: list[str] | None = None
     published_at: str | None = None
+    language: str | None = None
+    description: str | None = None
     staging_path: str | None = None
     captured_at: str | None = None
     content_sha256: str
@@ -488,4 +490,5 @@ class RunManifest(StrictModel):
     capture_hashes: dict[str, str] = {}
     stage_runs: list[StageRun] = []
     compatibility: dict[str, list[str]] = {}
+    not_carried: dict[str, str] = {}
     notes: list[str] = []

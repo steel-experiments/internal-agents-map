@@ -60,6 +60,7 @@ class RenderResult:
     record_yaml: str
     company_entry: dict[str, Any] | None = None
     compatibility: dict[str, list[str]] = field(default_factory=dict)
+    not_carried: dict[str, str] = field(default_factory=dict)
     notes: list[str] = field(default_factory=list)
 
 
@@ -120,6 +121,7 @@ class _Renderer:
         self.evidence: dict[str, list[dict[str, str]]] = {}
         self.claim_metadata: dict[str, dict[str, Any]] = {}
         self.compatibility: dict[str, list[str]] = {}
+        self.not_carried: dict[str, str] = {}
         self.source_ids = self._rendered_source_ids()
 
     def _rendered_source_ids(self) -> dict[str, str]:
@@ -373,6 +375,7 @@ class _Renderer:
             record_yaml=to_authored_yaml(authored),
             company_entry=self._company_entry(),
             compatibility=self.compatibility,
+            not_carried=self.not_carried,
             notes=self.notes,
         )
 
@@ -504,6 +507,24 @@ class _Renderer:
                     f"must be {expected!r} after promotion"
                 )
             entry["capture"] = {"manifest_path": expected}
+        # Open decision 3: page metadata that today's source schema cannot
+        # carry stays in the extraction record, and the compatibility map —
+        # the explicit mapping the schema migration will need — says where
+        # it went instead of dropping it silently.
+        carried = []
+        for name, value in (("language", source.language), ("description", source.description)):
+            if not value:
+                continue
+            carried.append(f"{name} {value}")
+            self.not_carried[f"{source.local_id}.{name}"] = (
+                f"today's source schema has no {name} field; preserved in the extraction record"
+            )
+        if carried:
+            self.notes.append(
+                f"source {source.local_id} page metadata not carried by today's schema "
+                f"({'; '.join(carried)}); preserved in the extraction record and named "
+                "in the compatibility map"
+            )
         return entry
 
     def _page_content(

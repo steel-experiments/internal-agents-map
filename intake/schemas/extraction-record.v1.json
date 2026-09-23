@@ -996,6 +996,30 @@
             "default": null,
             "title": "Published At"
           },
+          "language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Language"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
           "staging_path": {
             "anyOf": [
               {
@@ -1339,6 +1363,14 @@
         },
         "default": {},
         "title": "Compatibility",
+        "type": "object"
+      },
+      "not_carried": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "default": {},
+        "title": "Not Carried",
         "type": "object"
       },
       "notes": {

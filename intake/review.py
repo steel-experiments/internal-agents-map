@@ -271,6 +271,7 @@ def write_review(
         prompt_versions=prompt_versions,
         capture_hashes=capture_hashes,
         compatibility=result.compatibility,
+        not_carried=result.not_carried,
         decision=record.candidate.decision,
         record_id=record.candidate.record_id,
         notes=notes,

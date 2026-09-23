@@ -151,6 +151,7 @@ def write_manifest(
     prompt_versions: dict[str, str],
     capture_hashes: dict[str, str],
     compatibility: dict[str, list[str]] | None = None,
+    not_carried: dict[str, str] | None = None,
     decision: str = "needs-evidence",
     record_id: str | None = None,
     notes: list[str] | None = None,
@@ -167,6 +168,7 @@ def write_manifest(
         capture_hashes=capture_hashes,
         stage_runs=stage_runs,
         compatibility=compatibility or {},
+        not_carried=not_carried or {},
         notes=notes or [],
     )
     path = directory / "run.json"

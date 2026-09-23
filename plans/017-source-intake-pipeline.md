@@ -1402,3 +1402,23 @@ STOP-line report:
   Tests: a below-floor budget raises before any scrape and leaves no
   run directory, with the floor named in the message. The intake suite
   holds 201 tests.
+- Page metadata into the extraction record (loop re-read): the division
+  of labour says "the scrape response's page metadata travels into the
+  staging bundle and the extraction record", and open decision 3's
+  recommendation says "carry them into the source record instead" of the
+  committed manifest — but only `title`, `canonical_url`, and
+  `published_at` made the trip. `language` and `description` were
+  captured into the staging bundle's `page.json` and dropped there.
+  `StagedSource` now carries both, the run threads them from the staging
+  bundle, and the renderer handles what today's source schema cannot
+  hold — its field list has no `language` or `description` — exactly as
+  the STOP rule asks: recorded, not silently dropped, and no key added
+  to the public schema. One deviation from the STOP rule's letter,
+  recorded here: the record lands in the run manifest's `not_carried`
+  map beside the compatibility map, not inside the compatibility map
+  itself, because that map's keys are claim IDs that the renderer and
+  the backtest iterate — a source-metadata key broke fifteen tests until
+  the record moved. The sheet's Renderer notes name the value ("language
+  en") so a reviewer sees what stayed behind. Tests: the metadata
+  reaches the extraction record, the manifest names it in `not_carried`,
+  and the sheet says so. The intake suite holds 202 tests.
