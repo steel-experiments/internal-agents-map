@@ -202,8 +202,12 @@ def build_artifact(root):
     files = {
         "favicon.ico": "icon",
         "og.png": png(1200, 630),
-        STYLESHEET: '@font-face { src: url("/fonts/Areal.woff2"); }',
+        STYLESHEET: (
+            '@font-face { src: url("/fonts/Areal.woff2"); }'
+            '@font-face { src: url("/fonts/NanumMyeongjo-ExtraBold.woff2"); }'
+        ),
         "fonts/Areal.woff2": "font",
+        "fonts/NanumMyeongjo-ExtraBold.woff2": "font",
         "agents.json": json.dumps(CATALOG),
         "agents/index.json": "[]",
         "logos/first.svg": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 40"/>',
