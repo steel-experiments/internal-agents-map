@@ -15,6 +15,7 @@ uv run python -m intake run queue/acceptance-2026-09-11.yaml --budget-usd 2.00  
 uv run python -m intake review <run-id>                     # print a run's review sheet
 uv run python -m intake stage render --run <run-id>         # rerun one offline stage
 uv run python -m intake capture <url>                       # stage 1 alone
+uv run python -m intake capture <url> --pdf                 # also keep the page PDF
 uv run python -m intake promote <dir> --source-id ID        # promote into archive/sources/
 uv run python -m intake segment --input <content.md> --output <paragraphs.json>  # stage 2
 uv run python -m intake resolve --company X --system Y [--text-file f] [--jev]   # stage 3

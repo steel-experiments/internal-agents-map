@@ -91,16 +91,30 @@ def capture_staging(
     adapter: SteelSdkAdapter | None = None,
     captured_at: datetime | None = None,
     tool_version: str | None = None,
+    pdf: bool = False,
+    download: Any = None,
 ) -> StagedCapture:
-    """Scrape one URL into a staging bundle keyed by the canonical URL hash."""
+    """Scrape one URL into a staging bundle keyed by the canonical URL hash.
+
+    With ``pdf`` — the plan's opt-in for when layout or visual evidence
+    matters — the page's PDF is fetched through the archiver's own
+    downloader and saved beside the Markdown as ``page.pdf``.
+    """
     archiver = load_archiver()
     archiver._require_https_url(url, "Source URL")
-    page = (adapter or SteelSdkAdapter()).scrape(url)
+    page = (adapter or SteelSdkAdapter()).scrape(url, pdf=pdf)
     canonical = page.canonical_url or page.final_url
     key = staging_key(canonical)
     directory = staging_root / key
     timestamp = archiver._format_utc_timestamp(captured_at or datetime.now(timezone.utc))
     content = _staging_header(f"staging-{key}", url, page, timestamp) + page.markdown + "\n"
+    pdf_bytes: bytes | None = None
+    if pdf and page.pdf_url:
+        fetch = download or archiver.download_pdf
+        try:
+            pdf_bytes = fetch(page.pdf_url)
+        except Exception as error:
+            raise CaptureStageError(f"could not download the page PDF: {error}") from error
     page_metadata = {
         "title": page.title,
         "final_url": page.final_url,
@@ -118,6 +132,8 @@ def capture_staging(
         "content_sha256": f"sha256:{hashlib.sha256(page.markdown.encode('utf-8')).hexdigest()}",
         "tool": {"name": "steel-python-sdk", "version": tool_version or _sdk_version()},
     }
+    if pdf_bytes is not None:
+        staging_facts["pdf_sha256"] = f"sha256:{hashlib.sha256(pdf_bytes).hexdigest()}"
     try:
         directory.mkdir(parents=True, exist_ok=True)
         (directory / "content.md").write_text(content, encoding="utf-8")
@@ -127,6 +143,8 @@ def capture_staging(
         (directory / "staging.json").write_text(
             json.dumps(staging_facts, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
         )
+        if pdf_bytes is not None:
+            (directory / "page.pdf").write_bytes(pdf_bytes)
     except OSError as error:
         raise CaptureStageError(f"could not write the staging bundle: {error}") from error
     return StagedCapture(
@@ -184,6 +202,8 @@ def promote(
     tool_version = tool.get("version")
     if not tool_version:
         raise CaptureStageError(f"{staging_dir}: the staging facts do not record the tool version")
+    pdf_path = staging_dir / "page.pdf"
+    pdf_data = pdf_path.read_bytes() if pdf_path.is_file() else None
     try:
         result = archiver.write_capture_bundle(
             source_id,
@@ -193,6 +213,7 @@ def promote(
             captured_at=datetime.fromisoformat(facts["captured_at"].replace("Z", "+00:00")),
             repo_root=repo_root,
             tool_name=str(tool.get("name") or "steel"),
+            pdf_data=pdf_data,
         )
     except archiver.ArchiveError as error:
         raise CaptureStageError(str(error)) from error

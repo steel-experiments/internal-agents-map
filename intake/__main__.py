@@ -95,7 +95,7 @@ def _command_backtest(args: argparse.Namespace) -> int:
 def _command_capture(args: argparse.Namespace) -> int:
     from intake.capture import capture_staging
 
-    staged = capture_staging(args.url)
+    staged = capture_staging(args.url, pdf=args.pdf)
     print(
         json.dumps(
             {
@@ -315,6 +315,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     capture = subparsers.add_parser("capture", help="scrape one URL into staging")
     capture.add_argument("url")
+    capture.add_argument(
+        "--pdf", action="store_true", help="also fetch the page PDF when layout evidence matters"
+    )
     capture.set_defaults(func=_command_capture)
 
     promote_command = subparsers.add_parser(

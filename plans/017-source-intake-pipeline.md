@@ -1243,4 +1243,20 @@ STOP-line report:
   `PrivateDataError`; a poisoned backtest claim stops the batch (addresses
   assembled from fragments, so tracked files still carry no literal one).
   The intake suite holds 179 tests.
+- Opt-in page PDF (loop re-read): the stage 1 contract names an optional
+  `page.pdf` in the staging bundle and the cost table says "one scrape, one
+  optional PDF" — the archiver's downloader and bundle writer already
+  supported PDFs, but the intake path never asked for one: no flag, no
+  staging artifact, no promotion threading. `capture_staging` now takes
+  `pdf` (fetching through the archiver's own `download_pdf`, recording the
+  hash in the staging facts, writing `page.pdf` beside the Markdown) and
+  `promote` threads the bytes into `write_capture_bundle`, whose magic and
+  size checks apply. The CLI gained `capture <url> --pdf`, for the plan's
+  stated case: layout or visual evidence matters. One scope choice
+  recorded: the queue-run path still scrapes without PDF — the queue's
+  hint set is the contract's, and a PDF is a per-URL collection choice a
+  person makes; a run's reviewer can add one with `capture --pdf` plus
+  promotion. Tests: an opt-in PDF lands in staging and promotes into a
+  bundle the archiver's validator accepts; without the opt-in nothing is
+  fetched. The intake suite holds 181 tests.
 

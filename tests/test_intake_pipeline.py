@@ -53,6 +53,7 @@ def sdk_payload(
     published: str | None = "2026-05-01T00:00:00Z",
     language: str | None = "en",
     canonical: str | None = "https://example.com/posts/agents",
+    pdf_url: str | None = None,
 ) -> dict[str, Any]:
     metadata: dict[str, Any] = {
         "statusCode": status,
@@ -65,7 +66,10 @@ def sdk_payload(
         metadata["language"] = language
     if canonical is not None:
         metadata["canonical"] = canonical
-    return {"content": {"markdown": markdown}, "metadata": metadata}
+    payload: dict[str, Any] = {"content": {"markdown": markdown}, "metadata": metadata}
+    if pdf_url is not None:
+        payload["pdf"] = {"url": pdf_url}
+    return payload
 
 
 def fake_adapter(payload: dict[str, Any]) -> SteelSdkAdapter:
@@ -158,6 +162,51 @@ class StagingCaptureTests(unittest.TestCase):
             manifest_data = json.loads((bundle / "metadata.json").read_text(encoding="utf-8"))
             self.assertEqual(manifest_data["tool"]["name"], "steel-python-sdk")
             self.assertEqual(manifest_data["captured_at"], staged.captured_at)
+
+    def test_an_opt_in_pdf_lands_in_staging_and_promotes(self) -> None:
+        import tempfile
+
+        archiver = load_archiver()
+        with tempfile.TemporaryDirectory() as directory:
+            tmp = Path(directory)
+            staged = capture_staging(
+                "https://example.com/posts/agents",
+                staging_root=tmp / ".intake" / "captures",
+                adapter=fake_adapter(sdk_payload(pdf_url="https://example.com/posts/agents.pdf")),
+                pdf=True,
+                download=lambda url: b"%PDF-1.4 fake bytes kept for layout evidence\n",
+            )
+            pdf = staged.staging_dir / "page.pdf"
+            self.assertTrue(pdf.is_file())
+            self.assertTrue(pdf.read_bytes().startswith(b"%PDF-"))
+            facts = json.loads((staged.staging_dir / "staging.json").read_text(encoding="utf-8"))
+            self.assertTrue(facts["pdf_sha256"].startswith("sha256:"))
+            repo = tmp / "repo"
+            promote(staged.staging_dir, "example-agents-source-1", repo_root=repo)
+            bundle = repo / "archive" / "sources" / "example-agents-source-1"
+            self.assertTrue((bundle / "page.pdf").read_bytes().startswith(b"%PDF-"))
+            # The archiver's own validator accepts the bundle with its PDF.
+            archiver.validate_bundle(
+                bundle / "metadata.json",
+                "example-agents-source-1",
+                "https://example.com/posts/agents",
+                repo_root=repo,
+            )
+
+    def test_without_the_opt_in_no_pdf_is_fetched(self) -> None:
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as directory:
+            tmp = Path(directory)
+            staged = capture_staging(
+                "https://example.com/posts/agents",
+                staging_root=tmp / ".intake" / "captures",
+                adapter=fake_adapter(sdk_payload(pdf_url="https://example.com/posts/agents.pdf")),
+                download=lambda url: (_ for _ in ()).throw(
+                    AssertionError("no PDF may be fetched without the opt-in")
+                ),
+            )
+            self.assertFalse((staged.staging_dir / "page.pdf").exists())
 
     def test_promotion_keeps_every_line_number_stable(self) -> None:
         import tempfile
