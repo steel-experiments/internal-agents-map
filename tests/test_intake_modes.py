@@ -136,6 +136,17 @@ class CliKeyGuardTests(unittest.TestCase):
                 self.assertEqual(main(["evals", "--items", str(items), "--score"]), 2)
             self.assertIn("TYPESAFE_API_KEY", errors.getvalue())
 
+    def test_bare_backfill_names_its_two_modes(self) -> None:
+        import contextlib
+        import io
+
+        from intake.__main__ import main
+
+        errors = io.StringIO()
+        with contextlib.redirect_stderr(errors):
+            self.assertEqual(main(["backfill"]), 2)
+        self.assertIn("--rank", errors.getvalue())
+
 
 class FakeWriterResponse:
     """The writer seam: one canned payload."""

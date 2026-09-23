@@ -1511,3 +1511,20 @@ STOP-line report:
   dying at the first item. Tests: the drift CLI passes `jev=None` and
   prints the note under a patched report; the evals CLI returns 2 with
   the key named in stderr. The intake suite holds 210 tests.
+- Bare-backfill pin and the exhaustion note (loop re-read): the
+  ranking unit made `backfill` take its record path optionally beside
+  `--rank`, with a refusal when neither is given — a user-facing path
+  shipped without a test pin. The pin now exists (exit 2, the message
+  names both modes). With it, this loop's re-scan of the plan against
+  the code finds no further machine-testable spec-to-code distance:
+  fourteen subcommands smoke clean, no unfinished-work markers sit in
+  `intake/`, and every sentence of the product contract, the stage
+  contracts, the decision policy, the principles, and the configuration
+  section has a code embodiment or a recorded, reasoned deviation. What
+  remains is the live gates and the human work the plan itself gates on:
+  the Phase 1 SDK-versus-CLI sample (`STEEL_API_KEY`), the Phase 2
+  backtest and the backfill dry run (`OPENAI_API_KEY`), the Phase 3
+  evaluation and calibration (`TYPESAFE_API_KEY` plus two labellers),
+  the Phase 4 acceptance drafts (both keys), and the Phase 5 live
+  apply and hand drift run (keys plus the owner's two-month window).
+  None is simulated. The intake suite holds 211 tests.
