@@ -1528,3 +1528,22 @@ STOP-line report:
   the Phase 4 acceptance drafts (both keys), and the Phase 5 live
   apply and hand drift run (keys plus the owner's two-month window).
   None is simulated. The intake suite holds 211 tests.
+- URL normalisation (loop re-read, withdrawing the exhaustion note): the
+  previous entry declared the machine-testable surface exhausted, and one
+  more adversarial pass disproved it — the rendering rule says
+  "`sources[]` with `canonical_url` normalised by code" and principle 3
+  lists URL normalisation among the checks code owns, but no normaliser
+  existed: the canonical URL passed through raw from the page, so a
+  canonical link carrying a fragment or a tracking parameter staged into
+  a different bundle than the clean form and rendered a different
+  `canonical_url`. `normalize_url` now runs before the URL keys staging
+  or renders: the fragment is dropped, well-known tracking parameters
+  (`utm_*`, `fbclid`, `gclid`, `mc_cid`, `mc_eid`, `igshid`, `ref_src`)
+  are dropped, the scheme and host are lowercased, a scheme-matching
+  default port is stripped, and a trailing slash on a bare root
+  collapses. A trailing slash on a deeper path stays — some servers
+  serve different pages there — and the tracking list is deliberately
+  short, because a normaliser that guessed further would rewrite
+  provenance instead of identity. Tests: the identity-only invariants
+  case by case, and a canonical URL with noise staging into the same
+  bundle as the clean form. The intake suite holds 213 tests.

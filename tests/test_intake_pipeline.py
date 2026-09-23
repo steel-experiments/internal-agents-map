@@ -109,6 +109,48 @@ class SteelAdapterTests(unittest.TestCase):
 
 
 class StagingCaptureTests(unittest.TestCase):
+    def test_url_normalisation_changes_identity_only(self) -> None:
+        from intake.capture import normalize_url
+
+        base = "https://example.com/posts/agents?keep=1"
+        # Fragments, tracking parameters, case, default ports, root slashes:
+        # none of these change which page the URL means.
+        noisy = "https://Example.com:443/posts/agents?keep=1"
+        self.assertEqual(normalize_url(noisy + "#section"), base)
+        self.assertEqual(normalize_url(noisy + "&utm_source=x&utm_medium=news"), base)
+        self.assertEqual(normalize_url(noisy + "&fbclid=abc&gclid=def"), base)
+        self.assertEqual(normalize_url("HTTPS://EXAMPLE.COM:443/posts/agents?keep=1"), base)
+        self.assertEqual(normalize_url("https://example.com/#top"), "https://example.com")
+        # Deeper trailing slashes and meaningful parameters stay untouched.
+        self.assertEqual(
+            normalize_url("https://example.com/posts/agents/"),
+            "https://example.com/posts/agents/",
+        )
+        self.assertEqual(normalize_url("https://example.com/p?id=7"), "https://example.com/p?id=7")
+
+    def test_a_canonical_url_with_noise_stages_into_the_same_bundle(self) -> None:
+        import tempfile
+
+        payload = sdk_payload()
+        canonical = "https://example.com/posts/agents?utm_campaign=launch#summary"
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            clean = capture_staging(
+                "https://example.com/posts/agents",
+                staging_root=root / "captures",
+                adapter=fake_adapter(payload),
+            )
+            noisy = capture_staging(
+                "https://example.com/posts/agents",
+                staging_root=root / "captures",
+                adapter=fake_adapter(
+                    payload | {"metadata": payload["metadata"] | {"canonical": canonical}}
+                ),
+            )
+        self.assertEqual(clean.staging_dir, noisy.staging_dir)
+        self.assertEqual(noisy.canonical_url, "https://example.com/posts/agents")
+        self.assertEqual(clean.canonical_url, noisy.canonical_url)
+
     def stage(
         self,
         tmp: Path,

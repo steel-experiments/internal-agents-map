@@ -30,6 +30,51 @@ STAGING_ROOT = ROOT / ".intake" / "captures"
 # a blank line, the rule, and the blank line after it.
 HEADER_LINES = 9
 ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+# Query parameters that never change which page a URL means. The list is
+# deliberately short: a normaliser that guessed further would rewrite
+# provenance instead of normalising identity.
+TRACKING_PARAM_PREFIXES = ("utm_",)
+TRACKING_PARAMS = {"fbclid", "gclid", "mc_cid", "mc_eid", "igshid", "ref_src"}
+
+
+def normalize_url(url: str) -> str:
+    """Normalise one URL for identity; code owns this (principle 3).
+
+    Only changes that never alter which page is meant: drop the fragment,
+    drop well-known tracking parameters, lowercase the scheme and host,
+    strip a scheme-matching default port, and collapse a trailing slash on
+    a bare root path. A trailing slash on a deeper path stays, because some
+    servers serve different pages there.
+    """
+    import urllib.parse
+
+    parts = urllib.parse.urlsplit(url.strip())
+    scheme = parts.scheme.lower() or "https"
+    host = (parts.hostname or "").lower()
+    port = parts.port
+    netloc = host
+    if ":" in host:  # an IPv6 literal needs its brackets back
+        netloc = f"[{host}]"
+    if port is not None and not (
+        (scheme == "https" and port == 443) or (scheme == "http" and port == 80)
+    ):
+        netloc = f"{netloc}:{port}"
+    if parts.username:
+        credentials = parts.username
+        if parts.password:
+            credentials = f"{credentials}:{parts.password}"
+        netloc = f"{credentials}@{netloc}"
+    kept = [
+        pair
+        for pair in urllib.parse.parse_qsl(parts.query, keep_blank_values=True)
+        if pair[0].lower() not in TRACKING_PARAMS
+        and not pair[0].lower().startswith(TRACKING_PARAM_PREFIXES)
+    ]
+    query = urllib.parse.urlencode(kept)
+    path = parts.path or ""
+    if path == "/":
+        path = ""
+    return urllib.parse.urlunsplit((scheme, netloc, path, query, ""))
 
 
 class CaptureStageError(RuntimeError):
@@ -107,7 +152,7 @@ def capture_staging(
     except archiver.ArchiveError as error:
         # The archiver's own page checks failed: a collection blocker.
         raise CaptureStageError(str(error)) from error
-    canonical = page.canonical_url or page.final_url
+    canonical = normalize_url(page.canonical_url or page.final_url)
     key = staging_key(canonical)
     directory = staging_root / key
     timestamp = archiver._format_utc_timestamp(captured_at or datetime.now(timezone.utc))

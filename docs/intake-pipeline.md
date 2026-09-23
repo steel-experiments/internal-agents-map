@@ -63,7 +63,12 @@ Each run lives under `.intake/runs/<run-id>/` and is never overwritten:
 `paragraphs-s*.json`, `extraction.yaml`, `extraction-gated.yaml`, and
 `draft.yaml` (the run's archival copy of the draft). Drafts also land under
 `drafts/`. Staging captures live under `.intake/captures/` and the Jev cache
-under `.intake/cache/`; all three are gitignored and regenerable.
+under `.intake/cache/`; all three are gitignored and regenerable. The
+staging key and the rendered `canonical_url` come from the normalised
+canonical URL — fragment and tracking parameters dropped, scheme and host
+lowercased — so noise on a page's canonical link cannot split one source
+into two bundles; deeper trailing slashes stay, because some servers serve
+different pages there.
 
 When the draft validates, the run promotes its staging captures into
 `archive/sources/<source-id>/` through the archiver's append-only writer,
