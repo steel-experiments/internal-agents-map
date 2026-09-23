@@ -71,6 +71,48 @@ def unlocated_claims(record: dict[str, Any]) -> list[str]:
     return paths
 
 
+def rank_unlocated(records_root: Path | None = None) -> list[dict[str, Any]]:
+    """Rank the records by unlocated evidence paths, worst first.
+
+    Phase 5 orders the locator backfill "worst records first"; this count
+    makes that order checkable instead of guessed. A record qualifies when
+    at least one evidence path carries no locator on any of its links.
+    """
+    root = records_root or (Path(__file__).resolve().parent.parent / "data" / "agents")
+    ranked: list[dict[str, Any]] = []
+    for path in sorted(root.glob("*.yaml")):
+        record = load_record(path)
+        claims = unlocated_claims(record)
+        if claims:
+            ranked.append(
+                {
+                    "record": str(record.get("id") or path.stem),
+                    "unlocated": len(claims),
+                    "paths": claims,
+                }
+            )
+    ranked.sort(key=lambda entry: (-entry["unlocated"], entry["record"]))
+    return ranked
+
+
+def ranking_text(ranked: list[dict[str, Any]], *, limit: int | None = None) -> str:
+    """The operator-facing ranking: worst records first."""
+    if not ranked:
+        return "No record has an unlocated evidence path; there is nothing to backfill.\n"
+    entries = ranked if limit is None else ranked[:limit]
+    lines = [
+        "Records by unlocated evidence paths, worst first "
+        "(run the backfill dry run on these, in this order):",
+        "",
+    ]
+    for entry in entries:
+        lines.append(f"- {entry['record']}: {entry['unlocated']} unlocated path(s)")
+    total = sum(entry["unlocated"] for entry in ranked)
+    lines.append("")
+    lines.append(f"{len(ranked)} record(s) hold {total} unlocated path(s) in total.")
+    return "\n".join(lines) + "\n"
+
+
 def capture_sources(record: dict[str, Any]) -> dict[str, Path]:
     """Map each source ID with a capture to its bundle directory."""
     bundles: dict[str, Path] = {}

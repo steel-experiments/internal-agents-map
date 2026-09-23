@@ -20,6 +20,7 @@ uv run python -m intake promote <dir> --source-id ID        # promote into archi
 uv run python -m intake segment --input <content.md> --output <paragraphs.json>  # stage 2
 uv run python -m intake resolve --company X --system Y [--text-file f] [--jev]   # stage 3
 uv run python -m intake render --extraction <file> --output <draft.yaml> --reviewed-at YYYY-MM-DD
+uv run python -m intake backfill --rank                                # worst records first
 uv run python -m intake backfill data/agents/<id>.yaml --budget-usd 10 --proposals p.json  # dry run
 uv run python -m intake backfill-apply <proposals.json>                         # apply approved locators
 uv run python -m intake drift                                                   # rescrape and report drift
@@ -188,7 +189,9 @@ labels need two people.
 
 ## Backfill apply and drift
 
-`backfill` (above) writes a dry-run report of locator proposals. Pass
+`backfill` (above) writes a dry-run report of locator proposals. Start with
+`backfill --rank`: it lists the records by unlocated evidence paths, worst
+first — the order Phase 5's batching follows — and makes no model call. Pass
 `--proposals <path>` to also write the JSON list `backfill-apply` consumes:
 one entry per verified quote, each carrying `approved: false`. The writer
 sees the whole claim list in one call per record (the cost table's operating

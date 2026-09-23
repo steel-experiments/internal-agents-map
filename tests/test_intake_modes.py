@@ -13,7 +13,14 @@ from intake.adapters.jev import JevAnswer, JevResult
 from intake.adapters.steel import ScrapedPage, SteelSdkAdapter
 from intake.adapters.writer import WriterAdapter
 from intake.apply import ApplyError, apply_proposals, load_proposals
-from intake.backfill import BackfillError, backfill_dry_run, proposals_payload, review_sheet
+from intake.backfill import (
+    BackfillError,
+    backfill_dry_run,
+    proposals_payload,
+    rank_unlocated,
+    ranking_text,
+    review_sheet,
+)
 from intake.backtest import batch_report_text, run_batch
 from intake.budget import Budget
 from intake.cache import JsonCache
@@ -313,6 +320,51 @@ class BackfillToApplyTests(unittest.TestCase):
         }
         payload = proposals_payload(report)
         self.assertEqual([item["path"] for item in payload], ["summary"])
+
+
+class BackfillRankingTests(unittest.TestCase):
+    """Phase 5's "worst records first", as a count a person can check."""
+
+    def test_records_rank_worst_first_and_the_text_names_the_order(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "few.yaml").write_text(
+                "id: few\nevidence:\n  summary:\n  - source_id: s1\n", encoding="utf-8"
+            )
+            (root / "many.yaml").write_text(
+                "id: many\nevidence:\n"
+                "  summary:\n  - source_id: s1\n"
+                "  lessons_learned.0:\n  - source_id: s1\n"
+                "  key_metrics.0:\n  - source_id: s1\n",
+                encoding="utf-8",
+            )
+            (root / "clean.yaml").write_text(
+                "id: clean\nevidence:\n"
+                "  summary:\n  - source_id: s1\n"
+                "    locator: Preserved content.md, line 3\n",
+                encoding="utf-8",
+            )
+            ranked = rank_unlocated(root)
+            self.assertEqual([entry["record"] for entry in ranked], ["many", "few"])
+            self.assertEqual(ranked[0]["unlocated"], 3)
+            self.assertIn("summary", ranked[1]["paths"])
+            text = ranking_text(ranked)
+            self.assertIn("worst first", text)
+            self.assertIn("many: 3 unlocated path(s)", text)
+            self.assertIn("2 record(s) hold 4 unlocated path(s) in total.", text)
+            # The catalog itself ranks without error (read-only).
+            self.assertTrue(ranking_text(rank_unlocated()))
+
+    def test_a_catalog_with_no_unlocated_paths_says_so(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "clean.yaml").write_text(
+                "id: clean\nevidence:\n"
+                "  summary:\n  - source_id: s1\n"
+                "    locator: Preserved content.md, line 3\n",
+                encoding="utf-8",
+            )
+            self.assertIn("nothing to backfill", ranking_text(rank_unlocated(root)))
 
 
 class FakeGradingJev:

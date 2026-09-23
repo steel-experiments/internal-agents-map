@@ -218,10 +218,25 @@ def _command_review(args: argparse.Namespace) -> int:
 def _command_backfill(args: argparse.Namespace) -> int:
     from intake.adapters.jev import JevAdapter
     from intake.adapters.writer import WriterAdapter
-    from intake.backfill import backfill_dry_run, proposals_payload, review_sheet
+    from intake.backfill import (
+        backfill_dry_run,
+        proposals_payload,
+        rank_unlocated,
+        ranking_text,
+        review_sheet,
+    )
     from intake.budget import Budget
     from intake.cache import jev_cache, writer_cache
 
+    if args.rank:
+        # Phase 5's "worst records first", as a count a person can check.
+        print(ranking_text(rank_unlocated()), end="")
+        return 0
+    if args.record is None:
+        print(
+            "backfill needs a record path, or --rank for the worst-first ranking", file=sys.stderr
+        )
+        return 2
     budget = Budget(budget_usd=args.budget_usd)
     # Stage 6 grades each proposal; without the key the sheet says so.
     jev = JevAdapter() if os.environ.get("TYPESAFE_API_KEY") else None
@@ -430,7 +445,12 @@ def build_parser() -> argparse.ArgumentParser:
     backfill = subparsers.add_parser(
         "backfill", help="propose locators for a record's unlocated claims (dry run)"
     )
-    backfill.add_argument("record", type=Path)
+    backfill.add_argument("record", type=Path, nargs="?", help="one record's YAML path")
+    backfill.add_argument(
+        "--rank",
+        action="store_true",
+        help="list records by unlocated evidence paths, worst first; no model call",
+    )
     backfill.add_argument("--budget-usd", type=float, default=10.0)
     backfill.add_argument("--output", type=Path)
     backfill.add_argument(

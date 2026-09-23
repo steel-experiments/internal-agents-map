@@ -1347,3 +1347,19 @@ STOP-line report:
   bound and fails 0.90); unlabelled items score zero; `run_verdicts`
   exposes the answers and a warm cache restores them. The intake suite
   holds 193 tests.
+- Worst-records-first ranking (loop re-read): Phase 5 step 1 orders the
+  locator backfill "worst records first", and nothing computed which
+  records were worst — an operator had to count unlocated evidence paths
+  by hand across the catalog to follow the plan's batching order.
+  `backfill --rank` now walks `data/agents/`, counts each record's
+  evidence paths that carry no locator on any link (the same rule the dry
+  run uses to pick its claims), ranks worst first with ties broken by
+  record id, and prints the order with the total — no model call, no
+  writes. The dry-run command itself is unchanged: the ranking tells a
+  person which record to run it on next. Live over today's working tree
+  (which carries the owner's in-progress Shopify edit, one locator ahead of
+  the 2026-09-22 baseline): 239 unlocated paths over 37 records, worst
+  first doordash-flux (13), then cloudflare-ai-stack, linear-agent,
+  monday-sphera-atlas-morphex, and sierra-pinecone (12 each). Tests: the ranking order, the tie-break, the totals line, the
+  clean-catalog message, and a read-only run over the real catalog. The
+  intake suite holds 195 tests.
