@@ -59,6 +59,13 @@ class SkillConfigTests(unittest.TestCase):
         # The Phase 3 calibration never ran; the flag stays honest about it.
         self.assertFalse(gate["calibrated"])
 
+    def test_the_identity_gate_names_the_code_defaults(self) -> None:
+        from intake.resolve import IDENTITY_GATE
+
+        identity_gate = self.config["identity_gate"]
+        self.assertEqual(identity_gate, IDENTITY_GATE)
+        self.assertFalse(identity_gate["calibrated"])
+
     def test_the_budget_and_quote_bound_name_the_code_defaults(self) -> None:
         from intake.__main__ import build_parser
 

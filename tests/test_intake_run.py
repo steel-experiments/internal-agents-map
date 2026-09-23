@@ -152,7 +152,11 @@ class FakeJevConnection:
             def read(self) -> bytes:
                 answers = {}
                 for question_id, question in questions.items():
-                    if question["type"] == "noul":
+                    if question_id.startswith("same_"):
+                        # The identity question: the passage describes the
+                        # same system, so the truthful noul answer is high.
+                        answers[question_id] = {"type": "noul", "noul": 0.9}
+                    elif question["type"] == "noul":
                         answers[question_id] = {"type": "noul", "noul": 0.05}
                     elif "relation" in question_id:
                         answers[question_id] = {
@@ -525,8 +529,12 @@ class EndToEndRunTests(unittest.TestCase):
         self.assertEqual(resolve_stage["calls"], 1)
         sheet = summary.sheet_path.read_text(encoding="utf-8") if summary.sheet_path else ""
         self.assertIn("## Identity", sheet)
-        self.assertIn("Jev same-system 0.05", sheet)
+        self.assertIn("Jev same-system 0.90", sheet)
         self.assertIn("deterministic score", sheet)
+        # The decision policy's identity bands, applied to the top entry.
+        self.assertEqual(identity["proposed_decision"], "update")
+        self.assertEqual(identity["decision_basis"]["rule"], "jev-identity-bands")
+        self.assertFalse(identity["decision_basis"]["calibrated"])
         manifest = json.loads(
             ((self.root / "runs" / summary.run_id) / "run.json").read_text(encoding="utf-8")
         )

@@ -21,6 +21,49 @@ EXACT_SCORE = 1.0
 CONTAINS_SCORE = 0.85
 MIN_SHORTLIST_SCORE = 0.5
 IDENTITY_QUESTION_VERSION = 1
+# The decision policy's identity bands: a same-system probability at or
+# above the update bound proposes Update, one below the add bound proposes
+# Add, and a value between proposes review. Provisional until the Phase 3
+# calibration runs — the same honesty the judge's GATE carries — and the
+# deterministic scores stay as columns beside them.
+IDENTITY_GATE = {
+    "model": "jev-1.13.0",
+    "question_version": IDENTITY_QUESTION_VERSION,
+    "calibrated": False,
+    "update_min": 0.8,
+    "add_max": 0.3,
+}
+
+
+def _with_identity_decision(identity: dict[str, Any]) -> dict[str, Any]:
+    """Apply the decision policy's Jev bands to the proposed decision.
+
+    The bands read the shortlist's top entry, whose Jev answer exists only
+    after refinement. Without an answer the deterministic decision stands
+    and the basis says so. The reviewer confirms every identity decision
+    either way; the sheet lists both columns.
+    """
+    top = identity["matched_records"][0]
+    probability = top.get("same_system_jev")
+    if probability is None:
+        return identity | {"decision_basis": {"rule": "deterministic"}}
+    if probability >= IDENTITY_GATE["update_min"]:
+        decision = "update"
+    elif probability < IDENTITY_GATE["add_max"]:
+        decision = "add"
+    else:
+        decision = "review"
+    return identity | {
+        "proposed_decision": decision,
+        "decision_basis": {
+            "rule": "jev-identity-bands",
+            "update_min": IDENTITY_GATE["update_min"],
+            "add_max": IDENTITY_GATE["add_max"],
+            "top_same_system_jev": probability,
+            "record": top["id"],
+            "calibrated": IDENTITY_GATE["calibrated"],
+        },
+    }
 
 
 def normalize_name(value: str) -> str:
@@ -194,11 +237,14 @@ def refine_with_jev(
         )
         cached = cache.get(key)
         if cached is not None:
-            return identity | {
-                "matched_records": cached["matched_records"],
-                "jev_model": cached["usage"]["model"],
-                "jev_usage": cached["usage"] | {"cache_hit": True},
-            }
+            return _with_identity_decision(
+                identity
+                | {
+                    "matched_records": cached["matched_records"],
+                    "jev_model": cached["usage"]["model"],
+                    "jev_usage": cached["usage"] | {"cache_hit": True},
+                }
+            )
     result = adapter.ask(
         state={"candidate": candidate_name, "passage": passage},
         questions=jev_identity_questions(candidate_name, shortlist),
@@ -217,8 +263,11 @@ def refine_with_jev(
     }
     if cache is not None:
         cache.put(key, {"matched_records": refined, "usage": usage})
-    return identity | {
-        "matched_records": refined,
-        "jev_model": result.model,
-        "jev_usage": usage,
-    }
+    return _with_identity_decision(
+        identity
+        | {
+            "matched_records": refined,
+            "jev_model": result.model,
+            "jev_usage": usage,
+        }
+    )

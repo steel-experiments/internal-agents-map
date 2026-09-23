@@ -39,6 +39,14 @@
   },
   "notes": [
     "The gate thresholds are provisional: the Phase 3 calibration needs TYPESAFE_API_KEY and two human labellers. Recalibrate before trusting them.",
-    "Prices are the published planning-time values; measure usage on every call and record what the APIs return."
-  ]
+    "Prices are the published planning-time values; measure usage on every call and record what the APIs return.",
+    "The identity bands are provisional the same way: the calibration replaces them, and until then the sheet asks the reviewer to confirm every identity decision."
+  ],
+  "identity_gate": {
+    "model": "jev-1.13.0",
+    "question_version": 1,
+    "calibrated": false,
+    "update_min": 0.8,
+    "add_max": 0.3
+  }
 }

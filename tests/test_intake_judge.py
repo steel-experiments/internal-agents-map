@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 from typing import Any
 
-from intake.adapters.jev import JevAdapter, JevApiError, MissingApiKeyError
+from intake.adapters.jev import JevAdapter, JevAnswer, JevApiError, JevResult, MissingApiKeyError
 from intake.budget import Budget, BudgetExceededError
 from intake.cache import JsonCache
 from intake.evals import build_items, labeller_agreement, score, write_items
@@ -93,6 +93,24 @@ class FakeJevResponse:
                 "usage": {"input_tokens": 4000, "output_tokens": 40},
             }
         ).encode()
+
+
+class BandedIdentityJev:
+    """The Jev seam for the identity bands: one noul answer for every record."""
+
+    def __init__(self, noul: float) -> None:
+        self.noul = noul
+
+    def ask(self, *, state: Any, questions: Any, budget: Any) -> JevResult:
+        answers = {question_id: JevAnswer(type="noul", noul=self.noul) for question_id in questions}
+        return JevResult(
+            answers=answers,
+            model="jev-1.13.0",
+            input_tokens=500,
+            output_tokens=0,
+            cost_usd=0.0,
+            cache_hit=False,
+        )
 
 
 class JevAdapterTests(unittest.TestCase):
@@ -340,6 +358,58 @@ class IdentityQuestionTests(unittest.TestCase):
         )
         self.assertIn("same_system_jev", refined["matched_records"][0])
         self.assertEqual(refined["jev_model"], "jev-1.13.0")
+        self.assertEqual(refined["decision_basis"]["rule"], "jev-identity-bands")
+
+    def refined_with(self, noul: float) -> dict[str, Any]:
+        identity = resolve_identity(company="Shopify", system_name="River")
+        return refine_with_jev(
+            identity,
+            passage="River is Shopify's Slack-native coding agent.",
+            candidate_name="River",
+            adapter=BandedIdentityJev(noul),
+            budget=Budget(budget_usd=1.0),
+        )
+
+    def test_a_high_probability_proposes_update(self) -> None:
+        refined = self.refined_with(0.9)
+        self.assertEqual(refined["proposed_decision"], "update")
+        basis = refined["decision_basis"]
+        self.assertEqual(basis["rule"], "jev-identity-bands")
+        self.assertEqual(basis["top_same_system_jev"], 0.9)
+        self.assertEqual(basis["update_min"], 0.8)
+        self.assertFalse(basis["calibrated"])
+
+    def test_a_middle_probability_proposes_review(self) -> None:
+        refined = self.refined_with(0.5)
+        self.assertEqual(refined["proposed_decision"], "review")
+        self.assertEqual(refined["decision_basis"]["top_same_system_jev"], 0.5)
+
+    def test_a_low_probability_proposes_add(self) -> None:
+        refined = self.refined_with(0.1)
+        self.assertEqual(refined["proposed_decision"], "add")
+
+    def test_without_an_answer_the_deterministic_decision_stands(self) -> None:
+        class SilentJev:
+            def ask(self, *, state: Any, questions: Any, budget: Any) -> JevResult:
+                return JevResult(
+                    answers={},
+                    model="jev-1.13.0",
+                    input_tokens=10,
+                    output_tokens=0,
+                    cost_usd=0.0,
+                    cache_hit=False,
+                )
+
+        identity = resolve_identity(company="Shopify", system_name="River")
+        refined = refine_with_jev(
+            identity,
+            passage="River is Shopify's Slack-native coding agent.",
+            candidate_name="River",
+            adapter=SilentJev(),  # type: ignore[arg-type]
+            budget=Budget(budget_usd=1.0),
+        )
+        self.assertEqual(refined["proposed_decision"], identity["proposed_decision"])
+        self.assertEqual(refined["decision_basis"], {"rule": "deterministic"})
 
     def test_a_warm_identity_cache_makes_no_new_calls(self) -> None:
         import tempfile
@@ -375,6 +445,9 @@ class IdentityQuestionTests(unittest.TestCase):
                 first["matched_records"][0]["same_system_jev"],
                 second["matched_records"][0]["same_system_jev"],
             )
+            # The bands apply on the warm path too, not only on a fresh ask.
+            self.assertEqual(second["proposed_decision"], first["proposed_decision"])
+            self.assertEqual(second["decision_basis"], first["decision_basis"])
 
 
 class EvaluationHarnessTests(unittest.TestCase):

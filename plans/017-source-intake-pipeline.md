@@ -1363,3 +1363,25 @@ STOP-line report:
   monday-sphera-atlas-morphex, and sierra-pinecone (12 each). Tests: the ranking order, the tie-break, the totals line, the
   clean-catalog message, and a read-only run over the real catalog. The
   intake suite holds 195 tests.
+- Identity decision bands (loop re-read): the decision policy's first
+  bullet — "Jev answers 'same system and version?' per shortlisted
+  record. A probability at or above the calibrated threshold proposes
+  Update; none proposes Add; a value between proposes review" — had only
+  its first half: `refine_with_jev` added `same_system_jev` as an advisory
+  column and `proposed_decision` stayed purely deterministic (name
+  containment plus a unique top score), so the probability never moved the
+  proposal. `_with_identity_decision` now applies the bands on both the
+  fresh and the cached refinement paths: the top entry's probability at
+  or above `update_min` (provisionally 0.8) proposes Update, below
+  `add_max` (provisionally 0.3) proposes Add, between proposes review;
+  without a Jev answer the deterministic decision stands. The thresholds
+  live in `IDENTITY_GATE` with the model and question version they belong
+  to and `calibrated: false` — the same honesty the judge's GATE carries —
+  and the skill config pins them through the freshness guard. The applied
+  rule, bounds, and probability land in `identity.json` as `decision_basis`
+  so a reviewer sees which rule proposed the decision. The end-to-end
+  fake now answers the identity question truthfully (0.9 for the zup
+  passage that names the same system), which the old 0.05-for-every-noul
+  answer never did. Tests: the three bands, the silent-adapter fallback,
+  the warm-cache path applying the same bands, the identity file's basis
+  in a real run, and the config pin. The intake suite holds 200 tests.

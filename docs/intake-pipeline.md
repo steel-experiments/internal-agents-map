@@ -90,7 +90,13 @@ each answered or named as open, the writer's own proposal beside it, and no
 numerical score. When the identity shortlist is non-empty, stage 3 also asks
 Jev the same-system question per shortlisted record and writes the
 `same_system_jev` advisory column into `identity.json`; the deterministic
-scores stay. When the run proposes an Update against a record that exists,
+scores stay. The proposed decision then follows the decision policy's bands
+over the top entry's probability: at or above the update bound
+(provisionally 0.8) proposes Update, below the add bound (provisionally
+0.3) proposes Add, and a value between proposes review. The bands are
+provisional until the Phase 3 calibration runs — `identity.json` records
+the applied rule and bounds in `decision_basis` — and a person confirms
+every identity decision either way. When the run proposes an Update against a record that exists,
 the new source is numbered after the existing ones, the new claims are
 matched against the existing record with digits masked — a matched pair whose
 numbers disagree, or that drops a recorded number, lands on the sheet under
