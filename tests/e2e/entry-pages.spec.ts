@@ -75,9 +75,12 @@ async function structuredData(page: Page): Promise<Record<string, unknown>> {
 test.describe('the directory', () => {
   test('links to every entry page in the initial HTML', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('h1')).toHaveText(
-      'AI agents organizations build or adapt to do work for their own teams.',
-    );
+    await expect(page.locator('h1')).toHaveText('How companies build internal AI agents');
+    await expect(page.locator('#decisions a')).toHaveText([
+      'When should an agent stop?',
+      'Some steps do not need a model',
+      'More comments can mean more work',
+    ]);
     const cards = page.locator('article.entry[data-approach-id]');
     await expect(cards).toHaveCount(TOTAL);
     for (const entry of ENTRIES) {

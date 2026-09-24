@@ -69,7 +69,7 @@ Do not recommend competing for head terms. The catalog wins on questions its rec
   *organization plus system name* are the most ownable pages on the site.
 - **Organization pages** (`/organizations/<id>`) answer "what has this organization published?"
   They are short by design, so their lever is more records for that organization, not more words.
-- **Notes** (`/notes/<slug>`) answer a design question across records. They are the right home for
+- **Lessons** (`/lessons/<slug>`) answer a design question across records. They are the right home for
   a concept term that no single record owns.
 - **Guides** (`/definitions`, `/methodology`, `/infrastructure`) answer "what counts as an internal
   agent, and how was this decided?" They are the home of definitional terms.
@@ -240,9 +240,9 @@ Keep it short. Lead with what changed.
 - **Position before volume.** A striking-distance query, where the catalog already sits at 5 to
   20, is worth more than a larger term where it does not appear. The fix is on one page and is
   usually its title.
-- **Ownability.** Entry and note pages can win; head terms belong to vendors.
+- **Ownability.** Entry and lesson pages can win; head terms belong to vendors.
 - Say which files an action touches: `src/` for templates, `data/agents/*.yaml` for records,
-  `src/content/notes/` for notes, `config.json` for tracking.
+  `src/content/lessons/` for lessons, `config.json` for tracking.
 
 ## Configuration and maintenance
 

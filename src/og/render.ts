@@ -121,7 +121,7 @@ function organizationTree(card: OgOrganizationCard): Node {
   ], 'column');
 }
 
-/** A section, guide, or note: a blue dot, the eyebrow, the title, the description. */
+/** A section, guide, or lesson: a blue dot, the eyebrow, the title, the description. */
 function sectionTree(card: OgSectionCard): Node {
   const eyebrow: unknown[] = [
     h('div', { width: 14, height: 14, borderRadius: 7, background: BLUE, marginRight: 18 }),

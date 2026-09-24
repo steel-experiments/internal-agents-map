@@ -22,8 +22,8 @@ import {
   titleSize,
 } from '../../src/lib/og';
 import { organizationPaths } from '../../src/lib/routes';
-import { noteCard, SECTION_CARDS } from '../../src/lib/section-cards';
-import { noteViews } from '../../src/lib/notes';
+import { lessonCard, SECTION_CARDS } from '../../src/lib/section-cards';
+import { lessonViews } from '../../src/lib/lessons';
 import { renderCard } from '../../src/og/render';
 
 const catalog = loadCatalog();
@@ -89,7 +89,7 @@ describe('the card URL', () => {
     expect(ogImagePath('/agents/block-builderbot')).toBe('/og/agents/block-builderbot.png');
     expect(ogImagePath('/organizations/brex')).toBe('/og/organizations/brex.png');
     expect(ogImagePath('/infrastructure')).toBe('/og/infrastructure.png');
-    expect(ogImagePath('/notes/stop-a-run')).toBe('/og/notes/stop-a-run.png');
+    expect(ogImagePath('/lessons/stop-a-run')).toBe('/og/lessons/stop-a-run.png');
   });
 
   it('changes its version with the card and keeps it otherwise', () => {
@@ -107,14 +107,14 @@ describe('the card URL', () => {
     expect(image.alt).toContain(card.name);
   });
 
-  it('has a card for every section page and every note', () => {
-    expect(Object.keys(SECTION_CARDS).sort()).toEqual(['definitions', 'infrastructure', 'methodology', 'notes']);
-    for (const note of noteViews()) {
-      const card = noteCard(note);
-      expect(card.title).toBe(note.title);
+  it('has a card for every section page and every lesson', () => {
+    expect(Object.keys(SECTION_CARDS).sort()).toEqual(['definitions', 'infrastructure', 'lessons', 'methodology']);
+    for (const lesson of lessonViews()) {
+      const card = lessonCard(lesson);
+      expect(card.title).toBe(lesson.title);
       expect(card.date).toMatch(/\d{4}$/);
     }
-    expect(sectionCard({ eyebrow: 'Notes', title: 'Notes', description: 'Short notes.' }).date).toBeNull();
+    expect(sectionCard({ eyebrow: 'Lessons', title: 'Lessons', description: 'Short lessons.' }).date).toBeNull();
   });
 });
 
@@ -131,7 +131,7 @@ describe('the renderer', () => {
   it('draws the organization and section cards', { timeout: 30_000 }, async () => {
     const brex = organizationCard(companyView(catalog, 'brex'), cards.filter((card) => card.companyView.id === 'brex'));
     expect(pngSize(await renderCard(brex))).toEqual([OG_WIDTH, OG_HEIGHT]);
-    expect(pngSize(await renderCard(SECTION_CARDS.notes))).toEqual([OG_WIDTH, OG_HEIGHT]);
-    expect(pngSize(await renderCard(noteCard(noteViews()[0])))).toEqual([OG_WIDTH, OG_HEIGHT]);
+    expect(pngSize(await renderCard(SECTION_CARDS.lessons))).toEqual([OG_WIDTH, OG_HEIGHT]);
+    expect(pngSize(await renderCard(lessonCard(lessonViews()[0])))).toEqual([OG_WIDTH, OG_HEIGHT]);
   });
 });

@@ -1,9 +1,9 @@
-// ABOUTME: Browser acceptance for the notes index, one note, and the two guides.
+// ABOUTME: Browser acceptance for the lessons index, one lesson, and the two guides.
 // ABOUTME: One project runs without JavaScript, so every reading path must work there.
 
 import { expect, test, type Page } from '@playwright/test';
 
-const NOTE_SLUGS = [
+const LESSON_SLUGS = [
   'stop-a-run',
   'review-noise',
   'split-the-work',
@@ -35,51 +35,51 @@ async function assertFragmentsResolve(page: Page): Promise<void> {
   }
 }
 
-test.describe('the notes index', () => {
-  test('links to every note in the initial HTML', async ({ page }) => {
-    const response = await page.goto('/notes');
+test.describe('the lessons index', () => {
+  test('links to every lesson in the initial HTML', async ({ page }) => {
+    const response = await page.goto('/lessons');
     expect(response?.status()).toBe(200);
     await expect(page.locator('h1')).toHaveCount(1);
-    await expect(page.locator('h1')).toHaveText('Notes');
-    await expect(page).toHaveTitle('Notes · Internal Agents Map');
-    await expect(page.locator('article.note-preview')).toHaveCount(NOTE_SLUGS.length);
-    for (const slug of NOTE_SLUGS) {
-      await expect(page.locator(`a[href="/notes/${slug}"]`).first()).toBeVisible();
+    await expect(page.locator('h1')).toHaveText('Lessons');
+    await expect(page).toHaveTitle('Lessons · Internal Agents Map');
+    await expect(page.locator('article.lesson-preview')).toHaveCount(LESSON_SLUGS.length);
+    for (const slug of LESSON_SLUGS) {
+      await expect(page.locator(`a[href="/lessons/${slug}"]`).first()).toBeVisible();
     }
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       'href',
-      'https://internal-agents.com/notes',
+      'https://internal-agents.com/lessons',
     );
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /.{40,}/);
   });
 });
 
-test.describe('one note', () => {
+test.describe('one lesson', () => {
   test('reads as a complete document with its diagram and sources', async ({ page }) => {
-    const response = await page.goto('/notes/stop-a-run');
+    const response = await page.goto('/lessons/stop-a-run');
     expect(response?.status()).toBe(200);
     await expect(page.locator('h1')).toHaveCount(1);
     await expect(page.locator('h1')).toHaveText('When should an agent stop?');
-    await expect(page).toHaveTitle('When should an agent stop? · Notes · Internal Agents Map');
+    await expect(page).toHaveTitle('When should an agent stop? · Lessons · Internal Agents Map');
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       'href',
-      'https://internal-agents.com/notes/stop-a-run',
+      'https://internal-agents.com/lessons/stop-a-run',
     );
     await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'article');
     await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
 
-    await expect(page.locator('figure.note-diagram')).toHaveCount(1);
-    await expect(page.locator('.note-branches')).toContainText('Checks fail; budget remains');
-    await expect(page.locator('.note-branches')).toContainText('Budget exhausted');
+    await expect(page.locator('figure.lesson-diagram')).toHaveCount(1);
+    await expect(page.locator('.lesson-branches')).toContainText('Checks fail; budget remains');
+    await expect(page.locator('.lesson-branches')).toContainText('Budget exhausted');
     await expect(page.locator('figure figcaption')).toContainText('proposed control flow');
 
     await expect(page.locator('#source-stripe')).toBeVisible();
-    await expect(page.locator('.note-sources ol > li')).toHaveCount(3);
+    await expect(page.locator('.lesson-sources ol > li')).toHaveCount(3);
     await assertFragmentsResolve(page);
   });
 
   test('sends its catalog links to the entry pages', async ({ page }) => {
-    await page.goto('/notes/stop-a-run');
+    await page.goto('/lessons/stop-a-run');
     for (const id of ['stripe-minions', 'dropbox-nova', 'doordash-code-review']) {
       await expect(page.locator(`main a[href="/agents/${id}"]`)).toHaveCount(1);
     }
@@ -87,10 +87,10 @@ test.describe('one note', () => {
   });
 
   test('describes itself as an article for search engines', async ({ page }) => {
-    await page.goto('/notes/stop-a-run');
+    await page.goto('/lessons/stop-a-run');
     const graph = (await structuredData(page))['@graph'] as Array<Record<string, unknown>>;
     const article = graph.find((node) => node['@type'] === 'Article');
-    expect(article?.url).toBe('https://internal-agents.com/notes/stop-a-run');
+    expect(article?.url).toBe('https://internal-agents.com/lessons/stop-a-run');
     expect(article?.headline).toBe('When should an agent stop?');
     expect(article?.datePublished).toBe('2026-09-11');
     expect(article?.dateModified).toBe('2026-09-16');
@@ -98,28 +98,28 @@ test.describe('one note', () => {
   });
 
   test('offers a way back and a way on', async ({ page }) => {
-    await page.goto('/notes/stop-a-run');
-    await expect(page.locator('.note-next a[href="/notes"]')).toBeVisible();
-    await page.locator('.note-next a[href="/notes/review-noise"]').click();
+    await page.goto('/lessons/stop-a-run');
+    await expect(page.locator('.lesson-next a[href="/lessons"]')).toBeVisible();
+    await page.locator('.lesson-next a[href="/lessons/review-noise"]').click();
     await expect(page.locator('h1')).toHaveText('More comments can mean more work');
   });
 });
 
-test.describe('every note as a document', () => {
-  for (const slug of NOTE_SLUGS) {
+test.describe('every lesson as a document', () => {
+  for (const slug of LESSON_SLUGS) {
     test(`${slug} preserves its sources and structured content in the export`, async ({ page, request }) => {
-      await page.goto(`/notes/${slug}`);
+      await page.goto(`/lessons/${slug}`);
       await assertFragmentsResolve(page);
-      const response = await request.get(`/notes/${slug}.md`);
+      const response = await request.get(`/lessons/${slug}.md`);
       expect(response.status()).toBe(200);
       const markdown = comparableProse(await response.text());
-      const article = page.locator('.note-detail > article');
+      const article = page.locator('.lesson-detail > article');
       // Compare what is present, without requiring every article to use a diagram or quotation.
       const blocks = await article.locator('h1, h2, figure, th, td').allInnerTexts();
       for (const block of blocks) {
         expect(markdown).toContain(comparableProse(block));
       }
-      const sources = await article.locator('.note-sources ol a').evaluateAll((links) =>
+      const sources = await article.locator('.lesson-sources ol a').evaluateAll((links) =>
         links.map((link) => (link as HTMLAnchorElement).href),
       );
       for (const source of sources) expect(markdown).toContain(source);
@@ -131,11 +131,11 @@ test.describe('every note as a document', () => {
 });
 
 test.describe('the entry page', () => {
-  test('lists the notes that examine the implementation', async ({ page }) => {
+  test('lists the lessons that examine the implementation', async ({ page }) => {
     await page.goto('/agents/stripe-minions');
     const related = page.locator('#related');
-    await expect(related.locator('a[href="/notes/stop-a-run"]')).toHaveCount(1);
-    await expect(related.locator('a[href="/notes/steps-without-a-model"]')).toHaveCount(1);
+    await expect(related.locator('a[href="/lessons/stop-a-run"]')).toHaveCount(1);
+    await expect(related.locator('a[href="/lessons/steps-without-a-model"]')).toHaveCount(1);
   });
 });
 
@@ -197,7 +197,7 @@ test.describe('the Methodology guide', () => {
       'https://internal-agents.com/methodology',
     );
     await expect(page.locator('a[href="/definitions"]')).not.toHaveCount(0);
-    await expect(page.locator('a[href="/notes"]')).not.toHaveCount(0);
+    await expect(page.locator('a[href="/lessons"]')).not.toHaveCount(0);
     await expect(page.locator('main section')).toHaveCount(8);
   });
 });
@@ -205,7 +205,7 @@ test.describe('the Methodology guide', () => {
 /* A guide leads with its title. The kicker that used to stand above it is gone
    from the page and from the export, so both readings open the same way. */
 test.describe('the guide headers', () => {
-  for (const path of ['/definitions', '/methodology', '/notes']) {
+  for (const path of ['/definitions', '/methodology', '/lessons']) {
     test(`${path} opens on its title`, async ({ page, request }) => {
       await page.goto(path);
       await expect(page.locator('.guide-header > .eyebrow')).toHaveCount(0);

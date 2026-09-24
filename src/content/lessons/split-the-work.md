@@ -33,12 +33,12 @@ The second version gave two general reviewers the whole change. They could see t
 
 The third version puts a scout before the two reviewers. It identifies suspicious changes and produces investigation leads. The reviewers trace those leads, verify the evidence, and drop candidates that do not hold up. [[1]](#source-doordash)
 
-<figure class="note-diagram">
-  <div class="note-node"><strong>Scout: candidate issues</strong><small>Read the diff and describe what needs investigation.</small></div>
-  <p class="note-diagram-tail">The leads go to two reviewers working in parallel.</p>
-  <div class="note-reviewers">
-    <div class="note-node"><strong>Reviewer A</strong><small>Investigate leads and verify findings.</small></div>
-    <div class="note-node"><strong>Reviewer B</strong><small>Investigate leads and verify findings.</small></div>
+<figure class="lesson-diagram">
+  <div class="lesson-node"><strong>Scout: candidate issues</strong><small>Read the diff and describe what needs investigation.</small></div>
+  <p class="lesson-diagram-tail">The leads go to two reviewers working in parallel.</p>
+  <div class="lesson-reviewers">
+    <div class="lesson-node"><strong>Reviewer A</strong><small>Investigate leads and verify findings.</small></div>
+    <div class="lesson-node"><strong>Reviewer B</strong><small>Investigate leads and verify findings.</small></div>
   </div>
   <figcaption>Our illustration of the reported handoff. The scout's output is a set of leads, not verified bugs.</figcaption>
 </figure>

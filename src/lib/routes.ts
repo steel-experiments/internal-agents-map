@@ -56,14 +56,14 @@ export function organizationPaths(catalog: Catalog): string[] {
   return catalog.companies.filter((company) => ids.has(company.id)).map((company) => organizationPath(company.id));
 }
 
-/** The notes index. */
-export function notesIndexPath(): string {
-  return '/notes';
+/** The lessons index. */
+export function lessonsIndexPath(): string {
+  return '/lessons';
 }
 
-/** One note. */
-export function notePath(slug: string): string {
-  return `/notes/${slug}`;
+/** One lesson. */
+export function lessonPath(slug: string): string {
+  return `/lessons/${slug}`;
 }
 
 /** One guide page, such as `definitions` or `methodology`. */
@@ -117,7 +117,7 @@ export function publicationRoute(path: string): PublicationRoute {
 
 /**
  * List every publishable page of this build.
- * `extraPaths` carries the guides and notes as later steps add them.
+ * `extraPaths` carries the guides and lessons as later steps add them.
  */
 export function publicationRoutes(catalog: Catalog, extraPaths: readonly string[] = []) {
   const entries = sortedApproaches(catalog).map((approach) => {

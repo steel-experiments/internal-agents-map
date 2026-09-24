@@ -33,12 +33,12 @@ sources:
 
 Shopify's Aquifer keeps session identity and an append-only event log in Postgres. An idle worker can exit; a fresh worker reads the same conversation when the next interaction arrives. [[1]](#source-1)
 
-<figure class="note-diagram">
-  <div class="note-reviewers">
-    <div class="note-node"><strong>Worker A</strong><small>Records events, then exits.</small></div>
-    <div class="note-node"><strong>Worker B</strong><small>Reads the session when work resumes.</small></div>
+<figure class="lesson-diagram">
+  <div class="lesson-reviewers">
+    <div class="lesson-node"><strong>Worker A</strong><small>Records events, then exits.</small></div>
+    <div class="lesson-node"><strong>Worker B</strong><small>Reads the session when work resumes.</small></div>
   </div>
-  <div class="note-shared-state"><strong>Shared Postgres session</strong><span>The identity and event log remain outside either worker.</span></div>
+  <div class="lesson-shared-state"><strong>Shared Postgres session</strong><span>The identity and event log remain outside either worker.</span></div>
   <figcaption>Our illustration of Aquifer's reported separation of workers and session state.</figcaption>
 </figure>
 

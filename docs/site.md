@@ -11,9 +11,9 @@ Vercel serves the result at `https://internal-agents.com/`.
 ## Editing and preview
 
 - Edit `data/agents/*.yaml` for catalog content. Do not edit the normalized JSON.
-- Edit `src/content/notes/*.md` for the notes. Each note declares its title, description,
+- Edit `src/content/lessons/*.md` for the lessons. Each lesson declares its title, description,
   publication date, reading order, sources, and `relatedAgentIds`. The entry pages read that
-  metadata for their related reading. Follow [the notes writing guide](notes-writing.md) for
+  metadata for their related reading. Follow [the lessons writing guide](lessons-writing.md) for
   language, quotes, and diagrams.
 - Edit `src/lib/guide-content.ts` for the text of the Definitions and Methodology guides. The
   page and its Markdown export read the same values, so the two stay together.
@@ -56,8 +56,8 @@ becomes one file, such as `dist/agents/stripe-minions.html`, and Vercel `cleanUr
 runs, so on an alias host that request takes two permanent redirects. A trailing slash gets a
 permanent redirect to the clean path.
 
-The build generates the directory, one page for each implementation, the two guides, the notes
-index, the notes, and the 404 page. It also generates `robots.txt`, `sitemap.xml`, `llms.txt`,
+The build generates the directory, one page for each implementation, the two guides, the lessons
+index, the lessons, and the 404 page. It also generates `robots.txt`, `sitemap.xml`, `llms.txt`,
 Markdown for every published page, `agents/index.json`, `agents/<id>.json`, `agents/<id>.md`, and
 `agents.json`. `agents.json` remains byte-identical to the normalized source catalog.
 `data-guide.md` combines reading instructions with the repository schema reference. The sitemap
@@ -132,7 +132,7 @@ Every page except the home page carries its own link preview. The build draws on
 per route under `dist/og/` with satori and resvg, from `src/og/render.ts`, on the ground and type
 of the directory: the possessive title the homepage uses, the summary shortened to three lines, the
 approach type and work tags, the address, and the organization mark on a white panel. An
-organization card lists its systems; a section, guide, or note card shows its heading and
+organization card lists its systems; a section, guide, or lesson card shows its heading and
 description under a blue dot eyebrow. `src/lib/og.ts` derives every value from the same views the
 pages read, and `src/lib/section-cards.ts` holds the section inputs. The `og:image` URL carries a
 short hash of the card input, so a changed card gets a new URL and the link caches of Slack,
@@ -164,7 +164,7 @@ The canonical site is **https://internal-agents.com/** on Vercel, in the Steel t
 to `main` deploys to production.
 
 `vercel.json` is authored, not generated. Vercel reads it before the build command runs, so it
-must not depend on the build. It holds fixed rules only, and a new entry or note needs no change
+must not depend on the build. It holds fixed rules only, and a new entry or lesson needs no change
 to it:
 
 - `installCommand` is `npm ci`. `buildCommand` checks the committed research outputs, builds the

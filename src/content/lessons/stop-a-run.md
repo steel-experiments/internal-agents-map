@@ -51,9 +51,9 @@ Stopping and handing off are separate decisions. Stripe returns a branch; DoorDa
 
 The diagram is our proposed repair loop. It makes the retry branch and the remaining work explicit; it does not describe one implementation shared by these companies.
 
-<figure class="note-diagram">
-  <div class="note-node"><strong>Inspect the result of an attempt</strong><small>Check the output and the remaining attempt or time budget.</small></div>
-  <ul class="note-branches">
+<figure class="lesson-diagram">
+  <div class="lesson-node"><strong>Inspect the result of an attempt</strong><small>Check the output and the remaining attempt or time budget.</small></div>
+  <ul class="lesson-branches">
     <li><strong>Checks pass</strong><span>Return the result to the workflow's next review or publication step.</span></li>
     <li><strong>Checks fail; budget remains</strong><span>Carry the failure evidence into a repair, then check again.</span></li>
     <li><strong>Budget exhausted</strong><span>Stop and return the current work, failed checks, and reason for stopping.</span></li>

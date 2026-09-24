@@ -1,4 +1,4 @@
-// ABOUTME: The card inputs of the section, guide, and note pages, read by page and endpoint alike.
+// ABOUTME: The card inputs of the section, guide, and lesson pages, read by page and endpoint alike.
 // ABOUTME: Every value is a heading or description the page already shows.
 
 import {
@@ -6,10 +6,10 @@ import {
   DEFINITIONS_HEADING,
   METHODOLOGY_DESCRIPTION,
   METHODOLOGY_HEADING,
-  NOTES_DESCRIPTION,
-  NOTES_HEADING,
+  LESSONS_DESCRIPTION,
+  LESSONS_HEADING,
 } from './guide-content';
-import { longDate, type NoteView } from './notes';
+import { longDate, type LessonView } from './lessons';
 import { sectionCard, type OgSectionCard } from './og';
 
 /** The infrastructure directory shares its heading and description with the card. */
@@ -22,10 +22,10 @@ export const SECTION_CARDS: Readonly<Record<string, OgSectionCard>> = {
   infrastructure: sectionCard({ eyebrow: 'Infrastructure', title: INFRASTRUCTURE_HEADING, description: INFRASTRUCTURE_DESCRIPTION }),
   definitions: sectionCard({ eyebrow: 'Definitions', title: DEFINITIONS_HEADING, description: DEFINITIONS_DESCRIPTION }),
   methodology: sectionCard({ eyebrow: 'Methodology', title: METHODOLOGY_HEADING, description: METHODOLOGY_DESCRIPTION }),
-  notes: sectionCard({ eyebrow: 'Notes', title: NOTES_HEADING, description: NOTES_DESCRIPTION }),
+  lessons: sectionCard({ eyebrow: 'Lessons', title: LESSONS_HEADING, description: LESSONS_DESCRIPTION }),
 };
 
-/** A note card carries its publication date beside the eyebrow. */
-export function noteCard(note: NoteView): OgSectionCard {
-  return sectionCard({ eyebrow: 'Note', title: note.title, description: note.description, date: longDate(note.publishedAt) });
+/** A lesson card carries its publication date beside the eyebrow. */
+export function lessonCard(lesson: LessonView): OgSectionCard {
+  return sectionCard({ eyebrow: 'Lesson', title: lesson.title, description: lesson.description, date: longDate(lesson.publishedAt) });
 }

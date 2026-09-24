@@ -196,11 +196,11 @@ available.
 ## Website
 
 The website is an Astro project in `src/`. It reads the same validated catalog as the Markdown
-and JSON. Edit `data/agents/*.yaml` for evidence, `src/content/notes/*.md` for notes, and the
+and JSON. Edit `data/agents/*.yaml` for evidence, `src/content/lessons/*.md` for lessons, and the
 pages, layouts, components, and styles in `src/` for the presentation.
 
 Run `npm run dev` for a local preview. It regenerates the normalized data and reloads the page
-when you edit a record or a note. Run `npm run verify` before you open a pull request.
+when you edit a record or a lesson. Run `npm run verify` before you open a pull request.
 
 The build writes the website to `dist/`, which Git ignores. Do not commit website output.
 Vercel builds and checks the same artifact for every push, and a merge to `main` deploys it to
@@ -211,7 +211,7 @@ hosting rules, preview deployments, delivery checks, and rollback.
 
 The map maintains two collections. Agents perform identifiable work for internal
 teams; Infrastructure supplies reusable execution, orchestration, or tool access.
-Both retain structured, source-backed records. Notes compare lessons across cases.
+Both retain structured, source-backed records. Lessons compare practices across cases.
 Choose the subject before assigning workflow claims or metrics: a task-performing
 system remains an agent even when it orchestrates subagents. A family requires
 independently useful constituent agents. Sandbox detail alone does not establish a

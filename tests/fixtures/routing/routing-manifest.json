@@ -4,8 +4,8 @@
     "/": { "html": "/index.html", "markdown": "/index.md" },
     "/definitions": { "html": "/definitions.html", "markdown": "/definitions.md" },
     "/methodology": { "html": "/methodology.html", "markdown": "/methodology.md" },
-    "/notes": { "html": "/notes.html", "markdown": "/notes.md" },
-    "/notes/stop-a-run": { "html": "/notes/stop-a-run.html", "markdown": "/notes/stop-a-run.md" },
+    "/lessons": { "html": "/lessons.html", "markdown": "/lessons.md" },
+    "/lessons/stop-a-run": { "html": "/lessons/stop-a-run.html", "markdown": "/lessons/stop-a-run.md" },
     "/agents/block-builderbot": {
       "html": "/agents/block-builderbot.html",
       "markdown": "/agents/block-builderbot.md"

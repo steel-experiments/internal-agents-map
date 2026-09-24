@@ -101,7 +101,7 @@ export function datasetNode(options: { description: string; dateModified?: strin
   return node;
 }
 
-/** Describe one note as an article of this website. */
+/** Describe one lesson as an article of this website. */
 export function articleNode(options: {
   url: string;
   name: string;

@@ -128,7 +128,7 @@ test.describe('the directory with javascript', () => {
     await page.goto('/definitions');
     // A document replacement would erase this marker and mask the regression.
     await page.evaluate(() => { Object.assign(window, { navigationMarker: true }); });
-    for (const path of ['/notes', '/']) {
+    for (const path of ['/lessons', '/']) {
       const menu = page.locator('.nav-toggle');
       if (await menu.isVisible()) await menu.click();
       await page.locator(`.nav-links a[href="${path}"]`).first().click();
@@ -179,7 +179,7 @@ test.describe('the directory with javascript', () => {
     await page.goto('/');
     await page.locator('.search-launcher').click();
     await expect(page.locator('#palette')).toBeVisible();
-    for (const group of ['catalog', 'infrastructure', 'notes', 'definitions']) {
+    for (const group of ['catalog', 'infrastructure', 'lessons', 'definitions']) {
       await expect(page.locator(`.palette-group[data-group="${group}"]`)).toBeVisible();
     }
     await page.locator('#palette-input').fill('stripe');
@@ -298,7 +298,7 @@ test.describe('the site chrome', () => {
       });
     });
 
-    await page.locator('.nav-links a[href="/notes"]').click();
+    await page.locator('.nav-links a[href="/lessons"]').click();
     await expect
       .poll(() =>
         page.evaluate(
@@ -319,8 +319,8 @@ test.describe('the site chrome', () => {
     expect(arriving!.start).toBeGreaterThanOrEqual(leaving!.end);
 
     // And it comes back beside the page now open, not the page it left.
-    const notes = page.locator('.nav-links a[href="/notes"]');
-    await expect(notes).toHaveAttribute('aria-current', 'page');
+    const lessons = page.locator('.nav-links a[href="/lessons"]');
+    await expect(lessons).toHaveAttribute('aria-current', 'page');
     await expect
       .poll(() =>
         page.evaluate(() => {

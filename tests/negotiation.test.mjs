@@ -41,10 +41,10 @@ test('quality weights decide the representation of a known route', () => {
 
 test('alias hosts redirect to the canonical origin with path and query', () => {
   for (const host of ['www.internal-agents.com', 'internal-agents-map.vercel.app']) {
-    assert.deepEqual(resolve('/notes?x=1', { host }), {
+    assert.deepEqual(resolve('/lessons?x=1', { host }), {
       type: 'redirect',
       status: 308,
-      location: 'https://internal-agents.com/notes?x=1',
+      location: 'https://internal-agents.com/lessons?x=1',
     });
   }
   assert.equal(resolve('/', { host: 'www.internal-agents.com' }).location, 'https://internal-agents.com/');
@@ -57,8 +57,8 @@ test('preview hosts and the canonical host are served without a host redirect', 
 
 test('an alias host and a legacy path produce one redirect, not a chain', () => {
   assert.equal(
-    resolve('/notes/stop-a-run.html?x=1', { host: 'www.internal-agents.com' }).location,
-    'https://internal-agents.com/notes/stop-a-run?x=1',
+    resolve('/lessons/stop-a-run.html?x=1', { host: 'www.internal-agents.com' }).location,
+    'https://internal-agents.com/lessons/stop-a-run?x=1',
   );
   assert.equal(
     resolve('/index.html', { host: 'internal-agents-map.vercel.app' }).location,
@@ -69,7 +69,7 @@ test('an alias host and a legacy path produce one redirect, not a chain', () => 
 test('legacy .html paths redirect to the clean route and keep the query', () => {
   for (const [request, location] of [
     ['/agents/block-builderbot.html', '/agents/block-builderbot'],
-    ['/notes.html?q=stripe', '/notes?q=stripe'],
+    ['/lessons.html?q=stripe', '/lessons?q=stripe'],
     ['/definitions.html', '/definitions'],
     ['/index.html?q=stripe', '/?q=stripe'],
   ]) {
@@ -82,14 +82,14 @@ test('legacy .html paths redirect to the clean route and keep the query', () => 
 
 test('trailing slash variants redirect to the clean route', () => {
   assert.equal(resolve('/agents/block-builderbot/').location, CANONICAL_ORIGIN + '/agents/block-builderbot');
-  assert.equal(resolve('/notes/stop-a-run.html/').location, CANONICAL_ORIGIN + '/notes/stop-a-run');
+  assert.equal(resolve('/lessons/stop-a-run.html/').location, CANONICAL_ORIGIN + '/lessons/stop-a-run');
   assert.equal(resolve('/').type, 'pass');
 });
 
-test('entry and note routes return their Markdown export', () => {
+test('entry and lesson routes return their Markdown export', () => {
   for (const [path, markdown] of [
     ['/agents/block-builderbot', '/agents/block-builderbot.md'],
-    ['/notes/stop-a-run', '/notes/stop-a-run.md'],
+    ['/lessons/stop-a-run', '/lessons/stop-a-run.md'],
     ['/', '/index.md'],
   ]) {
     const decision = resolve(path + '?q=stripe', { accept: MARKDOWN });
@@ -135,13 +135,13 @@ test('unknown paths and asset paths are untouched', () => {
   for (const path of ['/_astro/index.Ab12Cd.js', '/assets/site.css', '/agents/index.json', '/sitemap.xml']) {
     assert.equal(matches(path), false, path);
   }
-  for (const path of ['/', '/agents/block-builderbot', '/notes/stop-a-run.html', '/index.md']) {
+  for (const path of ['/', '/agents/block-builderbot', '/lessons/stop-a-run.html', '/index.md']) {
     assert.equal(matches(path), true, path);
   }
 });
 
 test('paths that look malicious never redirect off the canonical origin', () => {
-  const paths = ['//evil.example', '/%2F%2Fevil.example', '//evil.example/index.html', '/https://evil.example', '/..//evil.example', '/notes/stop-a-run.html/../../evil.example'];
+  const paths = ['//evil.example', '/%2F%2Fevil.example', '//evil.example/index.html', '/https://evil.example', '/..//evil.example', '/lessons/stop-a-run.html/../../evil.example'];
   for (const path of paths) {
     for (const host of ['internal-agents.com', 'www.internal-agents.com']) {
       const decision = resolve(path, { host });

@@ -110,16 +110,16 @@
       "min_words": 60
     },
     {
-      "id": "note",
-      "pattern": "^/notes/[^/]+$",
+      "id": "lesson",
+      "pattern": "^/lessons/[^/]+$",
       "jsonld_types": [
         "Article"
       ],
       "min_words": 300
     },
     {
-      "id": "notes-index",
-      "pattern": "^/notes$",
+      "id": "lessons-index",
+      "pattern": "^/lessons$",
       "jsonld_types": [
         "WebPage"
       ],

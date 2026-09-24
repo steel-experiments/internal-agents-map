@@ -32,14 +32,14 @@ ERROR_PAGE = "404.html"
 DIRECTORIES = {
     "_astro",
     "fonts",
-    "notes",
+    "lessons",
     "agents",
     "logos",
     "organizations",
     "og",
     "og/agents",
     "og/organizations",
-    "og/notes",
+    "og/lessons",
 }
 # A link preview card: PNG, this size, and no heavier than this.
 OG_IMAGE_SIZE = (1200, 630)
@@ -310,7 +310,7 @@ def validate(
             if not target.is_relative_to(root):
                 errors.append(f"Path escapes site: {url}")
                 return
-            # A clean URL such as /agents/<id> or /notes is served from <id>.html.
+            # A clean URL such as /agents/<id> or /lessons is served from <id>.html.
             clean = None if target == root else target.with_name(target.name + ".html")
             if clean is not None and clean.is_file():
                 target = clean

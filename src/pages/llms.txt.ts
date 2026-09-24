@@ -4,13 +4,13 @@ import type { APIRoute } from 'astro';
 import { loadCatalog } from '../lib/catalog';
 import { contentPaths } from '../lib/content-routes';
 import { termLabel } from '../lib/labels';
-import { noteViews } from '../lib/notes';
+import { lessonViews } from '../lib/lessons';
 import { SITE_NAME } from '../lib/metadata';
-import { ORIGIN, organizationPaths, organizationPath, homePath, markdownPath, notePath } from '../lib/routes';
+import { ORIGIN, organizationPaths, organizationPath, homePath, markdownPath, lessonPath } from '../lib/routes';
 
-/** The label of one guide or note. A note carries its authored title. */
-function pageLabel(path: string, noteTitles: ReadonlyMap<string, string>): string {
-  return noteTitles.get(path) ?? termLabel(path.slice(path.lastIndexOf('/') + 1));
+/** The label of one guide or lesson. A lesson carries its authored title. */
+function pageLabel(path: string, lessonTitles: ReadonlyMap<string, string>): string {
+  return lessonTitles.get(path) ?? termLabel(path.slice(path.lastIndexOf('/') + 1));
 }
 
 /** One Markdown link line for the list of readable documents. */
@@ -19,7 +19,7 @@ function line(label: string, path: string): string {
 }
 
 /** Build the guidance file from the paths the build publishes. */
-export function llmsTxt(paths: readonly string[], noteTitles: ReadonlyMap<string, string>): string {
+export function llmsTxt(paths: readonly string[], lessonTitles: ReadonlyMap<string, string>): string {
   return (
     `# ${SITE_NAME}\n\n` +
     '> A source-backed catalog of AI systems organizations build or adapt for their own teams.\n\n' +
@@ -31,15 +31,15 @@ export function llmsTxt(paths: readonly string[], noteTitles: ReadonlyMap<string
     line('Data and evidence guide', '/data-guide.md') +
     line('Complete dataset', '/agents.json') +
     line('Agents in Markdown', markdownPath(homePath())) +
-    paths.map((path) => line(pageLabel(path, noteTitles), markdownPath(path))).join('')
+    paths.map((path) => line(pageLabel(path, lessonTitles), markdownPath(path))).join('')
   );
 }
 
 export const GET: APIRoute = async () => {
   const catalog = loadCatalog();
-  const noteTitles = new Map(noteViews().map((note) => [notePath(note.slug), note.title]));
-  for (const company of catalog.companies) noteTitles.set(organizationPath(company.id), company.name);
-  return new Response(llmsTxt([...(await contentPaths()), ...organizationPaths(catalog)], noteTitles), {
+  const lessonTitles = new Map(lessonViews().map((lesson) => [lessonPath(lesson.slug), lesson.title]));
+  for (const company of catalog.companies) lessonTitles.set(organizationPath(company.id), company.name);
+  return new Response(llmsTxt([...(await contentPaths()), ...organizationPaths(catalog)], lessonTitles), {
     headers: { 'Content-Type': 'text/plain; charset=utf-8' },
   });
 };

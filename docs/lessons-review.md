@@ -1,29 +1,29 @@
-# Notes coverage review
+# Lessons coverage review
 
 Reviewed on 2026-09-11 against all 39 approaches in `data/agents.json` and the three
-current note templates. This is an editorial review, not a new site page.
+current lesson templates. This is an editorial review, not a new site page.
 
-On 2026-09-16, Browserbase's bb entry and its example in the published tool-discovery note were
+On 2026-09-16, Browserbase's bb entry and its example in the published tool-discovery lesson were
 removed at the maintainer's request. Browserbase references below record the original assessment;
 the preserved source remains available for that history.
 
 ## Selected for the site
 
-The user selected N2, N3, N4, and N6. These are now authored as notes 04–07.
+The user selected N2, N3, N4, and N6. These are now authored as lessons 04–07.
 N1 (access checks) and N5 (interface choice) remain proposals. The review below
-records the original assessment; the site now has seven notes.
+records the original assessment; the site now has seven lessons.
 
 ## Decision
 
 Six additional topics have a distinct builder question and a useful evidence base.
-Publish them in small batches. The existing notes cover five approaches across five
-organizations, with a strong code-review focus. There is no need for a note per case.
+Publish them in small batches. The existing lessons cover five approaches across five
+organizations, with a strong code-review focus. There is no need for a lesson per case.
 
 The first batch should cover access checks, surviving process loss, and selective
 context loading. The next batch can cover fixed workflow steps, interface choice,
 and evaluation with actual work.
 
-## Proposed notes
+## Proposed lessons
 
 ### N1 — Who checks what the agent may do?
 
@@ -47,12 +47,12 @@ and evaluation with actual work.
 - **Observation:** Conversation state, task state, and execution state have different lifetimes.
 - **Diagram:** A persistent work record above worker A → stop → worker B.
 - **Limit:** Saving a conversation does not guarantee that files or side effects recover.
-  Browserbase explicitly says that some environment state may be lost. This note concerns
+  Browserbase explicitly says that some environment state may be lost. This lesson concerns
   recovery, not cross-session learning or a universal memory architecture.
 - **Source anchors:** [Shopify, session survival](../archive/sources/shopify-internal-agents-source-1/content.md),
   [Sentry, continuation](../archive/sources/sentry-junior-source-1/content.md),
   [Sierra, checkpoints](../archive/sources/sierra-pinecone-source-3/content.md).
-- **Distinct from the current stop note:** That note explains when to end attempts;
+- **Distinct from the current stop lesson:** That lesson explains when to end attempts;
   this one explains how work survives the loss of its worker.
 
 ### N3 — Load tools when the task needs them
@@ -91,7 +91,7 @@ and evaluation with actual work.
 - **Limit:** This is a selected case, not evidence that every agent needs two interfaces.
   It does not establish that the model had no limitations.
 - **Source anchor:** [Domu, the toolkit split](../archive/sources/domu-clementino-source-1/content.md).
-- **Distinct from the current agent-role note:** This concerns user interaction, not
+- **Distinct from the current agent-role lesson:** This concerns user interaction, not
   the division of reasoning between agents. It adds a useful non-code-review example.
 
 ### N6 — Test the agent on your own work
@@ -117,7 +117,7 @@ and evaluation with actual work.
 - **Prepare the environment before the task:** Ramp, Stripe, and Browserbase supply
   concrete examples. Useful later, with cold-start cost and infrastructure prerequisites.
 - **Measure accepted work:** Sierra, Replit, Harvey, and Spotify support a broader
-  outcome note. The existing review-noise note already introduces downstream work;
+  outcome lesson. The existing review-noise lesson already introduces downstream work;
   avoid merely restating it with more companies.
 - **Start from work people can check:** Flex and Plaid offer non-coding examples, but
   verification details are uneven. Extend coverage before making a general selection rule.
@@ -132,7 +132,7 @@ and evaluation with actual work.
 
 Each approach appears once below. “Support” means a useful additional example, not an
 independent replication or proof of effectiveness. “Hold” means the present evidence
-adds too little to justify its own note.
+adds too little to justify its own lesson.
 
 | Case | Editorial decision | Theme | Reason or limitation |
 | --- | --- | --- | --- |
@@ -145,13 +145,13 @@ adds too little to justify its own note.
 | [Coinbase — Forge / Mux](landscape.md#coinbase-forge-mux) | Later | Shared work and isolation | Linear preserves work context; worktrees separate concurrent edits but are not security sandboxes. |
 | [Databricks — coSTAR and internal engineering agents](landscape.md#databricks-costar) | N6 | Evaluation | Real codebase tasks, separate tests, manual sample review, and checks aligned with expert judgment. |
 | [Domu — Clementino](landscape.md#domu-clementino) | N5; support N1 | Interface and approval | Actual interface limit and toolkit split; customer-impacting actions need approval. |
-| [DoorDash — AI Code Review Agent](landscape.md#doordash-code-review) | Existing; support N6 | Stopping, decomposition, evaluation | Already supplies two notes; use other teams as the primary sources for most new notes. |
+| [DoorDash — AI Code Review Agent](landscape.md#doordash-code-review) | Existing; support N6 | Stopping, decomposition, evaluation | Already supplies two lessons; use other teams as the primary sources for most new lessons. |
 | [DoorDash — Flux / Agentic AI Platform](landscape.md#doordash-flux) | Support N3, N4; later | Tools and fixed checks | Scoped playbooks and SQL checks; adoption practices are a later topic. Do not count its reviewer twice. |
-| [Dropbox — Nova](landscape.md#dropbox-nova) | Existing; N4 | Run limits and fixed steps | Keeping CI and publication outside the agent supports a distinct note beyond retry counts. |
+| [Dropbox — Nova](landscape.md#dropbox-nova) | Existing; N4 | Run limits and fixed steps | Keeping CI and publication outside the agent supports a distinct lesson beyond retry counts. |
 | [Flex — AI Investigation Agent](landscape.md#flex-investigation-agent) | Later | Investigation to repair | Trace, hypothesis, and proposed PR form a clear workflow; runtime and validation detail are thin. |
-| [GitHub — Qubot](landscape.md#github-qubot) | Hold | Data access | Useful use-case example; too little implementation evidence for a separate design note. |
-| [Harvey — Spectre](landscape.md#harvey-spectre) | Support N2; later | Durable work and review effort | Durable runs and disposable compute support N2; review and coordination pressure support a later outcome note. |
-| [HubSpot — Sidekick](landscape.md#hubspot-sidekick) | Existing; later | Review noise and runtime changes | Current note covers filtering. Runtime transition could support a later comparison with Airbnb. |
+| [GitHub — Qubot](landscape.md#github-qubot) | Hold | Data access | Useful use-case example; too little implementation evidence for a separate design lesson. |
+| [Harvey — Spectre](landscape.md#harvey-spectre) | Support N2; later | Durable work and review effort | Durable runs and disposable compute support N2; review and coordination pressure support a later outcome lesson. |
+| [HubSpot — Sidekick](landscape.md#hubspot-sidekick) | Existing; later | Review noise and runtime changes | Current lesson covers filtering. Runtime transition could support a later comparison with Airbnb. |
 | [Linear — Linear Agent](landscape.md#linear-agent) | Support N1; later | Identity and systems of record | Scoped identities and human accountability; separate product features from documented internal use. |
 | [Microsoft — PRAssistant](landscape.md#microsoft-prassistant) | Hold | Review coverage | Large reported deployment, but limited architecture detail. Scale alone does not add a new lesson. |
 | [monday.com — Sphera / Atlas / Morphex](landscape.md#monday-sphera-atlas-morphex) | Support N4, N6; later | Checks and memory | Verification and ownership are useful; file memory does not prove that vector retrieval is unnecessary. |
@@ -162,16 +162,16 @@ adds too little to justify its own note.
 | [PostHog — StampHog](landscape.md#posthog-stamphog) | N4; support N1 | Fixed eligibility gates | Pinned implementation documents hard gates that a model cannot relax. |
 | [Ramp — Inspect](landscape.md#ramp-inspect) | Later | Prepared environments and adoption | Warm environments and a product pivot are concrete; do not isolate one cause for adoption gains. |
 | [Replit — Manager agent (agent-of-agents)](landscape.md#replit-manager-agent) | Later | Outcome measures and delegation | Review, reversion, and incident measures can extend the outcome theme; self-reported and not a controlled comparison. |
-| [Retool — RetoolGPT (removed)](../archive/sources/retool-retoolgpt-source-1/content.md) | Support N1 | Read-only scope | A useful simple access boundary; insufficient detail for a separate runtime note. The preserved source remains available after the entry's eligibility review. |
+| [Retool — RetoolGPT (removed)](../archive/sources/retool-retoolgpt-source-1/content.md) | Support N1 | Read-only scope | A useful simple access boundary; insufficient detail for a separate runtime lesson. The preserved source remains available after the entry's eligibility review. |
 | [Salesforce — Slackbot](landscape.md#salesforce-slackbot) | Support N1 | Permission-aware access | Employee permissions constrain visibility; implementation detail is limited. |
 | [Sentry — Junior](landscape.md#sentry-junior) | N1, N2, N3 | Access, recovery, tool discovery | Proxy credentials, continuation after timeouts, and progressive tool lookup are documented mechanisms. |
-| [Shopify — Aquifer / River](landscape.md#shopify-internal-agents) | N2; support N3; later | Durable work and shared platform | Session/harness/sandbox split is explicit; profiles and shared knowledge could support a later note. |
+| [Shopify — Aquifer / River](landscape.md#shopify-internal-agents) | N2; support N3; later | Durable work and shared platform | Session/harness/sandbox split is explicit; profiles and shared knowledge could support a later lesson. |
 | [Sierra — Pinecone](landscape.md#sierra-pinecone) | N1, N2; later | Permissions, state, shared controls | Sources distinguish user and service identity, checkpoints, and common integrations. |
 | [Slack — Multi-agent context system](landscape.md#slack-context-system) | Later | Working context | Structured findings and critiques concern long investigations; distinct from selective tool loading, but more specialized. |
 | [Spotify — Honk / Xirp](landscape.md#spotify-honk-xirp) | Support N4; later | Fixed checks and company context | Trusted CI plus model review; older developer infrastructure is a prerequisite, not a model capability. |
-| [Stripe — Minions](landscape.md#stripe-minions) | Existing; N4; later | Fixed workflow and environments | Blueprints separate code-controlled steps from model decisions; devboxes support a later setup note. |
-| [Uber — Internal coding agent (unnamed)](landscape.md#uber-coding-agent) | Hold | Output volume | Headline changes-per-week and little architecture evidence; no distinct note justified. |
-| [Uber — uReview](landscape.md#uber-ureview) | Existing; N6 | Review filtering and evaluation | Curated benchmark and developer feedback provide more than the existing noise note covers. |
+| [Stripe — Minions](landscape.md#stripe-minions) | Existing; N4; later | Fixed workflow and environments | Blueprints separate code-controlled steps from model decisions; devboxes support a later setup lesson. |
+| [Uber — Internal coding agent (unnamed)](landscape.md#uber-coding-agent) | Hold | Output volume | Headline changes-per-week and little architecture evidence; no distinct lesson justified. |
+| [Uber — uReview](landscape.md#uber-ureview) | Existing; N6 | Review filtering and evaluation | Curated benchmark and developer feedback provide more than the existing noise lesson covers. |
 | [WorkOS — Project Horizon](landscape.md#workos-project-horizon) | Support N1, N2; later | Control boundaries and runtime changes | Execution/lifecycle separation and scoped access; no general proof that every team needs custom infrastructure. |
 | [Y Combinator — Internal agent infrastructure](landscape.md#ycombinator-agent-infra) | Hold | Custom infrastructure | Broad strategic claims with little implementation detail; not enough for prescriptive advice. |
 | [Zup — CodeGen](landscape.md#zup-codegen) | Support N1, N4 | Constrained tools | Research case supports tool-level restrictions; keep the research stage visible. |
@@ -187,6 +187,6 @@ Browserbase explicitly describes conversation recovery after sandbox loss, and S
 explicitly separates user identity from service-account identity. Broad rubric values
 must not erase these workflow-level distinctions. No catalog classifications were changed.
 
-The six proposed articles should follow [the notes writing guide](notes-writing.md):
+The six proposed articles should follow [the lessons writing guide](lessons-writing.md):
 short STE-guided prose, exact brief quotations, original source links, clear attribution,
 and a simple original diagram. No new public articles were created by this review.

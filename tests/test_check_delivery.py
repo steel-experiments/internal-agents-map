@@ -26,7 +26,7 @@ MANIFEST = {
     "schema_version": 1,
     "routes": {
         "/": {"html": "/index.html", "markdown": "/index.md"},
-        "/notes": {"html": "/notes.html", "markdown": "/notes.md"},
+        "/lessons": {"html": "/lessons.html", "markdown": "/lessons.md"},
         "/agents/first-agent": {
             "html": "/agents/first-agent.html",
             "markdown": "/agents/first-agent.md",
@@ -135,7 +135,7 @@ class RouteTests(unittest.TestCase):
         cases = delivery.redirect_cases(MANIFEST["routes"])
         by_path = {case.path: case for case in cases}
         self.assertEqual(by_path["/index.html"].location, "/")
-        self.assertEqual(by_path["/notes/"].location, "/notes")
+        self.assertEqual(by_path["/lessons/"].location, "/lessons")
         self.assertEqual(by_path["/agents/first-agent.html"].location, "/agents/first-agent")
         for case in cases:
             self.assertEqual(case.status, 308)

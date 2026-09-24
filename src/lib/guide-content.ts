@@ -3,7 +3,7 @@
 
 import { termLabel } from './labels';
 import { SITE_NAME } from './metadata';
-import { canonicalUrl, entryPath, guidePath, notesIndexPath } from './routes';
+import { canonicalUrl, entryPath, guidePath, lessonsIndexPath } from './routes';
 
 export const DEFINITIONS_TITLE = `What makes an agent internal? · ${SITE_NAME}`;
 export const DEFINITIONS_HEADING = 'What makes an agent internal?';
@@ -17,19 +17,19 @@ export const METHODOLOGY_DESCRIPTION =
   'How Internal Agents Map records sources, separates reported claims from interpretation, ' +
   'and handles uncertainty.';
 
-export const NOTES_TITLE = `Notes · ${SITE_NAME}`;
-export const NOTES_HEADING = 'Notes';
-export const NOTES_DESCRIPTION =
-  'Short notes on agent design. Each note connects an observation to reports from teams ' +
+export const LESSONS_TITLE = `Lessons · ${SITE_NAME}`;
+export const LESSONS_HEADING = 'Lessons';
+export const LESSONS_DESCRIPTION =
+  'Short lessons on agent design. Each lesson connects an observation to reports from teams ' +
   'that build internal agents.';
-export const NOTES_LEDE = 'Short observations for people who build agents.';
+export const LESSONS_LEDE = 'Short observations for people who build agents.';
 /** The two halves of the introduction, around the link to the catalog. */
-export const NOTES_INTRO_BEFORE = 'Each note examines a design choice from the ';
-export const NOTES_INTRO_AFTER =
+export const LESSONS_INTRO_BEFORE = 'Each lesson examines a design choice from the ';
+export const LESSONS_INTRO_AFTER =
   '. Sources describe what teams report. Our observations explain what those reports may ' +
   'mean for other builders.';
-export const NOTES_CLOSING =
-  'These notes describe selected cases. They do not establish that one design works best ' +
+export const LESSONS_CLOSING =
+  'These lessons describe selected cases. They do not establish that one design works best ' +
   'for every team.';
 
 export interface GuideLink {
@@ -44,8 +44,8 @@ export const REPOSITORY_LINKS: readonly GuideLink[] = [
     url: 'https://github.com/steel-experiments/internal-agents-map/blob/main/data/schema.md',
   },
   {
-    label: 'Note writing rules',
-    url: 'https://github.com/steel-experiments/internal-agents-map/blob/main/docs/notes-writing.md',
+    label: 'Lesson writing rules',
+    url: 'https://github.com/steel-experiments/internal-agents-map/blob/main/docs/lessons-writing.md',
   },
   {
     label: 'Contribution guide',
@@ -260,13 +260,13 @@ export const METHODOLOGY_SECTIONS: readonly GuideSection[] = [
     ],
   },
   {
-    id: 'notes',
-    titleId: 'notes-title',
-    heading: 'How we write notes',
+    id: 'lessons',
+    titleId: 'lessons-title',
+    heading: 'How we write lessons',
     body: [
       [
         'We compare design choices across cases. Each ',
-        { text: 'note', path: notesIndexPath() },
+        { text: 'lesson', path: lessonsIndexPath() },
         ' links to its sources and separates what teams report from our observations.',
       ],
       [
@@ -457,7 +457,7 @@ export const DEFINITIONS_SCOPE = {
     [
       'Real systems often combine model-directed steps with programmed automation. A coding agent might decide how to fix a problem while a fixed pipeline runs tests and prepares the result for review.',
     ],
-    ['The map separates task-performing Agents from the reusable Infrastructure that enables them. Notes draw lessons across both collections.'],
+    ['The map separates task-performing Agents from the reusable Infrastructure that enables them. Lessons draw on both collections.'],
   ] as readonly TextBlock[],
 } as const;
 

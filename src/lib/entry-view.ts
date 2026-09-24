@@ -15,7 +15,7 @@ import {
 } from './catalog';
 import { fieldLabel, levelLabel, termLabel } from './labels';
 import { companyView, type CompanyView } from './companies';
-import { notesForApproach } from './notes';
+import { lessonsForApproach } from './lessons';
 import { entryPath } from './routes';
 import { shorten } from './text';
 
@@ -171,7 +171,7 @@ export interface RelatedEntryView {
   readonly group: 'uses' | 'used-by' | 'related';
 }
 
-export interface RelatedNoteView {
+export interface RelatedLessonView {
   readonly slug: string;
   readonly path: string;
   readonly title: string;
@@ -234,8 +234,8 @@ export interface EntryView {
   readonly claims: readonly ClaimView[];
   readonly sources: readonly SourceView[];
   readonly relatedEntries: readonly RelatedEntryView[];
-  /** Notes about this entry. Later steps fill this from note metadata. */
-  readonly relatedNotes: readonly RelatedNoteView[];
+  /** Lessons about this entry. Later steps fill this from lesson metadata. */
+  readonly relatedLessons: readonly RelatedLessonView[];
 }
 
 function termView(id: string): TermView {
@@ -563,7 +563,7 @@ export function entryView(catalog: Catalog, id: string): EntryView {
     claims,
     sources,
     relatedEntries: relatedEntries(catalog, approach),
-    relatedNotes: notesForApproach(approach.id),
+    relatedLessons: lessonsForApproach(approach.id),
   };
 }
 

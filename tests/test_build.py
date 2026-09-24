@@ -18,7 +18,7 @@ from unittest import mock
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-NOTES = ROOT / "src" / "content" / "notes"
+LESSONS = ROOT / "src" / "content" / "lessons"
 SPEC = importlib.util.spec_from_file_location("catalog_build", ROOT / "scripts" / "build.py")
 build = importlib.util.module_from_spec(SPEC)
 assert SPEC.loader
@@ -636,8 +636,8 @@ class BuildTests(unittest.TestCase):
             "/infrastructure",
             "/definitions",
             "/methodology",
-            "/notes",
-            *(f"/notes/{path.stem}" for path in NOTES.glob("*.md")),
+            "/lessons",
+            *(f"/lessons/{path.stem}" for path in LESSONS.glob("*.md")),
             *(f"/agents/{record['id']}" for record in self.records),
             *(
                 f"/organizations/{company_id}"

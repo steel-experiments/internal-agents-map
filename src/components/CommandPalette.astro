@@ -1,16 +1,16 @@
 ---
-// ABOUTME: The command palette: one search over the catalog, the notes, and the definitions.
+// ABOUTME: The command palette: one search over the catalog, the lessons, and the definitions.
 // ABOUTME: Every item is a link in the initial HTML, so the palette filters rather than fetches.
 import Icon from './Icon.astro';
 import { loadCatalog } from '../lib/catalog';
 import { directoryCards } from '../lib/entry-view';
 import { DEFINITIONS_JUMP_LINKS } from '../lib/guide-content';
-import { notePreviewTitle, noteViews } from '../lib/notes';
+import { lessonPreviewTitle, lessonViews } from '../lib/lessons';
 import { guidePath } from '../lib/routes';
 import { FACET_KEYS, FACET_LABELS, facetVocabulary, normalize } from '../lib/search';
 
 const cards = directoryCards(loadCatalog());
-const notes = noteViews();
+const lessons = lessonViews();
 const vocabulary = facetVocabulary(cards);
 
 /** The facet values each pill offers, in the order the vocabulary lists them. */
@@ -41,11 +41,11 @@ const catalogItems = cards.map((card) => ({
   },
 }));
 
-const noteItems = notes.map((note) => ({
-  path: note.path,
-  title: notePreviewTitle(note),
-  detail: note.readingTime,
-  search: normalize(`${notePreviewTitle(note)} ${note.summary}`),
+const lessonItems = lessons.map((lesson) => ({
+  path: lesson.path,
+  title: lessonPreviewTitle(lesson),
+  detail: lesson.readingTime,
+  search: normalize(`${lessonPreviewTitle(lesson)} ${lesson.summary}`),
   facets: NO_FACETS,
 }));
 
@@ -60,7 +60,7 @@ const definitionItems = DEFINITIONS_JUMP_LINKS.map((link) => ({
 const groups = [
   { id: 'catalog', label: 'Agents', items: catalogItems.filter((item) => item.collection === 'agents') },
   { id: 'infrastructure', label: 'Infrastructure', items: catalogItems.filter((item) => item.collection === 'infrastructure') },
-  { id: 'notes', label: 'Notes', items: noteItems },
+  { id: 'lessons', label: 'Lessons', items: lessonItems },
   { id: 'definitions', label: 'Definitions', items: definitionItems },
 ];
 ---

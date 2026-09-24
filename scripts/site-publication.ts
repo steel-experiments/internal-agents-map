@@ -13,7 +13,7 @@ export const ROUTING_MANIFEST_FILE = 'routing-manifest.json';
 
 /**
  * The route the build uses to serialize the inventory.
- * The inventory reads the note content, which only the build pipeline can load,
+ * The inventory reads the lesson content, which only the build pipeline can load,
  * so the manifest is produced as a route and then moved out of the output.
  */
 const MANIFEST_ROUTE = '/routing-manifest.json';

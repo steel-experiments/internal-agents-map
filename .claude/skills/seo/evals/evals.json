@@ -32,8 +32,8 @@
     {
       "id": 5,
       "name": "partial-run-safety",
-      "prompt": "Just check the note pages for SEO problems, do not touch anything else.",
-      "expected_output": "Runs tech-audit.mjs --family note and reports the note defects (the short descriptions on three notes and the 73-character title on /notes/work-can-continue). States that the run wrote no snapshot, because a run of one family would replace the baseline of the month.",
+      "prompt": "Just check the lesson pages for SEO problems, do not touch anything else.",
+      "expected_output": "Runs tech-audit.mjs --family lesson and reports the lesson defects (the short descriptions on three lessons and the 73-character title on /lessons/work-can-continue). States that the run wrote no snapshot, because a run of one family would replace the baseline of the month.",
       "files": []
     },
     {

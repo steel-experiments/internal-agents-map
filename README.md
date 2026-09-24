@@ -167,7 +167,7 @@ relicensed under those terms.
 
 The map maintains two collections. Agents perform identifiable work for internal
 teams; Infrastructure supplies reusable execution, orchestration, or tool access.
-Both retain structured, source-backed records. Notes compare lessons across cases.
+Both retain structured, source-backed records. Lessons compare practices across cases.
 Choose the subject before assigning workflow claims or metrics: a task-performing
 system remains an agent even when it orchestrates subagents. A family requires
 independently useful constituent agents. Sandbox detail alone does not establish a

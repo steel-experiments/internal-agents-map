@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { loadCatalog } from '../../src/lib/catalog';
 import { contentPaths } from '../../src/lib/content-routes';
-import { noteViews } from '../../src/lib/notes';
+import { lessonViews } from '../../src/lib/lessons';
 import { entryView } from '../../src/lib/entry-view';
 import {
   articleNode,
@@ -22,7 +22,7 @@ import {
   entryPath,
   htmlArtifactPath,
   markdownPath,
-  notePath,
+  lessonPath,
   routeInventory,
 } from '../../src/lib/routes';
 import { assertNoReservedRoutes, serializeManifest } from '../../scripts/site-publication';
@@ -82,8 +82,8 @@ describe('robots.txt', () => {
 });
 
 describe('llms.txt', () => {
-  const noteTitles = new Map(noteViews().map((note) => [notePath(note.slug), note.title]));
-  const text = llmsTxt(paths, noteTitles);
+  const lessonTitles = new Map(lessonViews().map((lesson) => [lessonPath(lesson.slug), lesson.title]));
+  const text = llmsTxt(paths, lessonTitles);
 
   it('keeps the data interfaces it has always named', () => {
     for (const target of ['/agents/index.json', '/data-guide.md', '/agents.json', '/index.md']) {
@@ -91,10 +91,10 @@ describe('llms.txt', () => {
     }
   });
 
-  it('links the Markdown of every guide and note', () => {
+  it('links the Markdown of every guide and lesson', () => {
     for (const path of paths) expect(text).toContain(`](${ORIGIN}${markdownPath(path)})`);
-    for (const note of noteViews()) {
-      expect(text).toContain(`- [${note.title}](${ORIGIN}${markdownPath(notePath(note.slug))})`);
+    for (const lesson of lessonViews()) {
+      expect(text).toContain(`- [${lesson.title}](${ORIGIN}${markdownPath(lessonPath(lesson.slug))})`);
     }
   });
 
@@ -187,18 +187,18 @@ describe('structured data', () => {
     expect(datasetNode({ description: 'x' })).not.toHaveProperty('dateModified');
   });
 
-  it('describes a note as an article of this website', () => {
-    const note = noteViews()[0]!;
+  it('describes a lesson as an article of this website', () => {
+    const lesson = lessonViews()[0]!;
     const article = articleNode({
-      url: canonicalUrl(note.path),
-      name: note.title,
-      headline: note.title,
-      description: note.description,
-      datePublished: note.publishedAt,
+      url: canonicalUrl(lesson.path),
+      name: lesson.title,
+      headline: lesson.title,
+      description: lesson.description,
+      datePublished: lesson.publishedAt,
     }) as Record<string, unknown>;
     expect(article['@type']).toBe('Article');
-    expect(article.headline).toBe(note.title);
-    expect(article.datePublished).toBe(note.publishedAt);
+    expect(article.headline).toBe(lesson.title);
+    expect(article.datePublished).toBe(lesson.publishedAt);
     expect(article.inLanguage).toBe('en');
   });
 

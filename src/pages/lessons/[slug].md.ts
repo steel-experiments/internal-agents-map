@@ -1,15 +1,15 @@
-// ABOUTME: Serves one note as Markdown, built from the body the author wrote.
+// ABOUTME: Serves one lesson as Markdown, built from the body the author wrote.
 // ABOUTME: Citations, diagram explanations, sources, and catalog links all remain.
 import type { APIRoute, GetStaticPaths } from 'astro';
 import { loadCatalog } from '../../lib/catalog';
-import { noteMarkdown, noteViewBySlug, noteViews } from '../../lib/notes';
+import { lessonMarkdown, lessonViewBySlug, lessonViews } from '../../lib/lessons';
 
 export const getStaticPaths: GetStaticPaths = () =>
-  noteViews().map((note) => ({ params: { slug: note.slug } }));
+  lessonViews().map((lesson) => ({ params: { slug: lesson.slug } }));
 
 export const GET: APIRoute = ({ params }) => {
-  const note = noteViewBySlug(params.slug as string);
-  return new Response(`${noteMarkdown(loadCatalog(), note)}\n`, {
+  const lesson = lessonViewBySlug(params.slug as string);
+  return new Response(`${lessonMarkdown(loadCatalog(), lesson)}\n`, {
     headers: { 'Content-Type': 'text/markdown; charset=utf-8' },
   });
 };

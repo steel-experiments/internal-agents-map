@@ -53,7 +53,7 @@ export interface OgSectionCard {
   readonly eyebrow: string;
   readonly title: string;
   readonly description: string;
-  /** The publication date a note shows beside its eyebrow. */
+  /** The publication date a lesson shows beside its eyebrow. */
   readonly date: string | null;
 }
 
@@ -129,7 +129,7 @@ export function organizationCard(
   };
 }
 
-/** The card of a section, a guide, or a note. */
+/** The card of a section, a guide, or a lesson. */
 export function sectionCard(options: {
   eyebrow: string;
   title: string;
