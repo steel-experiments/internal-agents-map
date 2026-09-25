@@ -27,19 +27,6 @@ const { card } = Astro.props;
   data-alphabetical-rank={card.alphabeticalRank}
 >
   <div class="entry-box">
-    <button
-      type="button"
-      class="entry-bookmark"
-      data-bookmark={card.id}
-      aria-pressed="false"
-      aria-label={`Bookmark ${card.company}'s ${card.agentName}`}
-      hidden
-    >
-      <!-- The ribbon has no top edge: the border of the card is its top. -->
-      <svg width="16" height="24" viewBox="0 0 16 24" fill="none" stroke="currentColor" stroke-width=".5" stroke-linejoin="round" aria-hidden="true">
-        <path d="M2 0V22L8 17L14 22V0" />
-      </svg>
-    </button>
     <div class="entry-top">
       <div class="entry-heading">
         <CompanyLogo company={card.companyView} size={20} />
@@ -57,4 +44,16 @@ const { card } = Astro.props;
       )}
     </div>
   </div>
+  <!-- The button stands outside the box: the box clips what it holds to its
+       rounded border, and the fold has to cover that border at the corner. -->
+  <button
+    type="button"
+    class="entry-bookmark"
+    data-bookmark={card.id}
+    aria-pressed="false"
+    aria-label={`Bookmark ${card.company}'s ${card.agentName}`}
+    hidden
+  >
+    <span class="entry-fold" aria-hidden="true"></span>
+  </button>
 </article>

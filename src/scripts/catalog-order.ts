@@ -72,8 +72,8 @@ function sortedLists(): Element[] {
 function show(order: CatalogOrder): void {
   const bookmarks = readBookmarks();
   for (const list of sortedLists()) sortChildren(list, order, bookmarks);
-  for (const ribbon of document.querySelectorAll<HTMLButtonElement>('[data-bookmark]')) {
-    ribbon.setAttribute('aria-pressed', String(bookmarks.has(ribbon.dataset.bookmark ?? '')));
+  for (const bookmark of document.querySelectorAll<HTMLButtonElement>('[data-bookmark]')) {
+    bookmark.setAttribute('aria-pressed', String(bookmarks.has(bookmark.dataset.bookmark ?? '')));
   }
   for (const option of document.querySelectorAll<HTMLButtonElement>('[data-sort-option]')) {
     option.setAttribute('aria-pressed', String(option.dataset.sortOption === order));
@@ -84,16 +84,16 @@ function show(order: CatalogOrder): void {
 /**
  * Wire the sort controls of the page on show. A page with a directory keeps
  * the choice in its URL, so a link opens the same order. Without this script
- * the controls and the bookmark ribbons stay hidden and the default order stands.
+ * the controls and the bookmark corners stay hidden and the default order stands.
  */
 export function startCatalogOrder(): void {
   const directory = document.querySelector('.entries');
   let order = orderFromSearch(location.search);
   show(order);
-  for (const ribbon of document.querySelectorAll<HTMLButtonElement>('[data-bookmark]')) {
-    ribbon.hidden = false;
-    ribbon.addEventListener('click', () => {
-      writeBookmarks(toggled(readBookmarks(), ribbon.dataset.bookmark ?? ''));
+  for (const bookmark of document.querySelectorAll<HTMLButtonElement>('[data-bookmark]')) {
+    bookmark.hidden = false;
+    bookmark.addEventListener('click', () => {
+      writeBookmarks(toggled(readBookmarks(), bookmark.dataset.bookmark ?? ''));
       show(order);
     });
   }

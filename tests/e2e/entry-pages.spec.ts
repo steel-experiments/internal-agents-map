@@ -302,9 +302,11 @@ test.describe('page-content pilot', () => {
       await page.goto(`/agents/${id}`);
       await page.evaluate(async () => document.fonts.ready);
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(page.viewportSize()!.width);
+      // At the phone's device scale the long records exceed the height that Chromium can capture, so the capture uses CSS pixels.
       await page.screenshot({
         path: testInfo.outputPath(`pilot-${testInfo.project.name}-${id}.png`),
         fullPage: true,
+        scale: 'css',
       });
     });
   }
@@ -358,6 +360,7 @@ test.describe('page previews', () => {
       await page.screenshot({
         path: testInfo.outputPath(`${name}.png`),
         fullPage: true,
+        scale: 'css',
       });
     }
   });

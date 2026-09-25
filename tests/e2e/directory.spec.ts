@@ -450,14 +450,14 @@ test.describe('the directory order', () => {
   });
 
   test('puts a bookmarked card first, keeps it after a reload, and lets it go', async ({ page, javaScriptEnabled }) => {
-    test.skip(javaScriptEnabled === false, 'The ribbon needs the script.');
+    test.skip(javaScriptEnabled === false, 'The bookmark corner needs the script.');
     await page.goto('/');
     const last = (await cardOrder(page)).at(-1)!;
-    const ribbon = page.locator(`article.entry#${last.id} [data-bookmark]`);
-    await expect(ribbon).toHaveAttribute('aria-pressed', 'false');
-    await ribbon.click();
+    const corner = page.locator(`article.entry#${last.id} [data-bookmark]`);
+    await expect(corner).toHaveAttribute('aria-pressed', 'false');
+    await corner.click();
     await expect(page).toHaveURL(/\/$/);
-    await expect(ribbon).toHaveAttribute('aria-pressed', 'true');
+    await expect(corner).toHaveAttribute('aria-pressed', 'true');
     expect((await cardOrder(page))[0]!.id).toBe(last.id);
     await page.reload();
     expect((await cardOrder(page))[0]!.id).toBe(last.id);
@@ -466,6 +466,27 @@ test.describe('the directory order', () => {
     await page.locator(`article.entry#${last.id} [data-bookmark]`).click();
     await expect(page.locator(`article.entry#${last.id} [data-bookmark]`)).toHaveAttribute('aria-pressed', 'false');
     expect((await cardOrder(page))[0]!.id).not.toBe(last.id);
+  });
+
+  test('keeps an open pill menu above the results while the palette opens', async ({ page, javaScriptEnabled, isMobile }) => {
+    test.skip(javaScriptEnabled === false, 'The palette needs the script.');
+    test.skip(isMobile, 'On a phone the pills are in the filter sheet, above the results.');
+    await page.goto('/');
+    await page.locator('.search-launcher').click();
+    await page.locator('[data-palette-sort] .palette-pill').click();
+    // The opening animation gives each row a transform; hold them in that state.
+    const covered = await page.evaluate(() => {
+      for (const selector of ['.palette-filters', '.palette-results']) {
+        const row = document.querySelector<HTMLElement>(selector)!;
+        row.getAnimations().forEach((animation) => animation.cancel());
+        row.style.transform = 'translateY(1px)';
+      }
+      const option = document.querySelector<HTMLElement>('[data-palette-sort] [data-sort-option="az"]')!;
+      const box = option.getBoundingClientRect();
+      const top = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
+      return option.contains(top) ? null : top?.outerHTML.slice(0, 80);
+    });
+    expect(covered).toBeNull();
   });
 
   test('sorts the palette from its sort pill, and the directory with it', async ({ page, javaScriptEnabled }) => {
