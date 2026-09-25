@@ -34,9 +34,8 @@ html {
      apart, so a mark reads lighter than the text it accompanies. */
   --accent: var(--sand-9);
   --link: var(--sand-11);
-  /* The wordmark is the one element off the Sand scale and off Areal. Blue 12 is the
-     dark end of the accent scale, so the name reads as a title and not as a link. */
-  --brand: var(--blue-12);
+  /* The wordmark is the one element off the Sand scale and off Areal. */
+  --brand: #0700e1;
   --font-brand: 'Nanum Myeongjo', Georgia, 'Times New Roman', serif;
   /* A firm ease-out: quick to answer a pointer, unhurried on the way back. */
   --ease-out: cubic-bezier(.22, 1, .36, 1);
