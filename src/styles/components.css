@@ -158,29 +158,92 @@
   gap: 16px;
   margin-bottom: 8px;
 }
-/* The bookmark ribbon hangs from the top border of a directory card, clear of
-   the rounded corner. It sits above the heading link that covers the card, so
-   a click on it keeps the reader on the page. Pressed, the ribbon fills. Only
-   the boxed directory card has a border to hang from and an order to change. */
+/* The bookmark is a dog-ear: the top right corner of a directory card folds
+   down over the card. --fold is the length of the two folded edges. It is
+   registered as a length so that it can animate. */
+@property --fold {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
 .entry-bookmark { display: none; }
+.entries > .entry {
+  position: relative;
+  --fold: 0px;
+}
+/* The button is a fixed target at the corner, above the heading link that
+   covers the card, so a click on it keeps the reader on the page. Only the
+   boxed directory card has a corner to fold and an order to change. */
 .entries .entry-bookmark:not([hidden]) {
   position: absolute;
   z-index: 1;
-  /* One pixel up, so the ribbon meets the border with no gap under it. */
-  top: -1px;
-  right: 28px;
+  top: 0;
+  right: 0;
   display: block;
-  padding: 0 4px 4px;
+  width: 48px;
+  height: 48px;
+  padding: 0;
   border: 0;
+  border-radius: 0 26px 0 0;
   background: none;
-  /* At rest the ribbon is drawn in the line of the card border it hangs from. */
-  color: var(--sand-6);
-  line-height: 0;
   cursor: pointer;
 }
-.entries .entry-bookmark:hover { color: var(--sand-10); }
-.entries .entry-bookmark[aria-pressed="true"] { color: var(--blue-9); }
-.entries .entry-bookmark[aria-pressed="true"] svg { fill: currentColor; }
+/* The corner that folds away shows the page behind the card. The square is
+   one pixel out from the card, so that it also covers the card border. */
+.entries .entry-bookmark::before,
+.entry-fold {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: var(--fold);
+  height: var(--fold);
+}
+.entries .entry-bookmark::before {
+  content: "";
+  background: var(--sand-1);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+/* The flap is the back of the corner, turned over the crease. The crease is
+   the diagonal of the square, and the rounded corner of the card lands at the
+   opposite corner of the square. The shadow is on the wrapper, so it follows
+   the clipped shape of the flap. */
+.entry-fold {
+  filter: drop-shadow(-1px 2px 1.5px rgba(0, 0, 0, .08));
+}
+.entry-fold::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* An inset shadow draws the edge: unlike a border, it draws nothing while
+     the fold has no size. */
+  box-shadow: inset .5px -.5px 0 var(--sand-6);
+  border-radius: 0 0 0 26px;
+  background: linear-gradient(to bottom left, var(--sand-4) 50%, var(--sand-2) 80%, var(--sand-3));
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+.entries .entry-bookmark[aria-pressed="true"] .entry-fold::before {
+  box-shadow: inset .5px -.5px 0 var(--blue-6);
+  background: linear-gradient(to bottom left, var(--blue-5) 50%, var(--blue-3) 80%, var(--blue-4));
+}
+/* A bookmarked card keeps its corner folded. */
+.entries > .entry:has([aria-pressed="true"]) { --fold: 30px; }
+/* Without hover the corner shows a small fold, so the reader can find it. */
+@media (hover: none) {
+  .entries > .entry:has([aria-pressed="false"]) { --fold: 20px; }
+}
+/* On hover the corner starts to peel. Over the corner it lifts further, and
+   a bookmarked corner presses flat under the pointer. */
+@media (hover: hover) {
+  .entries > .entry:hover { --fold: 22px; }
+  .entries > .entry:has([aria-pressed="false"]:hover) { --fold: 40px; }
+  .entries > .entry:has([aria-pressed="true"]:hover) { --fold: 32px; }
+}
+.entries > .entry:has([aria-pressed="false"]:focus-visible) { --fold: 40px; }
+.entries .entry-bookmark:focus-visible { outline-offset: -4px; }
+@media (prefers-reduced-motion: no-preference) {
+  .entries > .entry { transition: --fold var(--hover-out) var(--ease-out); }
+  .entries > .entry:hover { transition-duration: var(--hover-in); }
+}
 .company {
   font-size: var(--text-xs);
   font-weight: 400;
@@ -259,7 +322,7 @@
     0 2px 4px rgba(0, 0, 0, .02);
 }
 /* The badges lead the card. The markup keeps the name first, which is the
-   order this reads in as text. The right padding keeps them clear of the ribbon. */
+   order this reads in as text. The right padding keeps them clear of the fold. */
 .entries .tags { order: -1; margin: 0; padding-right: 32px; }
 /* The name and its summary close the card, below whatever space is left. */
 .entries .entry-top { margin-top: auto; }
