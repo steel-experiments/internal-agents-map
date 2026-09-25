@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: harvey-security-operations
 company: Harvey
 agent_name: Security operations agents

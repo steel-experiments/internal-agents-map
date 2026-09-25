@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: domu-clementino
 company: Domu
 agent_name: Clementino

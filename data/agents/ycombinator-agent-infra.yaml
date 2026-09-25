@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: ycombinator-agent-infra
 company: Y Combinator
 agent_name: Internal agent infrastructure

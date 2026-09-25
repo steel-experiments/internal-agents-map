@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: shopify-river
 company: Shopify
 agent_name: River

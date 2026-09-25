@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: notion-custom-agents
 company: Notion
 agent_name: Custom Agents
@@ -43,13 +44,9 @@ primitives:
   desc: A documented internal agent receives a bug posted in Slack, routes it to the responsible team, creates a
     task-database entry, and replies in the triggering channel
 - name: Default-deny permission model
-  desc: Each Custom Agent starts without access to most resources and receives explicit page
-  integration: null
-  tool: null
-  and action permissions: null
+  desc: "Each Custom Agent starts without access to most resources and receives explicit page, integration, tool, and action permissions"
 - name: Risk confirmation and remediation
-  desc: Potentially risky runtime actions pause for confirmation from the agent owner
-  who can also delete an incorrect Slack message: null
+  desc: "Potentially risky runtime actions pause for confirmation from the agent owner, who can also delete an incorrect Slack message"
 key_metrics:
 - More than 3,000 internal Custom Agents by end of alpha testing
 - Notion's security team is one of the most active internal users

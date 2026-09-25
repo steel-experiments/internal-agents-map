@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: microsoft-prassistant
 company: Microsoft
 agent_name: AI-powered code review assistant
@@ -31,7 +32,7 @@ architecture:
 primitives:
 - {name: Automatic first review, desc: Creating a pull request can automatically start the assistant as a reviewer}
 - {name: Review and summarize, desc: "The assistant reviews the diff, writes a pull-request summary, and posts categorized findings on specific lines"}
-- {name: Suggest changes, desc: For a bug or suboptimal pattern, the assistant proposes a code snippet or alternative implementation}
+- {name: Suggest changes, desc: "For a bug or suboptimal pattern, the assistant proposes a code snippet or alternative implementation"}
 - {name: Author decision, desc: "The author reviews, edits, and explicitly applies a suggestion; the assistant does not commit it directly"}
 - {name: Pull-request Q&A, desc: Reviewers can ask the assistant questions in the pull-request discussion and receive answers about the code}
 key_metrics:

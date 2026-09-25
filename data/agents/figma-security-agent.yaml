@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: figma-security-agent
 company: Figma
 agent_name: Security alert triage and investigation agents

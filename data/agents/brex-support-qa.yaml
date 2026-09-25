@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: brex-support-qa
 company: Brex
 agent_name: Support quality agent

@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: brex-collections
 company: Brex
 agent_name: Collections response agent

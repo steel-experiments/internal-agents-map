@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: doordash-flux
 company: DoorDash
 agent_name: Flux

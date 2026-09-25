@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: brex-onboarding
 company: Brex
 agent_name: Onboarding decision system

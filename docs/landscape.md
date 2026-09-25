@@ -2192,7 +2192,7 @@ Last reviewed: 2026-09-21.
 
 - Automatic first review: Creating a pull request can automatically start the assistant as a reviewer <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small>
 - Review and summarize: The assistant reviews the diff, writes a pull-request summary, and posts categorized findings on specific lines <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small>
-- Suggest changes: For a bug or suboptimal pattern <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small>
+- Suggest changes: For a bug or suboptimal pattern, the assistant proposes a code snippet or alternative implementation <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small>
 - Author decision: The author reviews, edits, and explicitly applies a suggestion; the assistant does not commit it directly <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small>
 - Pull-request Q&A: Reviewers can ask the assistant questions in the pull-request discussion and receive answers about the code <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small>
 
@@ -2321,8 +2321,8 @@ Last reviewed: 2026-09-16.
 ### Primitives
 
 - Slack bug-triage agent: A documented internal agent receives a bug posted in Slack, routes it to the responsible team, creates a task-database entry, and replies in the triggering channel <small>Sources: [notion-custom-agents-source-1](#notion-custom-agents-source-1).</small>
-- Default-deny permission model: Each Custom Agent starts without access to most resources and receives explicit page <small>Sources: [notion-custom-agents-source-2](#notion-custom-agents-source-2).</small>
-- Risk confirmation and remediation: Potentially risky runtime actions pause for confirmation from the agent owner <small>Sources: [notion-custom-agents-source-2](#notion-custom-agents-source-2).</small>
+- Default-deny permission model: Each Custom Agent starts without access to most resources and receives explicit page, integration, tool, and action permissions <small>Sources: [notion-custom-agents-source-2](#notion-custom-agents-source-2).</small>
+- Risk confirmation and remediation: Potentially risky runtime actions pause for confirmation from the agent owner, who can also delete an incorrect Slack message <small>Sources: [notion-custom-agents-source-2](#notion-custom-agents-source-2).</small>
 
 ### Reported metrics
 
@@ -2548,7 +2548,7 @@ Last reviewed: 2026-09-16.
 ### Primitives
 
 - Propose-only mitigation: Proposes mitigations in the incident channel; an engineer can instruct it to apply a specific mitigation <small>Sources: [openai-sevbot-article](#openai-sevbot-article).</small>
-- Wake on a detected incident: When an incident is detected <small>Sources: [openai-sevbot-article](#openai-sevbot-article).</small>
+- Wake on a detected incident: When an incident is detected, the bot wakes up <small>Sources: [openai-sevbot-article](#openai-sevbot-article).</small>
 - Collect incident context: Collects context about the incident <small>Sources: [openai-sevbot-article](#openai-sevbot-article).</small>
 - Answer developers' questions: Answers developers' questions as part of the incident Slack channel <small>Sources: [openai-sevbot-article](#openai-sevbot-article).</small>
 
@@ -2901,7 +2901,7 @@ Last reviewed: 2026-09-16.
 - Manager agent: One human gives an objective; the manager spawns parallel agents for verifiable work and escalates judgment <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
 - Take an objective and gather context: The manager agent takes a goal from a person and gathers context across company systems <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
 - Spawn parallel loop agents: It spawns multiple agents that work in loops on the verifiable task for the person <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
-- Check results and escalate judgment: Work results are checked <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
+- Check results and escalate judgment: Work results are checked, and human judgment is requested when needed <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
 
 ### Reported metrics
 

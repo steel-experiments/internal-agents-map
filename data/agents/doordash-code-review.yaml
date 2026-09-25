@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: doordash-code-review
 company: DoorDash
 agent_name: AI Code Review Agent

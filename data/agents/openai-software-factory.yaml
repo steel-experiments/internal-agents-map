@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: openai-software-factory
 company: OpenAI
 agent_name: Agentic software factory

@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: snap-casper
 company: Snap
 agent_name: Casper
