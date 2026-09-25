@@ -30,4 +30,19 @@ jobs:
       - run: uv sync --locked
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      # The build keeps each drawn link preview card here. npm ci empties node_modules, so this step comes after it.
+      - id: og-cards
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: node_modules/.cache/og-cards
+          key: og-cards-${{ hashFiles('src/**', 'data/**', 'public/**', 'package-lock.json') }}
+          restore-keys: og-cards-
       - run: npm run verify
+      # A card that this run did not read or draw has stale input.
+      - run: find node_modules/.cache/og-cards -type f -mmin +30 -delete
+        if: steps.og-cards.outputs.cache-hit != 'true'
+      - uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        if: steps.og-cards.outputs.cache-hit != 'true'
+        with:
+          path: node_modules/.cache/og-cards
+          key: ${{ steps.og-cards.outputs.cache-primary-key }}

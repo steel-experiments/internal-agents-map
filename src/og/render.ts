@@ -1,7 +1,8 @@
 // ABOUTME: Draws one link preview card as a PNG with satori and resvg at build time.
-// ABOUTME: Reads the licensed ABC Areal desktop files and the vendored logos from disk.
+// ABOUTME: Reads the licensed ABC Areal desktop files and the vendored logos, and keeps drawn cards in a disk cache.
 
-import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { mkdirSync, readFileSync, utimesSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { Resvg } from '@resvg/resvg-js';
 import satori, { type Font } from 'satori';
@@ -11,6 +12,9 @@ import { OG_HEIGHT, OG_WIDTH, type OgCard, type OgEntryCard, type OgLogo, type O
 const ROOT = process.cwd();
 const FONT_DIR = path.join(ROOT, 'src/og/fonts');
 const PUBLIC_DIR = path.join(ROOT, 'public');
+// Drawing one card takes about half a second, so the build keeps each PNG under the hash of its input.
+// CI restores this directory between runs and removes the files that a run did not use.
+const CACHE_DIR = path.join(ROOT, 'node_modules/.cache/og-cards');
 
 const INK = '#21201c';
 const SAND1 = '#fdfdfc';
@@ -199,10 +203,47 @@ function tree(card: OgCard): Node {
   }
 }
 
-/** Render one card to PNG bytes. The same input gives the same bytes. */
-export async function renderCard(card: OgCard): Promise<Uint8Array> {
-  const svg = await satori(tree(card) as never, { width: OG_WIDTH, height: OG_HEIGHT, fonts: loadFonts() });
+function packageVersion(name: string): string {
+  return JSON.parse(readFileSync(path.join(ROOT, 'node_modules', name, 'package.json'), 'utf8')).version;
+}
+
+/**
+ * The hash of all that decides the PNG bytes. The element tree holds every style and each logo as a
+ * data URI, so a change to the layout, the content, or a logo gives a new key.
+ */
+function cacheKey(element: Node): string {
+  const hash = createHash('sha256');
+  hash.update(JSON.stringify(element));
+  for (const font of loadFonts()) hash.update(font.data as Buffer);
+  hash.update(`${OG_WIDTH}x${OG_HEIGHT} satori@${packageVersion('satori')} resvg@${packageVersion('@resvg/resvg-js')}`);
+  return hash.digest('hex');
+}
+
+async function draw(element: Node): Promise<Uint8Array> {
+  const svg = await satori(element as never, { width: OG_WIDTH, height: OG_HEIGHT, fonts: loadFonts() });
   return new Resvg(svg, { fitTo: { mode: 'width', value: OG_WIDTH } }).render().asPng();
+}
+
+/**
+ * Render one card to PNG bytes. The same input gives the same bytes.
+ * With a cache directory, a card drawn before is read from disk; `null` always draws.
+ */
+export async function renderCard(card: OgCard, cacheDir: string | null = CACHE_DIR): Promise<Uint8Array> {
+  const element = tree(card);
+  if (cacheDir === null) return draw(element);
+  const file = path.join(cacheDir, `${cacheKey(element)}.png`);
+  try {
+    const bytes = readFileSync(file);
+    // A fresh time marks the file as in use, so CI keeps it.
+    const now = new Date();
+    utimesSync(file, now, now);
+    return bytes;
+  } catch {
+    const bytes = await draw(element);
+    mkdirSync(cacheDir, { recursive: true });
+    writeFileSync(file, bytes);
+    return bytes;
+  }
 }
 
 /** The HTTP response of a card endpoint. */
