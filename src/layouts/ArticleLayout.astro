@@ -101,6 +101,7 @@ const {
   /* The fill is the plot's own, so nothing needs clipping and a name near an
      edge can run past it rather than being cut. */
   background: var(--sand-3);
+  position: relative;
 }
 .quadrant-cell { position: relative; min-width: 0; }
 /* The two axes carry the same hairline as the square they divide. */
@@ -111,48 +112,51 @@ const {
 .quadrant-cell:nth-child(n+3) h3 { top: auto; bottom: var(--cell-inset); }
 /* The two right-hand cells read from the edge they sit against. */
 .quadrant-cell:nth-child(2) h3, .quadrant-cell:nth-child(4) h3 { text-align: right; }
-.quadrant-cell ul { margin: 0; padding: 0; list-style: none; }
-.quadrant-cell li { position: absolute; left: 15%; top: 34%; max-width: 78%; font-size: 14px; padding-left: 20px; }
-.quadrant-cell li:nth-child(2) { left: 33%; top: 65%; }
-.quadrant-assistants li { left: 12%; top: 15%; }
-.quadrant-assistants li:nth-child(2) { left: 33%; top: 37%; }
-.quadrant-assistants li:nth-child(3) { left: 20%; top: 60%; }
-.quadrant-cell li::before {
+/* Each marker sits at the position its data names: --x and --y run from 0 to 100
+   across the whole plot, with 0 at the left and at the foot. The point is the centre
+   of the mark. A marker on the right half reads leftward from its point, so its name
+   stays inside the plot at every width, and a name wraps before it leaves its half. */
+.quadrant-markers { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
+.quadrant-markers li {
+  --dot: 12.5px;
+  position: absolute;
+  top: calc((100 - var(--y)) * 1% - 1.35em / 2);
+  font-size: 14px;
+  line-height: 1.35;
+}
+.quadrant-markers .marker-start {
+  left: calc(var(--x) * 1% - var(--dot) / 2);
+  max-width: max(9em, calc((50 - var(--x)) * 1% - 8px));
+  padding-left: calc(var(--dot) + 7.5px);
+}
+.quadrant-markers .marker-end {
+  right: calc((100 - var(--x)) * 1% - var(--dot) / 2);
+  max-width: max(9em, calc((var(--x) - 50) * 1% - 8px));
+  padding-right: calc(var(--dot) + 7.5px);
+  text-align: right;
+}
+.quadrant-markers li::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: calc((1.35em - 12.5px) / 2);
-  width: 12.5px;
-  height: 12.5px;
+  top: calc((1.35em - var(--dot)) / 2);
+  width: var(--dot);
+  height: var(--dot);
   border-radius: 50%;
   background: var(--blue-9);
 }
-.quadrant-cell a { display: block; line-height: 1.35; text-decoration: none; }
-.quadrant-cell a:hover { color: var(--sand-10); }
-.quadrant-cell li strong { display: block; font-size: 14px; font-weight: 500; line-height: 1.35; }
-.quadrant-cell li span { display: block; font-size: 14px; line-height: 1.35; margin-top: 4px; }
-.quadrant-cell .reference-marker { color: var(--sand-10); }
-.quadrant-cell .reference-marker strong { color: var(--sand-12); }
-/* A reference names a class of product: breaking it reads as two of them. */
-.quadrant-cell .reference-marker { max-width: none; white-space: nowrap; }
-.quadrant-cell .reference-marker::before {
-  top: calc((1.35em - 12px) / 2);
-  border-radius: 0;
-  width: 12px;
-  height: 12px;
-  background: var(--green-9);
-  clip-path: var(--triangle);
-}
-.quadrant-cell li[data-chart-reference="deep-research"] { left: 5%; top: 42%; max-width: 40%; }
-.quadrant-cell li[data-chart-reference="ready-made-task"] { left: 49%; top: 42%; max-width: 48%; }
-.quadrant-cell li[data-chart-reference="general-assistant"] { left: 28%; top: 34%; max-width: 66%; }
-.quadrant-cell li[data-chart-approach-id="doordash-code-review"] { left: 10%; top: 30%; max-width: 56%; }
-.quadrant-cell li[data-chart-approach-id="posthog-stamphog"] { left: 15%; top: 72%; max-width: 46%; }
-.quadrant-cell li[data-chart-approach-id="ramp-inspect"] { left: 60%; top: 76%; max-width: 35%; }
-.quadrant-cell li[data-chart-approach-id="stripe-minions"] { left: 56%; top: 48%; max-width: 40%; }
-.quadrant-cell li[data-chart-approach-id="brex-agent-platform"] { left: 10%; top: 30%; max-width: 58%; }
-.quadrant-cell li[data-chart-approach-id="sentry-junior"] { left: 56%; top: 50%; max-width: 38%; }
-.quadrant-cell li[data-chart-approach-id="shopify-internal-agents"] { left: 17%; top: 72%; max-width: 52%; }
+.quadrant-markers .marker-start::before { left: 0; }
+.quadrant-markers .marker-end::before { right: 0; }
+.quadrant-markers a { display: block; line-height: 1.35; text-decoration: none; }
+.quadrant-markers a:hover { color: var(--sand-10); }
+.quadrant-markers strong { display: block; font-size: 14px; font-weight: 500; line-height: 1.35; }
+.quadrant-markers span { display: block; font-size: 14px; line-height: 1.35; margin-top: 4px; }
+.quadrant-markers .reference-marker { --dot: 12px; color: var(--sand-10); }
+.quadrant-markers .reference-marker strong { color: var(--sand-12); }
+.quadrant-markers .reference-marker::before { border-radius: 0; background: var(--green-9); clip-path: var(--triangle); }
+/* An arrow runs from a standard product up to a company system built on it. */
+.quadrant-arrows { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.quadrant-arrows line { stroke: var(--sand-8); stroke-width: 1.25; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; }
+.quadrant-arrows path { fill: var(--sand-8); }
 .quadrant-x-axis { display: flex; justify-content: space-between; gap: 12px; padding: 0 var(--cell-inset); font-size: var(--text-xs); line-height: var(--scale-row); color: var(--muted); }
 .quadrant-legend { display: flex; flex-wrap: wrap; gap: 12px 24px; margin: 24px 0 12px; color: var(--muted); font-size: var(--text-sm); }
 .quadrant-legend span { display: inline-flex; align-items: center; gap: 8px; }
@@ -573,29 +577,13 @@ const {
   .quadrant-cell h3 { left: 12px; right: 12px; top: 12px; }
   .quadrant-cell h3 span { display: none; }
   .quadrant-cell:nth-child(n+3) h3 { bottom: 12px; }
-  .quadrant-cell li { padding-left: 20px; }
   .quadrant-x-axis, .quadrant-y-axis { display: none; }
-
-  .quadrant-cell li::before { width: 10px; height: 10px; top: calc((1.35em - 10px) / 2); }
-  .quadrant-cell .reference-marker::before { width: 10px; height: 10px; top: calc((1.35em - 10px) / 2); }
-  /* Each name holds one line here, so the narrow plot is placed name by name:
-     clear of the region titles, clear of each other, and clear of every edge.
-     A name in a right-hand region hangs off the right so it cannot run out. */
-  .quadrant-cell li[data-chart-approach-id="doordash-code-review"] { left: 10%; top: 34%; }
-  .quadrant-cell li[data-chart-approach-id="stripe-minions"] { left: 56%; top: 54%; }
-  .quadrant-cell li[data-chart-approach-id="posthog-stamphog"] { left: 10%; top: 72%; }
-  .quadrant-cell li[data-chart-approach-id="ramp-inspect"] { left: 64%; top: 86%; }
-  .quadrant-cell li[data-chart-approach-id="brex-agent-platform"] { left: 10%; top: 34%; }
-  .quadrant-cell li[data-chart-approach-id="sentry-junior"] { left: auto; right: 12px; top: 54%; }
-  .quadrant-cell li[data-chart-approach-id="shopify-internal-agents"] { left: 10%; top: 72%; }
-  .quadrant-cell li[data-chart-reference="deep-research"] { left: 7%; top: 8%; }
-  .quadrant-cell li[data-chart-reference="ready-made-task"] { left: 7%; top: 50%; }
-  .quadrant-cell li[data-chart-reference="general-assistant"] { left: auto; right: 12px; top: 32%; }
-  .quadrant-cell li span { display: none; }
-  .quadrant-cell li strong { font-weight: 400; }
-  .quadrant-cell li,
-  .quadrant-cell li[data-chart-approach-id],
-  .quadrant-cell li[data-chart-reference] { max-width: none; white-space: nowrap; }
+  /* Each name holds one line here: the company, or the name of the reference. */
+  .quadrant-markers li { --dot: 10px; white-space: nowrap; }
+  .quadrant-markers .reference-marker { --dot: 10px; }
+  .quadrant-markers .marker-start, .quadrant-markers .marker-end { max-width: none; }
+  .quadrant-markers span { display: none; }
+  .quadrant-markers strong { font-weight: 400; }
   .quadrant-legend { gap: 8px 16px; }
   .core-definition { padding: 40px 20px; }
   .concept-pair { grid-template-columns: 1fr; }

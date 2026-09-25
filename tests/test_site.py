@@ -143,15 +143,18 @@ class ArtifactTests(unittest.TestCase):
         definitions = (DIST / "definitions.html").read_text(encoding="utf-8")
         self.assertEqual(definitions.count("data-chart-reference="), 3)
         chart = definitions.split('class="quadrant-plot"', 1)[1].split("</figure>", 1)[0]
+        notes = definitions.split('class="placement-notes"', 1)[1].split("</details>", 1)[0]
+        # Each marker links to its note, and the note links to the entry page.
         placed = {
-            fragment.split('"', 1)[0].split("#")[0]
-            for fragment in chart.split('href="/agents/')[1:]
+            fragment.split('"', 1)[0] for fragment in chart.split('data-chart-approach-id="')[1:]
         }
-        placed = {f"/agents/{path}" for path in placed}
         self.assertTrue(placed)
-        self.assertEqual(definitions.count("data-chart-approach-id="), len(placed))
-        known = {f"/agents/{a['id']}" for a in self.catalog["approaches"]}
+        known = {a["id"] for a in self.catalog["approaches"]}
         self.assertEqual(placed - known, set())
+        for approach_id in placed:
+            self.assertIn(f'href="#placement-{approach_id}"', chart)
+            self.assertIn(f'id="placement-{approach_id}"', notes)
+            self.assertIn(f'href="/agents/{approach_id}"', notes)
 
 
 if __name__ == "__main__":

@@ -5,9 +5,8 @@ import ArticleLayout from '../layouts/ArticleLayout.astro';
 import Icon from '../components/Icon.astro';
 import Inline from '../components/Inline.astro';
 import { loadCatalog } from '../lib/catalog';
-import { placements, placementsByCell } from '../lib/definitions';
+import { markerAnchor, placements, referenceMarkers, upgradePaths, type UpgradePathView } from '../lib/definitions';
 import {
-  ASSISTANT_REFERENCES,
   APPROACH_TYPE_DEFINITIONS,
   WORK_DOMAIN_DESCRIPTION,
   WORK_MODES_DESCRIPTION,
@@ -23,7 +22,6 @@ import {
   DEFINITIONS_TITLE,
   DEFINITIONS_WORKFLOW,
   INVOCATION_DEFINITIONS,
-  READY_REFERENCES,
   REFERENCE_PLACEMENTS,
   inlineHref,
 } from '../lib/guide-content';
@@ -33,8 +31,20 @@ import { canonicalUrl, guidePath } from '../lib/routes';
 import { SECTION_CARDS } from '../lib/section-cards';
 
 const catalog = loadCatalog();
-const cells = placementsByCell(catalog);
 const placed = placements(catalog);
+const references = referenceMarkers();
+const arrows = upgradePaths(catalog);
+/** A marker on the right half reads leftward from its point, so its name stays inside the plot. */
+const markerSide = (x: number) => (x < 50 ? 'marker-start' : 'marker-end');
+const at = (item: { x: number; y: number }) => `--x: ${item.x}; --y: ${item.y}`;
+/** The arrow in plot units, with 0 at the top, stopping short of both marks. */
+function arrowLine(arrow: UpgradePathView): [number, number, number, number] {
+  const gap = 3;
+  const [x1, y1, x2, y2] = [arrow.from.x, 100 - arrow.from.y, arrow.to.x, 100 - arrow.to.y];
+  const length = Math.hypot(x2 - x1, y2 - y1);
+  const [dx, dy] = [((x2 - x1) / length) * gap, ((y2 - y1) / length) * gap];
+  return [x1 + dx, y1 + dy, x2 - dx, y2 - dy].map((value) => Math.round(value * 100) / 100) as [number, number, number, number];
+}
 const reviewed = catalog.approaches
   .map((approach) => approach.last_reviewed_at)
   .sort()
@@ -156,47 +166,33 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
       <div class="quadrant-chart">
         <div class="quadrant-y-axis"><span>{chart.verticalAxis.from}</span><span>{chart.verticalAxis.to}</span></div>
         <div class="quadrant-plot">
-          <div class="quadrant-cell quadrant-specialized">
-            <h3><span>{chart.cells.specialized.scope}</span>{chart.cells.specialized.title}</h3>
-            <ul>
-              {cells.specialized.map((item) => (
-                <li data-chart-approach-id={item.id}>
-                  <a href={item.path} title={item.reason}><strong>{item.company}</strong><span>{item.agentName}</span></a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div class="quadrant-cell quadrant-shared">
-            <h3><span>{chart.cells.shared.scope}</span>{chart.cells.shared.title}</h3>
-            <ul>
-              {cells.shared.map((item) => (
-                <li data-chart-approach-id={item.id}>
-                  <a href={item.path} title={item.reason}><strong>{item.company}</strong><span>{item.agentName}</span></a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div class="quadrant-cell quadrant-ready">
-            <h3><span>{chart.cells.ready.scope}</span>{chart.cells.ready.title}</h3>
-            <ul>
-              {cells.ready.map((item) => (
-                <li data-chart-approach-id={item.id}>
-                  <a href={item.path} title={item.reason}><strong>{item.company}</strong><span>{item.agentName}</span></a>
-                </li>
-              ))}
-              {READY_REFERENCES.map((item) => (
-                <li class="reference-marker" data-chart-reference={item.id}><strong>{item.name}</strong><span>{item.category}</span></li>
-              ))}
-            </ul>
-          </div>
-          <div class="quadrant-cell quadrant-assistants">
-            <h3><span>{chart.cells.assistants.scope}</span>{chart.cells.assistants.title}</h3>
-            <ul>
-              {ASSISTANT_REFERENCES.map((item) => (
-                <li class="reference-marker" data-chart-reference={item.id}><strong>{item.name}</strong><span>{item.category}</span></li>
-              ))}
-            </ul>
-          </div>
+          <div class="quadrant-cell quadrant-specialized"><h3><span>{chart.cells.specialized.scope}</span>{chart.cells.specialized.title}</h3></div>
+          <div class="quadrant-cell quadrant-shared"><h3><span>{chart.cells.shared.scope}</span>{chart.cells.shared.title}</h3></div>
+          <div class="quadrant-cell quadrant-ready"><h3><span>{chart.cells.ready.scope}</span>{chart.cells.ready.title}</h3></div>
+          <div class="quadrant-cell quadrant-assistants"><h3><span>{chart.cells.assistants.scope}</span>{chart.cells.assistants.title}</h3></div>
+          <svg class="quadrant-arrows" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <marker id="quadrant-arrowhead" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="1.6" markerHeight="1.6" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0 0 L10 5 L0 10 Z" />
+              </marker>
+            </defs>
+            {arrows.map((arrow) => {
+              const [x1, y1, x2, y2] = arrowLine(arrow);
+              return <line data-chart-arrow={`${arrow.from.id} ${arrow.to.id}`} x1={x1} y1={y1} x2={x2} y2={y2} marker-end="url(#quadrant-arrowhead)" />;
+            })}
+          </svg>
+          <ul class="quadrant-markers">
+            {placed.map((item) => (
+              <li class={markerSide(item.x)} style={at(item)} data-chart-approach-id={item.id} data-chart-cell={item.cell}>
+                <a href={`#${markerAnchor(item.id)}`}><strong>{item.company}</strong><span>{item.agentName}</span></a>
+              </li>
+            ))}
+            {references.map((item) => (
+              <li class={`reference-marker ${markerSide(item.x)}`} style={at(item)} data-chart-reference={item.id} data-chart-cell={item.cell}>
+                <a href={`#${markerAnchor(item.id)}`}><strong>{item.name}</strong><span>{item.category}</span></a>
+              </li>
+            ))}
+          </ul>
         </div>
         <div class="quadrant-x-axis"><span>{chart.horizontalAxis.from}</span><span>{chart.horizontalAxis.to}</span></div>
       </div>
@@ -207,8 +203,8 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
       <summary><span>{chart.notesSummary}</span><Icon name="chevron-down" /></summary>
       <ul>
         {placed.map((item) => (
-          <li>
-            <strong>{item.company} · {item.agentName}</strong>
+          <li id={markerAnchor(item.id)}>
+            <strong><a href={item.path}>{item.company} · {item.agentName}</a></strong>
             <p>{item.reason}</p>
             <div>
               {item.evidence.map((link, index) => (
@@ -218,7 +214,7 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
           </li>
         ))}
         {REFERENCE_PLACEMENTS.map((item) => (
-          <li class="reference-placement">
+          <li class="reference-placement" id={markerAnchor(item.id)}>
             <strong>Reference · {item.name}</strong>
             <p>{item.reason}</p>
             <div>
@@ -373,6 +369,7 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
   </section>
 </ArticleLayout>
 <script>
+  import { startOpenTargets } from '../scripts/open-target';
   import { startSignals } from '../scripts/signals';
   import { startWorkCycle } from '../scripts/work-cycle';
 
@@ -382,5 +379,6 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
   document.addEventListener('astro:page-load', () => {
     startSignals();
     startWorkCycle();
+    startOpenTargets();
   });
 </script>

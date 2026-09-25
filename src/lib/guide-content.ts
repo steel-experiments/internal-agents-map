@@ -55,6 +55,9 @@ export const REPOSITORY_LINKS: readonly GuideLink[] = [
 
 export interface ReferencePlacement {
   readonly id: string;
+  /** The position on the Definitions chart, from 0 to 100 on each axis. */
+  readonly x: number;
+  readonly y: number;
   readonly name: string;
   readonly category: string;
   readonly reason: string;
@@ -68,6 +71,8 @@ export interface ReferencePlacement {
 export const REFERENCE_PLACEMENTS: readonly ReferencePlacement[] = [
   {
     id: 'deep-research',
+    x: 8,
+    y: 18,
     name: 'Deep research agent',
     category: 'Research workflow',
     reason:
@@ -87,7 +92,9 @@ export const REFERENCE_PLACEMENTS: readonly ReferencePlacement[] = [
   },
   {
     id: 'ready-made-task',
-    name: 'Codex / Claude Code / Devin',
+    x: 22,
+    y: 30,
+    name: 'Codex / Claude Code / Copilot',
     category: 'Software engineering agents',
     reason:
       'Ready-made agents that cover several software engineering workflows. Repository ' +
@@ -98,11 +105,13 @@ export const REFERENCE_PLACEMENTS: readonly ReferencePlacement[] = [
         label: 'Claude Code overview',
         url: 'https://docs.anthropic.com/en/docs/claude-code/getting-started',
       },
-      { label: 'Devin overview', url: 'https://docs.devin.ai/get-started/devin-intro' },
+      { label: 'GitHub Copilot overview', url: 'https://github.com/features/copilot' },
     ],
   },
   {
     id: 'general-assistant',
+    x: 76,
+    y: 36,
     name: 'ChatGPT / Claude',
     category: 'Default setup · reference products',
     reason:
@@ -117,16 +126,6 @@ export const REFERENCE_PLACEMENTS: readonly ReferencePlacement[] = [
     ],
   },
 ];
-
-/** The reference markers that belong in the ready-made focused-agent region. */
-export const READY_REFERENCES = REFERENCE_PLACEMENTS.filter(
-  (item) => item.id === 'deep-research' || item.id === 'ready-made-task',
-);
-
-/** The reference marker that belongs in the "general-purpose assistants" region. */
-export const ASSISTANT_REFERENCES = REFERENCE_PLACEMENTS.filter(
-  (item) => item.id === 'general-assistant',
-);
 
 /** One piece of a text block: plain words, bold words, or a link. */
 export type Inline = string | InlineStrong | InlineLink;
@@ -530,7 +529,7 @@ export const DEFINITIONS_CHART = {
   } as Record<string, ChartCell>,
   emptyCell: 'No selected example currently fits.',
   caption: [
-    'Illustrative placements based on public descriptions. Blue circles are agents; infrastructure is excluded from this comparison; green triangles are reference products or categories in their default setup. Positions show broad relationships, not measured scores. Spacing within a region is for readability.',
+    'Illustrative placements based on public descriptions. Blue circles are agents; infrastructure is excluded from this comparison; green triangles are reference products or categories in their default setup. An arrow runs from a standard product to a company system built on it, which the company moved upward with its own knowledge and tools. Positions show broad relationships, not measured scores. Spacing within a region is for readability.',
   ] as TextBlock,
   body: [
     [

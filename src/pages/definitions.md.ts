@@ -2,9 +2,16 @@
 // ABOUTME: The placements come from the catalog, so the export follows the evidence.
 import type { APIRoute } from 'astro';
 import { loadCatalog } from '../lib/catalog';
-import { placements, placementsByCell, type PlacementView } from '../lib/definitions';
 import {
-  ASSISTANT_REFERENCES,
+  markerAnchor,
+  placements,
+  placementsByCell,
+  referenceMarkers,
+  upgradePaths,
+  type PlacementView,
+  type QuadrantCell,
+} from '../lib/definitions';
+import {
   APPROACH_TYPE_DEFINITIONS,
   WORK_DOMAIN_DESCRIPTION,
   WORK_MODES_DESCRIPTION,
@@ -19,7 +26,6 @@ import {
   DEFINITIONS_TERMS,
   DEFINITIONS_WORKFLOW,
   INVOCATION_DEFINITIONS,
-  READY_REFERENCES,
   REFERENCE_PLACEMENTS,
   inlineMarkdown,
   type ChartCell,
@@ -34,12 +40,17 @@ function blocks(items: readonly TextBlock[]): string[] {
   return items.map((item) => inlineMarkdown(item));
 }
 
+/** A marker links to its note on the page, as the chart does. */
+function noteLink(id: string): string {
+  return `${canonicalUrl(guidePath('definitions'))}#${markerAnchor(id)}`;
+}
+
 function marker(placement: PlacementView): string {
-  return `- [**${placement.company}** ${placement.agentName}](${canonicalUrl(placement.path)} "${placement.reason}")`;
+  return `- [**${placement.company}** ${placement.agentName}](${noteLink(placement.id)} "${placement.reason}")`;
 }
 
 function referenceMarker(reference: ReferencePlacement): string {
-  return `- **${reference.name}** ${reference.category}`;
+  return `- [**${reference.name}** ${reference.category}](${noteLink(reference.id)})`;
 }
 
 function cell(heading: ChartCell, lines: readonly string[]): string[] {
@@ -62,7 +73,7 @@ function placementNote(placement: PlacementView): string {
     .map((item) => `[${item.label}](${canonicalUrl(item.href)})`)
     .join(' · ');
   return [
-    `- **${placement.company} · ${placement.agentName}**`,
+    `- **[${placement.company} · ${placement.agentName}](${canonicalUrl(placement.path)})**`,
     `  ${placement.reason}`,
     `  ${links}`,
   ].join('\n\n');
@@ -81,6 +92,15 @@ function document(): string {
   const catalog = loadCatalog();
   const cells = placementsByCell(catalog);
   const placed = placements(catalog);
+  const references = referenceMarkers();
+  const inCell = (region: QuadrantCell) => references.filter((item) => item.cell === region).map(referenceMarker);
+  const names = new Map<string, string>([
+    ...placed.map((item): [string, string] => [item.id, `${item.company} · ${item.agentName}`]),
+    ...references.map((item): [string, string] => [item.id, item.name]),
+  ]);
+  const arrows = upgradePaths(catalog).map(
+    (arrow) => `- Moves upward: ${names.get(arrow.from.id)} → ${names.get(arrow.to.id)}`,
+  );
   const page = canonicalUrl(guidePath('definitions'));
   const scope = DEFINITIONS_SCOPE;
   const workflow = DEFINITIONS_WORKFLOW;
@@ -120,13 +140,11 @@ function document(): string {
     ]),
     `${chart.legend.catalog} ${chart.legend.reference}`,
     `${chart.verticalAxis.from} ${chart.verticalAxis.to}`,
-    ...cell(chart.cells.specialized, cells.specialized.map(marker)),
-    ...cell(chart.cells.shared, cells.shared.map(marker)),
-    ...cell(chart.cells.ready, [
-      ...cells.ready.map(marker),
-      ...READY_REFERENCES.map(referenceMarker),
-    ]),
-    ...cell(chart.cells.assistants, ASSISTANT_REFERENCES.map(referenceMarker)),
+    ...cell(chart.cells.specialized, [...cells.specialized.map(marker), ...inCell('specialized')]),
+    ...cell(chart.cells.shared, [...cells.shared.map(marker), ...inCell('shared')]),
+    ...cell(chart.cells.ready, [...cells.ready.map(marker), ...inCell('ready')]),
+    ...cell(chart.cells.assistants, [...cells.assistants.map(marker), ...inCell('assistants')]),
+    ...(arrows.length > 0 ? [arrows.join('\n')] : []),
     `${chart.horizontalAxis.from} ${chart.horizontalAxis.to}`,
     inlineMarkdown(chart.caption),
     ...blocks(chart.body),

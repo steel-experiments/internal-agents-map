@@ -151,17 +151,59 @@ test.describe('the Definitions guide', () => {
       'https://internal-agents.com/definitions',
     );
 
-    const markers = page.locator('.quadrant-cell li[data-chart-approach-id]');
+    const markers = page.locator('.quadrant-markers li[data-chart-approach-id]');
     expect(await markers.count()).toBeGreaterThan(0);
     await expect(
-      page.locator('.quadrant-cell a[href="/agents/stripe-minions"]'),
+      page.locator('.quadrant-markers a[href="#placement-stripe-minions"]'),
     ).toHaveCount(1);
+    await expect(page.locator('#placement-stripe-minions a[href="/agents/stripe-minions"]')).toHaveCount(1);
     await expect(
       page.locator(
         '.placement-notes a[href="/agents/stripe-minions#claim-stripe-minions--summary"]',
       ),
     ).toHaveCount(1);
     await expect(page.locator('a[href*="index.html"]')).toHaveCount(0);
+  });
+
+  test('opens the note of a chart marker, which a touch screen can reach', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name === 'no-javascript', 'Only Chromium opens a closed note by itself.');
+    await page.goto('/definitions');
+    await expect(page.locator('#placement-sentry-junior')).toBeHidden();
+    await page.locator('.quadrant-markers a[href="#placement-sentry-junior"]').click();
+    await expect(page.locator('#placement-sentry-junior')).toBeVisible();
+  });
+
+  test('keeps every chart marker clear of the others, the region titles, the middle line, and the plot edge', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'The test sets both widths itself.');
+    for (const width of [1280, 375]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto('/definitions');
+      await page.evaluate(async () => document.fonts.ready);
+      const layout = await page.evaluate(() => {
+        const plot = document.querySelector('.quadrant-plot')!.getBoundingClientRect();
+        const boxes = [...document.querySelectorAll<HTMLElement>('.quadrant-markers li, .quadrant-cell h3')].map((node) => {
+          const box = node.getBoundingClientRect();
+          const name = node.dataset.chartApproachId ?? node.dataset.chartReference ?? node.textContent!.trim();
+          return { name, left: box.left, right: box.right, top: box.top, bottom: box.bottom };
+        });
+        return { plot: { left: plot.left, right: plot.right, top: plot.top, bottom: plot.bottom }, boxes };
+      });
+      const problems: string[] = [];
+      // A name that crosses the middle line reads as if it belonged to the region below or above.
+      const middle = (layout.plot.top + layout.plot.bottom) / 2;
+      for (const box of layout.boxes) {
+        if (box.top < middle && box.bottom > middle) problems.push(`${box.name} crosses the middle line`);
+        if (box.left < layout.plot.left || box.right > layout.plot.right || box.top < layout.plot.top || box.bottom > layout.plot.bottom) {
+          problems.push(`${box.name} leaves the plot`);
+        }
+      }
+      layout.boxes.forEach((a, index) => {
+        for (const b of layout.boxes.slice(index + 1)) {
+          if (a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom) problems.push(`${a.name} overlaps ${b.name}`);
+        }
+      });
+      expect(problems, `at ${width}px`).toEqual([]);
+    }
   });
 
   test('keeps the diagrams in the initial HTML', async ({ page }) => {

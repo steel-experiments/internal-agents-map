@@ -5,9 +5,15 @@ import { describe, expect, it } from 'vitest';
 import { loadCatalog, type Catalog, type Claim } from '../../src/lib/catalog';
 import {
   PLACEMENT_CANDIDATES,
+  UPGRADE_PATHS,
+  markerAnchor,
   placements,
   placementsByCell,
+  referenceMarkers,
+  regionOf,
+  upgradePaths,
 } from '../../src/lib/definitions';
+import { REFERENCE_PLACEMENTS } from '../../src/lib/guide-content';
 import { entryPath } from '../../src/lib/routes';
 
 const catalog = loadCatalog();
@@ -56,7 +62,59 @@ describe('the chart placements', () => {
     const cells = placementsByCell(catalog);
     expect(cells.specialized.map((item) => item.id)).toContain(SAMPLE);
     expect(cells.shared.map((item) => item.id)).toContain('sentry-junior');
+    expect(cells.ready.map((item) => item.id)).toContain('cursor-support-workflow');
     expect(cells.ready.map((item) => item.id)).not.toContain('retool-retoolgpt');
+  });
+
+  it('derives the region from the coordinates, so the two cannot disagree', () => {
+    expect(regionOf(20, 80)).toBe('specialized');
+    expect(regionOf(80, 80)).toBe('shared');
+    expect(regionOf(20, 20)).toBe('ready');
+    expect(regionOf(80, 20)).toBe('assistants');
+    for (const item of placements(catalog)) expect(item.cell).toBe(regionOf(item.x, item.y));
+    for (const item of referenceMarkers()) expect(item.cell).toBe(regionOf(item.x, item.y));
+  });
+
+  it('keeps every marker inside the plot and clear of the two axes', () => {
+    for (const item of [...PLACEMENT_CANDIDATES, ...REFERENCE_PLACEMENTS]) {
+      for (const value of [item.x, item.y]) {
+        expect(value, item.id).toBeGreaterThan(0);
+        expect(value, item.id).toBeLessThan(100);
+        expect(Math.abs(value - 50), item.id).toBeGreaterThanOrEqual(5);
+      }
+    }
+  });
+
+  it('gives every marker its own note anchor', () => {
+    const anchors = [...PLACEMENT_CANDIDATES, ...REFERENCE_PLACEMENTS].map((item) => markerAnchor(item.id));
+    expect(new Set(anchors).size).toBe(anchors.length);
+  });
+});
+
+describe('the upgrade arrows', () => {
+  it('draws each arrow upward, from a reference product to a catalog entry built on it', () => {
+    const arrows = upgradePaths(catalog);
+    expect(arrows.map((arrow) => arrow.to.id).sort()).toEqual(['github-qubot', 'spotify-honk-xirp']);
+    const references = new Map(referenceMarkers().map((item) => [item.id, item]));
+    const placed = new Map(placements(catalog).map((item) => [item.id, item]));
+    for (const arrow of arrows) {
+      expect(arrow.from).toMatchObject({ x: references.get(arrow.from.id)!.x, y: references.get(arrow.from.id)!.y });
+      expect(arrow.to).toMatchObject({ x: placed.get(arrow.to.id)!.x, y: placed.get(arrow.to.id)!.y });
+      expect(arrow.to.y).toBeGreaterThan(arrow.from.y);
+    }
+  });
+
+  it('drops an arrow when its catalog entry loses its placement', () => {
+    const target = UPGRADE_PATHS[0].to;
+    const fixture: Catalog = {
+      ...catalog,
+      approaches: catalog.approaches.map((item) =>
+        item.id === target
+          ? { ...item, claim_ids: item.claim_ids.filter((id) => !id.endsWith('--summary')) }
+          : item,
+      ),
+    };
+    expect(upgradePaths(fixture).map((arrow) => arrow.to.id)).not.toContain(target);
   });
 
   it('drops a placement when a required claim is removed', () => {
