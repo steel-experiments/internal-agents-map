@@ -1,7 +1,8 @@
 // ABOUTME: Declares the lessons collection and the metadata every lesson must carry.
 // ABOUTME: The schema stops the build when a lesson is missing a required field.
 
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 
 /** A calendar date, written as `YYYY-MM-DD` and kept as text. */
@@ -14,7 +15,7 @@ const lessonSource = z.object({
   /** The anchor part of `#source-<id>` inside the lesson. */
   id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   title: z.string(),
-  url: z.string().url(),
+  url: z.url(),
   /** What the lesson takes from that source. */
   note: z.string(),
 });

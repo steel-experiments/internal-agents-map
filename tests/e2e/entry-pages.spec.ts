@@ -302,6 +302,9 @@ test.describe('page-content pilot', () => {
       await page.goto(`/agents/${id}`);
       await page.evaluate(async () => document.fonts.ready);
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(page.viewportSize()!.width);
+      // The capture is for a person to review, and CI does not keep it. On CI runners,
+      // Chromium sometimes cannot capture a full page, for a record of any height.
+      if (process.env.CI) return;
       // At the phone's device scale the long records exceed the height that Chromium can capture, so the capture uses CSS pixels.
       await page.screenshot({
         path: testInfo.outputPath(`pilot-${testInfo.project.name}-${id}.png`),
