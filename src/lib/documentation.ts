@@ -4,6 +4,12 @@
 import type { Approach, Catalog } from './catalog';
 
 /**
+ * The badge of a well-documented record. It says that the sources describe the record in
+ * depth, and not that the catalog verified the claims.
+ */
+export const WELL_DOCUMENTED_LABEL = 'In depth';
+
+/**
  * A record is well documented when all of these are true:
  * - its evidence strength is detailed primary evidence,
  * - no claim has low confidence,

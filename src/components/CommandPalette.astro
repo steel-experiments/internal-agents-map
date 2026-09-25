@@ -4,7 +4,7 @@
 import Icon from './Icon.astro';
 import { loadCatalog } from '../lib/catalog';
 import { directoryCards } from '../lib/entry-view';
-import { documentationOrder } from '../lib/documentation';
+import { WELL_DOCUMENTED_LABEL, documentationOrder } from '../lib/documentation';
 import { DEFINITIONS_JUMP_LINKS } from '../lib/guide-content';
 import { lessonPreviewTitle, lessonViews } from '../lib/lessons';
 import { guidePath } from '../lib/routes';
@@ -120,7 +120,7 @@ const groups = [
         <ul class="palette-menu" hidden>
           <li>
             <button type="button" class="palette-option" data-sort-option="documented" aria-pressed="true">
-              <span>Detailed</span>
+              <span>{WELL_DOCUMENTED_LABEL}</span>
               <Icon name="check" size={16} />
             </button>
           </li>

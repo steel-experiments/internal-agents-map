@@ -73,7 +73,7 @@ export function organizationMarkdown(catalog: Catalog, id: string): string {
   for (const group of view.groups) {
     lines.push(`## ${group.label}`, '');
     for (const card of group.cards) {
-      const tags = [card.approachTypeLabel, ...card.domains.map((domain) => domain.label)];
+      const tags = [...(card.typeTag ? [card.typeTag] : []), ...card.domains.map((domain) => domain.label)];
       lines.push(
         `### ${link(card.title, card.path)}`, '',
         card.excerpt, '', tags.join(' · '), '',

@@ -372,3 +372,16 @@ describe('pageProfile', () => {
     expect(pageProfile('infrastructure').icon).toBe('server');
   });
 });
+
+describe('the directory card type tag', () => {
+  const cards = new Map(directoryCards(catalog).map((card) => [card.id, card]));
+
+  it('shows no tag for a plain agent, which every card in the Agents view is', () => {
+    expect(cards.get('stripe-minions')!.typeTag).toBeNull();
+  });
+
+  it('names an agent family and each kind of infrastructure', () => {
+    expect(cards.get('figma-security-agent')!.typeTag).toBe('Agent family');
+    expect(cards.get('plaid-internal-mcp-server')!.typeTag).toBe('Component');
+  });
+});

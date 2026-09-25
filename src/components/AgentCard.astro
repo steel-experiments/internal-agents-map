@@ -3,6 +3,7 @@
 // ABOUTME: It keeps the approach id, so older fragment links still find the card.
 import CompanyLogo from './CompanyLogo.astro';
 import Icon from './Icon.astro';
+import { WELL_DOCUMENTED_LABEL } from '../lib/documentation';
 import type { DirectoryCard } from '../lib/entry-view';
 
 interface Props {
@@ -35,12 +36,12 @@ const { card } = Astro.props;
     </div>
     <p class="entry-summary">{card.excerpt}</p>
     <div class="tags">
-      <span class="tag">{card.approachTypeLabel}</span>
+      {card.typeTag && <span class="tag tag-type">{card.typeTag}</span>}
       {card.domains.map((domain) => (
         <span class="tag">{domain.label}</span>
       ))}
       {card.wellDocumented && (
-        <span class="tag tag-documented"><Icon name="check" size={12} />Detailed</span>
+        <span class="tag tag-documented"><Icon name="check" size={12} />{WELL_DOCUMENTED_LABEL}</span>
       )}
     </div>
   </div>

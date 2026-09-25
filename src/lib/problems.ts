@@ -2,7 +2,7 @@
 // ABOUTME: A problem page holds every record that carries one of its work-domain tags.
 
 import type { Catalog, CatalogSection } from './catalog';
-import { documentationOrder } from './documentation';
+import { WELL_DOCUMENTED_LABEL, documentationOrder } from './documentation';
 import { directoryCards, type DirectoryCard } from './entry-view';
 import { markdownLink } from './exports';
 import { termLabel } from './labels';
@@ -127,8 +127,8 @@ export function problemMarkdown(catalog: Catalog, slug: string): string {
   for (const group of view.groups) {
     lines.push(`## ${group.label}`, '');
     for (const card of group.cards) {
-      const tags = [card.approachTypeLabel, ...card.domains.map((domain) => domain.label)];
-      if (card.wellDocumented) tags.push('Detailed');
+      const tags = [...(card.typeTag ? [card.typeTag] : []), ...card.domains.map((domain) => domain.label)];
+      if (card.wellDocumented) tags.push(WELL_DOCUMENTED_LABEL);
       lines.push(`### ${markdownLink(card.title, canonicalUrl(card.path))}`, '', card.excerpt, '', tags.join(' · '), '');
     }
   }

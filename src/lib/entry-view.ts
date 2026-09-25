@@ -585,6 +585,11 @@ export interface DirectoryCard {
   readonly catalogSection: CatalogSection;
   readonly approachType: string;
   readonly approachTypeLabel: string;
+  /**
+   * The type the card names, or null for a plain agent: the Agents view holds only agents,
+   * so the tag would say nothing there.
+   */
+  readonly typeTag: string | null;
   readonly domains: readonly TermView[];
   readonly invocation: readonly TermView[];
   /** The attention boundaries of the scoped operating models, with their derived levels. */
@@ -655,6 +660,7 @@ export function directoryCards(catalog: Catalog): DirectoryCard[] {
       catalogSection: approach.catalog_section,
       approachType: approach.approach_type,
       approachTypeLabel: termLabel(approach.approach_type),
+      typeTag: approach.approach_type === 'agent' ? null : termLabel(approach.approach_type),
       sourceIds: approach.source_ids,
       domains,
       invocation: approach.catalog_section === 'agents' ? invocation : [],

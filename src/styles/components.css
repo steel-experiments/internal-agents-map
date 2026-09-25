@@ -140,7 +140,7 @@
 .entry-box:hover .entry-summary { color: var(--sand-9); }
 .entry-box:hover .tag { color: var(--sand-9); }
 /* An accent badge is not dimmed with the rest: it stands as it is. */
-.entry-box:hover .tags > .tag:first-child,
+.entry-box:hover .tags > .tag-type,
 .entry-box:hover .tags > .tag-company,
 .entry-box:hover .tags > .tag-documented { color: var(--blue-9); }
 }
@@ -271,7 +271,7 @@
   margin: 10px 0 12px;
 }
 /* The badge that names what a record is, or whose it is, carries the accent. */
-.tags > .tag:first-child,
+.tags > .tag-type,
 .tags > .tag-company { background: var(--blue-3); color: var(--blue-9); }
 .tag {
   background: var(--sand-3);

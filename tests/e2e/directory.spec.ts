@@ -428,11 +428,22 @@ test.describe('the directory order', () => {
     const firstPlain = cards.findIndex((card) => !card.documented);
     expect(firstPlain).toBeGreaterThan(0);
     expect(cards.slice(firstPlain).every((card) => !card.documented)).toBe(true);
-    await expect(page.locator(`article.entry#${cards[0]!.id} .tag-documented`)).toHaveText('Detailed');
+    await expect(page.locator(`article.entry#${cards[0]!.id} .tag-documented`)).toHaveText('In depth');
     await expect(page.locator('article.entry .tag-documented')).toHaveCount(
       cards.filter((card) => card.documented).length + (await page.locator('[data-collection-group="infrastructure"] article.entry[data-well-documented="true"]').count()),
     );
     await expect(page.locator(`article.entry#${cards[firstPlain]!.id} .tag-documented`)).toHaveCount(0);
+  });
+
+  test('names the type only on a card that is not a plain agent', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('article.entry#stripe-minions .tag-type')).toHaveCount(0);
+    await expect(page.locator('article.entry#figma-security-agent .tag-type')).toHaveText('Agent family');
+    // Without its type tag, a plain agent's first tag is a work domain, which keeps the plain style.
+    const first = page.locator('article.entry#stripe-minions .tags > .tag').first();
+    const family = page.locator('article.entry#figma-security-agent .tag-type');
+    const color = (node: typeof first) => node.evaluate((element) => getComputedStyle(element).backgroundColor);
+    expect(await color(first)).not.toBe(await color(family));
   });
 
   test('shows the featured cards before all others', async ({ page }) => {
