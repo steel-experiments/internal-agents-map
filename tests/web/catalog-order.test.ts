@@ -1,5 +1,5 @@
 // ABOUTME: Checks how the catalog order is read from the URL, written back, and compared.
-// ABOUTME: Bookmarked records come first; then well-documented ones, then A–Z within each group.
+// ABOUTME: Bookmarked records come first; then featured, then well-documented ones, then A–Z within each group.
 
 import { describe, expect, it } from 'vitest';
 import { compareOrder, orderFromSearch, searchWithOrder } from '../../src/scripts/catalog-order';
@@ -22,10 +22,10 @@ describe('the catalog order in the URL', () => {
 
 describe('the catalog order comparison', () => {
   const items = [
-    { id: 'a', bookmarked: false, wellDocumented: false, alphabeticalRank: 0 },
-    { id: 'b', bookmarked: false, wellDocumented: true, alphabeticalRank: 1 },
-    { id: 'c', bookmarked: false, wellDocumented: false, alphabeticalRank: 2 },
-    { id: 'd', bookmarked: false, wellDocumented: true, alphabeticalRank: 3 },
+    { id: 'a', bookmarked: false, featured: false, wellDocumented: false, alphabeticalRank: 0 },
+    { id: 'b', bookmarked: false, featured: false, wellDocumented: true, alphabeticalRank: 1 },
+    { id: 'c', bookmarked: false, featured: false, wellDocumented: false, alphabeticalRank: 2 },
+    { id: 'd', bookmarked: false, featured: false, wellDocumented: true, alphabeticalRank: 3 },
   ];
   /** The same items with `c` bookmarked. */
   const marked = items.map((item) => ({ ...item, bookmarked: item.id === 'c' }));
@@ -38,6 +38,12 @@ describe('the catalog order comparison', () => {
   it('sorts by the alphabetical rank alone for A–Z', () => {
     const sorted = [...items].reverse().sort((x, y) => compareOrder('az', x, y));
     expect(sorted.map((item) => item.id)).toEqual(['a', 'b', 'c', 'd']);
+  });
+
+  it('puts featured items before well-documented ones in the default order only', () => {
+    const picked = items.map((item) => ({ ...item, featured: item.id === 'd' }));
+    expect([...picked].sort((x, y) => compareOrder('documented', x, y)).map((item) => item.id)).toEqual(['d', 'b', 'a', 'c']);
+    expect([...picked].sort((x, y) => compareOrder('az', x, y)).map((item) => item.id)).toEqual(['a', 'b', 'c', 'd']);
   });
 
   it('puts bookmarked items first in either order', () => {

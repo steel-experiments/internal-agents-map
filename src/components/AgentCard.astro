@@ -22,6 +22,7 @@ const { card } = Astro.props;
   data-type={card.approachType}
   data-invocation={card.invocation.map((mode) => mode.id).join(' ')}
   data-supervision={card.boundaries.map((boundary) => boundary.id).join(' ')}
+  data-featured={String(card.featured)}
   data-well-documented={String(card.wellDocumented)}
   data-alphabetical-rank={card.alphabeticalRank}
 >

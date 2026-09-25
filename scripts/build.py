@@ -68,6 +68,7 @@ ALLOWED_TOP_LEVEL = REQUIRED | {
     "claim_metadata",
     "aliases",
     "family_id",
+    "featured",
     "relationships",
     "page_content",
 }
@@ -829,6 +830,8 @@ def validate_record(record: dict, path: Path, global_sources: set[str]) -> None:
         require_string(record, "headline_metric", filename)
     if record.get("aliases") is not None:
         require_string_list(record["aliases"], "aliases", filename, nonempty=False)
+    if "featured" in record and not isinstance(record["featured"], bool):
+        die(f"{filename}: 'featured' must be true or false.")
     if record.get("family_id") is not None:
         require_string(record, "family_id", filename)
         if not ID_RE.fullmatch(record["family_id"]):

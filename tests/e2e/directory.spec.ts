@@ -409,6 +409,7 @@ test.describe('the directory order', () => {
       nodes.map((node) => ({
         id: node.id,
         documented: node.getAttribute('data-well-documented') === 'true',
+        featured: node.getAttribute('data-featured') === 'true',
         rank: Number(node.getAttribute('data-alphabetical-rank')),
       })),
     );
@@ -424,6 +425,14 @@ test.describe('the directory order', () => {
       cards.filter((card) => card.documented).length + (await page.locator('[data-collection-group="infrastructure"] article.entry[data-well-documented="true"]').count()),
     );
     await expect(page.locator(`article.entry#${cards[firstPlain]!.id} .tag-documented`)).toHaveCount(0);
+  });
+
+  test('shows the featured cards before all others', async ({ page }) => {
+    await page.goto('/');
+    const cards = await cardOrder(page);
+    const featured = cards.filter((card) => card.featured).length;
+    expect(featured).toBeGreaterThan(0);
+    expect(cards.slice(0, featured).every((card) => card.featured)).toBe(true);
   });
 
   test('opens A–Z from the URL, and the default order without it', async ({ page, javaScriptEnabled }) => {

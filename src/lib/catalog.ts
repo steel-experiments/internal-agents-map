@@ -153,6 +153,8 @@ export interface Approach {
   readonly source_ids: readonly string[];
   readonly interfaces?: readonly string[];
   readonly aliases?: readonly string[];
+  /** True when the catalog shows the record before all others in the default order. */
+  readonly featured?: boolean;
   readonly relationships?: readonly Relationship[];
   readonly page_content?: PageContent;
 }
