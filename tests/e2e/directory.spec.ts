@@ -441,14 +441,14 @@ test.describe('the directory order', () => {
   });
 
   test('puts a bookmarked card first, keeps it after a reload, and lets it go', async ({ page, javaScriptEnabled }) => {
-    test.skip(javaScriptEnabled === false, 'The ribbon needs the script.');
+    test.skip(javaScriptEnabled === false, 'The bookmark corner needs the script.');
     await page.goto('/');
     const last = (await cardOrder(page)).at(-1)!;
-    const ribbon = page.locator(`article.entry#${last.id} [data-bookmark]`);
-    await expect(ribbon).toHaveAttribute('aria-pressed', 'false');
-    await ribbon.click();
+    const corner = page.locator(`article.entry#${last.id} [data-bookmark]`);
+    await expect(corner).toHaveAttribute('aria-pressed', 'false');
+    await corner.click();
     await expect(page).toHaveURL(/\/$/);
-    await expect(ribbon).toHaveAttribute('aria-pressed', 'true');
+    await expect(corner).toHaveAttribute('aria-pressed', 'true');
     expect((await cardOrder(page))[0]!.id).toBe(last.id);
     await page.reload();
     expect((await cardOrder(page))[0]!.id).toBe(last.id);
