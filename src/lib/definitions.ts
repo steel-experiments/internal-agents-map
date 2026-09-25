@@ -82,8 +82,8 @@ export const PLACEMENT_CANDIDATES: readonly PlacementCandidate[] = [
   },
   {
     id: 'stripe-minions',
-    x: 44,
-    y: 78,
+    x: 40,
+    y: 69,
     reason:
       'Several engineering tasks within a coding workflow, connected to Stripe’s development tools and repository rules. Placed toward the middle of workflow breadth.',
     requirements: DEFAULT_REQUIREMENTS,
@@ -98,23 +98,23 @@ export const PLACEMENT_CANDIDATES: readonly PlacementCandidate[] = [
   },
   {
     id: 'ramp-inspect',
-    x: 44,
-    y: 70,
+    x: 42,
+    y: 77,
     reason:
       'A background coding agent that verifies work with tests, telemetry, feature flags, and the rendered frontend; it later expanded into production monitoring and a host for other internal agents.',
     requirements: DEFAULT_REQUIREMENTS,
   },
   {
     id: 'spotify-honk-xirp',
-    x: 34,
-    y: 84,
+    x: 36,
+    y: 85,
     reason:
       'A background coding agent on the Claude Agent SDK, adapted with Spotify’s own harness, trusted CI tools, and component ownership from Backstage. The arrow shows a standard coding agent moved upward.',
     requirements: DEFAULT_REQUIREMENTS,
   },
   {
     id: 'github-qubot',
-    x: 12,
+    x: 6,
     y: 62,
     reason:
       'One data-analytics workflow on the GitHub Copilot cloud agent, grounded in a context layer that teams contribute to and in the company data warehouse. The arrow shows a coding agent moved upward into work that is not coding.',
@@ -122,8 +122,8 @@ export const PLACEMENT_CANDIDATES: readonly PlacementCandidate[] = [
   },
   {
     id: 'meta-rea',
-    x: 32,
-    y: 63,
+    x: 28,
+    y: 61,
     reason:
       'One machine learning experimentation workflow for the ads ranking models, grounded in a database of past experiments and connected to Meta’s job schedulers and experiment tracking.',
     requirements: DEFAULT_REQUIREMENTS,
@@ -154,8 +154,8 @@ export const PLACEMENT_CANDIDATES: readonly PlacementCandidate[] = [
   },
   {
     id: 'cursor-support-workflow',
-    x: 34,
-    y: 44,
+    x: 33,
+    y: 45,
     reason:
       'Cursor’s own product, configured for support investigations with workspaces over the product repositories and MCP servers for support systems. The team configured a standard product and did not build a new one, so it sits low, but above the default setup.',
     requirements: DEFAULT_REQUIREMENTS,

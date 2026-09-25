@@ -197,9 +197,13 @@ test.describe('the Definitions guide', () => {
           problems.push(`${box.name} leaves the plot`);
         }
       }
+      // Text renders a few pixels wider on some systems, so two names keep a clear gap.
+      const gap = 6;
       layout.boxes.forEach((a, index) => {
         for (const b of layout.boxes.slice(index + 1)) {
-          if (a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom) problems.push(`${a.name} overlaps ${b.name}`);
+          if (a.left < b.right + gap && b.left < a.right + gap && a.top < b.bottom + gap && b.top < a.bottom + gap) {
+            problems.push(`${a.name} is closer than ${gap}px to ${b.name}`);
+          }
         }
       });
       expect(problems, `at ${width}px`).toEqual([]);

@@ -71,8 +71,8 @@ export interface ReferencePlacement {
 export const REFERENCE_PLACEMENTS: readonly ReferencePlacement[] = [
   {
     id: 'deep-research',
-    x: 8,
-    y: 18,
+    x: 5,
+    y: 19,
     name: 'Deep research agent',
     category: 'Research workflow',
     reason:
@@ -92,8 +92,8 @@ export const REFERENCE_PLACEMENTS: readonly ReferencePlacement[] = [
   },
   {
     id: 'ready-made-task',
-    x: 22,
-    y: 30,
+    x: 17,
+    y: 29,
     name: 'Codex / Claude Code / Copilot',
     category: 'Software engineering agents',
     reason:
