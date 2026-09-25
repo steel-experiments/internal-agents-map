@@ -1,5 +1,5 @@
 ---
-title: The worker can stop. The work can continue.
+title: How can the work continue after the agent stops?
 description: A new worker can continue from a saved record.
 eyebrow: 04 / Work state
 lede: A new worker can continue from a saved record.

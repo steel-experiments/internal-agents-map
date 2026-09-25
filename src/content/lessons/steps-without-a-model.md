@@ -1,5 +1,5 @@
 ---
-title: Some steps do not need a model
+title: Which steps do not need a model?
 description: Code can control a step that must follow a fixed rule.
 eyebrow: 06 / Workflow control
 lede: Code can control a step that must follow a fixed rule.

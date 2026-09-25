@@ -1,5 +1,5 @@
 ---
-title: More comments can mean more work
+title: When do more review comments mean more work?
 description: How Uber and HubSpot filter agent review comments. An observation on useful findings and the work required from human reviewers.
 eyebrow: 02 / Human attention
 lede: A review agent also creates work for its reader.

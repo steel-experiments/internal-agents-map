@@ -30,7 +30,7 @@ const { card } = Astro.props;
     <div class="entry-top">
       <div class="entry-heading">
         <CompanyLogo company={card.companyView} size={20} />
-        <h3><a href={card.path}>{card.company}'s {card.agentName}</a></h3>
+        <h3><a href={card.path}>{card.title}</a></h3>
       </div>
     </div>
     <p class="entry-summary">{card.excerpt}</p>
@@ -51,7 +51,7 @@ const { card } = Astro.props;
     class="entry-bookmark"
     data-bookmark={card.id}
     aria-pressed="false"
-    aria-label={`Bookmark ${card.company}'s ${card.agentName}`}
+    aria-label={`Bookmark ${card.title}`}
     hidden
   >
     <span class="entry-fold" aria-hidden="true"></span>

@@ -31,7 +31,7 @@ const NO_FACETS = { work: '', type: '', invocation: '', supervision: '' };
 const catalogItems = cards.map((card) => ({
   collection: card.catalogSection,
   path: card.path,
-  title: `${card.company} · ${card.agentName}`,
+  title: card.title,
   detail: card.approachTypeLabel,
   search: card.search,
   order: { id: card.id, featured: String(card.featured), wellDocumented: String(card.wellDocumented), alphabeticalRank: card.alphabeticalRank },

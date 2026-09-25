@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=../agent.schema.json
 id: atlassian-rovo-dev
 company: Atlassian
-agent_name: Rovo Dev (RovoDev)
+agent_name: Rovo Dev
 aliases:
 - RovoDev
 - HULA

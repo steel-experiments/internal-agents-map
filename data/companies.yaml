@@ -11,9 +11,9 @@
   name: Amplitude
   homepage: https://amplitude.com/
   logo:
-    file: amplitude.png
-    source_url: https://github.com/amplitude
-    accessed_at: '2026-09-21'
+    file: amplitude.svg
+    source_url: https://brand.amplitude.com/references/brand-resources
+    accessed_at: '2026-09-25'
 - id: atlassian
   name: Atlassian
   homepage: https://www.atlassian.com/
@@ -25,9 +25,9 @@
   name: Bitrise
   homepage: https://bitrise.io/
   logo:
-    file: bitrise.png
-    source_url: https://github.com/bitrise-io
-    accessed_at: '2026-09-21'
+    file: bitrise.svg
+    source_url: https://bitrise.io/press/kit
+    accessed_at: '2026-09-25'
 - id: block
   name: Block
   homepage: https://block.xyz/
@@ -46,23 +46,23 @@
   name: Cloudflare
   homepage: https://www.cloudflare.com/
   logo:
-    file: cloudflare.png
-    source_url: https://www.cloudflare.com/press/press-kit/
-    accessed_at: '2026-09-15'
+    file: cloudflare.svg
+    source_url: https://www.cloudflare.com/press-kit/
+    accessed_at: '2026-09-25'
 - id: coinbase
   name: Coinbase
   homepage: https://www.coinbase.com/
   logo:
-    file: coinbase.png
-    source_url: https://github.com/coinbase
-    accessed_at: '2026-09-15'
+    file: coinbase.svg
+    source_url: https://www.coinbase.com/press
+    accessed_at: '2026-09-25'
 - id: cursor
   name: Cursor
   homepage: https://cursor.com/
   logo:
-    file: cursor.png
-    source_url: https://github.com/cursor
-    accessed_at: '2026-09-21'
+    file: cursor.svg
+    source_url: https://cursor.com/brand
+    accessed_at: '2026-09-25'
 - id: databricks
   name: Databricks
   homepage: https://www.databricks.com/
@@ -74,9 +74,9 @@
   name: Deel
   homepage: https://www.deel.com/
   logo:
-    file: deel.png
-    source_url: https://github.com/letsdeel
-    accessed_at: '2026-09-21'
+    file: deel.svg
+    source_url: https://www.deel.com/press/
+    accessed_at: '2026-09-25'
 - id: domu
   name: Domu
   homepage: https://domu.ai/
@@ -88,9 +88,9 @@
   name: DoorDash
   homepage: https://www.doordash.com/
   logo:
-    file: doordash.png
-    source_url: https://github.com/doordash
-    accessed_at: '2026-09-15'
+    file: doordash.svg
+    source_url: https://commons.wikimedia.org/wiki/File:DoorDash_Logo.svg
+    accessed_at: '2026-09-25'
 - id: dropbox
   name: Dropbox
   homepage: https://www.dropbox.com/
@@ -102,16 +102,16 @@
   name: Duolingo
   homepage: https://www.duolingo.com/
   logo:
-    file: duolingo.png
-    source_url: https://github.com/duolingo
-    accessed_at: '2026-09-21'
+    file: duolingo.svg
+    source_url: https://design.duolingo.com/illustration/duo
+    accessed_at: '2026-09-25'
 - id: figma
   name: Figma
   homepage: https://www.figma.com/
   logo:
-    file: figma.png
-    source_url: https://github.com/figma
-    accessed_at: '2026-09-21'
+    file: figma.svg
+    source_url: https://www.figma.com/using-the-figma-brand/
+    accessed_at: '2026-09-25'
 - id: flex
   name: Flex
   homepage: https://www.withflex.com/
@@ -151,16 +151,16 @@
   name: Meta
   homepage: https://about.meta.com/
   logo:
-    file: meta.png
-    source_url: https://github.com/facebook
-    accessed_at: '2026-09-21'
+    file: meta.svg
+    source_url: https://commons.wikimedia.org/wiki/File:Meta_Platforms_Inc._logo_(cropped).svg
+    accessed_at: '2026-09-25'
 - id: microsoft
   name: Microsoft
   homepage: https://www.microsoft.com/
   logo:
-    file: microsoft.png
-    source_url: https://github.com/microsoft
-    accessed_at: '2026-09-16'
+    file: microsoft.svg
+    source_url: https://commons.wikimedia.org/wiki/File:Microsoft_logo.svg
+    accessed_at: '2026-09-25'
 - id: monday-com
   name: monday.com
   homepage: https://monday.com/
@@ -179,9 +179,9 @@
   name: OpenAI
   homepage: https://openai.com/
   logo:
-    file: openai.png
-    source_url: https://github.com/openai
-    accessed_at: '2026-09-16'
+    file: openai.svg
+    source_url: https://openai.com/brand/
+    accessed_at: '2026-09-25'
 - id: plaid
   name: Plaid
   homepage: https://plaid.com/
@@ -249,9 +249,9 @@
   name: Snap
   homepage: https://www.snap.com/
   logo:
-    file: snap.png
-    source_url: https://github.com/Snapchat
-    accessed_at: '2026-09-21'
+    file: snap.svg
+    source_url: https://snap.com/en-US/brand-guidelines
+    accessed_at: '2026-09-25'
 - id: spotify
   name: Spotify
   homepage: https://spotify.com/
@@ -270,16 +270,16 @@
   name: StrongDM
   homepage: https://www.strongdm.com/
   logo:
-    file: strongdm.png
-    source_url: https://docs.strongdm.com/
-    accessed_at: '2026-09-15'
+    file: strongdm.svg
+    source_url: https://www.strongdm.com/hubfs/brand/strongdm-logo.svg
+    accessed_at: '2026-09-25'
 - id: uber
   name: Uber
   homepage: https://www.uber.com/
   logo:
-    file: uber.png
-    source_url: https://developer.uber.com/docs/riders/guides/design-guidelines
-    accessed_at: '2026-09-15'
+    file: uber.svg
+    source_url: https://brand.uber.com/
+    accessed_at: '2026-09-25'
 - id: workos
   name: WorkOS
   homepage: https://workos.com/

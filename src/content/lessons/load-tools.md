@@ -1,5 +1,5 @@
 ---
-title: Two ways to discover tools
+title: How should an agent find its tools?
 description: Cloudflare searches tool schemas; Sentry connects to providers on demand. Each design adds a dependency during the task.
 eyebrow: 05 / Tools and context
 lede: Cloudflare searches tool schemas; Sentry connects to providers on demand.

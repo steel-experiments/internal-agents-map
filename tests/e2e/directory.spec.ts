@@ -30,6 +30,14 @@ const visibleCards = (page: Page) => page.locator('article.entry:visible');
 test.describe('the directory without javascript', () => {
   test.skip(({ javaScriptEnabled }) => javaScriptEnabled !== false, 'This is the no-JS project.');
 
+  test('names each card by its company and its name', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('#brex-disputes h3')).toHaveText('Brex · Dispute preparation agent');
+    await expect(page.locator('#brex-disputes .entry-bookmark')).toHaveAttribute('aria-label', 'Bookmark Brex · Dispute preparation agent');
+    await page.goto('/infrastructure');
+    await expect(page.locator('#dropbox-nova h3')).toHaveText('Dropbox · Nova');
+  });
+
   test('shows every entry link', async ({ page }) => {
     await page.goto('/');
     await expect(visibleCards(page)).toHaveCount(TOTAL);

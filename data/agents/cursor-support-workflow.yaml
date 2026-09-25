@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=../agent.schema.json
 id: cursor-support-workflow
 company: Cursor
-agent_name: Support investigation workflow in Cursor
+agent_name: Support investigation workflow
 approach_type: agent
 deployment_stage: deployed
 year: 2026

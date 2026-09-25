@@ -13,12 +13,13 @@ const FONT_DIR = path.join(ROOT, 'src/og/fonts');
 const PUBLIC_DIR = path.join(ROOT, 'public');
 
 const INK = '#21201c';
-const MUTED = '#82827c';
-const SOFT = '#63635e';
+const SAND1 = '#fdfdfc';
 const SAND3 = '#f1f0ef';
+const SAND5 = '#e2e1de';
+const SAND6 = '#dad9d6';
+const SAND9 = '#8d8d86';
 const WHITE = '#ffffff';
 const BLUE = '#0090ff';
-const BLUE3 = '#e6f4fe';
 const FAMILY = 'ABC Areal';
 const SITE = 'internal-agents.com';
 
@@ -52,10 +53,11 @@ function logoDataUri(logo: OgLogo): string {
   return `data:${mime};base64,${bytes.toString('base64')}`;
 }
 
-/** Fit a logo to a box height, keeping its ratio. A raster file never grows past its own pixels. */
-function logoImage(logo: OgLogo, boxHeight: number): Node {
+/** Fit a logo to a box, keeping its ratio. A raster file never grows past its own pixels. */
+function logoImage(logo: OgLogo, boxHeight: number, boxWidth = Infinity): Node {
   const raster = !logo.path.endsWith('.svg');
-  const height = raster ? Math.min(boxHeight, logo.height) : boxHeight;
+  const fitted = Math.min(boxHeight, (boxWidth * logo.height) / logo.width);
+  const height = Math.round(raster ? Math.min(fitted, logo.height) : fitted);
   const width = Math.round((height * logo.width) / logo.height);
   return h('img', { width, height }, undefined, { src: logoDataUri(logo), width, height });
 }
@@ -68,75 +70,122 @@ function monogramBox(letters: string, size: number): Node {
   );
 }
 
-/** The mark of an organization with its name, unless the mark already spells it. */
-function mark(logo: OgLogo | null, monogram: string, company: string, markHeight: number, wideHeight: number, nameSize: number): Node[] {
-  if (!logo) return [monogramBox(monogram, markHeight), h('div', { fontSize: nameSize, fontWeight: 500, marginTop: 26 }, company)];
-  if (logo.wide) return [logoImage(logo, wideHeight)];
-  return [logoImage(logo, markHeight), h('div', { fontSize: nameSize, fontWeight: 500, marginTop: 26 }, company)];
-}
-
+/** A pill: the first tag of an entry is solid blue, the others are Sand. */
 function tag(label: string, first: boolean): Node {
   return h(
     'div',
-    { fontSize: 28, lineHeight: 1, padding: '12px 20px', borderRadius: 28, background: first ? BLUE3 : WHITE, color: first ? BLUE : SOFT, marginRight: 16, marginBottom: 16 },
+    { fontSize: 20, fontWeight: 500, lineHeight: '28px', letterSpacing: '-0.02em', padding: '6px 14px', borderRadius: 100, background: first ? BLUE : SAND5, color: first ? SAND1 : INK, marginRight: 12, marginBottom: 12 },
     label,
   );
 }
 
-const footer = (text: string): Node => h('div', { marginTop: 'auto', fontSize: 26, fontWeight: 500, color: INK }, text);
+/** "internal-agents.com by steel.dev", with the "by" in Sand 9. */
+const footer = (): Node =>
+  row({ position: 'absolute', left: 72, bottom: 72, fontSize: 24, fontWeight: 500, lineHeight: '32px', letterSpacing: '-0.02em', color: INK }, [
+    h('span', {}, SITE),
+    h('span', { color: SAND9, margin: '0 0.2em' }, 'by'),
+    h('span', {}, 'steel.dev'),
+  ]);
 
-const frame = (children: unknown[], direction: 'row' | 'column'): Node =>
-  h('div', { display: 'flex', flexDirection: direction, width: OG_WIDTH, height: OG_HEIGHT, background: SAND3, padding: '72px 84px 60px', fontFamily: FAMILY, color: INK }, children);
+const CARD_WIDTH = 407;
+const CARD_HEIGHT = 511;
+const CARD_LEFT = 719;
+const CARD_TOP = 59;
+const CARD_SHADOW = '0px 22px 13px rgba(0,0,0,0.01), 0px 10px 10px rgba(0,0,0,0.02), 0px 2px 5px rgba(0,0,0,0.03)';
 
-/** The directory card at poster scale: the possessive title, the summary, the tags, the mark on a panel. */
-function entryTree(card: OgEntryCard): Node {
-  return frame([
-    column({ flex: 1, marginRight: 56, minWidth: 0 }, [
-      row({ flexWrap: 'wrap', fontSize: card.titleSize, fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1.02 }, [
-        h('span', { color: MUTED, marginRight: '0.22em' }, `${card.company}'s`),
-        h('span', {}, card.name),
-      ]),
-      h('div', { fontSize: 32, lineHeight: 1.38, color: MUTED, marginTop: 24, letterSpacing: '-0.01em' }, card.excerpt),
-      row({ marginTop: 30, marginBottom: -16 }, card.tags.map((label, index) => tag(label, index === 0))),
-      footer(SITE),
-    ]),
-    column({ width: 340, background: WHITE, borderRadius: 32, alignItems: 'center', justifyContent: 'center' }, mark(card.logo, card.monogram, card.company, 120, 64, 32)),
-  ], 'row');
+/** One white card of the stack. All three turn around the same center. */
+function stackCard(rotate: number, children: unknown[] = []): Node {
+  return column(
+    { position: 'absolute', left: CARD_LEFT, top: CARD_TOP, width: CARD_WIDTH, height: CARD_HEIGHT, background: WHITE, border: `0.5px solid ${SAND6}`, borderRadius: 32, boxShadow: CARD_SHADOW, alignItems: 'center', justifyContent: 'center', transform: `rotate(${rotate}deg)` },
+    children,
+  );
 }
 
-/** The organization card: mark, name, count, and the names of its systems as tags. */
-function organizationTree(card: OgOrganizationCard): Node {
-  const head = card.logo?.wide
-    ? [logoImage(card.logo, 56)]
-    : [
-        card.logo ? logoImage(card.logo, 64) : monogramBox(card.monogram, 64),
-        h('div', { fontSize: 32, fontWeight: 500, marginLeft: 24 }, card.company),
-      ];
-  return frame([
-    row({ alignItems: 'center' }, head),
-    h('div', { fontSize: 80, fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1.02, marginTop: 30 }, card.company),
-    h('div', { fontSize: 32, lineHeight: 1.38, color: MUTED, marginTop: 22, letterSpacing: '-0.01em' }, card.count),
-    row({ flexWrap: 'wrap', marginTop: 26 }, card.names.map((name) => tag(name, false))),
-    footer(SITE),
-  ], 'column');
+/** The mark on the front card: the logo in a 183px box, or the monogram. */
+function frontMark(logo: OgLogo | null, monogram: string): Node {
+  if (!logo) return monogramBox(monogram, 183);
+  return logo.wide ? logoImage(logo, 96, 300) : logoImage(logo, 183, 183);
 }
 
-/** A section, guide, or lesson: a blue dot, the eyebrow, the title, the description. */
-function sectionTree(card: OgSectionCard): Node {
-  const eyebrow: unknown[] = [
-    h('div', { width: 14, height: 14, borderRadius: 7, background: BLUE, marginRight: 18 }),
-    h('div', { fontSize: 26, letterSpacing: '0.12em', textTransform: 'uppercase', color: MUTED }, card.eyebrow),
+/** Every card: the title, the text below it and the tags on the left, and a stack of cards on the right. */
+function poster(title: string, size: number, text: string, tags: readonly Node[], front: Node): Node {
+  const left: Node[] = [
+    h('div', { fontSize: size, fontWeight: 500, lineHeight: 1.125, letterSpacing: '-0.02em', color: '#000000' }, title),
+    h('div', { fontSize: 26, fontWeight: 500, lineHeight: '38px', letterSpacing: '-0.02em', color: SAND9, marginTop: 16 }, text),
   ];
-  if (card.date) {
-    eyebrow.push(h('div', { width: 6, height: 6, borderRadius: 3, background: '#dad9d6', margin: '0 18px' }));
-    eyebrow.push(h('div', { fontSize: 26, color: MUTED }, card.date));
+  if (tags.length > 0) left.push(row({ flexWrap: 'wrap', marginTop: 20, marginBottom: -12 }, [...tags]));
+  return h('div', { display: 'flex', position: 'relative', width: OG_WIDTH, height: OG_HEIGHT, background: SAND3, fontFamily: FAMILY, color: INK }, [
+    column({ position: 'absolute', left: 72, top: 72, width: 511 }, left),
+    footer(),
+    stackCard(-14.15),
+    stackCard(-6.26),
+    stackCard(0, [front]),
+  ]);
+}
+
+/** The directory card at poster scale: the title, the summary, the tags, and the mark on the cards. */
+function entryTree(card: OgEntryCard): Node {
+  const tags = card.tags.map((label, index) => tag(label, index === 0));
+  return poster(card.title, card.titleSize, card.excerpt, tags, frontMark(card.logo, card.monogram));
+}
+
+/** An organization shows this many names of its systems, and counts the rest in one more tag. */
+const ORGANIZATION_NAME_LIMIT = 3;
+
+/** The organization card: the name, the count, the names of its systems as tags, and the mark on the cards. */
+function organizationTree(card: OgOrganizationCard): Node {
+  const labels = card.names.slice(0, ORGANIZATION_NAME_LIMIT);
+  const rest = card.names.length - labels.length;
+  if (rest > 0) labels.push(`+${rest} more`);
+  const tags = labels.map((label) => tag(label, false));
+  return poster(card.company, card.titleSize, card.count, tags, frontMark(card.logo, card.monogram));
+}
+
+const MOSAIC_PITCH = 92;
+const MOSAIC_SIZE = 104;
+const MOSAIC_INSET = 30;
+/** How much a logo shrinks from the center of the card to its edge. */
+const MOSAIC_FALLOFF = 0.7;
+
+/**
+ * The logos on a honeycomb, largest at the center of the card, each one fully inside it.
+ * Each logo covers about the same area, so a wordmark and a square mark read at one weight.
+ */
+function mosaic(logos: readonly OgLogo[]): Node {
+  const rowHeight = MOSAIC_PITCH * 0.866;
+  const centerX = CARD_WIDTH / 2;
+  const centerY = CARD_HEIGHT / 2;
+  const cells: Node[] = [];
+  for (let line = -6; line <= 6; line += 1) {
+    for (let step = -6; step <= 6; step += 1) {
+      if (cells.length >= logos.length) break;
+      const x = centerX + step * MOSAIC_PITCH + (Math.abs(line) % 2 ? MOSAIC_PITCH / 2 : 0);
+      const y = centerY + line * rowHeight;
+      const distance = Math.hypot((x - centerX) / centerX, (y - centerY) / centerY);
+      const size = MOSAIC_SIZE * Math.max(0.35, 1 - MOSAIC_FALLOFF * distance * distance);
+      const half = size / 2;
+      if (x - half < MOSAIC_INSET || x + half > CARD_WIDTH - MOSAIC_INSET) continue;
+      if (y - half < MOSAIC_INSET || y + half > CARD_HEIGHT - MOSAIC_INSET) continue;
+      const logo = logos[cells.length];
+      const root = Math.sqrt(logo.width / logo.height);
+      const side = size * 0.58;
+      cells.push(
+        row(
+          { position: 'absolute', left: Math.round(x - half), top: Math.round(y - half), width: Math.round(size), height: Math.round(size), alignItems: 'center', justifyContent: 'center' },
+          [logoImage(logo, side / root, Math.min(size, side * root))],
+        ),
+      );
+    }
   }
-  return frame([
-    row({ alignItems: 'center' }, eyebrow),
-    h('div', { fontSize: 72, fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1.05, marginTop: 30 }, card.title),
-    h('div', { fontSize: 32, lineHeight: 1.38, color: MUTED, marginTop: 22, letterSpacing: '-0.01em', maxWidth: 900 }, card.description),
-    footer(SITE),
-  ], 'column');
+  return h('div', { display: 'flex', position: 'relative', width: CARD_WIDTH, height: CARD_HEIGHT }, cells);
+}
+
+/** The home page, a section, guide, problem, or lesson: the title, the description, the kind and date as tags, and the logos on the cards. */
+function sectionTree(card: OgSectionCard): Node {
+  const tags: Node[] = [];
+  if (card.eyebrow) tags.push(tag(card.eyebrow, true));
+  if (card.date) tags.push(tag(card.date, false));
+  return poster(card.title, card.titleSize, card.excerpt, tags, mosaic(card.logos));
 }
 
 function tree(card: OgCard): Node {

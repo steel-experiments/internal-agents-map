@@ -129,7 +129,7 @@ export function problemMarkdown(catalog: Catalog, slug: string): string {
     for (const card of group.cards) {
       const tags = [card.approachTypeLabel, ...card.domains.map((domain) => domain.label)];
       if (card.wellDocumented) tags.push('Detailed');
-      lines.push(`### ${markdownLink(`${card.company}'s ${card.agentName}`, canonicalUrl(card.path))}`, '', card.excerpt, '', tags.join(' · '), '');
+      lines.push(`### ${markdownLink(card.title, canonicalUrl(card.path))}`, '', card.excerpt, '', tags.join(' · '), '');
     }
   }
   if (view.lessons.length > 0) {

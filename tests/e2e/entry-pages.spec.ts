@@ -78,8 +78,8 @@ test.describe('the directory', () => {
     await expect(page.locator('h1')).toHaveText('How companies build internal AI agents');
     await expect(page.locator('#decisions a')).toHaveText([
       'When should an agent stop?',
-      'Some steps do not need a model',
-      'More comments can mean more work',
+      'Which steps do not need a model?',
+      'When do more review comments mean more work?',
     ]);
     const cards = page.locator('article.entry[data-approach-id]');
     await expect(cards).toHaveCount(TOTAL);
