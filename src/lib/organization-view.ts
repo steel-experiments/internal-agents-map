@@ -75,7 +75,7 @@ export function organizationMarkdown(catalog: Catalog, id: string): string {
     for (const card of group.cards) {
       const tags = [card.approachTypeLabel, ...card.domains.map((domain) => domain.label)];
       lines.push(
-        `### ${link(`${card.company}'s ${card.agentName}`, card.path)}`, '',
+        `### ${link(card.title, card.path)}`, '',
         card.excerpt, '', tags.join(' · '), '',
       );
     }

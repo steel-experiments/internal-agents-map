@@ -575,6 +575,8 @@ export interface DirectoryCard {
   /** The logo or monogram mark the card shows beside the company name. */
   readonly companyView: CompanyView;
   readonly agentName: string;
+  /** The company and the name, such as `Stripe · Minions`, as the card and the palette show them. */
+  readonly title: string;
   readonly summary: string;
   /** The first sentences of the summary, for the directory card. */
   readonly excerpt: string;
@@ -633,6 +635,7 @@ export function directoryCards(catalog: Catalog): DirectoryCard[] {
       company: approach.company,
       companyView: companyView(catalog, approach.company_id),
       agentName: approach.agent_name,
+      title: `${approach.company} · ${approach.agent_name}`,
       summary: summary?.text ?? 'Unknown',
       excerpt: shorten(summary?.text ?? 'Unknown', CARD_SUMMARY_LIMIT),
       search: searchText([

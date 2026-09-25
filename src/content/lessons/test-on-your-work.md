@@ -1,5 +1,5 @@
 ---
-title: Test the agent on your own work
+title: How do you test an agent on your own work?
 description: Past tasks and failures can become repeatable checks.
 eyebrow: 07 / Evaluation
 lede: Past tasks and failures can become repeatable checks.

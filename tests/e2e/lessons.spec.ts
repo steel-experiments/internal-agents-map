@@ -101,7 +101,7 @@ test.describe('one lesson', () => {
     await page.goto('/lessons/stop-a-run');
     await expect(page.locator('.lesson-next a[href="/lessons"]')).toBeVisible();
     await page.locator('.lesson-next a[href="/lessons/review-noise"]').click();
-    await expect(page.locator('h1')).toHaveText('More comments can mean more work');
+    await expect(page.locator('h1')).toHaveText('When do more review comments mean more work?');
   });
 });
 

@@ -1,5 +1,5 @@
 ---
-title: Separate the search from the check
+title: Should one agent search and a different one check?
 description: DoorDash changed how its agents divide a code review. An observation on shared context, investigation, and verification.
 eyebrow: 03 / Agent roles
 lede: DoorDash gives a scout the search and two reviewers the verification.
