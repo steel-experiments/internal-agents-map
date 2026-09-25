@@ -1,4 +1,4 @@
-/* ABOUTME: Design tokens, the Areal face, and the base element styles. */
+/* ABOUTME: Design tokens, the Areal and wordmark faces, and the base element styles. */
 /* ABOUTME: Ported from templates/site.css so the pages keep one visual identity. */
 @font-face {
   font-family: Areal;
@@ -6,6 +6,14 @@
   font-style: normal;
   /* The ABC Areal variable face carries a 400-700 weight axis. */
   font-weight: 400 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nanum Myeongjo';
+  /* ASCII subset of the ExtraBold cut; the wordmark is the only text set in it. */
+  src: url('/fonts/NanumMyeongjo-ExtraBold.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 800;
   font-display: swap;
 }
 html {
@@ -26,6 +34,9 @@ html {
      apart, so a mark reads lighter than the text it accompanies. */
   --accent: var(--sand-9);
   --link: var(--sand-11);
+  /* The wordmark is the one element off the Sand scale and off Areal. */
+  --brand: #0700e1;
+  --font-brand: 'Nanum Myeongjo', Georgia, 'Times New Roman', serif;
   /* A firm ease-out: quick to answer a pointer, unhurried on the way back. */
   --ease-out: cubic-bezier(.22, 1, .36, 1);
   --hover-in: 120ms;

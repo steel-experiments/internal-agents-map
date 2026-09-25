@@ -97,10 +97,12 @@
   border-bottom: .5px solid var(--sand-6);
 }
 .brand {
-  font-size: var(--text-md);
-  font-weight: 500;
+  font-family: var(--font-brand);
+  /* A step above the headings: the serif sets small for its size. */
+  font-size: calc(var(--text-md) + 1px);
+  font-weight: 800;
   line-height: 1;
-  color: var(--ink);
+  color: var(--brand);
   text-decoration: none;
 }
 /* The wordmark at the head of the rail, over the links it belongs to. */
