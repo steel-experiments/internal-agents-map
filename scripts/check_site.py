@@ -17,7 +17,7 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parent.parent
 
 # Files that public/ publishes exactly as they are authored.
-PUBLIC_FILES = {"favicon.ico", "og.png", "fonts/Areal.woff2", "fonts/NanumMyeongjo-ExtraBold.woff2"}
+PUBLIC_FILES = {"favicon.ico", "fonts/Areal.woff2", "fonts/NanumMyeongjo-ExtraBold.woff2"}
 # Exports and discovery files that no page route serves.
 EXPORT_FILES = {
     "agents.json",
@@ -32,14 +32,16 @@ ERROR_PAGE = "404.html"
 DIRECTORIES = {
     "_astro",
     "fonts",
-    "notes",
+    "lessons",
     "agents",
     "logos",
     "organizations",
+    "problems",
     "og",
     "og/agents",
     "og/organizations",
-    "og/notes",
+    "og/lessons",
+    "og/problems",
 }
 # A link preview card: PNG, this size, and no heavier than this.
 OG_IMAGE_SIZE = (1200, 630)
@@ -208,7 +210,7 @@ def validate(
     if wanted_companies != listed_companies:
         errors.append("Organization route membership differs from the catalog.")
     expected = route_files(routes, errors) | PUBLIC_FILES | EXPORT_FILES | {ERROR_PAGE}
-    # Every route except the home page publishes its own preview card.
+    # Every route publishes its own preview card. The card of the home page is og.png.
     expected |= {og_image_file(route) for route in routes}
     expected |= {f"agents/{approach['id']}.json" for approach in approaches}
     # The published logo set comes from the companies the catalog declares.
@@ -310,7 +312,7 @@ def validate(
             if not target.is_relative_to(root):
                 errors.append(f"Path escapes site: {url}")
                 return
-            # A clean URL such as /agents/<id> or /notes is served from <id>.html.
+            # A clean URL such as /agents/<id> or /lessons is served from <id>.html.
             clean = None if target == root else target.with_name(target.name + ".html")
             if clean is not None and clean.is_file():
                 target = clean

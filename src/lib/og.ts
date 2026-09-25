@@ -2,21 +2,21 @@
 // ABOUTME: Pure data: the renderer under src/og/ draws these inputs, the pages link to them.
 
 import { createHash } from 'node:crypto';
-import type { CompanyLogo } from './catalog';
+import type { Catalog, CompanyLogo } from './catalog';
 import type { CompanyView } from './companies';
 import type { DirectoryCard } from './entry-view';
 import { canonicalUrl } from './routes';
 import { shorten } from './text';
 
 /** Bump when the drawing changes, so link caches drop the old card. */
-export const OG_TEMPLATE_VERSION = 1;
+export const OG_TEMPLATE_VERSION = 2;
 export const OG_WIDTH = 1200;
 export const OG_HEIGHT = 630;
-/** The summary length the card holds in three lines at its type size. */
-export const OG_EXCERPT_LIMIT = 120;
+/** The summary length the card holds in four lines at its type size. */
+export const OG_EXCERPT_LIMIT = 140;
 /** The approach type and up to three work domains fit one row. */
 export const OG_TAG_LIMIT = 4;
-/** The home page keeps the authored card in public/. */
+/** The home page card sits at the site root, where the site-wide preview tag points. */
 export const OG_DEFAULT_PATH = '/og.png';
 
 /** The vendored logo as the card draws it. `wide` marks a wordmark-shaped file. */
@@ -32,6 +32,8 @@ export interface OgEntryCard {
   readonly kind: 'entry';
   readonly company: string;
   readonly name: string;
+  /** The company and the name as one line of text, such as `Stripe · Minions`. */
+  readonly title: string;
   readonly excerpt: string;
   readonly tags: readonly string[];
   readonly logo: OgLogo | null;
@@ -46,15 +48,22 @@ export interface OgOrganizationCard {
   readonly names: readonly string[];
   readonly logo: OgLogo | null;
   readonly monogram: string;
+  readonly titleSize: number;
 }
 
 export interface OgSectionCard {
   readonly kind: 'section';
-  readonly eyebrow: string;
+  /** The kind of page, shown as the blue tag. The home page has none. */
+  readonly eyebrow: string | null;
   readonly title: string;
   readonly description: string;
-  /** The publication date a note shows beside its eyebrow. */
+  /** The description cut to the length the card holds. */
+  readonly excerpt: string;
+  /** The publication date a lesson shows below its description. */
   readonly date: string | null;
+  readonly titleSize: number;
+  /** The company logos the front card shows, in the order the card places them. */
+  readonly logos: readonly OgLogo[];
 }
 
 export type OgCard = OgEntryCard | OgOrganizationCard | OgSectionCard;
@@ -81,11 +90,11 @@ export function ogLogo(logo: CompanyLogo | null): OgLogo | null {
   };
 }
 
-/** The title steps down as the possessive and the name grow. */
+/** The title steps down as the company and the name grow. */
 export function titleSize(text: string): number {
-  if (text.length <= 12) return 80;
-  if (text.length <= 22) return 72;
-  return 64;
+  if (text.length <= 30) return 64;
+  if (text.length <= 44) return 56;
+  return 48;
 }
 
 /** The card of one implementation, as the directory names it. */
@@ -95,11 +104,12 @@ export function entryCard(card: DirectoryCard): OgEntryCard {
     kind: 'entry',
     company: card.company,
     name: card.agentName,
+    title: card.title,
     excerpt: shorten(card.summary, OG_EXCERPT_LIMIT),
     tags: tags.slice(0, OG_TAG_LIMIT),
     logo: ogLogo(card.companyView.logo),
     monogram: card.companyView.monogram,
-    titleSize: titleSize(`${card.company}'s ${card.agentName}`),
+    titleSize: titleSize(card.title),
   };
 }
 
@@ -126,22 +136,57 @@ export function organizationCard(
     names: cards.map((card) => card.agentName),
     logo: ogLogo(company.logo),
     monogram: company.monogram,
+    titleSize: titleSize(company.name),
   };
 }
 
-/** The card of a section, a guide, or a note. */
+/** A 32-bit seed from a text, so the same text always gives the same order. */
+function seedOf(text: string): number {
+  return createHash('sha256').update(text).digest().readUInt32BE(0);
+}
+
+/** A small seeded random number generator (mulberry32). */
+function seededRandom(seed: number): () => number {
+  let state = seed;
+  return () => {
+    state = (state + 0x6d2b79f5) | 0;
+    let t = Math.imul(state ^ (state >>> 15), 1 | state);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/** Every company logo in the catalog, in an order that the seed text sets. */
+export function mosaicLogos(catalog: Catalog, seed: string): OgLogo[] {
+  const logos = catalog.companies.flatMap((company) => {
+    const logo = ogLogo(company.logo);
+    return logo ? [logo] : [];
+  });
+  const random = seededRandom(seedOf(seed));
+  for (let index = logos.length - 1; index > 0; index -= 1) {
+    const other = Math.floor(random() * (index + 1));
+    [logos[index], logos[other]] = [logos[other], logos[index]];
+  }
+  return logos;
+}
+
+/** The card of the home page, a section, a guide, or a lesson. */
 export function sectionCard(options: {
-  eyebrow: string;
+  eyebrow: string | null;
   title: string;
   description: string;
   date?: string | null;
+  logos?: readonly OgLogo[];
 }): OgSectionCard {
   return {
     kind: 'section',
     eyebrow: options.eyebrow,
     title: options.title,
     description: options.description,
+    excerpt: shorten(options.description, OG_EXCERPT_LIMIT),
     date: options.date ?? null,
+    titleSize: titleSize(options.title),
+    logos: options.logos ?? [],
   };
 }
 
@@ -163,7 +208,7 @@ export function ogVersion(card: OgCard): string {
 export function ogAlt(card: OgCard): string {
   switch (card.kind) {
     case 'entry':
-      return `${card.company}'s ${card.name}: ${card.excerpt}`;
+      return `${card.company} · ${card.name}: ${card.excerpt}`;
     case 'organization':
       return `${card.company}: ${card.count}`;
     case 'section':

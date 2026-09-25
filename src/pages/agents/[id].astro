@@ -56,7 +56,7 @@ const hasResults =
 const hasFigures = entry.isPilot
   ? entry.observationItems.length > 0
   : entry.metricClaims.length > 0 || entry.resultStatementClaims.length > 0;
-const hasRelated = entry.relatedEntries.length > 0 || entry.relatedNotes.length > 0;
+const hasRelated = entry.relatedEntries.length > 0 || entry.relatedLessons.length > 0;
 ---
 <SiteLayout title={title} description={description} path={entry.path} structuredData={graph} ogImage={preview}>
   <article class="entry-page" data-approach-id={entry.id}>
@@ -209,10 +209,10 @@ const hasRelated = entry.relatedEntries.length > 0 || entry.relatedNotes.length 
             </li>
           ))}
           </>)}
-          {entry.relatedNotes.map((note) => (
+          {entry.relatedLessons.map((lesson) => (
             <li class="related-card">
-              <span class="related-kind"><Icon name="note-text" />Note</span>
-              <a href={note.path}>{note.title}</a>
+              <span class="related-kind"><Icon name="note-text" />Lesson</span>
+              <a href={lesson.path}>{lesson.title}</a>
             </li>
           ))}
         </ul>

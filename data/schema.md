@@ -11,6 +11,18 @@ The build creates four linked collections in `data/agents.json`:
 
 Copy `templates/agent.yaml` when you add an approach. Omit optional fields when no public source documents them. Use `unknown` for required rubric fields when the sources do not provide an answer.
 
+## Machine-readable schema
+
+`data/agent.schema.json` is a JSON Schema (draft-07). It is the source of truth for the fields, types, and allowed values of one record. This document explains what the values mean.
+
+The build applies the schema to each record first. Then it applies the rules that compare a record with other records and files: unique source IDs, evidence that refers to the sources of the same record, claim paths that exist, capture manifests, and the company registry.
+
+The first line of each record is `# yaml-language-server: $schema=../agent.schema.json`. An editor that uses the YAML language server, such as VS Code or Cursor with the Red Hat YAML extension, then shows the allowed values and the errors while you type. Keep this line when you copy the template.
+
+The build also writes `src/lib/schema-values.ts` from the schema. The website uses its values and types. Do not edit that file by hand.
+
+To add an allowed value, add it to the schema and to this document. A test fails when this document does not name a value of the schema.
+
 ## Required approach fields
 
 | Field | Type | Description |
@@ -31,6 +43,8 @@ Copy `templates/agent.yaml` when you add an approach. Omit optional fields when 
 | `summary` | string | A short, factual description. |
 | `sources` | list | Structured public sources. |
 | `evidence` | map | A link from each authored claim to one or more sources. |
+
+Set the optional `featured` field to `true` to show a record before all others in the default directory order. Featured records come after the bookmarks of the reader and before the other well-documented records. Give this field only to a record that is well documented. The A–Z order does not use it.
 
 Optional identity fields include `aliases` and `family_id`. Use `relationships` to connect records. Each relationship has a `type` and `approach_id`. Types are `component-of`, `built-on`, `successor-of`, and `related-to`.
 

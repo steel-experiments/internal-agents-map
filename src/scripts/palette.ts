@@ -10,7 +10,7 @@ const SHUT_SECONDS = 0.14;
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 /** The facets the pills filter by, in the order the palette lists them. */
-const FACETS = ['group', 'work', 'type', 'invocation', 'supervision'] as const;
+const FACETS = ['work', 'type', 'invocation', 'supervision'] as const;
 type Facet = (typeof FACETS)[number];
 
 /** How many of each kind the palette shows before the reader has asked for anything. */
@@ -101,12 +101,10 @@ export function startPalette(): void {
   const shortcut = document.getElementById('search-shortcut');
   // The badge reads ⌘ K in the HTML, so only a platform without one changes it.
   if (shortcut && !/Mac|iPhone|iPad|iPod/.test(navigator.platform)) shortcut.textContent = 'Ctrl K';
-  const items = [...palette.querySelectorAll<HTMLAnchorElement>('.palette-item')];
   const groups = [...palette.querySelectorAll<HTMLElement>('.palette-group')];
   const empty = palette.querySelector<HTMLElement>('.palette-empty');
   /** The values chosen in each pill. A facet with none chosen filters nothing. */
   const chosen: Record<Facet, Set<string>> = {
-    group: new Set(),
     work: new Set(),
     type: new Set(),
     invocation: new Set(),
@@ -116,8 +114,9 @@ export function startPalette(): void {
   let opener: Element | null = null;
   let active = -1;
 
-  /** The items still on show, in document order. */
-  const shown = (): HTMLAnchorElement[] => items.filter((item) => !item.hidden);
+  /** The items still on show, in document order. The sort can move them, so they are read each time. */
+  const shown = (): HTMLAnchorElement[] =>
+    [...palette.querySelectorAll<HTMLAnchorElement>('.palette-item')].filter((item) => !item.hidden);
 
   const point = (next: number): void => {
     const list = shown();
@@ -287,7 +286,7 @@ export function startPalette(): void {
     const pill = facet.querySelector<HTMLButtonElement>('.palette-pill');
     const menu = facet.querySelector<HTMLElement>('.palette-menu');
     const count = facet.querySelector<HTMLElement>('.palette-pill-count');
-    if (!key || !pill || !menu) continue;
+    if (!pill || !menu) continue;
 
     pill.addEventListener('click', () => {
       const opening = menu.hidden;
@@ -307,6 +306,8 @@ export function startPalette(): void {
       }
     });
 
+    // The sort pill opens like a facet, but its options belong to the catalog order.
+    if (!key) continue;
     for (const option of menu.querySelectorAll<HTMLButtonElement>('.palette-option')) {
       option.addEventListener('click', () => {
         const value = option.dataset.value ?? '';
@@ -410,6 +411,8 @@ export function startPalette(): void {
   });
 
   input.addEventListener('input', () => apply());
+  // The catalog order moved the items, so the resting handful is chosen again.
+  palette.addEventListener('catalog-order', () => apply());
   input.addEventListener('keydown', (event) => {
     if (event.key === 'ArrowDown') { event.preventDefault(); point(active + 1); }
     else if (event.key === 'ArrowUp') { event.preventDefault(); point(active - 1); }

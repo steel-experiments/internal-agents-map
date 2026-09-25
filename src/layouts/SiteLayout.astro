@@ -7,7 +7,7 @@ import ContributionInvite from '../components/ContributionInvite.astro';
 import { ClientRouter } from 'astro:transitions';
 import CommandPalette from '../components/CommandPalette.astro';
 import Icon from '../components/Icon.astro';
-import { canonicalUrl, guidePath, homePath, markdownPath, notesIndexPath } from '../lib/routes';
+import { canonicalUrl, guidePath, homePath, markdownPath, lessonsIndexPath } from '../lib/routes';
 import {
   CONTRIBUTE_URL,
   OG_IMAGE,
@@ -24,11 +24,11 @@ interface Props {
   /** The canonical path of this page, such as `/agents/block-builderbot`. */
   path: string;
   /** The navigation entry to mark as current. */
-  current?: 'infrastructure' | 'catalog' | 'definitions' | 'notes' | 'methodology' | null;
+  current?: 'infrastructure' | 'catalog' | 'definitions' | 'lessons' | 'methodology' | null;
   structuredData?: JsonLdNode | null;
   /** Keep a page such as 404 out of search results. */
   noindex?: boolean;
-  /** A note is an article; every other page is an ordinary page. */
+  /** A lesson is an article; every other page is an ordinary page. */
   ogType?: 'website' | 'article';
   /** The publication date of an article, for link previews. */
   articlePublishedTime?: string | null;
@@ -61,7 +61,7 @@ const image = ogImage ?? { url: OG_IMAGE, alt: OG_IMAGE_ALT };
   {noindex && <meta name="robots" content="noindex" />}
   <link rel="canonical" href={url} />
   <link rel="alternate" type="text/markdown" href={canonicalUrl(markdownPath(path))} />
-  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" href="/favicon.ico?v=2" sizes="32x32" />
   <link rel="preload" href="/fonts/Areal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/NanumMyeongjo-ExtraBold.woff2" as="font" type="font/woff2" crossorigin />
   <meta property="og:type" content={ogType} />
@@ -101,7 +101,7 @@ const image = ogImage ?? { url: OG_IMAGE, alt: OG_IMAGE_ALT };
         <span class="nav-dot" aria-hidden="true" hidden></span>
         <a href={homePath()} aria-current={current === 'catalog' ? 'page' : undefined}><Icon name="layers-two" />Agents</a>
         <a href="/infrastructure" aria-current={current === 'infrastructure' ? 'page' : undefined}><Icon name="server" />Infrastructure</a>
-        <a href={notesIndexPath()} aria-current={current === 'notes' ? 'page' : undefined}><Icon name="note-text" />Notes</a>
+        <a href={lessonsIndexPath()} aria-current={current === 'lessons' ? 'page' : undefined}><Icon name="note-text" />Lessons</a>
         <a href={guidePath('definitions')} aria-current={current === 'definitions' ? 'page' : undefined}><Icon name="book" />Definitions</a>
         <a href={guidePath('methodology')} aria-current={current === 'methodology' ? 'page' : undefined}><Icon name="compass-round" />Methodology</a>
         <a class="nav-external" href="https://github.com/steel-experiments/internal-agents-map"><span class="nav-label"><Icon name="github" />Repository</span><Icon name="arrow-upright" /></a>
@@ -137,6 +137,7 @@ const image = ogImage ?? { url: OG_IMAGE, alt: OG_IMAGE_ALT };
   import { startNavMenu } from '../scripts/nav-menu';
   import { startDisclosures } from '../scripts/disclosures';
   import { startPalette } from '../scripts/palette';
+  import { startCatalogOrder } from '../scripts/catalog-order';
 
   // The router swaps the document rather than reloading it, so every page it
   // builds is wired here, not once at first load.
@@ -146,6 +147,8 @@ const image = ogImage ?? { url: OG_IMAGE, alt: OG_IMAGE_ALT };
     startContents();
     startDisclosures();
     startPalette();
+    // After the palette, so the palette hears the first sort.
+    startCatalogOrder();
   });
 </script>
 </body>

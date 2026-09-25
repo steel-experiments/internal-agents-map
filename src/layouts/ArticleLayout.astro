@@ -1,5 +1,5 @@
 ---
-// ABOUTME: The frame the guides and the notes share, wrapped around the site shell.
+// ABOUTME: The frame the guides and the lessons share, wrapped around the site shell.
 // ABOUTME: It also carries the reading styles those pages use, ported from the old site.
 import SiteLayout from './SiteLayout.astro';
 import type { JsonLdNode } from '../lib/metadata';
@@ -10,11 +10,11 @@ interface Props {
   description: string;
   /** The canonical path of this page. */
   path: string;
-  current?: 'catalog' | 'definitions' | 'notes' | 'methodology' | null;
+  current?: 'catalog' | 'definitions' | 'lessons' | 'methodology' | null;
   structuredData?: JsonLdNode | null;
-  /** `notes` adds the reading width and type size the notes use. */
-  variant?: 'guide' | 'notes';
-  /** A note is an article; a guide is an ordinary page. */
+  /** `lessons` adds the reading width and type size the lessons use. */
+  variant?: 'guide' | 'lessons';
+  /** A lesson is an article; a guide is an ordinary page. */
   ogType?: 'website' | 'article';
   /** The publication date of an article, for link previews. */
   articlePublishedTime?: string | null;
@@ -44,13 +44,13 @@ const {
   articlePublishedTime={articlePublishedTime}
   ogImage={ogImage}
 >
-  <div class:list={['guide', variant === 'notes' && 'notes']}>
+  <div class:list={['guide', variant === 'lessons' && 'lessons']}>
     <slot />
   </div>
 </SiteLayout>
 
 <style is:global>
-/* The guides and the notes read as documents: fine rules, wide measure, quiet labels. */
+/* The guides and the lessons read as documents: fine rules, wide measure, quiet labels. */
 .guide-header { padding-bottom: 32px; }
 .guide-header h1 { max-width: 700px; margin-top: 0; }
 .guide-header > p { max-width: 680px; }
@@ -423,51 +423,51 @@ const {
 .concept-combination dl > div:last-child dd { border-bottom: 0; }
 .guide .concept-combination .combination-note { font-size: var(--text-sm); color: var(--muted); }
 
-/* Notes use the same fine rules, type, and restrained diagram accents. */
-.notes { font-size: var(--text-sm); }
-.notes .note-meta { font-size: var(--text-sm); color: var(--sand-10); }
-.notes .guide-header { padding-bottom: 32px; }
-.notes .guide-header > * { max-width: 680px; }
-.notes .note-list, .note-detail > article { max-width: 680px; }
-.note-preview { position: relative; margin-bottom: 40px; cursor: pointer; }
-.note-preview h2 a::after { content: ""; position: absolute; inset: 0; }
-.note-preview h2 { margin: 0 0 8px; }
-.note-preview h2 a { color: var(--ink); text-decoration: none; }
-.note-summary { font-size: var(--text-sm); color: var(--sand-10); max-width: 580px; }
-.note-preview:hover h2 a { color: var(--sand-11); }
-.note-preview:hover .note-summary { color: var(--sand-9); }
-.notes-editorial { max-width: 620px; padding: 24px 0 32px; color: var(--muted); font-size: var(--text-sm); }
-.note-back { display: inline-block; margin-bottom: 32px; font-size: var(--text-sm); }
-.note-detail h1 { max-width: 640px; }
-.notes section { padding: 32px 0; }
-.notes blockquote { margin: 32px 0 8px; padding: 8px 0 0; font-size: var(--text-md); }
-.notes .quote-credit { color: var(--muted); font-size: var(--text-sm); margin: 0 0 24px; }
-.notes table { width: 100%; table-layout: fixed; border-spacing: 0; margin: 24px 0; border: .5px solid var(--sand-6); border-radius: 14px; overflow: hidden; }
-.notes th, .notes td { padding: 12px; text-align: left; vertical-align: top; line-height: 1.5; overflow-wrap: anywhere; }
-.notes th { background: var(--sand-3); font-weight: 500; }
-.notes th:first-child { width: 30%; }
-.notes tbody td { border-top: .5px solid var(--sand-6); }
-.notes .note-diagram { margin: 32px 0 0; }
-.note-node {
+/* Lessons use the same fine rules, type, and restrained diagram accents. */
+.lessons { font-size: var(--text-sm); }
+.lessons .lesson-meta { font-size: var(--text-sm); color: var(--sand-10); }
+.lessons .guide-header { padding-bottom: 32px; }
+.lessons .guide-header > * { max-width: 680px; }
+.lessons .lesson-list, .lesson-detail > article { max-width: 680px; }
+.lesson-preview { position: relative; margin-bottom: 40px; cursor: pointer; }
+.lesson-preview h2 a::after { content: ""; position: absolute; inset: 0; }
+.lesson-preview h2 { margin: 0 0 8px; }
+.lesson-preview h2 a { color: var(--ink); text-decoration: none; }
+.lesson-summary { font-size: var(--text-sm); color: var(--sand-10); max-width: 580px; }
+.lesson-preview:hover h2 a { color: var(--sand-11); }
+.lesson-preview:hover .lesson-summary { color: var(--sand-9); }
+.lessons-editorial { max-width: 620px; padding: 24px 0 32px; color: var(--muted); font-size: var(--text-sm); }
+.lesson-back { display: inline-block; margin-bottom: 32px; font-size: var(--text-sm); }
+.lesson-detail h1 { max-width: 640px; }
+.lessons section { padding: 32px 0; }
+.lessons blockquote { margin: 32px 0 8px; padding: 8px 0 0; font-size: var(--text-md); }
+.lessons .quote-credit { color: var(--muted); font-size: var(--text-sm); margin: 0 0 24px; }
+.lessons table { width: 100%; table-layout: fixed; border-spacing: 0; margin: 24px 0; border: .5px solid var(--sand-6); border-radius: 14px; overflow: hidden; }
+.lessons th, .lessons td { padding: 12px; text-align: left; vertical-align: top; line-height: 1.5; overflow-wrap: anywhere; }
+.lessons th { background: var(--sand-3); font-weight: 500; }
+.lessons th:first-child { width: 30%; }
+.lessons tbody td { border-top: .5px solid var(--sand-6); }
+.lessons .lesson-diagram { margin: 32px 0 0; }
+.lesson-node {
   min-width: 0;
   background: var(--sand-3);
   border-radius: 14px;
   padding: 16px;
 }
-.note-node strong { display: block; font-size: var(--text-md); font-weight: 400; line-height: 1.4; }
+.lesson-node strong { display: block; font-size: var(--text-md); font-weight: 400; line-height: 1.4; }
 /* A node standing on its own is a caption, not a step: both its lines read at 14px. */
-.note-diagram > .note-node strong { font-size: var(--text-sm); line-height: 1.5; }
-.note-node small { display: block; color: var(--muted); font-size: var(--text-sm); line-height: 1.5; margin-top: 6px; }
-.note-diagram-tail { margin-top: 16px; font-size: var(--text-sm); }
-.note-reviewers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.lesson-diagram > .lesson-node strong { font-size: var(--text-sm); line-height: 1.5; }
+.lesson-node small { display: block; color: var(--muted); font-size: var(--text-sm); line-height: 1.5; margin-top: 6px; }
+.lesson-diagram-tail { margin-top: 16px; font-size: var(--text-sm); }
+.lesson-reviewers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 /* Branch labels carry the conditions in both the page and the text export. */
-.notes .note-branches { list-style: none; margin: 0 0 0 16px; padding: 16px 0 0 20px; border-left: 1px solid var(--sand-6); }
-.note-branches li { position: relative; padding: 12px 16px; background: var(--sand-3); border-radius: 14px; }
-.note-branches li + li { margin-top: 12px; }
+.lessons .lesson-branches { list-style: none; margin: 0 0 0 16px; padding: 16px 0 0 20px; border-left: 1px solid var(--sand-6); }
+.lesson-branches li { position: relative; padding: 12px 16px; background: var(--sand-3); border-radius: 14px; }
+.lesson-branches li + li { margin-top: 12px; }
 /* A branch meets its container at the middle of its side, whatever its height. */
-.note-branches li::before { content: ""; position: absolute; top: 50%; left: -20px; width: 20px; border-top: 1px solid var(--sand-6); }
+.lesson-branches li::before { content: ""; position: absolute; top: 50%; left: -20px; width: 20px; border-top: 1px solid var(--sand-6); }
 /* The junction sits astride that edge: half on the line, half on the container. */
-.note-branches li::after {
+.lesson-branches li::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -478,25 +478,25 @@ const {
   border-radius: 50%;
   background: var(--sand-6);
 }
-.note-branches strong, .note-shared-state strong { display: block; font-weight: 500; }
-.note-branches span, .note-shared-state span { display: block; margin-top: 6px; color: var(--sand-10); }
-.note-shared-state { position: relative; margin-top: 16px; padding: 16px; border: 1px solid var(--sand-6); border-radius: 14px; text-align: center; }
-.note-shared-state::before, .note-shared-state::after { content: ""; position: absolute; top: -17px; height: 16px; border-left: 1px solid var(--sand-6); }
-.note-shared-state::before { left: 25%; }
-.note-shared-state::after { left: 75%; }
-.notes .note-diagram figcaption {
+.lesson-branches strong, .lesson-shared-state strong { display: block; font-weight: 500; }
+.lesson-branches span, .lesson-shared-state span { display: block; margin-top: 6px; color: var(--sand-10); }
+.lesson-shared-state { position: relative; margin-top: 16px; padding: 16px; border: 1px solid var(--sand-6); border-radius: 14px; text-align: center; }
+.lesson-shared-state::before, .lesson-shared-state::after { content: ""; position: absolute; top: -17px; height: 16px; border-left: 1px solid var(--sand-6); }
+.lesson-shared-state::before { left: 25%; }
+.lesson-shared-state::after { left: 75%; }
+.lessons .lesson-diagram figcaption {
   margin-top: 16px;
   font-size: var(--text-xs);
   color: var(--sand-10);
 }
-.notes figcaption { font-size: var(--text-sm); margin-top: 16px; }
-.guide .note-sources > h2 { margin-bottom: 16px; }
-.note-related-title { margin-top: 32px; font-size: var(--text-md); }
-.note-sources ol { padding-left: 24px; margin: 0; font-size: var(--text-sm); }
-.note-sources ol li + li { margin-top: 16px; }
-.note-sources li span { display: block; color: var(--muted); margin-top: 8px; }
-.note-sources .resource-links { font-size: var(--text-sm); }
-.note-next { display: grid; gap: 12px; padding: 24px 0 32px; font-size: var(--text-sm); }
+.lessons figcaption { font-size: var(--text-sm); margin-top: 16px; }
+.guide .lesson-sources > h2 { margin-bottom: 16px; }
+.lesson-related-title { margin-top: 32px; font-size: var(--text-md); }
+.lesson-sources ol { padding-left: 24px; margin: 0; font-size: var(--text-sm); }
+.lesson-sources ol li + li { margin-top: 16px; }
+.lesson-sources li span { display: block; color: var(--muted); margin-top: 8px; }
+.lesson-sources .resource-links { font-size: var(--text-sm); }
+.lesson-next { display: grid; gap: 12px; padding: 24px 0 32px; font-size: var(--text-sm); }
 
 @media (max-width: 800px) {
   /*
@@ -517,17 +517,17 @@ const {
   .place-callout,
   .workflow-stack .workflow-node .eyebrow,
   .workflow-stack .workflow-node strong,
-  .note-diagram .note-node > span,
-  .note-diagram .note-node strong,
-  .note-diagram .note-node small,
-  .note-diagram .note-versions .diagram-number,
-  .note-diagram .note-versions strong,
-  .note-diagram .note-versions p,
-  .note-diagram .note-branches strong,
-  .note-diagram .note-branches span,
-  .notes .note-diagram figcaption,
-  .note-diagram .note-diagram-tail { font-size: 14px; }
-  .notes table, .note-branches, .note-shared-state { font-size: 14px; }
+  .lesson-diagram .lesson-node > span,
+  .lesson-diagram .lesson-node strong,
+  .lesson-diagram .lesson-node small,
+  .lesson-diagram .lesson-versions .diagram-number,
+  .lesson-diagram .lesson-versions strong,
+  .lesson-diagram .lesson-versions p,
+  .lesson-diagram .lesson-branches strong,
+  .lesson-diagram .lesson-branches span,
+  .lessons .lesson-diagram figcaption,
+  .lesson-diagram .lesson-diagram-tail { font-size: 14px; }
+  .lessons table, .lesson-branches, .lesson-shared-state { font-size: 14px; }
   .guide-faq details, .concept-combination dl, .guide .classification-table { font-size: 14px; }
   .cycle-scene text { font-size: 30px; }
   .exchange-scene text { font-size: 29px; }
@@ -604,9 +604,9 @@ const {
   .workflow-node { padding: 16px 12px; }
   .workflow-node .eyebrow { font-size: var(--text-xs); }
   .workflow-node strong { font-size: var(--text-sm); }
-  .notes .note-diagram { padding: 0; }
-  .note-reviewers { gap: 8px; }
-  .note-reviewers .note-node { padding: 12px; }
-  .note-meta span { display: block; margin: 8px 0 0; }
+  .lessons .lesson-diagram { padding: 0; }
+  .lesson-reviewers { gap: 8px; }
+  .lesson-reviewers .lesson-node { padding: 12px; }
+  .lesson-meta span { display: block; margin: 8px 0 0; }
 }
 </style>

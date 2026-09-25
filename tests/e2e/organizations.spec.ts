@@ -11,6 +11,9 @@ for (const id of ['airbnb', 'harvey', 'stripe', 'databricks', 'y-combinator']) {
     for (const section of ['agents', 'infrastructure']) {
       await expect(page.locator(`#${section}-title`)).toHaveCount(members.some((entry: any) => entry.catalog_section === section) ? 1 : 0);
     }
+    const website = new URL((await page.locator('.organization-website').getAttribute('href'))!);
+    expect(website.searchParams.get('utm_source')).toBe('internal-agents.com');
+    expect(website.searchParams.get('utm_campaign')).toBe('organization-profile');
     await expect(page.locator('.sidebar')).not.toContainText('Organizations');
     await expect(page.locator('.sidebar [aria-current="page"]')).toHaveCount(0);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://internal-agents.com/organizations/${id}`);

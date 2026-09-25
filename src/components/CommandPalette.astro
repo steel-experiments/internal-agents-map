@@ -1,16 +1,17 @@
 ---
-// ABOUTME: The command palette: one search over the catalog, the notes, and the definitions.
+// ABOUTME: The command palette: one search over the catalog, the lessons, and the definitions.
 // ABOUTME: Every item is a link in the initial HTML, so the palette filters rather than fetches.
 import Icon from './Icon.astro';
 import { loadCatalog } from '../lib/catalog';
 import { directoryCards } from '../lib/entry-view';
+import { documentationOrder } from '../lib/documentation';
 import { DEFINITIONS_JUMP_LINKS } from '../lib/guide-content';
-import { notePreviewTitle, noteViews } from '../lib/notes';
+import { lessonPreviewTitle, lessonViews } from '../lib/lessons';
 import { guidePath } from '../lib/routes';
 import { FACET_KEYS, FACET_LABELS, facetVocabulary, normalize } from '../lib/search';
 
-const cards = directoryCards(loadCatalog());
-const notes = noteViews();
+const cards = documentationOrder(directoryCards(loadCatalog()));
+const lessons = lessonViews();
 const vocabulary = facetVocabulary(cards);
 
 /** The facet values each pill offers, in the order the vocabulary lists them. */
@@ -30,9 +31,10 @@ const NO_FACETS = { work: '', type: '', invocation: '', supervision: '' };
 const catalogItems = cards.map((card) => ({
   collection: card.catalogSection,
   path: card.path,
-  title: `${card.company} · ${card.agentName}`,
+  title: card.title,
   detail: card.approachTypeLabel,
   search: card.search,
+  order: { id: card.id, featured: String(card.featured), wellDocumented: String(card.wellDocumented), alphabeticalRank: card.alphabeticalRank },
   facets: {
     work: card.domains.map((domain) => domain.id).join(' '),
     type: card.approachType,
@@ -41,11 +43,12 @@ const catalogItems = cards.map((card) => ({
   },
 }));
 
-const noteItems = notes.map((note) => ({
-  path: note.path,
-  title: notePreviewTitle(note),
-  detail: note.readingTime,
-  search: normalize(`${notePreviewTitle(note)} ${note.summary}`),
+const lessonItems = lessons.map((lesson) => ({
+  path: lesson.path,
+  title: lessonPreviewTitle(lesson),
+  detail: lesson.readingTime,
+  search: normalize(`${lessonPreviewTitle(lesson)} ${lesson.summary}`),
+  order: null,
   facets: NO_FACETS,
 }));
 
@@ -54,13 +57,14 @@ const definitionItems = DEFINITIONS_JUMP_LINKS.map((link) => ({
   title: link.label.replace(/\s*↓$/, ''),
   detail: '',
   search: normalize(link.label.replace(/\s*↓$/, '')),
+  order: null,
   facets: NO_FACETS,
 }));
 
 const groups = [
   { id: 'catalog', label: 'Agents', items: catalogItems.filter((item) => item.collection === 'agents') },
   { id: 'infrastructure', label: 'Infrastructure', items: catalogItems.filter((item) => item.collection === 'infrastructure') },
-  { id: 'notes', label: 'Notes', items: noteItems },
+  { id: 'lessons', label: 'Lessons', items: lessonItems },
   { id: 'definitions', label: 'Definitions', items: definitionItems },
 ];
 ---
@@ -89,23 +93,6 @@ const groups = [
       </button>
     </div>
     <div class="palette-filters" id="palette-filters">
-      <div class="palette-facet" data-facet="group">
-        <button type="button" class="palette-pill" aria-expanded="false">
-          <span class="palette-pill-label">Content type</span>
-          <span class="palette-pill-count" hidden></span>
-          <Icon name="chevron-down" />
-        </button>
-        <ul class="palette-menu" hidden>
-          {groups.map((group) => (
-            <li>
-              <button type="button" class="palette-option" data-value={group.id} aria-pressed="false">
-                <span>{group.label}</span>
-                <Icon name="check" size={16} />
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
       {facets.map((facet) => (
         <div class="palette-facet" data-facet={facet.key}>
           <button type="button" class="palette-pill" aria-expanded="false">
@@ -125,6 +112,26 @@ const groups = [
           </ul>
         </div>
       ))}
+      <div class="palette-facet" data-palette-sort>
+        <button type="button" class="palette-pill" aria-expanded="false">
+          <span class="palette-pill-label">Sort</span>
+          <Icon name="chevron-down" />
+        </button>
+        <ul class="palette-menu" hidden>
+          <li>
+            <button type="button" class="palette-option" data-sort-option="documented" aria-pressed="true">
+              <span>Detailed</span>
+              <Icon name="check" size={16} />
+            </button>
+          </li>
+          <li>
+            <button type="button" class="palette-option" data-sort-option="az" aria-pressed="false">
+              <span>A–Z</span>
+              <Icon name="check" size={16} />
+            </button>
+          </li>
+        </ul>
+      </div>
       <div class="palette-filters-foot">
         <button type="button" class="palette-apply" disabled>Apply filters</button>
         <button type="button" class="palette-back">Go back</button>
@@ -136,7 +143,12 @@ const groups = [
           <p class="palette-group-name">{group.label}</p>
           <ul>
             {group.items.map((item) => (
-              <li>
+              <li
+                data-bookmark-id={item.order?.id}
+                data-featured={item.order?.featured}
+                data-well-documented={item.order?.wellDocumented}
+                data-alphabetical-rank={item.order?.alphabeticalRank}
+              >
                 <a
                   class="palette-item"
                   href={item.path}

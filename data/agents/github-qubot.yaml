@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: github-qubot
 company: GitHub
 agent_name: Qubot

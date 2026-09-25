@@ -23,7 +23,7 @@ const preview = ogImage(view.path, organizationCard(view.company, view.groups.fl
     <header class="entry-header">
       <CompanyLogo company={view.company} size={40} eager />
       <h1>{view.company.name}</h1>
-      <a class="organization-website" href={view.homepage}>{view.websiteLabel}<Icon name="arrow-upright" size={16} /></a>
+      <a class="organization-website" href={view.websiteUrl}>{view.websiteLabel}<Icon name="arrow-upright" size={16} /></a>
     </header>
     {view.groups.map((group) => (
       <section class="entry-section" id={group.id} aria-labelledby={`${group.id}-title`}>

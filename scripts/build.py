@@ -22,8 +22,9 @@ from urllib.parse import urlsplit
 
 try:
     import yaml
+    from jsonschema import Draft7Validator, FormatChecker
 except ImportError:
-    sys.exit("PyYAML is required. Install project dependencies with 'uv sync'.")
+    sys.exit("PyYAML and jsonschema are required. Install project dependencies with 'uv sync'.")
 
 ROOT = Path(__file__).resolve().parent.parent
 AGENTS_DIR = ROOT / "data" / "agents"
@@ -41,146 +42,11 @@ PATTERNS_SNAPSHOT_END = "<!-- END PATTERNS SNAPSHOT -->"
 ADOPTION_SNAPSHOT_BEGIN = "<!-- BEGIN ADOPTION SNAPSHOT -->"
 ADOPTION_SNAPSHOT_END = "<!-- END ADOPTION SNAPSHOT -->"
 
-REQUIRED = {
-    "id",
-    "company",
-    "agent_name",
-    "approach_type",
-    "deployment_stage",
-    "year",
-    "first_public_evidence",
-    "last_reviewed_at",
-    "status",
-    "domains",
-    "autonomy",
-    "operating_models",
-    "summary",
-    "rubric",
-    "sources",
-    "evidence",
-}
-ALLOWED_TOP_LEVEL = REQUIRED | {
-    "headline_metric",
-    "architecture",
-    "primitives",
-    "key_metrics",
-    "lessons_learned",
-    "claim_metadata",
-    "aliases",
-    "family_id",
-    "relationships",
-    "page_content",
-}
-ARCHITECTURE_FIELDS = {
-    "sandbox",
-    "harness",
-    "model",
-    "tool_access",
-    "interfaces",
-    "knowledge",
-    "credentials",
-    "context_mgmt",
-}
-PAGE_QUESTIONS = {
-    "purpose",
-    "workflow",
-    "human_involvement",
-    "implementation",
-    "validation",
-    "observations",
-    "lessons",
-}
-REVIEW_STATES = {"reported", "unreported", "not-applicable", "not-reviewed"}
-PRIMITIVE_ROLES = {"workflow", "mechanism", "validation"}
-OBSERVATION_CATEGORIES = {
-    "effectiveness",
-    "adoption-output",
-    "cost-latency",
-    "implementation-scale",
-    "runtime-capacity",
-}
-OBSERVATION_BASES = {"reported-measurement", "qualitative", "estimate", "target"}
-SOURCE_FIELDS = {
-    "id",
-    "title",
-    "url",
-    "canonical_url",
-    "kind",
-    "provenance_class",
-    "role",
-    "publisher",
-    "authors",
-    "published_at",
-    "accessed_at",
-    "last_verified_at",
-    "archived_url",
-    "capture",
-    "duplicate_of",
-}
-CLAIM_METADATA_FIELDS = {
-    "kind",
-    "provenance",
-    "confidence",
-    "confidence_reason",
-    "valid_at",
-    "value",
-    "unit",
-    "reported_by",
-    "metric_scope",
-    "denominator",
-    "measurement_method",
-}
-AUTONOMY = {"assistive", "human-in-loop", "drafts-reviewed", "autonomous", "unknown"}
-STATUS = {"internal", "open-sourced", "commercialized", "mixed"}
-APPROACH_TYPES = {
-    "agent",
-    "agent-system",
-    "platform",
-    "orchestration-system",
-    "supporting-pattern",
-}
-DEPLOYMENT_STAGES = {"research", "prototype", "pilot", "deployed", "scaled", "unknown"}
-INVOCATION = {"interactive", "background", "scheduled", "event-driven", "unknown"}
-STATE = {"run-only", "durable-session", "cross-session-memory", "mixed", "unknown"}
-IDENTITY = {"user", "dedicated-agent", "service", "mixed", "unknown"}
-EVIDENCE_STRENGTH = {"detailed-primary", "limited-primary", "secondary-only", "mixed", "unknown"}
-SOURCE_KINDS = {
-    "engineering-blog",
-    "corporate-article",
-    "documentation",
-    "source-code",
-    "repository",
-    "release",
-    "social-post",
-    "talk",
-    "transcript",
-    "podcast",
-    "paper",
-    "case-study",
-    "news",
-    "hn-thread",
-    "hn-comment",
-    "forum",
-    "other",
-}
-PROVENANCE_CLASSES = {
-    "first-party",
-    "direct-participant",
-    "independent-secondary",
-    "community",
-    "aggregator",
-}
-SOURCE_ROLES = {"evidence", "commentary", "discovery"}
-CLAIM_KINDS = {"fact", "metric", "inference", "opinion"}
-CLAIM_PROVENANCE = {"reported", "observed", "inferred", "catalog-judgment"}
-CONFIDENCE = {"high", "medium", "low", "unverified"}
-ATTENTION_BOUNDARIES = {
-    "continuous-steering",
-    "work-product-review",
-    "outcome-review",
-    "exception-only",
-    "unknown",
-}
+AGENT_SCHEMA_FILE = ROOT / "data" / "agent.schema.json"
+AGENT_SCHEMA = json.loads(AGENT_SCHEMA_FILE.read_text(encoding="utf-8"))
+# Every agent file holds this line, so that a YAML editor loads the agent schema.
+SCHEMA_MODELINE = "# yaml-language-server: $schema=../agent.schema.json"
+SCHEMA_VALUES_TS = ROOT / "src" / "lib" / "schema-values.ts"
 BOUNDARY_LEVELS = {
     "continuous-steering": 2,
     "work-product-review": 3,
@@ -188,48 +54,8 @@ BOUNDARY_LEVELS = {
     "exception-only": 5,
     "unknown": None,
 }
-EVIDENCE_RELATIONS = {"supports", "contradicts", "contextualizes"}
-RELATION_TYPES = {"component-of", "built-on", "successor-of", "related-to"}
-DOMAIN_VALUES = {
-    "coding",
-    "code-review",
-    "support",
-    "on-call",
-    "research",
-    "customer-success",
-    "security",
-    "finance-ops",
-    "data",
-    "ci-triage",
-    "maintenance",
-    "ops",
-    "recruitment",
-    "migrations",
-    "design",
-}
-INTERFACE_VALUES = {
-    "slack",
-    "github",
-    "web",
-    "cli",
-    "linear",
-    "chrome-extension",
-    "webhook",
-    "desktop",
-    "scheduled",
-    "skill",
-    "cursor",
-    "api",
-    "automation",
-    "ci",
-    "intercom",
-    "jira",
-    "internal-ui",
-    "mobile",
-    "monday",
-}
-ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
-DATE_RE = re.compile(r"^\d{4}(?:-(?:0[1-9]|1[0-2])(?:-(?:0[1-9]|[12]\d|3[01]))?)?$")
+ID_RE = re.compile(AGENT_SCHEMA["definitions"]["kebabId"]["pattern"])
+DATE_RE = re.compile(AGENT_SCHEMA["definitions"]["partialDate"]["pattern"])
 RFC3339_UTC_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$")
 SHA256_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
 MAX_PDF_BYTES = 10 * 1024 * 1024
@@ -290,17 +116,36 @@ def die(message: str) -> NoReturn:
     raise SystemExit(1)
 
 
-def require_string(record: dict, field: str, filename: str) -> None:
-    value = record.get(field)
-    if not isinstance(value, str) or not value.strip():
-        die(f"{filename}: '{field}' must be a non-empty string.")
+def schema_values(definition: str) -> frozenset[str]:
+    """Give the allowed values of one enum definition in the agent schema."""
+    return frozenset(AGENT_SCHEMA["definitions"][definition]["enum"])
 
 
-def require_string_list(value: Any, field: str, filename: str, *, nonempty: bool = True) -> None:
-    if not isinstance(value, list) or (nonempty and not value):
-        die(f"{filename}: '{field}' must be a{' non-empty' if nonempty else ''} list.")
-    if any(not isinstance(item, str) or not item.strip() for item in value):
-        die(f"{filename}: every '{field}' value must be a non-empty string.")
+FORMAT_CHECKER = FormatChecker(formats=())
+
+
+@FORMAT_CHECKER.checks("partial-date", raises=ValueError)
+def is_calendar_date(value: object) -> bool:
+    """Reject a full date that does not exist, such as 2026-02-31."""
+    if isinstance(value, str) and len(value) == 10:
+        date.fromisoformat(value)
+    return True
+
+
+AGENT_VALIDATOR = Draft7Validator(AGENT_SCHEMA, format_checker=FORMAT_CHECKER)
+
+
+def schema_errors(record: Any, filename: str) -> list[str]:
+    """Give one line for each place where a record does not agree with the agent schema."""
+    errors = sorted(
+        AGENT_VALIDATOR.iter_errors(record),
+        key=lambda error: [str(part) for part in error.absolute_path],
+    )
+    return [
+        f"{filename}: {'.'.join(str(part) for part in error.absolute_path) or '(record)'}: "
+        f"{error.message}"
+        for error in errors
+    ]
 
 
 def validate_date(value: Any, field: str, filename: str) -> None:
@@ -537,53 +382,16 @@ def claim_fields(record: dict) -> dict[str, tuple[str, str, str]]:
     return claims
 
 
-def validate_source(source: Any, filename: str, seen: set[str]) -> None:
-    if not isinstance(source, dict):
-        die(f"{filename}: every source must be a mapping.")
-    unexpected = sorted(set(source) - SOURCE_FIELDS)
-    if unexpected:
-        die(f"{filename}: source contains unexpected field(s): {', '.join(unexpected)}")
-    for field in (
-        "id",
-        "title",
-        "url",
-        "canonical_url",
-        "kind",
-        "provenance_class",
-        "accessed_at",
-        "last_verified_at",
-    ):
-        require_string(source, field, filename)
+def validate_source(source: dict, filename: str, seen: set[str]) -> None:
     source_id = source["id"]
-    if not ID_RE.fullmatch(source_id):
-        die(f"{filename}: source id {source_id!r} must use kebab-case.")
     if source_id in seen:
         die(f"{filename}: duplicate source id {source_id!r}.")
     seen.add(source_id)
-    if not source["url"].startswith("https://"):
-        die(f"{filename}: source {source_id!r} must use an HTTPS URL.")
-    if not source["canonical_url"].startswith("https://"):
-        die(f"{filename}: source {source_id!r} canonical URL must use HTTPS.")
-    if "archived_url" in source:
-        validate_https_url(source["archived_url"], f"sources.{source_id}.archived_url", filename)
-    if source["kind"] not in SOURCE_KINDS:
-        die(f"{filename}: source {source_id!r} has invalid kind {source['kind']!r}.")
-    if source["provenance_class"] not in PROVENANCE_CLASSES:
-        die(f"{filename}: source {source_id!r} has invalid provenance class.")
-    if source.get("role", "evidence") not in SOURCE_ROLES:
-        die(f"{filename}: source {source_id!r} has invalid role {source.get('role')!r}.")
-    for field in ("published_at", "accessed_at", "last_verified_at"):
-        if source.get(field):
-            validate_date(source[field], f"sources.{source_id}.{field}", filename)
-    if source.get("authors") is not None:
-        require_string_list(source["authors"], f"sources.{source_id}.authors", filename)
     load_capture_manifest(source, filename)
 
 
 def validate_evidence(record: dict, filename: str, source_ids: set[str]) -> None:
     evidence = record["evidence"]
-    if not isinstance(evidence, dict):
-        die(f"{filename}: 'evidence' must be a mapping from claim paths to source links.")
     claims = claim_fields(record)
     missing = sorted(set(claims) - set(evidence))
     extra = sorted(set(evidence) - set(claims))
@@ -592,40 +400,12 @@ def validate_evidence(record: dict, filename: str, source_ids: set[str]) -> None
     if extra:
         die(f"{filename}: evidence refers to unknown claim(s): {', '.join(extra)}")
     for path, links in evidence.items():
-        if not isinstance(links, list) or not links:
-            die(f"{filename}: evidence for {path!r} must be a non-empty list.")
         for link in links:
-            if not isinstance(link, dict) or not isinstance(link.get("source_id"), str):
-                die(f"{filename}: evidence for {path!r} must contain source mappings.")
             if link["source_id"] not in source_ids:
                 die(f"{filename}: evidence for {path!r} uses unknown source {link['source_id']!r}.")
-            relation = link.get("relation", "supports")
-            if relation not in EVIDENCE_RELATIONS:
-                die(f"{filename}: evidence for {path!r} has invalid relation {relation!r}.")
-    metadata = record.get("claim_metadata") or {}
-    if not isinstance(metadata, dict):
-        die(f"{filename}: 'claim_metadata' must be a mapping.")
-    for path, values in metadata.items():
-        if path not in claims or not isinstance(values, dict):
+    for path in record.get("claim_metadata") or {}:
+        if path not in claims:
             die(f"{filename}: invalid claim metadata path {path!r}.")
-        unexpected = sorted(set(values) - CLAIM_METADATA_FIELDS)
-        if unexpected:
-            die(
-                f"{filename}: claim metadata for {path!r} contains unexpected field(s): {', '.join(unexpected)}"
-            )
-        if values.get("kind") and values["kind"] not in CLAIM_KINDS:
-            die(f"{filename}: invalid claim kind for {path!r}.")
-        if values.get("provenance") and values["provenance"] not in CLAIM_PROVENANCE:
-            die(f"{filename}: invalid claim provenance for {path!r}.")
-        if values.get("confidence") and values["confidence"] not in CONFIDENCE:
-            die(f"{filename}: invalid claim confidence for {path!r}.")
-        if values.get("valid_at"):
-            validate_date(values["valid_at"], f"claim_metadata.{path}.valid_at", filename)
-        for field in ("reported_by", "metric_scope", "denominator", "measurement_method", "unit"):
-            if values.get(field) is not None and not isinstance(values[field], str):
-                die(f"{filename}: claim metadata '{field}' for {path!r} must be a string.")
-        if values.get("value") is not None and not isinstance(values["value"], (int, float, str)):
-            die(f"{filename}: claim metadata 'value' for {path!r} must be a number or string.")
 
 
 def validate_page_content(record: dict, filename: str, source_ids: set[str]) -> None:
@@ -633,98 +413,39 @@ def validate_page_content(record: dict, filename: str, source_ids: set[str]) -> 
     page = record.get("page_content")
     if page is None:
         return
-    page = require_exact_fields(
-        page,
-        {
-            "version",
-            "reviewed_at",
-            "source_ids",
-            "questions",
-            "implementation_fields",
-            "primitive_roles",
-            "observations",
-        },
-        {"workflow_scope"},
-        "page_content",
-        filename,
-    )
-    if page["version"] != 1:
-        die(f"{filename}: page_content.version must be 1.")
-    if not isinstance(page["reviewed_at"], str) or len(page["reviewed_at"]) != 10:
-        die(f"{filename}: page_content.reviewed_at must use YYYY-MM-DD.")
-    validate_date(page["reviewed_at"], "page_content.reviewed_at", filename)
-    require_string_list(page["source_ids"], "page_content.source_ids", filename)
     reviewed = set(page["source_ids"])
-    if len(reviewed) != len(page["source_ids"]) or reviewed - source_ids:
-        die(f"{filename}: page_content.source_ids must be unique sources belonging to this entry.")
+    if reviewed - source_ids:
+        die(f"{filename}: page_content.source_ids must be sources belonging to this entry.")
     claims = claim_fields(record)
 
-    def disposition(
-        value: Any,
-        field: str,
-        allowed_paths: set[str] | None = None,
-        bare_unreported: bool = False,
-    ) -> dict:
-        value = require_exact_fields(value, {"state", "claim_paths"}, {"note"}, field, filename)
-        if value["state"] not in REVIEW_STATES:
-            die(f"{filename}: {field}.state is invalid.")
-        require_string_list(value["claim_paths"], f"{field}.claim_paths", filename, nonempty=False)
+    def disposition(value: dict, field: str, allowed_paths: set[str] | None = None) -> None:
         paths = value["claim_paths"]
-        if len(paths) != len(set(paths)) or any(path not in claims for path in paths):
-            die(f"{filename}: {field}.claim_paths contains a duplicate or unknown claim path.")
+        if any(path not in claims for path in paths):
+            die(f"{filename}: {field}.claim_paths contains an unknown claim path.")
         if allowed_paths is not None and set(paths) - allowed_paths:
             die(f"{filename}: {field}.claim_paths contains a claim outside its allowed field.")
-        note = value.get("note")
-        if note is not None and (not isinstance(note, str) or not note.strip()):
-            die(f"{filename}: {field}.note must be a non-empty string when present.")
-        if value["state"] == "reported":
-            if not paths:
-                die(f"{filename}: {field} reported state requires claim_paths.")
-            for path in paths:
-                supports = {
-                    link["source_id"]
-                    for link in record["evidence"][path]
-                    if link.get("relation", "supports") == "supports"
-                }
-                if not supports & reviewed:
-                    die(
-                        f"{filename}: {field} reported claim {path!r} lacks support from a reviewed source."
-                    )
-        elif paths:
-            die(f"{filename}: {field} {value['state']} state requires empty claim_paths.")
-        elif not note and not (bare_unreported and value["state"] == "unreported"):
-            die(f"{filename}: {field} {value['state']} state requires a note.")
-        return value
+        if value["state"] != "reported":
+            return
+        for path in paths:
+            supports = {
+                link["source_id"]
+                for link in record["evidence"][path]
+                if link.get("relation", "supports") == "supports"
+            }
+            if not supports & reviewed:
+                die(
+                    f"{filename}: {field} reported claim {path!r} lacks support from a reviewed source."
+                )
 
-    questions = page["questions"]
-    if not isinstance(questions, dict) or set(questions) != PAGE_QUESTIONS:
-        die(f"{filename}: page_content.questions must contain exactly the seven reader questions.")
-    for key, value in questions.items():
-        disposition(value, f"page_content.questions.{key}", bare_unreported=True)
-    if questions["workflow"]["state"] == "reported" and (
-        not isinstance(page.get("workflow_scope"), str) or not page["workflow_scope"].strip()
-    ):
-        die(f"{filename}: page_content.workflow_scope is required for a reported workflow.")
-
-    fields = page["implementation_fields"]
-    if not isinstance(fields, dict) or set(fields) != ARCHITECTURE_FIELDS:
-        die(
-            f"{filename}: page_content.implementation_fields must contain all eight architecture fields."
-        )
-    for key, value in fields.items():
-        disposition(
-            value,
-            f"page_content.implementation_fields.{key}",
-            {f"architecture.{key}"},
-            bare_unreported=True,
-        )
+    for key, value in page["questions"].items():
+        disposition(value, f"page_content.questions.{key}")
+    for key, value in page["implementation_fields"].items():
+        disposition(value, f"page_content.implementation_fields.{key}", {f"architecture.{key}"})
 
     roles = page["primitive_roles"]
     expected_primitives = {f"primitives.{i}" for i, _ in enumerate(record.get("primitives") or [])}
-    if not isinstance(roles, dict) or set(roles) != expected_primitives:
+    if set(roles) != expected_primitives:
         die(f"{filename}: page_content.primitive_roles must classify every primitive exactly once.")
-    if any(role not in PRIMITIVE_ROLES for role in roles.values()):
-        die(f"{filename}: page_content.primitive_roles contains an invalid role.")
     workflow_paths = page["questions"]["workflow"]["claim_paths"]
     if any(roles.get(path) != "workflow" for path in workflow_paths) or set(workflow_paths) != {
         path for path, role in roles.items() if role == "workflow"
@@ -737,146 +458,35 @@ def validate_page_content(record: dict, filename: str, source_ids: set[str]) -> 
     expected_observations = ({"headline_metric"} if record.get("headline_metric") else set()) | {
         f"key_metrics.{i}" for i, _ in enumerate(record.get("key_metrics") or [])
     }
-    if not isinstance(observations, dict) or set(observations) != expected_observations:
+    if set(observations) != expected_observations:
         die(f"{filename}: page_content.observations must describe every observation claim.")
     duplicates: dict[str, str] = {}
     for path, value in observations.items():
-        value = require_exact_fields(
-            value,
-            set(),
-            {"category", "basis", "subject", "duplicate_of", "reason"},
-            f"page_content.observations.{path}",
-            filename,
-        )
         if "duplicate_of" in value:
             target = value["duplicate_of"]
             if target not in expected_observations or target == path:
                 die(f"{filename}: observation {path!r} has an invalid duplicate target.")
-            if not isinstance(value.get("reason"), str) or not value["reason"].strip():
-                die(f"{filename}: duplicate observation {path!r} requires a reason.")
             duplicates[path] = target
-        else:
-            if (
-                value.get("category") not in OBSERVATION_CATEGORIES
-                or value.get("basis") not in OBSERVATION_BASES
-            ):
-                die(f"{filename}: observation {path!r} has an invalid category or basis.")
-            if not isinstance(value.get("subject"), str) or not value["subject"].strip():
-                die(f"{filename}: observation {path!r} requires a subject.")
     for source, target in duplicates.items():
         if target in duplicates:
             die(f"{filename}: duplicate observation {source!r} may not form a chain or cycle.")
 
 
 def validate_record(record: dict, path: Path, global_sources: set[str]) -> None:
+    """Check one record against the agent schema, then against its sources and claims."""
     filename = path.name
-    missing = sorted(REQUIRED - set(record))
-    if missing:
-        die(f"{filename}: missing required field(s): {', '.join(missing)}")
-    unexpected = sorted(set(record) - ALLOWED_TOP_LEVEL)
-    if unexpected:
-        die(f"{filename}: unexpected top-level field(s): {', '.join(unexpected)}")
-    for field in ("id", "company", "agent_name", "summary"):
-        require_string(record, field, filename)
-    if not ID_RE.fullmatch(record["id"]):
-        die(f"{filename}: 'id' must use kebab-case.")
+    errors = schema_errors(record, filename)
+    if errors:
+        die("\n".join(errors))
     if record["id"] != path.stem:
         die(f"{filename}: 'id' must match the filename stem.")
-    if not isinstance(record["year"], int) or isinstance(record["year"], bool):
-        die(f"{filename}: 'year' must be an integer.")
-    if record["status"] not in STATUS:
-        die(f"{filename}: invalid status {record['status']!r}.")
-    if record["autonomy"] not in AUTONOMY:
-        die(f"{filename}: invalid autonomy {record['autonomy']!r}.")
-    if record["approach_type"] not in APPROACH_TYPES:
-        die(f"{filename}: invalid approach type {record['approach_type']!r}.")
-    if record["deployment_stage"] not in DEPLOYMENT_STAGES:
-        die(f"{filename}: invalid deployment stage {record['deployment_stage']!r}.")
-    require_string_list(record["domains"], "domains", filename)
-    if set(record["domains"]) - DOMAIN_VALUES:
-        die(f"{filename}: 'domains' contains an unknown value.")
-    rubric = record["rubric"]
-    if not isinstance(rubric, dict):
-        die(f"{filename}: 'rubric' must be a mapping.")
-    require_string_list(rubric.get("invocation"), "rubric.invocation", filename)
-    if set(rubric["invocation"]) - INVOCATION:
-        die(f"{filename}: 'rubric.invocation' contains an invalid value.")
-    for field, allowed in (
-        ("state", STATE),
-        ("identity", IDENTITY),
-        ("evidence_strength", EVIDENCE_STRENGTH),
-    ):
-        if rubric.get(field) not in allowed:
-            die(f"{filename}: 'rubric.{field}' is invalid.")
-    operating_models = record["operating_models"]
-    if not isinstance(operating_models, list) or not operating_models:
-        die(f"{filename}: 'operating_models' must be a non-empty list.")
-    for index, item in enumerate(operating_models):
-        if not isinstance(item, dict) or set(item) != {"scope", "attention_boundary"}:
-            die(
-                f"{filename}: operating_models.{index} needs only 'scope' and 'attention_boundary'."
-            )
-        require_string(item, "scope", filename)
-        if item["attention_boundary"] not in ATTENTION_BOUNDARIES:
-            die(f"{filename}: operating_models.{index}.attention_boundary is invalid.")
-    first = record.get("first_public_evidence")
-    if not isinstance(first, dict):
-        die(f"{filename}: 'first_public_evidence' must be a mapping.")
-    validate_date(first.get("date"), "first_public_evidence.date", filename)
-    require_string(first, "source_id", filename)
-    validate_date(record.get("last_reviewed_at"), "last_reviewed_at", filename)
-    if record.get("headline_metric") is not None:
-        require_string(record, "headline_metric", filename)
-    if record.get("aliases") is not None:
-        require_string_list(record["aliases"], "aliases", filename, nonempty=False)
-    if record.get("family_id") is not None:
-        require_string(record, "family_id", filename)
-        if not ID_RE.fullmatch(record["family_id"]):
-            die(f"{filename}: 'family_id' must use kebab-case.")
-    relationships = record.get("relationships") or []
-    if not isinstance(relationships, list):
-        die(f"{filename}: 'relationships' must be a list.")
-    for relation in relationships:
-        if not isinstance(relation, dict) or set(relation) != {"type", "approach_id"}:
-            die(f"{filename}: every relationship needs only 'type' and 'approach_id'.")
-        if relation["type"] not in RELATION_TYPES or not isinstance(relation["approach_id"], str):
-            die(f"{filename}: relationship contains an invalid value.")
-    architecture = record.get("architecture") or {}
-    if not isinstance(architecture, dict):
-        die(f"{filename}: 'architecture' must be a mapping.")
-    unexpected_architecture = sorted(set(architecture) - ARCHITECTURE_FIELDS)
-    if unexpected_architecture:
-        die(f"{filename}: unexpected architecture field(s): {', '.join(unexpected_architecture)}")
-    for key, value in architecture.items():
-        if key == "interfaces":
-            require_string_list(value, "architecture.interfaces", filename, nonempty=False)
-            if set(value) - INTERFACE_VALUES:
-                die(f"{filename}: 'architecture.interfaces' contains an unknown value.")
-        elif not isinstance(value, str):
-            die(f"{filename}: 'architecture.{key}' must be a string.")
-    for field in ("key_metrics", "lessons_learned"):
-        if field in record:
-            require_string_list(record[field], field, filename, nonempty=False)
-    if "primitives" in record:
-        if not isinstance(record["primitives"], list):
-            die(f"{filename}: 'primitives' must be a list.")
-        for item in record["primitives"]:
-            if (
-                not isinstance(item, dict)
-                or not isinstance(item.get("name"), str)
-                or not item["name"]
-            ):
-                die(f"{filename}: every primitive needs a non-empty name.")
-            if item.get("desc") is not None and not isinstance(item["desc"], str):
-                die(f"{filename}: primitive descriptions must be strings.")
-    if not isinstance(record["sources"], list) or not record["sources"]:
-        die(f"{filename}: 'sources' must be a non-empty list.")
     local_sources: set[str] = set()
     for source in record["sources"]:
         validate_source(source, filename, local_sources)
         if source["id"] in global_sources:
             die(f"{filename}: source id {source['id']!r} is already used by another record.")
         global_sources.add(source["id"])
+    first = record["first_public_evidence"]
     if first["source_id"] not in local_sources:
         die(f"{filename}: first public evidence must refer to a source in this record.")
     first_source = next(
@@ -887,7 +497,7 @@ def validate_record(record: dict, path: Path, global_sources: set[str]) -> None:
     validate_evidence(record, filename, local_sources)
     validate_page_content(record, filename, local_sources)
     metadata = record.get("claim_metadata") or {}
-    for index, _ in enumerate(operating_models):
+    for index, _ in enumerate(record["operating_models"]):
         claim_path = f"operating_models.{index}"
         values = metadata.get(claim_path) or {}
         for field in ("confidence", "confidence_reason", "valid_at"):
@@ -1677,6 +1287,26 @@ def replace_between_markers(
     return text[:start] + block + text[end + len(end_marker) :]
 
 
+def render_schema_values() -> str:
+    """Give the TypeScript value list and type of every enum definition in the agent schema."""
+    lines = [
+        "// ABOUTME: Lists the allowed values of each enum definition in data/agent.schema.json.",
+        "// ABOUTME: scripts/build.py generates this file. Do not edit it by hand.",
+        "",
+    ]
+    for name, definition in AGENT_SCHEMA["definitions"].items():
+        if "enum" not in definition:
+            continue
+        constant = re.sub(r"(?<!^)(?=[A-Z])", "_", name).upper() + "_VALUES"
+        values = ", ".join(f"'{value}'" for value in definition["enum"])
+        lines += [
+            f"export const {constant} = [{values}] as const;",
+            f"export type {name[0].upper() + name[1:]} = (typeof {constant})[number];",
+            "",
+        ]
+    return "\n".join(lines).rstrip("\n") + "\n"
+
+
 def data_outputs(records: list[dict], catalog: dict) -> dict[Path, str | bytes]:
     """Give the normalized catalog and the generated repository documents."""
     readme = README.read_text(encoding="utf-8")
@@ -1712,6 +1342,7 @@ def data_outputs(records: list[dict], catalog: dict) -> dict[Path, str | bytes]:
         ),
         LANDSCAPE: render_landscape(records),
         DATA_JSON: json.dumps(catalog, indent=2, ensure_ascii=False) + "\n",
+        SCHEMA_VALUES_TS: render_schema_values(),
     }
 
 

@@ -75,9 +75,12 @@ async function structuredData(page: Page): Promise<Record<string, unknown>> {
 test.describe('the directory', () => {
   test('links to every entry page in the initial HTML', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('h1')).toHaveText(
-      'AI agents organizations build or adapt to do work for their own teams.',
-    );
+    await expect(page.locator('h1')).toHaveText('How companies build internal AI agents');
+    await expect(page.locator('#decisions a')).toHaveText([
+      'When should an agent stop?',
+      'Which steps do not need a model?',
+      'When do more review comments mean more work?',
+    ]);
     const cards = page.locator('article.entry[data-approach-id]');
     await expect(cards).toHaveCount(TOTAL);
     for (const entry of ENTRIES) {
@@ -299,9 +302,14 @@ test.describe('page-content pilot', () => {
       await page.goto(`/agents/${id}`);
       await page.evaluate(async () => document.fonts.ready);
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(page.viewportSize()!.width);
+      // The capture is for a person to review, and CI does not keep it. On CI runners,
+      // Chromium sometimes cannot capture a full page, for a record of any height.
+      if (process.env.CI) return;
+      // At the phone's device scale the long records exceed the height that Chromium can capture, so the capture uses CSS pixels.
       await page.screenshot({
         path: testInfo.outputPath(`pilot-${testInfo.project.name}-${id}.png`),
         fullPage: true,
+        scale: 'css',
       });
     });
   }
@@ -355,6 +363,7 @@ test.describe('page previews', () => {
       await page.screenshot({
         path: testInfo.outputPath(`${name}.png`),
         fullPage: true,
+        scale: 'css',
       });
     }
   });

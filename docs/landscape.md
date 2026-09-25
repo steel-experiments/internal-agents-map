@@ -13,7 +13,7 @@ The L2-L5 labels adapt [Dan Shapiro's five levels of AI-assisted software develo
 | Airbnb | [Datako](#airbnb-datako) | agent | data | Unknown · employee question → business-data query | unknown | deployed | internal | 2026 |
 | Airbnb | [Pascal](#airbnb-pascal) | agent | research | Unknown · product idea → concept brief | unknown | deployed | internal | 2026 |
 | Amplitude | [Design Agent](#amplitude-design-agent) | agent | design | L3 · prompt or screenshot → generated HTML artifact a person judges, shares, or carries forward | drafts-reviewed | deployed | internal | 2026 |
-| Atlassian | [Rovo Dev (RovoDev)](#atlassian-rovo-dev) | agent | coding, code-review | L3 · Jira issue → reviewed pull request | human-in-loop | scaled | commercialized | 2024 |
+| Atlassian | [Rovo Dev](#atlassian-rovo-dev) | agent | coding, code-review | L3 · Jira issue → reviewed pull request | human-in-loop | scaled | commercialized | 2024 |
 | Bitrise | [Kolega](#bitrise-kolega) | agent | coding, code-review, ci-triage, maintenance | L3 · Jira ticket assignment or Slack mention → merged pull request | drafts-reviewed | deployed | internal | 2026 |
 | Block | [Builderbot](#block-builderbot) | agent | coding, code-review | L3 · ticket → reviewed pull request | drafts-reviewed | scaled | internal | 2026 |
 | Brex | [Collections response agent](#brex-collections) | agent | finance-ops | L3 · customer reply → draft selected or edited by servicing staff | drafts-reviewed | deployed | internal | 2025 |
@@ -22,7 +22,7 @@ The L2-L5 labels adapt [Dan Shapiro's five levels of AI-assisted software develo
 | Brex | [Support quality agent](#brex-support-qa) | agent | support | Unknown · support interaction → rubric assessment and quality trends | unknown | deployed | internal | 2025 |
 | Cloudflare | [AI Code Reviewer](#cloudflare-code-reviewer) | agent | code-review | Unknown · merge request → structured review and approval state | unknown | deployed | internal | 2026 |
 | Coinbase | [Forge](#coinbase-forge-mux) | agent | coding, code-review | L3 · Slack, GitHub, or Linear request → drafted fix and pull request pushed back for review | drafts-reviewed | scaled | internal | 2026 |
-| Cursor | [Support investigation workflow in Cursor](#cursor-support-workflow) | agent | support | L2 · customer symptom → root cause, inside a Cursor investigation session<br>L3 · parallel subagent run → merged escalation, customer reply, or docs pull request | drafts-reviewed | deployed | internal | 2026 |
+| Cursor | [Support investigation workflow](#cursor-support-workflow) | agent | support | L2 · customer symptom → root cause, inside a Cursor investigation session<br>L3 · parallel subagent run → merged escalation, customer reply, or docs pull request | drafts-reviewed | deployed | internal | 2026 |
 | Deel | [Four-stage payroll sync triage pipeline](#deel-payroll-incident-agents) | agent | finance-ops, ops | L5 · failed US PEO payroll sync → automatic retry that clears the failure<br>L3 · payroll sync failure that survives the retry → classified diagnosis and fix command delivered in Slack for an engineer | drafts-reviewed | deployed | internal | 2026 |
 | Domu | [Clementino](#domu-clementino) | agent | support, finance-ops, coding, recruitment, customer-success | L3 · employee request → approved customer-impacting action<br>L2 · individual works alongside the toolkit in Claude Cowork (client-review prep, spreadsheet cleanup, drafting long emails)<br>Unknown · scheduled jobs (5am standup, invoice approvals, QA sampling, huddle ingestion) | human-in-loop | deployed | internal | 2026 |
 | DoorDash | [AI Code Review Agent](#doordash-code-review) | agent | code-review | L3 · pull request → AI review comments | drafts-reviewed | scaled | internal | 2026 |
@@ -314,7 +314,7 @@ Last reviewed: 2026-09-21.
 
 <a id="atlassian-rovo-dev"></a>
 
-## Atlassian: Rovo Dev (RovoDev)
+## Atlassian: Rovo Dev
 
 > Rovo Dev is Atlassian's coding agent, available internally on all Jira sites. It works from a Jira work item to a pull request, and the developer reviews the plan and the code at each step. It became generally available in October 2025. <small>Sources: [atlassian-rovo-dev-source-1](#atlassian-rovo-dev-source-1), [atlassian-rovo-dev-source-2](#atlassian-rovo-dev-source-2), [atlassian-rovo-dev-source-3](#atlassian-rovo-dev-source-3).</small>
 
@@ -1007,7 +1007,7 @@ Last reviewed: 2026-09-17.
 
 <a id="cursor-support-workflow"></a>
 
-## Cursor: Support investigation workflow in Cursor
+## Cursor: Support investigation workflow
 
 > Cursor's technical support team runs customer investigations inside Cursor itself, configured for support work: multi-root workspaces over the product repositories, MCP servers that reach customer databases, event logs, Slack, the ticket tracker, and internal runbooks, plus slash commands, Rules and Skills, and four named subagents whose merged output an engineer reviews before sending. <small>Sources: [cursor-support-workflow-source-1](#cursor-support-workflow-source-1).</small>
 
@@ -2192,7 +2192,7 @@ Last reviewed: 2026-09-21.
 
 - Automatic first review: Creating a pull request can automatically start the assistant as a reviewer <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small>
 - Review and summarize: The assistant reviews the diff, writes a pull-request summary, and posts categorized findings on specific lines <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small>
-- Suggest changes: For a bug or suboptimal pattern <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small>
+- Suggest changes: For a bug or suboptimal pattern, the assistant proposes a code snippet or alternative implementation <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small>
 - Author decision: The author reviews, edits, and explicitly applies a suggestion; the assistant does not commit it directly <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small>
 - Pull-request Q&A: Reviewers can ask the assistant questions in the pull-request discussion and receive answers about the code <small>Sources: [microsoft-prassistant-source-1](#microsoft-prassistant-source-1).</small>
 
@@ -2321,8 +2321,8 @@ Last reviewed: 2026-09-16.
 ### Primitives
 
 - Slack bug-triage agent: A documented internal agent receives a bug posted in Slack, routes it to the responsible team, creates a task-database entry, and replies in the triggering channel <small>Sources: [notion-custom-agents-source-1](#notion-custom-agents-source-1).</small>
-- Default-deny permission model: Each Custom Agent starts without access to most resources and receives explicit page <small>Sources: [notion-custom-agents-source-2](#notion-custom-agents-source-2).</small>
-- Risk confirmation and remediation: Potentially risky runtime actions pause for confirmation from the agent owner <small>Sources: [notion-custom-agents-source-2](#notion-custom-agents-source-2).</small>
+- Default-deny permission model: Each Custom Agent starts without access to most resources and receives explicit page, integration, tool, and action permissions <small>Sources: [notion-custom-agents-source-2](#notion-custom-agents-source-2).</small>
+- Risk confirmation and remediation: Potentially risky runtime actions pause for confirmation from the agent owner, who can also delete an incorrect Slack message <small>Sources: [notion-custom-agents-source-2](#notion-custom-agents-source-2).</small>
 
 ### Reported metrics
 
@@ -2548,7 +2548,7 @@ Last reviewed: 2026-09-16.
 ### Primitives
 
 - Propose-only mitigation: Proposes mitigations in the incident channel; an engineer can instruct it to apply a specific mitigation <small>Sources: [openai-sevbot-article](#openai-sevbot-article).</small>
-- Wake on a detected incident: When an incident is detected <small>Sources: [openai-sevbot-article](#openai-sevbot-article).</small>
+- Wake on a detected incident: When an incident is detected, the bot wakes up <small>Sources: [openai-sevbot-article](#openai-sevbot-article).</small>
 - Collect incident context: Collects context about the incident <small>Sources: [openai-sevbot-article](#openai-sevbot-article).</small>
 - Answer developers' questions: Answers developers' questions as part of the incident Slack channel <small>Sources: [openai-sevbot-article](#openai-sevbot-article).</small>
 
@@ -2901,7 +2901,7 @@ Last reviewed: 2026-09-16.
 - Manager agent: One human gives an objective; the manager spawns parallel agents for verifiable work and escalates judgment <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
 - Take an objective and gather context: The manager agent takes a goal from a person and gathers context across company systems <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
 - Spawn parallel loop agents: It spawns multiple agents that work in loops on the verifiable task for the person <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
-- Check results and escalate judgment: Work results are checked <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
+- Check results and escalate judgment: Work results are checked, and human judgment is requested when needed <small>Sources: [replit-manager-agent-source-1](#replit-manager-agent-source-1).</small>
 
 ### Reported metrics
 

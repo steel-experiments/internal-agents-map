@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: dropbox-deflaker
 company: Dropbox
 agent_name: Deflaker

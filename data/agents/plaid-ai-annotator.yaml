@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: plaid-ai-annotator
 company: Plaid
 agent_name: AI Annotator

@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: workos-project-horizon
 company: WorkOS
 agent_name: Project Horizon

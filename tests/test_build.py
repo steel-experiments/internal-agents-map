@@ -18,11 +18,20 @@ from unittest import mock
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-NOTES = ROOT / "src" / "content" / "notes"
+LESSONS = ROOT / "src" / "content" / "lessons"
 SPEC = importlib.util.spec_from_file_location("catalog_build", ROOT / "scripts" / "build.py")
 build = importlib.util.module_from_spec(SPEC)
 assert SPEC.loader
 SPEC.loader.exec_module(build)
+PAGE_SCHEMA = build.AGENT_SCHEMA["definitions"]["pageContent"]["properties"]
+# The agent schema checks the shape of a source; validate_source checks its capture.
+SOURCE_VALIDATOR = build.Draft7Validator(
+    {
+        **build.AGENT_SCHEMA["definitions"]["source"],
+        "definitions": build.AGENT_SCHEMA["definitions"],
+    },
+    format_checker=build.FORMAT_CHECKER,
+)
 
 
 class BuildTests(unittest.TestCase):
@@ -208,6 +217,8 @@ class BuildTests(unittest.TestCase):
         return source, manifest, manifest_path
 
     def assert_source_invalid(self, source: dict, root: Path) -> None:
+        if not SOURCE_VALIDATOR.is_valid(source):
+            return
         with (
             mock.patch.object(build, "ROOT", root),
             contextlib.redirect_stderr(io.StringIO()),
@@ -230,7 +241,9 @@ class BuildTests(unittest.TestCase):
         claim_ids = {claim["id"] for claim in export["claims"]}
         source_ids = {source["id"] for source in export["sources"]}
         company_ids = {company["id"] for company in export["companies"]}
-        self.assertTrue(all(source["role"] in build.SOURCE_ROLES for source in export["sources"]))
+        self.assertTrue(
+            all(source["role"] in build.schema_values("sourceRole") for source in export["sources"])
+        )
         for approach in export["approaches"]:
             self.assertIn(approach["company_id"], company_ids)
             self.assertTrue(set(approach["claim_ids"]).issubset(claim_ids))
@@ -241,7 +254,7 @@ class BuildTests(unittest.TestCase):
                 self.assertEqual(item["level"], expected)
         for claim in export["claims"]:
             self.assertTrue(claim["evidence"])
-            self.assertIn(claim["confidence"], build.CONFIDENCE)
+            self.assertIn(claim["confidence"], build.schema_values("confidence"))
             self.assertTrue({item["source_id"] for item in claim["evidence"]}.issubset(source_ids))
             if claim["field"].startswith("operating_models."):
                 self.assertEqual(claim["kind"], "inference")
@@ -261,8 +274,11 @@ class BuildTests(unittest.TestCase):
         self.assertEqual(claims["primitives.0"]["display_name"], "Start a Qubot run")
         for record in pilot:
             page = record["page_content"]
-            self.assertEqual(set(page["questions"]), build.PAGE_QUESTIONS)
-            self.assertEqual(set(page["implementation_fields"]), build.ARCHITECTURE_FIELDS)
+            self.assertEqual(set(page["questions"]), set(PAGE_SCHEMA["questions"]["required"]))
+            self.assertEqual(
+                set(page["implementation_fields"]),
+                set(PAGE_SCHEMA["implementation_fields"]["required"]),
+            )
             self.assertNotIn(
                 "not-reviewed",
                 [value["state"] for value in page["questions"].values()]
@@ -307,12 +323,7 @@ class BuildTests(unittest.TestCase):
         )
 
     def test_a_note_is_optional_for_unreported_and_required_for_every_other_state(self) -> None:
-        sources = {
-            source["id"]
-            for source in next(item for item in self.records if item["id"] == "github-qubot")[
-                "sources"
-            ]
-        }
+        path = build.AGENTS_DIR / "github-qubot.yaml"
 
         def record_with(slot: str, key: str, state: str) -> dict:
             record = copy.deepcopy(
@@ -323,23 +334,21 @@ class BuildTests(unittest.TestCase):
 
         for slot, key in (("implementation_fields", "sandbox"), ("questions", "lessons")):
             with self.subTest(slot=slot, state="unreported"):
-                build.validate_page_content(
-                    record_with(slot, key, "unreported"), "fixture.yaml", sources
-                )
+                build.validate_record(record_with(slot, key, "unreported"), path, set())
             for state in ("not-reviewed", "not-applicable"):
                 with (
                     self.subTest(slot=slot, state=state),
                     contextlib.redirect_stderr(io.StringIO()),
                     self.assertRaises(SystemExit),
                 ):
-                    build.validate_page_content(
-                        record_with(slot, key, state), "fixture.yaml", sources
-                    )
+                    build.validate_record(record_with(slot, key, state), path, set())
 
     def test_valid_markdown_only_capture(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             source, manifest, _ = self.write_capture(root)
+            # A capture test proves nothing when the schema already rejects its source.
+            self.assertTrue(SOURCE_VALIDATOR.is_valid(source))
             with mock.patch.object(build, "ROOT", root):
                 build.validate_source(source, "fixture.yaml", set())
                 self.assertEqual(build.load_capture_manifest(source, "fixture.yaml"), manifest)
@@ -568,6 +577,7 @@ class BuildTests(unittest.TestCase):
                 build.ADOPTION_LESSONS,
                 build.LANDSCAPE,
                 build.DATA_JSON,
+                build.SCHEMA_VALUES_TS,
             },
         )
         for path, expected in outputs.items():
@@ -636,8 +646,13 @@ class BuildTests(unittest.TestCase):
             "/infrastructure",
             "/definitions",
             "/methodology",
-            "/notes",
-            *(f"/notes/{path.stem}" for path in NOTES.glob("*.md")),
+            "/lessons",
+            # The problem pages that the homepage offers as entry points.
+            "/problems/code-review-load",
+            "/problems/security-alerts",
+            "/problems/company-data",
+            "/problems/operations",
+            *(f"/lessons/{path.stem}" for path in LESSONS.glob("*.md")),
             *(f"/agents/{record['id']}" for record in self.records),
             *(
                 f"/organizations/{company_id}"
@@ -1055,6 +1070,91 @@ class BuildTests(unittest.TestCase):
         ):
             path = Path(directory) / f"{record['id']}.yaml"
             build.validate_record(record, path, set())
+
+    def test_featured_must_be_a_boolean(self) -> None:
+        record = copy.deepcopy(self.records[0])
+        record["featured"] = "yes"
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            contextlib.redirect_stderr(io.StringIO()),
+            self.assertRaises(SystemExit),
+        ):
+            path = Path(directory) / f"{record['id']}.yaml"
+            build.validate_record(record, path, set())
+
+    def assert_record_error(self, record: dict) -> str:
+        stderr = io.StringIO()
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            contextlib.redirect_stderr(stderr),
+            self.assertRaises(SystemExit),
+        ):
+            build.validate_record(record, Path(directory) / f"{record['id']}.yaml", set())
+        return stderr.getvalue()
+
+    def test_primitive_with_an_unexpected_field_fails(self) -> None:
+        # An unquoted comma in a flow mapping splits the description into extra keys.
+        record = copy.deepcopy(self.records[0])
+        record["primitives"] = [
+            {"name": "Wake", "desc": "When an incident is detected", "the bot wakes up": None}
+        ]
+        message = self.assert_record_error(record)
+        self.assertIn(f"{record['id']}.yaml: primitives.0:", message)
+        self.assertIn("'the bot wakes up' was unexpected", message)
+
+    def test_schema_errors_name_the_field_path(self) -> None:
+        record = copy.deepcopy(self.records[0])
+        record["rubric"]["invocation"] = ["batch"]
+        message = self.assert_record_error(record)
+        self.assertIn(f"{record['id']}.yaml: rubric.invocation.0: 'batch' is not one of", message)
+
+    def test_page_content_state_rules_come_from_the_schema(self) -> None:
+        record = copy.deepcopy(
+            next(record for record in self.records if record.get("page_content"))
+        )
+        record["page_content"]["questions"]["validation"] = {
+            "state": "not-reviewed",
+            "claim_paths": [],
+        }
+        message = self.assert_record_error(record)
+        self.assertIn("page_content.questions.validation: 'note' is a required property", message)
+
+    def test_agent_schema_is_a_valid_draft_7_schema(self) -> None:
+        build.Draft7Validator.check_schema(build.AGENT_SCHEMA)
+
+    def test_boundary_levels_cover_every_attention_boundary(self) -> None:
+        self.assertEqual(set(build.BOUNDARY_LEVELS), build.schema_values("attentionBoundary"))
+
+    def test_generated_typescript_lists_every_schema_value(self) -> None:
+        generated = build.render_schema_values()
+        self.assertIn(
+            "export const RELATION_TYPE_VALUES = "
+            "['component-of', 'built-on', 'successor-of', 'related-to'] as const;",
+            generated,
+        )
+        self.assertIn(
+            "export type ClaimProvenance = (typeof CLAIM_PROVENANCE_VALUES)[number];", generated
+        )
+
+    def test_every_agent_file_declares_the_schema(self) -> None:
+        for path in [*sorted(build.AGENTS_DIR.glob("*.yaml")), ROOT / "templates" / "agent.yaml"]:
+            with self.subTest(path=path.name):
+                self.assertIn(build.SCHEMA_MODELINE, path.read_text(encoding="utf-8").splitlines())
+
+    def test_schema_document_names_every_schema_value(self) -> None:
+        guide = (ROOT / "data" / "schema.md").read_text(encoding="utf-8")
+        for name, definition in build.AGENT_SCHEMA["definitions"].items():
+            for value in definition.get("enum", []):
+                with self.subTest(definition=name, value=value):
+                    self.assertIn(f"`{value}`", guide)
+
+    def test_featured_reaches_the_export(self) -> None:
+        featured = {
+            approach["id"]
+            for approach in build.normalize(self.records, self.companies)["approaches"]
+            if approach.get("featured")
+        }
+        self.assertEqual(featured, {"linear-agent", "sierra-pinecone", "stripe-minions"})
 
     def test_impossible_calendar_date_fails(self) -> None:
         with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):

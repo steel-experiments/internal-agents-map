@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: cloudflare-ai-stack
 company: Cloudflare
 agent_name: Internal AI engineering stack

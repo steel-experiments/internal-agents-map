@@ -13,8 +13,8 @@ import {
   homePath,
   htmlArtifactPath,
   markdownPath,
-  notePath,
-  notesIndexPath,
+  lessonPath,
+  lessonsIndexPath,
   routeInventory,
 } from '../../src/lib/routes';
 
@@ -22,8 +22,8 @@ describe('canonical paths', () => {
   it('builds the paths of the published pages', () => {
     expect(homePath()).toBe('/');
     expect(entryPath('block-builderbot')).toBe('/agents/block-builderbot');
-    expect(notesIndexPath()).toBe('/notes');
-    expect(notePath('stop-a-run')).toBe('/notes/stop-a-run');
+    expect(lessonsIndexPath()).toBe('/lessons');
+    expect(lessonPath('stop-a-run')).toBe('/lessons/stop-a-run');
     expect(guidePath('definitions')).toBe('/definitions');
   });
 
@@ -84,11 +84,11 @@ describe('the publication inventory', () => {
   });
 
   it('adds the pages that later steps publish', () => {
-    const extended = routeInventory(catalog, [guidePath('definitions'), notePath('stop-a-run')]);
+    const extended = routeInventory(catalog, [guidePath('definitions'), lessonPath('stop-a-run')]);
     expect(Object.keys(extended.routes).length).toBe(catalog.approaches.length + new Set(catalog.approaches.map((entry) => entry.company_id)).size + 3);
-    expect(extended.routes['/notes/stop-a-run']).toEqual({
-      html: '/notes/stop-a-run.html',
-      markdown: '/notes/stop-a-run.md',
+    expect(extended.routes['/lessons/stop-a-run']).toEqual({
+      html: '/lessons/stop-a-run.html',
+      markdown: '/lessons/stop-a-run.md',
     });
   });
 

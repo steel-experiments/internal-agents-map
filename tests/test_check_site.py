@@ -26,7 +26,7 @@ checker = load_script("check_site")
 
 STYLESHEET = "_astro/site.abcd1234.css"
 # The guide routes that the fixture publishes beside the two entry pages.
-GUIDE_ROUTES = ("/", "/definitions", "/notes", "/notes/a-note")
+GUIDE_ROUTES = ("/", "/definitions", "/lessons", "/lessons/a-lesson")
 
 CATALOG = {
     "schema_version": 7,

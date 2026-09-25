@@ -453,37 +453,53 @@
       "html": "/methodology.html",
       "markdown": "/methodology.md"
     },
-    "/notes": {
-      "html": "/notes.html",
-      "markdown": "/notes.md"
+    "/lessons": {
+      "html": "/lessons.html",
+      "markdown": "/lessons.md"
     },
-    "/notes/stop-a-run": {
-      "html": "/notes/stop-a-run.html",
-      "markdown": "/notes/stop-a-run.md"
+    "/problems/code-review-load": {
+      "html": "/problems/code-review-load.html",
+      "markdown": "/problems/code-review-load.md"
     },
-    "/notes/review-noise": {
-      "html": "/notes/review-noise.html",
-      "markdown": "/notes/review-noise.md"
+    "/problems/security-alerts": {
+      "html": "/problems/security-alerts.html",
+      "markdown": "/problems/security-alerts.md"
     },
-    "/notes/split-the-work": {
-      "html": "/notes/split-the-work.html",
-      "markdown": "/notes/split-the-work.md"
+    "/problems/company-data": {
+      "html": "/problems/company-data.html",
+      "markdown": "/problems/company-data.md"
     },
-    "/notes/work-can-continue": {
-      "html": "/notes/work-can-continue.html",
-      "markdown": "/notes/work-can-continue.md"
+    "/problems/operations": {
+      "html": "/problems/operations.html",
+      "markdown": "/problems/operations.md"
     },
-    "/notes/load-tools": {
-      "html": "/notes/load-tools.html",
-      "markdown": "/notes/load-tools.md"
+    "/lessons/stop-a-run": {
+      "html": "/lessons/stop-a-run.html",
+      "markdown": "/lessons/stop-a-run.md"
     },
-    "/notes/steps-without-a-model": {
-      "html": "/notes/steps-without-a-model.html",
-      "markdown": "/notes/steps-without-a-model.md"
+    "/lessons/review-noise": {
+      "html": "/lessons/review-noise.html",
+      "markdown": "/lessons/review-noise.md"
     },
-    "/notes/test-on-your-work": {
-      "html": "/notes/test-on-your-work.html",
-      "markdown": "/notes/test-on-your-work.md"
+    "/lessons/split-the-work": {
+      "html": "/lessons/split-the-work.html",
+      "markdown": "/lessons/split-the-work.md"
+    },
+    "/lessons/work-can-continue": {
+      "html": "/lessons/work-can-continue.html",
+      "markdown": "/lessons/work-can-continue.md"
+    },
+    "/lessons/load-tools": {
+      "html": "/lessons/load-tools.html",
+      "markdown": "/lessons/load-tools.md"
+    },
+    "/lessons/steps-without-a-model": {
+      "html": "/lessons/steps-without-a-model.html",
+      "markdown": "/lessons/steps-without-a-model.md"
+    },
+    "/lessons/test-on-your-work": {
+      "html": "/lessons/test-on-your-work.html",
+      "markdown": "/lessons/test-on-your-work.md"
     }
   }
 }

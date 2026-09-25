@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: deel-payroll-incident-agents
 company: Deel
 agent_name: Four-stage payroll sync triage pipeline

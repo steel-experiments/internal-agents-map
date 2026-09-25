@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: monday-sphera-atlas-morphex
 company: monday.com
 agent_name: Sphera / Atlas / Morphex

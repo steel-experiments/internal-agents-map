@@ -2,15 +2,24 @@
 // ABOUTME: A record, claim, or source reference that does not resolve stops the build.
 
 import catalogText from '../../data/agents.json?raw';
+import {
+  RELATION_TYPE_VALUES,
+  type ClaimKind,
+  type ClaimProvenance,
+  type EvidenceRelation,
+  type ObservationBasis,
+  type ObservationCategory,
+  type PrimitiveRole,
+  type RelationType,
+  type ReviewState,
+} from './schema-values';
+
+export type { ClaimKind, ClaimProvenance, EvidenceRelation, ReviewState };
 
 /** The only catalog schema this website reads. */
 export const CATALOG_SCHEMA_VERSION = 7;
 
 const CATALOG_FILE = 'data/agents.json';
-
-export type ClaimKind = 'fact' | 'inference' | 'metric' | 'opinion';
-export type ClaimProvenance = 'reported' | 'catalog-judgment';
-export type EvidenceRelation = 'supports' | 'contextualizes' | 'contradicts';
 
 export interface Evidence {
   readonly source_id: string;
@@ -38,15 +47,14 @@ export interface Claim {
   readonly display_name?: string;
 }
 
-export type ReviewState = 'reported' | 'unreported' | 'not-applicable' | 'not-reviewed';
 export interface CoverageDisposition {
   readonly state: ReviewState;
   readonly claim_paths: readonly string[];
   readonly note?: string;
 }
 export interface ObservationMetadata {
-  readonly category?: 'effectiveness' | 'adoption-output' | 'cost-latency' | 'implementation-scale' | 'runtime-capacity';
-  readonly basis?: 'reported-measurement' | 'qualitative' | 'estimate' | 'target';
+  readonly category?: ObservationCategory;
+  readonly basis?: ObservationBasis;
   readonly subject?: string;
   readonly duplicate_of?: string;
   readonly reason?: string;
@@ -58,7 +66,7 @@ export interface PageContent {
   readonly workflow_scope?: string;
   readonly questions: Readonly<Record<'purpose' | 'workflow' | 'human_involvement' | 'implementation' | 'validation' | 'observations' | 'lessons', CoverageDisposition>>;
   readonly implementation_fields: Readonly<Record<'model' | 'harness' | 'sandbox' | 'tool_access' | 'knowledge' | 'context_mgmt' | 'credentials' | 'interfaces', CoverageDisposition>>;
-  readonly primitive_roles: Readonly<Record<string, 'workflow' | 'mechanism' | 'validation'>>;
+  readonly primitive_roles: Readonly<Record<string, PrimitiveRole>>;
   readonly observations: Readonly<Record<string, ObservationMetadata>>;
 }
 
@@ -94,7 +102,7 @@ export interface OperatingModel {
 }
 
 export interface Relationship {
-  readonly type: string;
+  readonly type: RelationType;
   readonly approach_id: string;
 }
 
@@ -153,6 +161,8 @@ export interface Approach {
   readonly source_ids: readonly string[];
   readonly interfaces?: readonly string[];
   readonly aliases?: readonly string[];
+  /** True when the catalog shows the record before all others in the default order. */
+  readonly featured?: boolean;
   readonly relationships?: readonly Relationship[];
   readonly page_content?: PageContent;
 }
@@ -246,7 +256,7 @@ export function validateCatalog(value: unknown): Catalog {
     }
     usedCompanies.add(approach.company_id);
     for (const relationship of approach.relationships ?? []) {
-      if (!['built-on', 'component-of', 'related-to'].includes(relationship.type) || relationship.approach_id === approach.id) {
+      if (!RELATION_TYPE_VALUES.includes(relationship.type) || relationship.approach_id === approach.id) {
         fail(`approach "${approach.id}" has an invalid relationship target or type.`);
       }
     }

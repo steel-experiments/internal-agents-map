@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: bitrise-kolega
 company: Bitrise
 agent_name: Kolega

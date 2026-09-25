@@ -1,0 +1,62 @@
+---
+// ABOUTME: The lessons index: one preview for every lesson, in reading order.
+// ABOUTME: The previews link to the lessons and name the companies each lesson reads.
+import ArticleLayout from '../layouts/ArticleLayout.astro';
+import { loadCatalog } from '../lib/catalog';
+import {
+  LESSONS_CLOSING,
+  LESSONS_DESCRIPTION,
+  LESSONS_HEADING,
+  LESSONS_INTRO_AFTER,
+  LESSONS_INTRO_BEFORE,
+  LESSONS_LEDE,
+  LESSONS_TITLE,
+} from '../lib/guide-content';
+import { structuredData, webPageNode } from '../lib/metadata';
+import { ogImage } from '../lib/og';
+import { SECTION_CARDS } from '../lib/section-cards';
+import { lessonCompanies, lessonPreviewTitle, lessonViews } from '../lib/lessons';
+import { canonicalUrl, homePath, lessonsIndexPath } from '../lib/routes';
+
+const catalog = loadCatalog();
+const lessons = lessonViews();
+const companies = new Map(lessons.map((lesson) => [lesson.slug, lessonCompanies(catalog, lesson)]));
+const modified = lessons
+  .map((lesson) => lesson.displayDate)
+  .sort()
+  .at(-1);
+
+const path = lessonsIndexPath();
+const url = canonicalUrl(path);
+const graph = structuredData([
+  webPageNode({ url, name: LESSONS_TITLE, description: LESSONS_DESCRIPTION, dateModified: modified }),
+]);
+---
+<ArticleLayout
+  title={LESSONS_TITLE}
+  description={LESSONS_DESCRIPTION}
+  path={path}
+  current="lessons"
+  structuredData={graph}
+  ogImage={ogImage(path, SECTION_CARDS.lessons)}
+  variant="lessons"
+>
+  <header class="guide-header">
+    <h1>{LESSONS_HEADING}</h1>
+    <p class="lede">{LESSONS_LEDE}</p>
+    <p>{LESSONS_INTRO_BEFORE}<a href={`${homePath()}#catalog`}>agent catalog</a>{LESSONS_INTRO_AFTER}</p>
+  </header>
+  <div class="lesson-list">
+    {lessons.map((lesson) => (
+      <article class="lesson-preview">
+        <h2><a href={lesson.path}>{lessonPreviewTitle(lesson)}</a></h2>
+        <p class="lesson-summary">{lesson.summary}</p>
+        <div class="tags">
+          {companies.get(lesson.slug)?.map((company) => <span class="tag tag-company">{company}</span>)}
+          <span class="tag">{lesson.readingTime}</span>
+        </div>
+      </article>
+    ))}
+  </div>
+  <p class="lessons-editorial">{LESSONS_CLOSING}</p>
+</ArticleLayout>

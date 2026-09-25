@@ -15,7 +15,8 @@ import {
 } from './catalog';
 import { fieldLabel, levelLabel, termLabel } from './labels';
 import { companyView, type CompanyView } from './companies';
-import { notesForApproach } from './notes';
+import { isWellDocumented } from './documentation';
+import { lessonsForApproach } from './lessons';
 import { entryPath } from './routes';
 import { shorten } from './text';
 
@@ -171,7 +172,7 @@ export interface RelatedEntryView {
   readonly group: 'uses' | 'used-by' | 'related';
 }
 
-export interface RelatedNoteView {
+export interface RelatedLessonView {
   readonly slug: string;
   readonly path: string;
   readonly title: string;
@@ -234,8 +235,8 @@ export interface EntryView {
   readonly claims: readonly ClaimView[];
   readonly sources: readonly SourceView[];
   readonly relatedEntries: readonly RelatedEntryView[];
-  /** Notes about this entry. Later steps fill this from note metadata. */
-  readonly relatedNotes: readonly RelatedNoteView[];
+  /** Lessons about this entry. Later steps fill this from lesson metadata. */
+  readonly relatedLessons: readonly RelatedLessonView[];
 }
 
 function termView(id: string): TermView {
@@ -563,7 +564,7 @@ export function entryView(catalog: Catalog, id: string): EntryView {
     claims,
     sources,
     relatedEntries: relatedEntries(catalog, approach),
-    relatedNotes: notesForApproach(approach.id),
+    relatedLessons: lessonsForApproach(approach.id),
   };
 }
 
@@ -574,6 +575,8 @@ export interface DirectoryCard {
   /** The logo or monogram mark the card shows beside the company name. */
   readonly companyView: CompanyView;
   readonly agentName: string;
+  /** The company and the name, such as `Stripe · Minions`, as the card and the palette show them. */
+  readonly title: string;
   readonly summary: string;
   /** The first sentences of the summary, for the directory card. */
   readonly excerpt: string;
@@ -589,6 +592,12 @@ export interface DirectoryCard {
   readonly reviewedAt: string;
   /** The source identifiers of the entry, so an old source fragment can find its page. */
   readonly sourceIds: readonly string[];
+  /** True when the editors show the entry before all others in the default order. */
+  readonly featured: boolean;
+  /** True when the evidence of the entry meets the well-documented rule. */
+  readonly wellDocumented: boolean;
+  /** The position of the entry in the alphabetical order, so the browser can sort it again. */
+  readonly alphabeticalRank: number;
 }
 
 /** An attention boundary as a filter term. The level is null when the boundary is unknown. */
@@ -607,7 +616,7 @@ function searchText(parts: readonly string[]): string {
 /** Build the compact card of every implementation, ordered the way the directory reads. */
 export function directoryCards(catalog: Catalog): DirectoryCard[] {
   const claims = new Map(catalog.claims.map((claim) => [claim.id, claim]));
-  return sortedApproaches(catalog).map((approach) => {
+  return sortedApproaches(catalog).map((approach, alphabeticalRank) => {
     const summary = approach.claim_ids
       .map((claimId) => claims.get(claimId))
       .find((claim) => claim?.field === 'summary');
@@ -626,6 +635,7 @@ export function directoryCards(catalog: Catalog): DirectoryCard[] {
       company: approach.company,
       companyView: companyView(catalog, approach.company_id),
       agentName: approach.agent_name,
+      title: `${approach.company} · ${approach.agent_name}`,
       summary: summary?.text ?? 'Unknown',
       excerpt: shorten(summary?.text ?? 'Unknown', CARD_SUMMARY_LIMIT),
       search: searchText([
@@ -650,6 +660,9 @@ export function directoryCards(catalog: Catalog): DirectoryCard[] {
       invocation: approach.catalog_section === 'agents' ? invocation : [],
       boundaries: approach.catalog_section === 'agents' ? boundaries : [],
       reviewedAt: approach.last_reviewed_at,
+      featured: approach.featured === true,
+      wellDocumented: isWellDocumented(catalog, approach),
+      alphabeticalRank,
     };
   });
 }

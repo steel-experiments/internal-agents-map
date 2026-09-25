@@ -30,6 +30,14 @@ const visibleCards = (page: Page) => page.locator('article.entry:visible');
 test.describe('the directory without javascript', () => {
   test.skip(({ javaScriptEnabled }) => javaScriptEnabled !== false, 'This is the no-JS project.');
 
+  test('names each card by its company and its name', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('#brex-disputes h3')).toHaveText('Brex · Dispute preparation agent');
+    await expect(page.locator('#brex-disputes .entry-bookmark')).toHaveAttribute('aria-label', 'Bookmark Brex · Dispute preparation agent');
+    await page.goto('/infrastructure');
+    await expect(page.locator('#dropbox-nova h3')).toHaveText('Dropbox · Nova');
+  });
+
   test('shows every entry link', async ({ page }) => {
     await page.goto('/');
     await expect(visibleCards(page)).toHaveCount(TOTAL);
@@ -128,7 +136,7 @@ test.describe('the directory with javascript', () => {
     await page.goto('/definitions');
     // A document replacement would erase this marker and mask the regression.
     await page.evaluate(() => { Object.assign(window, { navigationMarker: true }); });
-    for (const path of ['/notes', '/']) {
+    for (const path of ['/lessons', '/']) {
       const menu = page.locator('.nav-toggle');
       if (await menu.isVisible()) await menu.click();
       await page.locator(`.nav-links a[href="${path}"]`).first().click();
@@ -179,7 +187,7 @@ test.describe('the directory with javascript', () => {
     await page.goto('/');
     await page.locator('.search-launcher').click();
     await expect(page.locator('#palette')).toBeVisible();
-    for (const group of ['catalog', 'infrastructure', 'notes', 'definitions']) {
+    for (const group of ['catalog', 'infrastructure', 'lessons', 'definitions']) {
       await expect(page.locator(`.palette-group[data-group="${group}"]`)).toBeVisible();
     }
     await page.locator('#palette-input').fill('stripe');
@@ -298,7 +306,7 @@ test.describe('the site chrome', () => {
       });
     });
 
-    await page.locator('.nav-links a[href="/notes"]').click();
+    await page.locator('.nav-links a[href="/lessons"]').click();
     await expect
       .poll(() =>
         page.evaluate(
@@ -319,8 +327,8 @@ test.describe('the site chrome', () => {
     expect(arriving!.start).toBeGreaterThanOrEqual(leaving!.end);
 
     // And it comes back beside the page now open, not the page it left.
-    const notes = page.locator('.nav-links a[href="/notes"]');
-    await expect(notes).toHaveAttribute('aria-current', 'page');
+    const lessons = page.locator('.nav-links a[href="/lessons"]');
+    await expect(lessons).toHaveAttribute('aria-current', 'page');
     await expect
       .poll(() =>
         page.evaluate(() => {
@@ -400,4 +408,157 @@ test.describe('the site chrome', () => {
     await page.locator('.palette-back').click();
     expect(await head.evaluate((el) => el.hasAttribute('inert'))).toBe(false);
   });
+});
+
+test.describe('the directory order', () => {
+  /** The card identifiers in the order the agents grid shows them. */
+  const cardOrder = (page: Page) =>
+    page.locator('[data-collection-group="agents"] article.entry').evaluateAll((nodes) =>
+      nodes.map((node) => ({
+        id: node.id,
+        documented: node.getAttribute('data-well-documented') === 'true',
+        featured: node.getAttribute('data-featured') === 'true',
+        rank: Number(node.getAttribute('data-alphabetical-rank')),
+      })),
+    );
+
+  test('shows the well-documented cards first, each with its badge', async ({ page }) => {
+    await page.goto('/');
+    const cards = await cardOrder(page);
+    const firstPlain = cards.findIndex((card) => !card.documented);
+    expect(firstPlain).toBeGreaterThan(0);
+    expect(cards.slice(firstPlain).every((card) => !card.documented)).toBe(true);
+    await expect(page.locator(`article.entry#${cards[0]!.id} .tag-documented`)).toHaveText('Detailed');
+    await expect(page.locator('article.entry .tag-documented')).toHaveCount(
+      cards.filter((card) => card.documented).length + (await page.locator('[data-collection-group="infrastructure"] article.entry[data-well-documented="true"]').count()),
+    );
+    await expect(page.locator(`article.entry#${cards[firstPlain]!.id} .tag-documented`)).toHaveCount(0);
+  });
+
+  test('shows the featured cards before all others', async ({ page }) => {
+    await page.goto('/');
+    const cards = await cardOrder(page);
+    const featured = cards.filter((card) => card.featured).length;
+    expect(featured).toBeGreaterThan(0);
+    expect(cards.slice(0, featured).every((card) => card.featured)).toBe(true);
+  });
+
+  test('opens A–Z from the URL, and the default order without it', async ({ page, javaScriptEnabled }) => {
+    test.skip(javaScriptEnabled === false, 'The sort needs the script.');
+    await page.goto('/?sort=az');
+    const ranks = (await cardOrder(page)).map((card) => card.rank);
+    expect(ranks).toEqual([...ranks].sort((a, b) => a - b));
+    await page.goto('/');
+    expect((await cardOrder(page))[0]!.documented).toBe(true);
+  });
+
+  test('shows no sort control on the page', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('#catalog [data-sort-option]')).toHaveCount(0);
+  });
+
+  test('puts a bookmarked card first, keeps it after a reload, and lets it go', async ({ page, javaScriptEnabled }) => {
+    test.skip(javaScriptEnabled === false, 'The bookmark corner needs the script.');
+    await page.goto('/');
+    const last = (await cardOrder(page)).at(-1)!;
+    const corner = page.locator(`article.entry#${last.id} [data-bookmark]`);
+    await expect(corner).toHaveAttribute('aria-pressed', 'false');
+    await corner.click();
+    await expect(page).toHaveURL(/\/$/);
+    await expect(corner).toHaveAttribute('aria-pressed', 'true');
+    expect((await cardOrder(page))[0]!.id).toBe(last.id);
+    await page.reload();
+    expect((await cardOrder(page))[0]!.id).toBe(last.id);
+    await page.goto('/?sort=az');
+    expect((await cardOrder(page))[0]!.id).toBe(last.id);
+    await page.locator(`article.entry#${last.id} [data-bookmark]`).click();
+    await expect(page.locator(`article.entry#${last.id} [data-bookmark]`)).toHaveAttribute('aria-pressed', 'false');
+    expect((await cardOrder(page))[0]!.id).not.toBe(last.id);
+  });
+
+  test('keeps an open pill menu above the results while the palette opens', async ({ page, javaScriptEnabled, isMobile }) => {
+    test.skip(javaScriptEnabled === false, 'The palette needs the script.');
+    test.skip(isMobile, 'On a phone the pills are in the filter sheet, above the results.');
+    await page.goto('/');
+    await page.locator('.search-launcher').click();
+    await page.locator('[data-palette-sort] .palette-pill').click();
+    // The opening animation gives each row a transform; hold them in that state.
+    const covered = await page.evaluate(() => {
+      for (const selector of ['.palette-filters', '.palette-results']) {
+        const row = document.querySelector<HTMLElement>(selector)!;
+        row.getAnimations().forEach((animation) => animation.cancel());
+        row.style.transform = 'translateY(1px)';
+      }
+      const option = document.querySelector<HTMLElement>('[data-palette-sort] [data-sort-option="az"]')!;
+      const box = option.getBoundingClientRect();
+      const top = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
+      return option.contains(top) ? null : top?.outerHTML.slice(0, 80);
+    });
+    expect(covered).toBeNull();
+  });
+
+  test('sorts the palette from its sort pill, and the directory with it', async ({ page, javaScriptEnabled }) => {
+    test.skip(javaScriptEnabled === false, 'The palette needs the script.');
+    await page.goto('/');
+    await page.locator('.search-launcher').click();
+    const sort = page.locator('[data-palette-sort]');
+    const firstItem = page.locator('.palette-group[data-group="catalog"] li:has(.palette-item:visible)').first();
+    await expect(firstItem).toHaveAttribute('data-well-documented', 'true');
+    // On a phone the pills are behind the filter sheet.
+    const sheet = page.locator('.palette-filter-open');
+    if (await sheet.isVisible()) await sheet.click();
+    await sort.locator('.palette-pill').click();
+    await sort.locator('[data-sort-option="az"]').click();
+    await expect(sort.locator('[data-sort-option="az"]')).toHaveAttribute('aria-pressed', 'true');
+    const ranks = () =>
+      page.locator('.palette-group[data-group="catalog"] li').evaluateAll((nodes) =>
+        nodes.map((node) => Number(node.getAttribute('data-alphabetical-rank'))),
+      );
+    await expect.poll(async () => {
+      const list = await ranks();
+      return list.every((rank, index) => index === 0 || list[index - 1]! < rank);
+    }).toBe(true);
+    await expect(firstItem).toHaveAttribute('data-alphabetical-rank', String(Math.min(...(await ranks()))));
+    await expect(page).toHaveURL(/\?sort=az$/);
+    await page.keyboard.press('Escape');
+    const cards = (await cardOrder(page)).map((card) => card.rank);
+    expect(cards).toEqual([...cards].sort((a, b) => a - b));
+  });
+});
+
+test.describe('the problem entry points', () => {
+  const PROBLEM_PATHS = [
+    '/problems/code-review-load',
+    '/problems/security-alerts',
+    '/problems/company-data',
+    '/problems/operations',
+    '/infrastructure',
+  ];
+
+  test('the homepage links to every problem under the hero', async ({ page }) => {
+    await page.goto('/');
+    const links = page.locator('header.intro .problem-links a');
+    await expect(links).toHaveCount(PROBLEM_PATHS.length);
+    expect(await links.evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')))).toEqual(PROBLEM_PATHS);
+    await expect(page.locator('.problem-links h2')).toHaveText('Start with a problem');
+  });
+
+  test('the infrastructure page shows no problem links', async ({ page }) => {
+    await page.goto('/infrastructure');
+    await expect(page.locator('.problem-links')).toHaveCount(0);
+  });
+
+  for (const path of PROBLEM_PATHS.slice(0, -1)) {
+    test(`${path} lists its records with the detailed ones first`, async ({ page }) => {
+      await page.goto(path);
+      await expect(page.locator('h1')).not.toBeEmpty();
+      const cards = page.locator('#agents article.entry');
+      expect(await cards.count()).toBeGreaterThan(0);
+      const flags = await cards.evaluateAll((nodes) => nodes.map((node) => node.getAttribute('data-well-documented') === 'true'));
+      const firstPlain = flags.indexOf(false);
+      if (firstPlain >= 0) expect(flags.slice(firstPlain).every((flag) => !flag)).toBe(true);
+      const href = await cards.first().locator('h3 a').getAttribute('href');
+      expect(href).toMatch(/^\/agents\//);
+    });
+  }
 });

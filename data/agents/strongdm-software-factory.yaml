@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: strongdm-software-factory
 company: StrongDM
 agent_name: Software Factory
