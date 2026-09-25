@@ -18,11 +18,13 @@ import {
   ogVersion,
   organizationCard,
   organizationCount,
+  mosaicLogos,
   sectionCard,
   titleSize,
 } from '../../src/lib/og';
 import { organizationPaths } from '../../src/lib/routes';
-import { lessonCard, SECTION_CARDS } from '../../src/lib/section-cards';
+import { HOME_CARD, lessonCard, SECTION_CARDS } from '../../src/lib/section-cards';
+import { SITE_DESCRIPTION, SITE_NAME } from '../../src/lib/metadata';
 import { lessonViews } from '../../src/lib/lessons';
 import { renderCard } from '../../src/og/render';
 
@@ -42,18 +44,19 @@ describe('the entry card', () => {
       const og = entryCard(card);
       expect(og.company, card.id).toBe(card.company);
       expect(og.name, card.id).toBe(card.agentName);
+      expect(og.title, card.id).toBe(card.title);
       expect(og.excerpt.length, card.id).toBeLessThanOrEqual(OG_EXCERPT_LIMIT + 1);
       expect(og.tags.length, card.id).toBeGreaterThan(0);
       expect(og.tags.length, card.id).toBeLessThanOrEqual(OG_TAG_LIMIT);
       expect(og.tags[0], card.id).toBe(card.approachTypeLabel);
-      expect([80, 72, 64], card.id).toContain(og.titleSize);
+      expect([64, 56, 48], card.id).toContain(og.titleSize);
     }
   });
 
-  it('steps the title size down as the possessive title grows', () => {
-    expect(titleSize("Ramp's Inspect")).toBe(72);
-    expect(titleSize('Short name')).toBe(80);
-    expect(titleSize("Brex's Collections response agent")).toBe(64);
+  it('steps the title size down as the title grows', () => {
+    expect(titleSize('Ramp · Inspect')).toBe(64);
+    expect(titleSize('Brex · Collections response agent')).toBe(56);
+    expect(titleSize('Figma · Security alert triage and investigation agents')).toBe(48);
   });
 
   it('treats a logo twice as wide as tall as a wordmark', () => {
@@ -79,6 +82,7 @@ describe('the organization card', () => {
       const og = organizationCard(companyView(catalog, id), members);
       expect(og.names, id).toEqual(members.map((card) => card.agentName));
       expect(og.count, id).toMatch(/ in the catalog$/);
+      expect(og.titleSize, id).toBe(titleSize(og.company));
     }
   });
 });
@@ -116,6 +120,29 @@ describe('the card URL', () => {
     }
     expect(sectionCard({ eyebrow: 'Lessons', title: 'Lessons', description: 'Short lessons.' }).date).toBeNull();
   });
+
+  it('cuts every section and lesson description to the card limit and sizes its title', () => {
+    for (const card of [...Object.values(SECTION_CARDS), ...lessonViews().map(lessonCard)]) {
+      expect(card.excerpt.length, card.title).toBeLessThanOrEqual(OG_EXCERPT_LIMIT + 1);
+      expect(card.titleSize, card.title).toBe(titleSize(card.title));
+    }
+  });
+
+  it('shows every company logo on the section cards, in an order the title sets', () => {
+    const logoCount = catalog.companies.filter((company) => company.logo).length;
+    const paths = (logos: readonly { path: string }[]) => logos.map((logo) => logo.path);
+    for (const card of [HOME_CARD, ...Object.values(SECTION_CARDS)]) {
+      expect(new Set(paths(card.logos)).size, card.title).toBe(logoCount);
+    }
+    expect(paths(mosaicLogos(catalog, SECTION_CARDS.lessons.title))).toEqual(paths(SECTION_CARDS.lessons.logos));
+    expect(paths(SECTION_CARDS.lessons.logos)).not.toEqual(paths(SECTION_CARDS.definitions.logos));
+  });
+
+  it('gives the home page a card without a kind tag', () => {
+    expect(HOME_CARD.eyebrow).toBeNull();
+    expect(HOME_CARD.title).toBe(SITE_NAME);
+    expect(HOME_CARD.description).toBe(SITE_DESCRIPTION);
+  });
 });
 
 describe('the renderer', () => {
@@ -133,5 +160,6 @@ describe('the renderer', () => {
     expect(pngSize(await renderCard(brex))).toEqual([OG_WIDTH, OG_HEIGHT]);
     expect(pngSize(await renderCard(SECTION_CARDS.lessons))).toEqual([OG_WIDTH, OG_HEIGHT]);
     expect(pngSize(await renderCard(lessonCard(lessonViews()[0])))).toEqual([OG_WIDTH, OG_HEIGHT]);
+    expect(pngSize(await renderCard(HOME_CARD))).toEqual([OG_WIDTH, OG_HEIGHT]);
   });
 });

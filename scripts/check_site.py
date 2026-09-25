@@ -17,7 +17,7 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parent.parent
 
 # Files that public/ publishes exactly as they are authored.
-PUBLIC_FILES = {"favicon.ico", "og.png", "fonts/Areal.woff2"}
+PUBLIC_FILES = {"favicon.ico", "fonts/Areal.woff2"}
 # Exports and discovery files that no page route serves.
 EXPORT_FILES = {
     "agents.json",
@@ -210,7 +210,7 @@ def validate(
     if wanted_companies != listed_companies:
         errors.append("Organization route membership differs from the catalog.")
     expected = route_files(routes, errors) | PUBLIC_FILES | EXPORT_FILES | {ERROR_PAGE}
-    # Every route except the home page publishes its own preview card.
+    # Every route publishes its own preview card. The card of the home page is og.png.
     expected |= {og_image_file(route) for route in routes}
     expected |= {f"agents/{approach['id']}.json" for approach in approaches}
     # The published logo set comes from the companies the catalog declares.
