@@ -568,6 +568,9 @@ export function entryView(catalog: Catalog, id: string): EntryView {
   };
 }
 
+/** The usual type of each view. A card of that type names no type. */
+const UNTAGGED_TYPES: ReadonlySet<string> = new Set(['agent', 'platform']);
+
 export interface DirectoryCard {
   readonly id: string;
   readonly path: string;
@@ -586,8 +589,8 @@ export interface DirectoryCard {
   readonly approachType: string;
   readonly approachTypeLabel: string;
   /**
-   * The type the card names, or null for a plain agent: the Agents view holds only agents,
-   * so the tag would say nothing there.
+   * The type the card names, or null for the usual type of its view: a plain agent in Agents,
+   * or a platform in Infrastructure. There the tag would be on almost every card and say nothing.
    */
   readonly typeTag: string | null;
   readonly domains: readonly TermView[];
@@ -660,7 +663,7 @@ export function directoryCards(catalog: Catalog): DirectoryCard[] {
       catalogSection: approach.catalog_section,
       approachType: approach.approach_type,
       approachTypeLabel: termLabel(approach.approach_type),
-      typeTag: approach.approach_type === 'agent' ? null : termLabel(approach.approach_type),
+      typeTag: UNTAGGED_TYPES.has(approach.approach_type) ? null : termLabel(approach.approach_type),
       sourceIds: approach.source_ids,
       domains,
       invocation: approach.catalog_section === 'agents' ? invocation : [],

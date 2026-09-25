@@ -446,6 +446,21 @@ test.describe('the directory order', () => {
     expect(await color(first)).not.toBe(await color(family));
   });
 
+  test('marks the work domain of a problem page on each of its cards', async ({ page }) => {
+    await page.goto('/problems/code-review-load');
+    const cards = page.locator('article.entry');
+    expect(await cards.count()).toBeGreaterThan(0);
+    // Every card on the page carries the problem's domain, and only that tag is marked.
+    await expect(page.locator('article.entry .tag-match')).toHaveCount(await cards.count());
+    await expect(page.locator('article.entry .tag-match').first()).toHaveText('Code review');
+    const marked = page.locator('article.entry .tag-match').first();
+    const plain = page.locator('article.entry .tags > .tag:not(.tag-match):not(.tag-type):not(.tag-documented)').first();
+    const color = (node: typeof marked) => node.evaluate((element) => getComputedStyle(element).backgroundColor);
+    expect(await color(marked)).not.toBe(await color(plain));
+    await page.goto('/');
+    await expect(page.locator('article.entry .tag-match')).toHaveCount(0);
+  });
+
   test('shows the featured cards before all others', async ({ page }) => {
     await page.goto('/');
     const cards = await cardOrder(page);

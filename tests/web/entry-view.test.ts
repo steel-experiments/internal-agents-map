@@ -380,7 +380,11 @@ describe('the directory card type tag', () => {
     expect(cards.get('stripe-minions')!.typeTag).toBeNull();
   });
 
-  it('names an agent family and each kind of infrastructure', () => {
+  it('shows no tag for a platform, which most infrastructure cards are', () => {
+    expect(cards.get('airbnb-airchat')!.typeTag).toBeNull();
+  });
+
+  it('names the exceptions: an agent family and a component', () => {
     expect(cards.get('figma-security-agent')!.typeTag).toBe('Agent family');
     expect(cards.get('plaid-internal-mcp-server')!.typeTag).toBe('Component');
   });

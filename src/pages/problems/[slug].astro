@@ -29,7 +29,7 @@ const preview = ogImage(problem.path, problemCard(view));
     <section class="entry-section" id={group.id} aria-labelledby={`${group.id}-title`}>
       <h2 id={`${group.id}-title`}>{group.label}</h2>
       <div class="entries">
-        {group.cards.map((card) => <AgentCard card={card} />)}
+        {group.cards.map((card) => <AgentCard card={card} highlight={problem.domains ?? []} />)}
       </div>
     </section>
   ))}

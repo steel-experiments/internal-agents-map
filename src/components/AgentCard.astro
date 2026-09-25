@@ -8,9 +8,11 @@ import type { DirectoryCard } from '../lib/entry-view';
 
 interface Props {
   card: DirectoryCard;
+  /** The work domains the page is about. Their tags are marked, so a reader sees why the card is listed. */
+  highlight?: readonly string[];
 }
 
-const { card } = Astro.props;
+const { card, highlight = [] } = Astro.props;
 ---
 <article
   class="entry"
@@ -38,7 +40,7 @@ const { card } = Astro.props;
     <div class="tags">
       {card.typeTag && <span class="tag tag-type">{card.typeTag}</span>}
       {card.domains.map((domain) => (
-        <span class="tag">{domain.label}</span>
+        <span class:list={['tag', { 'tag-match': highlight.includes(domain.id) }]}>{domain.label}</span>
       ))}
       {card.wellDocumented && (
         <span class="tag tag-documented"><Icon name="check" size={12} />{WELL_DOCUMENTED_LABEL}</span>
