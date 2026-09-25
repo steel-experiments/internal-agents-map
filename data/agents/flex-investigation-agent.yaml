@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: flex-investigation-agent
 company: Flex
 agent_name: AI Investigation Agent

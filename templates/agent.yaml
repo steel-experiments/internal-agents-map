@@ -1,5 +1,8 @@
+# yaml-language-server: $schema=../agent.schema.json
 # Copy this file to data/agents/<id>.yaml.
 # Read data/schema.md before you edit the record.
+# The first line gives the path of data/agent.schema.json from data/agents/.
+# A YAML editor then shows the allowed values and the errors while you type.
 
 id: company-agent
 company: Company

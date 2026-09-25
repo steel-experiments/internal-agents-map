@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: amplitude-design-agent
 company: Amplitude
 agent_name: Design Agent

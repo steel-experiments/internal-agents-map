@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: duolingo-agentic-workflows
 company: Duolingo
 agent_name: Agentic workflows

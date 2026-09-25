@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: airbnb-airchat
 company: Airbnb
 agent_name: Airchat (airchat-cli)

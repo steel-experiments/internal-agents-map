@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: spotify-honk-xirp
 company: Spotify
 agent_name: Honk

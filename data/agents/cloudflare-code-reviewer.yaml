@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: cloudflare-code-reviewer
 company: Cloudflare
 agent_name: AI Code Reviewer

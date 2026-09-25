@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: slack-context-system
 company: Slack
 agent_name: Security investigation service

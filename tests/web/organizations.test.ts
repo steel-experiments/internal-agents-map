@@ -1,7 +1,7 @@
 // ABOUTME: Company indexes preserve registry identity, membership and authored direction.
 import { describe, expect, it } from 'vitest';
 import { recordMarkdown } from '../../src/lib/exports';
-import { loadCatalog } from '../../src/lib/catalog';
+import { loadCatalog, type Relationship } from '../../src/lib/catalog';
 import { organizationView, organizationMarkdown } from '../../src/lib/organization-view';
 import { organizationPath, organizationPaths, routeInventory } from '../../src/lib/routes';
 const catalog = loadCatalog();
@@ -39,7 +39,7 @@ describe('organization indexes', () => {
     const fixture = { ...catalog, approaches: catalog.approaches.map((entry) => entry.id === 'airbnb-datako' ? { ...entry, relationships: [
       { type: 'built-on', approach_id: 'airbnb-airchat' }, { type: 'built-on', approach_id: 'airbnb-airchat' },
       { type: 'related-to', approach_id: 'airbnb-pascal' }, { type: 'related-to', approach_id: 'harvey-spectre' },
-    ] } : entry.id === 'airbnb-pascal' ? { ...entry, relationships: [{ type: 'related-to', approach_id: 'airbnb-datako' }] } : { ...entry, relationships: [] }) };
+    ] satisfies Relationship[] } : entry.id === 'airbnb-pascal' ? { ...entry, relationships: [{ type: 'related-to', approach_id: 'airbnb-datako' }] satisfies Relationship[] } : { ...entry, relationships: [] }) };
     const connections = organizationView(fixture, 'airbnb').connections;
     expect(connections.filter((item) => item.type === 'related-to')).toHaveLength(1);
     expect(connections.filter((item) => item.type === 'built-on')).toHaveLength(1);
