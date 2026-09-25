@@ -35,6 +35,40 @@
   font-size: var(--text-sm);
   color: var(--muted);
 }
+/* The problem entry points: a label and a row of links in the shape of a tag. */
+.problem-links { margin-top: 32px; }
+.problem-links h2 {
+  margin: 0 0 10px;
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--muted);
+}
+.problem-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.problem-links li { margin: 0; padding: 0; line-height: 16px; }
+.problem-links a {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--sand-3);
+  color: var(--ink);
+  font-size: var(--text-sm);
+  line-height: 16px;
+  text-decoration: none;
+}
+@media (hover: hover) {
+  .problem-links a:hover { background: var(--blue-3); color: var(--blue-9); }
+}
+@media (max-width: 800px) {
+  .problem-links a { padding: 4px 11px; }
+}
 
 /* The company mark, in a card and at the top of an entry. */
 .entry-heading {

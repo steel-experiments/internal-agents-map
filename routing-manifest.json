@@ -457,6 +457,22 @@
       "html": "/lessons.html",
       "markdown": "/lessons.md"
     },
+    "/problems/code-review-load": {
+      "html": "/problems/code-review-load.html",
+      "markdown": "/problems/code-review-load.md"
+    },
+    "/problems/security-alerts": {
+      "html": "/problems/security-alerts.html",
+      "markdown": "/problems/security-alerts.md"
+    },
+    "/problems/company-data": {
+      "html": "/problems/company-data.html",
+      "markdown": "/problems/company-data.md"
+    },
+    "/problems/operations": {
+      "html": "/problems/operations.html",
+      "markdown": "/problems/operations.md"
+    },
     "/lessons/stop-a-run": {
       "html": "/lessons/stop-a-run.html",
       "markdown": "/lessons/stop-a-run.md"

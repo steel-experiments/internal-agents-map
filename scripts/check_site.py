@@ -36,10 +36,12 @@ DIRECTORIES = {
     "agents",
     "logos",
     "organizations",
+    "problems",
     "og",
     "og/agents",
     "og/organizations",
     "og/lessons",
+    "og/problems",
 }
 # A link preview card: PNG, this size, and no heavier than this.
 OG_IMAGE_SIZE = (1200, 630)

@@ -487,3 +487,40 @@ test.describe('the directory order', () => {
     expect(cards).toEqual([...cards].sort((a, b) => a - b));
   });
 });
+
+test.describe('the problem entry points', () => {
+  const PROBLEM_PATHS = [
+    '/problems/code-review-load',
+    '/problems/security-alerts',
+    '/problems/company-data',
+    '/problems/operations',
+    '/infrastructure',
+  ];
+
+  test('the homepage links to every problem under the hero', async ({ page }) => {
+    await page.goto('/');
+    const links = page.locator('header.intro .problem-links a');
+    await expect(links).toHaveCount(PROBLEM_PATHS.length);
+    expect(await links.evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')))).toEqual(PROBLEM_PATHS);
+    await expect(page.locator('.problem-links h2')).toHaveText('Start with a problem');
+  });
+
+  test('the infrastructure page shows no problem links', async ({ page }) => {
+    await page.goto('/infrastructure');
+    await expect(page.locator('.problem-links')).toHaveCount(0);
+  });
+
+  for (const path of PROBLEM_PATHS.slice(0, -1)) {
+    test(`${path} lists its records with the detailed ones first`, async ({ page }) => {
+      await page.goto(path);
+      await expect(page.locator('h1')).not.toBeEmpty();
+      const cards = page.locator('#agents article.entry');
+      expect(await cards.count()).toBeGreaterThan(0);
+      const flags = await cards.evaluateAll((nodes) => nodes.map((node) => node.getAttribute('data-well-documented') === 'true'));
+      const firstPlain = flags.indexOf(false);
+      if (firstPlain >= 0) expect(flags.slice(firstPlain).every((flag) => !flag)).toBe(true);
+      const href = await cards.first().locator('h3 a').getAttribute('href');
+      expect(href).toMatch(/^\/agents\//);
+    });
+  }
+});

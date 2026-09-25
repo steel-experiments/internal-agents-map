@@ -1,0 +1,49 @@
+---
+// ABOUTME: One problem page: the records with its work-domain tags, detailed records first.
+// ABOUTME: The homepage links here from its problem entry points.
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import AgentCard from '../../components/AgentCard.astro';
+import Icon from '../../components/Icon.astro';
+import { loadCatalog } from '../../lib/catalog';
+import { problemPages, problemView } from '../../lib/problems';
+import { canonicalUrl } from '../../lib/routes';
+import { SITE_NAME, structuredData, webPageNode } from '../../lib/metadata';
+import { ogImage } from '../../lib/og';
+import { problemCard } from '../../lib/section-cards';
+
+export function getStaticPaths() {
+  return problemPages().map((problem) => ({ params: { slug: problem.slug } }));
+}
+const view = problemView(loadCatalog(), Astro.params.slug!);
+const { problem } = view;
+const title = `${problem.heading} · ${SITE_NAME}`;
+const graph = structuredData([webPageNode({ url: canonicalUrl(problem.path), name: title, description: view.intro })]);
+const preview = ogImage(problem.path, problemCard(view));
+---
+<SiteLayout title={title} description={view.intro} path={problem.path} structuredData={graph} ogImage={preview}>
+  <header class="intro">
+    <h1>{problem.heading}</h1>
+    <p>{view.intro}</p>
+  </header>
+  {view.groups.map((group) => (
+    <section class="entry-section" id={group.id} aria-labelledby={`${group.id}-title`}>
+      <h2 id={`${group.id}-title`}>{group.label}</h2>
+      <div class="entries">
+        {group.cards.map((card) => <AgentCard card={card} />)}
+      </div>
+    </section>
+  ))}
+  {view.lessons.length > 0 && (
+    <section class="entry-section" id="lessons" aria-labelledby="lessons-title">
+      <h2 id="lessons-title">Related lessons</h2>
+      <ul class="related-list">
+        {view.lessons.map((lesson) => (
+          <li class="related-card">
+            <span class="related-kind"><Icon name="note-text" />Lesson</span>
+            <a href={lesson.path}>{lesson.title}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</SiteLayout>

@@ -5,6 +5,7 @@ import { loadCatalog } from '../lib/catalog';
 import { contentPaths } from '../lib/content-routes';
 import { termLabel } from '../lib/labels';
 import { lessonViews } from '../lib/lessons';
+import { problemPages } from '../lib/problems';
 import { SITE_NAME } from '../lib/metadata';
 import { ORIGIN, organizationPaths, organizationPath, homePath, markdownPath, lessonPath } from '../lib/routes';
 
@@ -39,6 +40,7 @@ export const GET: APIRoute = async () => {
   const catalog = loadCatalog();
   const lessonTitles = new Map(lessonViews().map((lesson) => [lessonPath(lesson.slug), lesson.title]));
   for (const company of catalog.companies) lessonTitles.set(organizationPath(company.id), company.name);
+  for (const problem of problemPages()) lessonTitles.set(problem.path, problem.heading);
   return new Response(llmsTxt([...(await contentPaths()), ...organizationPaths(catalog)], lessonTitles), {
     headers: { 'Content-Type': 'text/plain; charset=utf-8' },
   });

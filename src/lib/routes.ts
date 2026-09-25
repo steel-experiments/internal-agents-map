@@ -56,6 +56,12 @@ export function organizationPaths(catalog: Catalog): string[] {
   return catalog.companies.filter((company) => ids.has(company.id)).map((company) => organizationPath(company.id));
 }
 
+/** The page of one problem the homepage offers as an entry point. */
+export function problemPath(slug: string): string {
+  if (!SLUG_PATTERN.test(slug)) throw new Error(`Problem slug "${slug}" is not a lower-case slug.`);
+  return `/problems/${slug}`;
+}
+
 /** The lessons index. */
 export function lessonsIndexPath(): string {
   return '/lessons';

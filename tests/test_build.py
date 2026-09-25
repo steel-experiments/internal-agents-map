@@ -637,6 +637,11 @@ class BuildTests(unittest.TestCase):
             "/definitions",
             "/methodology",
             "/lessons",
+            # The problem pages that the homepage offers as entry points.
+            "/problems/code-review-load",
+            "/problems/security-alerts",
+            "/problems/company-data",
+            "/problems/operations",
             *(f"/lessons/{path.stem}" for path in LESSONS.glob("*.md")),
             *(f"/agents/{record['id']}" for record in self.records),
             *(

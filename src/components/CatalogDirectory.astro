@@ -11,6 +11,7 @@ import { SITE_DESCRIPTION, SITE_NAME, datasetNode, structuredData, webPageNode }
 import { ogImage } from '../lib/og';
 import { INFRASTRUCTURE_DESCRIPTION, INFRASTRUCTURE_HEADING, SECTION_CARDS } from '../lib/section-cards';
 import { lessonViewBySlug } from '../lib/lessons';
+import { PROBLEMS } from '../lib/problems';
 import Icon from './Icon.astro';
 
 interface Props { collection?: 'agents' | 'infrastructure' }
@@ -49,6 +50,14 @@ const preview = infrastructure ? ogImage(path, SECTION_CARDS.infrastructure) : n
       <div class="stat"><strong>{scopedCounts.organizations}</strong><span>organizations</span></div>
       <div class="stat"><strong>{scopedCounts.sources}</strong><span>sources</span></div>
     </div>
+    {!infrastructure && (
+      <nav class="problem-links" aria-labelledby="problems-title">
+        <h2 id="problems-title">Start with a problem</h2>
+        <ul>
+          {PROBLEMS.map((problem) => <li><a href={problem.path}>{problem.label}</a></li>)}
+        </ul>
+      </nav>
+    )}
   </header>
   <section id="catalog" data-default-collection={collection} aria-labelledby="catalog-title">
     <h2 id="catalog-title" class="visually-hidden">Explore the catalog</h2>

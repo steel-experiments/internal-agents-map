@@ -16,7 +16,7 @@ import {
   lessonsForApproach,
   type LessonView,
 } from '../../src/lib/lessons';
-import { entryPath, guidePath, lessonPath, lessonsIndexPath } from '../../src/lib/routes';
+import { entryPath, guidePath, lessonPath, lessonsIndexPath, problemPath } from '../../src/lib/routes';
 
 const catalog = loadCatalog();
 const lessons = lessonViews();
@@ -151,9 +151,10 @@ describe('the content routes', () => {
       guidePath('definitions'),
       guidePath('methodology'),
       lessonsIndexPath(),
+      ...['code-review-load', 'security-alerts', 'company-data', 'operations'].map(problemPath),
       ...SLUGS.map((slug) => lessonPath(slug)),
     ]);
-    expect(paths).toHaveLength(11);
+    expect(paths).toHaveLength(15);
     expect(new Set(paths).size).toBe(paths.length);
   });
 });
