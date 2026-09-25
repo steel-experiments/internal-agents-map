@@ -264,13 +264,14 @@ class ContributionTests(unittest.TestCase):
     def test_the_issue_form_asks_for_what_a_catalog_entry_needs(self):
         form = yaml.safe_load(self.TEMPLATE.read_text(encoding="utf-8"))
         fields = {item["id"]: item for item in form["body"] if "id" in item}
-        for field in ("request", "company", "agent", "sources"):
+        # A short form: the request, the company and agent, and one public link.
+        self.assertEqual(list(fields), ["request", "agent", "source", "details"])
+        for field in ("request", "agent", "source"):
             with self.subTest(field=field):
                 self.assertTrue(fields[field]["validations"]["required"])
-        # A checkbox is required option by option.
-        self.assertTrue(all(item["required"] for item in fields["public"]["attributes"]["options"]))
         self.assertEqual(
             fields["request"]["attributes"]["options"],
-            ["New entry", "Correction to an existing entry"],
+            ["Add a new agent", "Fix an existing entry"],
         )
-        self.assertFalse(fields["entry"].get("validations", {}).get("required", False))
+        self.assertIn("public", fields["source"]["attributes"]["description"])
+        self.assertFalse(fields["details"].get("validations", {}).get("required", False))
