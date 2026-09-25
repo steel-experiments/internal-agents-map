@@ -459,6 +459,27 @@ test.describe('the directory order', () => {
     expect((await cardOrder(page))[0]!.id).not.toBe(last.id);
   });
 
+  test('keeps an open pill menu above the results while the palette opens', async ({ page, javaScriptEnabled, isMobile }) => {
+    test.skip(javaScriptEnabled === false, 'The palette needs the script.');
+    test.skip(isMobile, 'On a phone the pills are in the filter sheet, above the results.');
+    await page.goto('/');
+    await page.locator('.search-launcher').click();
+    await page.locator('[data-palette-sort] .palette-pill').click();
+    // The opening animation gives each row a transform; hold them in that state.
+    const covered = await page.evaluate(() => {
+      for (const selector of ['.palette-filters', '.palette-results']) {
+        const row = document.querySelector<HTMLElement>(selector)!;
+        row.getAnimations().forEach((animation) => animation.cancel());
+        row.style.transform = 'translateY(1px)';
+      }
+      const option = document.querySelector<HTMLElement>('[data-palette-sort] [data-sort-option="az"]')!;
+      const box = option.getBoundingClientRect();
+      const top = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
+      return option.contains(top) ? null : top?.outerHTML.slice(0, 80);
+    });
+    expect(covered).toBeNull();
+  });
+
   test('sorts the palette from its sort pill, and the directory with it', async ({ page, javaScriptEnabled }) => {
     test.skip(javaScriptEnabled === false, 'The palette needs the script.');
     await page.goto('/');
