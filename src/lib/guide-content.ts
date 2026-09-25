@@ -237,6 +237,9 @@ export const METHODOLOGY_SECTIONS: readonly GuideSection[] = [
         'Company results remain self-reported unless an independent source verifies them. Confidence describes the support for a claim. Evidence strength describes source type and detail. Neither label proves that a claim is true.',
       ],
       [
+        'A record gets the Detailed label when it has primary sources with implementation detail, no low-confidence claim, a supporting source for every claim, a saved copy of every source, and a known point where people review the work. The catalog shows these records first. The label describes the evidence, not the quality of the agent.',
+      ],
+      [
         'For metrics, we keep the reported dates, scope, measurement method, and what the numbers count, when available. A report date does not establish the measurement period.',
       ],
       [

@@ -136,6 +136,7 @@ const image = ogImage ?? { url: OG_IMAGE, alt: OG_IMAGE_ALT };
   import { startNavMenu } from '../scripts/nav-menu';
   import { startDisclosures } from '../scripts/disclosures';
   import { startPalette } from '../scripts/palette';
+  import { startCatalogOrder } from '../scripts/catalog-order';
 
   // The router swaps the document rather than reloading it, so every page it
   // builds is wired here, not once at first load.
@@ -145,6 +146,8 @@ const image = ogImage ?? { url: OG_IMAGE, alt: OG_IMAGE_ALT };
     startContents();
     startDisclosures();
     startPalette();
+    // After the palette, so the palette hears the first sort.
+    startCatalogOrder();
   });
 </script>
 </body>

@@ -5,6 +5,7 @@ import SiteLayout from '../layouts/SiteLayout.astro';
 import AgentCard from '../components/AgentCard.astro';
 import { loadCatalog, collectionCounts } from '../lib/catalog';
 import { directoryCards } from '../lib/entry-view';
+import { documentationOrder } from '../lib/documentation';
 import { canonicalUrl, homePath } from '../lib/routes';
 import { SITE_DESCRIPTION, SITE_NAME, datasetNode, structuredData, webPageNode } from '../lib/metadata';
 import { ogImage } from '../lib/og';
@@ -16,7 +17,7 @@ interface Props { collection?: 'agents' | 'infrastructure' }
 const { collection = 'agents' } = Astro.props;
 const infrastructure = collection === 'infrastructure';
 const catalog = loadCatalog();
-const cards = directoryCards(catalog);
+const cards = documentationOrder(directoryCards(catalog));
 const counts = { agents: collectionCounts(catalog, 'agents'), infrastructure: collectionCounts(catalog, 'infrastructure') };
 const scopedCounts = counts[collection];
 /** The lessons that the homepage offers as design questions after the catalog. */

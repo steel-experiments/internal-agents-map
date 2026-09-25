@@ -107,7 +107,8 @@
 .entry-box:hover .tag { color: var(--sand-9); }
 /* An accent badge is not dimmed with the rest: it stands as it is. */
 .entry-box:hover .tags > .tag:first-child,
-.entry-box:hover .tags > .tag-company { color: var(--blue-9); }
+.entry-box:hover .tags > .tag-company,
+.entry-box:hover .tags > .tag-documented { color: var(--blue-9); }
 }
 /* The heading link covers the container, so the whole card opens the entry. */
 .entry-box h3 a::after {
@@ -123,6 +124,29 @@
   gap: 16px;
   margin-bottom: 8px;
 }
+/* The bookmark ribbon hangs from the top border of a directory card, clear of
+   the rounded corner. It sits above the heading link that covers the card, so
+   a click on it keeps the reader on the page. Pressed, the ribbon fills. Only
+   the boxed directory card has a border to hang from and an order to change. */
+.entry-bookmark { display: none; }
+.entries .entry-bookmark:not([hidden]) {
+  position: absolute;
+  z-index: 1;
+  /* One pixel up, so the ribbon meets the border with no gap under it. */
+  top: -1px;
+  right: 28px;
+  display: block;
+  padding: 0 4px 4px;
+  border: 0;
+  background: none;
+  /* At rest the ribbon is drawn in the line of the card border it hangs from. */
+  color: var(--sand-6);
+  line-height: 0;
+  cursor: pointer;
+}
+.entries .entry-bookmark:hover { color: var(--sand-10); }
+.entries .entry-bookmark[aria-pressed="true"] { color: var(--blue-9); }
+.entries .entry-bookmark[aria-pressed="true"] svg { fill: currentColor; }
 .company {
   font-size: var(--text-xs);
   font-weight: 400;
@@ -160,6 +184,17 @@
   border-radius: 999px;
   color: var(--sand-10);
 }
+/* The evidence badge is one more tag in the row, with an outline instead of a
+   fill, so it does not read as one more category. */
+.tags > .tag-documented {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  box-shadow: inset 0 0 0 1px var(--blue-6);
+  color: var(--blue-9);
+}
+.tag-documented .icon { flex: none; }
 
 /* The directory holds its entries as cards: a grid of white panels in the
    proportions of the design, four wide to five tall. Each card carries its
@@ -190,8 +225,8 @@
     0 2px 4px rgba(0, 0, 0, .02);
 }
 /* The badges lead the card. The markup keeps the name first, which is the
-   order this reads in as text. */
-.entries .tags { order: -1; margin: 0; }
+   order this reads in as text. The right padding keeps them clear of the ribbon. */
+.entries .tags { order: -1; margin: 0; padding-right: 32px; }
 /* The name and its summary close the card, below whatever space is left. */
 .entries .entry-top { margin-top: auto; }
 .entries .entry-summary {
@@ -214,6 +249,7 @@
   .entries .entry-box:hover h3 a { color: var(--ink); }
   .entries .entry-box:hover .entry-summary { color: var(--sand-10); }
   .entries .entry-box:hover .tag { color: var(--sand-10); }
+  .entries .entry-box:hover .tag-documented { color: var(--blue-9); }
   .entries .entry-box:hover {
     box-shadow:
       0 10px 12px rgba(0, 0, 0, .02),

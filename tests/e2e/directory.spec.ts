@@ -401,3 +401,89 @@ test.describe('the site chrome', () => {
     expect(await head.evaluate((el) => el.hasAttribute('inert'))).toBe(false);
   });
 });
+
+test.describe('the directory order', () => {
+  /** The card identifiers in the order the agents grid shows them. */
+  const cardOrder = (page: Page) =>
+    page.locator('[data-collection-group="agents"] article.entry').evaluateAll((nodes) =>
+      nodes.map((node) => ({
+        id: node.id,
+        documented: node.getAttribute('data-well-documented') === 'true',
+        rank: Number(node.getAttribute('data-alphabetical-rank')),
+      })),
+    );
+
+  test('shows the well-documented cards first, each with its badge', async ({ page }) => {
+    await page.goto('/');
+    const cards = await cardOrder(page);
+    const firstPlain = cards.findIndex((card) => !card.documented);
+    expect(firstPlain).toBeGreaterThan(0);
+    expect(cards.slice(firstPlain).every((card) => !card.documented)).toBe(true);
+    await expect(page.locator(`article.entry#${cards[0]!.id} .tag-documented`)).toHaveText('Detailed');
+    await expect(page.locator('article.entry .tag-documented')).toHaveCount(
+      cards.filter((card) => card.documented).length + (await page.locator('[data-collection-group="infrastructure"] article.entry[data-well-documented="true"]').count()),
+    );
+    await expect(page.locator(`article.entry#${cards[firstPlain]!.id} .tag-documented`)).toHaveCount(0);
+  });
+
+  test('opens A–Z from the URL, and the default order without it', async ({ page, javaScriptEnabled }) => {
+    test.skip(javaScriptEnabled === false, 'The sort needs the script.');
+    await page.goto('/?sort=az');
+    const ranks = (await cardOrder(page)).map((card) => card.rank);
+    expect(ranks).toEqual([...ranks].sort((a, b) => a - b));
+    await page.goto('/');
+    expect((await cardOrder(page))[0]!.documented).toBe(true);
+  });
+
+  test('shows no sort control on the page', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('#catalog [data-sort-option]')).toHaveCount(0);
+  });
+
+  test('puts a bookmarked card first, keeps it after a reload, and lets it go', async ({ page, javaScriptEnabled }) => {
+    test.skip(javaScriptEnabled === false, 'The ribbon needs the script.');
+    await page.goto('/');
+    const last = (await cardOrder(page)).at(-1)!;
+    const ribbon = page.locator(`article.entry#${last.id} [data-bookmark]`);
+    await expect(ribbon).toHaveAttribute('aria-pressed', 'false');
+    await ribbon.click();
+    await expect(page).toHaveURL(/\/$/);
+    await expect(ribbon).toHaveAttribute('aria-pressed', 'true');
+    expect((await cardOrder(page))[0]!.id).toBe(last.id);
+    await page.reload();
+    expect((await cardOrder(page))[0]!.id).toBe(last.id);
+    await page.goto('/?sort=az');
+    expect((await cardOrder(page))[0]!.id).toBe(last.id);
+    await page.locator(`article.entry#${last.id} [data-bookmark]`).click();
+    await expect(page.locator(`article.entry#${last.id} [data-bookmark]`)).toHaveAttribute('aria-pressed', 'false');
+    expect((await cardOrder(page))[0]!.id).not.toBe(last.id);
+  });
+
+  test('sorts the palette from its sort pill, and the directory with it', async ({ page, javaScriptEnabled }) => {
+    test.skip(javaScriptEnabled === false, 'The palette needs the script.');
+    await page.goto('/');
+    await page.locator('.search-launcher').click();
+    const sort = page.locator('[data-palette-sort]');
+    const firstItem = page.locator('.palette-group[data-group="catalog"] li:has(.palette-item:visible)').first();
+    await expect(firstItem).toHaveAttribute('data-well-documented', 'true');
+    // On a phone the pills are behind the filter sheet.
+    const sheet = page.locator('.palette-filter-open');
+    if (await sheet.isVisible()) await sheet.click();
+    await sort.locator('.palette-pill').click();
+    await sort.locator('[data-sort-option="az"]').click();
+    await expect(sort.locator('[data-sort-option="az"]')).toHaveAttribute('aria-pressed', 'true');
+    const ranks = () =>
+      page.locator('.palette-group[data-group="catalog"] li').evaluateAll((nodes) =>
+        nodes.map((node) => Number(node.getAttribute('data-alphabetical-rank'))),
+      );
+    await expect.poll(async () => {
+      const list = await ranks();
+      return list.every((rank, index) => index === 0 || list[index - 1]! < rank);
+    }).toBe(true);
+    await expect(firstItem).toHaveAttribute('data-alphabetical-rank', String(Math.min(...(await ranks()))));
+    await expect(page).toHaveURL(/\?sort=az$/);
+    await page.keyboard.press('Escape');
+    const cards = (await cardOrder(page)).map((card) => card.rank);
+    expect(cards).toEqual([...cards].sort((a, b) => a - b));
+  });
+});

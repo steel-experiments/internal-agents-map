@@ -15,6 +15,7 @@ import {
 } from './catalog';
 import { fieldLabel, levelLabel, termLabel } from './labels';
 import { companyView, type CompanyView } from './companies';
+import { isWellDocumented } from './documentation';
 import { lessonsForApproach } from './lessons';
 import { entryPath } from './routes';
 import { shorten } from './text';
@@ -589,6 +590,10 @@ export interface DirectoryCard {
   readonly reviewedAt: string;
   /** The source identifiers of the entry, so an old source fragment can find its page. */
   readonly sourceIds: readonly string[];
+  /** True when the evidence of the entry meets the well-documented rule. */
+  readonly wellDocumented: boolean;
+  /** The position of the entry in the alphabetical order, so the browser can sort it again. */
+  readonly alphabeticalRank: number;
 }
 
 /** An attention boundary as a filter term. The level is null when the boundary is unknown. */
@@ -607,7 +612,7 @@ function searchText(parts: readonly string[]): string {
 /** Build the compact card of every implementation, ordered the way the directory reads. */
 export function directoryCards(catalog: Catalog): DirectoryCard[] {
   const claims = new Map(catalog.claims.map((claim) => [claim.id, claim]));
-  return sortedApproaches(catalog).map((approach) => {
+  return sortedApproaches(catalog).map((approach, alphabeticalRank) => {
     const summary = approach.claim_ids
       .map((claimId) => claims.get(claimId))
       .find((claim) => claim?.field === 'summary');
@@ -650,6 +655,8 @@ export function directoryCards(catalog: Catalog): DirectoryCard[] {
       invocation: approach.catalog_section === 'agents' ? invocation : [],
       boundaries: approach.catalog_section === 'agents' ? boundaries : [],
       reviewedAt: approach.last_reviewed_at,
+      wellDocumented: isWellDocumented(catalog, approach),
+      alphabeticalRank,
     };
   });
 }
