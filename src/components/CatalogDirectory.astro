@@ -30,8 +30,8 @@ const reviewed = catalog.approaches
 
 const title = `${infrastructure ? 'Infrastructure · ' : ''}${SITE_NAME} · How companies build internal AI agents`;
 const description = infrastructure ? INFRASTRUCTURE_DESCRIPTION :
-  'A source-backed catalog of AI systems organizations build for their own teams. ' +
-  'Explore approaches, operating models, and reported evidence.';
+  'How companies build internal AI agents: workflows, tools, human checkpoints, and what the ' +
+  'sources do not show. Built from saved public sources.';
 const path = infrastructure ? '/infrastructure' : homePath();
 const url = canonicalUrl(path);
 const graph = structuredData([
