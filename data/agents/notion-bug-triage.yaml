@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: notion-bug-triage
 company: Notion
 agent_name: Internal bug-triage agent

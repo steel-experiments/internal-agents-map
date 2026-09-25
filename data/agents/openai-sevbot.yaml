@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: openai-sevbot
 company: OpenAI
 agent_name: Sevbot
@@ -36,7 +37,7 @@ architecture:
 primitives:
 - name: Propose-only mitigation
   desc: Proposes mitigations in the incident channel; an engineer can instruct it to apply a specific mitigation
-- {name: Wake on a detected incident, desc: When an incident is detected, the bot wakes up}
+- {name: Wake on a detected incident, desc: "When an incident is detected, the bot wakes up"}
 - {name: Collect incident context, desc: Collects context about the incident}
 - {name: Answer developers' questions, desc: Answers developers' questions as part of the incident Slack channel}
 key_metrics: []

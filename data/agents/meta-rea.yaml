@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: meta-rea
 company: Meta
 agent_name: Ranking Engineer Agent (REA)

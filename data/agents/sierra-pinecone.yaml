@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: sierra-pinecone
 company: Sierra
 agent_name: Pinecone

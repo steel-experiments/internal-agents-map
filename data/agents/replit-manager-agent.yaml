@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../agent.schema.json
 id: replit-manager-agent
 company: Replit
 agent_name: Manager agent (agent-of-agents)
@@ -53,8 +54,7 @@ primitives:
 - name: Spawn parallel loop agents
   desc: It spawns multiple agents that work in loops on the verifiable task for the person
 - name: Check results and escalate judgment
-  desc: Work results are checked
-  and human judgment is requested when needed: null
+  desc: "Work results are checked, and human judgment is requested when needed"
 key_metrics:
 - 2.9x code output for a consistent author cohort from early January to late June
 - No corresponding deterioration in review/reversion/incident metrics

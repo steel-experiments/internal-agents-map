@@ -1,0 +1,537 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://internal-agents.com/schemas/agent.schema.json",
+  "title": "Internal Agents Map approach record",
+  "description": "One YAML file in data/agents/. data/schema.md explains each field. scripts/build.py applies this schema and then the rules that compare records, sources, and files.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "company",
+    "agent_name",
+    "approach_type",
+    "deployment_stage",
+    "year",
+    "first_public_evidence",
+    "last_reviewed_at",
+    "status",
+    "domains",
+    "autonomy",
+    "operating_models",
+    "summary",
+    "rubric",
+    "sources",
+    "evidence"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "#/definitions/kebabId",
+      "description": "A kebab-case ID that matches the file name."
+    },
+    "company": {
+      "$ref": "#/definitions/text",
+      "description": "The organization that built or adapted the approach. It must equal a name in data/companies.yaml."
+    },
+    "agent_name": {
+      "$ref": "#/definitions/text",
+      "description": "The reported name. Use a clear description if no name is public."
+    },
+    "aliases": { "type": "array", "items": { "$ref": "#/definitions/text" } },
+    "family_id": { "$ref": "#/definitions/kebabId" },
+    "featured": {
+      "type": "boolean",
+      "description": "Shows a well-documented record before all others in the default directory order."
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "approach_id"],
+        "properties": {
+          "type": { "$ref": "#/definitions/relationType" },
+          "approach_id": { "$ref": "#/definitions/kebabId" }
+        }
+      }
+    },
+    "approach_type": {
+      "$ref": "#/definitions/approachType",
+      "description": "The documented primary responsibility. It does not describe how the work starts."
+    },
+    "deployment_stage": { "$ref": "#/definitions/deploymentStage" },
+    "year": {
+      "type": "integer",
+      "description": "The year of the earliest verified public evidence."
+    },
+    "first_public_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["date", "source_id"],
+      "properties": {
+        "date": { "$ref": "#/definitions/partialDate" },
+        "source_id": {
+          "$ref": "#/definitions/text",
+          "description": "An evidence source of this record."
+        }
+      }
+    },
+    "last_reviewed_at": { "$ref": "#/definitions/partialDate" },
+    "status": { "$ref": "#/definitions/status" },
+    "domains": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/domain" }
+    },
+    "autonomy": { "$ref": "#/definitions/autonomy" },
+    "operating_models": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Scoped assessments of where human attention returns in a normal successful run.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["scope", "attention_boundary"],
+        "properties": {
+          "scope": { "$ref": "#/definitions/text" },
+          "attention_boundary": { "$ref": "#/definitions/attentionBoundary" }
+        }
+      }
+    },
+    "rubric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["invocation", "state", "identity", "evidence_strength"],
+      "properties": {
+        "invocation": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/invocation" }
+        },
+        "state": { "$ref": "#/definitions/rubricState" },
+        "identity": { "$ref": "#/definitions/identity" },
+        "evidence_strength": { "$ref": "#/definitions/evidenceStrength" }
+      }
+    },
+    "summary": {
+      "$ref": "#/definitions/text",
+      "description": "A short, factual description."
+    },
+    "headline_metric": {
+      "$ref": "#/definitions/text",
+      "description": "A short reported result."
+    },
+    "architecture": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "An empty string or list is the same as an omitted field.",
+      "properties": {
+        "sandbox": { "type": "string" },
+        "harness": { "type": "string" },
+        "model": { "type": "string" },
+        "tool_access": { "type": "string" },
+        "knowledge": { "type": "string" },
+        "credentials": { "type": "string" },
+        "context_mgmt": { "type": "string" },
+        "interfaces": { "type": "array", "items": { "$ref": "#/definitions/interface" } }
+      }
+    },
+    "primitives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "desc": { "type": "string" }
+        }
+      }
+    },
+    "key_metrics": { "type": "array", "items": { "$ref": "#/definitions/text" } },
+    "lessons_learned": { "type": "array", "items": { "$ref": "#/definitions/text" } },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/source" }
+    },
+    "evidence": {
+      "type": "object",
+      "description": "Links each claim path, such as summary or key_metrics.0, to one or more sources.",
+      "propertyNames": { "$ref": "#/definitions/claimPath" },
+      "additionalProperties": {
+        "type": "array",
+        "minItems": 1,
+        "items": { "$ref": "#/definitions/evidenceLink" }
+      }
+    },
+    "claim_metadata": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/definitions/claimPath" },
+      "additionalProperties": { "$ref": "#/definitions/claimMetadata" }
+    },
+    "page_content": { "$ref": "#/definitions/pageContent" }
+  },
+  "definitions": {
+    "text": {
+      "type": "string",
+      "pattern": "\\S",
+      "description": "A string that contains more than whitespace."
+    },
+    "kebabId": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "partialDate": {
+      "type": "string",
+      "pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2])(?:-(?:0[1-9]|[12]\\d|3[01]))?)?$",
+      "format": "partial-date",
+      "description": "YYYY, YYYY-MM, or YYYY-MM-DD. Put the value in quotes."
+    },
+    "fullDate": {
+      "type": "string",
+      "pattern": "^\\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\\d|3[01])$",
+      "format": "partial-date",
+      "description": "YYYY-MM-DD. Put the value in quotes."
+    },
+    "httpsUrl": { "type": "string", "pattern": "^https://[^\\s/?#]+(?:[/?#]\\S*)?$" },
+    "claimPath": {
+      "type": "string",
+      "pattern": "^(?:summary|headline_metric|architecture\\.[a-z_]+|(?:primitives|key_metrics|lessons_learned|operating_models)\\.\\d+)$"
+    },
+    "approachType": {
+      "enum": ["agent", "agent-system", "platform", "orchestration-system", "supporting-pattern"]
+    },
+    "deploymentStage": {
+      "enum": ["research", "prototype", "pilot", "deployed", "scaled", "unknown"]
+    },
+    "status": { "enum": ["internal", "open-sourced", "commercialized", "mixed"] },
+    "domain": {
+      "enum": [
+        "coding",
+        "code-review",
+        "support",
+        "on-call",
+        "research",
+        "customer-success",
+        "security",
+        "finance-ops",
+        "data",
+        "ci-triage",
+        "maintenance",
+        "ops",
+        "recruitment",
+        "migrations",
+        "design"
+      ]
+    },
+    "autonomy": {
+      "enum": ["assistive", "human-in-loop", "drafts-reviewed", "autonomous", "unknown"]
+    },
+    "attentionBoundary": {
+      "enum": [
+        "continuous-steering",
+        "work-product-review",
+        "outcome-review",
+        "exception-only",
+        "unknown"
+      ]
+    },
+    "invocation": { "enum": ["interactive", "background", "scheduled", "event-driven", "unknown"] },
+    "rubricState": {
+      "enum": ["run-only", "durable-session", "cross-session-memory", "mixed", "unknown"]
+    },
+    "identity": { "enum": ["user", "dedicated-agent", "service", "mixed", "unknown"] },
+    "evidenceStrength": {
+      "enum": ["detailed-primary", "limited-primary", "secondary-only", "mixed", "unknown"]
+    },
+    "interface": {
+      "enum": [
+        "slack",
+        "github",
+        "web",
+        "cli",
+        "linear",
+        "chrome-extension",
+        "webhook",
+        "desktop",
+        "scheduled",
+        "skill",
+        "cursor",
+        "api",
+        "automation",
+        "ci",
+        "intercom",
+        "jira",
+        "internal-ui",
+        "mobile",
+        "monday"
+      ]
+    },
+    "relationType": { "enum": ["component-of", "built-on", "successor-of", "related-to"] },
+    "sourceKind": {
+      "enum": [
+        "engineering-blog",
+        "corporate-article",
+        "documentation",
+        "source-code",
+        "repository",
+        "release",
+        "social-post",
+        "talk",
+        "transcript",
+        "podcast",
+        "paper",
+        "case-study",
+        "news",
+        "hn-thread",
+        "hn-comment",
+        "forum",
+        "other"
+      ]
+    },
+    "provenanceClass": {
+      "enum": [
+        "first-party",
+        "direct-participant",
+        "independent-secondary",
+        "community",
+        "aggregator"
+      ]
+    },
+    "sourceRole": { "enum": ["evidence", "commentary", "discovery"] },
+    "evidenceRelation": { "enum": ["supports", "contradicts", "contextualizes"] },
+    "claimKind": { "enum": ["fact", "metric", "inference", "opinion"] },
+    "claimProvenance": { "enum": ["reported", "observed", "inferred", "catalog-judgment"] },
+    "confidence": { "enum": ["high", "medium", "low", "unverified"] },
+    "reviewState": { "enum": ["reported", "unreported", "not-applicable", "not-reviewed"] },
+    "primitiveRole": { "enum": ["workflow", "mechanism", "validation"] },
+    "observationCategory": {
+      "enum": [
+        "effectiveness",
+        "adoption-output",
+        "cost-latency",
+        "implementation-scale",
+        "runtime-capacity"
+      ]
+    },
+    "observationBasis": { "enum": ["reported-measurement", "qualitative", "estimate", "target"] },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "url",
+        "canonical_url",
+        "kind",
+        "provenance_class",
+        "accessed_at",
+        "last_verified_at"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/kebabId",
+          "description": "A repository-wide unique ID."
+        },
+        "title": { "$ref": "#/definitions/text" },
+        "url": {
+          "$ref": "#/definitions/httpsUrl",
+          "description": "The original publisher URL. Never replace it with an archive URL."
+        },
+        "canonical_url": { "$ref": "#/definitions/httpsUrl" },
+        "kind": { "$ref": "#/definitions/sourceKind" },
+        "provenance_class": { "$ref": "#/definitions/provenanceClass" },
+        "role": {
+          "$ref": "#/definitions/sourceRole",
+          "description": "The default is evidence."
+        },
+        "publisher": { "$ref": "#/definitions/text" },
+        "authors": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/text" }
+        },
+        "published_at": { "$ref": "#/definitions/partialDate" },
+        "accessed_at": { "$ref": "#/definitions/partialDate" },
+        "last_verified_at": { "$ref": "#/definitions/partialDate" },
+        "archived_url": { "$ref": "#/definitions/httpsUrl" },
+        "capture": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["manifest_path"],
+          "properties": {
+            "manifest_path": {
+              "type": "string",
+              "pattern": "^archive/sources/[a-z0-9]+(?:-[a-z0-9]+)*/metadata\\.json$"
+            }
+          }
+        },
+        "duplicate_of": { "$ref": "#/definitions/text" }
+      }
+    },
+    "evidenceLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id"],
+      "properties": {
+        "source_id": { "$ref": "#/definitions/text" },
+        "relation": {
+          "$ref": "#/definitions/evidenceRelation",
+          "description": "The default is supports."
+        },
+        "locator": {
+          "$ref": "#/definitions/text",
+          "description": "The exact passage, such as a paragraph, a line range, or a timestamp."
+        }
+      }
+    },
+    "claimMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "$ref": "#/definitions/claimKind" },
+        "provenance": { "$ref": "#/definitions/claimProvenance" },
+        "confidence": { "$ref": "#/definitions/confidence" },
+        "confidence_reason": { "$ref": "#/definitions/text" },
+        "valid_at": { "$ref": "#/definitions/partialDate" },
+        "value": { "type": ["number", "string"] },
+        "unit": { "type": "string" },
+        "reported_by": { "type": "string" },
+        "metric_scope": { "type": "string" },
+        "denominator": { "type": "string" },
+        "measurement_method": { "type": "string" }
+      }
+    },
+    "disposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "claim_paths"],
+      "properties": {
+        "state": { "$ref": "#/definitions/reviewState" },
+        "claim_paths": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/definitions/claimPath" }
+        },
+        "note": { "$ref": "#/definitions/text" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "state": { "const": "reported" } } },
+          "then": { "properties": { "claim_paths": { "minItems": 1 } } },
+          "else": { "properties": { "claim_paths": { "maxItems": 0 } } }
+        },
+        {
+          "if": { "properties": { "state": { "enum": ["not-applicable", "not-reviewed"] } } },
+          "then": { "required": ["note"] }
+        }
+      ]
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "category": { "$ref": "#/definitions/observationCategory" },
+        "basis": { "$ref": "#/definitions/observationBasis" },
+        "subject": { "$ref": "#/definitions/text" },
+        "duplicate_of": { "$ref": "#/definitions/claimPath" },
+        "reason": { "$ref": "#/definitions/text" }
+      },
+      "if": { "required": ["duplicate_of"] },
+      "then": { "required": ["reason"] },
+      "else": { "required": ["category", "basis", "subject"] }
+    },
+    "pageContent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "reviewed_at",
+        "source_ids",
+        "questions",
+        "implementation_fields",
+        "primitive_roles",
+        "observations"
+      ],
+      "properties": {
+        "version": { "const": 1 },
+        "reviewed_at": { "$ref": "#/definitions/fullDate" },
+        "source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/definitions/text" }
+        },
+        "workflow_scope": { "$ref": "#/definitions/text" },
+        "questions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "purpose",
+            "workflow",
+            "human_involvement",
+            "implementation",
+            "validation",
+            "observations",
+            "lessons"
+          ],
+          "properties": {
+            "purpose": { "$ref": "#/definitions/disposition" },
+            "workflow": { "$ref": "#/definitions/disposition" },
+            "human_involvement": { "$ref": "#/definitions/disposition" },
+            "implementation": { "$ref": "#/definitions/disposition" },
+            "validation": { "$ref": "#/definitions/disposition" },
+            "observations": { "$ref": "#/definitions/disposition" },
+            "lessons": { "$ref": "#/definitions/disposition" }
+          }
+        },
+        "implementation_fields": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sandbox",
+            "harness",
+            "model",
+            "tool_access",
+            "interfaces",
+            "knowledge",
+            "credentials",
+            "context_mgmt"
+          ],
+          "properties": {
+            "sandbox": { "$ref": "#/definitions/disposition" },
+            "harness": { "$ref": "#/definitions/disposition" },
+            "model": { "$ref": "#/definitions/disposition" },
+            "tool_access": { "$ref": "#/definitions/disposition" },
+            "interfaces": { "$ref": "#/definitions/disposition" },
+            "knowledge": { "$ref": "#/definitions/disposition" },
+            "credentials": { "$ref": "#/definitions/disposition" },
+            "context_mgmt": { "$ref": "#/definitions/disposition" }
+          }
+        },
+        "primitive_roles": {
+          "type": "object",
+          "propertyNames": { "pattern": "^primitives\\.\\d+$" },
+          "additionalProperties": { "$ref": "#/definitions/primitiveRole" }
+        },
+        "observations": {
+          "type": "object",
+          "propertyNames": { "pattern": "^(?:headline_metric|key_metrics\\.\\d+)$" },
+          "additionalProperties": { "$ref": "#/definitions/observation" }
+        }
+      },
+      "if": {
+        "required": ["questions"],
+        "properties": {
+          "questions": {
+            "required": ["workflow"],
+            "properties": {
+              "workflow": {
+                "required": ["state"],
+                "properties": { "state": { "const": "reported" } }
+              }
+            }
+          }
+        }
+      },
+      "then": { "required": ["workflow_scope"] }
+    }
+  }
+}
