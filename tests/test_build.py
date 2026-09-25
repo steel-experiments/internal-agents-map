@@ -1061,6 +1061,25 @@ class BuildTests(unittest.TestCase):
             path = Path(directory) / f"{record['id']}.yaml"
             build.validate_record(record, path, set())
 
+    def test_featured_must_be_a_boolean(self) -> None:
+        record = copy.deepcopy(self.records[0])
+        record["featured"] = "yes"
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            contextlib.redirect_stderr(io.StringIO()),
+            self.assertRaises(SystemExit),
+        ):
+            path = Path(directory) / f"{record['id']}.yaml"
+            build.validate_record(record, path, set())
+
+    def test_featured_reaches_the_export(self) -> None:
+        featured = {
+            approach["id"]
+            for approach in build.normalize(self.records, self.companies)["approaches"]
+            if approach.get("featured")
+        }
+        self.assertEqual(featured, {"linear-agent", "sierra-pinecone", "stripe-minions"})
+
     def test_impossible_calendar_date_fails(self) -> None:
         with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
             build.validate_date("2026-02-31", "last_reviewed_at", "example.yaml")

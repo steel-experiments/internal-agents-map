@@ -6343,6 +6343,7 @@
         "source_id": "linear-agent-source-1"
       },
       "last_reviewed_at": "2026-09-16",
+      "featured": true,
       "status": "commercialized",
       "domains": [
         "support",
@@ -10396,6 +10397,7 @@
         "source_id": "sierra-pinecone-source-1"
       },
       "last_reviewed_at": "2026-09-16",
+      "featured": true,
       "status": "internal",
       "domains": [
         "coding",
@@ -11577,6 +11579,7 @@
         "source_id": "stripe-minions-source-1"
       },
       "last_reviewed_at": "2026-09-16",
+      "featured": true,
       "status": "internal",
       "domains": [
         "coding",

@@ -590,6 +590,8 @@ export interface DirectoryCard {
   readonly reviewedAt: string;
   /** The source identifiers of the entry, so an old source fragment can find its page. */
   readonly sourceIds: readonly string[];
+  /** True when the editors show the entry before all others in the default order. */
+  readonly featured: boolean;
   /** True when the evidence of the entry meets the well-documented rule. */
   readonly wellDocumented: boolean;
   /** The position of the entry in the alphabetical order, so the browser can sort it again. */
@@ -655,6 +657,7 @@ export function directoryCards(catalog: Catalog): DirectoryCard[] {
       invocation: approach.catalog_section === 'agents' ? invocation : [],
       boundaries: approach.catalog_section === 'agents' ? boundaries : [],
       reviewedAt: approach.last_reviewed_at,
+      featured: approach.featured === true,
       wellDocumented: isWellDocumented(catalog, approach),
       alphabeticalRank,
     };

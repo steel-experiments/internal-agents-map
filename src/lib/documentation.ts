@@ -23,7 +23,13 @@ export function isWellDocumented(catalog: Catalog, approach: Approach): boolean 
   return models.length > 0 && models.every((model) => model.attention_boundary !== 'unknown');
 }
 
-/** Put the well-documented items first. Each group keeps the order it was given. */
-export function documentationOrder<T extends { readonly wellDocumented: boolean }>(items: readonly T[]): T[] {
-  return [...items.filter((item) => item.wellDocumented), ...items.filter((item) => !item.wellDocumented)];
+/** Put the featured items first, then the well-documented items. Each group keeps the order it was given. */
+export function documentationOrder<T extends { readonly featured: boolean; readonly wellDocumented: boolean }>(
+  items: readonly T[],
+): T[] {
+  return [
+    ...items.filter((item) => item.featured),
+    ...items.filter((item) => !item.featured && item.wellDocumented),
+    ...items.filter((item) => !item.featured && !item.wellDocumented),
+  ];
 }

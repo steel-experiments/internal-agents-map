@@ -1,4 +1,4 @@
-// ABOUTME: Sorts the directory cards and the palette items, bookmarked first, then well documented or A–Z.
+// ABOUTME: Sorts the directory cards and the palette items, bookmarked first, then featured and well documented, or A–Z.
 // ABOUTME: The HTML already holds the default order; the URL keeps the A–Z choice as ?sort=az.
 
 import { readBookmarks, toggled, writeBookmarks } from './bookmarks';
@@ -24,16 +24,19 @@ export function searchWithOrder(search: string, order: CatalogOrder): string {
 
 export interface OrderKey {
   readonly bookmarked: boolean;
+  readonly featured: boolean;
   readonly wellDocumented: boolean;
   readonly alphabeticalRank: number;
 }
 
 /**
  * Compare two items in the given order. Bookmarked items come first in either
- * order. The default then puts well-documented items first, then A–Z.
+ * order. The default then puts featured items first, then well-documented
+ * items, then A–Z.
  */
 export function compareOrder(order: CatalogOrder, a: OrderKey, b: OrderKey): number {
   if (a.bookmarked !== b.bookmarked) return a.bookmarked ? -1 : 1;
+  if (order === 'documented' && a.featured !== b.featured) return a.featured ? -1 : 1;
   if (order === 'documented' && a.wellDocumented !== b.wellDocumented) return a.wellDocumented ? -1 : 1;
   return a.alphabeticalRank - b.alphabeticalRank;
 }
@@ -43,6 +46,7 @@ function orderKey(element: HTMLElement, bookmarks: ReadonlySet<string>): OrderKe
     // A card names its record by its approach id. A palette item cannot, as
     // that attribute marks the one card of each record, so it has its own.
     bookmarked: bookmarks.has(element.dataset.approachId ?? element.dataset.bookmarkId ?? ''),
+    featured: element.dataset.featured === 'true',
     wellDocumented: element.dataset.wellDocumented === 'true',
     alphabeticalRank: Number(element.dataset.alphabeticalRank),
   };

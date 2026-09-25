@@ -32,6 +32,8 @@ Copy `templates/agent.yaml` when you add an approach. Omit optional fields when 
 | `sources` | list | Structured public sources. |
 | `evidence` | map | A link from each authored claim to one or more sources. |
 
+Set the optional `featured` field to `true` to show a record before all others in the default directory order. Featured records come after the bookmarks of the reader and before the other well-documented records. Give this field only to a record that is well documented. The A–Z order does not use it.
+
 Optional identity fields include `aliases` and `family_id`. Use `relationships` to connect records. Each relationship has a `type` and `approach_id`. Types are `component-of`, `built-on`, `successor-of`, and `related-to`.
 
 ### Approach types

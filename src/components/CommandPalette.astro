@@ -34,7 +34,7 @@ const catalogItems = cards.map((card) => ({
   title: `${card.company} · ${card.agentName}`,
   detail: card.approachTypeLabel,
   search: card.search,
-  order: { id: card.id, wellDocumented: String(card.wellDocumented), alphabeticalRank: card.alphabeticalRank },
+  order: { id: card.id, featured: String(card.featured), wellDocumented: String(card.wellDocumented), alphabeticalRank: card.alphabeticalRank },
   facets: {
     work: card.domains.map((domain) => domain.id).join(' '),
     type: card.approachType,
@@ -145,6 +145,7 @@ const groups = [
             {group.items.map((item) => (
               <li
                 data-bookmark-id={item.order?.id}
+                data-featured={item.order?.featured}
                 data-well-documented={item.order?.wellDocumented}
                 data-alphabetical-rank={item.order?.alphabeticalRank}
               >

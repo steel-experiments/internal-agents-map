@@ -85,11 +85,33 @@ describe('the well-documented rule', () => {
 describe('the documentation order', () => {
   it('puts well-documented records first and keeps the given order within each group', () => {
     const cards = [
-      { id: 'a', wellDocumented: false },
-      { id: 'b', wellDocumented: true },
-      { id: 'c', wellDocumented: false },
-      { id: 'd', wellDocumented: true },
+      { id: 'a', featured: false, wellDocumented: false },
+      { id: 'b', featured: false, wellDocumented: true },
+      { id: 'c', featured: false, wellDocumented: false },
+      { id: 'd', featured: false, wellDocumented: true },
     ];
     expect(documentationOrder(cards).map((card) => card.id)).toEqual(['b', 'd', 'a', 'c']);
+  });
+
+  it('puts featured records before all others', () => {
+    const cards = [
+      { id: 'a', featured: false, wellDocumented: true },
+      { id: 'b', featured: true, wellDocumented: true },
+      { id: 'c', featured: false, wellDocumented: false },
+      { id: 'd', featured: true, wellDocumented: true },
+    ];
+    expect(documentationOrder(cards).map((card) => card.id)).toEqual(['b', 'd', 'a', 'c']);
+  });
+});
+
+describe('the featured records', () => {
+  const featured = catalog.approaches.filter((item) => item.featured);
+
+  it('are the records the catalog shows first', () => {
+    expect(featured.map((item) => item.id).sort()).toEqual(['linear-agent', 'sierra-pinecone', 'stripe-minions']);
+  });
+
+  it('are all well documented', () => {
+    for (const item of featured) expect(isWellDocumented(catalog, item), item.id).toBe(true);
   });
 });
