@@ -8,8 +8,6 @@ export default defineConfig({
   testDir: 'tests/e2e',
   testMatch: '**/*.spec.ts',
   fullyParallel: true,
-  // The default is half of the cores. The CI runner has no other work while the tests run.
-  workers: process.env.CI ? '100%' : undefined,
   forbidOnly: Boolean(process.env.CI),
   reporter: process.env.CI ? 'line' : 'list',
   globalTimeout: 5 * 60_000,
