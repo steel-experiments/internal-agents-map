@@ -1,6 +1,9 @@
 // ABOUTME: Checks the link preview cards: their derived content, their URLs, and one real render.
 // ABOUTME: The tests read the real catalog, so a record that breaks a card fails here first.
 
+import { mkdtempSync, readdirSync, rmSync, statSync, utimesSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { loadCatalog } from '../../src/lib/catalog';
 import { companyView } from '../../src/lib/companies';
@@ -148,8 +151,8 @@ describe('the card URL', () => {
 describe('the renderer', () => {
   it('draws a card at the preview size, and the same bytes twice', { timeout: 30_000 }, async () => {
     const card = entryCard(cards.find((item) => item.id === 'block-builderbot') ?? cards[0]);
-    const first = await renderCard(card);
-    const second = await renderCard(card);
+    const first = await renderCard(card, null);
+    const second = await renderCard(card, null);
     expect(pngSize(first)).toEqual([OG_WIDTH, OG_HEIGHT]);
     expect(first.length).toBeLessThan(300_000);
     expect(Buffer.compare(Buffer.from(first), Buffer.from(second))).toBe(0);
@@ -162,4 +165,30 @@ describe('the renderer', () => {
     expect(pngSize(await renderCard(lessonCard(lessonViews()[0])))).toEqual([OG_WIDTH, OG_HEIGHT]);
     expect(pngSize(await renderCard(HOME_CARD))).toEqual([OG_WIDTH, OG_HEIGHT]);
   });
+
+  it('keeps a drawn card in the cache and reads it back for the same input', { timeout: 30_000 }, async () => {
+    const dir = mkdtempSync(path.join(tmpdir(), 'og-cache-'));
+    try {
+      const card = entryCard(cards[0]);
+      const drawn = await renderCard(card, dir);
+      const files = readdirSync(dir);
+      expect(files).toHaveLength(1);
+      expect(Buffer.compare(Buffer.from(drawn), Buffer.from(await renderCard(card, null)))).toBe(0);
+
+      // A marker in the cache file proves that the second call does not draw again.
+      const marker = Buffer.from('cached');
+      const file = path.join(dir, files[0]);
+      writeFileSync(file, marker);
+      utimesSync(file, new Date(0), new Date(0));
+      expect(Buffer.compare(Buffer.from(await renderCard(card, dir)), marker)).toBe(0);
+      // A read marks the file as in use, so the CI clean-up keeps it.
+      expect(statSync(file).mtimeMs).toBeGreaterThan(Date.now() - 60_000);
+
+      await renderCard({ ...card, excerpt: `${card.excerpt} Changed.` }, dir);
+      expect(readdirSync(dir)).toHaveLength(2);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
 });
