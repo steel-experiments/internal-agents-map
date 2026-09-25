@@ -1,0 +1,60 @@
+name: Suggest an agent or correction
+description: Tell us about a company's internal agent, or about an error in a catalog entry.
+title: "Catalog: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The catalog uses only public sources. Do not include private or confidential information.
+  - type: dropdown
+    id: request
+    attributes:
+      label: Request type
+      options:
+        - New entry
+        - Correction to an existing entry
+    validations:
+      required: true
+  - type: input
+    id: company
+    attributes:
+      label: Company
+      placeholder: Stripe
+    validations:
+      required: true
+  - type: input
+    id: agent
+    attributes:
+      label: Agent name
+      description: The reported name. If the name is not public, describe the agent in a few words.
+      placeholder: Minions
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Public source URLs
+      description: A write-up, talk, post, documentation page, or repository. Put each URL on a new line.
+      placeholder: https://
+    validations:
+      required: true
+  - type: input
+    id: entry
+    attributes:
+      label: Catalog entry URL
+      description: For a correction, the entry page to fix.
+      placeholder: https://internal-agents.com/agents/stripe-minions
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: >-
+        For a new entry, tell us what the agent does and who uses it. For a correction, tell us
+        what is wrong and what the source says.
+  - type: checkboxes
+    id: public
+    attributes:
+      label: Public evidence
+      options:
+        - label: Each source is public, and this issue contains no private or confidential information.
+          required: true

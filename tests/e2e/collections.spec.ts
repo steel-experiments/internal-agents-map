@@ -29,3 +29,11 @@ test('infrastructure has architecture first, stable claims, no agent attention l
   expect(text).not.toContain('- Autonomy:');
   expect((await request.get('/infrastructure.md')).status()).toBe(200);
 });
+test('the sidebar keeps the data files and the contribution form in their own group', async ({ page }) => {
+  await page.goto('/');
+  const menu = page.locator('.nav-toggle');
+  if (await menu.isVisible()) await menu.click();
+  const group = page.getByRole('group', { name: 'Data and contributions' });
+  await expect(group.locator('a')).toHaveText(['Suggest an agent', 'Data guide', 'Download JSON', 'Repository']);
+  await expect(group.locator('a.contribute-link')).toHaveAttribute('href', /\/issues\/new\?template=catalog-suggestion\.yml$/);
+});
