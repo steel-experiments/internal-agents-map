@@ -13,7 +13,7 @@ The L2-L5 labels adapt [Dan Shapiro's five levels of AI-assisted software develo
 | Airbnb | [Datako](#airbnb-datako) | agent | data | Unknown · employee question → business-data query | unknown | deployed | internal | 2026 |
 | Airbnb | [Pascal](#airbnb-pascal) | agent | research | Unknown · product idea → concept brief | unknown | deployed | internal | 2026 |
 | Amplitude | [Design Agent](#amplitude-design-agent) | agent | design | L3 · prompt or screenshot → generated HTML artifact a person judges, shares, or carries forward | drafts-reviewed | deployed | internal | 2026 |
-| Atlassian | [Rovo Dev (RovoDev)](#atlassian-rovo-dev) | agent | coding, code-review | L3 · Jira issue → reviewed pull request | human-in-loop | scaled | commercialized | 2024 |
+| Atlassian | [Rovo Dev](#atlassian-rovo-dev) | agent | coding, code-review | L3 · Jira issue → reviewed pull request | human-in-loop | scaled | commercialized | 2024 |
 | Bitrise | [Kolega](#bitrise-kolega) | agent | coding, code-review, ci-triage, maintenance | L3 · Jira ticket assignment or Slack mention → merged pull request | drafts-reviewed | deployed | internal | 2026 |
 | Block | [Builderbot](#block-builderbot) | agent | coding, code-review | L3 · ticket → reviewed pull request | drafts-reviewed | scaled | internal | 2026 |
 | Brex | [Collections response agent](#brex-collections) | agent | finance-ops | L3 · customer reply → draft selected or edited by servicing staff | drafts-reviewed | deployed | internal | 2025 |
@@ -22,7 +22,7 @@ The L2-L5 labels adapt [Dan Shapiro's five levels of AI-assisted software develo
 | Brex | [Support quality agent](#brex-support-qa) | agent | support | Unknown · support interaction → rubric assessment and quality trends | unknown | deployed | internal | 2025 |
 | Cloudflare | [AI Code Reviewer](#cloudflare-code-reviewer) | agent | code-review | Unknown · merge request → structured review and approval state | unknown | deployed | internal | 2026 |
 | Coinbase | [Forge](#coinbase-forge-mux) | agent | coding, code-review | L3 · Slack, GitHub, or Linear request → drafted fix and pull request pushed back for review | drafts-reviewed | scaled | internal | 2026 |
-| Cursor | [Support investigation workflow in Cursor](#cursor-support-workflow) | agent | support | L2 · customer symptom → root cause, inside a Cursor investigation session<br>L3 · parallel subagent run → merged escalation, customer reply, or docs pull request | drafts-reviewed | deployed | internal | 2026 |
+| Cursor | [Support investigation workflow](#cursor-support-workflow) | agent | support | L2 · customer symptom → root cause, inside a Cursor investigation session<br>L3 · parallel subagent run → merged escalation, customer reply, or docs pull request | drafts-reviewed | deployed | internal | 2026 |
 | Deel | [Four-stage payroll sync triage pipeline](#deel-payroll-incident-agents) | agent | finance-ops, ops | L5 · failed US PEO payroll sync → automatic retry that clears the failure<br>L3 · payroll sync failure that survives the retry → classified diagnosis and fix command delivered in Slack for an engineer | drafts-reviewed | deployed | internal | 2026 |
 | Domu | [Clementino](#domu-clementino) | agent | support, finance-ops, coding, recruitment, customer-success | L3 · employee request → approved customer-impacting action<br>L2 · individual works alongside the toolkit in Claude Cowork (client-review prep, spreadsheet cleanup, drafting long emails)<br>Unknown · scheduled jobs (5am standup, invoice approvals, QA sampling, huddle ingestion) | human-in-loop | deployed | internal | 2026 |
 | DoorDash | [AI Code Review Agent](#doordash-code-review) | agent | code-review | L3 · pull request → AI review comments | drafts-reviewed | scaled | internal | 2026 |
@@ -314,7 +314,7 @@ Last reviewed: 2026-09-21.
 
 <a id="atlassian-rovo-dev"></a>
 
-## Atlassian: Rovo Dev (RovoDev)
+## Atlassian: Rovo Dev
 
 > Rovo Dev is Atlassian's coding agent, available internally on all Jira sites. It works from a Jira work item to a pull request, and the developer reviews the plan and the code at each step. It became generally available in October 2025. <small>Sources: [atlassian-rovo-dev-source-1](#atlassian-rovo-dev-source-1), [atlassian-rovo-dev-source-2](#atlassian-rovo-dev-source-2), [atlassian-rovo-dev-source-3](#atlassian-rovo-dev-source-3).</small>
 
@@ -1007,7 +1007,7 @@ Last reviewed: 2026-09-17.
 
 <a id="cursor-support-workflow"></a>
 
-## Cursor: Support investigation workflow in Cursor
+## Cursor: Support investigation workflow
 
 > Cursor's technical support team runs customer investigations inside Cursor itself, configured for support work: multi-root workspaces over the product repositories, MCP servers that reach customer databases, event logs, Slack, the ticket tracker, and internal runbooks, plus slash commands, Rules and Skills, and four named subagents whose merged output an engineer reviews before sending. <small>Sources: [cursor-support-workflow-source-1](#cursor-support-workflow-source-1).</small>
 

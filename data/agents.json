@@ -698,7 +698,7 @@
     {
       "id": "atlassian-rovo-dev",
       "company": "Atlassian",
-      "agent_name": "Rovo Dev (RovoDev)",
+      "agent_name": "Rovo Dev",
       "aliases": [
         "RovoDev",
         "HULA"
@@ -2978,7 +2978,7 @@
     {
       "id": "cursor-support-workflow",
       "company": "Cursor",
-      "agent_name": "Support investigation workflow in Cursor",
+      "agent_name": "Support investigation workflow",
       "approach_type": "agent",
       "deployment_stage": "deployed",
       "year": 2026,
@@ -39512,8 +39512,8 @@
         "media_type": "image/svg+xml",
         "width": 1007,
         "height": 1080,
-        "bytes": 1902,
-        "sha256": "sha256:6c6f9772f5fad0e15a71c26f2307a1ce7c896e82f9a020c0987eb166f55a6f44",
+        "bytes": 1897,
+        "sha256": "sha256:bef57e6a1e942454b343056206f892602ab863bbcc2d21157af169218edeb605",
         "source_url": "https://www.airbnb.com/",
         "accessed_at": "2026-09-15"
       }
@@ -39523,14 +39523,14 @@
       "name": "Amplitude",
       "homepage": "https://amplitude.com/",
       "logo": {
-        "path": "logos/amplitude.png",
-        "media_type": "image/png",
-        "width": 400,
-        "height": 400,
-        "bytes": 3376,
-        "sha256": "sha256:c0f002c28b14f48a85b6ad29ead4afc04c55440aa3db05715f97a673cbbbf796",
-        "source_url": "https://github.com/amplitude",
-        "accessed_at": "2026-09-21"
+        "path": "logos/amplitude.svg",
+        "media_type": "image/svg+xml",
+        "width": 802,
+        "height": 718,
+        "bytes": 1341,
+        "sha256": "sha256:2b15519a2e7e12cc3fcac788e804140a4eb297c0e27581809d6ba4e819a60b64",
+        "source_url": "https://brand.amplitude.com/references/brand-resources",
+        "accessed_at": "2026-09-25"
       }
     },
     {
@@ -39553,14 +39553,14 @@
       "name": "Bitrise",
       "homepage": "https://bitrise.io/",
       "logo": {
-        "path": "logos/bitrise.png",
-        "media_type": "image/png",
-        "width": 360,
-        "height": 360,
-        "bytes": 5115,
-        "sha256": "sha256:48c37bfe163f5ddb7c3fc5073cd0d894099c375d3580f4761ba278b342a183e2",
-        "source_url": "https://github.com/bitrise-io",
-        "accessed_at": "2026-09-21"
+        "path": "logos/bitrise.svg",
+        "media_type": "image/svg+xml",
+        "width": 236,
+        "height": 202,
+        "bytes": 2138,
+        "sha256": "sha256:8141279476568bc124894e071286ad2139963fb1771f760a700ec2e5f8588c5d",
+        "source_url": "https://bitrise.io/press/kit",
+        "accessed_at": "2026-09-25"
       }
     },
     {
@@ -39598,14 +39598,14 @@
       "name": "Cloudflare",
       "homepage": "https://www.cloudflare.com/",
       "logo": {
-        "path": "logos/cloudflare.png",
-        "media_type": "image/png",
-        "width": 512,
-        "height": 173,
-        "bytes": 11443,
-        "sha256": "sha256:400b70b8bb7db80da137ef8e8fcb835a692410a3083598964da08ed1756df145",
-        "source_url": "https://www.cloudflare.com/press/press-kit/",
-        "accessed_at": "2026-09-15"
+        "path": "logos/cloudflare.svg",
+        "media_type": "image/svg+xml",
+        "width": 233,
+        "height": 36,
+        "bytes": 4433,
+        "sha256": "sha256:e64a89a3642eef75b3b8b6a30960a1e442928b38b8b6ba67f5669c095ced4b54",
+        "source_url": "https://www.cloudflare.com/press-kit/",
+        "accessed_at": "2026-09-25"
       }
     },
     {
@@ -39613,14 +39613,14 @@
       "name": "Coinbase",
       "homepage": "https://www.coinbase.com/",
       "logo": {
-        "path": "logos/coinbase.png",
-        "media_type": "image/png",
-        "width": 400,
-        "height": 400,
-        "bytes": 7383,
-        "sha256": "sha256:dbeeada7bfb992dd453f1c12db32e4dad1a20f1b0d0cde8259f58b4ccd4ebdc2",
-        "source_url": "https://github.com/coinbase",
-        "accessed_at": "2026-09-15"
+        "path": "logos/coinbase.svg",
+        "media_type": "image/svg+xml",
+        "width": 34,
+        "height": 34,
+        "bytes": 327,
+        "sha256": "sha256:b8b3a200edf0f38dad679a590a30afa02d2a28bff7b07331c5609173a1a94f6d",
+        "source_url": "https://www.coinbase.com/press",
+        "accessed_at": "2026-09-25"
       }
     },
     {
@@ -39628,14 +39628,14 @@
       "name": "Cursor",
       "homepage": "https://cursor.com/",
       "logo": {
-        "path": "logos/cursor.png",
-        "media_type": "image/png",
-        "width": 460,
-        "height": 460,
-        "bytes": 10259,
-        "sha256": "sha256:b1bc076928f1560bf487a92889983b7a0043dcb648bc3b24e2a48dcfd14eee8e",
-        "source_url": "https://github.com/cursor",
-        "accessed_at": "2026-09-21"
+        "path": "logos/cursor.svg",
+        "media_type": "image/svg+xml",
+        "width": 467,
+        "height": 533,
+        "bytes": 541,
+        "sha256": "sha256:68ade1cd692678d00087a72058992ab7d29ff5e4efe565dbef2cf973fd24df1d",
+        "source_url": "https://cursor.com/brand",
+        "accessed_at": "2026-09-25"
       }
     },
     {
@@ -39658,14 +39658,14 @@
       "name": "Deel",
       "homepage": "https://www.deel.com/",
       "logo": {
-        "path": "logos/deel.png",
-        "media_type": "image/png",
-        "width": 240,
-        "height": 240,
-        "bytes": 5438,
-        "sha256": "sha256:a48d82c9431d40a1d874cebef39fdabf385087f66c71c07b0ad242e955e9601c",
-        "source_url": "https://github.com/letsdeel",
-        "accessed_at": "2026-09-21"
+        "path": "logos/deel.svg",
+        "media_type": "image/svg+xml",
+        "width": 153,
+        "height": 140,
+        "bytes": 691,
+        "sha256": "sha256:3c054e27bca6bcffea5cc25ad3779057da4de3d035c4e2a97e5e7105bd55a2a4",
+        "source_url": "https://www.deel.com/press/",
+        "accessed_at": "2026-09-25"
       }
     },
     {
@@ -39688,14 +39688,14 @@
       "name": "DoorDash",
       "homepage": "https://www.doordash.com/",
       "logo": {
-        "path": "logos/doordash.png",
-        "media_type": "image/png",
-        "width": 460,
-        "height": 460,
-        "bytes": 5012,
-        "sha256": "sha256:896154ba141aeb451484f47e09fa9530f6dad16b372a5bd8b42279ca787dba00",
-        "source_url": "https://github.com/doordash",
-        "accessed_at": "2026-09-15"
+        "path": "logos/doordash.svg",
+        "media_type": "image/svg+xml",
+        "width": 32,
+        "height": 18,
+        "bytes": 431,
+        "sha256": "sha256:3843e09805541a4e9fae8674ed22cbcb1d2ab059ae487504095ce5109c0b6033",
+        "source_url": "https://commons.wikimedia.org/wiki/File:DoorDash_Logo.svg",
+        "accessed_at": "2026-09-25"
       }
     },
     {
@@ -39718,14 +39718,14 @@
       "name": "Duolingo",
       "homepage": "https://www.duolingo.com/",
       "logo": {
-        "path": "logos/duolingo.png",
-        "media_type": "image/png",
-        "width": 460,
-        "height": 460,
-        "bytes": 21633,
-        "sha256": "sha256:edd7c7f0d5b222311960bbed41db0aedace66c6e4c2b9645dffb30a71cdbc903",
-        "source_url": "https://github.com/duolingo",
-        "accessed_at": "2026-09-21"
+        "path": "logos/duolingo.svg",
+        "media_type": "image/svg+xml",
+        "width": 170,
+        "height": 163,
+        "bytes": 7181,
+        "sha256": "sha256:97387e1cff990e23043cfb0e81a66ad99cc30b85bd9b82c67ab0085c4417b2ca",
+        "source_url": "https://design.duolingo.com/illustration/duo",
+        "accessed_at": "2026-09-25"
       }
     },
     {
@@ -39733,14 +39733,14 @@
       "name": "Figma",
       "homepage": "https://www.figma.com/",
       "logo": {
-        "path": "logos/figma.png",
-        "media_type": "image/png",
-        "width": 460,
-        "height": 460,
-        "bytes": 9037,
-        "sha256": "sha256:e9790868d8ef0b8d7a94c0ed6e9285e34b10348c82f0c52f796093f3cc694af4",
-        "source_url": "https://github.com/figma",
-        "accessed_at": "2026-09-21"
+        "path": "logos/figma.svg",
+        "media_type": "image/svg+xml",
+        "width": 38,
+        "height": 57,
+        "bytes": 479,
+        "sha256": "sha256:7a0a9c66f50c5e21fb10a849539c7ff212e4acab35ee3db15bc2282264afb6ed",
+        "source_url": "https://www.figma.com/using-the-figma-brand/",
+        "accessed_at": "2026-09-25"
       }
     },
     {
@@ -39823,14 +39823,14 @@
       "name": "Meta",
       "homepage": "https://about.meta.com/",
       "logo": {
-        "path": "logos/meta.png",
-        "media_type": "image/png",
-        "width": 400,
-        "height": 400,
-        "bytes": 16887,
-        "sha256": "sha256:3876b393102ffb040fbac5d953f1ec01586d91932634052c8662376e60b0ca57",
-        "source_url": "https://github.com/facebook",
-        "accessed_at": "2026-09-21"
+        "path": "logos/meta.svg",
+        "media_type": "image/svg+xml",
+        "width": 288,
+        "height": 191,
+        "bytes": 2128,
+        "sha256": "sha256:70ccf9489e64692d723826034a05a7924db61c4e4c654d64a2f408d9d721d1d3",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Meta_Platforms_Inc._logo_(cropped).svg",
+        "accessed_at": "2026-09-25"
       }
     },
     {
@@ -39838,14 +39838,14 @@
       "name": "Microsoft",
       "homepage": "https://www.microsoft.com/",
       "logo": {
-        "path": "logos/microsoft.png",
-        "media_type": "image/png",
-        "width": 460,
-        "height": 460,
-        "bytes": 1669,
-        "sha256": "sha256:45b898f579d3e610f40533bf9183524bbe82c93460b37842d7fe851b55219328",
-        "source_url": "https://github.com/microsoft",
-        "accessed_at": "2026-09-16"
+        "path": "logos/microsoft.svg",
+        "media_type": "image/svg+xml",
+        "width": 21,
+        "height": 21,
+        "bytes": 233,
+        "sha256": "sha256:d7a7962be60e45bf9489fe0ecfdfb134acba592c7c27f5bc0ce92667869eb09f",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Microsoft_logo.svg",
+        "accessed_at": "2026-09-25"
       }
     },
     {
@@ -39883,14 +39883,14 @@
       "name": "OpenAI",
       "homepage": "https://openai.com/",
       "logo": {
-        "path": "logos/openai.png",
-        "media_type": "image/png",
-        "width": 200,
-        "height": 200,
-        "bytes": 4081,
-        "sha256": "sha256:6025a4347a8eaed17e31eaebf7834e33ec4af26cc7f59be586ac59ba5157fa1c",
-        "source_url": "https://github.com/openai",
-        "accessed_at": "2026-09-16"
+        "path": "logos/openai.svg",
+        "media_type": "image/svg+xml",
+        "width": 356,
+        "height": 356,
+        "bytes": 2421,
+        "sha256": "sha256:2618f66d1a51ed7ed2a7bd7067c1c6855115936490f9a66f01257e9ef1a8af33",
+        "source_url": "https://openai.com/brand/",
+        "accessed_at": "2026-09-25"
       }
     },
     {
@@ -40033,14 +40033,14 @@
       "name": "Snap",
       "homepage": "https://www.snap.com/",
       "logo": {
-        "path": "logos/snap.png",
-        "media_type": "image/png",
-        "width": 460,
-        "height": 460,
-        "bytes": 15435,
-        "sha256": "sha256:b191e658f5aae89de4f10177ca8d972fd75f05b200e0bb1ecbbce792dfef01ef",
-        "source_url": "https://github.com/Snapchat",
-        "accessed_at": "2026-09-21"
+        "path": "logos/snap.svg",
+        "media_type": "image/svg+xml",
+        "width": 1024,
+        "height": 1024,
+        "bytes": 4327,
+        "sha256": "sha256:82b56a58c7714f8cad5b9093bcd7e4d59f64e62f0c156f70ce3a0c0b3da5d0c1",
+        "source_url": "https://snap.com/en-US/brand-guidelines",
+        "accessed_at": "2026-09-25"
       }
     },
     {
@@ -40078,14 +40078,14 @@
       "name": "StrongDM",
       "homepage": "https://www.strongdm.com/",
       "logo": {
-        "path": "logos/strongdm.png",
-        "media_type": "image/png",
-        "width": 804,
-        "height": 217,
-        "bytes": 7165,
-        "sha256": "sha256:41033bb3a9c31ec70ef5c954e8417522018650943c3c2fc5610053c805107510",
-        "source_url": "https://docs.strongdm.com/",
-        "accessed_at": "2026-09-15"
+        "path": "logos/strongdm.svg",
+        "media_type": "image/svg+xml",
+        "width": 316,
+        "height": 68,
+        "bytes": 4723,
+        "sha256": "sha256:5f96bc49b657d654ad5c3e52ace7b374f3800a47b820f77a4810762440081607",
+        "source_url": "https://www.strongdm.com/hubfs/brand/strongdm-logo.svg",
+        "accessed_at": "2026-09-25"
       }
     },
     {
@@ -40093,14 +40093,14 @@
       "name": "Uber",
       "homepage": "https://www.uber.com/",
       "logo": {
-        "path": "logos/uber.png",
-        "media_type": "image/png",
-        "width": 858,
-        "height": 375,
-        "bytes": 5778,
-        "sha256": "sha256:4252a887e54aaacc77fc04a9e645af195df46c4f295ded21598dce06e50dde5e",
-        "source_url": "https://developer.uber.com/docs/riders/guides/design-guidelines",
-        "accessed_at": "2026-09-15"
+        "path": "logos/uber.svg",
+        "media_type": "image/svg+xml",
+        "width": 205,
+        "height": 72,
+        "bytes": 1046,
+        "sha256": "sha256:27ef519d55a4453c837aa529080856e32d48da078dfb70d264a7935d760167eb",
+        "source_url": "https://brand.uber.com/",
+        "accessed_at": "2026-09-25"
       }
     },
     {

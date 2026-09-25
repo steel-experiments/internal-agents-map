@@ -37,7 +37,7 @@ undocumented details stay unknown.
 | Airbnb | [Datako](docs/landscape.md#airbnb-datako) | agent | data |
 | Airbnb | [Pascal](docs/landscape.md#airbnb-pascal) | agent | research |
 | Amplitude | [Design Agent](docs/landscape.md#amplitude-design-agent) | agent | design |
-| Atlassian | [Rovo Dev (RovoDev)](docs/landscape.md#atlassian-rovo-dev) | agent | coding, code-review |
+| Atlassian | [Rovo Dev](docs/landscape.md#atlassian-rovo-dev) | agent | coding, code-review |
 | Bitrise | [Kolega](docs/landscape.md#bitrise-kolega) | agent | coding, code-review, ci-triage, maintenance |
 | Block | [Builderbot](docs/landscape.md#block-builderbot) | agent | coding, code-review |
 | Brex | [Collections response agent](docs/landscape.md#brex-collections) | agent | finance-ops |
@@ -46,7 +46,7 @@ undocumented details stay unknown.
 | Brex | [Support quality agent](docs/landscape.md#brex-support-qa) | agent | support |
 | Cloudflare | [AI Code Reviewer](docs/landscape.md#cloudflare-code-reviewer) | agent | code-review |
 | Coinbase | [Forge](docs/landscape.md#coinbase-forge-mux) | agent | coding, code-review |
-| Cursor | [Support investigation workflow in Cursor](docs/landscape.md#cursor-support-workflow) | agent | support |
+| Cursor | [Support investigation workflow](docs/landscape.md#cursor-support-workflow) | agent | support |
 | Deel | [Four-stage payroll sync triage pipeline](docs/landscape.md#deel-payroll-incident-agents) | agent | finance-ops, ops |
 | Domu | [Clementino](docs/landscape.md#domu-clementino) | agent | support, finance-ops, coding, recruitment, customer-success |
 | DoorDash | [AI Code Review Agent](docs/landscape.md#doordash-code-review) | agent | code-review |
