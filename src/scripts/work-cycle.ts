@@ -3,6 +3,8 @@
 
 import { animate } from 'motion';
 
+import { fadingDash } from './dash';
+
 /** How long one pass of the cycle takes. */
 const CYCLE_SECONDS = 7;
 
@@ -69,7 +71,7 @@ export function startWorkCycle(): void {
   const lit = find('.cycle-trigger-on');
   const spinner = find('.cycle-spinner');
   const result = find('.cycle-result-dot');
-  const signal = find<SVGCircleElement>('.cycle-signal');
+  const signal = find<SVGPathElement>('.cycle-signal');
   const legs = ['#cycle-in', '#cycle-work', '#cycle-out'].map((id) => find<SVGPathElement>(id));
   if (!lit || !spinner || !result || !signal || legs.some((leg) => !leg)) return;
 
@@ -81,14 +83,14 @@ export function startWorkCycle(): void {
 
   /**
    * Put the signal on one leg of the path, or take it off the page.
-   * A signal keeps a constant speed: easing it would read as a state change
-   * rather than as something crossing the distance.
+   * The signal is a dash of the leg itself, so it follows the leg's line, and
+   * it keeps a constant speed: easing it would read as a state change rather
+   * than as something crossing the distance.
    */
+  const dash = fadingDash(signal);
   const carry = (leg: SVGPathElement | null, along: number | null): boolean => {
     if (!leg || along === null) return false;
-    const at = leg.getPointAtLength(along * leg.getTotalLength());
-    signal.setAttribute('cx', String(at.x));
-    signal.setAttribute('cy', String(at.y));
+    dash.place(along, leg);
     signal.setAttribute('opacity', String(pulse(along, 0.18, 0.18)));
     return true;
   };

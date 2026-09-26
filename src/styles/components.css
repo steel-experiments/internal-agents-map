@@ -3,8 +3,8 @@
 
 /* Directory introduction */
 .intro {
-  padding: 0 0 32px;
-  margin-bottom: 32px;
+  padding: 0 0 16px;
+  margin-bottom: 16px;
 }
 
 .intro h1 { margin-top: 0; }
@@ -36,40 +36,6 @@
   color: var(--muted);
 }
 /* The problem entry points: a label and a row of links in the shape of a tag. */
-.problem-links { margin-top: 32px; }
-.problem-links h2 {
-  margin: 0 0 10px;
-  font-size: var(--text-sm);
-  font-weight: 400;
-  color: var(--muted);
-}
-.problem-links ul {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.problem-links li { margin: 0; padding: 0; line-height: 16px; }
-.problem-links a {
-  display: inline-block;
-  padding: 3px 9px;
-  border-radius: 999px;
-  background: var(--sand-3);
-  color: var(--ink);
-  font-size: var(--text-sm);
-  line-height: 16px;
-  text-decoration: none;
-}
-@media (hover: hover) {
-  .problem-links a:hover { background: var(--blue-3); color: var(--blue-9); }
-}
-@media (max-width: 800px) {
-  .problem-links a { padding: 4px 11px; }
-}
-
 /* The company mark, in a card and at the top of an entry. */
 .entry-heading {
   display: flex;
@@ -142,8 +108,7 @@
 /* An accent badge is not dimmed with the rest: it stands as it is. */
 .entry-box:hover .tags > .tag-type,
 .entry-box:hover .tags > .tag-match,
-.entry-box:hover .tags > .tag-company,
-.entry-box:hover .tags > .tag-documented { color: var(--blue-9); }
+.entry-box:hover .tags > .tag-company { color: var(--blue-9); }
 }
 /* The heading link covers the container, so the whole card opens the entry. */
 .entry-box h3 a::after {
@@ -159,92 +124,46 @@
   gap: 16px;
   margin-bottom: 8px;
 }
-/* The bookmark is a dog-ear: the top right corner of a directory card folds
-   down over the card. --fold is the length of the two folded edges. It is
-   registered as a length so that it can animate. */
-@property --fold {
-  syntax: '<length>';
-  inherits: true;
-  initial-value: 0px;
-}
+/* The mark that keeps a card: an icon at the top right corner, above the
+   heading link that covers the card, so a click on it stays on the page. Only
+   a boxed directory card carries one. */
 .entry-bookmark { display: none; }
-.entries > .entry {
-  position: relative;
-  --fold: 0px;
-}
-/* The button is a fixed target at the corner, above the heading link that
-   covers the card, so a click on it keeps the reader on the page. Only the
-   boxed directory card has a corner to fold and an order to change. */
+.entries > .entry { position: relative; }
 .entries .entry-bookmark:not([hidden]) {
   position: absolute;
   z-index: 1;
-  top: 0;
-  right: 0;
-  display: block;
-  width: 48px;
-  height: 48px;
+  /* The icon sits on the line of the badges: centred on the first row, and as
+     far in from the right edge as they are from the left. The target around
+     it is larger than the icon, by the same margin on every side. */
+  top: 21.5px;
+  right: 19px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
   padding: 0;
   border: 0;
-  border-radius: 0 26px 0 0;
+  border-radius: 999px;
   background: none;
+  color: var(--sand-8);
   cursor: pointer;
 }
-/* The corner that folds away shows the page behind the card. The square is
-   one pixel out from the card, so that it also covers the card border. */
-.entries .entry-bookmark::before,
-.entry-fold {
-  position: absolute;
-  top: -1px;
-  right: -1px;
-  width: var(--fold);
-  height: var(--fold);
+.entries .entry-bookmark .icon { display: block; }
+/* A kept card fills its mark in the one accent. */
+.entries .entry-bookmark[aria-pressed="true"] {
+  color: var(--blue-9);
 }
-.entries .entry-bookmark::before {
-  content: "";
-  background: var(--sand-1);
-  clip-path: polygon(0 0, 100% 0, 100% 100%);
-}
-/* The flap is the back of the corner, turned over the crease. The crease is
-   the diagonal of the square, and the rounded corner of the card lands at the
-   opposite corner of the square. The shadow is on the wrapper, so it follows
-   the clipped shape of the flap. */
-.entry-fold {
-  filter: drop-shadow(-1px 2px 1.5px rgba(0, 0, 0, .08));
-}
-.entry-fold::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  /* An inset shadow draws the edge: unlike a border, it draws nothing while
-     the fold has no size. */
-  box-shadow: inset .5px -.5px 0 var(--sand-6);
-  border-radius: 0 0 0 26px;
-  background: linear-gradient(to bottom left, var(--sand-4) 50%, var(--sand-2) 80%, var(--sand-3));
-  clip-path: polygon(0 0, 100% 100%, 0 100%);
-}
-.entries .entry-bookmark[aria-pressed="true"] .entry-fold::before {
-  box-shadow: inset .5px -.5px 0 var(--blue-6);
-  background: linear-gradient(to bottom left, var(--blue-5) 50%, var(--blue-3) 80%, var(--blue-4));
-}
-/* A bookmarked card keeps its corner folded. */
-.entries > .entry:has([aria-pressed="true"]) { --fold: 30px; }
-/* Without hover the corner shows a small fold, so the reader can find it. */
-@media (hover: none) {
-  .entries > .entry:has([aria-pressed="false"]) { --fold: 20px; }
-}
-/* On hover the corner starts to peel. Over the corner it lifts further, and
-   a bookmarked corner presses flat under the pointer. */
+.entries .entry-bookmark[aria-pressed="true"] .icon { fill: currentColor; }
 @media (hover: hover) {
-  .entries > .entry:hover { --fold: 22px; }
-  .entries > .entry:has([aria-pressed="false"]:hover) { --fold: 40px; }
-  .entries > .entry:has([aria-pressed="true"]:hover) { --fold: 32px; }
+  .entries .entry-bookmark:hover { color: var(--blue-9); background: var(--blue-3); }
 }
-.entries > .entry:has([aria-pressed="false"]:focus-visible) { --fold: 40px; }
-.entries .entry-bookmark:focus-visible { outline-offset: -4px; }
+.entries .entry-bookmark:focus-visible { outline-offset: 0; }
 @media (prefers-reduced-motion: no-preference) {
-  .entries > .entry { transition: --fold var(--hover-out) var(--ease-out); }
-  .entries > .entry:hover { transition-duration: var(--hover-in); }
+  .entries .entry-bookmark { transition: color var(--hover-out) var(--ease-out), background-color var(--hover-out) var(--ease-out); }
+  .entries .entry-bookmark .icon { transition: fill var(--hover-in) var(--ease-out); }
+  .entries .entry-bookmark:hover { transition-duration: var(--hover-in); }
 }
+
 .company {
   font-size: var(--text-xs);
   font-weight: 400;
@@ -253,7 +172,7 @@
   font-size: var(--text-xs);
   color: var(--muted);
 }
-.entry h3 { margin-bottom: 0; font-size: var(--text-md); }
+.entry h3 { margin-bottom: 0; font-size: var(--text-lg); }
 .entry h3 a {
   color: var(--ink);
   text-decoration: none;
@@ -280,21 +199,10 @@
   background: var(--sand-3);
   font-size: var(--text-sm);
   line-height: 16px;
-  padding: 3px 9px;
+  padding: 4px 9px 5px;
   border-radius: 999px;
   color: var(--sand-10);
 }
-/* The evidence badge is one more tag in the row, with an outline instead of a
-   fill, so it does not read as one more category. */
-.tags > .tag-documented {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: none;
-  box-shadow: inset 0 0 0 1px var(--blue-6);
-  color: var(--blue-9);
-}
-.tag-documented .icon { flex: none; }
 
 /* The directory holds its entries as cards: a grid of white panels in the
    proportions of the design, four wide to five tall. Each card carries its
@@ -306,8 +214,10 @@
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 16px;
 }
-/* The heading names the whole grid, so it takes a row to itself. */
-.entries > .collection-heading { grid-column: 1 / -1; }
+/* A titled group of cards keeps the rhythm of any other section. */
+.card-group { padding: 20px 0; }
+.card-group:first-child { padding-top: 0; }
+.card-group > h2 { margin-bottom: 16px; }
 .entries > .entry { margin-bottom: 0; }
 .entries .entry-box {
   display: flex;
@@ -349,15 +259,10 @@
   .entries .entry-box:hover h3 a { color: var(--ink); }
   .entries .entry-box:hover .entry-summary { color: var(--sand-10); }
   .entries .entry-box:hover .tag { color: var(--sand-10); }
-  .entries .entry-box:hover .tag-documented { color: var(--blue-9); }
-  .entries .entry-box:hover {
-    box-shadow:
-      0 10px 12px rgba(0, 0, 0, .02),
-      0 3px 5px rgba(0, 0, 0, .03);
-  }
+  .entries .entry-box:hover { background: var(--sand-2); }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .entries .entry-box { transition: box-shadow var(--hover-out) var(--ease-out); }
+  .entries .entry-box { transition: background-color var(--hover-out) var(--ease-out); }
   .entries .entry-box:hover { transition-duration: var(--hover-in); }
 }
 
@@ -378,8 +283,9 @@
   text-decoration: none;
 }
 /* The invitation that closes the page body. */
+/* The invite follows the page on the same rhythm as its sections. */
 .contribution-invite {
-  margin-top: 32px;
+  margin-top: 16px;
 }
 .contribution-invite strong {
   display: block;
@@ -433,10 +339,6 @@
   margin-top: 12px;
   max-width: 700px;
 }
-.entry-header .lede {
-  font-size: var(--text-sm);
-  line-height: 1.5;
-}
 .notice {
   padding: 20px;
   margin-top: 24px;
@@ -455,8 +357,9 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px 24px;
-  margin-top: 8px;
-  padding: 24px 0;
+  /* A list's own trailing margin would add to the section's spacing below it. */
+  margin: 8px 0 0;
+  padding: 16px 0 0;
 }
 .entry-facts dt {
   font-size: var(--text-sm);
@@ -467,7 +370,7 @@
   font-weight: 400;
 }
 .entry-section {
-  padding: 24px 0;
+  padding: 20px 0;
 }
 .entry-section > h2 { margin-bottom: 8px; }
 /* The workflow steps: one panel, its rows divided. */
@@ -648,7 +551,7 @@
 }
 /* The architecture table keeps its label column on one line, and marks the
    fields the sources do not report. */
-.architecture { margin-top: 16px; }
+.architecture { margin: 16px 0 0; }
 .architecture dt { white-space: nowrap; }
 .architecture .is-unreported { color: var(--sand-9); }
 .architecture-note,
@@ -933,7 +836,6 @@
   }
   .stat + .stat { border-left: 0; padding-left: 0; }
   .entry-top { align-items: start; }
-  .entry-header .lede { font-size: var(--text-md); }
   /*
    * A narrow screen has no room for two columns, so each field stands over its
    * value and the pairs are set apart. The rules that divided the columns would
@@ -1339,7 +1241,6 @@
 }
 
 /* Separate the infrastructure group when all records are shown. */
-.collection-heading { margin-top: 32px; }
 
 /* Company indexes reuse the entry shell and unboxed catalog previews. */
 .organization-website { display: inline-flex; align-items: center; gap: 4px; color: var(--sand-10); }

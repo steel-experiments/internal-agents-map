@@ -119,7 +119,7 @@ const image = ogImage ?? { url: OG_IMAGE, alt: OG_IMAGE_ALT };
     <slot />
     <ContributionInvite />
   </main>
-  {path !== homePath() && path !== '/infrastructure' && (
+  {path !== '/infrastructure' && (
     <aside id="contents" class="contents" aria-label="Table of contents" hidden></aside>
   )}
 </div>

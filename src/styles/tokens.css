@@ -34,9 +34,25 @@ html {
      apart, so a mark reads lighter than the text it accompanies. */
   --accent: var(--sand-9);
   --link: var(--sand-11);
-  /* The wordmark is the one element off the Sand scale and off Areal. */
+  /* The headings and the wordmark share a face and a colour: the serif, and the
+     one blue on the page. */
   --brand: #0700e1;
   --font-brand: 'Nanum Myeongjo', Georgia, 'Times New Roman', serif;
+  /* Every blue is a step of that one, mixed rather than taken from the imported
+     scale, which carries its own hue. Nine is the accent itself; the steps
+     below it are the tints a badge or a rule is drawn in, and ten is the one
+     step darker that a hover moves to. */
+  --blue-3: color-mix(in srgb, var(--brand) 8%, #fff);
+  --blue-4: color-mix(in srgb, var(--brand) 12%, #fff);
+  --blue-5: color-mix(in srgb, var(--brand) 18%, #fff);
+  --blue-6: color-mix(in srgb, var(--brand) 26%, #fff);
+  --blue-8: color-mix(in srgb, var(--brand) 55%, #fff);
+  --blue-9: var(--brand);
+  --blue-10: color-mix(in srgb, var(--brand) 85%, #000);
+  /* Every drawing is ruled in one line: light, thin, and the same throughout,
+     so the accent marks are what the eye goes to. */
+  --figure-line: var(--sand-6);
+  --figure-line-width: 1;
   /* A firm ease-out: quick to answer a pointer, unhurried on the way back. */
   --ease-out: cubic-bezier(.22, 1, .36, 1);
   --hover-in: 120ms;
@@ -47,6 +63,8 @@ html {
   --text-sm: 14px;
   --text-md: 16px;
   --text-lg: 20px;
+  /* The size a page title and the wordmark beside it share. */
+  --text-title: 24px;
   --text-xl: 32px;
   /* A triangle, for the markers that are not catalog entries. */
   --triangle: polygon(50% 0%, 100% 100%, 0% 100%);
@@ -83,19 +101,23 @@ button, select {
   outline: 1px solid var(--ink);
   outline-offset: 2px;
 }
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5, h6 {
   margin: 0;
-  font-weight: 500;
+  font-family: var(--font-brand);
+  /* The face is cut in one weight, so a heading takes the weight it is drawn
+     in rather than asking for one the file does not carry. */
+  font-weight: 800;
   line-height: 1.2;
-  letter-spacing: -.035em;
+  /* The serif sets wider than Areal and needs none of its tightening. */
+  letter-spacing: -.01em;
 }
 p {
   margin: 0;
 }
-h1 { font-size: var(--text-lg); margin-bottom: 16px; }
-h2 { font-size: var(--text-md); }
-h3 { font-size: var(--text-md); }
-h4 { font-size: var(--text-md); }
+h1 { font-size: var(--text-title); margin-bottom: 16px; }
+h2 { font-size: var(--text-lg); }
+h3 { font-size: var(--text-lg); }
+h4 { font-size: var(--text-lg); }
 /* Inline emphasis uses tone while preserving the surrounding text weight. */
 strong, b { font-weight: inherit; color: var(--ink); }
 p + p { margin-top: 16px; }
@@ -126,12 +148,13 @@ details[open] > summary::before { transform: rotate(90deg); }
   color: var(--muted);
 
 }
+/* A page opens on one paragraph, at the size of the body and in its grey. */
 .lede {
   font-size: var(--text-sm);
-  line-height: 1.45;
-  letter-spacing: -.02em;
+  line-height: 1.6;
   margin-top: 24px;
   max-width: 630px;
+  color: var(--sand-10);
 }
 @media (max-width: 800px) {
   /* A phone's scrollbar floats over the page, so no column is held for it. */
@@ -141,6 +164,7 @@ details[open] > summary::before { transform: rotate(90deg); }
     --text-sm: 16px;
     --text-md: 18px;
     --text-lg: 22px;
+    --text-title: 26px;
   }
   .lede { margin-top: 16px; }
 }

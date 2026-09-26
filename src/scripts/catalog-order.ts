@@ -1,6 +1,8 @@
 // ABOUTME: Sorts the directory cards and the palette items, bookmarked first, then featured and well documented, or A–Z.
 // ABOUTME: The HTML already holds the default order; the URL keeps the A–Z choice as ?sort=az.
 
+import { animate } from 'motion';
+
 import { readBookmarks, toggled, writeBookmarks } from './bookmarks';
 
 export type CatalogOrder = 'documented' | 'az';
@@ -69,6 +71,52 @@ function sortedLists(): Element[] {
   ];
 }
 
+/** How long the mark takes to answer a click, before any card moves. */
+const MARK_SECONDS = 0.28;
+/** How long the cards take to move from where they stood to where they land. */
+const SHIFT_SECONDS = 0.45;
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+/** Readers who ask for less motion get the new order at once. */
+function reducedMotion(): boolean {
+  return typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+/** The card moves still in flight, so the next change settles them first. */
+let shifting: { stop: () => void }[] = [];
+
+/**
+ * Put the lists in their new order, and carry every directory card from the
+ * place it held to the place it now has, rather than letting it jump there.
+ */
+function shift(order: CatalogOrder): void {
+  for (const move of shifting) move.stop();
+  shifting = [];
+  const cards = [...document.querySelectorAll<HTMLElement>('.entries > .entry')];
+  for (const card of cards) card.style.removeProperty('transform');
+  const before = new Map(cards.map((card) => [card, card.getBoundingClientRect()]));
+  show(order);
+  if (reducedMotion()) return;
+  for (const card of cards) {
+    const from = before.get(card);
+    const to = card.getBoundingClientRect();
+    if (!from) continue;
+    const dx = from.left - to.left;
+    const dy = from.top - to.top;
+    if (dx === 0 && dy === 0) continue;
+    const move = animate(
+      card,
+      { transform: [`translate(${dx}px, ${dy}px)`, 'translate(0px, 0px)'] },
+      { duration: SHIFT_SECONDS, ease: EASE },
+    );
+    const settle = (): void => {
+      card.style.removeProperty('transform');
+    };
+    move.finished.then(settle, settle);
+    shifting.push(move);
+  }
+}
+
 function show(order: CatalogOrder): void {
   const bookmarks = readBookmarks();
   for (const list of sortedLists()) sortChildren(list, order, bookmarks);
@@ -92,9 +140,17 @@ export function startCatalogOrder(): void {
   show(order);
   for (const bookmark of document.querySelectorAll<HTMLButtonElement>('[data-bookmark]')) {
     bookmark.hidden = false;
-    bookmark.addEventListener('click', () => {
-      writeBookmarks(toggled(readBookmarks(), bookmark.dataset.bookmark ?? ''));
-      show(order);
+    bookmark.addEventListener('click', async () => {
+      const id = bookmark.dataset.bookmark ?? '';
+      const next = toggled(readBookmarks(), id);
+      writeBookmarks(next);
+      // The mark answers first, under the pointer; the cards move once it has.
+      bookmark.setAttribute('aria-pressed', String(next.has(id)));
+      const icon = bookmark.querySelector<SVGElement>('.icon');
+      if (icon && !reducedMotion()) {
+        await animate(icon, { scale: [1, 1.3, 1] }, { duration: MARK_SECONDS, ease: EASE }).finished;
+      }
+      shift(order);
     });
   }
   for (const option of document.querySelectorAll<HTMLButtonElement>('[data-sort-option]')) {

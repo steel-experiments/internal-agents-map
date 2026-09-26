@@ -43,8 +43,7 @@ const graph = structuredData([
 >
   <header class="guide-header">
     <h1>{LESSONS_HEADING}</h1>
-    <p class="lede">{LESSONS_LEDE}</p>
-    <p>{LESSONS_INTRO_BEFORE}<a href={`${homePath()}#catalog`}>agent catalog</a>{LESSONS_INTRO_AFTER}</p>
+    <p class="lede">{LESSONS_LEDE} {LESSONS_INTRO_BEFORE}<a href={`${homePath()}#catalog`}>agent catalog</a>{LESSONS_INTRO_AFTER}</p>
   </header>
   <div class="lesson-list">
     {lessons.map((lesson) => (

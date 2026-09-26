@@ -3,6 +3,8 @@
 
 import { animate } from 'motion';
 
+import { fadingDash } from './dash';
+
 /** How long one signal takes to cross a link, unless its diagram states otherwise. */
 const TRAVEL_SECONDS = 2.6;
 /** How long the gap is before a signal sets off again. */
@@ -36,12 +38,15 @@ export function startSignals(): void {
 
   for (const scene of document.querySelectorAll<HTMLElement | SVGElement>('[data-signals]')) {
     const travel = Number(scene.dataset.signals) || TRAVEL_SECONDS;
-    for (const signal of scene.querySelectorAll<SVGCircleElement>('.signal')) {
+    for (const signal of scene.querySelectorAll<SVGCircleElement | SVGPathElement>('.signal')) {
       const link = scene.querySelector<SVGPathElement>(`#${signal.dataset.link}`);
       if (!link) continue;
       const span = link.getTotalLength();
       // A returning signal walks the same link backwards, from the far end home.
       const returning = signal.dataset.return !== undefined;
+      // A signal drawn as a path travels as a dash of the link; a circle is
+      // placed at a point instead.
+      const dash = signal instanceof SVGPathElement ? fadingDash(signal) : null;
 
       const crossed = animate(0, 1, {
         duration: travel,
@@ -50,9 +55,14 @@ export function startSignals(): void {
         repeatDelay: REPEAT_SECONDS,
         delay: Number(signal.dataset.delay ?? 0),
         onUpdate: (progress: number) => {
-          const at = link.getPointAtLength((returning ? 1 - progress : progress) * span);
-          signal.setAttribute('cx', String(at.x));
-          signal.setAttribute('cy', String(at.y));
+          const along = returning ? 1 - progress : progress;
+          if (dash) {
+            dash.place(along, link);
+          } else {
+            const at = link.getPointAtLength(along * span);
+            signal.setAttribute('cx', String(at.x));
+            signal.setAttribute('cy', String(at.y));
+          }
           signal.style.opacity = String(fade(progress));
         },
       });

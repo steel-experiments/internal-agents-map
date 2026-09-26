@@ -228,8 +228,8 @@ describe('the directory model', () => {
   });
 
   it('names every card by its company and its name, as the palette does', () => {
-    for (const card of cards) expect(card.title).toBe(`${card.company} · ${card.agentName}`);
-    expect(cards.find((card) => card.id === 'brex-disputes')?.title).toBe('Brex · Dispute preparation agent');
+    for (const card of cards) expect(card.title).toBe(`${card.company}'s ${card.agentName}`);
+    expect(cards.find((card) => card.id === 'brex-disputes')?.title).toBe("Brex's Dispute preparation agent");
   });
 
   it('carries a summary and a link for every card', () => {

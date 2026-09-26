@@ -56,6 +56,9 @@ export function startContents(): void {
   for (const node of main.querySelectorAll('section[id], h2[id]')) {
     // A heading inside a section is already spoken for by the section itself.
     if (node.tagName === 'H2' && node.closest('section[id]') !== null) continue;
+    // A section that holds sections is their container: its own entries stand
+    // in the rail, and it does not.
+    if (node.tagName === 'SECTION' && node.querySelector('section[id]') !== null) continue;
     const label = node.tagName === 'H2' ? headingText(node) : heading(node);
     if (!label) continue;
     const item = document.createElement('li');

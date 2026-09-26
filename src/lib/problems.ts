@@ -66,6 +66,39 @@ export const PROBLEMS: readonly Problem[] = [
 ];
 
 /** The problems that have a page of their own. */
+/** A titled run of cards on the homepage: one problem, or the agents no problem holds. */
+export interface CardGroup {
+  readonly id: string;
+  readonly title: string;
+  readonly cards: readonly DirectoryCard[];
+}
+
+/** The group that closes the homepage, holding every agent no problem claims. */
+export const MORE_AGENTS = { id: 'more-agents', title: 'More agents' } as const;
+
+/**
+ * Split the homepage's cards by the problems the site offers. A card joins
+ * the first problem whose work domains it carries, so each card is on the page
+ * once and keeps its one anchor; the cards no problem claims close the page
+ * together. A problem that is its own page, such as infrastructure, holds none.
+ */
+export function catalogGroups(cards: readonly DirectoryCard[]): CardGroup[] {
+  const placed = new Set<string>();
+  const groups: CardGroup[] = [];
+  for (const problem of PROBLEMS) {
+    const domains = problem.domains;
+    if (!domains) continue;
+    const held = cards.filter(
+      (card) => !placed.has(card.id) && card.domains.some((domain) => domains.includes(domain.id)),
+    );
+    for (const card of held) placed.add(card.id);
+    if (held.length > 0) groups.push({ id: problem.slug, title: problem.label, cards: held });
+  }
+  const rest = cards.filter((card) => !placed.has(card.id));
+  if (rest.length > 0) groups.push({ ...MORE_AGENTS, cards: rest });
+  return groups;
+}
+
 export function problemPages(): Problem[] {
   return PROBLEMS.filter((item) => item.domains !== null);
 }

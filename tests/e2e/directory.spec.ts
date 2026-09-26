@@ -32,10 +32,10 @@ test.describe('the directory without javascript', () => {
 
   test('names each card by its company and its name', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('#brex-disputes h3')).toHaveText('Brex · Dispute preparation agent');
-    await expect(page.locator('#brex-disputes .entry-bookmark')).toHaveAttribute('aria-label', 'Bookmark Brex · Dispute preparation agent');
+    await expect(page.locator('#brex-disputes h3')).toHaveText("Brex's Dispute preparation agent");
+    await expect(page.locator('#brex-disputes .entry-bookmark')).toHaveAttribute('aria-label', "Bookmark Brex's Dispute preparation agent");
     await page.goto('/infrastructure');
-    await expect(page.locator('#dropbox-nova h3')).toHaveText('Dropbox · Nova');
+    await expect(page.locator('#dropbox-nova h3')).toHaveText("Dropbox's Nova");
   });
 
   test('shows every entry link', async ({ page }) => {
@@ -412,27 +412,31 @@ test.describe('the site chrome', () => {
 
 test.describe('the directory order', () => {
   /** The card identifiers in the order the agents grid shows them. */
-  const cardOrder = (page: Page) =>
-    page.locator('[data-collection-group="agents"] article.entry').evaluateAll((nodes) =>
-      nodes.map((node) => ({
-        id: node.id,
-        documented: node.getAttribute('data-well-documented') === 'true',
-        featured: node.getAttribute('data-featured') === 'true',
-        rank: Number(node.getAttribute('data-alphabetical-rank')),
-      })),
+  /** The agent cards of each grid on the page, in the order they stand. The
+      homepage groups its cards, and the order holds within each group. */
+  const cardGroups = (page: Page) =>
+    page.locator('[data-collection-group="agents"] .entries').evaluateAll((grids) =>
+      grids.map((grid) =>
+        [...grid.querySelectorAll('article.entry')].map((node) => ({
+          id: node.id,
+          documented: node.getAttribute('data-well-documented') === 'true',
+          featured: node.getAttribute('data-featured') === 'true',
+          rank: Number(node.getAttribute('data-alphabetical-rank')),
+        })),
+      ),
     );
+  /** Whether every card with the mark stands before every card without it. */
+  const leads = <T,>(cards: readonly T[], marked: (card: T) => boolean): boolean => {
+    const first = cards.findIndex((card) => !marked(card));
+    return first === -1 || cards.slice(first).every((card) => !marked(card));
+  };
 
-  test('shows the well-documented cards first, each with its badge', async ({ page }) => {
+  test('shows the well-documented cards first in every group', async ({ page }) => {
     await page.goto('/');
-    const cards = await cardOrder(page);
-    const firstPlain = cards.findIndex((card) => !card.documented);
-    expect(firstPlain).toBeGreaterThan(0);
-    expect(cards.slice(firstPlain).every((card) => !card.documented)).toBe(true);
-    await expect(page.locator(`article.entry#${cards[0]!.id} .tag-documented`)).toHaveText('In depth');
-    await expect(page.locator('article.entry .tag-documented')).toHaveCount(
-      cards.filter((card) => card.documented).length + (await page.locator('[data-collection-group="infrastructure"] article.entry[data-well-documented="true"]').count()),
-    );
-    await expect(page.locator(`article.entry#${cards[firstPlain]!.id} .tag-documented`)).toHaveCount(0);
+    const groups = await cardGroups(page);
+    expect(groups.length).toBeGreaterThan(1);
+    for (const cards of groups) expect(leads(cards, (card) => card.documented)).toBe(true);
+    expect(groups.flat().some((card) => card.documented)).toBe(true);
   });
 
   test('names the type only on a card that is not a plain agent', async ({ page }) => {
@@ -461,21 +465,22 @@ test.describe('the directory order', () => {
     await expect(page.locator('article.entry .tag-match')).toHaveCount(0);
   });
 
-  test('shows the featured cards before all others', async ({ page }) => {
+  test('shows the featured cards before all others in every group', async ({ page }) => {
     await page.goto('/');
-    const cards = await cardOrder(page);
-    const featured = cards.filter((card) => card.featured).length;
-    expect(featured).toBeGreaterThan(0);
-    expect(cards.slice(0, featured).every((card) => card.featured)).toBe(true);
+    const groups = await cardGroups(page);
+    expect(groups.flat().some((card) => card.featured)).toBe(true);
+    for (const cards of groups) expect(leads(cards, (card) => card.featured)).toBe(true);
   });
 
   test('opens A–Z from the URL, and the default order without it', async ({ page, javaScriptEnabled }) => {
     test.skip(javaScriptEnabled === false, 'The sort needs the script.');
     await page.goto('/?sort=az');
-    const ranks = (await cardOrder(page)).map((card) => card.rank);
-    expect(ranks).toEqual([...ranks].sort((a, b) => a - b));
+    for (const cards of await cardGroups(page)) {
+      const ranks = cards.map((card) => card.rank);
+      expect(ranks).toEqual([...ranks].sort((a, b) => a - b));
+    }
     await page.goto('/');
-    expect((await cardOrder(page))[0]!.documented).toBe(true);
+    expect((await cardGroups(page))[0]![0]!.documented).toBe(true);
   });
 
   test('shows no sort control on the page', async ({ page }) => {
@@ -483,23 +488,25 @@ test.describe('the directory order', () => {
     await expect(page.locator('#catalog [data-sort-option]')).toHaveCount(0);
   });
 
-  test('puts a bookmarked card first, keeps it after a reload, and lets it go', async ({ page, javaScriptEnabled }) => {
+  test('puts a bookmarked card first in its group, keeps it after a reload, and lets it go', async ({ page, javaScriptEnabled }) => {
     test.skip(javaScriptEnabled === false, 'The bookmark corner needs the script.');
     await page.goto('/');
-    const last = (await cardOrder(page)).at(-1)!;
+    const firstOf = async () => (await cardGroups(page))[0]![0]!.id;
+    const last = (await cardGroups(page))[0]!.at(-1)!;
     const corner = page.locator(`article.entry#${last.id} [data-bookmark]`);
     await expect(corner).toHaveAttribute('aria-pressed', 'false');
     await corner.click();
     await expect(page).toHaveURL(/\/$/);
     await expect(corner).toHaveAttribute('aria-pressed', 'true');
-    expect((await cardOrder(page))[0]!.id).toBe(last.id);
+    // The card moves once the mark has answered, so the order is polled.
+    await expect.poll(firstOf).toBe(last.id);
     await page.reload();
-    expect((await cardOrder(page))[0]!.id).toBe(last.id);
+    expect(await firstOf()).toBe(last.id);
     await page.goto('/?sort=az');
-    expect((await cardOrder(page))[0]!.id).toBe(last.id);
+    expect(await firstOf()).toBe(last.id);
     await page.locator(`article.entry#${last.id} [data-bookmark]`).click();
     await expect(page.locator(`article.entry#${last.id} [data-bookmark]`)).toHaveAttribute('aria-pressed', 'false');
-    expect((await cardOrder(page))[0]!.id).not.toBe(last.id);
+    await expect.poll(firstOf).not.toBe(last.id);
   });
 
   test('keeps an open pill menu above the results while the palette opens', async ({ page, javaScriptEnabled, isMobile }) => {
@@ -547,8 +554,10 @@ test.describe('the directory order', () => {
     await expect(firstItem).toHaveAttribute('data-alphabetical-rank', String(Math.min(...(await ranks()))));
     await expect(page).toHaveURL(/\?sort=az$/);
     await page.keyboard.press('Escape');
-    const cards = (await cardOrder(page)).map((card) => card.rank);
-    expect(cards).toEqual([...cards].sort((a, b) => a - b));
+    for (const cards of await cardGroups(page)) {
+      const ranks = cards.map((card) => card.rank);
+      expect(ranks).toEqual([...ranks].sort((a, b) => a - b));
+    }
   });
 });
 
@@ -561,17 +570,23 @@ test.describe('the problem entry points', () => {
     '/infrastructure',
   ];
 
-  test('the homepage links to every problem under the hero', async ({ page }) => {
+  test('the homepage groups its agents under the problems, and its rail steps between them', async ({ page, javaScriptEnabled }) => {
     await page.goto('/');
-    const links = page.locator('header.intro .problem-links a');
-    await expect(links).toHaveCount(PROBLEM_PATHS.length);
-    expect(await links.evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')))).toEqual(PROBLEM_PATHS);
-    await expect(page.locator('.problem-links h2')).toHaveText('Start with a problem');
+    const titles = await page.locator('.card-group > h2').allTextContents();
+    expect(titles.slice(0, 4)).toEqual(['Reduce code-review load', 'Triage security alerts', 'Answer questions about company data', 'Automate an operations workflow']);
+    expect(titles.at(-1)).toBe('More agents');
+    // Each card stands in one group, so every anchor is on the page once.
+    const ids = await page.locator('[data-collection-group="agents"] article.entry').evaluateAll((nodes) => nodes.map((node) => node.id));
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(ids.length).toBe(TOTAL);
+    test.skip(javaScriptEnabled === false, 'The rail is built by the script.');
+    await expect(page.locator('#contents a').first()).toHaveText('Reduce code-review load');
+    await expect(page.locator('#contents a[href="#more-agents"]')).toHaveText('More agents');
   });
 
-  test('the infrastructure page shows no problem links', async ({ page }) => {
+  test('the infrastructure page stands as one grid', async ({ page }) => {
     await page.goto('/infrastructure');
-    await expect(page.locator('.problem-links')).toHaveCount(0);
+    await expect(page.locator('.card-group')).toHaveCount(0);
   });
 
   for (const path of PROBLEM_PATHS.slice(0, -1)) {
