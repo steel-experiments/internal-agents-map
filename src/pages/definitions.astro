@@ -279,10 +279,10 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
             <span class="place-callout"><span class="place-callout-arrow" aria-hidden="true"><svg viewBox="0 0 12 8"><path d="M6 8 V1 M2 5.5 L6 1 L10 5.5"/></svg></span><span>Agent runs here</span></span>
           </div>
         </div>
-        <figcaption>{localFigure.term} Execution</figcaption>
+        <figcaption>{localFigure.term} execution</figcaption>
       </figure>
       <figure class="place-panel">
-        <figcaption>{cloudFigure.term} Execution</figcaption>
+        <figcaption>{cloudFigure.term} execution</figcaption>
         <div class="place-scene" role="img" aria-label={cloudFigure.label}>
           <div class="place-machine">
             <span class="place-machine-title">Your computer</span>
@@ -328,19 +328,23 @@ const [foregroundFigure, backgroundFigure] = terms.participation.figures;
         <figcaption>{backgroundFigure.term}</figcaption>
         <div class="place-scene place-scene-wide" role="img" aria-label={backgroundFigure.label}>
           <svg class="cycle-scene" viewBox="0 0 668 280" aria-hidden="true">
+            <defs>
+              <clipPath id="cycle-trigger-wipe"><rect class="cycle-wipe" x="127" y="127" width="0" height="26"/></clipPath>
+              <clipPath id="cycle-result-wipe"><rect class="cycle-wipe" x="598" y="127" width="0" height="26"/></clipPath>
+            </defs>
             <path class="cycle-link" id="cycle-in" d="M0 140 H126"/>
             <path class="cycle-link" id="cycle-work" d="M154 140 H302"/>
-            <path class="cycle-link" id="cycle-out" d="M350 140 H566"/>
+            <path class="cycle-link" id="cycle-out" d="M350 140 H597"/>
             <circle class="cycle-trigger" cx="140" cy="140" r="12"/>
-            <circle class="cycle-trigger-on" cx="140" cy="140" r="12" opacity="0"/>
+            <circle class="cycle-trigger-on" cx="140" cy="140" r="12" opacity="0" clip-path="url(#cycle-trigger-wipe)"/>
             <circle class="cycle-agent" cx="326" cy="140" r="22"/>
             <path class="cycle-spinner" d="M326 128 A12 12 0 0 1 338 140" opacity="0"/>
-            <circle class="cycle-result" cx="580" cy="140" r="12"/>
-            <circle class="cycle-result-dot" cx="580" cy="140" r="6" opacity="0"/>
+            <circle class="cycle-result" cx="611" cy="140" r="12"/>
+            <circle class="cycle-result-on" cx="611" cy="140" r="12" opacity="0" clip-path="url(#cycle-result-wipe)"/>
             <path class="cycle-signal" opacity="0"/>
             <text class="scope-label" x="140" y="186" text-anchor="middle">Trigger</text>
             <text class="scope-label" x="326" y="186" text-anchor="middle">Agent</text>
-            <text class="scope-label" x="580" y="186" text-anchor="middle">Result</text>
+            <text class="scope-label" x="611" y="186" text-anchor="middle">Result</text>
           </svg>
         </div>
       </figure>
