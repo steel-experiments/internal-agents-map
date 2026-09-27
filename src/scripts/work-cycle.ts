@@ -3,6 +3,8 @@
 
 import { animate } from 'motion';
 
+import { fadingDash } from './dash';
+
 /** How long one pass of the cycle takes. */
 const CYCLE_SECONDS = 7;
 
@@ -17,6 +19,14 @@ const TO_RESULT = [0.72, 0.87] as const;
 /** The result holds just long enough to be read, then clears before the next pass. */
 const DONE = [0.87, 1] as const;
 const DONE_FALL = 0.2;
+/**
+ * When the signal reaches an end node, the node fills from the side it was
+ * reached on: a short sweep from left to right, right after the arrival.
+ */
+const TRIGGER_FILL = [0.15, 0.21] as const;
+const RESULT_FILL = [0.87, 0.93] as const;
+/** A filled node is there at once; the sweep is how it arrives, not a fade. */
+const INSTANT = 0.001;
 /** The trigger stays lit from its arrival, and fades out with the result. */
 const LIT = [0.15, 1] as const;
 const LIT_FALL = ((1 - DONE[0]) * DONE_FALL) / (1 - LIT[0]);
@@ -68,12 +78,24 @@ export function startWorkCycle(): void {
   const find = <T extends SVGElement>(selector: string): T | null => scene.querySelector<T>(selector);
   const lit = find('.cycle-trigger-on');
   const spinner = find('.cycle-spinner');
-  const result = find('.cycle-result-dot');
-  const signal = find<SVGCircleElement>('.cycle-signal');
+  const result = find('.cycle-result-on');
+  const signal = find<SVGPathElement>('.cycle-signal');
   const legs = ['#cycle-in', '#cycle-work', '#cycle-out'].map((id) => find<SVGPathElement>(id));
-  if (!lit || !spinner || !result || !signal || legs.some((leg) => !leg)) return;
+  const litWipe = find<SVGRectElement>('#cycle-trigger-wipe rect');
+  const resultWipe = find<SVGRectElement>('#cycle-result-wipe rect');
+  if (!lit || !spinner || !result || !signal || !litWipe || !resultWipe || legs.some((leg) => !leg)) return;
+  /** How wide a clip must open to uncover the whole node. */
+  const full = Number(litWipe.getAttribute('height'));
+
+  /** Open a node's clip by how far its sweep has come: shut before, open after. */
+  const sweep = (wipe: SVGRectElement, window: readonly [number, number], progress: number): void => {
+    const along = within(progress, window);
+    const share = along === null ? (progress > window[1] ? 1 : 0) : easeOut(along);
+    wipe.setAttribute('width', String(share * full));
+  };
 
   if (reducedMotion()) {
+    for (const wipe of [litWipe, resultWipe]) wipe.setAttribute('width', String(full));
     lit.setAttribute('opacity', '1');
     result.setAttribute('opacity', '1');
     return;
@@ -81,14 +103,14 @@ export function startWorkCycle(): void {
 
   /**
    * Put the signal on one leg of the path, or take it off the page.
-   * A signal keeps a constant speed: easing it would read as a state change
-   * rather than as something crossing the distance.
+   * The signal is a dash of the leg itself, so it follows the leg's line, and
+   * it keeps a constant speed: easing it would read as a state change rather
+   * than as something crossing the distance.
    */
+  const dash = fadingDash(signal);
   const carry = (leg: SVGPathElement | null, along: number | null): boolean => {
     if (!leg || along === null) return false;
-    const at = leg.getPointAtLength(along * leg.getTotalLength());
-    signal.setAttribute('cx', String(at.x));
-    signal.setAttribute('cy', String(at.y));
+    dash.place(along, leg);
     signal.setAttribute('opacity', String(pulse(along, 0.18, 0.18)));
     return true;
   };
@@ -104,8 +126,10 @@ export function startWorkCycle(): void {
         carry(legs[2]!, within(progress, TO_RESULT));
       if (!carried) signal.setAttribute('opacity', '0');
 
-      lit.setAttribute('opacity', String(pulse(within(progress, LIT), RISE, LIT_FALL)));
-      result.setAttribute('opacity', String(pulse(within(progress, DONE), 0.3, DONE_FALL)));
+      sweep(litWipe, TRIGGER_FILL, progress);
+      sweep(resultWipe, RESULT_FILL, progress);
+      lit.setAttribute('opacity', String(pulse(within(progress, LIT), INSTANT, LIT_FALL)));
+      result.setAttribute('opacity', String(pulse(within(progress, DONE), INSTANT, DONE_FALL)));
 
       const working = within(progress, WORKING);
       spinner.setAttribute('opacity', String(pulse(working, 0.08, 0.08)));

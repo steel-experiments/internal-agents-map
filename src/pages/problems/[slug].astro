@@ -23,7 +23,7 @@ const preview = ogImage(problem.path, problemCard(view));
 <SiteLayout title={title} description={view.intro} path={problem.path} structuredData={graph} ogImage={preview}>
   <header class="intro">
     <h1>{problem.heading}</h1>
-    <p>{view.intro}</p>
+    <p class="lede">{view.intro}</p>
   </header>
   {view.groups.map((group) => (
     <section class="entry-section" id={group.id} aria-labelledby={`${group.id}-title`}>

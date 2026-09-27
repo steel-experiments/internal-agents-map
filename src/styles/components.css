@@ -3,8 +3,8 @@
 
 /* Directory introduction */
 .intro {
-  padding: 0 0 32px;
-  margin-bottom: 32px;
+  padding: 0 0 16px;
+  margin-bottom: 16px;
 }
 
 .intro h1 { margin-top: 0; }
@@ -55,7 +55,7 @@
 .problem-links li { margin: 0; padding: 0; line-height: 16px; }
 .problem-links a {
   display: inline-block;
-  padding: 3px 9px;
+  padding: 4px 9px 5px;
   border-radius: 999px;
   background: var(--sand-3);
   color: var(--ink);
@@ -253,7 +253,7 @@
   font-size: var(--text-xs);
   color: var(--muted);
 }
-.entry h3 { margin-bottom: 0; font-size: var(--text-md); }
+.entry h3 { margin-bottom: 0; font-size: var(--text-lg); }
 .entry h3 a {
   color: var(--ink);
   text-decoration: none;
@@ -280,7 +280,7 @@
   background: var(--sand-3);
   font-size: var(--text-sm);
   line-height: 16px;
-  padding: 3px 9px;
+  padding: 4px 9px 5px;
   border-radius: 999px;
   color: var(--sand-10);
 }
@@ -350,14 +350,10 @@
   .entries .entry-box:hover .entry-summary { color: var(--sand-10); }
   .entries .entry-box:hover .tag { color: var(--sand-10); }
   .entries .entry-box:hover .tag-documented { color: var(--blue-9); }
-  .entries .entry-box:hover {
-    box-shadow:
-      0 10px 12px rgba(0, 0, 0, .02),
-      0 3px 5px rgba(0, 0, 0, .03);
-  }
+  .entries .entry-box:hover { background: var(--sand-2); }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .entries .entry-box { transition: box-shadow var(--hover-out) var(--ease-out); }
+  .entries .entry-box { transition: background-color var(--hover-out) var(--ease-out); }
   .entries .entry-box:hover { transition-duration: var(--hover-in); }
 }
 
@@ -379,7 +375,7 @@
 }
 /* The invitation that closes the page body. */
 .contribution-invite {
-  margin-top: 32px;
+  margin-top: 16px;
 }
 .contribution-invite strong {
   display: block;
@@ -433,10 +429,6 @@
   margin-top: 12px;
   max-width: 700px;
 }
-.entry-header .lede {
-  font-size: var(--text-sm);
-  line-height: 1.5;
-}
 .notice {
   padding: 20px;
   margin-top: 24px;
@@ -455,8 +447,9 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px 24px;
-  margin-top: 8px;
-  padding: 24px 0;
+  /* A list's own trailing margin would add to the section's spacing below it. */
+  margin: 8px 0 0;
+  padding: 16px 0 0;
 }
 .entry-facts dt {
   font-size: var(--text-sm);
@@ -467,7 +460,7 @@
   font-weight: 400;
 }
 .entry-section {
-  padding: 24px 0;
+  padding: 20px 0;
 }
 .entry-section > h2 { margin-bottom: 8px; }
 /* The workflow steps: one panel, its rows divided. */
@@ -648,7 +641,7 @@
 }
 /* The architecture table keeps its label column on one line, and marks the
    fields the sources do not report. */
-.architecture { margin-top: 16px; }
+.architecture { margin: 16px 0 0; }
 .architecture dt { white-space: nowrap; }
 .architecture .is-unreported { color: var(--sand-9); }
 .architecture-note,
@@ -933,7 +926,6 @@
   }
   .stat + .stat { border-left: 0; padding-left: 0; }
   .entry-top { align-items: start; }
-  .entry-header .lede { font-size: var(--text-md); }
   /*
    * A narrow screen has no room for two columns, so each field stands over its
    * value and the pairs are set apart. The rules that divided the columns would

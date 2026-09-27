@@ -10,7 +10,7 @@
 .page-shell {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 684px) minmax(0, 1fr);
-  gap: 40px;
+  gap: 60px;
   /* The page starts on the same line its rails do, so a title and the wordmark
      beside it begin together. */
   padding: var(--rail-top) 32px 0;
@@ -98,8 +98,7 @@
 }
 .brand {
   font-family: var(--font-brand);
-  /* A step above the headings: the serif sets small for its size. */
-  font-size: calc(var(--text-md) + 1px);
+  font-size: var(--text-md);
   font-weight: 800;
   line-height: 1;
   color: var(--brand);

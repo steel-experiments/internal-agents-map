@@ -51,19 +51,21 @@ const {
 
 <style is:global>
 /* The guides and the lessons read as documents: fine rules, wide measure, quiet labels. */
-.guide-header { padding-bottom: 32px; }
+.guide-header { padding-bottom: 16px; }
 .guide-header h1 { max-width: 700px; margin-top: 0; }
 .guide-header > p { max-width: 680px; }
-.guide-header .lede { font-size: var(--text-sm); line-height: 1.5; margin-top: 24px; }
 .guide p { line-height: 1.65; }
 .guide section > p { max-width: 680px; }
 .guide section > .eyebrow { margin-bottom: 12px; }
 .guide section > h2 { margin-bottom: 8px; }
 .guide section > h3 + p { margin-top: 12px; }
 .guide section > p + p { margin-top: 16px; }
-.guide section { padding: 32px 0; }
-.guide section > h3 { margin-top: 32px; max-width: 680px; }
-.guide h3 { font-size: var(--text-md); font-weight: 500; }
+/* Sections sit forty apart: twenty either side of the line between them. */
+.guide section { padding: 20px 0; }
+.guide section > h3 { margin-top: 24px; max-width: 680px; }
+.guide h3 { font-size: var(--text-lg); }
+/* The running text of a guide sits a step back from its headings. */
+.guide section > p { color: var(--sand-10); }
 .guide figure { margin: 32px 0; }
 .guide figcaption { color: var(--muted); font-size: var(--text-xs); line-height: 1.65; margin-top: 24px; }
 .guide blockquote { margin: 24px 0; padding: 8px 0; font-size: var(--text-sm); }
@@ -107,8 +109,7 @@ const {
 /* The two axes carry the same hairline as the square they divide. */
 .quadrant-cell:nth-child(odd) { border-right: .5px solid var(--sand-6); }
 .quadrant-cell:nth-child(-n+2) { border-bottom: .5px solid var(--sand-6); }
-.quadrant-cell h3 { position: absolute; top: var(--cell-inset); left: var(--cell-inset); right: var(--cell-inset); margin: 0; font-size: 14px; line-height: 1.35; font-weight: 500; color: var(--ink); letter-spacing: -.015em; }
-.quadrant-cell h3 span { display: block; margin-bottom: 4px; color: var(--muted); font-size: 14px; line-height: 1.35; font-weight: 400; }
+.quadrant-cell h3 { position: absolute; top: var(--cell-inset); left: var(--cell-inset); right: var(--cell-inset); margin: 0; font-family: inherit; font-size: 14px; line-height: 1.35; font-weight: 500; color: var(--ink); letter-spacing: -.015em; }
 .quadrant-cell:nth-child(n+3) h3 { top: auto; bottom: var(--cell-inset); }
 /* The two right-hand cells read from the edge they sit against. */
 .quadrant-cell:nth-child(2) h3, .quadrant-cell:nth-child(4) h3 { text-align: right; }
@@ -155,7 +156,7 @@ const {
 .quadrant-markers .reference-marker::before { border-radius: 0; background: var(--green-9); clip-path: var(--triangle); }
 /* An arrow runs from a standard product up to a company system built on it. */
 .quadrant-arrows { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-.quadrant-arrows line { stroke: var(--sand-8); stroke-width: 1.25; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; }
+.quadrant-arrows line { stroke: var(--figure-line); stroke-width: var(--figure-line-width); stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; }
 .quadrant-arrows path { fill: var(--sand-8); }
 .quadrant-x-axis { display: flex; justify-content: space-between; gap: 12px; padding: 0 var(--cell-inset); font-size: var(--text-xs); line-height: var(--scale-row); color: var(--muted); }
 .quadrant-legend { display: flex; flex-wrap: wrap; gap: 12px 24px; margin: 24px 0 12px; color: var(--muted); font-size: var(--text-sm); }
@@ -190,17 +191,14 @@ const {
 .guide-faq details[open] > summary .icon { transform: rotate(180deg); }
 .guide-faq details p { margin: 0; padding: 0 12px 12px; max-width: 680px; color: var(--muted); }
 .dimension-intro { display: grid; gap: 24px; margin-top: 24px; }
-.dimension-intro h3 { font-size: var(--text-md); line-height: 1.3; margin-bottom: 8px; }
+.dimension-intro h3 { font-size: var(--text-lg); line-height: 1.3; margin-bottom: 8px; }
 .dimension-intro p { font-size: var(--text-sm); color: var(--muted); }
 
 /* A company workflow supplies the context around model-directed work. */
 .workflow-stack {
   display: grid;
   justify-items: center;
-  padding: 24px;
-  background: #fff;
-  border: .5px solid var(--sand-6);
-  border-radius: 16px;
+  padding: 32px 0;
 }
 .workflow-node {
   width: fit-content;
@@ -210,12 +208,12 @@ const {
   padding: 16px;
   text-align: center;
 }
-.workflow-node .eyebrow { font-size: var(--text-xs); }
-.workflow-node strong { display: block; font-weight: 400; margin-top: 2px; }
+.workflow-node .eyebrow { font-size: var(--text-sm); }
+.workflow-node strong { display: block; font-size: var(--text-sm); font-weight: 400; margin-top: 2px; }
 .workflow-context { background: var(--sand-3); }
 /* A drawn arrow, clear of the panel above it and the one below. */
 .workflow-connector { display: flex; justify-content: center; padding: 4px 0; }
-.workflow-connector svg { display: block; width: 12px; height: 32px; fill: none; stroke: var(--sand-9); stroke-width: .5; }
+.workflow-connector svg { display: block; width: 12px; height: 32px; fill: none; stroke: var(--figure-line); stroke-width: var(--figure-line-width); }
 .placement-notes { padding: 24px 0; margin-top: 24px; }
 .placement-notes summary {
   display: flex;
@@ -237,7 +235,15 @@ const {
 .core-definition { padding: 64px 24px; margin: 24px 0; background: var(--sand-3); border-radius: 14px; text-align: center; }
 .combination-title { font-size: var(--text-sm); line-height: 1.5; }
 .combination-title strong { font-weight: 400; }
-.guide .core-definition p { font-size: var(--text-md); font-weight: 500; line-height: 1.4; margin: 0 auto; max-width: 440px; color: var(--blue-9); }
+.guide .core-definition p {
+  font-family: var(--font-brand);
+  font-size: var(--text-md);
+  font-weight: 800;
+  line-height: 1.4;
+  margin: 0 auto;
+  max-width: 440px;
+  color: var(--blue-9);
+}
 .guide .core-definition strong { font-weight: 500; color: var(--blue-9); }
 /* A call to action stands clear of the paragraph that leads into it. */
 .guide section > .button { margin-top: 16px; }
@@ -245,38 +251,36 @@ const {
 .scope-figure {
   width: 100%;
   margin: 24px 0 0;
-  background: #fff;
-  border-radius: 16px;
-  overflow: hidden;
 }
 .scope-figure svg { display: block; width: 100%; height: auto; }
 .scope-figure .scope-portrait { display: none; }
-.scope-frame { fill: none; stroke: var(--sand-6); stroke-width: .5; }
 /* The viewBox is the body's own width, so a label reads at its stated size. */
 .scope-label { fill: var(--muted); font-size: 14px; letter-spacing: -.01em; }
-.scope-link { fill: none; stroke: var(--sand-6); stroke-width: 1.2; }
+.scope-link { fill: none; stroke: var(--figure-line); stroke-width: var(--figure-line-width); }
 /* The agent, what it reaches, and what passes between them share one colour. */
 .scope-node { fill: var(--blue-9); stroke: var(--blue-9); stroke-width: 1.2; }
 .scope-agent { fill: var(--blue-9); stroke: var(--blue-9); }
-.scope-signal { fill: var(--blue-9); }
-.concept-pair svg { display: block; width: 100%; fill: none; stroke: var(--sand-10); stroke-width: 1.2; }
+.scope-signal { fill: none; stroke: var(--blue-9); stroke-width: var(--figure-line-width); }
+.concept-pair svg { display: block; width: 100%; fill: none; stroke: var(--figure-line); stroke-width: var(--figure-line-width); }
 .concept-pair svg text { fill: var(--muted); stroke: none; font: 12px Areal, sans-serif; }
 .concept-pair svg .agent-dot { fill: var(--accent); stroke: var(--accent); }
 .guide .concept-definition { font-size: var(--text-sm); line-height: 1.5; max-width: 610px; }
 /* Where an agent runs: one panel per answer, each a field of its own. */
-.place-panels { display: grid; gap: 16px; margin: 24px 0; }
+.place-panels { display: grid; margin: 24px 0; }
 .guide .place-panel { margin: 0; }
 .place-panel {
   overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 32px;
-  padding: 16px;
+  padding: 24px 0;
   margin: 0;
-  background: #fff;
-  border: .5px solid var(--sand-6);
-  border-radius: 16px;
 }
+.place-panel + .place-panel { border-top: 1px dotted var(--sand-8); }
+/* A joined pair names itself at the rule between them, one line either side. */
+.place-panels-joined .place-panel:first-child { padding-bottom: 12px; }
+.place-panels-joined .place-panel:last-child { padding-top: 12px; }
+.guide .place-panels-joined figcaption { color: var(--ink); font-weight: 500; }
 .guide .place-panel figcaption { margin: 0; font-size: var(--text-sm); line-height: 1.4; }
 .place-panel figcaption strong { display: block; color: var(--ink); font-weight: 500; }
 .place-panel figcaption span { display: block; margin-top: 8px; color: var(--muted); }
@@ -371,24 +375,24 @@ const {
 }
 .place-link { flex: none; }
 .exchange-scene { display: block; width: 100%; height: 100%; }
-.exchange-scene, .exchange-strand { fill: none; stroke: var(--sand-10); stroke-width: 1.2; }
-.exchange-you { fill: #fff; stroke: var(--sand-10); stroke-width: 1.2; }
+.exchange-scene, .exchange-strand { fill: none; stroke: var(--figure-line); stroke-width: var(--figure-line-width); }
+.exchange-you { fill: #fff; stroke: var(--figure-line); stroke-width: var(--figure-line-width); }
 .exchange-agent { fill: var(--blue-9); stroke: var(--blue-9); }
 .exchange-scene text { fill: var(--muted); stroke: none; }
-.exchange-signal { fill: var(--blue-9); stroke: none; }
+.exchange-signal { fill: none; stroke: var(--blue-9); stroke-width: var(--figure-line-width); }
 /* A trigger arrives, the agent works, a result lands, and it begins again. */
 .cycle-scene { display: block; width: calc(100% + 16px); height: 100%; margin-left: -16px; }
 .cycle-scene text { fill: var(--muted); stroke: none; }
-.cycle-link { fill: none; stroke: var(--sand-6); stroke-width: 1.2; }
-.cycle-trigger { fill: #fff; stroke: var(--sand-6); stroke-width: 1.2; }
+.cycle-link { fill: none; stroke: var(--figure-line); stroke-width: var(--figure-line-width); }
+.cycle-trigger { fill: #fff; stroke: var(--figure-line); stroke-width: var(--figure-line-width); }
 /* The lit state is its own circle, so it can rise and fall on top of the first. */
 .cycle-trigger-on { fill: var(--blue-9); stroke: var(--blue-9); stroke-width: 1.2; }
 .cycle-agent { fill: var(--blue-9); }
 .cycle-spinner { fill: none; stroke: #fff; stroke-width: 2.5; stroke-linecap: round; }
-.cycle-result { fill: #fff; stroke: var(--sand-6); stroke-width: 1.2; }
-.cycle-result-dot { fill: var(--blue-9); }
-.cycle-signal { fill: var(--blue-9); }
-.place-arrow { align-self: center; width: 64px; fill: none; stroke: var(--sand-9); stroke-width: 1.2; }
+.cycle-result { fill: #fff; stroke: var(--figure-line); stroke-width: var(--figure-line-width); }
+.cycle-result-on { fill: var(--blue-9); stroke: var(--blue-9); stroke-width: 1.2; }
+.cycle-signal { fill: none; stroke: var(--blue-9); stroke-width: var(--figure-line-width); }
+.place-arrow { align-self: center; width: 64px; fill: none; stroke: var(--figure-line); stroke-width: var(--figure-line-width); }
 .concept-pair { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); max-width: 680px; margin: 24px 0; }
 .guide .concept-pair figure { margin: 0; padding: 24px 16px; min-width: 0; }
 .concept-pair figure + figure { border-left: 1px solid var(--sand-6); }
@@ -430,10 +434,10 @@ const {
 /* Lessons use the same fine rules, type, and restrained diagram accents. */
 .lessons { font-size: var(--text-sm); }
 .lessons .lesson-meta { font-size: var(--text-sm); color: var(--sand-10); }
-.lessons .guide-header { padding-bottom: 32px; }
+.lessons .guide-header { padding-bottom: 16px; }
 .lessons .guide-header > * { max-width: 680px; }
 .lessons .lesson-list, .lesson-detail > article { max-width: 680px; }
-.lesson-preview { position: relative; margin-bottom: 40px; cursor: pointer; }
+.lesson-preview { position: relative; margin-bottom: 32px; cursor: pointer; }
 .lesson-preview h2 a::after { content: ""; position: absolute; inset: 0; }
 .lesson-preview h2 { margin: 0 0 8px; }
 .lesson-preview h2 a { color: var(--ink); text-decoration: none; }
@@ -443,7 +447,7 @@ const {
 .lessons-editorial { max-width: 620px; padding: 24px 0 32px; color: var(--muted); font-size: var(--text-sm); }
 .lesson-back { display: inline-block; margin-bottom: 32px; font-size: var(--text-sm); }
 .lesson-detail h1 { max-width: 640px; }
-.lessons section { padding: 32px 0; }
+.lessons section { padding: 20px 0; }
 .lessons blockquote { margin: 32px 0 8px; padding: 8px 0 0; font-size: var(--text-md); }
 .lessons .quote-credit { color: var(--muted); font-size: var(--text-sm); margin: 0 0 24px; }
 .lessons table { width: 100%; table-layout: fixed; border-spacing: 0; margin: 24px 0; border: .5px solid var(--sand-6); border-radius: 14px; overflow: hidden; }
@@ -560,8 +564,8 @@ const {
 }
 @media (max-width: 600px) {
   .guide-header h1 { font-size: var(--text-xl); }
-  .guide-header { padding-bottom: 32px; }
-  .guide section { padding: 32px 0; }
+  .guide-header { padding-bottom: 16px; }
+  .guide section { padding: 20px 0; }
   .quadrant-chart { gap: 8px; }
   /* A narrow screen has no margin to hang the scale label in, so it leads the plot. */
   .quadrant-y-axis {
@@ -575,7 +579,6 @@ const {
   .quadrant-y-axis span { position: static; writing-mode: horizontal-tb; transform: none; }
   .quadrant-plot { aspect-ratio: .82; }
   .quadrant-cell h3 { left: 12px; right: 12px; top: 12px; }
-  .quadrant-cell h3 span { display: none; }
   .quadrant-cell:nth-child(n+3) h3 { bottom: 12px; }
   .quadrant-x-axis, .quadrant-y-axis { display: none; }
   /* Each name holds one line here: the company, or the name of the reference. */
@@ -590,8 +593,7 @@ const {
   .concept-pair figure + figure { border-left: 0; border-top: 1px solid var(--sand-6); }
   .concept-pair svg { max-width: 320px; margin: auto; }
   .workflow-node { padding: 16px 12px; }
-  .workflow-node .eyebrow { font-size: var(--text-xs); }
-  .workflow-node strong { font-size: var(--text-sm); }
+  .workflow-node .eyebrow, .workflow-node strong { font-size: var(--text-sm); }
   .lessons .lesson-diagram { padding: 0; }
   .lesson-reviewers { gap: 8px; }
   .lesson-reviewers .lesson-node { padding: 12px; }
