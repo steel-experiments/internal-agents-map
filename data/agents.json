@@ -2340,7 +2340,7 @@
         "date": "2026",
         "source_id": "coinbase-forge-mux-source-2"
       },
-      "last_reviewed_at": "2026-09-17",
+      "last_reviewed_at": "2026-10-09",
       "status": "internal",
       "domains": [
         "coding",
@@ -16095,8 +16095,9 @@
       "valid_at": null,
       "evidence": [
         {
-          "source_id": "coinbase-forge-mux-source-1",
-          "relation": "supports"
+          "source_id": "coinbase-forge-mux-source-2",
+          "relation": "supports",
+          "locator": "Preserved content.md, line 34"
         }
       ]
     },
@@ -16309,7 +16310,7 @@
       "kind": "metric",
       "provenance": "reported",
       "confidence": "medium",
-      "confidence_reason": "Described by the organizer as a single event; explicitly pull requests opened, not merged.",
+      "confidence_reason": "Described by the organizer as a single event; explicitly pull requests opened, not merged. The Linear customer story reports other sessions with different counts (120 engineers and 80 pull requests in the first session; over 500 pull requests in fifteen minutes in a later one).",
       "valid_at": "2026-03",
       "evidence": [
         {
@@ -16321,6 +16322,11 @@
           "source_id": "coinbase-forge-mux-source-5",
           "relation": "supports",
           "locator": "Preserved content.md, line 170"
+        },
+        {
+          "source_id": "coinbase-forge-mux-source-2",
+          "relation": "contextualizes",
+          "locator": "Preserved content.md, line 38"
         }
       ],
       "reported_by": "Coinbase",
@@ -16510,8 +16516,9 @@
       "valid_at": "2026",
       "evidence": [
         {
-          "source_id": "coinbase-forge-mux-source-1",
-          "relation": "supports"
+          "source_id": "coinbase-forge-mux-source-2",
+          "relation": "supports",
+          "locator": "Preserved content.md, line 34"
         },
         {
           "source_id": "coinbase-forge-mux-source-3",
@@ -36961,7 +36968,7 @@
       "url": "https://linear.app/customers/coinbase",
       "canonical_url": "https://linear.app/customers/coinbase",
       "kind": "case-study",
-      "provenance_class": "first-party",
+      "provenance_class": "independent-secondary",
       "accessed_at": "2026-08-12",
       "last_verified_at": "2026-08-31",
       "capture": {
@@ -39108,7 +39115,7 @@
       "url": "https://linear.app/customers/ramp",
       "canonical_url": "https://linear.app/customers/ramp",
       "kind": "case-study",
-      "provenance_class": "first-party",
+      "provenance_class": "independent-secondary",
       "accessed_at": "2026-08-12",
       "last_verified_at": "2026-08-31",
       "capture": {

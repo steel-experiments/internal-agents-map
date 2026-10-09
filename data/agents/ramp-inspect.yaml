@@ -112,7 +112,7 @@ sources:
   title: Ramp x Linear (75% of merged PRs via Inspect)
   url: https://linear.app/customers/ramp
   kind: case-study
-  provenance_class: first-party
+  provenance_class: independent-secondary
   accessed_at: '2026-08-12'
   last_verified_at: '2026-08-31'
   capture:

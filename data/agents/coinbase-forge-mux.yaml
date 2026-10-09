@@ -10,7 +10,7 @@ deployment_stage: scaled
 first_public_evidence:
   date: '2026'
   source_id: coinbase-forge-mux-source-2
-last_reviewed_at: '2026-09-17'
+last_reviewed_at: '2026-10-09'
 status: internal
 domains:
 - coding
@@ -101,7 +101,7 @@ sources:
   title: Coinbase × Linear (Forge workflow)
   url: https://linear.app/customers/coinbase
   kind: case-study
-  provenance_class: first-party
+  provenance_class: independent-secondary
   accessed_at: '2026-08-12'
   last_verified_at: '2026-08-31'
   capture:
@@ -140,7 +140,8 @@ sources:
     manifest_path: archive/sources/coinbase-forge-mux-source-5/metadata.json
 evidence:
   operating_models.0:
-  - source_id: coinbase-forge-mux-source-1
+  - source_id: coinbase-forge-mux-source-2
+    locator: Preserved content.md, line 34
   - source_id: coinbase-forge-mux-source-3
     locator: Preserved content.md, line 11
   summary:
@@ -195,6 +196,9 @@ evidence:
     locator: Preserved content.md, line 23
   - source_id: coinbase-forge-mux-source-5
     locator: Preserved content.md, line 170
+  - source_id: coinbase-forge-mux-source-2
+    locator: Preserved content.md, line 38
+    relation: contextualizes
   key_metrics.merged-prs-repositories-orgs:
   - source_id: coinbase-forge-mux-source-1
     locator: Preserved content.md, line 31
@@ -222,7 +226,8 @@ evidence:
   - source_id: coinbase-forge-mux-source-4
     locator: Preserved content.md, lines 23-25
   architecture.interfaces:
-  - source_id: coinbase-forge-mux-source-1
+  - source_id: coinbase-forge-mux-source-2
+    locator: Preserved content.md, line 34
 claim_metadata:
   operating_models.0:
     confidence: high
@@ -304,6 +309,8 @@ claim_metadata:
   key_metrics.speed-run-participants-opened-prs-minutes:
     confidence: medium
     confidence_reason: Described by the organizer as a single event; explicitly pull requests opened, not merged.
+      The Linear customer story reports other sessions with different counts (120 engineers and 80 pull requests
+      in the first session; over 500 pull requests in fifteen minutes in a later one).
     valid_at: 2026-03
     metric_scope: Pull requests opened during one speed-run session
     category: adoption-output
