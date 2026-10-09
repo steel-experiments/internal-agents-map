@@ -875,13 +875,13 @@ Last reviewed: 2026-09-16.
 
 ### Operating model
 
-- **Level 3 · work-product-review** — Slack, GitHub, or Linear request → drafted fix and pull request pushed back for review (high confidence; 2026) <small>Sources: [coinbase-forge-mux-source-1](#coinbase-forge-mux-source-1), [coinbase-forge-mux-source-3](#coinbase-forge-mux-source-3).</small>
+- **Level 3 · work-product-review** — Slack, GitHub, or Linear request → drafted fix and pull request pushed back for review (high confidence; 2026) <small>Sources: [coinbase-forge-mux-source-2](#coinbase-forge-mux-source-2), [coinbase-forge-mux-source-3](#coinbase-forge-mux-source-3).</small>
 
 ### Architecture
 
 - Harness: Portfolio approach; Claude Code, OpenCode, Cursor, and Copilot rather than one harness; Forge is a custom Slack-native harness with the same tools and context as engineers, invokable from Slack, GitHub, and Linear; built in-house because security requirements blocked cloud background agents <small>Sources: [coinbase-forge-mux-source-1](#coinbase-forge-mux-source-1), [coinbase-forge-mux-source-2](#coinbase-forge-mux-source-2), [coinbase-forge-mux-source-3](#coinbase-forge-mux-source-3), [coinbase-forge-mux-source-5](#coinbase-forge-mux-source-5).</small>
 - Model: The Slack agent Claude bot can use multiple underlying models despite its name; the documented portfolio spans harnesses (Claude Code, OpenCode, Cursor, Copilot), and no source names the models' providers <small>Sources: [coinbase-forge-mux-source-1](#coinbase-forge-mux-source-1), [coinbase-forge-mux-source-5](#coinbase-forge-mux-source-5).</small>
-- Interfaces: slack, github, linear <small>Sources: [coinbase-forge-mux-source-1](#coinbase-forge-mux-source-1).</small>
+- Interfaces: slack, github, linear <small>Sources: [coinbase-forge-mux-source-2](#coinbase-forge-mux-source-2).</small>
 - Tool access: Linear treated as the structured product context / source of truth <small>Sources: [coinbase-forge-mux-source-2](#coinbase-forge-mux-source-2), [coinbase-forge-mux-source-5](#coinbase-forge-mux-source-5).</small>
 - Knowledge: Linear as the durable structured-context layer for product work <small>Sources: [coinbase-forge-mux-source-2](#coinbase-forge-mux-source-2).</small>
 - Context mgmt: Slack discussions become labelled, sized Linear issues that carry the work context; the feedback pipeline summarizes recordings into a reviewable issue before an agent acts <small>Sources: [coinbase-forge-mux-source-2](#coinbase-forge-mux-source-2), [coinbase-forge-mux-source-5](#coinbase-forge-mux-source-5).</small>
@@ -897,7 +897,7 @@ Last reviewed: 2026-09-16.
 - Mux: 600+ users including engineers, PMs, and designers (335 active, 197 power users) <small>Sources: [coinbase-forge-mux-source-1](#coinbase-forge-mux-source-1).</small>
 - 5% of all PRs merged come from in-house background agents (Feb 2026) <small>Sources: [coinbase-forge-mux-source-3](#coinbase-forge-mux-source-3).</small>
 - Wallet rewrite PR review times reduced from 150 hours to 15 hours (self-reported; period and method not documented) <small>Sources: [coinbase-forge-mux-source-4](#coinbase-forge-mux-source-4).</small>
-- Speed run: about 100 participants opened about 70 PRs in 15 minutes (opened, not merged; single event) <small>Sources: [coinbase-forge-mux-source-4](#coinbase-forge-mux-source-4), [coinbase-forge-mux-source-5](#coinbase-forge-mux-source-5).</small>
+- Speed run: about 100 participants opened about 70 PRs in 15 minutes (opened, not merged; single event) <small>Sources: [coinbase-forge-mux-source-4](#coinbase-forge-mux-source-4), [coinbase-forge-mux-source-5](#coinbase-forge-mux-source-5); Context: [coinbase-forge-mux-source-2](#coinbase-forge-mux-source-2).</small>
 - Mux: 5,068 merged PRs across 461 repositories and 10 orgs <small>Sources: [coinbase-forge-mux-source-1](#coinbase-forge-mux-source-1).</small>
 - Mux users show 3.5x more merged PRs per engineer than baseline (39.6 vs 11.4); the post cautions users may skew toward already-high-output engineers <small>Sources: [coinbase-forge-mux-source-1](#coinbase-forge-mux-source-1).</small>
 
@@ -913,12 +913,12 @@ Last reviewed: 2026-09-16.
 ### Sources
 
 - <a id="coinbase-forge-mux-source-1"></a>[Coding had a concurrency problem: how Mux helped solve it](https://www.coinbase.com/de/blog/coding-had-a-concurrency-problem-how-mux-helped-solve-it) ([snapshot](../archive/sources/coinbase-forge-mux-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
-- <a id="coinbase-forge-mux-source-2"></a>[Coinbase × Linear (Forge workflow)](https://linear.app/customers/coinbase) ([snapshot](../archive/sources/coinbase-forge-mux-source-2/content.md), captured 2026-08-31) (case-study; first-party; evidence)
+- <a id="coinbase-forge-mux-source-2"></a>[Coinbase × Linear (Forge workflow)](https://linear.app/customers/coinbase) ([snapshot](../archive/sources/coinbase-forge-mux-source-2/content.md), captured 2026-08-31) (case-study; independent-secondary; evidence)
 - <a id="coinbase-forge-mux-source-3"></a>[Chintan Turakhia: 5% of all PRs merged now come from our in-house background agents](https://x.com/chintanturakhia/status/2019921786834411728) ([snapshot](../archive/sources/coinbase-forge-mux-source-3/content.md), captured 2026-09-15) (social-post; direct-participant; evidence)
 - <a id="coinbase-forge-mux-source-4"></a>[How Coinbase scaled AI to 1,000+ engineers (How I AI, with Chintan Turakhia)](https://www.lennysnewsletter.com/p/how-coinbase-scaled-ai-to-1000-engineers) ([snapshot](../archive/sources/coinbase-forge-mux-source-4/content.md), captured 2026-09-15) (podcast; direct-participant; evidence)
 - <a id="coinbase-forge-mux-source-5"></a>[How I AI: Chintan Turakhia's playbook for AI adoption at Coinbase](https://www.chatprd.ai/how-i-ai/playbook-for-ai-engineering-adoption-at-coinbase) ([snapshot](../archive/sources/coinbase-forge-mux-source-5/content.md), captured 2026-09-15) (podcast; direct-participant; evidence)
 
-Last reviewed: 2026-09-17.
+Last reviewed: 2026-10-09.
 
 ---
 
@@ -2851,7 +2851,7 @@ Last reviewed: 2026-10-08.
 ### Sources
 
 - <a id="ramp-inspect-source-1"></a>[Why We Built Our Own Background Agent (Inspect)](https://engineering.ramp.com/post/why-we-built-our-background-agent) ([snapshot](../archive/sources/ramp-inspect-source-1/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
-- <a id="ramp-inspect-source-2"></a>[Ramp x Linear (75% of merged PRs via Inspect)](https://linear.app/customers/ramp) ([snapshot](../archive/sources/ramp-inspect-source-2/content.md), captured 2026-08-31) (case-study; first-party; evidence)
+- <a id="ramp-inspect-source-2"></a>[Ramp x Linear (75% of merged PRs via Inspect)](https://linear.app/customers/ramp) ([snapshot](../archive/sources/ramp-inspect-source-2/content.md), captured 2026-08-31) (case-study; independent-secondary; evidence)
 - <a id="ramp-inspect-source-3"></a>[Hacker News project discussion inspired by Ramp Inspect](https://news.ycombinator.com/item?id=48042123) ([snapshot](../archive/sources/ramp-inspect-source-3/content.md), captured 2026-08-31) (hn-thread; community; discovery)
 - <a id="ramp-inspect-source-4"></a>[Why We Built Our Own Background Agent (Inspect) (Ramp Builders URL)](https://builders.ramp.com/post/why-we-built-our-background-agent) ([snapshot](../archive/sources/ramp-inspect-source-4/content.md), captured 2026-08-31) (engineering-blog; first-party; evidence)
 - <a id="ramp-inspect-source-5"></a>[Why Ramp built its own in-house coding agent, Inspect](https://newsletter.pragmaticengineer.com/p/why-ramp-built-inspect) ([snapshot](../archive/sources/ramp-inspect-source-5/content.md), captured 2026-08-31) (news; independent-secondary; evidence)
